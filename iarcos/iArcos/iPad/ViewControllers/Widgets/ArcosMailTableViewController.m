@@ -1,0 +1,295 @@
+//
+//  ArcosMailTableViewController.m
+//  iArcos
+//
+//  Created by David Kilmartin on 01/02/2018.
+//  Copyright © 2018 Strata IT Limited. All rights reserved.
+//
+
+#import "ArcosMailTableViewController.h"
+
+@interface ArcosMailTableViewController ()
+
+@end
+
+@implementation ArcosMailTableViewController
+//@synthesize myDelegate = _myDelegate;
+@synthesize mailDelegate = _mailDelegate;
+@synthesize arcosMailDataManager = _arcosMailDataManager;
+@synthesize arcosMailCellFactory = _arcosMailCellFactory;
+@synthesize sendButton = _sendButton;
+@synthesize smtpSession = _smtpSession;
+@synthesize HUD = _HUD;
+@synthesize arcosStoreExcInfoDataManager = _arcosStoreExcInfoDataManager;
+
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.arcosMailDataManager = [[[ArcosMailDataManager alloc] init] autorelease];        
+        self.arcosMailCellFactory = [ArcosMailCellFactory factory];
+        self.arcosStoreExcInfoDataManager = [ArcosStoreExcInfoDataManager storeExcInfoInstance];
+    }
+    return self;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+    
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    self.HUD = [[[MBProgressHUD alloc] initWithView:self.navigationController.view] autorelease];
+    self.HUD.dimBackground = YES;
+    [self.navigationController.view addSubview:self.HUD];
+    
+    [self.arcosMailDataManager createBasicData];
+    self.title = self.arcosMailDataManager.subjectText;
+    if ([self.title isEqualToString:@""]) {
+        self.title = self.arcosMailDataManager.defaultTitleText;
+    }
+    UIBarButtonItem* closeButton = [[UIBarButtonItem alloc] initWithTitle:[GlobalSharedClass shared].cancelButtonText style:UIBarButtonItemStylePlain target:self action:@selector(closePressed:)];
+    [self.navigationItem setLeftBarButtonItem:closeButton];
+    [closeButton release];    
+    self.sendButton = [[[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStylePlain target:self action:@selector(sendPressed:)] autorelease];
+    [self.sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:[UIFont labelFontSize]], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    [self.navigationItem setRightBarButtonItem:self.sendButton];
+    
+    [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
+    [self.navigationController.navigationBar setTranslucent:NO];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+    [self.HUD removeFromSuperview];
+    self.HUD = nil;
+    for (UIGestureRecognizer* recognizer in self.tableView.gestureRecognizers) {
+        [self.tableView removeGestureRecognizer:recognizer];
+    }
+    self.arcosMailDataManager = nil;
+    self.arcosMailCellFactory = nil;
+    self.sendButton = nil;
+    self.smtpSession = nil;
+    self.arcosStoreExcInfoDataManager = nil;
+    
+    [super dealloc];
+}
+
+- (void)closePressed:(id)sender {
+    [self cleanMailData];
+    [self.mailDelegate arcosMailDidFinishWithResult:ArcosMailComposeResultCancelled error:nil];
+}
+
+- (void)cleanMailData {
+    NSIndexPath* bodyIndexPath = [self.arcosMailDataManager retrieveIndexPathWithTitle:self.arcosMailDataManager.bodyTitleText];
+    ArcosMailBodyTableViewCell* arcosMailBodyTableViewCell = (ArcosMailBodyTableViewCell*) [self.tableView cellForRowAtIndexPath:bodyIndexPath];
+    [arcosMailBodyTableViewCell cleanData];
+}
+
+- (void)sendPressed:(id)sender {
+    [self.HUD show:YES];
+    [self.view endEditing:YES];
+    NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:[SettingManager employeeIUR]];
+    if (employeeDict == nil) {
+        [ArcosUtils showDialogBox:@"Email account not set up" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+            
+        }];
+        [self.HUD hide:YES];
+        return;
+    }
+    NSDictionary* smtpConfigDict = [self.arcosMailDataManager retrieveDescrDetailWithDescrTypeCode:@"IO" descrDetailCode:@"48"];
+    if (smtpConfigDict == nil) {
+        [ArcosUtils showDialogBox:@"SMTP not set up" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+            
+        }];
+        [self.HUD hide:YES];
+        return;
+    }
+    NSString* username = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[employeeDict objectForKey:@"Email"]]];
+//    NSString* pwd = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[employeeDict objectForKey:@"Password"]]];
+    NSString* pwd = [self.arcosStoreExcInfoDataManager retrieveStoreExcInfo];
+    NSString* tooltip = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[smtpConfigDict objectForKey:@"Tooltip"]]];
+    NSArray* smtpInfoList = [tooltip componentsSeparatedByString:@","];
+    if ([smtpInfoList count] < 2) {
+        [ArcosUtils showDialogBox:@"SMTP not working" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+            
+        }];
+        [self.HUD hide:YES];
+        return;
+    }
+    NSString* hostname = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[smtpInfoList objectAtIndex:0]]];
+    int port = [[ArcosUtils convertStringToNumber:[smtpInfoList objectAtIndex:1]] intValue];
+    self.smtpSession = [[[MCOSMTPSession alloc] init] autorelease];
+    self.smtpSession.hostname = hostname;
+    self.smtpSession.port = port;
+    self.smtpSession.username = username;
+    self.smtpSession.password = pwd;
+    self.smtpSession.connectionType = MCOConnectionTypeStartTLS;
+    self.smtpSession.timeout = [GlobalSharedClass shared].mailTimeout;
+    MCOMessageBuilder* builder = [[[MCOMessageBuilder alloc] init] autorelease];
+    if ([self.arcosMailDataManager.displayList count] < 4) {
+        [self.HUD hide:YES]; 
+        return;
+    }    
+    NSMutableDictionary* toCellDataDict = [self.arcosMailDataManager.displayList objectAtIndex:0];
+    NSMutableArray* toRecipientList = [toCellDataDict objectForKey:@"FieldData"];
+    NSMutableDictionary* ccCellDataDict = [self.arcosMailDataManager.displayList objectAtIndex:1];
+    NSMutableArray* ccRecipientList = [ccCellDataDict objectForKey:@"FieldData"];
+    if ([toRecipientList count] == 0 && [ccRecipientList count] == 0) {
+        [ArcosUtils showDialogBox:@"No recipient found" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+            
+        }];
+        [self.HUD hide:YES];
+        return;
+    }
+    BOOL invalidEmailAddressFlag = NO;
+    
+    NSMutableDictionary* subjectCellDataDict = [self.arcosMailDataManager.displayList objectAtIndex:2];
+    NSString* subjectText = [subjectCellDataDict objectForKey:@"FieldData"];
+    NSMutableDictionary* bodyCellDataDict = [self.arcosMailDataManager.displayList objectAtIndex:3];
+    NSMutableDictionary* bodyFieldDataDict = [bodyCellDataDict objectForKey:@"FieldData"];
+    NSString* bodyText = [bodyFieldDataDict objectForKey:@"Content"];
+    [[builder header] setFrom:[MCOAddress addressWithDisplayName:@"" mailbox:self.smtpSession.username]];
+    NSMutableArray* toList = [[NSMutableArray alloc] init];
+    for (int i = 0; i < [toRecipientList count]; i++) {
+        NSString* auxToRecipient = [toRecipientList objectAtIndex:i];
+        if (![ArcosValidator isEmail:[ArcosUtils trim:auxToRecipient]]) {
+            invalidEmailAddressFlag = YES;
+            continue;
+        }
+        MCOAddress* toAddress = [MCOAddress addressWithDisplayName:@"" mailbox:auxToRecipient];
+        [toList addObject:toAddress];
+    }    
+    [[builder header] setTo:toList];
+    [toList release];
+    NSMutableArray* ccList = [[NSMutableArray alloc] init];
+    for (int i = 0; i < [ccRecipientList count]; i++) {
+        NSString* auxCcRecipient = [ccRecipientList objectAtIndex:i];
+        if (![ArcosValidator isEmail:[ArcosUtils trim:auxCcRecipient]]) {
+            invalidEmailAddressFlag = YES;
+            continue;
+        }
+        MCOAddress* ccAddress = [MCOAddress addressWithDisplayName:@"" mailbox:auxCcRecipient];
+        [ccList addObject:ccAddress];
+    }
+    if (invalidEmailAddressFlag) {
+        [ArcosUtils showDialogBox:@"Invalid email account found" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+            
+        }];
+        [self.HUD hide:YES];
+        return;
+    }
+    [[builder header] setCc:ccList];    
+    [ccList release];
+    [[builder header] setSubject:subjectText];
+    if (self.arcosMailDataManager.isHTML) {
+        NSIndexPath* bodyIndexPath = [self.arcosMailDataManager retrieveIndexPathWithTitle:self.arcosMailDataManager.bodyTitleText];
+        ArcosMailBodyTableViewCell* arcosMailBodyTableViewCell = (ArcosMailBodyTableViewCell*) [self.tableView cellForRowAtIndexPath:bodyIndexPath];
+        [arcosMailBodyTableViewCell.myWebView stringByEvaluatingJavaScriptFromString:@"document.body.setAttribute('contentEditable','false')"];
+        NSString* currentHTML = [arcosMailBodyTableViewCell.myWebView stringByEvaluatingJavaScriptFromString:@"document.documentElement.outerHTML"];
+        [builder setHTMLBody:currentHTML];
+    } else {
+        [builder setTextBody:bodyText];
+    }    
+    for (int i = 0; i < [self.arcosMailDataManager.attachmentList count]; i++) {        
+        [builder addAttachment:[self.arcosMailDataManager.attachmentList objectAtIndex:i]];
+    }    
+    NSData* rfc822Data = [builder data];
+    
+    MCOSMTPSendOperation* sendOperation = [self.smtpSession sendOperationWithData:rfc822Data];
+    __weak typeof(self) weakSelf = self;
+    [sendOperation start:^(NSError* error) {
+        if(error) {
+            [weakSelf.HUD hide:YES];
+            NSString* errorDesc = [error description];
+            NSRange aRangeName = [errorDesc rangeOfString:@"credentials" options:NSCaseInsensitiveSearch];
+            if (aRangeName.location != NSNotFound) {
+                UIAlertController* tmpDialogBox = [UIAlertController alertControllerWithTitle:@"" message:@"There was a problem accessing your account. Please re-enter the password" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction* okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
+                    UITextField* myTextField = [tmpDialogBox.textFields objectAtIndex:0];
+                    [weakSelf.arcosStoreExcInfoDataManager updateStoreExcInfo:myTextField.text];
+                    [weakSelf.arcosStoreExcInfoDataManager persistentStoreExcInfo];
+                    [weakSelf sendPressed:nil];
+                }];
+                UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
+                    
+                }];
+                [tmpDialogBox addAction:cancelAction];
+                [tmpDialogBox addAction:okAction];
+                [tmpDialogBox addTextFieldWithConfigurationHandler:^(UITextField* textField) {
+                    textField.secureTextEntry = true;
+                }];
+                [weakSelf presentViewController:tmpDialogBox animated:YES completion:nil];
+            } else {
+                [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@", errorDesc] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
+                    
+                }];
+            }            
+        } else {
+            [weakSelf cleanMailData];
+            [weakSelf.mailDelegate arcosMailDidFinishWithResult:ArcosMailComposeResultSent error:nil];
+        }
+    }];
+}
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
+    return [self.arcosMailDataManager.displayList count];
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSMutableDictionary* cellData = [self.arcosMailDataManager.displayList objectAtIndex:indexPath.row];
+    NSNumber* auxCellType = [cellData objectForKey:@"CellType"];
+    if ([auxCellType intValue] == 3) {
+        NSMutableDictionary* auxCellDataDict = [cellData objectForKey:@"FieldData"];
+        NSNumber* heightNumber = [auxCellDataDict objectForKey:@"CellHeight"];
+        return [heightNumber floatValue];
+    }
+    return 44.0f;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {        
+    NSMutableDictionary* cellData = [self.arcosMailDataManager.displayList objectAtIndex:indexPath.row];
+    ArcosMailBaseTableViewCell* cell = (ArcosMailBaseTableViewCell*)[tableView dequeueReusableCellWithIdentifier:[self.arcosMailCellFactory identifierWithData:cellData]];
+    if (cell == nil) {        
+        cell = (ArcosMailBaseTableViewCell*)[self.arcosMailCellFactory createMailBaseTableCellWithData:cellData];
+        cell.myDelegate = self;
+    }
+    // Configure the cell...
+    cell.indexPath = indexPath;
+    [cell configCellWithData:cellData];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
+}
+
+#pragma mark ArcosMailTableViewCellDelegate
+- (void)updateMailBodyHeight:(NSIndexPath*)anIndexPath{
+    [self.tableView beginUpdates];
+    [self.tableView.delegate tableView:self.tableView heightForRowAtIndexPath:anIndexPath];
+    [self.tableView endUpdates];
+}
+
+- (void)updateSubjectText:(NSString *)aText {
+    self.title = aText;
+    if ([self.title isEqualToString:@""]) {
+        self.title = self.arcosMailDataManager.defaultTitleText;
+    }
+}
+
+
+@end

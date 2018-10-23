@@ -1,0 +1,1021 @@
+//
+//  OrderInputPadViewController.m
+//  Arcos
+//
+//  Created by David Kilmartin on 28/07/2011.
+//  Copyright 2011 Strata IT Limited. All rights reserved.
+//
+
+#import "OrderInputPadViewController.h"
+#import <QuartzCore/QuartzCore.h>
+#import "SettingManager.h"
+#import "ArcosConfigDataManager.h"
+@interface OrderInputPadViewController()
+- (BOOL)isBonusGivenAndBonusRequiredExistent;
+- (void)checkBonusWithGivenRequiredSellBy;
+- (void)enableBonusFocWithFlag:(BOOL)aFlag;
+- (void)checkFocusBonusWithGivenRequiredSellByMinimum;
+- (void)showBonusFocusCheckMinimumMsg:(int)aBonusValue;
+- (void)checkQtyVanStock;
+@end
+
+@implementation OrderInputPadViewController
+@synthesize  QTYField;
+@synthesize  BonusField;
+@synthesize  DiscountField;
+@synthesize  dotButton;
+@synthesize ValueField;
+@synthesize productName;
+@synthesize bar;
+@synthesize unitPriceTitleLabel = _unitPriceTitleLabel;
+@synthesize unitPriceField = _unitPriceField;
+@synthesize unitPrice;
+@synthesize BonusLabel;
+@synthesize DiscountLabel;
+@synthesize isDetaillingType;
+@synthesize InStockField;
+@synthesize FOCField;
+@synthesize showSeparator = _showSeparator;
+@synthesize locationIUR = _locationIUR;
+@synthesize orderInputPadDataManager = _orderInputPadDataManager;
+@synthesize qtyHeader = _qtyHeader;
+@synthesize bonHeader = _bonHeader;
+@synthesize leftDivider = _leftDivider;
+@synthesize sectionDivider = _sectionDivider;
+@synthesize mon25 = _mon25;
+@synthesize mon24 = _mon24;
+@synthesize mon23 = _mon23;
+@synthesize mon22 = _mon22;
+@synthesize mon21 = _mon21;
+@synthesize mon20 = _mon20;
+@synthesize mon19 = _mon19;
+@synthesize mon18 = _mon18;
+@synthesize mon17 = _mon17;
+@synthesize mon16 = _mon16;
+@synthesize mon15 = _mon15;
+@synthesize mon14 = _mon14;
+@synthesize mon13 = _mon13;
+
+@synthesize qty25 = _qty25;
+@synthesize qty24 = _qty24;
+@synthesize qty23 = _qty23;
+@synthesize qty22 = _qty22;
+@synthesize qty21 = _qty21;
+@synthesize qty20 = _qty20;
+@synthesize qty19 = _qty19;
+@synthesize qty18 = _qty18;
+@synthesize qty17 = _qty17;
+@synthesize qty16 = _qty16;
+@synthesize qty15 = _qty15;
+@synthesize qty14 = _qty14;
+@synthesize qty13 = _qty13;
+
+@synthesize bonus25 = _bonus25;
+@synthesize bonus24 = _bonus24;
+@synthesize bonus23 = _bonus23;
+@synthesize bonus22 = _bonus22;
+@synthesize bonus21 = _bonus21;
+@synthesize bonus20 = _bonus20;
+@synthesize bonus19 = _bonus19;
+@synthesize bonus18 = _bonus18;
+@synthesize bonus17 = _bonus17;
+@synthesize bonus16 = _bonus16;
+@synthesize bonus15 = _bonus15;
+@synthesize bonus14 = _bonus14;
+@synthesize bonus13 = _bonus13;
+@synthesize instockRBLabel = _instockRBLabel;
+@synthesize instockRBTextField = _instockRBTextField;
+@synthesize vansOrderHeader = _vansOrderHeader;
+@synthesize priceChangeButton = _priceChangeButton;
+@synthesize globalNavigationController = _globalNavigationController;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+        self.orderInputPadDataManager = [[[OrderInputPadDataManager alloc] init] autorelease];
+        
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    if (self.QTYField != nil) { self.QTYField = nil; }
+    if (self.BonusField != nil) { self.BonusField = nil; }   
+    if (self.DiscountField != nil) { self.DiscountField = nil; }    
+    if (self.ValueField != nil) { self.ValueField = nil; }
+    if (self.productName != nil) { self.productName = nil; }
+    if (self.bar != nil) { self.bar = nil; }
+    self.unitPriceTitleLabel = nil;
+    self.unitPriceField = nil;
+    if (self.unitPrice != nil) { self.unitPrice = nil; }
+    if (self.dotButton != nil) { self.dotButton = nil; }
+    if (self.BonusLabel != nil) { self.BonusLabel = nil; }    
+    if (self.DiscountLabel != nil) { self.DiscountLabel = nil; }
+    if (self.InStockField != nil) { self.InStockField = nil; } 
+    if (self.FOCField != nil) { self.FOCField = nil; }
+    self.locationIUR = nil;
+    self.orderInputPadDataManager = nil;
+    self.qtyHeader = nil;
+    self.bonHeader = nil;
+    self.leftDivider = nil;
+    self.sectionDivider = nil;
+    self.mon25 = nil;
+    self.mon24 = nil;
+    self.mon23 = nil;
+    self.mon22 = nil;
+    self.mon21 = nil;
+    self.mon20 = nil;
+    self.mon19 = nil;
+    self.mon18 = nil;
+    self.mon17 = nil;
+    self.mon16 = nil;
+    self.mon15 = nil;
+    self.mon14 = nil;
+    self.mon13 = nil;
+    
+    self.qty25 = nil;
+    self.qty24 = nil;
+    self.qty23 = nil;
+    self.qty22 = nil;
+    self.qty21 = nil;
+    self.qty20 = nil;
+    self.qty19 = nil;
+    self.qty18 = nil;
+    self.qty17 = nil;
+    self.qty16 = nil;
+    self.qty15 = nil;
+    self.qty14 = nil;
+    self.qty13 = nil;
+    
+    self.bonus25 = nil;
+    self.bonus24 = nil;
+    self.bonus23 = nil;
+    self.bonus22 = nil;
+    self.bonus21 = nil;
+    self.bonus20 = nil;
+    self.bonus19 = nil;
+    self.bonus18 = nil;
+    self.bonus17 = nil;
+    self.bonus16 = nil;
+    self.bonus15 = nil;
+    self.bonus14 = nil;
+    self.bonus13 = nil;
+    
+    self.instockRBLabel = nil;
+    self.instockRBTextField = nil;
+    self.vansOrderHeader = nil;
+    self.priceChangeButton = nil;
+    self.globalNavigationController = nil;
+    
+    [super dealloc];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc that aren't in use.
+}
+
+#pragma mark - View lifecycle
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+//    NSLog(@"self.data: %@", self.Data);
+    //pre set the text feild
+//    NSNumber* qtyNumber=[self.Data objectForKey:@"Qty"];
+//    NSNumber* inStockNumber = [self.Data objectForKey:@"InStock"]; 
+//    if (([qtyNumber intValue]>0 && qtyNumber !=nil) || ([inStockNumber intValue]>0 && inStockNumber != nil)) {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showMATWithQtyPopoverFlag] && self.locationIUR != nil) {
+        NSDate* dateLastModified = [NSDate date];
+        NSMutableArray* objectList = [self.orderInputPadDataManager retrieveLocationProductMATWithLocationIUR:self.locationIUR productIUR:[self.Data objectForKey:@"ProductIUR"]];
+        if ([objectList count] > 0) {
+            NSDictionary* locationProductMATDict = [objectList objectAtIndex:0];
+            NSDate* auxDateLastModified = [locationProductMATDict objectForKey:@"dateLastModified"];
+            if (auxDateLastModified != nil) {
+                dateLastModified = auxDateLastModified;
+            }
+        }
+        [self.orderInputPadDataManager processMonthListWithDate:dateLastModified];
+        int monthNum = 26;
+        NSString* valueField = [NSString stringWithFormat:@"setText:"];
+        SEL valueSelector = NSSelectorFromString(valueField);
+        for (int i = 0; i < [self.orderInputPadDataManager.monthList count]; i++) {
+            monthNum--;
+            NSString* tmpMonthStr = [self.orderInputPadDataManager.monthList objectAtIndex:i];
+            NSString* monthField = [NSString stringWithFormat:@"mon%d",monthNum];
+            SEL monthSelector = NSSelectorFromString(monthField);
+            [[self performSelector:monthSelector] performSelector:valueSelector withObject:tmpMonthStr];
+        }
+        if ([objectList count] > 0) {
+            NSDictionary* locationProductMATDict = [objectList objectAtIndex:0];
+            SEL methodSelector = NSSelectorFromString(@"objectForKey:");
+            int qbNum = 26;
+            for (int i = 0; i < 13; i++) {
+                qbNum--;
+                NSString* qtyValueParameter = [NSString stringWithFormat:@"qty%d", qbNum];
+                NSNumber* qtyNumber = [locationProductMATDict performSelector:methodSelector withObject:qtyValueParameter];
+                NSString* qtyField = [NSString stringWithFormat:@"qty%d",qbNum];
+                SEL qtySelector = NSSelectorFromString(qtyField);
+                [[self performSelector:qtySelector] performSelector:valueSelector withObject:[ArcosUtils convertZeroToBlank:[ArcosUtils convertNumberToIntString:qtyNumber]]];
+                
+                NSString* bonusValueParameter = [NSString stringWithFormat:@"bonus%d", qbNum];
+                NSNumber* bonusNumber = [locationProductMATDict performSelector:methodSelector withObject:bonusValueParameter];
+                NSString* bonusField = [NSString stringWithFormat:@"bonus%d",qbNum];
+                SEL bonusSelector = NSSelectorFromString(bonusField);
+                [[self performSelector:bonusSelector] performSelector:valueSelector withObject:[ArcosUtils convertZeroToBlank:[ArcosUtils convertNumberToIntString:bonusNumber]]];
+            }
+        } else {
+            int qbNum = 26;
+            for (int i = 0; i < 13; i++) {
+                qbNum--;
+                NSString* qtyField = [NSString stringWithFormat:@"qty%d",qbNum];
+                SEL qtySelector = NSSelectorFromString(qtyField);
+                [[self performSelector:qtySelector] performSelector:valueSelector withObject:@""];
+                NSString* bonusField = [NSString stringWithFormat:@"bonus%d",qbNum];
+                SEL bonusSelector = NSSelectorFromString(bonusField);
+                [[self performSelector:bonusSelector] performSelector:valueSelector withObject:@""];
+            }
+        }
+    }
+    if ([ProductFormRowConverter isSelectedWithFormRowDict:self.Data]) {
+        self.QTYField.text=[[self.Data objectForKey:@"Qty"]stringValue];
+        self.BonusField.text=[[self.Data objectForKey:@"Bonus"]stringValue];
+        self.DiscountField.text=[[[self.Data objectForKey:@"DiscountPercent"]stringValue]stringByAppendingString:@"%"];
+        self.ValueField.text=[NSString stringWithFormat:@"%1.2f" ,[[self.Data objectForKey:@"LineValue"]floatValue]];
+        self.InStockField.text=[[self.Data objectForKey:@"InStock"] stringValue];        
+        self.FOCField.text=[[self.Data objectForKey:@"FOC"]stringValue];
+        self.instockRBTextField.text = [[self.Data objectForKey:@"InStock"] stringValue];
+    }else{
+        self.QTYField.text=@"0";
+        self.BonusField.text=@"0";
+        self.DiscountField.text=@"0%";
+        self.ValueField.text=@"0.00";
+        self.InStockField.text=@"0";
+        self.FOCField.text=@"0";
+        self.instockRBTextField.text = @"0";
+    }
+    self.bar.topItem.title=[self.Data objectForKey:@"Details"];
+    self.productName.text=[self.Data objectForKey:@"Details"];
+    self.unitPriceField.text=[NSString stringWithFormat:@"%1.2f",[[self.Data objectForKey:@"UnitPrice"]floatValue]];
+    if ([[self.Data objectForKey:@"PriceFlag"] intValue] == 1) {
+        self.unitPriceField.textColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0];
+        self.unitPriceField.font = [UIFont boldSystemFontOfSize:24.0];
+        self.unitPriceField.backgroundColor = [UIColor yellowColor];
+    } else if ([[self.Data objectForKey:@"PriceFlag"] intValue] == 2) {
+        self.unitPriceField.textColor = [UIColor colorWithRed:0.0 green:128.0/255.0 blue:1.0 alpha:1.0];
+        self.unitPriceField.font = [UIFont boldSystemFontOfSize:24.0];
+        self.unitPriceField.backgroundColor = [UIColor colorWithRed:152.0/255.0 green:251.0/255.0 blue:152.0/255.0 alpha:1.0];
+    } else {
+        self.unitPriceField.textColor = [UIColor colorWithRed:0.0 green:128.0/255.0 blue:1.0 alpha:1.0];
+        self.unitPriceField.font = [UIFont systemFontOfSize:24.0];
+        self.unitPriceField.backgroundColor = [UIColor whiteColor];
+    }
+    //set the default text feild
+    currentTextField=self.QTYField;
+    [self highlightSelectField];
+    //check split pack field
+    if (self.showSeparator) {
+        self.InStockField.hidden = NO;
+        self.FOCField.hidden = NO;
+    } else {
+        self.InStockField.hidden = YES;
+        self.FOCField.hidden = YES;
+    }
+    
+    //disable the bunous and discount label depend on the setting
+    NSNumber* allowDiscount = [SettingManager SettingForKeypath:@"CompanySetting.Order Processing" atIndex:1];
+    if ([allowDiscount boolValue]) {
+        self.DiscountLabel.hidden=NO;
+        self.DiscountField.hidden=NO;
+        self.BonusLabel.hidden=YES;
+        self.BonusField.hidden=YES;
+        self.FOCField.hidden = YES;
+    }
+    
+    //bd
+    SettingManager* sm = [SettingManager setting];
+    NSMutableDictionary* presenterPwdDict = [sm getSettingForKeypath:@"CompanySetting.Connection" atIndex:8];
+    NSString* presenterPwd = [[presenterPwdDict objectForKey:@"Value"] uppercaseString];
+//    NSLog(@"presenterPwd:%@", presenterPwd);
+    NSRange aBDRange = [presenterPwd rangeOfString:@"[BD]"];
+//    NSLog(@"aBDRange:%@",NSStringFromRange(aBDRange));
+    if (aBDRange.location != NSNotFound) {
+        self.DiscountLabel.hidden=NO;
+        self.DiscountField.hidden=NO;
+        self.BonusLabel.hidden=NO;
+        self.BonusField.hidden=NO;
+        if (self.showSeparator) {
+            self.InStockField.hidden = NO;
+            self.FOCField.hidden = NO;
+        } else {
+            self.InStockField.hidden = YES;
+            self.FOCField.hidden = YES;
+        }
+    }
+    
+    if ([ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag) {
+        self.instockRBLabel.hidden = NO;
+        self.instockRBTextField.hidden = NO;
+        self.DiscountLabel.hidden = YES;
+        self.DiscountField.hidden = YES;
+        self.InStockField.hidden = YES;
+        self.FOCField.hidden = YES;
+    } else {
+        self.instockRBLabel.hidden = YES;
+        self.instockRBTextField.hidden = YES;
+    }
+    
+    //BonusGiven BonusRequired SellBy
+    switch ([[self.Data objectForKey:@"SellBy"] intValue]) {
+        case 0: {
+            [self enableBonusFocWithFlag:YES];
+        }
+            break;
+        case 1: {
+            [self enableBonusFocWithFlag:NO];
+        }
+            break;
+        case 2: {
+            [self enableBonusFocWithFlag:YES];
+        }
+            break;
+        case 3: {
+            [self enableBonusFocWithFlag:NO];
+        }
+            break;
+        case 4: {
+            [self enableBonusFocWithFlag:YES];
+        }
+            break;
+        default: {
+            [self enableBonusFocWithFlag:YES];
+        }
+            break;
+    }
+    
+    //check the detailing
+    if(self.isDetaillingType || [[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag]){
+        self.BonusField.hidden=YES;
+        self.DiscountField.hidden=YES;
+        self.BonusLabel.hidden=YES;
+        self.DiscountLabel.hidden=YES;
+        self.FOCField.hidden = YES;
+        self.instockRBLabel.hidden = YES;
+        self.instockRBTextField.hidden = YES;
+    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enablePriceChangeFlag]) {
+        self.priceChangeButton.hidden = NO;
+    } else {
+        self.priceChangeButton.hidden = YES;
+    }    
+}
+
+- (ArcosErrorResult*)productCheckProcedure {
+    ArcosErrorResult* arcosErrorResult = [[[ArcosErrorResult alloc] init] autorelease];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableProductCheckFlag]) {
+        NSMutableArray* locationDictList = [[ArcosCoreData sharedArcosCoreData] locationWithIURWithoutCheck:self.locationIUR];
+        if (locationDictList != nil) {
+            NSDictionary* locationDict = [locationDictList objectAtIndex:0];
+            NSNumber* tmpLTiur = [locationDict objectForKey:@"LTiur"];
+            NSDictionary* tmpDescrDetailDict = [[ArcosCoreData sharedArcosCoreData] descriptionWithIUR:tmpLTiur];
+            NSString* tmpTooltip = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[tmpDescrDetailDict objectForKey:@"Tooltip"]]];
+            if (![tmpTooltip isEqualToString:@""]) {
+                NSMutableArray* tmpProductDictList = [[ArcosCoreData sharedArcosCoreData] productWithIUR:[self.Data objectForKey:@"ProductIUR"] withResultType:NSDictionaryResultType];
+                if (tmpProductDictList != nil) {
+                    NSDictionary* tmpProductDict = [tmpProductDictList objectAtIndex:0];
+                    NSString* tmpL1Code = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[tmpProductDict objectForKey:@"L1Code"]]];
+                    NSString* tmpWrappedL1Code = [NSString stringWithFormat:@"[%@]", tmpL1Code];
+                    NSRange tmpL1CodeRange = [tmpTooltip rangeOfString:tmpWrappedL1Code options:NSCaseInsensitiveSearch];
+                    if (tmpL1CodeRange.location == NSNotFound) {
+                        arcosErrorResult.successFlag = NO;
+                        arcosErrorResult.errorDesc = [NSString stringWithFormat:@"Selected Product is not available for %@", [tmpDescrDetailDict objectForKey:@"Detail"]];
+                    }
+                }
+            }            
+        }
+    }    
+    return arcosErrorResult;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+    currentTextField=QTYField;
+    [self highlightSelectField];
+    //add taps
+    /*
+    UITapGestureRecognizer *singleTap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
+
+    [self.QTYField addGestureRecognizer:singleTap1];
+    
+    UITapGestureRecognizer *singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
+
+    [self.BonusField addGestureRecognizer:singleTap2];
+    
+    UITapGestureRecognizer *singleTap3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
+    [self.DiscountField addGestureRecognizer:singleTap3];
+    
+    UITapGestureRecognizer *singleTap4 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];    
+    [self.InStockField addGestureRecognizer:singleTap4];
+    
+    UITapGestureRecognizer *singleTap5 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
+    [self.FOCField addGestureRecognizer:singleTap5];
+    
+    [singleTap1 release];
+    [singleTap2 release];
+    [singleTap3 release];
+    [singleTap4 release];
+    [singleTap5 release];
+    */
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    if (self.QTYField != nil) { self.QTYField = nil; }
+    if (self.BonusField != nil) { self.BonusField = nil; }   
+    if (self.DiscountField != nil) { self.DiscountField = nil; }    
+    if (self.ValueField != nil) { self.ValueField = nil; }
+    if (self.productName != nil) { self.productName = nil; }
+    if (self.bar != nil) { self.bar = nil; }
+    if (self.unitPrice != nil) { self.unitPrice = nil; }
+    if (self.dotButton != nil) { self.dotButton = nil; }
+    if (self.BonusLabel != nil) { self.BonusLabel = nil; }    
+    if (self.DiscountLabel != nil) { self.DiscountLabel = nil; }
+    if (self.InStockField != nil) { self.InStockField = nil; } 
+    if (self.FOCField != nil) { self.FOCField = nil; }
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+	return YES;
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField { 
+    // Make a new view, or do what you want here
+    if (textField.tag == 7) return NO;
+    if (textField.tag == 6 && self.DiscountField.hidden == YES) return NO;
+    currentTextField = textField;
+    [self highlightSelectField];
+    return NO;
+}
+-(NSNumber*)resetTotalValue{
+    NSNumber* total=[NSNumber numberWithFloat:[self.QTYField.text intValue]*[[self.Data objectForKey:@"UnitPrice"]floatValue]];
+    
+    NSNumber* unitsPerPack = [self.Data objectForKey:@"UnitsPerPack"];
+    if ([unitsPerPack intValue] != 0 && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag) {
+        float splitPackValue = [[self.Data objectForKey:@"UnitPrice"] floatValue] / [unitsPerPack intValue] * [self.InStockField.text intValue];
+        total = [NSNumber numberWithFloat:[total floatValue]+splitPackValue];
+    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useWeightToCalculatePriceFlag]) {
+        int minUnitPrice = [[self.Data objectForKey:@"MinimumUnitPrice"] intValue];
+        if (minUnitPrice != 0) {
+            total = [NSNumber numberWithFloat:([total floatValue] * minUnitPrice / 100)];
+        }
+    }
+    total = [NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:[total floatValue] * (1.0 - ([self.DiscountField.text floatValue] / 100))]];
+    self.ValueField.text=[NSString stringWithFormat:@"%1.2f" ,[total floatValue]];
+    return total;    
+}
+//input validation
+-(BOOL)QTYBonusCheck:(NSInteger)input{
+    NSString* qtyString=currentTextField.text;
+    NSString* firstChar=[qtyString substringToIndex:1];
+    //not over 8 digits
+    if([qtyString length]>=8){
+        return NO;
+    }
+    
+    //dot input
+    if (input==10) {
+        return NO;
+    }
+    //0 input
+    if (input==0) {
+        if ([firstChar isEqualToString:@"0"]) {
+            return NO;
+        }
+    }
+    //current value is 0
+    if ([firstChar isEqualToString:@"0"]) {
+        qtyString=@"";
+    }
+    
+    //append the qty value
+    qtyString=[qtyString stringByAppendingFormat:@"%d",[ArcosUtils convertNSIntegerToInt:input]];
+    currentTextField.text=qtyString;
+    [self checkBonusWithGivenRequiredSellBy];
+    [self checkFocusBonusWithGivenRequiredSellByMinimum];
+    //reset the total value
+    [self resetTotalValue];
+    return YES;
+}
+
+-(BOOL)QTYBonusSplitPacksCheck:(NSInteger)input {
+    NSString* splitPacksString=currentTextField.text;
+    NSString* firstChar=[splitPacksString substringToIndex:1];
+    //not over 3 digits
+    if([splitPacksString length]>2){
+        return NO;
+    }
+    
+    //dot input
+    if (input==10) {
+        return NO;
+    }
+    //0 input
+    if (input==0) {
+        if ([firstChar isEqualToString:@"0"]) {
+            return NO;
+        }
+    }
+    //current value is 0
+    if ([firstChar isEqualToString:@"0"]) {
+        splitPacksString=@"";
+    }
+    
+    //append the qty value
+    splitPacksString=[splitPacksString stringByAppendingFormat:@"%d",[ArcosUtils convertNSIntegerToInt:input]];
+    NSNumber* splitPacksStringNumberValue = [ArcosUtils convertStringToNumber:splitPacksString];
+    NSNumber* unitsPerPack = [self.Data objectForKey:@"UnitsPerPack"];
+//    NSLog(@"unitsPerPack: %d", [unitsPerPack intValue]);
+    if ([splitPacksStringNumberValue intValue] >= [unitsPerPack intValue]) {
+        [ArcosUtils showMsg:[NSString stringWithFormat:@"The value can not be greater or equal to %d.", [unitsPerPack intValue]] delegate:nil];
+        return NO;
+    }
+    
+    currentTextField.text=splitPacksString;
+    
+    //reset the total value
+    [self resetTotalValue];
+    return YES;
+}
+
+-(BOOL)DiscountCheck:(NSInteger)input{
+    //string with no presentage sign
+    NSString* aString=[currentTextField.text substringToIndex:[currentTextField.text length]-1];
+    NSString* firstChar=[aString substringToIndex:1];
+    NSString* lastChar=[aString substringWithRange:NSMakeRange([aString length]-1, 1)];
+    float aFloat=[aString floatValue];
+
+    //check any dot
+    NSRange aRangeName = [aString rangeOfString:@"." options:NSCaseInsensitiveSearch];
+    BOOL anyDot=NO;
+    if (aRangeName.location !=NSNotFound) {
+        anyDot=YES;
+    }
+    
+    //dot input but we have one
+    if (input==10&&anyDot) {
+        return NO;
+    }
+    if (input==10){
+        //append the qty value
+        aString=[aString stringByAppendingString:@".%"];
+        currentTextField.text=aString;
+        return YES;
+    }
+    
+    //0 input but we are 0 now
+    if (input==0&&aFloat==0.0) {
+            return NO;
+    }
+    
+    //0 input but last digit after dot already 0
+    if(input==0&&[lastChar isEqualToString:@"0"]&&anyDot){
+        return NO;
+    }
+    
+    //current value is 0
+    if ([firstChar isEqualToString:@"0"]&&!anyDot) {
+        aString=@"";
+    }
+    
+    //append the qty value
+    aString=[aString stringByAppendingFormat:@"%d",[ArcosUtils convertNSIntegerToInt:input]];
+
+    //value greater than 100
+    aFloat=[aString floatValue];
+    if (aFloat>100.0f) {
+        return NO;
+    }
+    
+    //only 2 decimal number allowed
+    NSString* formattedNumber = [NSString stringWithFormat:@"%.2f", aFloat];
+    float formattedFloat=[formattedNumber floatValue];
+    if (aFloat!=formattedFloat) {
+        return NO;
+    }
+    if (aFloat!=formattedFloat&&input==10) {
+        return NO;
+    }
+    
+    //final string
+    aString=[aString stringByAppendingString:@"%"];
+    currentTextField.text=aString;
+    [self resetTotalValue];
+    return YES;
+}
+
+-(BOOL)UnitPriceCheck:(NSInteger)input{
+    NSString* aString=currentTextField.text;
+    NSString* firstChar=[aString substringToIndex:1];
+    float aFloat=[aString floatValue];
+    
+    //check any dot
+    NSRange aRangeName = [aString rangeOfString:@"." options:NSCaseInsensitiveSearch];
+    BOOL anyDot=NO;
+    if (aRangeName.location !=NSNotFound) {
+        anyDot=YES;
+    }
+    
+    //dot input but we have one
+    if (input==10&&anyDot) {
+        return NO;
+    }
+    if (input==10){
+        //append the qty value
+        aString=[aString stringByAppendingString:@"."];
+        currentTextField.text=aString;
+        return YES;
+    }
+    
+    //0 input but we are 0 now
+    if (input==0 && aFloat == 0) {
+        return NO;
+    }
+    
+    //current value is 0
+    if ([firstChar isEqualToString:@"0"]&&!anyDot) {
+        aString=@"";
+    }
+    
+    //append the qty value
+    aString=[aString stringByAppendingFormat:@"%d",[ArcosUtils convertNSIntegerToInt:input]];
+    
+    //value greater than unitprice
+    aFloat=[aString floatValue];
+    if (aFloat > [[self.Data objectForKey:@"UnitPrice"] floatValue]) {
+        return NO;
+    }
+    
+    //only 2 decimal number allowed
+    if (anyDot) {
+        NSString* tmpString = [aString substringFromIndex:aRangeName.location];
+        if (tmpString.length >= 4) {
+            return NO;
+        }        
+    }
+    
+    //final string
+    currentTextField.text=aString;
+    if ([[self.Data objectForKey:@"UnitPrice"] floatValue] != 0) {
+        self.DiscountField.text = [NSString stringWithFormat:@"%.2f%%", (1 - aFloat / [[self.Data objectForKey:@"UnitPrice"] floatValue]) * 100];
+    }
+     
+    [self resetTotalValue];
+    return YES;
+}
+
+-(void)clearCurrentFeild{
+    
+    
+    switch (currentTextField.tag) {
+        case 0:
+        case 1:
+        case 3:
+        case 4:
+        case 5:
+            currentTextField.text=@"0";
+            break;
+        case 2:
+            currentTextField.text=@"0%";
+            break;
+        case 6:
+            currentTextField.text=@"0";
+            if ([[self.Data objectForKey:@"UnitPrice"] floatValue] != 0) {
+                self.DiscountField.text = [NSString stringWithFormat:@"%.2f%%", (1 - [currentTextField.text floatValue] / [[self.Data objectForKey:@"UnitPrice"] floatValue]) * 100];
+            }            
+            break;
+        default:
+            break;
+    }
+    [self checkBonusWithGivenRequiredSellBy];
+    //reset the total value
+    [self resetTotalValue];
+}
+-(void)deleteOneDigitFromCurrentFeild{
+    NSString* fieldString=currentTextField.text;
+    
+    switch (currentTextField.tag) {
+        case 0:
+        case 1:
+        case 3:
+        case 4:
+        case 5:
+            fieldString=[fieldString substringToIndex:[fieldString length]-1];
+            currentTextField.text=fieldString;
+            if ([fieldString isEqualToString:@""]) {
+                [self clearCurrentFeild];
+            }
+            break;
+        case 2:
+            fieldString=[fieldString substringToIndex:[fieldString length]-2];
+            currentTextField.text=[fieldString stringByAppendingString:@"%"];
+            if ([fieldString isEqualToString:@"%"]||[fieldString isEqualToString:@""]||fieldString==nil) {
+                [self clearCurrentFeild];
+            }
+            break;
+        case 6:
+            fieldString=[fieldString substringToIndex:[fieldString length]-1];
+            currentTextField.text=fieldString;
+            if ([fieldString isEqualToString:@""]) {
+                [self clearCurrentFeild];
+            }
+            if ([[self.Data objectForKey:@"UnitPrice"] floatValue] != 0) {
+                self.DiscountField.text = [NSString stringWithFormat:@"%.2f%%", (1 - [currentTextField.text floatValue] / [[self.Data objectForKey:@"UnitPrice"] floatValue]) * 100];
+            }            
+            break;
+        default:
+            break;
+    }
+    [self checkBonusWithGivenRequiredSellBy];
+    //reset the total value
+    [self resetTotalValue];
+}
+
+- (void)checkQtyVanStock {
+    NSNumber* tmpQty = [NSNumber numberWithInt:[QTYField.text intValue]];
+    NSNumber* tmpStockonHand = [self.Data objectForKey:@"StockonHand"];    
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableVanSaleFlag] && [tmpQty intValue] > [tmpStockonHand intValue] && ((self.vansOrderHeader != nil && [[[self.vansOrderHeader objectForKey:@"type"] objectForKey:@"DescrDetailCode"] isEqualToString:[GlobalSharedClass shared].vansCode]) || self.vansOrderHeader == nil)) {
+        void (^yesActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+            [self submitInput];
+        };
+        void (^noActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+            [self clearCurrentFeild];
+        };
+        [ArcosUtils showTwoBtnsDialogBox:[NSString stringWithFormat:@"The quantity you entered is greater than the available van stock of %@, are you sure you want to continue", tmpStockonHand] title:@"" delegate:nil target:self tag:0 lBtnText:@"YES" rBtnText:@"NO" lBtnHandler:yesActionHandler rBtnHandler:noActionHandler];
+    } else {
+        [self submitInput];
+    }
+}
+
+-(void)submitInput{
+    NSMutableDictionary* values=[NSMutableDictionary dictionary];
+    
+    NSNumber* qty=[NSNumber numberWithInt:[QTYField.text intValue]];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] checkMultiplesOfUnitsPerPackFlag]) {
+        int unitsPerPackInteger = [[self.Data objectForKey:@"UnitsPerPack"] intValue];
+        if (unitsPerPackInteger > 1) {
+            int qtyInteger = [qty intValue];
+            if (qtyInteger % unitsPerPackInteger != 0) {
+                [ArcosUtils showMsg:[NSString stringWithFormat:@"Stock can only be ordered in multiples of %d", unitsPerPackInteger] delegate:nil];
+                return;
+            }
+        }
+    }
+    NSNumber* bonus=[NSNumber numberWithInt:[BonusField.text intValue]];
+    NSNumber* discount=[NSNumber numberWithFloat:[DiscountField.text floatValue]];
+    NSNumber* inStock = [NSNumber numberWithInt:[InStockField.text intValue]];
+    NSNumber* foc = [NSNumber numberWithInt:[FOCField.text intValue]];
+    
+    [values setObject:qty forKey:@"qty"];
+    [values setObject:bonus forKey:@"bonus"];
+    [values setObject:discount forKey:@"discount"];
+    
+    if ([ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag) {
+        inStock = [NSNumber numberWithInt:[self.instockRBTextField.text intValue]];
+    }
+    
+    //[self.delegate orderInputDone:values];
+    
+    
+    
+    //reset data
+    if (([qty intValue]<=0 || qty ==nil) && ([bonus intValue]<=0 || bonus==nil) 
+        && ([inStock intValue] <= 0 || inStock == nil) && ([foc intValue] <= 0 || foc == nil)){
+        [self.Data setObject:[NSNumber numberWithInt:0]  forKey:@"Qty"];
+        [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
+        [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"DiscountPercent"];
+        [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"LineValue"];
+        [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"InStock"];
+        [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"FOC"];
+        [self.Data setObject:[NSNumber numberWithBool:NO] forKey: @"IsSelected"];
+        
+    } else{
+        [self.Data setObject:qty forKey:@"Qty"];
+        [self.Data setObject:bonus forKey:@"Bonus"];
+        [self.Data setObject:discount forKey:@"DiscountPercent"];
+        [self.Data setObject:inStock forKey:@"InStock"];
+        [self.Data setObject:foc forKey:@"FOC"];
+        
+        //        NSNumber* total=[NSNumber numberWithFloat:[qty intValue]*[[self.Data objectForKey:@"UnitPrice"]floatValue]];
+        NSNumber* total = [self resetTotalValue];
+        [self.Data setObject:total forKey:@"LineValue"];
+        [self.Data setObject:[NSNumber numberWithBool:YES] forKey: @"IsSelected"];
+    }
+    //clear all fields
+    QTYField.text=@"0";
+    BonusField.text=@"0";
+    DiscountField.text=@"0%";
+    InStockField.text=@"0";
+    FOCField.text=@"0";
+    self.instockRBTextField.text=@"0";
+    [self.delegate operationDone:self.Data ];
+
+}
+
+//actions
+-(IBAction)textFieldTouched:(id)sender{
+//    UITextField* aTextField= (UITextField*)sender;
+//    NSLog(@"text field %d pressed!",aTextField.tag);
+}
+-(IBAction)numberKeyTouched:(id)sender{
+    UIButton* theButton=(UIButton*)sender;
+    BOOL isCheckPass=NO;
+    
+    switch (currentTextField.tag) {
+        case 0:
+        case 1:
+        case 5:
+            isCheckPass=[self QTYBonusCheck:theButton.tag];
+            break;
+        case 2:
+            isCheckPass=[self DiscountCheck:theButton.tag];
+            break;
+        case 6:
+            isCheckPass = [self UnitPriceCheck:theButton.tag];
+            break;
+        case 3:
+        case 4:
+            isCheckPass=[self QTYBonusSplitPacksCheck:theButton.tag];
+            break;
+        default:
+            break;
+    }
+    
+    if (isCheckPass) {
+        
+    }else{
+        
+    }
+}
+-(IBAction)functionKeyTouched:(id)sender{
+    UIButton* theButton=(UIButton*)sender;
+
+    switch (theButton.tag) {
+        case 0:
+            [self deleteOneDigitFromCurrentFeild];
+            break;
+        case 1:
+            [self clearCurrentFeild];
+            break;
+        case 2:
+//            [self submitInput];
+            [self checkQtyVanStock];
+            break;
+        default:
+            break;
+    }
+}
+- (IBAction)priceChangeButtonPressed:(id)sender {    
+    PriceChangeTableViewController* pctvc = [[PriceChangeTableViewController alloc] initWithNibName:@"PriceChangeTableViewController" bundle:nil];
+    pctvc.delegate = self;
+    pctvc.priceChangeDataManager.dataDict = self.Data;
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:pctvc] autorelease];
+    self.globalNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    self.globalNavigationController.popoverPresentationController.sourceView = self.priceChangeButton;
+    self.globalNavigationController.popoverPresentationController.delegate = self;
+    self.globalNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionDown;
+    self.globalNavigationController.preferredContentSize = CGSizeMake(376.0, 165.0);
+    [self presentViewController:self.globalNavigationController animated:YES completion:nil];
+    [pctvc release];    
+}
+
+#pragma mark PriceChangeTableViewControllerDelegate
+- (void)didDismissPriceChangeView {
+    [self dismissViewControllerAnimated:YES completion:^{
+        self.globalNavigationController = nil;
+    }];
+}
+
+- (void)saveButtonWithNewPrice:(NSDecimalNumber *)aNewPrice {
+    [self.Data setObject:aNewPrice forKey:@"UnitPrice"];
+    [self.Data setObject:[NSNumber numberWithInt:-1] forKey:@"RRIUR"];
+    self.unitPriceField.text = [NSString stringWithFormat:@"%1.2f",[[self.Data objectForKey:@"UnitPrice"]floatValue]];
+    [self resetTotalValue];
+    [self dismissViewControllerAnimated:YES completion:^{
+        self.globalNavigationController = nil;
+    }];
+}
+
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalNavigationController = nil;
+}
+//tap action
+/*
+-(void)handleSingleTapGesture:(id)sender{
+    UITapGestureRecognizer* reconizer=(UITapGestureRecognizer*)sender;
+    UITextField* aField=(UITextField*)reconizer.view;
+    currentTextField=aField;
+    NSLog(@"text feild %d tap",aField.tag);
+    
+    [self highlightSelectField];
+}
+*/
+
+-(void)highlightSelectField{ 
+    QTYField.layer.cornerRadius=5.5f;
+    BonusField.layer.cornerRadius=5.5f;
+    DiscountField.layer.cornerRadius=5.5f;
+    InStockField.layer.cornerRadius=5.5f;
+    FOCField.layer.cornerRadius = 5.5f;
+    self.instockRBTextField.layer.cornerRadius = 5.5f;
+    
+    QTYField.layer.borderWidth=0.5f;
+    BonusField.layer.borderWidth=0.5f;
+    DiscountField.layer.borderWidth=0.5f;
+    InStockField.layer.borderWidth=0.5f;
+    FOCField.layer.borderWidth = 0.5f;
+    self.instockRBTextField.layer.borderWidth = 0.5f;
+    self.unitPriceField.layer.borderWidth = 0.5f;
+    
+    QTYField.layer.borderColor=[[UIColor blackColor]CGColor];
+    BonusField.layer.borderColor=[[UIColor blackColor]CGColor];
+    DiscountField.layer.borderColor=[[UIColor blackColor]CGColor];
+    InStockField.layer.borderColor=[[UIColor blackColor]CGColor];
+    FOCField.layer.borderColor=[[UIColor blackColor]CGColor];
+    self.instockRBTextField.layer.borderColor = [[UIColor blackColor]CGColor];
+    self.unitPriceField.layer.borderColor=[[UIColor blackColor]CGColor];
+    
+    currentTextField.layer.borderWidth=3.0f;
+    currentTextField.layer.borderColor=[[UIColor redColor]CGColor];
+}
+
+- (BOOL)isBonusGivenAndBonusRequiredExistent {
+    return [[self.Data objectForKey:@"BonusGiven"] intValue] != 0 && [[self.Data objectForKey:@"BonusRequired"] intValue] != 0;
+}
+- (void)checkBonusWithGivenRequiredSellBy {
+    if (![self isBonusGivenAndBonusRequiredExistent] || currentTextField.tag != 0) return;
+    
+    switch ([[self.Data objectForKey:@"SellBy"] intValue]) {
+        case 1:
+        case 2: {
+            BonusField.text = [NSString stringWithFormat:@"%d", [QTYField.text intValue] / [[self.Data objectForKey:@"BonusRequired"] intValue] * [[self.Data objectForKey:@"BonusGiven"] intValue]];
+        }
+            break;
+        case 4: {
+            if ([QTYField.text intValue] < [[self.Data objectForKey:@"BonusMinimum"] intValue]) {
+                BonusField.text = @"0";
+                return;
+            }
+            int bonusValue = [QTYField.text intValue] / [[self.Data objectForKey:@"BonusRequired"] intValue] * [[self.Data objectForKey:@"BonusGiven"] intValue];
+            if ([BonusField.text intValue] > bonusValue) {
+                BonusField.text = @"0";
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+- (void)checkFocusBonusWithGivenRequiredSellByMinimum {
+    if (![self isBonusGivenAndBonusRequiredExistent] || currentTextField.tag != 1) return;
+    switch ([[self.Data objectForKey:@"SellBy"] intValue]) {
+        case 4: {
+            if ([QTYField.text intValue] < [[self.Data objectForKey:@"BonusMinimum"] intValue]) {
+                [self showBonusFocusCheckMinimumMsg:0];
+                BonusField.text = @"0";
+                return;
+            }
+            int bonusValue = [QTYField.text intValue] / [[self.Data objectForKey:@"BonusRequired"] intValue] * [[self.Data objectForKey:@"BonusGiven"] intValue];
+            if ([BonusField.text intValue] > bonusValue) {
+                [self showBonusFocusCheckMinimumMsg:bonusValue];
+                BonusField.text = @"0";
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+- (void)enableBonusFocWithFlag:(BOOL)aFlag {
+    self.BonusField.enabled = aFlag;
+    self.FOCField.enabled = aFlag;
+}
+- (void)showBonusFocusCheckMinimumMsg:(int)aBonusValue {
+    [ArcosUtils showMsg:[NSString stringWithFormat:@"Bonus is restricted to %d for %d\n Minimum order qty of %d\nBonus allowed %d", [[self.Data objectForKey:@"BonusGiven"] intValue], [[self.Data objectForKey:@"BonusRequired"] intValue], [[self.Data objectForKey:@"BonusMinimum"] intValue], aBonusValue] delegate:nil];
+}
+
+@end

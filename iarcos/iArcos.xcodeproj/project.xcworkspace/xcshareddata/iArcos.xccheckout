@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>848857F9-F725-4570-B076-386AD0305B9A</string>
+	<key>IDESourceControlProjectName</key>
+	<string>iArcos</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>70cbb36b-f577-4b4e-b55e-41292202f1b0++505</key>
+		<string>https://subversion.assembla.com/svn/iarcos/trunk</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>iArcos.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>70cbb36b-f577-4b4e-b55e-41292202f1b0++505</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>70cbb36b-f577-4b4e-b55e-41292202f1b0++505</key>
+		<string>https://subversion.assembla.com/svn/iarcos</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://subversion.assembla.com/svn/iarcos/trunk/iArcos.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>70cbb36b-f577-4b4e-b55e-41292202f1b0++505</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>70cbb36b-f577-4b4e-b55e-41292202f1b0++505</string>
+			<key>IDESourceControlWCCName</key>
+			<string>iarcos</string>
+		</dict>
+	</array>
+</dict>
+</plist>

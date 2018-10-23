@@ -1,0 +1,25 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "70cbb36b-f577-4b4e-b55e-41292202f1b0++505",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "70cbb36b-f577-4b4e-b55e-41292202f1b0++505" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "70cbb36b-f577-4b4e-b55e-41292202f1b0++505" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "848857F9-F725-4570-B076-386AD0305B9A",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "70cbb36b-f577-4b4e-b55e-41292202f1b0++505" : "iarcos\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "iArcos",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "iArcos.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/subversion.assembla.com\/svn\/iarcos",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "70cbb36b-f577-4b4e-b55e-41292202f1b0++505"
+    }
+  ]
+}

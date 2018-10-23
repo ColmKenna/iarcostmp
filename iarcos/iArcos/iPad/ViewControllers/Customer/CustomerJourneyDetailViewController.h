@@ -1,0 +1,34 @@
+//
+//  CustomerJourneyDetailViewController.h
+//  Arcos
+//
+//  Created by David Kilmartin on 16/10/2012.
+//  Copyright (c) 2012 Strata IT Limited. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "CustomerBaseDetailViewController.h"
+#import "CustomerJourneyDataManager.h"
+#import "CustomerInfoTableViewController.h"
+#import "CustomerJourneyStartDateViewController.h"
+
+@interface CustomerJourneyDetailViewController : CustomerBaseDetailViewController <ModelViewDelegate, GenericRefreshParentContentDelegate, CustomerJourneyStartDateDelegate,CheckLocationIURTemplateDelegate>{
+    CustomerJourneyDataManager* _customerJourneyDataManager;
+    UIPopoverController* _actionPopoverController;
+    CustomerJourneyStartDateViewController* _cjsdvc;
+    UIBarButtonItem* _actionButton;
+    UINavigationController* _auxNavigationController;
+    CheckLocationIURTemplateProcessor* _checkLocationIURTemplateProcessor;
+}
+
+@property (nonatomic, retain) CustomerJourneyDataManager* customerJourneyDataManager;
+@property (nonatomic, retain) UIPopoverController* actionPopoverController;
+@property (nonatomic, retain) CustomerJourneyStartDateViewController* cjsdvc;
+@property (nonatomic, retain) UIBarButtonItem* actionButton;
+@property (nonatomic, retain) UINavigationController* auxNavigationController;
+@property (nonatomic, retain) CheckLocationIURTemplateProcessor* checkLocationIURTemplateProcessor;
+
+-(void)resetTableList:(NSString*)aJourneyDate;
+//-(NSMutableDictionary*)getCustomerWithIndexPath:(NSIndexPath*)anIndexPath;
+
+@end

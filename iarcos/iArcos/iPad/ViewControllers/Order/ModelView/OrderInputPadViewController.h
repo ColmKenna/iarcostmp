@@ -1,0 +1,183 @@
+//
+//  OrderInputPadViewController.h
+//  Arcos
+//
+//  Created by David Kilmartin on 28/07/2011.
+//  Copyright 2011 Strata IT Limited. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "WidgetViewController.h"
+#import "ArcosUtils.h"
+#import "ProductFormRowConverter.h"
+#import "OrderInputPadDataManager.h"
+#import "LeftBorderUILabel.h"
+#import "LeftBoldColorBorderUILabel.h"
+#import "BottomBorderUILabel.h"
+#import "ArcosErrorResult.h"
+#import "PriceChangeTableViewController.h"
+@protocol OrderInputPadViewControllerDelegate 
+
+@optional
+-(void)orderInputDone:(NSMutableDictionary*)values;
+@end
+
+@interface OrderInputPadViewController : WidgetViewController<UITextFieldDelegate, UIPopoverPresentationControllerDelegate, PriceChangeTableViewControllerDelegate> {
+    IBOutlet UITextField* QTYField;
+    IBOutlet UITextField* BonusField;
+    IBOutlet UITextField* DiscountField;
+    IBOutlet UITextField* ValueField;
+    UITextField* currentTextField;
+    IBOutlet UILabel* productName;
+    IBOutlet UINavigationBar* bar;
+    UILabel* _unitPriceTitleLabel;
+    UITextField* _unitPriceField;
+    IBOutlet UILabel* unitPrice;
+    
+    IBOutlet UIButton* dotButton;
+    
+    //labels
+    IBOutlet UILabel* BonusLabel;
+    IBOutlet UILabel* DiscountLabel;
+    
+    BOOL isDetaillingType;
+    IBOutlet UITextField* InStockField;//Qty SplitPack UnitPerPack
+    IBOutlet UITextField* FOCField;//Bonus SplitPack UnitPerPack 
+    BOOL _showSeparator;
+    NSNumber* _locationIUR;
+    OrderInputPadDataManager* _orderInputPadDataManager;
+    UILabel* _qtyHeader;
+    UILabel* _bonHeader;
+    LeftBorderUILabel* _leftDivider;
+    LeftBoldColorBorderUILabel* _sectionDivider;
+    
+    UILabel* _mon25;
+    UILabel* _mon24;
+    UILabel* _mon23;
+    UILabel* _mon22;
+    UILabel* _mon21;
+    UILabel* _mon20;
+    UILabel* _mon19;
+    UILabel* _mon18;
+    UILabel* _mon17;
+    UILabel* _mon16;
+    UILabel* _mon15;
+    UILabel* _mon14;
+    UILabel* _mon13;
+    
+    BottomBorderUILabel* _qty25;
+    BottomBorderUILabel* _qty24;
+    BottomBorderUILabel* _qty23;
+    BottomBorderUILabel* _qty22;
+    BottomBorderUILabel* _qty21;
+    BottomBorderUILabel* _qty20;
+    BottomBorderUILabel* _qty19;
+    BottomBorderUILabel* _qty18;
+    BottomBorderUILabel* _qty17;
+    BottomBorderUILabel* _qty16;
+    BottomBorderUILabel* _qty15;
+    BottomBorderUILabel* _qty14;
+    BottomBorderUILabel* _qty13;
+    
+    BottomBorderUILabel* _bonus25;
+    BottomBorderUILabel* _bonus24;
+    BottomBorderUILabel* _bonus23;
+    BottomBorderUILabel* _bonus22;
+    BottomBorderUILabel* _bonus21;
+    BottomBorderUILabel* _bonus20;
+    BottomBorderUILabel* _bonus19;
+    BottomBorderUILabel* _bonus18;
+    BottomBorderUILabel* _bonus17;
+    BottomBorderUILabel* _bonus16;
+    BottomBorderUILabel* _bonus15;
+    BottomBorderUILabel* _bonus14;
+    BottomBorderUILabel* _bonus13;
+    
+    UILabel* _instockRBLabel;
+    UITextField* _instockRBTextField;
+    NSMutableDictionary* _vansOrderHeader;
+    UIButton* _priceChangeButton;
+    UINavigationController* _globalNavigationController;
+}
+@property(nonatomic,retain) IBOutlet UITextField* QTYField;
+@property(nonatomic,retain) IBOutlet UITextField* BonusField;
+@property(nonatomic,retain) IBOutlet UITextField* DiscountField;
+@property(nonatomic,retain) IBOutlet UIButton* dotButton;
+
+@property(nonatomic,retain)     IBOutlet UITextField* ValueField;
+@property(nonatomic,retain)     IBOutlet UILabel* productName;
+@property(nonatomic,retain)     IBOutlet UINavigationBar* bar;
+@property(nonatomic,retain) IBOutlet UILabel* unitPriceTitleLabel;
+@property(nonatomic,retain) IBOutlet UITextField* unitPriceField;
+@property(nonatomic,retain)    IBOutlet UILabel* unitPrice;
+
+//labels
+@property(nonatomic,retain) IBOutlet UILabel* BonusLabel;
+@property(nonatomic,retain) IBOutlet UILabel* DiscountLabel;
+
+@property(nonatomic,assign)  BOOL isDetaillingType;
+@property(nonatomic,retain) IBOutlet UITextField* InStockField;
+@property(nonatomic,retain) IBOutlet UITextField* FOCField;
+@property(nonatomic,assign) BOOL showSeparator;
+@property(nonatomic,retain) NSNumber* locationIUR;
+@property(nonatomic,retain) OrderInputPadDataManager* orderInputPadDataManager;
+@property(nonatomic,retain) IBOutlet UILabel* qtyHeader;
+@property(nonatomic,retain) IBOutlet UILabel* bonHeader;
+@property(nonatomic,retain) IBOutlet LeftBorderUILabel* leftDivider;
+@property(nonatomic,retain) IBOutlet LeftBoldColorBorderUILabel* sectionDivider;
+@property(nonatomic,retain) IBOutlet UILabel* mon25;
+@property(nonatomic,retain) IBOutlet UILabel* mon24;
+@property(nonatomic,retain) IBOutlet UILabel* mon23;
+@property(nonatomic,retain) IBOutlet UILabel* mon22;
+@property(nonatomic,retain) IBOutlet UILabel* mon21;
+@property(nonatomic,retain) IBOutlet UILabel* mon20;
+@property(nonatomic,retain) IBOutlet UILabel* mon19;
+@property(nonatomic,retain) IBOutlet UILabel* mon18;
+@property(nonatomic,retain) IBOutlet UILabel* mon17;
+@property(nonatomic,retain) IBOutlet UILabel* mon16;
+@property(nonatomic,retain) IBOutlet UILabel* mon15;
+@property(nonatomic,retain) IBOutlet UILabel* mon14;
+@property(nonatomic,retain) IBOutlet UILabel* mon13;
+
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* qty25;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* qty24;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* qty23;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* qty22;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* qty21;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* qty20;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* qty19;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* qty18;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* qty17;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* qty16;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* qty15;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* qty14;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* qty13;
+
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* bonus25;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* bonus24;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* bonus23;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* bonus22;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* bonus21;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* bonus20;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* bonus19;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* bonus18;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* bonus17;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* bonus16;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* bonus15;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* bonus14;
+@property(nonatomic,retain) IBOutlet BottomBorderUILabel* bonus13;
+
+@property(nonatomic,retain) IBOutlet UILabel* instockRBLabel;
+@property(nonatomic,retain) IBOutlet UITextField* instockRBTextField;
+@property(nonatomic,retain) NSMutableDictionary* vansOrderHeader;
+@property(nonatomic,retain) IBOutlet UIButton* priceChangeButton;
+@property(nonatomic,retain) UINavigationController* globalNavigationController;
+
+-(IBAction)textFieldTouched:(id)sender;
+-(IBAction)numberKeyTouched:(id)sender;
+-(IBAction)functionKeyTouched:(id)sender;
+- (IBAction)priceChangeButtonPressed:(id)sender;
+
+-(void)highlightSelectField;
+- (ArcosErrorResult*)productCheckProcedure;
+@end

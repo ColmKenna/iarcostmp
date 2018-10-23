@@ -1,0 +1,14 @@
+//
+//  GetRecordTypeGenericDateObject.h
+//  iArcos
+//
+//  Created by David Kilmartin on 30/05/2016.
+//  Copyright © 2016 Strata IT Limited. All rights reserved.
+//
+
+#import "GetRecordTypeGenericBaseObject.h"
+#import "GlobalSharedClass.h"
+
+@interface GetRecordTypeGenericDateObject : GetRecordTypeGenericBaseObject
+
+@end

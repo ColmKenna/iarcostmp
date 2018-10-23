@@ -1,0 +1,322 @@
+//
+//  CustomerInvoiceDetailsModalViewController.m
+//  Arcos
+//
+//  Created by David Kilmartin on 29/11/2011.
+//  Copyright 2011 Strata IT Limited. All rights reserved.
+//
+
+#import "CustomerInvoiceDetailsModalViewController.h"
+
+
+@implementation CustomerInvoiceDetailsModalViewController
+@synthesize animateDelegate = _animateDelegate;
+@synthesize invoiceDetailListView;
+@synthesize tableHeader;
+@synthesize displayList;
+@synthesize IUR;
+
+@synthesize textView;
+@synthesize employee;
+@synthesize type;
+@synthesize status;
+@synthesize deliveryBy;
+@synthesize number;
+@synthesize date;
+@synthesize ref;
+@synthesize order;
+
+@synthesize comment1;
+@synthesize comment2;
+@synthesize carriage;
+@synthesize goods;
+@synthesize vat;
+@synthesize total;
+
+
+
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    if(self.invoiceDetailListView != nil) { self.invoiceDetailListView = nil; }
+    if(self.tableHeader != nil) { self.tableHeader = nil; }    
+    if (self.displayList != nil) { self.displayList = nil; }
+    if (self.IUR != nil) { self.IUR = nil; }
+    if (callGenericServices != nil) {
+        [callGenericServices release];
+        callGenericServices = nil;
+    }
+    
+    if (self.textView != nil) { self.textView = nil; }
+    if (self.employee != nil) { self.employee = nil; }
+    if (self.type != nil) { self.type = nil; }
+    if (self.status != nil) { self.status = nil; }
+    if (self.deliveryBy != nil) { self.deliveryBy = nil; }
+    if (self.number != nil) { self.number = nil; }
+    if (self.date != nil) { self.date = nil; }
+    if (self.ref != nil) { self.ref = nil; }
+    if (self.order != nil) { self.order = nil; }
+    
+    if (self.comment1 != nil) { self.comment1 = nil; } 
+    if (self.comment2 != nil) { self.comment2 = nil; } 
+    if (self.carriage != nil) { self.carriage = nil; }    
+    if (self.goods != nil) { self.goods = nil; } 
+    if (self.vat != nil) { self.vat = nil; } 
+    if (self.total != nil) { self.total = nil; }
+    [super dealloc];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc that aren't in use.
+}
+
+#pragma mark - View lifecycle
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+    //NSMutableArray* array = [NSMutableArray arrayWithObjects:@"1",@"2",@"3", nil];
+    //self.displayList = array;
+    
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(donePressed:)];
+    
+    [self.navigationItem setLeftBarButtonItem:doneButton];  
+    
+    [doneButton release];
+    
+//    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+//	[dict setObject:@"33.2200" forKey:@"qty"];
+//	[dict setObject:@"Doe" forKey:@"description"];
+//	[dict setObject:@"55.2300" forKey:@"value"];
+//    
+//    self.displayList = [[[NSMutableArray alloc] init] autorelease];
+//    [self.displayList addObject:dict];
+//    [self.displayList addObject:dict];
+//    [self.displayList addObject:dict];
+//    [dict release];
+    
+//    activityIndicator = [ArcosUtils initActivityIndicatorWithView:self.view];
+//    [activityIndicator startAnimating];
+    
+    callGenericServices = [[CallGenericServices alloc] initWithView:self.navigationController.view];
+    callGenericServices.delegate = self;
+    [callGenericServices getRecord:@"Invoice" iur:[self.IUR intValue]];    
+    [ArcosUtils configEdgesForExtendedLayout:self];
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+    if(self.invoiceDetailListView != nil) { self.invoiceDetailListView = nil; }
+    if(self.tableHeader != nil) { self.tableHeader = nil; }
+    
+    if (self.textView != nil) { self.textView = nil; }
+    if (self.employee != nil) { self.employee = nil; }
+    if (self.type != nil) { self.type = nil; }
+    if (self.status != nil) { self.status = nil; }
+    if (self.deliveryBy != nil) { self.deliveryBy = nil; }
+    if (self.number != nil) { self.number = nil; }
+    if (self.date != nil) { self.date = nil; }
+    if (self.ref != nil) { self.ref = nil; }
+    if (self.order != nil) { self.order = nil; }
+                                        
+    if (self.comment1 != nil) { self.comment1 = nil; } 
+    if (self.comment2 != nil) { self.comment2 = nil; } 
+    if (self.carriage != nil) { self.carriage = nil; }    
+    if (self.goods != nil) { self.goods = nil; } 
+    if (self.vat != nil) { self.vat = nil; } 
+    if (self.total != nil) { self.total = nil; }            
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+	return YES;
+}
+
+-(IBAction)donePressed:(id)sender {
+    [self.animateDelegate dismissSlideAcrossViewAnimation];
+}
+
+#pragma mark - Table view data source
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{   
+    // custom view for header. will be adjusted to default or specified header height
+    return tableHeader;
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 44;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 36;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    // Return the number of rows in the section.
+    if (self.displayList != nil) {
+        return [self.displayList count];
+    }else{
+        return 0;
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+     
+    NSString *CellIdentifier = @"IdCustomerInvoiceDetailTableCell";
+    
+    CustomerInvoiceDetailTableCell *cell=(CustomerInvoiceDetailTableCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if(cell == nil) {
+        
+        NSArray* nibContents = [[NSBundle mainBundle] loadNibNamed:@"CustomerInvoiceDetailTableCell" owner:self options:nil];
+        
+        for (id nibItem in nibContents) {
+            if ([nibItem isKindOfClass:[CustomerInvoiceDetailTableCell class]] && [[(CustomerInvoiceDetailTableCell *)nibItem reuseIdentifier] isEqualToString: CellIdentifier]) {
+                cell= (CustomerInvoiceDetailTableCell *) nibItem;
+                
+                //cell.delegate=self;                
+            }
+        }
+	}
+    
+    // Configure the cell...
+    
+    
+    ArcosGenericClass* cellData = [self.displayList objectAtIndex:indexPath.row];
+    cell.qty.text = [ArcosUtils convertZeroToBlank:[cellData Field10]];
+    cell.bonusQty.text = [ArcosUtils convertZeroToBlank:[cellData Field13]];
+    
+    cell.description.text = [cellData Field21];
+    
+    cell.value.text = [ArcosUtils convertToFloatString:[cellData Field11]];
+    
+    return cell;
+}
+
+
+
+/*
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
+
+/*
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source
+ [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+ }   
+ else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }   
+ }
+ */
+
+/*
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+ {
+ }
+ */
+
+/*
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Navigation logic may go here. Create and push another view controller.
+    /*
+     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+     // ...
+     // Pass the selected object to the new view controller.
+     [self.navigationController pushViewController:detailViewController animated:YES];
+     [detailViewController release];
+     */
+}
+
+#pragma mark - GetDataGenericDelegate
+-(void)setGetRecordResult:(ArcosGenericReturnObject*) result {
+    NSLog(@"set result happens in customer invoice details");
+    if (result == nil) {
+//        [activityIndicator stopAnimating];
+        return;
+    }
+    if (result.ErrorModel.Code > 0) {
+       
+        ArcosGenericClass* replyResult = [result.ArrayOfData objectAtIndex:0];
+        NSMutableString* textViewString = [[NSMutableString alloc] init];
+        
+        [textViewString appendString:[NSString stringWithFormat:@"%@\n", [replyResult Field3]]];        
+        [textViewString appendString:[NSString stringWithFormat:@"%@\n", [ArcosUtils convertNilToEmpty:[replyResult Field4]]]];
+        [textViewString appendString:[NSString stringWithFormat:@"%@\n", [ArcosUtils convertNilToEmpty:[replyResult Field5]]]];
+        [textViewString appendString:[NSString stringWithFormat:@"%@\n", [ArcosUtils convertNilToEmpty:[replyResult Field6]]]];
+        [textViewString appendString:[NSString stringWithFormat:@"%@\n", [ArcosUtils convertNilToEmpty:[replyResult Field7]]]];
+        [textViewString appendString:[NSString stringWithFormat:@"%@\n", [ArcosUtils convertNilToEmpty:[replyResult Field8]]]];
+        
+        self.textView.text = textViewString;
+        [textViewString release];
+        self.employee.text = [replyResult Field10];
+        self.type.text = [replyResult Field12];
+        self.status.text = [replyResult Field15];
+        self.deliveryBy.text = [replyResult Field14];        
+        self.number.text = [replyResult Field18];
+        self.date.text = [ArcosUtils convertDatetimeToDate:[replyResult Field17]];
+        self.ref.text = [replyResult Field24];
+        self.order.text = [replyResult Field16];
+        
+        self.comment1.text = [replyResult Field19];
+        self.comment2.text = [replyResult Field20];
+        self.carriage.text = [ArcosUtils convertToFloatString:[replyResult Field23]];
+        self.goods.text = [ArcosUtils convertToFloatString:[replyResult Field21]];
+        self.vat.text = [ArcosUtils convertToFloatString:[replyResult Field22]];
+        self.total.text = [NSString stringWithFormat:@"%.2f", [[replyResult Field21] floatValue] + [[replyResult Field22] floatValue]];        
+        self.displayList = replyResult.SubObjects;
+        [self.invoiceDetailListView reloadData];
+
+    } else if(result.ErrorModel.Code <= 0) {
+        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:self];
+        
+    }
+//    [activityIndicator stopAnimating];    
+}
+
+@end

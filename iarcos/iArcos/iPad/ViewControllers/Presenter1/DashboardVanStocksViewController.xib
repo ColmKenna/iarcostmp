@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="11762" systemVersion="16E195" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DashboardVanStocksViewController">
+            <connections>
+                <outlet property="dashboardVanStocksHeaderView" destination="elG-F6-Gs6" id="S1o-uz-cPA"/>
+                <outlet property="mainCellSeparator" destination="vtB-Kw-06P" id="3bo-lg-h0M"/>
+                <outlet property="orderButton" destination="eiS-I0-T2R" id="rNe-xf-N0J"/>
+                <outlet property="progressBar" destination="Y7l-8v-qpd" id="eOJ-Q8-Hg1"/>
+                <outlet property="updateVanStockButton" destination="Gnw-8C-8Sl" id="CIz-sa-zXl"/>
+                <outlet property="vanStockTableView" destination="aBN-ou-Aqb" id="aKA-b4-06C"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aBN-ou-Aqb">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="557"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="cGU-M8-Z0X"/>
+                        <outlet property="delegate" destination="-1" id="jHv-Fw-1n0"/>
+                    </connections>
+                </tableView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vtB-Kw-06P" customClass="HorizontalBlueSeparatorUILabel">
+                    <rect key="frame" x="0.0" y="556" width="375" height="1"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="Cfn-yN-4VR"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="1" translatesAutoresizingMaskIntoConstraints="NO" id="Y7l-8v-qpd">
+                    <rect key="frame" x="100" y="645" width="175" height="2"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="2" id="p9S-QN-0gM"/>
+                    </constraints>
+                </progressView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eiS-I0-T2R">
+                    <rect key="frame" x="194" y="595" width="81" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="81" id="AhX-zS-mVn"/>
+                        <constraint firstAttribute="height" constant="30" id="rsA-lA-ahK"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" title="ORDER">
+                        <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="orderButtonPressed:" destination="-1" eventType="touchUpInside" id="c2y-g6-cfd"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gnw-8C-8Sl">
+                    <rect key="frame" x="100" y="595" width="200" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="Q5i-Zk-iGW"/>
+                        <constraint firstAttribute="width" constant="200" id="Y4t-co-Jhw"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" title="UPDATE VAN STOCK">
+                        <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="updateVanStockButtonPressed:" destination="-1" eventType="touchUpInside" id="FZF-uz-nQL"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Y7l-8v-qpd" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="100" id="65T-x4-Vgv"/>
+                <constraint firstAttribute="trailing" secondItem="Y7l-8v-qpd" secondAttribute="trailing" constant="100" id="8i3-KC-Joe"/>
+                <constraint firstAttribute="trailing" secondItem="aBN-ou-Aqb" secondAttribute="trailing" id="EnD-Kc-9TC"/>
+                <constraint firstItem="aBN-ou-Aqb" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Gg3-Xd-sIf"/>
+                <constraint firstAttribute="trailing" secondItem="vtB-Kw-06P" secondAttribute="trailing" id="Ov6-ah-nwf"/>
+                <constraint firstItem="Gnw-8C-8Sl" firstAttribute="top" secondItem="aBN-ou-Aqb" secondAttribute="bottom" constant="38" id="USP-xU-kSi"/>
+                <constraint firstItem="aBN-ou-Aqb" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="V2z-li-fvE"/>
+                <constraint firstItem="Gnw-8C-8Sl" firstAttribute="leading" secondItem="Y7l-8v-qpd" secondAttribute="leading" id="ZTp-1r-ztn"/>
+                <constraint firstItem="eiS-I0-T2R" firstAttribute="trailing" secondItem="Y7l-8v-qpd" secondAttribute="trailing" id="cxm-oB-YwX"/>
+                <constraint firstAttribute="bottom" secondItem="Y7l-8v-qpd" secondAttribute="bottom" constant="20" id="fkA-qC-eDq"/>
+                <constraint firstItem="Gnw-8C-8Sl" firstAttribute="top" secondItem="vtB-Kw-06P" secondAttribute="bottom" constant="38" id="loF-Nr-uUJ"/>
+                <constraint firstItem="Y7l-8v-qpd" firstAttribute="top" secondItem="Gnw-8C-8Sl" secondAttribute="bottom" constant="20" id="ujl-IQ-7cc"/>
+                <constraint firstItem="vtB-Kw-06P" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="vEL-CS-qzQ"/>
+                <constraint firstItem="eiS-I0-T2R" firstAttribute="bottom" secondItem="Gnw-8C-8Sl" secondAttribute="bottom" id="zDR-fZ-L6V"/>
+            </constraints>
+            <point key="canvasLocation" x="25" y="53"/>
+        </view>
+        <view contentMode="scaleToFill" id="elG-F6-Gs6" customClass="DashboardVanStocksHeaderView">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="CODE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="twP-EK-09P">
+                    <rect key="frame" x="2" y="1" width="78" height="43"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.1176470588" green="0.56470588239999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="DESCRIPTION" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Um-aX-R6w" customClass="LeftBlueSeparatorUILabel">
+                    <rect key="frame" x="83" y="1" width="410" height="43"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.1176470588" green="0.56470588239999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="SIZE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jgQ-eY-ch9" customClass="LeftBlueSeparatorUILabel">
+                    <rect key="frame" x="496" y="1" width="78" height="43"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.1176470588" green="0.56470588239999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="IDEAL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9BU-7r-311" customClass="LeftBlueSeparatorUILabel">
+                    <rect key="frame" x="577" y="1" width="93" height="43"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.1176470588" green="0.56470588239999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="INVAN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IkJ-jD-Yq5" customClass="LeftBlueSeparatorUILabel">
+                    <rect key="frame" x="673" y="1" width="93" height="43"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.1176470588" green="0.56470588239999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1sk-8R-hkJ" customClass="HorizontalBlueSeparatorUILabel">
+                    <rect key="frame" x="0.0" y="44" width="768" height="1"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="cellSeparator" destination="1sk-8R-hkJ" id="JU4-0x-sdn"/>
+                <outlet property="descLabel" destination="0Um-aX-R6w" id="B0P-Ma-f4T"/>
+                <outlet property="idealLabel" destination="9BU-7r-311" id="RuH-eL-Lww"/>
+                <outlet property="inVanLabel" destination="IkJ-jD-Yq5" id="Vbc-a1-eYj"/>
+                <outlet property="productCodeLabel" destination="twP-EK-09P" id="jGy-yp-YgO"/>
+                <outlet property="productSizeLabel" destination="jgQ-eY-ch9" id="Elw-DK-yFI"/>
+            </connections>
+            <point key="canvasLocation" x="33" y="477"/>
+        </view>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
+    </simulatedMetricsContainer>
+</document>

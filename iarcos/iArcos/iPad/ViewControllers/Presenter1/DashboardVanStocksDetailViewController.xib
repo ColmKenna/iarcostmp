@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="11762" systemVersion="16E195" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="ipad9_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DashboardVanStocksDetailViewController">
+            <connections>
+                <outlet property="descriptionLabel" destination="Ews-yr-sfD" id="QM7-OS-hkn"/>
+                <outlet property="myNavigationBar" destination="Iqz-2u-rjO" id="HKm-oJ-BUH"/>
+                <outlet property="myTableView" destination="7Qg-vL-kle" id="zyd-cG-424"/>
+                <outlet property="productCodeLabel" destination="1uF-P4-xf8" id="TVU-Yr-fkw"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="470" height="283"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iqz-2u-rjO">
+                    <rect key="frame" x="0.0" y="0.0" width="470" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="R85-jI-fia"/>
+                    </constraints>
+                </navigationBar>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1uF-P4-xf8">
+                    <rect key="frame" x="15" y="2" width="402" height="19"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="19" id="fdV-3Z-duu"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ews-yr-sfD">
+                    <rect key="frame" x="15" y="21" width="402" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="19j-ih-RKL"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="7Qg-vL-kle">
+                    <rect key="frame" x="0.0" y="44" width="470" height="239"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="gra-fa-maa"/>
+                        <outlet property="delegate" destination="-1" id="1ZV-Ml-Qjf"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Ews-yr-sfD" firstAttribute="top" secondItem="1uF-P4-xf8" secondAttribute="bottom" id="AXc-IH-Lny"/>
+                <constraint firstAttribute="trailing" secondItem="7Qg-vL-kle" secondAttribute="trailing" id="DJX-vN-cEl"/>
+                <constraint firstItem="1uF-P4-xf8" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="2" id="F8P-zj-6F8"/>
+                <constraint firstItem="Iqz-2u-rjO" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="MLe-Bi-fkV"/>
+                <constraint firstItem="Ews-yr-sfD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="RhO-p9-WaR"/>
+                <constraint firstItem="7Qg-vL-kle" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="WzS-OM-euo"/>
+                <constraint firstAttribute="trailing" secondItem="1uF-P4-xf8" secondAttribute="trailing" constant="53" id="e6M-Gp-i1D"/>
+                <constraint firstAttribute="bottom" secondItem="7Qg-vL-kle" secondAttribute="bottom" id="eFP-8U-ljw"/>
+                <constraint firstAttribute="trailing" secondItem="Iqz-2u-rjO" secondAttribute="trailing" id="eWF-lJ-Nlq"/>
+                <constraint firstItem="7Qg-vL-kle" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="44" id="fH9-eH-tda"/>
+                <constraint firstItem="1uF-P4-xf8" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="iJU-n7-TkK"/>
+                <constraint firstItem="Iqz-2u-rjO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="rKZ-jv-bE3"/>
+                <constraint firstAttribute="trailing" secondItem="Ews-yr-sfD" secondAttribute="trailing" constant="53" id="wcb-0a-i1I"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="61" y="30"/>
+        </view>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
+</document>

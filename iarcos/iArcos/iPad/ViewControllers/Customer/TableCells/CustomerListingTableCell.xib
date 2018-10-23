@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="IdCustomerListingTableCell" id="is9-Wn-nkI" customClass="CustomerListingTableCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="is9-Wn-nkI" id="fgJ-UZ-VhC">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o4t-FW-a6L">
+                        <rect key="frame" x="15" y="4" width="306" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="3wm-gv-TNQ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NUd-ld-mo3">
+                        <rect key="frame" x="15" y="25" width="356" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="aTu-J3-pjv"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fk7-mg-3Lf">
+                        <rect key="frame" x="325" y="4" width="21" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="0gW-3y-Lap"/>
+                            <constraint firstAttribute="width" constant="21" id="fFU-MO-Ynh"/>
+                        </constraints>
+                    </button>
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5pL-uf-k09">
+                        <rect key="frame" x="350" y="4" width="21" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="21" id="5cf-r7-2yl"/>
+                            <constraint firstAttribute="height" constant="21" id="Eey-8V-MN6"/>
+                        </constraints>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="5pL-uf-k09" firstAttribute="leading" secondItem="fk7-mg-3Lf" secondAttribute="trailing" constant="4" id="2sS-jc-l9Y"/>
+                    <constraint firstItem="fk7-mg-3Lf" firstAttribute="top" secondItem="fgJ-UZ-VhC" secondAttribute="top" constant="4" id="4f1-NY-lOd"/>
+                    <constraint firstItem="o4t-FW-a6L" firstAttribute="leading" secondItem="fgJ-UZ-VhC" secondAttribute="leading" constant="15" id="KPG-cH-wXk"/>
+                    <constraint firstItem="o4t-FW-a6L" firstAttribute="top" secondItem="fgJ-UZ-VhC" secondAttribute="top" constant="4" id="L1E-yy-dCw"/>
+                    <constraint firstItem="fk7-mg-3Lf" firstAttribute="leading" secondItem="o4t-FW-a6L" secondAttribute="trailing" constant="4" id="iXi-VT-AKM"/>
+                    <constraint firstAttribute="trailing" secondItem="5pL-uf-k09" secondAttribute="trailing" constant="4" id="lu6-n0-AxL"/>
+                    <constraint firstItem="NUd-ld-mo3" firstAttribute="leading" secondItem="fgJ-UZ-VhC" secondAttribute="leading" constant="15" id="oCO-bx-31e"/>
+                    <constraint firstItem="NUd-ld-mo3" firstAttribute="top" secondItem="o4t-FW-a6L" secondAttribute="bottom" id="pVa-nT-cx1"/>
+                    <constraint firstItem="5pL-uf-k09" firstAttribute="top" secondItem="fgJ-UZ-VhC" secondAttribute="top" constant="4" id="rds-dw-UjM"/>
+                    <constraint firstAttribute="trailing" secondItem="NUd-ld-mo3" secondAttribute="trailing" constant="4" id="vjl-ca-1Ti"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="addressLabel" destination="NUd-ld-mo3" id="DqW-3l-O9V"/>
+                <outlet property="creditStatusButton" destination="5pL-uf-k09" id="WxI-V3-cKb"/>
+                <outlet property="locationStatusButton" destination="fk7-mg-3Lf" id="aVR-AN-rHc"/>
+                <outlet property="nameLabel" destination="o4t-FW-a6L" id="Ly3-Le-XvW"/>
+            </connections>
+            <point key="canvasLocation" x="27" y="52"/>
+        </tableViewCell>
+    </objects>
+</document>

@@ -1,0 +1,29 @@
+//
+//  CustomerSurveyListTableCell.h
+//  Arcos
+//
+//  Created by David Kilmartin on 10/02/2012.
+//  Copyright (c) 2012 Strata IT Limited. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "CustomerSurveyBaseTableCell.h"
+#import "WidgetFactory.h"
+#import "ArcosUtils.h"
+
+@interface CustomerSurveyListTableCell : CustomerSurveyBaseTableCell<WidgetFactoryDelegate, UIPopoverControllerDelegate> {
+    UILabel* narrative;
+    IBOutlet UILabel* surveyTitle;
+    //widget factory
+    WidgetFactory* _factory;
+    UIPopoverController* _thePopover;
+}
+
+@property(nonatomic, retain) IBOutlet UILabel* narrative;
+@property(nonatomic, retain) IBOutlet UILabel* surveyTitle;
+@property(nonatomic,retain) WidgetFactory* factory;
+@property(nonatomic,retain) UIPopoverController* thePopover;
+
+-(void)handleSingleTapGesture:(id)sender;
+-(void)handleSingleTapGesture4Narrative:(id)sender;
+@end

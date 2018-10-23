@@ -1,0 +1,14 @@
+//
+//  CustomerSurveyLoadAnswerDataManager.h
+//  iArcos
+//
+//  Created by David Kilmartin on 16/08/2016.
+//  Copyright © 2016 Strata IT Limited. All rights reserved.
+//
+
+#import "CustomerSurveyInnerBaseDataManager.h"
+
+@interface CustomerSurveyLoadAnswerDataManager : CustomerSurveyInnerBaseDataManager
+
+
+@end

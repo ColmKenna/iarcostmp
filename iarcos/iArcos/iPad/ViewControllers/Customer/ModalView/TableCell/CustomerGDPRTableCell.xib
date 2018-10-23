@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="IdCustomerGDPRTableCell" id="hKq-cy-rR6" customClass="CustomerGDPRTableCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hKq-cy-rR6" id="4t7-Qw-Ddt">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Withdraw" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eR9-0n-MPn">
+                        <rect key="frame" x="232" y="11" width="90" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="JH4-Zh-STp"/>
+                            <constraint firstAttribute="width" constant="90" id="N6R-a9-Tsy"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vbx-q8-N9C">
+                        <rect key="frame" x="330" y="6" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="Mw5-PT-l9b"/>
+                            <constraint firstAttribute="height" constant="30" id="hb1-f7-Gt2"/>
+                        </constraints>
+                        <state key="normal" image="record_off.png"/>
+                        <connections>
+                            <action selector="radioButtonPressed:" destination="hKq-cy-rR6" eventType="touchUpInside" id="sy8-X2-wOp"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="vbx-q8-N9C" firstAttribute="leading" secondItem="eR9-0n-MPn" secondAttribute="trailing" constant="8" id="1CU-4T-UlI"/>
+                    <constraint firstItem="eR9-0n-MPn" firstAttribute="top" secondItem="4t7-Qw-Ddt" secondAttribute="top" constant="11" id="CCq-Q5-zBX"/>
+                    <constraint firstItem="vbx-q8-N9C" firstAttribute="top" secondItem="4t7-Qw-Ddt" secondAttribute="top" constant="6" id="DKa-xx-Ilf"/>
+                    <constraint firstAttribute="trailing" secondItem="vbx-q8-N9C" secondAttribute="trailing" constant="15" id="Ffp-mF-e6M"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="fieldDesc" destination="eR9-0n-MPn" id="lQV-g7-7al"/>
+                <outlet property="radioButton" destination="vbx-q8-N9C" id="nw6-13-Eh2"/>
+            </connections>
+            <point key="canvasLocation" x="-66.5" y="52"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="record_off.png" width="30" height="30"/>
+    </resources>
+</document>

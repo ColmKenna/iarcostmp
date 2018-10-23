@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CompanySetting</key>
+	<dict>
+		<key>Connection</key>
+		<array>
+			<dict>
+				<key>Label</key>
+				<string>CompanyIUR</string>
+				<key>SettingType</key>
+				<integer>1</integer>
+				<key>Value</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Service Location</string>
+				<key>SettingType</key>
+				<integer>0</integer>
+				<key>Value</key>
+				<string>http://ec2-54-76-208-97.eu-west-1.compute.amazonaws.com:1060/service.asmx</string>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Host Location</string>
+				<key>SettingType</key>
+				<integer>0</integer>
+				<key>Value</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>SQL Name</string>
+				<key>SettingType</key>
+				<integer>0</integer>
+				<key>Value</key>
+				<string>AD00</string>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>SQL Username</string>
+				<key>SettingType</key>
+				<integer>0</integer>
+				<key>Value</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>SQL Password</string>
+				<key>SettingType</key>
+				<integer>0</integer>
+				<key>Value</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>PresenterURL</string>
+				<key>SettingType</key>
+				<integer>0</integer>
+				<key>Value</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Arcos Admin Email</string>
+				<key>SettingType</key>
+				<integer>0</integer>
+				<key>Value</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>System Codes</string>
+				<key>SettingType</key>
+				<integer>0</integer>
+				<key>Value</key>
+				<string>[WSR]</string>
+			</dict>
+		</array>
+		<key>Default Types</key>
+		<array>
+			<dict>
+				<key>Label</key>
+				<string>Location Type</string>
+				<key>SettingType</key>
+				<integer>3</integer>
+				<key>Value</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Contact Type</string>
+				<key>SettingType</key>
+				<integer>3</integer>
+				<key>Value</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Call Type</string>
+				<key>SettingType</key>
+				<integer>3</integer>
+				<key>Value</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Order Status</string>
+				<key>SettingType</key>
+				<integer>3</integer>
+				<key>Value</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Order Type</string>
+				<key>SettingType</key>
+				<integer>3</integer>
+				<key>Value</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Sent Order Status</string>
+				<key>SettingType</key>
+				<integer>3</integer>
+				<key>Value</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Wholesaler Type IUR</string>
+				<key>SettingType</key>
+				<integer>3</integer>
+				<key>Value</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Form IUR</string>
+				<key>SettingType</key>
+				<integer>3</integer>
+				<key>Value</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Memo IUR</string>
+				<key>SettingType</key>
+				<integer>3</integer>
+				<key>Value</key>
+				<integer>0</integer>
+			</dict>
+		</array>
+		<key>Display</key>
+		<array>
+			<dict>
+				<key>Label</key>
+				<string>Display Inactive Record</string>
+				<key>SettingType</key>
+				<integer>2</integer>
+				<key>Value</key>
+				<false/>
+			</dict>
+		</array>
+		<key>Download</key>
+		<array>
+			<dict>
+				<key>Label</key>
+				<string>Own Locations Only</string>
+				<key>SettingType</key>
+				<integer>2</integer>
+				<key>Value</key>
+				<true/>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Own Contact Only</string>
+				<key>SettingType</key>
+				<integer>2</integer>
+				<key>Value</key>
+				<true/>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Active Locations Only</string>
+				<key>SettingType</key>
+				<integer>2</integer>
+				<key>Value</key>
+				<true/>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Active Products Only</string>
+				<key>SettingType</key>
+				<integer>2</integer>
+				<key>Value</key>
+				<true/>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Active Forms Only</string>
+				<key>SettingType</key>
+				<integer>2</integer>
+				<key>Value</key>
+				<true/>
+			</dict>
+		</array>
+		<key>Order Processing</key>
+		<array>
+			<dict>
+				<key>Label</key>
+				<string>Send Transfer Orders</string>
+				<key>SettingType</key>
+				<integer>2</integer>
+				<key>Value</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Allow Discount</string>
+				<key>SettingType</key>
+				<integer>2</integer>
+				<key>Value</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Next Order Number</string>
+				<key>SettingType</key>
+				<integer>1</integer>
+				<key>Value</key>
+				<integer>1000</integer>
+			</dict>
+		</array>
+	</dict>
+	<key>PersonalSetting</key>
+	<dict>
+		<key>Personal</key>
+		<array>
+			<dict>
+				<key>Label</key>
+				<string>EmployeeIUR</string>
+				<key>SettingType</key>
+				<integer>1</integer>
+				<key>Value</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Target for Week</string>
+				<key>SettingType</key>
+				<integer>1</integer>
+				<key>Value</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Target for Month</string>
+				<key>SettingType</key>
+				<integer>1</integer>
+				<key>Value</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>Label</key>
+				<string>Target for Year</string>
+				<key>SettingType</key>
+				<integer>1</integer>
+				<key>Value</key>
+				<integer>0</integer>
+			</dict>
+		</array>
+	</dict>
+</dict>
+</plist>
