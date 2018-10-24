@@ -106,7 +106,7 @@
     [super viewDidLoad];
     needVPNCheck=NO;
     
-    self.title=@"Update Center V4.0";
+    self.title=[NSString stringWithFormat:@"Update Center V%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
     
     self.tableView.allowsSelection=NO;
     // Uncomment the following line to preserve selection between presentations.
