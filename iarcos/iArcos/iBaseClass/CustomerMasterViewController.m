@@ -25,13 +25,14 @@
 @synthesize subMenuTableViewController = _subMenuTableViewController;
 @synthesize currentIndexPath = _currentIndexPath;
 @synthesize isNotFirstLoaded = _isNotFirstLoaded;
-@synthesize myHeaderButton = _myHeaderButton;
-@synthesize myHeaderView = _myHeaderView;
+//@synthesize myHeaderButton = _myHeaderButton;
+//@synthesize myHeaderView = _myHeaderView;
 @synthesize selectedSubMenuTableViewController = _selectedSubMenuTableViewController;
 @synthesize subMenuPlaceHolderTableViewController = _subMenuPlaceHolderTableViewController;
 @synthesize subMenuListingTableViewController = _subMenuListingTableViewController;
 @synthesize scanApiHelper = _scanApiHelper;
 @synthesize scanApiTimer = _scanApiTimer;
+@synthesize customerMasterMainHeaderViewController = _customerMasterMainHeaderViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,6 +40,7 @@
     if (self) {
         // Custom initialization
         self.customerMasterDataManager = [[[CustomerMasterDataManager alloc] init] autorelease];
+        self.customerMasterMainHeaderViewController = [[[CustomerMasterMainHeaderViewController alloc] initWithNibName:@"CustomerMasterMainHeaderViewController" bundle:nil] autorelease];
     }
     return self;
 }
@@ -55,9 +57,9 @@
     [self.subMenuTableViewController removeFromParentViewController];
     self.subMenuTableViewController = nil;
     self.currentIndexPath = nil;
-    [self.myHeaderView removeFromSuperview];
-    self.myHeaderButton = nil;
-    self.myHeaderView = nil;
+//    [self.myHeaderView removeFromSuperview];
+//    self.myHeaderButton = nil;
+//    self.myHeaderView = nil;
     self.selectedSubMenuTableViewController = nil;
     self.subMenuPlaceHolderTableViewController = nil;
     self.subMenuListingTableViewController = nil;
@@ -65,6 +67,8 @@
     self.scanApiHelper = nil;
     [self.scanApiTimer invalidate];
     self.scanApiTimer = nil;
+    [self.customerMasterMainHeaderViewController.view removeFromSuperview];
+    self.customerMasterMainHeaderViewController = nil;
     
     [super dealloc];
 }
@@ -88,8 +92,12 @@
         companyImage = [UIImage imageNamed:[GlobalSharedClass shared].appImageName];
     }
     
-    [self.myHeaderButton setBackgroundImage:companyImage forState:UIControlStateNormal];
-    [self.navigationController.navigationBar addSubview:self.myHeaderView];
+//    [self.myHeaderButton setBackgroundImage:companyImage forState:UIControlStateNormal];
+//    [self.myHeaderView setTranslatesAutoresizingMaskIntoConstraints:NO];
+//    [self.navigationController.navigationBar addSubview:self.myHeaderView];
+    [self.navigationController.navigationBar addSubview:self.customerMasterMainHeaderViewController.view];
+    [self.customerMasterMainHeaderViewController.myHeaderButton setBackgroundImage:companyImage forState:UIControlStateNormal];
+    self.customerMasterMainHeaderViewController.view.frame = CGRectMake(0, 0, 64, self.navigationController.navigationBar.frame.size.height);
     [self createScanApiRelevantObject];
 }
 

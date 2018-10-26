@@ -1179,6 +1179,8 @@
 		636775221F5EB7C100E28D94 /* DashboardVanStocksDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 636775201F5EB7C100E28D94 /* DashboardVanStocksDetailViewController.xib */; };
 		636BAC3D1FEA81380034FAD1 /* CustomerSurveyPreviewDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 636BAC3C1FEA81380034FAD1 /* CustomerSurveyPreviewDataManager.m */; };
 		6370809F1AEA4DF1007A63C4 /* UtilitiesConfigurationDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6370809E1AEA4DF1007A63C4 /* UtilitiesConfigurationDataManager.m */; };
+		63787682218325770088BB36 /* CustomerMasterMainHeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63787680218325770088BB36 /* CustomerMasterMainHeaderViewController.m */; };
+		63787683218325770088BB36 /* CustomerMasterMainHeaderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63787681218325770088BB36 /* CustomerMasterMainHeaderViewController.xib */; };
 		6378CB8E1CB54A0300A1E904 /* DownloadFunctionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6378CB8D1CB54A0300A1E904 /* DownloadFunctionTableViewCell.m */; };
 		6378CB911CB54A3100A1E904 /* UploadFunctionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6378CB901CB54A3100A1E904 /* UploadFunctionTableViewCell.m */; };
 		637CA1661C0C698B00978A1B /* ArcosAuxiliaryDataProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 637CA1651C0C698B00978A1B /* ArcosAuxiliaryDataProcessor.m */; };
@@ -3737,6 +3739,9 @@
 		636BAC3C1FEA81380034FAD1 /* CustomerSurveyPreviewDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerSurveyPreviewDataManager.m; sourceTree = "<group>"; };
 		6370809D1AEA4DF1007A63C4 /* UtilitiesConfigurationDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilitiesConfigurationDataManager.h; sourceTree = "<group>"; };
 		6370809E1AEA4DF1007A63C4 /* UtilitiesConfigurationDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtilitiesConfigurationDataManager.m; sourceTree = "<group>"; };
+		6378767F218325770088BB36 /* CustomerMasterMainHeaderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerMasterMainHeaderViewController.h; sourceTree = "<group>"; };
+		63787680218325770088BB36 /* CustomerMasterMainHeaderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerMasterMainHeaderViewController.m; sourceTree = "<group>"; };
+		63787681218325770088BB36 /* CustomerMasterMainHeaderViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomerMasterMainHeaderViewController.xib; sourceTree = "<group>"; };
 		6378CB8C1CB54A0300A1E904 /* DownloadFunctionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadFunctionTableViewCell.h; sourceTree = "<group>"; };
 		6378CB8D1CB54A0300A1E904 /* DownloadFunctionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadFunctionTableViewCell.m; sourceTree = "<group>"; };
 		6378CB8F1CB54A3100A1E904 /* UploadFunctionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadFunctionTableViewCell.h; sourceTree = "<group>"; };
@@ -7450,6 +7455,9 @@
 				6339CA861A00EF4000C88626 /* ArcosStackedViewController.xib */,
 				631555111A239D9B00E62795 /* SubMenuListingDataManager.h */,
 				631555121A239D9B00E62795 /* SubMenuListingDataManager.m */,
+				6378767F218325770088BB36 /* CustomerMasterMainHeaderViewController.h */,
+				63787680218325770088BB36 /* CustomerMasterMainHeaderViewController.m */,
+				63787681218325770088BB36 /* CustomerMasterMainHeaderViewController.xib */,
 			);
 			path = iBaseClass;
 			sourceTree = "<group>";
@@ -8199,6 +8207,7 @@
 				630B3E0719F01CB9007B2442 /* Order.png in Resources */,
 				632E6BBC19F7B1220076B819 /* GenericMasterTemplateViewController.xib in Resources */,
 				630B3C5D19F01CB9007B2442 /* MATFormRowsTableViewController.xib in Resources */,
+				63787683218325770088BB36 /* CustomerMasterMainHeaderViewController.xib in Resources */,
 				633498EC1A403D5000441515 /* CustomerInfoHeaderViewController.xib in Resources */,
 				630B3B3F19F01CB9007B2442 /* CustomerInfoViewController.xib in Resources */,
 				630B3CD319F01CB9007B2442 /* ReportCustomCells.xib in Resources */,
@@ -9106,6 +9115,7 @@
 				633F7E6D1A12149400855823 /* OrderlinesIarcosSplitQtyBonusTableViewCell.m in Sources */,
 				637F64631CCA76BE00FF80B7 /* ArcosBorderUIButton.m in Sources */,
 				630B3DCC19F01CB9007B2442 /* CXMLDocument_PrivateExtensions.m in Sources */,
+				63787682218325770088BB36 /* CustomerMasterMainHeaderViewController.m in Sources */,
 				630B3CCC19F01CB9007B2442 /* ReportParser.m in Sources */,
 				630B3C8D19F01CB9007B2442 /* SavedOrderTableCell.m in Sources */,
 				63A00B351D6F4C25000078A9 /* NextCheckoutAccountTableViewCell.m in Sources */,

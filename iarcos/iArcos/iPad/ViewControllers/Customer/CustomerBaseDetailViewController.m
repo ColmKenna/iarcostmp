@@ -271,7 +271,7 @@
         }
     }
     ArcosRootViewController* arcosRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
-    [arcosRootViewController.customerMasterViewController.myHeaderButton setBackgroundImage:wholesalerImage forState:UIControlStateNormal];
+    [arcosRootViewController.customerMasterViewController.customerMasterMainHeaderViewController.myHeaderButton setBackgroundImage:wholesalerImage forState:UIControlStateNormal];
 }
 
 - (void)syncCustomerContactViewController {

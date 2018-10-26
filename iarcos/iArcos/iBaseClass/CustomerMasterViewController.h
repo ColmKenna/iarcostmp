@@ -15,6 +15,7 @@
 #import "SubMenuListingTableViewController.h"
 #import "ArcosConfigDataManager.h"
 #import "ScanApiHelper.h"
+#import "CustomerMasterMainHeaderViewController.h"
 
 @interface CustomerMasterViewController : UIViewController <SubMenuTableViewControllerDelegate, CustomerMasterViewControllerDelegate, ScanApiHelperDelegate> {
     id<CustomerMasterViewControllerDelegate> _actionDelegate;
@@ -27,13 +28,14 @@
     SubMenuTableViewController* _subMenuTableViewController;
     NSIndexPath* _currentIndexPath;
     BOOL _isNotFirstLoaded;
-    UIButton* _myHeaderButton;
-    UIView* _myHeaderView;
+//    UIButton* _myHeaderButton;
+//    UIView* _myHeaderView;
     SubMenuTableViewController* _selectedSubMenuTableViewController;
     SubMenuTableViewController* _subMenuPlaceHolderTableViewController;
     SubMenuListingTableViewController* _subMenuListingTableViewController;
     ScanApiHelper* _scanApiHelper;
     NSTimer* _scanApiTimer;
+    CustomerMasterMainHeaderViewController* _customerMasterMainHeaderViewController;
 }
 
 @property(nonatomic,assign) id<CustomerMasterViewControllerDelegate> actionDelegate;
@@ -46,13 +48,14 @@
 @property(nonatomic, retain) SubMenuTableViewController* subMenuTableViewController;
 @property(nonatomic, retain) NSIndexPath* currentIndexPath;
 @property(nonatomic,assign) BOOL isNotFirstLoaded;
-@property(nonatomic, retain) IBOutlet UIButton* myHeaderButton;
-@property(nonatomic, retain) IBOutlet UIView* myHeaderView;
+//@property(nonatomic, retain) IBOutlet UIButton* myHeaderButton;
+//@property(nonatomic, retain) IBOutlet UIView* myHeaderView;
 @property(nonatomic, retain) SubMenuTableViewController* selectedSubMenuTableViewController;
 @property(nonatomic, retain) SubMenuTableViewController* subMenuPlaceHolderTableViewController;
 @property(nonatomic, retain) SubMenuListingTableViewController* subMenuListingTableViewController;
 @property (nonatomic,retain) ScanApiHelper* scanApiHelper;
 @property (nonatomic,assign) NSTimer* scanApiTimer;
+@property(nonatomic, retain) CustomerMasterMainHeaderViewController* customerMasterMainHeaderViewController;
 
 
 - (void)showSubMenuByCustomerListing;
