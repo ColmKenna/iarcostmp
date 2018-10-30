@@ -192,6 +192,7 @@
     if ([myTitle isEqualToString:self.orderTitle]) {
         if (![self.subMenuListingDataManager checkLocationCode]) return;
         if (![self.subMenuListingDataManager checkCreditStatus]) return;
+        if (![self.subMenuListingDataManager checkDialUpNumber]) return;
     }
     self.currentIndexPath = anIndexPath;
     [self selectCurrentIndexPathRow:anIndexPath];

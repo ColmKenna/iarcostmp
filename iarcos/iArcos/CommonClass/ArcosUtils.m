@@ -803,5 +803,42 @@
     return image;
 }
 
++ (void)configDetailsColorWithLabel:(UILabel*)aLabel active:(NSNumber*)anActive stockAvailable:(NSNumber*)aStockAvailable bonusBy:(NSNumber*)aBonusBy {
+    if (![anActive boolValue]) {
+        aLabel.textColor = [UIColor colorWithRed:13.0/255.0 green:152.0/255.0 blue:186.0/255.0 alpha:0.5];
+    } else if (aStockAvailable != nil && [aStockAvailable intValue] == 0) {
+        aLabel.textColor = [UIColor lightGrayColor];
+    } else if ([aBonusBy intValue] != 78) {
+        switch ([aBonusBy intValue]) {
+            case 82: {//Red
+                aLabel.textColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0];
+            }
+                break;
+            case 71: {//Green
+                aLabel.textColor = [UIColor colorWithRed:0.0 green:128.0/255.0 blue:0.0 alpha:1.0];
+            }
+                break;
+            case 66: {//Blue
+                aLabel.textColor = [UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:1.0];
+            }
+                break;
+            case 79: {//Orange
+                aLabel.textColor = [UIColor colorWithRed:1.0 green:165.0/255.0 blue:0.0 alpha:1.0];
+            }
+                break;
+            case 80: {//Pink
+                aLabel.textColor = [UIColor colorWithRed:1.0 green:192.0/255.0 blue:203.0/255.0 alpha:1.0];
+            }
+                break;
+            default: {
+                aLabel.textColor = [UIColor blackColor];
+            }
+                break;
+        }
+    } else {
+        aLabel.textColor = [UIColor blackColor];
+    }
+}
+
 
 @end

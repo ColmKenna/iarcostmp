@@ -373,15 +373,16 @@
     NSNumber* bonusBy = [cell.cellFormRowData objectForKey:@"Bonusby"];
     NSNumber* stockAvailable = [ArcosUtils convertStringToNumber:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:cellData.Field22]]];
     NSNumber* active = [cell.cellFormRowData objectForKey:@"Active"];
-    if (![active boolValue]) {
-        cell.labelDetails.textColor = [UIColor colorWithRed:13.0/255.0 green:152.0/255.0 blue:186.0/255.0 alpha:0.5];
-    } else if ([stockAvailable intValue] == 0) {
-        cell.labelDetails.textColor = [UIColor lightGrayColor];
-    } else if ([bonusBy intValue] != 78) {
-        cell.labelDetails.textColor = [UIColor colorWithRed:1.0 green:0.64453125 blue:0.0 alpha:1.0];
-    } else {
-        cell.labelDetails.textColor = [UIColor blackColor];
-    }
+//    if (![active boolValue]) {
+//        cell.labelDetails.textColor = [UIColor colorWithRed:13.0/255.0 green:152.0/255.0 blue:186.0/255.0 alpha:0.5];
+//    } else if ([stockAvailable intValue] == 0) {
+//        cell.labelDetails.textColor = [UIColor lightGrayColor];
+//    } else if ([bonusBy intValue] != 78) {
+//        cell.labelDetails.textColor = [UIColor colorWithRed:1.0 green:0.64453125 blue:0.0 alpha:1.0];
+//    } else {
+//        cell.labelDetails.textColor = [UIColor blackColor];
+//    }
+    [ArcosUtils configDetailsColorWithLabel:cell.labelDetails active:active stockAvailable:stockAvailable bonusBy:bonusBy];
     
     NSNumber* qty = [cell.cellFormRowData objectForKey:@"Qty"];
     NSNumber* bonus = [cell.cellFormRowData objectForKey:@"Bonus"];

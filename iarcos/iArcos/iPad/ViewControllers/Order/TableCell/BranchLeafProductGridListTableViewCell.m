@@ -99,13 +99,15 @@
     self.description.text = [theData objectForKey:@"Details"];
     NSNumber* bonusBy = [theData objectForKey:@"Bonusby"];
     NSNumber* stockAvailable = [theData objectForKey:@"StockAvailable"];
-    if (stockAvailable != nil && [stockAvailable intValue] == 0) {
-        self.description.textColor = [UIColor lightGrayColor];
-    } else if ([bonusBy intValue] != 78) {
-        self.description.textColor = [UIColor colorWithRed:1.0 green:0.64453125 blue:0.0 alpha:1.0];
-    } else {
-        self.description.textColor = [UIColor blackColor];
-    }
+    NSNumber* active = [theData objectForKey:@"Active"];
+//    if (stockAvailable != nil && [stockAvailable intValue] == 0) {
+//        self.description.textColor = [UIColor lightGrayColor];
+//    } else if ([bonusBy intValue] != 78) {
+//        self.description.textColor = [UIColor colorWithRed:1.0 green:0.64453125 blue:0.0 alpha:1.0];
+//    } else {
+//        self.description.textColor = [UIColor blackColor];
+//    }
+    [ArcosUtils configDetailsColorWithLabel:self.description active:active stockAvailable:stockAvailable bonusBy:bonusBy];
     self.qty.text = [ArcosUtils convertZeroToBlank:[[theData objectForKey:@"Qty"]stringValue]];
     self.bonus.text = [ArcosUtils convertZeroToBlank:[[theData objectForKey:@"Bonus"]stringValue]];
     self.spQty.text = [ArcosUtils convertZeroToBlank:[[theData objectForKey:@"InStock"]stringValue]];

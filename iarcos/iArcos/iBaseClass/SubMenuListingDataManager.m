@@ -54,4 +54,23 @@
     return YES;
 }
 
+- (void)dialUpNumberProcessor:(NSMutableDictionary*)aCellData {
+    NSString* dialupNumberContent = [aCellData objectForKey:@"DialupNumber"];
+    if (dialupNumberContent != nil && ![dialupNumberContent isEqualToString:@""]) {
+        [ArcosUtils showMsg:dialupNumberContent delegate:nil];
+    }
+}
+
+- (BOOL)checkDialUpNumber {
+    NSString* dialupNumberContent = [self.locationCellData objectForKey:@"DialupNumber"];
+    if (dialupNumberContent != nil && ![dialupNumberContent isEqualToString:@""]) {
+        NSRange myRange = [dialupNumberContent rangeOfString:@"["];
+        if (myRange.location != NSNotFound) {
+            [ArcosUtils showMsg:@"ORDER ENTRY RESTRICTED" delegate:nil];
+            return NO;
+        }
+    }
+    return YES;
+}
+
 @end

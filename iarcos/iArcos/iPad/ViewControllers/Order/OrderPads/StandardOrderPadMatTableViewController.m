@@ -252,6 +252,10 @@
     
     
     cell.labelDetails.text = [cellData objectForKey:@"Details"];
+    NSNumber* bonusBy = [cellData objectForKey:@"Bonusby"];
+    NSNumber* stockAvailable = [cellData objectForKey:@"StockAvailable"];
+    NSNumber* active = [cellData objectForKey:@"Active"];
+    [ArcosUtils configDetailsColorWithLabel:cell.labelDetails active:active stockAvailable:stockAvailable bonusBy:bonusBy];
     NSString* orderPadDetailsStr = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[cellData objectForKey:@"OrderPadDetails"]]];
     cell.orderPadDetails.text = orderPadDetailsStr;
     if (self.isShowingInStockFlag) {

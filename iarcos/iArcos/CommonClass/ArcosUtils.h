@@ -102,5 +102,6 @@
 + (NSString*)removeSubstringFromString:(NSString*)aString substring:(NSString*)aSubstring;
 + (float)roundFloatTwoDecimal:(float)aFloat;
 + (UIImage*)screenshotFromView:(UIView*)aView;
++ (void)configDetailsColorWithLabel:(UILabel*)aLabel active:(NSNumber*)anActive stockAvailable:(NSNumber*)aStockAvailable bonusBy:(NSNumber*)aBonusBy;
 
 @end

@@ -271,6 +271,7 @@
     self.subMenuListingTableViewController.requestSourceName = reqSourceName;
     self.subMenuListingTableViewController.subMenuListingDataManager.locationCellData = [NSMutableDictionary dictionaryWithDictionary:aCellData];
     [self.subMenuListingTableViewController.subMenuListingDataManager locationStatusProcessor:[aCellData objectForKey:@"lsiur"]];
+    [self.subMenuListingTableViewController.subMenuListingDataManager dialUpNumberProcessor:aCellData];
 }
 
 - (void)processSubMenuBySelf {

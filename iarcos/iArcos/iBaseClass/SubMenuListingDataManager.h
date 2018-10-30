@@ -20,5 +20,7 @@
 - (void)locationStatusProcessor:(NSNumber*)aLsiur;
 - (BOOL)checkLocationCode;
 - (BOOL)checkCreditStatus;
+- (void)dialUpNumberProcessor:(NSMutableDictionary*)aCellData;
+- (BOOL)checkDialUpNumber;
 
 @end

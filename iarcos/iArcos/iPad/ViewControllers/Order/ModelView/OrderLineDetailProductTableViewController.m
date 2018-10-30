@@ -222,13 +222,15 @@
     cell.description.text = [cellData objectForKey:@"Details"];
     NSNumber* bonusBy = [cellData objectForKey:@"Bonusby"];
     NSNumber* stockAvailable = [cellData objectForKey:@"StockAvailable"];
-    if (stockAvailable != nil && [stockAvailable intValue] == 0) {
-        cell.description.textColor = [UIColor lightGrayColor];
-    } else if ([bonusBy intValue] != 78) {
-        cell.description.textColor = [UIColor colorWithRed:1.0 green:0.64453125 blue:0.0 alpha:1.0];
-    } else {
-        cell.description.textColor = [UIColor blackColor];
-    }
+    NSNumber* active = [cellData objectForKey:@"Active"];
+//    if (stockAvailable != nil && [stockAvailable intValue] == 0) {
+//        cell.description.textColor = [UIColor lightGrayColor];
+//    } else if ([bonusBy intValue] != 78) {
+//        cell.description.textColor = [UIColor colorWithRed:1.0 green:0.64453125 blue:0.0 alpha:1.0];
+//    } else {
+//        cell.description.textColor = [UIColor blackColor];
+//    }
+    [ArcosUtils configDetailsColorWithLabel:cell.description active:active stockAvailable:stockAvailable bonusBy:bonusBy];
     cell.rrpPrice.text = [NSString stringWithFormat:@"%1.2f",[[cellData objectForKey:@"UnitRRP"]floatValue] / 100];
     cell.price.text = [NSString stringWithFormat:@"%1.2f",[[cellData objectForKey:@"UnitPrice"]floatValue]];
     NSNumber* priceFlag = [cellData objectForKey:@"PriceFlag"];
