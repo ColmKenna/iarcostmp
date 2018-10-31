@@ -66,7 +66,7 @@
 #pragma mark - OrderDetailEmailActionDelegate
 - (NSMutableDictionary*)didSelectEmailRecipientRowWithCellData:(NSDictionary*)aCellData {
     NSMutableDictionary* mailDict = [NSMutableDictionary dictionaryWithCapacity:2];
-    [mailDict setObject:[NSString stringWithFormat:@"%@ Order taken by %@", [self.orderEmailProcessCenter companyName], [self.orderHeader objectForKey:@"Employee"]] forKey:@"Subject"];
+    [mailDict setObject:[NSString stringWithFormat:@"Order taken by %@", [self.orderHeader objectForKey:@"Employee"]] forKey:@"Subject"];
     [mailDict setObject:[self.orderEmailProcessCenter buildEmailMessageWithController] forKey:@"Body"];
     [self generatePdfFile];
     return mailDict;

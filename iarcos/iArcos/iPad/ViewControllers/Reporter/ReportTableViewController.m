@@ -515,7 +515,7 @@
     [cidmvc release];
 }
 -(void)showMeetingDetail:(CXMLElement*)data {
-    NSNumber* iUR = [ArcosUtils convertStringToNumber:[self valueForTag:@"IUR" withElement:data]];    
+    NSNumber* iUR = [ArcosUtils convertStringToNumber:[self valueForTag:@"iur" withElement:data]];
     ReportMeetingWrapperViewController* rmwvc = [[ReportMeetingWrapperViewController alloc] initWithNibName:@"ReportMeetingWrapperViewController" bundle:nil];
     rmwvc.myDelegate = self;
     rmwvc.iUR = iUR;
