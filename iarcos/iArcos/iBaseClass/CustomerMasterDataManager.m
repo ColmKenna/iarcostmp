@@ -40,6 +40,9 @@
 @synthesize targetTableViewController = _targetTableViewController;
 @synthesize targetNavigationController = _targetNavigationController;
 @synthesize targetText = _targetText;
+@synthesize meetingMainTemplateViewController = _meetingMainTemplateViewController;
+@synthesize meetingNavigationController = _meetingNavigationController;
+@synthesize meetingText = _meetingText;
 
 - (id)init{
     self = [super init];
@@ -47,6 +50,7 @@
         self.dashboardText = @"Dashboard";
         self.presenterText = @"Presenter";
         self.targetText = @"Target";
+        self.meetingText = @"Meeting";
 //        self.mainNewPresenterViewController = [[[NewPresenterViewController alloc] initWithNibName:@"NewPresenterViewController" bundle:nil] autorelease];
 //        self.mainNewPresenterViewController.parentPresenterRequestSource = PresenterRequestSourceMainMenu;
 //        self.mainNewPresenterNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.mainNewPresenterViewController] autorelease];
@@ -122,10 +126,12 @@
         self.weeklyMainTemplateViewController = [[[WeeklyMainTemplateViewController alloc] initWithNibName:@"WeeklyMainTemplateViewController" bundle:nil] autorelease];
         self.weeklyMainTemplateNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.weeklyMainTemplateViewController] autorelease];
         
-        self.dashboardMainTemplateTableViewController = [[[DashboardMainTemplateTableViewController alloc] initWithNibName:@"DashboardMainTemplateTableViewController" bundle:nil] autorelease];
-        self.dashboardMainTemplateNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.dashboardMainTemplateTableViewController] autorelease];
+//        self.dashboardMainTemplateTableViewController = [[[DashboardMainTemplateTableViewController alloc] initWithNibName:@"DashboardMainTemplateTableViewController" bundle:nil] autorelease];
+//        self.dashboardMainTemplateNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.dashboardMainTemplateTableViewController] autorelease];
         self.targetTableViewController = [[[TargetTableViewController alloc] initWithNibName:@"TargetTableViewController" bundle:nil] autorelease];
-        self.targetNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.targetTableViewController] autorelease];        
+        self.targetNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.targetTableViewController] autorelease];
+        self.meetingMainTemplateViewController = [[[MeetingMainTemplateViewController alloc] initWithNibName:@"MeetingMainTemplateViewController" bundle:nil] autorelease];
+        self.meetingNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.meetingMainTemplateViewController] autorelease];
         
         NSMutableDictionary* dashboardCellData = [self createItemCellData:self.dashboardText imageFile:@"Dashboard.png" myCustomController:self.templateDashboardViewController];
         NSMutableDictionary* locatorCellData = [self createItemCellData:@"Locator" imageFile:@"MapIcon.png" myCustomController:self.mapNavigationController];
@@ -138,11 +144,13 @@
         
         NSMutableDictionary* utilitiesCellData = [self createItemCellData:self.utilitiesText imageFile:@"Utilities.png" myCustomController:self.utilitiesArcosSplitViewController];
         NSMutableDictionary* presenterCellData = [self createItemCellData:self.presenterText imageFile:@"PresenterIcon.png" myCustomController:self.mainPresenterNavigationController];
-        NSMutableDictionary* dashboardMainTemplateCellData = [self createItemCellData:self.dashboardText imageFile:@"Dashboard.png" myCustomController:self.dashboardMainTemplateNavigationController];
+//        NSMutableDictionary* dashboardMainTemplateCellData = [self createItemCellData:self.dashboardText imageFile:@"Dashboard.png" myCustomController:self.dashboardMainTemplateNavigationController];
         NSMutableDictionary* targetCellData = [self createItemCellData:self.targetText imageFile:@"Target.png" myCustomController:self.targetNavigationController];
+        NSMutableDictionary* meetingCellData = [self createItemCellData:self.meetingText imageFile:@"Meeting.png" myCustomController:self.meetingNavigationController];
+        
         
         //dashboardMainTemplateCellData,
-        self.displayList = [NSMutableArray arrayWithObjects:dashboardCellData, locatorCellData, customerCellData, contactCellData, reporterCellData, listingsCellData, weeklyCellData, utilitiesCellData, targetCellData, presenterCellData, nil];
+        self.displayList = [NSMutableArray arrayWithObjects:dashboardCellData, locatorCellData, customerCellData, contactCellData, reporterCellData, listingsCellData, weeklyCellData, utilitiesCellData, targetCellData, meetingCellData, presenterCellData, nil];
     }
     return self;
 }

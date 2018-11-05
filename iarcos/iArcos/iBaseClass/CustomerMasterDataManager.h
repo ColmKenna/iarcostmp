@@ -23,6 +23,7 @@
 #import "DashboardMainTemplateTableViewController.h"
 #import "WeeklyMainTemplateViewController.h"
 #import "TargetTableViewController.h"
+#import "MeetingMainTemplateViewController.h"
 
 @interface CustomerMasterDataManager : NSObject {
     NSMutableArray* _displayList;
@@ -52,6 +53,9 @@
     TargetTableViewController* _targetTableViewController;
     UINavigationController* _targetNavigationController;
     NSString* _targetText;
+    MeetingMainTemplateViewController* _meetingMainTemplateViewController;
+    UINavigationController* _meetingNavigationController;
+    NSString* _meetingText;
 }
 
 @property(nonatomic, retain) NSMutableArray* displayList;
@@ -81,6 +85,9 @@
 @property(nonatomic, retain) TargetTableViewController* targetTableViewController;
 @property(nonatomic, retain) UINavigationController* targetNavigationController;
 @property(nonatomic, retain) NSString* targetText;
+@property(nonatomic, retain) MeetingMainTemplateViewController* meetingMainTemplateViewController;
+@property(nonatomic, retain) UINavigationController* meetingNavigationController;
+@property(nonatomic, retain) NSString* meetingText;
 
 - (NSMutableDictionary*)createItemCellData:(NSString*)title imageFile:(NSString*)imageFile;
 - (NSMutableDictionary*)createItemCellData:(NSString*)title imageFile:(NSString*)imageFile myCustomController:(UIViewController*)aViewController;

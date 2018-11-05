@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="ipad9_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MeetingMainTemplateViewController">
+            <connections>
+                <outlet property="mySegmentedControl" destination="qQ5-6c-hN3" id="HKw-Jn-V8T"/>
+                <outlet property="templateView" destination="zbS-tc-EDK" id="dck-u5-J3b"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="qQ5-6c-hN3">
+                    <rect key="frame" x="3" y="3" width="663" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="0NN-e1-6ea"/>
+                    </constraints>
+                    <segments>
+                        <segment title="Details"/>
+                        <segment title="Misc."/>
+                        <segment title="Objectives"/>
+                        <segment title="Attendees"/>
+                        <segment title="Agenda"/>
+                        <segment title="Expenses"/>
+                        <segment title="Presenters"/>
+                    </segments>
+                </segmentedControl>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zbS-tc-EDK">
+                    <rect key="frame" x="3" y="46" width="762" height="975"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="qQ5-6c-hN3" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="3" id="5tn-Oq-fil"/>
+                <constraint firstItem="zbS-tc-EDK" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="3" id="6Mg-JQ-nyx"/>
+                <constraint firstAttribute="trailing" secondItem="zbS-tc-EDK" secondAttribute="trailing" constant="3" id="8v9-8q-2bh"/>
+                <constraint firstAttribute="trailing" secondItem="qQ5-6c-hN3" secondAttribute="trailing" constant="102" id="Kgb-T5-AdH"/>
+                <constraint firstItem="zbS-tc-EDK" firstAttribute="top" secondItem="qQ5-6c-hN3" secondAttribute="bottom" constant="-1" id="cgA-mw-feu"/>
+                <constraint firstItem="qQ5-6c-hN3" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="3" id="nSY-Hf-YBv"/>
+                <constraint firstAttribute="bottom" secondItem="zbS-tc-EDK" secondAttribute="bottom" constant="3" id="p1K-7p-cFg"/>
+            </constraints>
+            <point key="canvasLocation" x="130.46875" y="153.515625"/>
+        </view>
+    </objects>
+</document>
