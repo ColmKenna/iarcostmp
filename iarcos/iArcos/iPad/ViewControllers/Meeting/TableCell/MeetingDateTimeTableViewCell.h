@@ -7,7 +7,8 @@
 //
 
 #import "MeetingBaseTableViewCell.h"
-
+#import "ArcosUtils.h"
+#import "GlobalSharedClass.h"
 
 @interface MeetingDateTimeTableViewCell : MeetingBaseTableViewCell {
     UILabel* _dateFieldNameLabel;

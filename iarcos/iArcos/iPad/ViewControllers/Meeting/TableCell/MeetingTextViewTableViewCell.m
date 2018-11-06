@@ -25,6 +25,7 @@
 }
 
 - (void)configCellWithData:(NSMutableDictionary*)aCellData {
+    [super configCellWithData:aCellData];
     if (!self.styleSetFlag) {
         [self.fieldValueTextView.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
         [self.fieldValueTextView.layer setBorderWidth:0.5];

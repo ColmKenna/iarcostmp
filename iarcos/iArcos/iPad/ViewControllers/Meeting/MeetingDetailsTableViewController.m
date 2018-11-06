@@ -69,9 +69,15 @@
     }
     
     // Configure the cell...
+    cell.actionDelegate = self;
     [cell configCellWithData:cellData];
     
     return cell;
+}
+
+#pragma mark MeetingBaseTableViewCellDelegate
+- (NSMutableDictionary*)retrieveHeadOfficeDataObjectDict {
+    return self.meetingDetailsDataManager.headOfficeDataObjectDict;
 }
 
 /*

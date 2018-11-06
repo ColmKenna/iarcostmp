@@ -7,9 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MeetingCellKeyDefinition.h"
+#import "MeetingBaseTableViewCellDelegate.h"
 
+@interface MeetingBaseTableViewCell : UITableViewCell {
+    id<MeetingBaseTableViewCellDelegate> _actionDelegate;
+    MeetingCellKeyDefinition* _meetingCellKeyDefinition;
+}
 
-@interface MeetingBaseTableViewCell : UITableViewCell
+@property(nonatomic, assign) id<MeetingBaseTableViewCellDelegate> actionDelegate;
+@property(nonatomic, retain) MeetingCellKeyDefinition* meetingCellKeyDefinition;
 
 - (void)configCellWithData:(NSMutableDictionary*)aCellData;
 

@@ -10,6 +10,7 @@
 
 @implementation MeetingDetailsDataManager
 @synthesize displayList = _displayList;
+@synthesize headOfficeDataObjectDict = _headOfficeDataObjectDict;
 
 - (instancetype)init {
     self = [super init];
@@ -21,11 +22,13 @@
 
 - (void)dealloc {
     self.displayList = nil;
+    self.headOfficeDataObjectDict = nil;
     
     [super dealloc];
 }
 
 - (void)createBasicData {
+    [self createDataObjectDict];
     self.displayList = [NSMutableArray arrayWithCapacity:9];
     [self.displayList addObject:[self createDateTimeCell]];
     [self.displayList addObject:[self createStringCellWithFieldName:@"Code"]];
@@ -36,6 +39,16 @@
     [self.displayList addObject:[self createStringCellWithFieldName:@"Title"]];
     [self.displayList addObject:[self createEmployeeCellWithFieldName:@"Operator"]];
     [self.displayList addObject:[self createTextViewCellWithFieldName:@"Comments"]];
+}
+
+- (void)createDataObjectDict {
+    self.headOfficeDataObjectDict = [NSMutableDictionary dictionaryWithCapacity:11];
+    [self.headOfficeDataObjectDict setObject:[NSDate date] forKey:self.meetingCellKeyDefinition.dateKey];
+    [self.headOfficeDataObjectDict setObject:[NSDate date] forKey:self.meetingCellKeyDefinition.timeKey];
+    [self.headOfficeDataObjectDict setObject:@"0" forKey:self.meetingCellKeyDefinition.durationKey];
+    [self.headOfficeDataObjectDict setObject:@"" forKey:self.meetingCellKeyDefinition.codeKey];
+    [self.headOfficeDataObjectDict setObject:@"" forKey:self.meetingCellKeyDefinition.venueKey];
+    [self.headOfficeDataObjectDict setObject:[self createDefaultIURDict] forKey:self.meetingCellKeyDefinition.statusKey];
 }
 
 - (NSMutableDictionary*)createDateTimeCell {

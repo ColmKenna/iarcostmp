@@ -28,6 +28,16 @@
     [super dealloc];
 }
 
+- (void)configCellWithData:(NSMutableDictionary*)aCellData {
+    [super configCellWithData:aCellData];
+    NSMutableDictionary* headOfficeDataObjectDict = [self.actionDelegate retrieveHeadOfficeDataObjectDict];
+    NSDate* dateObject = [headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.dateKey];
+    self.dateFieldValueLabel.text = [ArcosUtils stringFromDate:dateObject format:[GlobalSharedClass shared].dateFormat];
+    NSDate* timeObject = [headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.timeKey];
+    self.timeFieldValueLabel.text = [ArcosUtils stringFromDate:timeObject format:[GlobalSharedClass shared].hourMinuteFormat];
+    self.durationFieldValueTextField.text = [headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.durationKey];
+}
+
 
 
 @end

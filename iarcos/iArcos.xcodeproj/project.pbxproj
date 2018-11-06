@@ -1346,6 +1346,8 @@
 		63C73F471CAAE1E100165383 /* MainPresenterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C73F451CAAE1E100165383 /* MainPresenterTableViewCell.m */; };
 		63CBF58E218C75920098340A /* MeetingMainTableViewCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CBF58D218C75920098340A /* MeetingMainTableViewCells.xib */; };
 		63CBF591218C766E0098340A /* MeetingBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CBF590218C766E0098340A /* MeetingBaseTableViewCell.m */; };
+		63CC1B502191A0D3002FD505 /* MeetingCellKeyDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CC1B4F2191A0D3002FD505 /* MeetingCellKeyDefinition.m */; };
+		63CC1B532191A881002FD505 /* MeetingBaseDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CC1B522191A881002FD505 /* MeetingBaseDataManager.m */; };
 		63CCFCF62023247B00EEF7C1 /* ArcosMailWrapperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CCFCF42023247B00EEF7C1 /* ArcosMailWrapperViewController.m */; };
 		63CCFCF72023247B00EEF7C1 /* ArcosMailWrapperViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63CCFCF52023247B00EEF7C1 /* ArcosMailWrapperViewController.xib */; };
 		63CCFCFB202324C200EEF7C1 /* ArcosMailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CCFCF9202324C200EEF7C1 /* ArcosMailTableViewController.m */; };
@@ -4093,6 +4095,11 @@
 		63CBF58D218C75920098340A /* MeetingMainTableViewCells.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeetingMainTableViewCells.xib; sourceTree = "<group>"; };
 		63CBF58F218C766E0098340A /* MeetingBaseTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingBaseTableViewCell.h; sourceTree = "<group>"; };
 		63CBF590218C766E0098340A /* MeetingBaseTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingBaseTableViewCell.m; sourceTree = "<group>"; };
+		63CC1B4E2191A0D3002FD505 /* MeetingCellKeyDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingCellKeyDefinition.h; sourceTree = "<group>"; };
+		63CC1B4F2191A0D3002FD505 /* MeetingCellKeyDefinition.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingCellKeyDefinition.m; sourceTree = "<group>"; };
+		63CC1B512191A881002FD505 /* MeetingBaseDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingBaseDataManager.h; sourceTree = "<group>"; };
+		63CC1B522191A881002FD505 /* MeetingBaseDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingBaseDataManager.m; sourceTree = "<group>"; };
+		63CC1B542191BC0D002FD505 /* MeetingBaseTableViewCellDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingBaseTableViewCellDelegate.h; sourceTree = "<group>"; };
 		63CCFCF32023247B00EEF7C1 /* ArcosMailWrapperViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosMailWrapperViewController.h; sourceTree = "<group>"; };
 		63CCFCF42023247B00EEF7C1 /* ArcosMailWrapperViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosMailWrapperViewController.m; sourceTree = "<group>"; };
 		63CCFCF52023247B00EEF7C1 /* ArcosMailWrapperViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArcosMailWrapperViewController.xib; sourceTree = "<group>"; };
@@ -7659,6 +7666,10 @@
 				638076F7218CA17600591B28 /* MeetingMainTableCellFactory.m */,
 				638076F9218CB0B500591B28 /* MeetingDetailsDataManager.h */,
 				638076FA218CB0B500591B28 /* MeetingDetailsDataManager.m */,
+				63CC1B4E2191A0D3002FD505 /* MeetingCellKeyDefinition.h */,
+				63CC1B4F2191A0D3002FD505 /* MeetingCellKeyDefinition.m */,
+				63CC1B512191A881002FD505 /* MeetingBaseDataManager.h */,
+				63CC1B522191A881002FD505 /* MeetingBaseDataManager.m */,
 			);
 			path = Meeting;
 			sourceTree = "<group>";
@@ -7717,6 +7728,7 @@
 				638076EC218CA08200591B28 /* MeetingTextViewTableViewCell.m */,
 				638076EE218CA0AD00591B28 /* MeetingIURTableViewCell.h */,
 				638076EF218CA0AD00591B28 /* MeetingIURTableViewCell.m */,
+				63CC1B542191BC0D002FD505 /* MeetingBaseTableViewCellDelegate.h */,
 			);
 			path = TableCell;
 			sourceTree = "<group>";
@@ -8937,6 +8949,7 @@
 				630B3D9A19F01CB9007B2442 /* ArcosContactBO.m in Sources */,
 				630B3CF019F01CB9007B2442 /* QueryOrderMemoWrapperViewController.m in Sources */,
 				630B3B2F19F01CB9007B2442 /* PresenterViewController.m in Sources */,
+				63CC1B532191A881002FD505 /* MeetingBaseDataManager.m in Sources */,
 				630B3CDE19F01CB9007B2442 /* ActivateLocalViewController.m in Sources */,
 				630B351619F01910007B2442 /* UIViewController+ArcosStackedController.m in Sources */,
 				630B346D19F0127C007B2442 /* Team.m in Sources */,
@@ -9027,6 +9040,7 @@
 				63CCFD0720232AA100EEF7C1 /* ArcosMailBaseTableViewCell.m in Sources */,
 				63A904B31EDF0BBA001F5035 /* CustomerSurveyRankingTableCell.m in Sources */,
 				630B3C6E19F01CB9007B2442 /* SmallImageSlideViewItemController.m in Sources */,
+				63CC1B502191A0D3002FD505 /* MeetingCellKeyDefinition.m in Sources */,
 				630B34CE19F014E9007B2442 /* ArcosTableViewHeaderUILabel.m in Sources */,
 				630EB91F1CB6B73F0026FC2B /* UploadProcessCenter.m in Sources */,
 				630B3DA219F01CB9007B2442 /* ArcosGenericClass.m in Sources */,

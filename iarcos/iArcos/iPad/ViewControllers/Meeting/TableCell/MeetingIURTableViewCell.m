@@ -31,6 +31,7 @@
 }
 
 - (void)configCellWithData:(NSMutableDictionary *)aCellData {
+    [super configCellWithData:aCellData];
     self.fieldNameLabel.text = [aCellData objectForKey:@"FieldName"];
 }
 

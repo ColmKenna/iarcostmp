@@ -10,7 +10,7 @@
 #import "MeetingDetailsDataManager.h"
 #import "MeetingMainTableCellFactory.h"
 
-@interface MeetingDetailsTableViewController : UITableViewController {
+@interface MeetingDetailsTableViewController : UITableViewController <MeetingBaseTableViewCellDelegate> {
     MeetingDetailsDataManager* _meetingDetailsDataManager;
     MeetingMainTableCellFactory* _tableCellFactory;
 }
