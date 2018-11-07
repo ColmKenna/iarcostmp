@@ -343,6 +343,10 @@
         
         NSLog(@"get only one product!");
         formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        if (formRow == nil) {
+            [ArcosUtils showDialogBox:@"Product not found" title:@"" delegate:nil target:self tag:0 handler:nil];
+            return;
+        }
 //        NSLog(@"form row for the product is %@",formRow);
         
         //sync the row with current cart
@@ -410,6 +414,10 @@
         NSMutableDictionary* formRow=[NSMutableDictionary dictionary];        
 //        NSLog(@"get only one product!");
         formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        if (formRow == nil) {
+            [ArcosUtils showDialogBox:@"Product not found" title:@"" delegate:nil target:self tag:0 handler:nil];
+            return;
+        }
 //        NSLog(@"form row for the product is %@",formRow);
         
         //sync the row with current cart

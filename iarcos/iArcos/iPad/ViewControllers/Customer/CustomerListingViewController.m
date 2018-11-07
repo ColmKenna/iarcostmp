@@ -895,7 +895,7 @@
         BOOL isFound = NO;
         for (int j = 0; j < [dataList count]; j++) {
             NSDictionary* dataDict = [dataList objectAtIndex:j];
-            if ([[dataDict objectForKey:@"LocationIUR"] isEqualToNumber:aLocationIUR]) {
+            if ([[dataDict objectForKey:@"LocationIUR"] isEqualToNumber:[ArcosUtils convertNilToZero:aLocationIUR]]) {
                 row = j;
                 section = i - 1;
                 isFound = YES;
