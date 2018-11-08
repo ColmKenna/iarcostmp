@@ -21,6 +21,12 @@
 @synthesize operatorKey = _operatorKey;
 @synthesize commentsKey = _commentsKey;
 
+@synthesize approvedByKey = _approvedByKey;
+@synthesize l4Key = _l4Key;
+@synthesize l5Key = _l5Key;
+@synthesize speakerAgreementKey = _speakerAgreementKey;
+@synthesize speakerAgreementDetailsKey = _speakerAgreementDetailsKey;
+
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -35,6 +41,12 @@
         self.titleKey = @"Title";
         self.operatorKey = @"Operator";
         self.commentsKey = @"Comments";
+        
+        self.approvedByKey = @"ApprovedBy";
+        self.l4Key = @"L4";
+        self.l5Key = @"L5";
+        self.speakerAgreementKey = @"SpeakerAgreement";
+        self.speakerAgreementDetailsKey = @"SpeakerAgreementDetails";
     }
     
     return self;
@@ -52,6 +64,12 @@
     self.titleKey = nil;
     self.operatorKey = nil;
     self.commentsKey = nil;
+    
+    self.approvedByKey = nil;
+    self.l4Key = nil;
+    self.l5Key = nil;
+    self.speakerAgreementKey = nil;
+    self.speakerAgreementDetailsKey = nil;
     
     [super dealloc];
 }

@@ -1217,6 +1217,12 @@
 		638A34011C11F88000EE519D /* TemplateDashboardDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 638A34001C11F88000EE519D /* TemplateDashboardDataManager.m */; };
 		638A34041C11FFFA00EE519D /* Footer3.png in Resources */ = {isa = PBXBuildFile; fileRef = 638A34021C11FFFA00EE519D /* Footer3.png */; };
 		638A34051C11FFFA00EE519D /* Header3.png in Resources */ = {isa = PBXBuildFile; fileRef = 638A34031C11FFFA00EE519D /* Header3.png */; };
+		638A42AF2191ED7C006F993B /* MeetingMainHeaderFooterViews.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638A42AE2191ED7C006F993B /* MeetingMainHeaderFooterViews.xib */; };
+		638A42B52191F3A0006F993B /* MeetingMainSectionViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 638A42B42191F3A0006F993B /* MeetingMainSectionViewFactory.m */; };
+		638A42B82191F79B006F993B /* MeetingMainBaseSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 638A42B72191F79B006F993B /* MeetingMainBaseSectionView.m */; };
+		638A42BC2191FCEB006F993B /* MeetingMiscTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638A42BA2191FCEB006F993B /* MeetingMiscTableViewController.m */; };
+		638A42BD2191FCEB006F993B /* MeetingMiscTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638A42BB2191FCEB006F993B /* MeetingMiscTableViewController.xib */; };
+		638A42C02191FF0C006F993B /* MeetingMiscDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 638A42BF2191FF0B006F993B /* MeetingMiscDataManager.m */; };
 		638C387C1CBEA30900265364 /* UpdateStatusFunctionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C387B1CBEA30900265364 /* UpdateStatusFunctionTableViewCell.m */; };
 		638EDF941C076BEE003C069E /* Dashboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 638EDF931C076BEE003C069E /* Dashboard.png */; };
 		638F64611C18781C00854E48 /* DashboardStockoutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638F645F1C18781C00854E48 /* DashboardStockoutTableViewController.m */; };
@@ -1339,6 +1345,9 @@
 		63C00C741CE4A32400ECDC34 /* CustomerGroupContactDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C00C731CE4A32400ECDC34 /* CustomerGroupContactDataManager.m */; };
 		63C1883D1DA26D4C007A5697 /* CustomerAccessTimesUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C1883C1DA26D4C007A5697 /* CustomerAccessTimesUtils.m */; };
 		63C2AD881D74731600A4C719 /* NextCheckoutOrderInfoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C2AD861D74731600A4C719 /* NextCheckoutOrderInfoTableViewController.m */; };
+		63C2D51E219438BB00C57ECC /* MeetingObjectivesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C2D51C219438BB00C57ECC /* MeetingObjectivesTableViewController.m */; };
+		63C2D51F219438BB00C57ECC /* MeetingObjectivesTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C2D51D219438BB00C57ECC /* MeetingObjectivesTableViewController.xib */; };
+		63C2D522219438DC00C57ECC /* MeetingObjectivesDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C2D521219438DC00C57ECC /* MeetingObjectivesDataManager.m */; };
 		63C3E6F91BB049BC0067213D /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C3E6F81BB049BC0067213D /* Location.m */; };
 		63C73F3F1CAACE2600165383 /* MainPresenterTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C73F3D1CAACE2600165383 /* MainPresenterTableViewController.m */; };
 		63C73F401CAACE2600165383 /* MainPresenterTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63C73F3E1CAACE2600165383 /* MainPresenterTableViewController.xib */; };
@@ -3847,6 +3856,16 @@
 		638A34001C11F88000EE519D /* TemplateDashboardDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateDashboardDataManager.m; sourceTree = "<group>"; };
 		638A34021C11FFFA00EE519D /* Footer3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Footer3.png; sourceTree = "<group>"; };
 		638A34031C11FFFA00EE519D /* Header3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Header3.png; sourceTree = "<group>"; };
+		638A42AE2191ED7C006F993B /* MeetingMainHeaderFooterViews.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeetingMainHeaderFooterViews.xib; sourceTree = "<group>"; };
+		638A42B32191F3A0006F993B /* MeetingMainSectionViewFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingMainSectionViewFactory.h; sourceTree = "<group>"; };
+		638A42B42191F3A0006F993B /* MeetingMainSectionViewFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingMainSectionViewFactory.m; sourceTree = "<group>"; };
+		638A42B62191F79B006F993B /* MeetingMainBaseSectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingMainBaseSectionView.h; sourceTree = "<group>"; };
+		638A42B72191F79B006F993B /* MeetingMainBaseSectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingMainBaseSectionView.m; sourceTree = "<group>"; };
+		638A42B92191FCEB006F993B /* MeetingMiscTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingMiscTableViewController.h; sourceTree = "<group>"; };
+		638A42BA2191FCEB006F993B /* MeetingMiscTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingMiscTableViewController.m; sourceTree = "<group>"; };
+		638A42BB2191FCEB006F993B /* MeetingMiscTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeetingMiscTableViewController.xib; sourceTree = "<group>"; };
+		638A42BE2191FF0B006F993B /* MeetingMiscDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingMiscDataManager.h; sourceTree = "<group>"; };
+		638A42BF2191FF0B006F993B /* MeetingMiscDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingMiscDataManager.m; sourceTree = "<group>"; };
 		638C387A1CBEA30900265364 /* UpdateStatusFunctionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateStatusFunctionTableViewCell.h; sourceTree = "<group>"; };
 		638C387B1CBEA30900265364 /* UpdateStatusFunctionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateStatusFunctionTableViewCell.m; sourceTree = "<group>"; };
 		638EDF931C076BEE003C069E /* Dashboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dashboard.png; sourceTree = "<group>"; };
@@ -4083,6 +4102,11 @@
 		63C1883C1DA26D4C007A5697 /* CustomerAccessTimesUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerAccessTimesUtils.m; sourceTree = "<group>"; };
 		63C2AD851D74731600A4C719 /* NextCheckoutOrderInfoTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NextCheckoutOrderInfoTableViewController.h; sourceTree = "<group>"; };
 		63C2AD861D74731600A4C719 /* NextCheckoutOrderInfoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NextCheckoutOrderInfoTableViewController.m; sourceTree = "<group>"; };
+		63C2D51B219438BB00C57ECC /* MeetingObjectivesTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingObjectivesTableViewController.h; sourceTree = "<group>"; };
+		63C2D51C219438BB00C57ECC /* MeetingObjectivesTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingObjectivesTableViewController.m; sourceTree = "<group>"; };
+		63C2D51D219438BB00C57ECC /* MeetingObjectivesTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeetingObjectivesTableViewController.xib; sourceTree = "<group>"; };
+		63C2D520219438DC00C57ECC /* MeetingObjectivesDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingObjectivesDataManager.h; sourceTree = "<group>"; };
+		63C2D521219438DC00C57ECC /* MeetingObjectivesDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingObjectivesDataManager.m; sourceTree = "<group>"; };
 		63C3E6F71BB049BC0067213D /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		63C3E6F81BB049BC0067213D /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		63C73F3C1CAACE2600165383 /* MainPresenterTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainPresenterTableViewController.h; sourceTree = "<group>"; };
@@ -7670,6 +7694,18 @@
 				63CC1B4F2191A0D3002FD505 /* MeetingCellKeyDefinition.m */,
 				63CC1B512191A881002FD505 /* MeetingBaseDataManager.h */,
 				63CC1B522191A881002FD505 /* MeetingBaseDataManager.m */,
+				638A42B32191F3A0006F993B /* MeetingMainSectionViewFactory.h */,
+				638A42B42191F3A0006F993B /* MeetingMainSectionViewFactory.m */,
+				638A42B92191FCEB006F993B /* MeetingMiscTableViewController.h */,
+				638A42BA2191FCEB006F993B /* MeetingMiscTableViewController.m */,
+				638A42BB2191FCEB006F993B /* MeetingMiscTableViewController.xib */,
+				638A42BE2191FF0B006F993B /* MeetingMiscDataManager.h */,
+				638A42BF2191FF0B006F993B /* MeetingMiscDataManager.m */,
+				63C2D51B219438BB00C57ECC /* MeetingObjectivesTableViewController.h */,
+				63C2D51C219438BB00C57ECC /* MeetingObjectivesTableViewController.m */,
+				63C2D51D219438BB00C57ECC /* MeetingObjectivesTableViewController.xib */,
+				63C2D520219438DC00C57ECC /* MeetingObjectivesDataManager.h */,
+				63C2D521219438DC00C57ECC /* MeetingObjectivesDataManager.m */,
 			);
 			path = Meeting;
 			sourceTree = "<group>";
@@ -7729,6 +7765,9 @@
 				638076EE218CA0AD00591B28 /* MeetingIURTableViewCell.h */,
 				638076EF218CA0AD00591B28 /* MeetingIURTableViewCell.m */,
 				63CC1B542191BC0D002FD505 /* MeetingBaseTableViewCellDelegate.h */,
+				638A42AE2191ED7C006F993B /* MeetingMainHeaderFooterViews.xib */,
+				638A42B62191F79B006F993B /* MeetingMainBaseSectionView.h */,
+				638A42B72191F79B006F993B /* MeetingMainBaseSectionView.m */,
 			);
 			path = TableCell;
 			sourceTree = "<group>";
@@ -8062,6 +8101,7 @@
 				630B3BBE19F01CB9007B2442 /* CustomerOrderTableCell.xib in Resources */,
 				6313E1231D11A083003A2204 /* DatePickerHourMinuteWidgetViewController.xib in Resources */,
 				630B3E0419F01CB9007B2442 /* Memo_sent.png in Resources */,
+				638A42AF2191ED7C006F993B /* MeetingMainHeaderFooterViews.xib in Resources */,
 				630B3E0F19F01CB9007B2442 /* pinRed.png in Resources */,
 				63A0B9581D93CBDC00F6EAC7 /* Arcos-Icon-2a-app.png in Resources */,
 				63B2F1371EEED07F004E6F1A /* CheckoutPrinterOrderLineTableViewCell.xib in Resources */,
@@ -8236,6 +8276,7 @@
 				630B3E0E19F01CB9007B2442 /* pinPurple.png in Resources */,
 				630B3B6B19F01CB9007B2442 /* CustomerDetailsIURModalViewController.xib in Resources */,
 				630B3DF119F01CB9007B2442 /* Coordinate.png in Resources */,
+				638A42BD2191FCEB006F993B /* MeetingMiscTableViewController.xib in Resources */,
 				6349B7BA1FDAB1D300C02C46 /* CustomerListingTableCell.xib in Resources */,
 				630B3CF119F01CB9007B2442 /* QueryOrderMemoWrapperViewController.xib in Resources */,
 				6343DC4B1CABC8CD00861A03 /* MainPresenterTableViewCell.xib in Resources */,
@@ -8318,6 +8359,7 @@
 				630B3CAB19F01CB9007B2442 /* FileGroupViewController.xib in Resources */,
 				630B3BC419F01CB9007B2442 /* CustomerTypeTableCells.xib in Resources */,
 				63812C801A111BDD004BCFB3 /* OrderlinesIarcosTableViewCell.xib in Resources */,
+				63C2D51F219438BB00C57ECC /* MeetingObjectivesTableViewController.xib in Resources */,
 				638A34041C11FFFA00EE519D /* Footer3.png in Resources */,
 				63A0B95C1D93CBDC00F6EAC7 /* Arcos-Icon-2a-spotlight.png in Resources */,
 				630B3DF919F01CB9007B2442 /* Flags.png in Resources */,
@@ -8442,6 +8484,7 @@
 				630B3B2B19F01CB9007B2442 /* PresenterSlideViewItemController.m in Sources */,
 				630B3C4E19F01CB9007B2442 /* ImageL5FormRowsTableViewController.m in Sources */,
 				630B3C0619F01CB9007B2442 /* OrderDetailCallEmailActionDataManager.m in Sources */,
+				638A42C02191FF0C006F993B /* MeetingMiscDataManager.m in Sources */,
 				6314EF341EDDC17300488950 /* CustomerSurveySegmentedControlTableCell.m in Sources */,
 				630B3BA119F01CB9007B2442 /* CustomerContactInfoTableCell.m in Sources */,
 				630B3B4C19F01CB9007B2442 /* CustomerPopoverMenuViewController.m in Sources */,
@@ -8725,6 +8768,7 @@
 				63A12B701CEF319000CF963D /* GetRecordGenericIURTableViewCell.m in Sources */,
 				630B3C4A19F01CB9007B2442 /* ImageFormRowsDataManager.m in Sources */,
 				63B3EB6B1C1097BF007247D4 /* DashboardJourneyTableViewController.m in Sources */,
+				63C2D51E219438BB00C57ECC /* MeetingObjectivesTableViewController.m in Sources */,
 				630B3DB819F01CB9007B2442 /* ArcosServices.m in Sources */,
 				630B3D2719F01CB9007B2442 /* GenericUITableTableCell.m in Sources */,
 				634EE4331CC643B400E6F1AE /* FormRowsTableDataManager.m in Sources */,
@@ -9012,6 +9056,7 @@
 				630B34C719F014E9007B2442 /* ArcosAlgorithmUtils.m in Sources */,
 				630B344319F0127C007B2442 /* FormDetail.m in Sources */,
 				630B3DBF19F01CB9007B2442 /* Soap.m in Sources */,
+				638A42BC2191FCEB006F993B /* MeetingMiscTableViewController.m in Sources */,
 				630B3C7D19F01CB9007B2442 /* OrderDetailDateHourMinTableCell.m in Sources */,
 				630B3DC619F01CB9007B2442 /* SoapObject.m in Sources */,
 				63F08559207D178E0073A65B /* ChartTestViewController.m in Sources */,
@@ -9183,6 +9228,7 @@
 				630B3CA019F01CB9007B2442 /* NewOrderViewController.m in Sources */,
 				63AD0B661D106683004E950B /* CustomerGroupAccessTimesTableViewCell.m in Sources */,
 				630B3CDA19F01CB9007B2442 /* ActivateEnterpriseDataManager.m in Sources */,
+				63C2D522219438DC00C57ECC /* MeetingObjectivesDataManager.m in Sources */,
 				6308909C20F4F38700561216 /* FileMD5Calculator.m in Sources */,
 				630CF3D220DBBA1800B1CEA1 /* WeeklyMainTemplateViewController.m in Sources */,
 				631555131A239D9B00E62795 /* SubMenuListingDataManager.m in Sources */,
@@ -9236,6 +9282,7 @@
 				630B3CB419F01CB9007B2442 /* NewPresenterDataManager.m in Sources */,
 				6367577F1B287AAA00A0BC34 /* LeftBoldColorBorderUILabel.m in Sources */,
 				630B3B3B19F01CB9007B2442 /* CustomerInfoTableDataManager.m in Sources */,
+				638A42B52191F3A0006F993B /* MeetingMainSectionViewFactory.m in Sources */,
 				630B34C519F014E9007B2442 /* WebServiceSharedClass.m in Sources */,
 				63ABC88D19F0252000DE2B1B /* UtilitiesArcosSplitViewController.m in Sources */,
 				630B3C8F19F01CB9007B2442 /* CurrentVersionFlag.m in Sources */,
@@ -9324,6 +9371,7 @@
 				630B34DB19F014E9007B2442 /* SplitDividerUILabel.m in Sources */,
 				632FD68F1EFAB1B80037701D /* CustomerSurveyDetailsDataManager.m in Sources */,
 				630B3DB719F01CB9007B2442 /* ArcosService.m in Sources */,
+				638A42B82191F79B006F993B /* MeetingMainBaseSectionView.m in Sources */,
 				630B3D9F19F01CB9007B2442 /* ArcosErrorModel.m in Sources */,
 				630B3B7719F01CB9007B2442 /* CustomerMemoDataManager.m in Sources */,
 				630B3DA919F01CB9007B2442 /* ArcosLocalConfigBO.m in Sources */,

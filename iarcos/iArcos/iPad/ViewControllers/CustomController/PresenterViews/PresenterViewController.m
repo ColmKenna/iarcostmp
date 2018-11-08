@@ -323,7 +323,7 @@
 
 -(void)oneOrderFormBranch:(NSString*)Lxcode orderLevel:(NSNumber*)anOrderLevel productIUR:(NSNumber*)ProductIUR button:(UIBarButtonItem*)button {
     //single product
-    if ([ProductIUR intValue]>0) {
+    if ([ProductIUR intValue]>0 && ([anOrderLevel intValue] == 0 || [anOrderLevel intValue] == 6)) {
         NSMutableDictionary* formRow=[NSMutableDictionary dictionary];
         
 //        BOOL isProductInCurrentForm=[[OrderSharedClass sharedOrderSharedClass]isProductInCurrentFormWithIUR:ProductIUR];
@@ -364,7 +364,7 @@
         }        
         [self.inputPopover presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
         
-    }else if([ProductIUR intValue]<=0){//product group
+    } else {//product group
 //        ![Lxcode isEqualToString:@""]&&
         NSMutableArray* unsortFormRows = [NSMutableArray array];
         if ([anOrderLevel intValue] == 7 || [anOrderLevel intValue] == 8) {
@@ -410,7 +410,7 @@
 
 -(void)multipleOrderFormBranch:(NSString*)Lxcode orderLevel:(NSNumber*)anOrderLevel productIUR:(NSNumber*)ProductIUR button:(UIBarButtonItem*)button {
     //single product
-    if ([ProductIUR intValue]>0) {
+    if ([ProductIUR intValue]>0  && ([anOrderLevel intValue] == 0 || [anOrderLevel intValue] == 6)) {
         NSMutableDictionary* formRow=[NSMutableDictionary dictionary];        
 //        NSLog(@"get only one product!");
         formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
@@ -435,7 +435,7 @@
         }        
         [self.inputPopover presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
         
-    }else if([ProductIUR intValue]<=0){//product group
+    } else {//product group
         //![Lxcode isEqualToString:@""]&&
         NSMutableArray* unsortFormRows=[NSMutableArray array];
         if ([anOrderLevel intValue] == 7 || [anOrderLevel intValue] == 8) {//order form type

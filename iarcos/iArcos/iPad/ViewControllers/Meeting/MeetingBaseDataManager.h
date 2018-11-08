@@ -11,11 +11,19 @@
 
 @interface MeetingBaseDataManager : NSObject {
     MeetingCellKeyDefinition* _meetingCellKeyDefinition;
+    NSMutableDictionary* _headOfficeDataObjectDict;
 }
 
 @property(nonatomic, retain) MeetingCellKeyDefinition* meetingCellKeyDefinition;
+@property(nonatomic, retain) NSMutableDictionary* headOfficeDataObjectDict;
 
+- (void)createBasicData;
 - (NSMutableDictionary*)createDefaultIURDict;
+- (NSMutableDictionary*)createStringCellWithFieldName:(NSString*)aFieldName;
+- (NSMutableDictionary*)createLocationCellWithFieldName:(NSString*)aFieldName;
+- (NSMutableDictionary*)createEmployeeCellWithFieldName:(NSString*)aFieldName;
+- (NSMutableDictionary*)createTextViewCellWithFieldName:(NSString*)aFieldName;
+- (NSMutableDictionary*)createIURCellWithFieldName:(NSString*)aFieldName;
 
 @end
 

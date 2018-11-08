@@ -11,13 +11,10 @@
 
 @interface MeetingDetailsDataManager : MeetingBaseDataManager {
     NSMutableArray* _displayList;
-    NSMutableDictionary* _headOfficeDataObjectDict;
 }
 
 @property(nonatomic, retain) NSMutableArray* displayList;
-@property(nonatomic, retain) NSMutableDictionary* headOfficeDataObjectDict;
 
-- (void)createBasicData;
 
 @end
 
