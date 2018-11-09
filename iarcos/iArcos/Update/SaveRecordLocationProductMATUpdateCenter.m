@@ -66,7 +66,7 @@
             self.isSaveRecordLoadingFinished = NO;
             NSString* rowStr = [self.recordList objectAtIndex:self.rowPointer];
             NSArray* fieldList = [rowStr componentsSeparatedByString:self.delimiter];
-            NSLog(@"cc %d", [ArcosUtils convertNSUIntegerToUnsignedInt:[fieldList count]]);
+//            NSLog(@"cc %d", [ArcosUtils convertNSUIntegerToUnsignedInt:[fieldList count]]);
             if ([fieldList count] == self.expectedFieldCount) {
                 [self loadObjectWithFieldList:fieldList];
                 self.activeRecordCount++;
