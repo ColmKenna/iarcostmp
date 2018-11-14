@@ -31,6 +31,7 @@
 @synthesize isSlideUpViewShowing = _isSlideUpViewShowing;
 @synthesize leafSmallTemplateViewController = _leafSmallTemplateViewController;
 @synthesize arcosRootViewController = _arcosRootViewController;
+@synthesize emailAllBarButton = _emailAllBarButton;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -115,10 +116,26 @@
                                initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                target:self
                                action:@selector(refreshButtonPressed:)];
+    self.emailAllBarButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"email_all.png"] style:UIBarButtonItemStylePlain target:self action:@selector(emailAllBarButtonPressed:)] autorelease];
     NSMutableArray* currentRightBarButtonItemList = [NSMutableArray arrayWithArray: self.navigationItem.rightBarButtonItems];
     [currentRightBarButtonItemList addObject:refreshBarButton];
+    [currentRightBarButtonItemList addObject:self.emailAllBarButton];
     self.navigationItem.rightBarButtonItems = currentRightBarButtonItemList;
     [refreshBarButton release];
+}
+
+- (BOOL)emailAllBarButtonPressed:(id)sender {
+    if (![self validateHiddenPopovers]) return NO;
+    [self createEmailPopoverProcessor];
+    [self.emailPopover presentPopoverFromBarButtonItem:self.emailAllBarButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    self.emailButtonAddressSelectDelegate = [[[EmailAllButtonAddressSelectDataManager alloc] initWithTarget:self] autorelease];
+    return YES;
+}
+
+- (BOOL)emailButtonPressed:(id)sender {
+    if (![super emailButtonPressed:sender]) return NO;
+    self.emailButtonAddressSelectDelegate = [[[EmailOneButtonAddressSelectDataManager alloc] initWithTarget:self] autorelease];
+    return YES;
 }
 
 - (void)refreshButtonPressed:(id)sender {
@@ -311,6 +328,7 @@
     [self.leafSmallTemplateViewController removeFromParentViewController];
     self.leafSmallTemplateViewController = nil;
     self.arcosRootViewController = nil;
+    self.emailAllBarButton = nil;
     
     [super dealloc];
 }
@@ -436,7 +454,28 @@
     }
 }
 
-- (void)didSelectEmailRecipientRow:(NSDictionary*)cellData {    
+- (void)didSelectEmailRecipientRow:(NSDictionary*)cellData {
+    [self.emailButtonAddressSelectDelegate emailDidSelectEmailRecipientRow:cellData];
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([self.emailButtonAddressSelectDelegate isKindOfClass:[EmailAllButtonAddressSelectDataManager class]]) {
+        [self emailAllAlertView:alertView clickedButtonAtIndex:buttonIndex];
+    } else if ([self.emailButtonAddressSelectDelegate isKindOfClass:[EmailOneButtonAddressSelectDataManager class]]) {
+        [self emailOneAlertView:alertView clickedButtonAtIndex:buttonIndex];
+    }
+}
+
+- (void)emailAllDidSelectEmailRecipientRow:(NSDictionary*)cellData {
+    [super didSelectEmailRecipientRow:cellData];
+}
+
+- (void)emailAllAlertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    [super alertView:alertView clickedButtonAtIndex:buttonIndex];
+}
+
+- (void)emailOneDidSelectEmailRecipientRow:(NSDictionary*)cellData {
     [self.emailPopover dismissPopoverAnimated:YES];
     self.auxEmailCellData = cellData;
     self.rowPointer = 0;
@@ -454,8 +493,7 @@
     }
 }
 
-#pragma mark - UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+- (void)emailOneAlertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag != 36) return;
     if (buttonIndex == [alertView cancelButtonIndex]) {
         [self.removedFileList addObject:[self.candidateRemovedFileList objectAtIndex:self.rowPointer]];

@@ -46,7 +46,7 @@
 #pragma mark - Table view data source
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSMutableDictionary* cellData = [self.meetingDetailsDataManager.displayList objectAtIndex:indexPath.row];
-    if ([[cellData objectForKey:@"FieldName"] isEqualToString:@"Comments"]) {
+    if ([[cellData objectForKey:@"CellType"] intValue] == 5) {
         return 124;
     }
     return 44;

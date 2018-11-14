@@ -13,6 +13,9 @@
 #import "PresenterCombinedSlideViewVideoItemController.h"
 #import "LeafSmallTemplateViewController.h"
 @class ArcosRootViewController;
+#import "EmailOneButtonAddressSelectDataManager.h"
+#import "EmailAllButtonAddressSelectDataManager.h"
+
 @interface PresenterCombinedSlideViewController : PresenterViewController <PresenterCombinedSlideViewItemDelegate,LeafSmallTemplateViewItemDelegate>{
     UIScrollView* _scrollView;
     int _currentPage;
@@ -22,6 +25,8 @@
     BOOL _isSlideUpViewShowing;
     LeafSmallTemplateViewController* _leafSmallTemplateViewController;
     ArcosRootViewController* _arcosRootViewController;
+    UIBarButtonItem* _emailAllBarButton;
+    
 }
 
 @property (nonatomic, retain) IBOutlet UIScrollView* scrollView;
@@ -32,5 +37,6 @@
 @property (nonatomic, assign) BOOL isSlideUpViewShowing;
 @property(nonatomic, retain) LeafSmallTemplateViewController* leafSmallTemplateViewController;
 @property(nonatomic, retain) ArcosRootViewController* arcosRootViewController;
+@property(nonatomic, retain) UIBarButtonItem* emailAllBarButton;
 
 @end

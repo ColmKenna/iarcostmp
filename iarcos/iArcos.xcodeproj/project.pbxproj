@@ -984,6 +984,10 @@
 		630C99E72110B3D5007F96C3 /* PresenterBridgeGridDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 630C99E62110B3D5007F96C3 /* PresenterBridgeGridDataManager.m */; };
 		630CF3D220DBBA1800B1CEA1 /* WeeklyMainTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 630CF3D020DBBA1800B1CEA1 /* WeeklyMainTemplateViewController.m */; };
 		630CF3D320DBBA1800B1CEA1 /* WeeklyMainTemplateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 630CF3D120DBBA1800B1CEA1 /* WeeklyMainTemplateViewController.xib */; };
+		630D6894219AD46600E85F8F /* MeetingCostingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 630D6892219AD46600E85F8F /* MeetingCostingsTableViewController.m */; };
+		630D6895219AD46600E85F8F /* MeetingCostingsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 630D6893219AD46600E85F8F /* MeetingCostingsTableViewController.xib */; };
+		630D6898219AD48100E85F8F /* MeetingCostingsDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 630D6897219AD48100E85F8F /* MeetingCostingsDataManager.m */; };
+		630D689A219AFF2100E85F8F /* email_all@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 630D6899219AFF2100E85F8F /* email_all@2x.png */; };
 		630EB91F1CB6B73F0026FC2B /* UploadProcessCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 630EB91E1CB6B73F0026FC2B /* UploadProcessCenter.m */; };
 		630EB9221CB6B7620026FC2B /* UploadWebServiceProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 630EB9211CB6B7620026FC2B /* UploadWebServiceProcessor.m */; };
 		630F0EF72174E39A000BDA94 /* ProductDetailDesignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 630F0EF52174E39A000BDA94 /* ProductDetailDesignViewController.m */; };
@@ -1184,6 +1188,9 @@
 		6378CB8E1CB54A0300A1E904 /* DownloadFunctionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6378CB8D1CB54A0300A1E904 /* DownloadFunctionTableViewCell.m */; };
 		6378CB911CB54A3100A1E904 /* UploadFunctionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6378CB901CB54A3100A1E904 /* UploadFunctionTableViewCell.m */; };
 		637CA1661C0C698B00978A1B /* ArcosAuxiliaryDataProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 637CA1651C0C698B00978A1B /* ArcosAuxiliaryDataProcessor.m */; };
+		637D2143219B3BBA0008B7CB /* EmailOneButtonAddressSelectDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 637D2142219B3BBA0008B7CB /* EmailOneButtonAddressSelectDataManager.m */; };
+		637D2146219B3BD10008B7CB /* EmailAllButtonAddressSelectDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 637D2145219B3BD10008B7CB /* EmailAllButtonAddressSelectDataManager.m */; };
+		637D2149219B3E400008B7CB /* EmailButtonAddressSelectBaseDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 637D2148219B3E400008B7CB /* EmailButtonAddressSelectBaseDataManager.m */; };
 		637F64631CCA76BE00FF80B7 /* ArcosBorderUIButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 637F64621CCA76BE00FF80B7 /* ArcosBorderUIButton.m */; };
 		637F64691CCA82A600FF80B7 /* ArcosBorderBackgroundUIButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 637F64681CCA82A600FF80B7 /* ArcosBorderBackgroundUIButton.m */; };
 		637F81C81AE7ACE80089978D /* SaveRecordBaseUpdateCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 637F81C71AE7ACE80089978D /* SaveRecordBaseUpdateCenter.m */; };
@@ -3420,6 +3427,12 @@
 		630CF3CF20DBBA1800B1CEA1 /* WeeklyMainTemplateViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeeklyMainTemplateViewController.h; sourceTree = "<group>"; };
 		630CF3D020DBBA1800B1CEA1 /* WeeklyMainTemplateViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeeklyMainTemplateViewController.m; sourceTree = "<group>"; };
 		630CF3D120DBBA1800B1CEA1 /* WeeklyMainTemplateViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeeklyMainTemplateViewController.xib; sourceTree = "<group>"; };
+		630D6891219AD46600E85F8F /* MeetingCostingsTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingCostingsTableViewController.h; sourceTree = "<group>"; };
+		630D6892219AD46600E85F8F /* MeetingCostingsTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingCostingsTableViewController.m; sourceTree = "<group>"; };
+		630D6893219AD46600E85F8F /* MeetingCostingsTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeetingCostingsTableViewController.xib; sourceTree = "<group>"; };
+		630D6896219AD48100E85F8F /* MeetingCostingsDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingCostingsDataManager.h; sourceTree = "<group>"; };
+		630D6897219AD48100E85F8F /* MeetingCostingsDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingCostingsDataManager.m; sourceTree = "<group>"; };
+		630D6899219AFF2100E85F8F /* email_all@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "email_all@2x.png"; sourceTree = "<group>"; };
 		630EB91D1CB6B73F0026FC2B /* UploadProcessCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadProcessCenter.h; sourceTree = "<group>"; };
 		630EB91E1CB6B73F0026FC2B /* UploadProcessCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadProcessCenter.m; sourceTree = "<group>"; };
 		630EB9201CB6B7620026FC2B /* UploadWebServiceProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadWebServiceProcessor.h; sourceTree = "<group>"; };
@@ -3776,6 +3789,13 @@
 		6378CB931CB54DFB00A1E904 /* UploadFunctionTableViewCellDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadFunctionTableViewCellDelegate.h; sourceTree = "<group>"; };
 		637CA1641C0C698B00978A1B /* ArcosAuxiliaryDataProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArcosAuxiliaryDataProcessor.h; sourceTree = "<group>"; };
 		637CA1651C0C698B00978A1B /* ArcosAuxiliaryDataProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArcosAuxiliaryDataProcessor.m; sourceTree = "<group>"; };
+		637D2140219B37330008B7CB /* EmailButtonAddressSelectDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmailButtonAddressSelectDelegate.h; sourceTree = "<group>"; };
+		637D2141219B3BBA0008B7CB /* EmailOneButtonAddressSelectDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmailOneButtonAddressSelectDataManager.h; sourceTree = "<group>"; };
+		637D2142219B3BBA0008B7CB /* EmailOneButtonAddressSelectDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmailOneButtonAddressSelectDataManager.m; sourceTree = "<group>"; };
+		637D2144219B3BD10008B7CB /* EmailAllButtonAddressSelectDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmailAllButtonAddressSelectDataManager.h; sourceTree = "<group>"; };
+		637D2145219B3BD10008B7CB /* EmailAllButtonAddressSelectDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmailAllButtonAddressSelectDataManager.m; sourceTree = "<group>"; };
+		637D2147219B3E400008B7CB /* EmailButtonAddressSelectBaseDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmailButtonAddressSelectBaseDataManager.h; sourceTree = "<group>"; };
+		637D2148219B3E400008B7CB /* EmailButtonAddressSelectBaseDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmailButtonAddressSelectBaseDataManager.m; sourceTree = "<group>"; };
 		637F64611CCA76BE00FF80B7 /* ArcosBorderUIButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArcosBorderUIButton.h; sourceTree = "<group>"; };
 		637F64621CCA76BE00FF80B7 /* ArcosBorderUIButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArcosBorderUIButton.m; sourceTree = "<group>"; };
 		637F64671CCA82A600FF80B7 /* ArcosBorderBackgroundUIButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArcosBorderBackgroundUIButton.h; sourceTree = "<group>"; };
@@ -5236,6 +5256,13 @@
 				630C99E22110A909007F96C3 /* PresenterBridgeGridViewController.xib */,
 				630C99E52110B3D5007F96C3 /* PresenterBridgeGridDataManager.h */,
 				630C99E62110B3D5007F96C3 /* PresenterBridgeGridDataManager.m */,
+				637D2140219B37330008B7CB /* EmailButtonAddressSelectDelegate.h */,
+				637D2141219B3BBA0008B7CB /* EmailOneButtonAddressSelectDataManager.h */,
+				637D2142219B3BBA0008B7CB /* EmailOneButtonAddressSelectDataManager.m */,
+				637D2144219B3BD10008B7CB /* EmailAllButtonAddressSelectDataManager.h */,
+				637D2145219B3BD10008B7CB /* EmailAllButtonAddressSelectDataManager.m */,
+				637D2147219B3E400008B7CB /* EmailButtonAddressSelectBaseDataManager.h */,
+				637D2148219B3E400008B7CB /* EmailButtonAddressSelectBaseDataManager.m */,
 			);
 			path = PresenterViews;
 			sourceTree = "<group>";
@@ -7219,6 +7246,7 @@
 		630B3A5419F01CB8007B2442 /* ShareImage */ = {
 			isa = PBXGroup;
 			children = (
+				630D6899219AFF2100E85F8F /* email_all@2x.png */,
 				639FBA2D218A1A33001A5490 /* Meeting.png */,
 				63FDA4262136F52300C6400E /* Target.png */,
 				634DC46D2121968200AA2BF0 /* PriceChange@2x.png */,
@@ -7706,6 +7734,11 @@
 				63C2D51D219438BB00C57ECC /* MeetingObjectivesTableViewController.xib */,
 				63C2D520219438DC00C57ECC /* MeetingObjectivesDataManager.h */,
 				63C2D521219438DC00C57ECC /* MeetingObjectivesDataManager.m */,
+				630D6891219AD46600E85F8F /* MeetingCostingsTableViewController.h */,
+				630D6892219AD46600E85F8F /* MeetingCostingsTableViewController.m */,
+				630D6893219AD46600E85F8F /* MeetingCostingsTableViewController.xib */,
+				630D6896219AD48100E85F8F /* MeetingCostingsDataManager.h */,
+				630D6897219AD48100E85F8F /* MeetingCostingsDataManager.m */,
 			);
 			path = Meeting;
 			sourceTree = "<group>";
@@ -8088,6 +8121,7 @@
 				630B3C9F19F01CB9007B2442 /* LargeSmallL3SearchFormRowSlideViewController.xib in Resources */,
 				63FDD582207FB51500F4A4A5 /* DashboardMainTemplateTableViewButton.xib in Resources */,
 				630B3E1B19F01CB9007B2442 /* right.png in Resources */,
+				630D6895219AD46600E85F8F /* MeetingCostingsTableViewController.xib in Resources */,
 				63CBF58E218C75920098340A /* MeetingMainTableViewCells.xib in Resources */,
 				630B3BB519F01CB9007B2442 /* CustomerInvoiceTableCell.xib in Resources */,
 				6339CA871A00EF4000C88626 /* ArcosStackedViewController.xib in Resources */,
@@ -8298,6 +8332,7 @@
 				63D2FB541D6724F000040C5A /* CustomerInfoAccessTimesCalendarTableViewController.xib in Resources */,
 				630B3DE619F01CB9007B2442 /* presenterTableCell_yellow_stretchable.png in Resources */,
 				630B3CC819F01CB9007B2442 /* ReportExcelViewController.xib in Resources */,
+				630D689A219AFF2100E85F8F /* email_all@2x.png in Resources */,
 				630B3B5519F01CB9007B2442 /* LocationStampMapView.xib in Resources */,
 				63F97089207F7BF200CE188A /* DashboardMainTemplateTableViewCell.xib in Resources */,
 				630B3DE819F01CB9007B2442 /* Analysis.png in Resources */,
@@ -9000,6 +9035,7 @@
 				631477A22121D15A00DBF9A3 /* PriceChangeDataManager.m in Sources */,
 				63ABC88619F0243200DE2B1B /* StackedSplitDividerUILabel.m in Sources */,
 				630B3DB619F01CB9007B2442 /* ArcosResponseBO.m in Sources */,
+				630D6894219AD46600E85F8F /* MeetingCostingsTableViewController.m in Sources */,
 				630B34CB19F014E9007B2442 /* ArcosQLPreviewController.m in Sources */,
 				630B346519F0127C007B2442 /* Setting.m in Sources */,
 				638944CE1B204AEF00B7E6E5 /* Product.m in Sources */,
@@ -9049,9 +9085,11 @@
 				630B3C8E19F01CB9007B2442 /* SelectedableTableCell.m in Sources */,
 				63F73A911FC86E0C00091A32 /* ProductPredictiveSearchDataManager.m in Sources */,
 				630B3DCE19F01CB9007B2442 /* CXMLNode.m in Sources */,
+				630D6898219AD48100E85F8F /* MeetingCostingsDataManager.m in Sources */,
 				630B3B6019F01CB9007B2442 /* CustomerContactDataManager.m in Sources */,
 				630B3C8219F01CB9007B2442 /* OrderDetailTextFieldTableCell.m in Sources */,
 				630B3C9A19F01CB9007B2442 /* L5L3SearchDataManager.m in Sources */,
+				637D2146219B3BD10008B7CB /* EmailAllButtonAddressSelectDataManager.m in Sources */,
 				630B3D9C19F01CB9007B2442 /* ArcosDescrDetailBO.m in Sources */,
 				630B34C719F014E9007B2442 /* ArcosAlgorithmUtils.m in Sources */,
 				630B344319F0127C007B2442 /* FormDetail.m in Sources */,
@@ -9302,6 +9340,7 @@
 				630B3CD119F01CB9007B2442 /* ReportCellFactory.m in Sources */,
 				630B3DAD19F01CB9007B2442 /* ArcosOrderHeaderBO.m in Sources */,
 				63C3E6F91BB049BC0067213D /* Location.m in Sources */,
+				637D2149219B3E400008B7CB /* EmailButtonAddressSelectBaseDataManager.m in Sources */,
 				630FEA7E1E5EF243008B2110 /* PresenterEbookViewController.m in Sources */,
 				630B3DB419F01CB9007B2442 /* ArcosRequestBO.m in Sources */,
 				630B3E2C19F01CB9007B2442 /* NSObject+SBJSON.m in Sources */,
@@ -9410,6 +9449,7 @@
 				630B34DD19F014E9007B2442 /* UIImage+Resize.m in Sources */,
 				630B3BA719F01CB9007B2442 /* CustomerContactTableCell.m in Sources */,
 				630B3DC119F01CB9007B2442 /* SoapDictionary.m in Sources */,
+				637D2143219B3BBA0008B7CB /* EmailOneButtonAddressSelectDataManager.m in Sources */,
 				6300C6A52178C17B00D3012E /* ArcosArrayOfTargetDetail.m in Sources */,
 				63C00C741CE4A32400ECDC34 /* CustomerGroupContactDataManager.m in Sources */,
 				630B3C9819F01CB9007B2442 /* L3SearchFormRowsTableViewController.m in Sources */,

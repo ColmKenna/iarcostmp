@@ -27,6 +27,11 @@
 @synthesize speakerAgreementKey = _speakerAgreementKey;
 @synthesize speakerAgreementDetailsKey = _speakerAgreementDetailsKey;
 
+@synthesize meetingMOKey = _meetingMOKey;
+@synthesize preMeetingKey = _preMeetingKey;
+@synthesize postMeetingKey = _postMeetingKey;
+@synthesize agendaKey = _agendaKey;
+
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -47,6 +52,11 @@
         self.l5Key = @"L5";
         self.speakerAgreementKey = @"SpeakerAgreement";
         self.speakerAgreementDetailsKey = @"SpeakerAgreementDetails";
+        
+        self.meetingMOKey = @"MeetingMO";
+        self.preMeetingKey = @"PreMeeting";
+        self.postMeetingKey = @"PostMeeting";
+        self.agendaKey = @"Agenda";
     }
     
     return self;
@@ -70,6 +80,11 @@
     self.l5Key = nil;
     self.speakerAgreementKey = nil;
     self.speakerAgreementDetailsKey = nil;
+    
+    self.meetingMOKey = nil;
+    self.preMeetingKey = nil;
+    self.postMeetingKey = nil;
+    self.agendaKey = nil;
     
     [super dealloc];
 }

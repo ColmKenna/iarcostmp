@@ -39,6 +39,7 @@
 @synthesize rootView = _rootView;
 @synthesize frwvc = _frwvc;
 @synthesize formRowsNavigationController = _formRowsNavigationController;
+@synthesize emailButtonAddressSelectDelegate = _emailButtonAddressSelectDelegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -149,11 +150,7 @@
     [self.navigationController.view setNeedsLayout];
 }
 
--(void)emailButtonPressed:(id)sender{
-    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
-        [self.emailPopover dismissPopoverAnimated:YES];
-        return;
-    }
+- (void)createEmailPopoverProcessor {
     self.emailRecipientTableViewController = [[[EmailRecipientTableViewController alloc] initWithNibName:@"EmailRecipientTableViewController" bundle:nil] autorelease];
     self.emailRecipientTableViewController.locationIUR = [GlobalSharedClass shared].currentSelectedLocationIUR;
     self.emailRecipientTableViewController.requestSource = EmailRequestSourcePresenter;
@@ -162,8 +159,17 @@
     self.emailPopover = [[[UIPopoverController alloc]initWithContentViewController:emailNavigationController] autorelease];
     
     self.emailPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
-    
+}
+
+- (BOOL)emailButtonPressed:(id)sender {
+//    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
+//        [self.emailPopover dismissPopoverAnimated:YES];
+//        return;
+//    }
+    if (![self validateHiddenPopovers]) return NO;
+    [self createEmailPopoverProcessor];    
     [self.emailPopover presentPopoverFromBarButtonItem:self.emailButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    return YES;
 }
 
 #pragma mark order product
@@ -317,6 +323,7 @@
     self.frwvc = nil;
     [self.formRowsNavigationController.view removeFromSuperview];
     self.formRowsNavigationController = nil;
+    self.emailButtonAddressSelectDelegate = nil;
     
     [super dealloc];
 }
@@ -835,6 +842,14 @@
             return NO;
         }
     }    
+    return YES;
+}
+
+- (BOOL)validateHiddenPopovers {
+    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
+        [self.emailPopover dismissPopoverAnimated:YES];
+        return NO;
+    }
     return YES;
 }
 

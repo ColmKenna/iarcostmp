@@ -8,12 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "MeetingObjectivesDataManager.h"
+#import "MeetingMainTableCellFactory.h"
 
-@interface MeetingObjectivesTableViewController : UITableViewController {
+@interface MeetingObjectivesTableViewController : UITableViewController <MeetingBaseTableViewCellDelegate> {
     MeetingObjectivesDataManager* _meetingObjectivesDataManager;
+    MeetingMainTableCellFactory* _tableCellFactory;
 }
 
 @property(nonatomic, retain) MeetingObjectivesDataManager* meetingObjectivesDataManager;
+@property(nonatomic, retain) MeetingMainTableCellFactory* tableCellFactory;
 
 @end
 

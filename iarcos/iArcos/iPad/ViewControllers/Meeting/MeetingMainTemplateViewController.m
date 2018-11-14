@@ -17,6 +17,7 @@
 @synthesize templateView = _templateView;
 @synthesize meetingDetailsTableViewController = _meetingDetailsTableViewController;
 @synthesize meetingMiscTableViewController = _meetingMiscTableViewController;
+@synthesize meetingObjectivesTableViewController = _meetingObjectivesTableViewController;
 @synthesize layoutKeyList = _layoutKeyList;
 @synthesize layoutObjectList = _layoutObjectList;
 @synthesize objectViewControllerList = _objectViewControllerList;
@@ -39,9 +40,10 @@
     
     self.meetingDetailsTableViewController = [[[MeetingDetailsTableViewController alloc] initWithNibName:@"MeetingDetailsTableViewController" bundle:nil] autorelease];
     self.meetingMiscTableViewController = [[[MeetingMiscTableViewController alloc] initWithNibName:@"MeetingMiscTableViewController" bundle:nil] autorelease];
-    self.layoutKeyList = [NSArray arrayWithObjects:@"AuxDetails", @"AuxMisc", nil];
-    self.layoutObjectList = [NSArray arrayWithObjects:self.meetingDetailsTableViewController.view, self.meetingMiscTableViewController.view, nil];
-    self.objectViewControllerList = [NSArray arrayWithObjects:self.meetingDetailsTableViewController, self.meetingMiscTableViewController, nil];
+    self.meetingObjectivesTableViewController = [[[MeetingObjectivesTableViewController alloc] initWithNibName:@"MeetingObjectivesTableViewController" bundle:nil] autorelease];
+    self.layoutKeyList = [NSArray arrayWithObjects:@"AuxDetails", @"AuxMisc", @"AuxObjectives", nil];
+    self.layoutObjectList = [NSArray arrayWithObjects:self.meetingDetailsTableViewController.view, self.meetingMiscTableViewController.view, self.meetingObjectivesTableViewController.view, nil];
+    self.objectViewControllerList = [NSArray arrayWithObjects:self.meetingDetailsTableViewController, self.meetingMiscTableViewController, self.meetingObjectivesTableViewController, nil];
     
     self.layoutDict = [NSDictionary dictionaryWithObjects:self.layoutObjectList forKeys:self.layoutKeyList];
 //    self.layoutDict = @{@"AuxDetails" : self.meetingDetailsTableViewController.view,
@@ -71,6 +73,7 @@
     self.templateView = nil;
     self.meetingDetailsTableViewController = nil;
     self.meetingMiscTableViewController = nil;
+    self.meetingObjectivesTableViewController = nil;
     for (int i = 0; i < [self.objectViewControllerList count]; i++) {
         UIViewController* tmpObjectViewController = [self.objectViewControllerList objectAtIndex:i];
         [tmpObjectViewController willMoveToParentViewController:nil];
@@ -98,6 +101,11 @@
             
         case 1: {
             self.meetingMiscTableViewController.view.hidden = NO;
+        }
+            break;
+            
+        case 2: {
+            self.meetingObjectivesTableViewController.view.hidden = NO;
         }
             break;
             

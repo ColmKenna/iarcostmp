@@ -9,12 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "MeetingDetailsTableViewController.h"
 #import "MeetingMiscTableViewController.h"
+#import "MeetingObjectivesTableViewController.h"
 
 @interface MeetingMainTemplateViewController : UIViewController {
     UISegmentedControl* _mySegmentedControl;
     UIView* _templateView;
     MeetingDetailsTableViewController* _meetingDetailsTableViewController;
     MeetingMiscTableViewController* _meetingMiscTableViewController;
+    MeetingObjectivesTableViewController* _meetingObjectivesTableViewController;
     NSArray* _layoutKeyList;
     NSArray* _layoutObjectList;
     NSArray* _objectViewControllerList;
@@ -25,6 +27,7 @@
 @property(nonatomic, retain) IBOutlet UIView* templateView;
 @property(nonatomic, retain) MeetingDetailsTableViewController* meetingDetailsTableViewController;
 @property(nonatomic, retain) MeetingMiscTableViewController* meetingMiscTableViewController;
+@property(nonatomic, retain) MeetingObjectivesTableViewController* meetingObjectivesTableViewController;
 @property(nonatomic, retain) NSArray* layoutKeyList;
 @property(nonatomic, retain) NSArray* layoutObjectList;
 @property(nonatomic, retain) NSArray* objectViewControllerList;

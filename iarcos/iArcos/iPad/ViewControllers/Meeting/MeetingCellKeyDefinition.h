@@ -29,6 +29,11 @@
     NSString* _l5Key;
     NSString* _speakerAgreementKey;
     NSString* _speakerAgreementDetailsKey;
+    //Objectives
+    NSString* _meetingMOKey;
+    NSString* _preMeetingKey;
+    NSString* _postMeetingKey;
+    NSString* _agendaKey;
 }
 
 @property(nonatomic, retain) NSString* dateKey;
@@ -48,6 +53,11 @@
 @property(nonatomic, retain) NSString* l5Key;
 @property(nonatomic, retain) NSString* speakerAgreementKey;
 @property(nonatomic, retain) NSString* speakerAgreementDetailsKey;
+
+@property(nonatomic, retain) NSString* meetingMOKey;
+@property(nonatomic, retain) NSString* preMeetingKey;
+@property(nonatomic, retain) NSString* postMeetingKey;
+@property(nonatomic, retain) NSString* agendaKey;
 
 
 @end

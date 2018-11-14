@@ -19,6 +19,7 @@
 #import "ArcosMailWrapperViewController.h"
 #import "FormRowsWrapperViewController.h"
 @class ArcosRootViewController;
+#import "EmailButtonAddressSelectDelegate.h"
 
 typedef enum {
     PresenterRequestSourceSubMenu = 0,
@@ -51,6 +52,7 @@ typedef enum {
     ArcosRootViewController* _rootView;
     FormRowsWrapperViewController* frwvc;
     UINavigationController* _formRowsNavigationController;
+    id<EmailButtonAddressSelectDelegate> _emailButtonAddressSelectDelegate;
 }
 @property(nonatomic, assign) PresenterRequestSource presenterRequestSource;
 @property(nonatomic,retain)    NSMutableArray* files;
@@ -74,6 +76,7 @@ typedef enum {
 @property (nonatomic, retain) UIViewController* rootView;
 @property (nonatomic, retain) FormRowsWrapperViewController* frwvc;
 @property (nonatomic, retain) UINavigationController* formRowsNavigationController;
+@property (nonatomic, retain) id<EmailButtonAddressSelectDelegate> emailButtonAddressSelectDelegate;
 
 -(int)indexForFile:(NSString*)fileName;
 -(void)resetBarTitle:(NSString*)title;
@@ -87,5 +90,8 @@ typedef enum {
 - (BOOL)isFileInRemovedList:(NSString*)fileName;
 - (void)processPtranRecord:(NSDictionary*)cellData;
 - (int)retrieveStatusBarHeight;
+- (BOOL)emailButtonPressed:(id)sender;
+- (BOOL)validateHiddenPopovers;
+- (void)createEmailPopoverProcessor;
 
 @end
