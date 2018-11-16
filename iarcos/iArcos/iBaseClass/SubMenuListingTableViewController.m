@@ -48,6 +48,28 @@
     if (self) {
         // Custom initialization
         self.subMenuListingDataManager = [[[SubMenuListingDataManager alloc] init] autorelease];
+        self.orderTitle = @"Order";
+        self.presenterTitle = @"Presenter";
+        self.callTitle = @"Call";
+        self.surveyTitle = @"Survey";
+        self.myCustomControllerTitle = @"MyCustomController";
+        self.mapTitle = @"Map";
+        self.photosTitle = @"Photos";
+        self.ruleoutTitleDict = [NSMutableDictionary dictionaryWithCapacity:2];
+        [self.ruleoutTitleDict setObject:self.orderTitle forKey:self.orderTitle];
+        [self.ruleoutTitleDict setObject:self.presenterTitle forKey:self.presenterTitle];
+        [self.ruleoutTitleDict setObject:self.mapTitle forKey:self.mapTitle];
+        [self.ruleoutTitleDict setObject:self.photosTitle forKey:self.photosTitle];
+        NSMutableDictionary* orderCellData = [self createItemCellData:self.orderTitle imageFile:@"CheckoutIcon.png"];
+        NSMutableDictionary* presenterCellData = [self createItemCellData:self.presenterTitle imageFile:@"PresenterIcon.png"];
+        NSMutableDictionary* callCellData = [self createItemCellData:self.callTitle imageFile:@"CallIcon.png"];
+        NSMutableDictionary* surveyCellData = [self createItemCellData:self.surveyTitle imageFile:@"OrderIcon.png"];
+        NSMutableDictionary* mapCellData = [self createItemCellData:self.mapTitle imageFile:@"MapIcon.png"];
+        NSMutableDictionary* photosCellData = [self createItemCellData:self.photosTitle imageFile:@"Camera.png"];
+        
+        self.displayList = [NSMutableArray arrayWithObjects:orderCellData, presenterCellData, callCellData, surveyCellData, mapCellData, photosCellData, nil];
+        self.CLController = [[[CoreLocationController alloc] init] autorelease];
+        self.CLController.delegate = self;
     }
     return self;
 }
@@ -61,28 +83,7 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.orderTitle = @"Order";
-    self.presenterTitle = @"Presenter";
-    self.callTitle = @"Call";
-    self.surveyTitle = @"Survey";
-    self.myCustomControllerTitle = @"MyCustomController";
-    self.mapTitle = @"Map";
-    self.photosTitle = @"Photos";
-    self.ruleoutTitleDict = [NSMutableDictionary dictionaryWithCapacity:2];
-    [self.ruleoutTitleDict setObject:self.orderTitle forKey:self.orderTitle];
-    [self.ruleoutTitleDict setObject:self.presenterTitle forKey:self.presenterTitle];
-    [self.ruleoutTitleDict setObject:self.mapTitle forKey:self.mapTitle];
-    [self.ruleoutTitleDict setObject:self.photosTitle forKey:self.photosTitle];
-    NSMutableDictionary* orderCellData = [self createItemCellData:self.orderTitle imageFile:@"CheckoutIcon.png"];
-    NSMutableDictionary* presenterCellData = [self createItemCellData:self.presenterTitle imageFile:@"PresenterIcon.png"];
-    NSMutableDictionary* callCellData = [self createItemCellData:self.callTitle imageFile:@"CallIcon.png"];
-    NSMutableDictionary* surveyCellData = [self createItemCellData:self.surveyTitle imageFile:@"OrderIcon.png"];
-    NSMutableDictionary* mapCellData = [self createItemCellData:self.mapTitle imageFile:@"MapIcon.png"];
-    NSMutableDictionary* photosCellData = [self createItemCellData:self.photosTitle imageFile:@"Camera.png"];
-
-    self.displayList = [NSMutableArray arrayWithObjects:orderCellData, presenterCellData, callCellData, surveyCellData, mapCellData, photosCellData, nil];
-    self.CLController = [[[CoreLocationController alloc] init] autorelease];
-    self.CLController.delegate = self;
+    
 //    self.displayDict = [NSMutableDictionary dictionaryWithCapacity:[self.displayList count]];
 }
 
@@ -114,7 +115,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self selectCurrentIndexPathRow:self.currentIndexPath];
+//    [self selectCurrentIndexPathRow:self.currentIndexPath];
 }
 
 #pragma mark - Table view data source
@@ -175,7 +176,7 @@
 - (void)selectCurrentIndexPathRow:(NSIndexPath*)aCurrentIndexPath {
     for (int i = 0; i < [self.displayList count]; i++) {
         NSIndexPath* tmpIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
-        CustomerMasterTabBarItemTableCell* itemTableCell = (CustomerMasterTabBarItemTableCell*)[self.tableView cellForRowAtIndexPath:tmpIndexPath];
+        CustomerMasterTabBarItemTableCell* itemTableCell = (CustomerMasterTabBarItemTableCell*)[[self.subMenuDelegate retrieveMasterBottomTableView] cellForRowAtIndexPath:tmpIndexPath];
         if ([aCurrentIndexPath isEqual:tmpIndexPath]) {
             [itemTableCell selectedImageProcessor];
         } else {
@@ -214,7 +215,7 @@
             void (^leaveActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
                 [self leaveCoordinateProcessor];
             };
-            [ArcosUtils showThreeBtnsDialogBox:[NSString stringWithFormat:@"Co-ordinates already set for %@. Please choose from following", [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Name"]]] title:@"" delegate:nil target:self tag:0 lBtnText:@"Remove" rBtnText:@"Reset" thirdBtnText:@"Leave" lBtnHandler:removeActionHandler rBtnHandler:resetActionHandler thirdBtnHandler:leaveActionHandler];
+            [ArcosUtils showThreeBtnsDialogBox:[NSString stringWithFormat:@"Co-ordinates already set for %@. Please choose from following", [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Name"]]] title:@"" delegate:nil target:[self.subMenuDelegate retrieveMasterViewController] tag:0 lBtnText:@"Remove" rBtnText:@"Reset" thirdBtnText:@"Leave" lBtnHandler:removeActionHandler rBtnHandler:resetActionHandler thirdBtnHandler:leaveActionHandler];
         }        
         return;
     }
@@ -244,7 +245,7 @@
 
 - (void)removeCoordinateProcessor {
     [[ArcosCoreData sharedArcosCoreData]saveGeoLocationWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR withLat:[NSNumber numberWithInteger:0] withLon:[NSNumber numberWithInteger:0]];
-    [ArcosUtils showDialogBox:@"Co-ordinates removed." title:@"" delegate:self target:self tag:99 handler:^(UIAlertAction *action) {
+    [ArcosUtils showDialogBox:@"Co-ordinates removed." title:@"" delegate:self target:[self.subMenuDelegate retrieveMasterViewController] tag:99 handler:^(UIAlertAction *action) {
         
     }];
 }
@@ -370,7 +371,7 @@
         }
         self.locationCoordinateCaptured = YES;
         [[ArcosCoreData sharedArcosCoreData]saveGeoLocationWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR withLat:latitude withLon:longitude];
-        [ArcosUtils showDialogBox:@"Co-ordinates saved." title:@"" delegate:self target:self tag:99 handler:^(UIAlertAction *action) {
+        [ArcosUtils showDialogBox:@"Co-ordinates saved." title:@"" delegate:self target:[self.subMenuDelegate retrieveMasterViewController] tag:99 handler:^(UIAlertAction *action) {
             self.locationCoordinateCaptured = NO;
         }];
     }
@@ -414,7 +415,7 @@
     imagePicker.allowsEditing = NO;
     
     // Show image picker
-    [self presentViewController:imagePicker animated:YES completion:nil];
+    [[self.subMenuDelegate retrieveMasterViewController] presentViewController:imagePicker animated:YES completion:nil];
     [imagePicker release];
     
 }
@@ -424,13 +425,13 @@
 {
     UIAlertController* tmpDialogBox = [UIAlertController alertControllerWithTitle:@"" message:@"Please enter Tag for Photo\n" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction* okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
-        [self.view endEditing:YES];
+        [[self.subMenuDelegate retrieveMasterViewController].view endEditing:YES];
         UITextField* myTextField = [tmpDialogBox.textFields objectAtIndex:0];
         [self processTextFieldFileName:myTextField.text didFinishPickingMediaWithInfo:info];
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [[self.subMenuDelegate retrieveMasterViewController] dismissViewControllerAnimated:YES completion:nil];
     }];
     UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [[self.subMenuDelegate retrieveMasterViewController] dismissViewControllerAnimated:YES completion:nil];
     }];
     
     [tmpDialogBox addAction:cancelAction];
@@ -499,7 +500,7 @@
     [alert show];
     [alert release];
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [[self.subMenuDelegate retrieveMasterViewController] dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)selectBottomRecordByTitle:(NSString*)aTitle {

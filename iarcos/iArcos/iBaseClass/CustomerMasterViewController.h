@@ -25,7 +25,7 @@
     UIScrollView* _baseScrollContentView;
     UITableView* _baseTableContentView;
     CustomerMasterDataManager* _customerMasterDataManager;
-    SubMenuTableViewController* _subMenuTableViewController;
+//    SubMenuTableViewController* _subMenuTableViewController;
     NSIndexPath* _currentIndexPath;
     BOOL _isNotFirstLoaded;
 //    UIButton* _myHeaderButton;
@@ -36,6 +36,7 @@
     ScanApiHelper* _scanApiHelper;
     NSTimer* _scanApiTimer;
     CustomerMasterMainHeaderViewController* _customerMasterMainHeaderViewController;
+    UITableView* _bottomTableView;
 }
 
 @property(nonatomic,assign) id<CustomerMasterViewControllerDelegate> actionDelegate;
@@ -45,7 +46,7 @@
 @property(nonatomic, retain) IBOutlet UIScrollView* baseScrollContentView;
 @property(nonatomic, retain) IBOutlet UITableView* baseTableContentView;
 @property(nonatomic, retain) CustomerMasterDataManager* customerMasterDataManager;
-@property(nonatomic, retain) SubMenuTableViewController* subMenuTableViewController;
+//@property(nonatomic, retain) SubMenuTableViewController* subMenuTableViewController;
 @property(nonatomic, retain) NSIndexPath* currentIndexPath;
 @property(nonatomic,assign) BOOL isNotFirstLoaded;
 //@property(nonatomic, retain) IBOutlet UIButton* myHeaderButton;
@@ -56,6 +57,7 @@
 @property (nonatomic,retain) ScanApiHelper* scanApiHelper;
 @property (nonatomic,assign) NSTimer* scanApiTimer;
 @property(nonatomic, retain) CustomerMasterMainHeaderViewController* customerMasterMainHeaderViewController;
+@property(nonatomic, retain) IBOutlet UITableView* bottomTableView;
 
 
 - (void)showSubMenuByCustomerListing;

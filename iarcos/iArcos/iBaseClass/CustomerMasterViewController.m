@@ -22,7 +22,7 @@
 @synthesize baseScrollContentView = _baseScrollContentView;
 @synthesize baseTableContentView = _baseTableContentView;
 @synthesize customerMasterDataManager = _customerMasterDataManager;
-@synthesize subMenuTableViewController = _subMenuTableViewController;
+//@synthesize subMenuTableViewController = _subMenuTableViewController;
 @synthesize currentIndexPath = _currentIndexPath;
 @synthesize isNotFirstLoaded = _isNotFirstLoaded;
 //@synthesize myHeaderButton = _myHeaderButton;
@@ -33,6 +33,7 @@
 @synthesize scanApiHelper = _scanApiHelper;
 @synthesize scanApiTimer = _scanApiTimer;
 @synthesize customerMasterMainHeaderViewController = _customerMasterMainHeaderViewController;
+@synthesize bottomTableView = _bottomTableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,10 +53,10 @@
     self.baseScrollContentView = nil;
     self.baseTableContentView = nil;
     self.customerMasterDataManager = nil;
-    [self.subMenuTableViewController willMoveToParentViewController:nil];
-    [self.subMenuTableViewController.view removeFromSuperview];
-    [self.subMenuTableViewController removeFromParentViewController];
-    self.subMenuTableViewController = nil;
+//    [self.subMenuTableViewController willMoveToParentViewController:nil];
+//    [self.subMenuTableViewController.view removeFromSuperview];
+//    [self.subMenuTableViewController removeFromParentViewController];
+//    self.subMenuTableViewController = nil;
     self.currentIndexPath = nil;
 //    [self.myHeaderView removeFromSuperview];
 //    self.myHeaderButton = nil;
@@ -69,6 +70,7 @@
     self.scanApiTimer = nil;
     [self.customerMasterMainHeaderViewController.view removeFromSuperview];
     self.customerMasterMainHeaderViewController = nil;
+    self.bottomTableView = nil;
     
     [super dealloc];
 }
@@ -81,9 +83,9 @@
     
     self.title = @"";
     self.subMenuPlaceHolderTableViewController = [[[SubMenuPlaceHolderTableViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
-    [self addChildViewController:self.subMenuPlaceHolderTableViewController];
-    [self.view addSubview:self.subMenuPlaceHolderTableViewController.view];
-    [self.subMenuPlaceHolderTableViewController didMoveToParentViewController:self];
+//    [self addChildViewController:self.subMenuPlaceHolderTableViewController];
+//    [self.view addSubview:self.subMenuPlaceHolderTableViewController.view];
+//    [self.subMenuPlaceHolderTableViewController didMoveToParentViewController:self];
     self.selectedSubMenuTableViewController = self.subMenuPlaceHolderTableViewController;
     int customerIndex = [self.customerMasterDataManager retrieveIndexByTitle:[GlobalSharedClass shared].customerText];
     self.currentIndexPath = [NSIndexPath indexPathForRow:customerIndex inSection:0];
@@ -244,22 +246,25 @@
 }
 
 - (void)myLayoutSubviews {
-    CGRect subMenuRect = CGRectMake(0, self.dividerLabel.frame.origin.y + 1, self.view.bounds.size.width, self.view.bounds.size.height - self.dividerLabel.frame.origin.y);
-    self.selectedSubMenuTableViewController.view.frame = subMenuRect;
+//    CGRect subMenuRect = CGRectMake(0, self.dividerLabel.frame.origin.y + 1, self.view.bounds.size.width, self.view.bounds.size.height - self.dividerLabel.frame.origin.y);
+//    self.selectedSubMenuTableViewController.view.frame = subMenuRect;
+    [self.bottomTableView setDataSource:self.selectedSubMenuTableViewController];
+    [self.bottomTableView setDelegate:self.selectedSubMenuTableViewController];
+    [self.bottomTableView reloadData];
 }
 
 - (void)showSubMenuByCustomerListing {
 //    [self.topTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NSNotFound inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    [self.selectedSubMenuTableViewController willMoveToParentViewController:nil];
-    [self.selectedSubMenuTableViewController.view removeFromSuperview];
-    [self.selectedSubMenuTableViewController removeFromParentViewController];
+//    [self.selectedSubMenuTableViewController willMoveToParentViewController:nil];
+//    [self.selectedSubMenuTableViewController.view removeFromSuperview];
+//    [self.selectedSubMenuTableViewController removeFromParentViewController];
     if (self.subMenuListingTableViewController == nil) {
         self.subMenuListingTableViewController = [[[SubMenuListingTableViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
     }
     self.subMenuListingTableViewController.subMenuDelegate = self;
-    [self addChildViewController:self.subMenuListingTableViewController];
-    [self.view addSubview:self.subMenuListingTableViewController.view];
-    [self.subMenuListingTableViewController didMoveToParentViewController:self];
+//    [self addChildViewController:self.subMenuListingTableViewController];
+//    [self.view addSubview:self.subMenuListingTableViewController.view];
+//    [self.subMenuListingTableViewController didMoveToParentViewController:self];
     self.selectedSubMenuTableViewController = self.subMenuListingTableViewController;
     [self myLayoutSubviews];
     [self.topTableView reloadData];
@@ -275,13 +280,13 @@
 }
 
 - (void)processSubMenuBySelf {
-    [self.selectedSubMenuTableViewController willMoveToParentViewController:nil];
-    [self.selectedSubMenuTableViewController.view removeFromSuperview];
-    [self.selectedSubMenuTableViewController removeFromParentViewController];
+//    [self.selectedSubMenuTableViewController willMoveToParentViewController:nil];
+//    [self.selectedSubMenuTableViewController.view removeFromSuperview];
+//    [self.selectedSubMenuTableViewController removeFromParentViewController];
     
-    [self addChildViewController:self.subMenuPlaceHolderTableViewController];
-    [self.view addSubview:self.subMenuPlaceHolderTableViewController.view];
-    [self.subMenuPlaceHolderTableViewController didMoveToParentViewController:self];
+//    [self addChildViewController:self.subMenuPlaceHolderTableViewController];
+//    [self.view addSubview:self.subMenuPlaceHolderTableViewController.view];
+//    [self.subMenuPlaceHolderTableViewController didMoveToParentViewController:self];
     self.selectedSubMenuTableViewController = self.subMenuPlaceHolderTableViewController;
     [self myLayoutSubviews];
     [self.topTableView reloadData];
@@ -309,6 +314,14 @@
 
 - (NSMutableDictionary*)retrieveSelectedCustomerBaseCellData {
     return [self selectedCustomerBaseCellData];
+}
+
+- (UITableView*)retrieveMasterBottomTableView {
+    return self.bottomTableView;
+}
+
+- (UIViewController*)retrieveMasterViewController {
+    return self;
 }
 
 - (void)onScanTimer:(NSTimer*)theTimer {

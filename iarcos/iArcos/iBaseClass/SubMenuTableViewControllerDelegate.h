@@ -13,4 +13,6 @@
                     viewController:(UIViewController*)aViewController;
 @optional
 - (NSMutableDictionary*)retrieveSelectedCustomerBaseCellData;
+- (UITableView*)retrieveMasterBottomTableView;
+- (UIViewController*)retrieveMasterViewController;
 @end
