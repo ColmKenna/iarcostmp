@@ -10,6 +10,7 @@
 #import "MeetingDetailsTableViewController.h"
 #import "MeetingMiscTableViewController.h"
 #import "MeetingObjectivesTableViewController.h"
+#import "MeetingCostingsViewController.h"
 
 @interface MeetingMainTemplateViewController : UIViewController {
     UISegmentedControl* _mySegmentedControl;
@@ -17,6 +18,7 @@
     MeetingDetailsTableViewController* _meetingDetailsTableViewController;
     MeetingMiscTableViewController* _meetingMiscTableViewController;
     MeetingObjectivesTableViewController* _meetingObjectivesTableViewController;
+    MeetingCostingsViewController* _meetingCostingsViewController;
     NSArray* _layoutKeyList;
     NSArray* _layoutObjectList;
     NSArray* _objectViewControllerList;
@@ -28,6 +30,7 @@
 @property(nonatomic, retain) MeetingDetailsTableViewController* meetingDetailsTableViewController;
 @property(nonatomic, retain) MeetingMiscTableViewController* meetingMiscTableViewController;
 @property(nonatomic, retain) MeetingObjectivesTableViewController* meetingObjectivesTableViewController;
+@property(nonatomic, retain) MeetingCostingsViewController* meetingCostingsViewController;
 @property(nonatomic, retain) NSArray* layoutKeyList;
 @property(nonatomic, retain) NSArray* layoutObjectList;
 @property(nonatomic, retain) NSArray* objectViewControllerList;

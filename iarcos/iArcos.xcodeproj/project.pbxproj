@@ -984,8 +984,6 @@
 		630C99E72110B3D5007F96C3 /* PresenterBridgeGridDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 630C99E62110B3D5007F96C3 /* PresenterBridgeGridDataManager.m */; };
 		630CF3D220DBBA1800B1CEA1 /* WeeklyMainTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 630CF3D020DBBA1800B1CEA1 /* WeeklyMainTemplateViewController.m */; };
 		630CF3D320DBBA1800B1CEA1 /* WeeklyMainTemplateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 630CF3D120DBBA1800B1CEA1 /* WeeklyMainTemplateViewController.xib */; };
-		630D6894219AD46600E85F8F /* MeetingCostingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 630D6892219AD46600E85F8F /* MeetingCostingsTableViewController.m */; };
-		630D6895219AD46600E85F8F /* MeetingCostingsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 630D6893219AD46600E85F8F /* MeetingCostingsTableViewController.xib */; };
 		630D6898219AD48100E85F8F /* MeetingCostingsDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 630D6897219AD48100E85F8F /* MeetingCostingsDataManager.m */; };
 		630D689A219AFF2100E85F8F /* email_all@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 630D6899219AFF2100E85F8F /* email_all@2x.png */; };
 		630EB91F1CB6B73F0026FC2B /* UploadProcessCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 630EB91E1CB6B73F0026FC2B /* UploadProcessCenter.m */; };
@@ -1182,6 +1180,8 @@
 		636775211F5EB7C100E28D94 /* DashboardVanStocksDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6367751F1F5EB7C100E28D94 /* DashboardVanStocksDetailViewController.m */; };
 		636775221F5EB7C100E28D94 /* DashboardVanStocksDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 636775201F5EB7C100E28D94 /* DashboardVanStocksDetailViewController.xib */; };
 		636BAC3D1FEA81380034FAD1 /* CustomerSurveyPreviewDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 636BAC3C1FEA81380034FAD1 /* CustomerSurveyPreviewDataManager.m */; };
+		636BC5DF219EE455006B18BF /* MeetingCostingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 636BC5DD219EE455006B18BF /* MeetingCostingsViewController.m */; };
+		636BC5E0219EE455006B18BF /* MeetingCostingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 636BC5DE219EE455006B18BF /* MeetingCostingsViewController.xib */; };
 		6370809F1AEA4DF1007A63C4 /* UtilitiesConfigurationDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6370809E1AEA4DF1007A63C4 /* UtilitiesConfigurationDataManager.m */; };
 		63787682218325770088BB36 /* CustomerMasterMainHeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63787680218325770088BB36 /* CustomerMasterMainHeaderViewController.m */; };
 		63787683218325770088BB36 /* CustomerMasterMainHeaderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63787681218325770088BB36 /* CustomerMasterMainHeaderViewController.xib */; };
@@ -3427,9 +3427,6 @@
 		630CF3CF20DBBA1800B1CEA1 /* WeeklyMainTemplateViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeeklyMainTemplateViewController.h; sourceTree = "<group>"; };
 		630CF3D020DBBA1800B1CEA1 /* WeeklyMainTemplateViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeeklyMainTemplateViewController.m; sourceTree = "<group>"; };
 		630CF3D120DBBA1800B1CEA1 /* WeeklyMainTemplateViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeeklyMainTemplateViewController.xib; sourceTree = "<group>"; };
-		630D6891219AD46600E85F8F /* MeetingCostingsTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingCostingsTableViewController.h; sourceTree = "<group>"; };
-		630D6892219AD46600E85F8F /* MeetingCostingsTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingCostingsTableViewController.m; sourceTree = "<group>"; };
-		630D6893219AD46600E85F8F /* MeetingCostingsTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeetingCostingsTableViewController.xib; sourceTree = "<group>"; };
 		630D6896219AD48100E85F8F /* MeetingCostingsDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingCostingsDataManager.h; sourceTree = "<group>"; };
 		630D6897219AD48100E85F8F /* MeetingCostingsDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingCostingsDataManager.m; sourceTree = "<group>"; };
 		630D6899219AFF2100E85F8F /* email_all@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "email_all@2x.png"; sourceTree = "<group>"; };
@@ -3776,6 +3773,9 @@
 		636775201F5EB7C100E28D94 /* DashboardVanStocksDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DashboardVanStocksDetailViewController.xib; sourceTree = "<group>"; };
 		636BAC3B1FEA81380034FAD1 /* CustomerSurveyPreviewDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerSurveyPreviewDataManager.h; sourceTree = "<group>"; };
 		636BAC3C1FEA81380034FAD1 /* CustomerSurveyPreviewDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerSurveyPreviewDataManager.m; sourceTree = "<group>"; };
+		636BC5DC219EE455006B18BF /* MeetingCostingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingCostingsViewController.h; sourceTree = "<group>"; };
+		636BC5DD219EE455006B18BF /* MeetingCostingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingCostingsViewController.m; sourceTree = "<group>"; };
+		636BC5DE219EE455006B18BF /* MeetingCostingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeetingCostingsViewController.xib; sourceTree = "<group>"; };
 		6370809D1AEA4DF1007A63C4 /* UtilitiesConfigurationDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilitiesConfigurationDataManager.h; sourceTree = "<group>"; };
 		6370809E1AEA4DF1007A63C4 /* UtilitiesConfigurationDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtilitiesConfigurationDataManager.m; sourceTree = "<group>"; };
 		6378767F218325770088BB36 /* CustomerMasterMainHeaderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerMasterMainHeaderViewController.h; sourceTree = "<group>"; };
@@ -7734,11 +7734,11 @@
 				63C2D51D219438BB00C57ECC /* MeetingObjectivesTableViewController.xib */,
 				63C2D520219438DC00C57ECC /* MeetingObjectivesDataManager.h */,
 				63C2D521219438DC00C57ECC /* MeetingObjectivesDataManager.m */,
-				630D6891219AD46600E85F8F /* MeetingCostingsTableViewController.h */,
-				630D6892219AD46600E85F8F /* MeetingCostingsTableViewController.m */,
-				630D6893219AD46600E85F8F /* MeetingCostingsTableViewController.xib */,
 				630D6896219AD48100E85F8F /* MeetingCostingsDataManager.h */,
 				630D6897219AD48100E85F8F /* MeetingCostingsDataManager.m */,
+				636BC5DC219EE455006B18BF /* MeetingCostingsViewController.h */,
+				636BC5DD219EE455006B18BF /* MeetingCostingsViewController.m */,
+				636BC5DE219EE455006B18BF /* MeetingCostingsViewController.xib */,
 			);
 			path = Meeting;
 			sourceTree = "<group>";
@@ -8121,7 +8121,6 @@
 				630B3C9F19F01CB9007B2442 /* LargeSmallL3SearchFormRowSlideViewController.xib in Resources */,
 				63FDD582207FB51500F4A4A5 /* DashboardMainTemplateTableViewButton.xib in Resources */,
 				630B3E1B19F01CB9007B2442 /* right.png in Resources */,
-				630D6895219AD46600E85F8F /* MeetingCostingsTableViewController.xib in Resources */,
 				63CBF58E218C75920098340A /* MeetingMainTableViewCells.xib in Resources */,
 				630B3BB519F01CB9007B2442 /* CustomerInvoiceTableCell.xib in Resources */,
 				6339CA871A00EF4000C88626 /* ArcosStackedViewController.xib in Resources */,
@@ -8214,6 +8213,7 @@
 				630B3DF419F01CB9007B2442 /* CustomerIcon.png in Resources */,
 				636307231EB9E8960044FB91 /* CheckoutPrinterWrapperViewController.xib in Resources */,
 				630B3E0B19F01CB9007B2442 /* pinGray.png in Resources */,
+				636BC5E0219EE455006B18BF /* MeetingCostingsViewController.xib in Resources */,
 				630B3B7219F01CB9007B2442 /* CustomerFlagModalViewController.xib in Resources */,
 				630B34FF19F0171A007B2442 /* SubMenuPlaceHolderTableViewController.xib in Resources */,
 				630B3E2719F01CB9007B2442 /* Utilities.png in Resources */,
@@ -9035,7 +9035,6 @@
 				631477A22121D15A00DBF9A3 /* PriceChangeDataManager.m in Sources */,
 				63ABC88619F0243200DE2B1B /* StackedSplitDividerUILabel.m in Sources */,
 				630B3DB619F01CB9007B2442 /* ArcosResponseBO.m in Sources */,
-				630D6894219AD46600E85F8F /* MeetingCostingsTableViewController.m in Sources */,
 				630B34CB19F014E9007B2442 /* ArcosQLPreviewController.m in Sources */,
 				630B346519F0127C007B2442 /* Setting.m in Sources */,
 				638944CE1B204AEF00B7E6E5 /* Product.m in Sources */,
@@ -9156,6 +9155,7 @@
 				630B3CAA19F01CB9007B2442 /* FileGroupViewController.m in Sources */,
 				634558001CC8E09F00C1565A /* SavedOrderDetailDataManager.m in Sources */,
 				6323270F1EEAB85100E1236A /* DashboardVanStocksDetailActionTableCell.m in Sources */,
+				636BC5DF219EE455006B18BF /* MeetingCostingsViewController.m in Sources */,
 				630B3BD519F01CB9007B2442 /* CustomerSurveyContactTableCell.m in Sources */,
 				630B3C7E19F01CB9007B2442 /* OrderDetailDateTableCell.m in Sources */,
 				63A6D92E1D7087E800439CC5 /* BorderedUITextView.m in Sources */,
