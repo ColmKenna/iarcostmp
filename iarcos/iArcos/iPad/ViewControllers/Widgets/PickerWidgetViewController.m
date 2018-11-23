@@ -108,6 +108,11 @@
             self.customiseNavigationBarTitle = @"Survey";
         }            
             break;
+        case PickerExpenseType: {
+            self.pickerData = [[ArcosCoreData sharedArcosCoreData]settingSelectionWithType:@"EX"];
+            descrTypeCode = @"EX";
+        }
+            break;
         default:
             break;
             

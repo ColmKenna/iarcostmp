@@ -21,6 +21,7 @@
 @synthesize expensesTableView = _expensesTableView;
 @synthesize meetingCostingsDataManager = _meetingCostingsDataManager;
 @synthesize templateViewList = _templateViewList;
+@synthesize addBarButtonItem = _addBarButtonItem;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,10 +32,9 @@
     
     NSMutableArray* barButtonItemList = [NSMutableArray arrayWithCapacity:2];
     
-    UIBarButtonItem* addBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addBarButtonPressed)];
-    [barButtonItemList addObject:addBarButtonItem];
+    self.addBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addBarButtonPressed)] autorelease];
+    [barButtonItemList addObject:self.addBarButtonItem];
 //    self.expensesNavigationBar.topItem.rightBarButtonItem = addBarButtonItem;
-    [addBarButtonItem release];
     
     UIBarButtonItem* editBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editBarButtonPressed)];
     [barButtonItemList addObject:editBarButtonItem];
@@ -52,6 +52,7 @@
     self.expensesTableView = nil;
     self.meetingCostingsDataManager = nil;
     self.templateViewList = nil;
+    self.addBarButtonItem = nil;
     
     [super dealloc];
 }
@@ -82,6 +83,15 @@
 
 - (void)addBarButtonPressed {
     NSLog(@"add pressed");
+    MeetingExpenseDetailsViewController* meetingExpenseDetailsViewController = [[MeetingExpenseDetailsViewController alloc] initWithNibName:@"MeetingExpenseDetailsViewController" bundle:nil];
+    meetingExpenseDetailsViewController.preferredContentSize = CGSizeMake(380.0f, 44*5 + 50);
+    meetingExpenseDetailsViewController.modalDelegate = self;
+    meetingExpenseDetailsViewController.modalPresentationStyle = UIModalPresentationPopover;
+    meetingExpenseDetailsViewController.popoverPresentationController.barButtonItem = self.addBarButtonItem;
+    [self presentViewController:meetingExpenseDetailsViewController animated:YES completion:^{
+        
+    }];
+    [meetingExpenseDetailsViewController release];
 }
 
 - (void)editBarButtonPressed {
@@ -97,5 +107,9 @@
     }];
 }
 
+#pragma mark ModalPresentViewControllerDelegate
+- (void)didDismissModalPresentViewController {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 @end

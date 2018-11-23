@@ -9,6 +9,7 @@
 #import "MeetingExpenseDetailsIURTableViewCell.h"
 
 @implementation MeetingExpenseDetailsIURTableViewCell
+@synthesize fieldNameLabel = _fieldNameLabel;
 @synthesize fieldValueLabel = _fieldValueLabel;
 
 - (void)awakeFromNib {
@@ -23,9 +24,39 @@
 }
 
 - (void)dealloc {
+    self.fieldNameLabel = nil;
     self.fieldValueLabel = nil;
     
     [super dealloc];
+}
+
+- (void)configCellWithData:(NSMutableDictionary*)aCellData {
+    [super configCellWithData:aCellData];
+    NSMutableDictionary* exTypeDict = [aCellData objectForKey:@"FieldData"];
+    self.fieldValueLabel.text = [exTypeDict objectForKey:@"Title"];
+    for (UIGestureRecognizer* recognizer in self.fieldValueLabel.gestureRecognizers) {
+        [self.fieldValueLabel removeGestureRecognizer:recognizer];
+    }
+    UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
+    [self.fieldValueLabel addGestureRecognizer:singleTap];
+    [singleTap release];
+}
+
+- (void)handleSingleTapGesture:(id)sender {
+    if (self.widgetFactory == nil) {
+        self.widgetFactory = [WidgetFactory factory];
+        self.widgetFactory.delegate = self;
+    }
+    self.thePopover = [self.widgetFactory CreateCategoryWidgetWithDataSource:WidgetDataSourceExpenseType];
+    self.thePopover.delegate = self;
+    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+- (void)operationDone:(id)data {
+    [self.thePopover dismissPopoverAnimated:YES];
+    self.fieldValueLabel.text = [data objectForKey:@"Title"];
+    [self.baseDelegate inputFinishedWithData:data atIndexPath:self.myIndexPath];
+    [self clearPopoverCacheData];
 }
 
 @end

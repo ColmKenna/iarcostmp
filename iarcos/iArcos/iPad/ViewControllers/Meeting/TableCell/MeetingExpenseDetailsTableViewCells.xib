@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,8 +18,18 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap for Expense Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bdN-iV-1nP">
-                        <rect key="frame" x="15" y="11" width="345" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ATh-mI-gdo">
+                        <rect key="frame" x="15" y="11" width="90" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="90" id="WOU-SI-sP0"/>
+                            <constraint firstAttribute="height" constant="21" id="t6L-uR-iRJ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap for Expense Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bdN-iV-1nP">
+                        <rect key="frame" x="120" y="11" width="240" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="scY-54-vJA"/>
                         </constraints>
@@ -29,12 +39,15 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="bdN-iV-1nP" firstAttribute="leading" secondItem="FLb-iG-C3l" secondAttribute="leading" constant="15" id="2Mn-rS-b0r"/>
+                    <constraint firstItem="ATh-mI-gdo" firstAttribute="leading" secondItem="FLb-iG-C3l" secondAttribute="leading" constant="15" id="9pJ-z4-sjh"/>
                     <constraint firstAttribute="trailing" secondItem="bdN-iV-1nP" secondAttribute="trailing" constant="15" id="Qp1-zn-y9a"/>
+                    <constraint firstItem="ATh-mI-gdo" firstAttribute="top" secondItem="FLb-iG-C3l" secondAttribute="top" constant="11" id="cK3-od-beZ"/>
+                    <constraint firstItem="bdN-iV-1nP" firstAttribute="leading" secondItem="ATh-mI-gdo" secondAttribute="trailing" constant="15" id="seC-6J-Z7H"/>
                     <constraint firstItem="bdN-iV-1nP" firstAttribute="top" secondItem="FLb-iG-C3l" secondAttribute="top" constant="11" id="ugI-SW-0p4"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="fieldNameLabel" destination="ATh-mI-gdo" id="r9h-j6-01R"/>
                 <outlet property="fieldValueLabel" destination="bdN-iV-1nP" id="NTq-IM-J1B"/>
             </connections>
             <point key="canvasLocation" x="-465" y="-196"/>
@@ -138,7 +151,7 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01/12/2018" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3y3-2N-ePn">
+                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01/12/2018" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3y3-2N-ePn">
                         <rect key="frame" x="120" y="11" width="240" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="YLT-7a-VuE"/>

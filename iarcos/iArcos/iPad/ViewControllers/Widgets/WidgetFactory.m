@@ -125,7 +125,7 @@
 }
 
 -(UIPopoverController*)CreateCategoryWidgetWithDataSource:(WidgetDataSource)dataSource{
-    WidgetViewController*wvc;
+    WidgetViewController*wvc = nil;
     switch (dataSource) {
         case WidgetDataSourceOrderStatus:
             wvc=[self getPickerWidgetWithType:PickerOrderStatusType];
@@ -168,6 +168,9 @@
             break;
         case WidgetDataSourceCustomerSurvey:
             wvc = [self getPickerWidgetWithType:PickerCustomerSurvey];
+            break;
+        case WidgetDataSourceExpenseType:
+            wvc = [self getPickerWidgetWithType:PickerExpenseType];
             break;
         default:
             break;

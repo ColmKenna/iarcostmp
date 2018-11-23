@@ -26,7 +26,8 @@ typedef enum {
     PickerDetailingType,
     PickerDetailingBatchType,
     PickerTitleType,
-    PickerCustomerSurvey
+    PickerCustomerSurvey,
+    PickerExpenseType
 } PickerWidgetType;
 
 @interface PickerWidgetViewController : WidgetViewController<UIPickerViewDelegate, ModelViewDelegate, GenericRefreshParentContentDelegate, CustomisePresentViewControllerDelegate> {

@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "MeetingExpenseDetailsBaseTableViewCell.h"
 
-@interface MeetingExpenseDetailsDateTableViewCell : MeetingExpenseDetailsBaseTableViewCell {
+@interface MeetingExpenseDetailsDateTableViewCell : MeetingExpenseDetailsBaseTableViewCell<WidgetFactoryDelegate>{
     UILabel* _fieldNameLabel;
     UILabel* _fieldValueLabel;
+    
 }
 
 @property(nonatomic, retain) IBOutlet UILabel* fieldNameLabel;

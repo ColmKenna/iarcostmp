@@ -9865,7 +9865,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4a2d26cb-4c25-4fc4-a9fe-d2be993ec50d";
-				PROVISIONING_PROFILE_SPECIFIER = iArcosNov2018Distribution;
+				PROVISIONING_PROFILE_SPECIFIER = iArcos23Nov2018Distribution;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = AdHoc;

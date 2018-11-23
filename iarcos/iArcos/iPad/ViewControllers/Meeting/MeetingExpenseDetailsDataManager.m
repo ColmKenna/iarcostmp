@@ -17,7 +17,8 @@
         self.iur = @"IUR";
         self.exType = @"ExType";
         self.expDate = @"ExpDate";
-//        self.com
+        self.comments = @"Comments";
+        self.totalAmount = @"TotalAmount";
         
     }
     return self;
@@ -36,7 +37,13 @@
 
 - (void)createSkeletonData {
     self.displayList = [NSMutableArray arrayWithCapacity:4];
-//    [self.displayList addObject:[self createIURCellDataWithCellKey:<#(NSString *)#> fieldData:<#(NSMutableDictionary *)#>]];
+    NSMutableDictionary* iurCellData = [NSMutableDictionary dictionaryWithCapacity:2];
+    [iurCellData setObject:[NSNumber numberWithInt:0] forKey:@"DescrDetailIUR"];
+    [iurCellData setObject:@"Tap for Expense Type" forKey:@"Title"];
+    [self.displayList addObject:[self createIURCellDataWithCellKey:self.iur fieldData:iurCellData]];
+    [self.displayList addObject:[self createDateCellDataWithCellKey:self.expDate fieldData:[NSDate date]]];
+    [self.displayList addObject:[self createTextCellDataWithCellKey:self.comments fieldData:@""]];
+    [self.displayList addObject:[self createDecimalCellDataWithCellKey:self.totalAmount fieldData:@""]];
 }
 
 - (NSMutableDictionary*)createIURCellDataWithCellKey:(NSString*)aCellKey fieldData:(NSMutableDictionary*)aFieldData {
@@ -69,6 +76,11 @@
     [cellDataDict setObject:aFieldData forKey:@"FieldData"];
     [cellDataDict setObject:[NSNumber numberWithInt:4] forKey:@"CellType"];
     return cellDataDict;
+}
+
+- (void)dataInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath *)anIndexPath {
+    NSMutableDictionary* cellDataDict = [self.displayList objectAtIndex:anIndexPath.row];
+    [cellDataDict setObject:aData forKey:@"FieldData"];    
 }
 
 

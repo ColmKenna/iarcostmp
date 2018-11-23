@@ -27,6 +27,7 @@
 
 
 - (void)createSkeletonData;
+- (void)dataInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath *)anIndexPath;
 
 @end
 

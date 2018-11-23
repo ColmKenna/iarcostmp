@@ -8,10 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @protocol MeetingExpenseDetailsBaseTableViewCellDelegate <NSObject>
+
+- (void)inputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath;
 
 @end
 
-NS_ASSUME_NONNULL_END
