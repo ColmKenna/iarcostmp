@@ -32,6 +32,10 @@
 @synthesize postMeetingKey = _postMeetingKey;
 @synthesize agendaKey = _agendaKey;
 
+@synthesize estimatedCostKey = _estimatedCostKey;
+@synthesize estimatedCostPerHeadKey = _estimatedCostPerHeadKey;
+@synthesize estimatedAttendeesKey = _estimatedAttendeesKey;
+
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -57,6 +61,10 @@
         self.preMeetingKey = @"PreMeeting";
         self.postMeetingKey = @"PostMeeting";
         self.agendaKey = @"Agenda";
+        
+        self.estimatedCostKey = @"EstimatedCost";
+        self.estimatedCostPerHeadKey = @"EstimatedCostPerHead";
+        self.estimatedAttendeesKey = @"EstimatedAttendees";
     }
     
     return self;
@@ -85,6 +93,10 @@
     self.preMeetingKey = nil;
     self.postMeetingKey = nil;
     self.agendaKey = nil;
+    
+    self.estimatedCostKey = nil;
+    self.estimatedCostPerHeadKey = nil;
+    self.estimatedAttendeesKey = nil;
     
     [super dealloc];
 }

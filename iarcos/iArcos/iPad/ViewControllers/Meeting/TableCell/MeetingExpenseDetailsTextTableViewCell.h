@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MeetingExpenseDetailsBaseTableViewCell.h"
 
-@interface MeetingExpenseDetailsTextTableViewCell : MeetingExpenseDetailsBaseTableViewCell {
+@interface MeetingExpenseDetailsTextTableViewCell : MeetingExpenseDetailsBaseTableViewCell <UITextFieldDelegate>{
     UILabel* _fieldNameLabel;
     UITextField* _fieldValueTextField;
 }

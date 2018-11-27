@@ -30,4 +30,13 @@
     [super dealloc];
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    [self.baseDelegate inputFinishedWithData:textField.text atIndexPath:self.myIndexPath];
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    NSString* assembledString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    return ([ArcosValidator isInputDecimalWithTwoPlaces:assembledString] || [assembledString isEqualToString:@""]);
+}
+
 @end

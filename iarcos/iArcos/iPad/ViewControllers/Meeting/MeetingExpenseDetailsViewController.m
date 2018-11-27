@@ -14,6 +14,7 @@
 
 @implementation MeetingExpenseDetailsViewController
 @synthesize modalDelegate = _modalDelegate;
+@synthesize actionDelegate = _actionDelegate;
 @synthesize meetingExpenseDetailsDataManager = _meetingExpenseDetailsDataManager;
 @synthesize tableCellFactory = _tableCellFactory;
 @synthesize myTableView = _myTableView;
@@ -56,7 +57,15 @@
 }
 
 - (void)saveButtonPressed {
-    
+    [self.view endEditing:YES];
+    [self.meetingExpenseDetailsDataManager displayListHeadOfficeAdaptor];
+    NSMutableDictionary* exTypeDataDict = [self.meetingExpenseDetailsDataManager.headOfficeDataObjectDict objectForKey:self.meetingExpenseDetailsDataManager.exTypeKey];
+//    NSLog(@"ac: %@", self.meetingExpenseDetailsDataManager.headOfficeDataObjectDict);
+    if ([[exTypeDataDict objectForKey:@"DescrDetailIUR"] intValue] == 0) {
+        [ArcosUtils showDialogBox:@"Please select an Expense Type" title:@"" delegate:nil target:self tag:0 handler:nil];
+        return;
+    }
+    [self.actionDelegate meetingExpenseDetailsSaveButtonWithData:self.meetingExpenseDetailsDataManager.headOfficeDataObjectDict];
 }
 
 #pragma mark - Table view data source

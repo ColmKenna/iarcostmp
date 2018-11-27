@@ -10,9 +10,11 @@
 #import "MeetingExpenseDetailsDataManager.h"
 #import "MeetingExpenseDetailsTableCellFactory.h"
 #import "ModalPresentViewControllerDelegate.h"
+#import "MeetingExpenseDetailsViewControllerDelegate.h"
 
 @interface MeetingExpenseDetailsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, MeetingExpenseDetailsBaseTableViewCellDelegate> {
     id<ModalPresentViewControllerDelegate> _modalDelegate;
+    id<MeetingExpenseDetailsViewControllerDelegate> _actionDelegate;
     MeetingExpenseDetailsDataManager* _meetingExpenseDetailsDataManager;
     MeetingExpenseDetailsTableCellFactory* _tableCellFactory;
     UITableView* _myTableView;
@@ -20,6 +22,7 @@
 }
 
 @property(nonatomic, assign) id<ModalPresentViewControllerDelegate> modalDelegate;
+@property(nonatomic, assign) id<MeetingExpenseDetailsViewControllerDelegate> actionDelegate;
 @property(nonatomic, retain) MeetingExpenseDetailsDataManager* meetingExpenseDetailsDataManager;
 @property(nonatomic, retain) MeetingExpenseDetailsTableCellFactory* tableCellFactory;
 @property(nonatomic, retain) IBOutlet UITableView* myTableView;

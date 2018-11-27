@@ -22,6 +22,7 @@
 @synthesize meetingCostingsDataManager = _meetingCostingsDataManager;
 @synthesize templateViewList = _templateViewList;
 @synthesize addBarButtonItem = _addBarButtonItem;
+@synthesize meetingExpenseTableViewController = _meetingExpenseTableViewController;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,15 +31,25 @@
     self.templateViewList = [NSArray arrayWithObjects:self.budgetTemplateView, self.expensesTemplateView, nil];
     [self maskTemplateViewWithView:self.budgetTemplateView];
     
+    self.meetingExpenseTableViewController = [[[MeetingExpenseTableViewController alloc] init] autorelease];
+    self.meetingExpenseTableViewController.accessDelegate = self;
+    self.expensesTableView.dataSource = self.meetingExpenseTableViewController;
+    self.expensesTableView.delegate = self.meetingExpenseTableViewController;
+    
+    [self createRightBarButtonItems];
+}
+
+- (void)createRightBarButtonItems {
     NSMutableArray* barButtonItemList = [NSMutableArray arrayWithCapacity:2];
     
     self.addBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addBarButtonPressed)] autorelease];
     [barButtonItemList addObject:self.addBarButtonItem];
-//    self.expensesNavigationBar.topItem.rightBarButtonItem = addBarButtonItem;
-    
-    UIBarButtonItem* editBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editBarButtonPressed)];
+    UIBarButtonSystemItem myBarButtonSystemItem = UIBarButtonSystemItemEdit;
+    if (self.meetingExpenseTableViewController.editing) {
+        myBarButtonSystemItem = UIBarButtonSystemItemDone;
+    }
+    UIBarButtonItem* editBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:myBarButtonSystemItem target:self action:@selector(editBarButtonPressed)];
     [barButtonItemList addObject:editBarButtonItem];
-//    self.expensesNavigationBar.topItem.leftBarButtonItem = editBarButtonItem;
     [editBarButtonItem release];
     self.expensesNavigationBar.topItem.rightBarButtonItems = barButtonItemList;
 }
@@ -53,6 +64,7 @@
     self.meetingCostingsDataManager = nil;
     self.templateViewList = nil;
     self.addBarButtonItem = nil;
+    self.meetingExpenseTableViewController = nil;
     
     [super dealloc];
 }
@@ -82,10 +94,10 @@
 }
 
 - (void)addBarButtonPressed {
-    NSLog(@"add pressed");
     MeetingExpenseDetailsViewController* meetingExpenseDetailsViewController = [[MeetingExpenseDetailsViewController alloc] initWithNibName:@"MeetingExpenseDetailsViewController" bundle:nil];
     meetingExpenseDetailsViewController.preferredContentSize = CGSizeMake(380.0f, 44*5 + 50);
     meetingExpenseDetailsViewController.modalDelegate = self;
+    meetingExpenseDetailsViewController.actionDelegate = self;
     meetingExpenseDetailsViewController.modalPresentationStyle = UIModalPresentationPopover;
     meetingExpenseDetailsViewController.popoverPresentationController.barButtonItem = self.addBarButtonItem;
     [self presentViewController:meetingExpenseDetailsViewController animated:YES completion:^{
@@ -95,7 +107,16 @@
 }
 
 - (void)editBarButtonPressed {
-    NSLog(@"edit pressed");
+    if (self.meetingExpenseTableViewController.editing) {
+        [self.meetingExpenseTableViewController setEditing:NO];
+        [self.expensesTableView setEditing:NO animated:YES];
+        [self.expensesTableView reloadData];
+    } else {
+        [self.meetingExpenseTableViewController setEditing:YES];
+        [self.expensesTableView setEditing:YES animated:YES];
+        [self.expensesTableView reloadData];
+    }
+    [self createRightBarButtonItems];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
@@ -110,6 +131,18 @@
 #pragma mark ModalPresentViewControllerDelegate
 - (void)didDismissModalPresentViewController {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark MeetingExpenseDetailsViewControllerDelegate
+- (void)meetingExpenseDetailsSaveButtonWithData:(NSMutableDictionary *)aHeadOfficeDataObjectDict {
+    [self.meetingExpenseTableViewController.displayList addObject:[NSMutableDictionary dictionaryWithDictionary:aHeadOfficeDataObjectDict]];
+    [self.expensesTableView reloadData];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark MeetingExpenseTableViewControllerDelegate
+- (UITableView*)retrieveExpenseTableView {
+    return self.expensesTableView;
 }
 
 @end

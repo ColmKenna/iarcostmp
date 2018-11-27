@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "MeetingCostingsDataManager.h"
 #import "MeetingExpenseDetailsViewController.h"
+#import "MeetingExpenseTableViewController.h"
 
-@interface MeetingCostingsViewController : UIViewController <ModalPresentViewControllerDelegate>{
+@interface MeetingCostingsViewController : UIViewController <ModalPresentViewControllerDelegate, MeetingExpenseDetailsViewControllerDelegate, MeetingExpenseTableViewControllerDelegate>{
     UIView* _budgetTemplateView;
     UIView* _expensesTemplateView;
     UINavigationBar* _budgetNavigationBar;
@@ -20,6 +21,7 @@
     MeetingCostingsDataManager* _meetingCostingsDataManager;
     NSArray* _templateViewList;
     UIBarButtonItem* _addBarButtonItem;
+    MeetingExpenseTableViewController* _meetingExpenseTableViewController;
 }
 
 @property(nonatomic, retain) IBOutlet UIView* budgetTemplateView;
@@ -31,6 +33,7 @@
 @property(nonatomic, retain) MeetingCostingsDataManager* meetingCostingsDataManager;
 @property(nonatomic, retain) NSArray* templateViewList;
 @property(nonatomic, retain) UIBarButtonItem* addBarButtonItem;
+@property(nonatomic, retain) MeetingExpenseTableViewController* meetingExpenseTableViewController;
 
 @end
 

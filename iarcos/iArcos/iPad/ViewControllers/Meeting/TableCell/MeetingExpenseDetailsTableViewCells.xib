@@ -74,9 +74,12 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="99k-Xy-ROd"/>
                         </constraints>
-                        <nil key="textColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <textInputTraits key="textInputTraits"/>
+                        <connections>
+                            <outlet property="delegate" destination="a4R-mK-8vM" id="JkT-ic-6zg"/>
+                        </connections>
                     </textField>
                 </subviews>
                 <constraints>
@@ -115,9 +118,12 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="PYY-tY-BVP"/>
                         </constraints>
-                        <nil key="textColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                        <textInputTraits key="textInputTraits"/>
+                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                        <connections>
+                            <outlet property="delegate" destination="G82-VD-2ZV" id="lgf-to-vLU"/>
+                        </connections>
                     </textField>
                 </subviews>
                 <constraints>

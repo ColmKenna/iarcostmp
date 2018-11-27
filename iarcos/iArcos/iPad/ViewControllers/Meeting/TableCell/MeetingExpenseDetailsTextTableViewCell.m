@@ -30,4 +30,10 @@
     [super dealloc];
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    [self.baseDelegate inputFinishedWithData:textField.text atIndexPath:self.myIndexPath];
+}
+
+
+
 @end

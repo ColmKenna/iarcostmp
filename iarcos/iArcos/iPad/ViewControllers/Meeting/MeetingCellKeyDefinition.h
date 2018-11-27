@@ -34,6 +34,10 @@
     NSString* _preMeetingKey;
     NSString* _postMeetingKey;
     NSString* _agendaKey;
+    //Costings
+    NSString* _estimatedCostKey;
+    NSString* _estimatedCostPerHeadKey;
+    NSString* _estimatedAttendeesKey;
 }
 
 @property(nonatomic, retain) NSString* dateKey;
@@ -58,6 +62,10 @@
 @property(nonatomic, retain) NSString* preMeetingKey;
 @property(nonatomic, retain) NSString* postMeetingKey;
 @property(nonatomic, retain) NSString* agendaKey;
+
+@property(nonatomic, retain) NSString* estimatedCostKey;
+@property(nonatomic, retain) NSString* estimatedCostPerHeadKey;
+@property(nonatomic, retain) NSString* estimatedAttendeesKey;
 
 
 @end

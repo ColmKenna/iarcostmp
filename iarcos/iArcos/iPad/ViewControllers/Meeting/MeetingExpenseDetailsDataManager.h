@@ -11,23 +11,26 @@
 
 @interface MeetingExpenseDetailsDataManager : NSObject {
     NSMutableArray* _displayList;
-    NSString* _iur;
-    NSString* _exType;
-    NSString* _expDate;
-    NSString* _comments;
-    NSString* _totalAmount;
+    NSString* _iurKey;
+    NSString* _exTypeKey;
+    NSString* _expDateKey;
+    NSString* _commentsKey;
+    NSString* _totalAmountKey;
+    NSMutableDictionary* _headOfficeDataObjectDict;
 }
 
 @property(nonatomic, retain) NSMutableArray* displayList;
-@property(nonatomic, retain) NSString* iur;
-@property(nonatomic, retain) NSString* exType;
-@property(nonatomic, retain) NSString* expDate;
-@property(nonatomic, retain) NSString* comments;
-@property(nonatomic, retain) NSString* totalAmount;
+@property(nonatomic, retain) NSString* iurKey;
+@property(nonatomic, retain) NSString* exTypeKey;
+@property(nonatomic, retain) NSString* expDateKey;
+@property(nonatomic, retain) NSString* commentsKey;
+@property(nonatomic, retain) NSString* totalAmountKey;
+@property(nonatomic, retain) NSMutableDictionary* headOfficeDataObjectDict;
 
 
 - (void)createSkeletonData;
 - (void)dataInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath *)anIndexPath;
+- (void)displayListHeadOfficeAdaptor;
 
 @end
 
