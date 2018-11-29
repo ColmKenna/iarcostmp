@@ -93,5 +93,9 @@
     return tmpDataDict;
 }
 
+- (void)dataMeetingBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath {
+    
+}
+
 
 @end

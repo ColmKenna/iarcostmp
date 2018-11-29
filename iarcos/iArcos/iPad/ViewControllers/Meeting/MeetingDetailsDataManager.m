@@ -82,4 +82,9 @@
     }
 }
 
+- (void)dataMeetingBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath {
+    NSMutableDictionary* tmpDataDict = [self.displayList objectAtIndex:anIndexPath.row];
+    [tmpDataDict setObject:aData forKey:@"FieldData"];
+}
+
 @end

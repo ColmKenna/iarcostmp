@@ -132,6 +132,9 @@
                         <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <textInputTraits key="textInputTraits"/>
+                        <connections>
+                            <outlet property="delegate" destination="sXf-Xg-Hpy" id="LfE-g1-YcA"/>
+                        </connections>
                     </textField>
                 </subviews>
                 <constraints>
@@ -173,6 +176,9 @@
                         <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <textInputTraits key="textInputTraits"/>
+                        <connections>
+                            <outlet property="delegate" destination="QnI-rg-8dL" id="Rgd-dR-yUM"/>
+                        </connections>
                     </textField>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B4Q-UF-QKH">
                         <rect key="frame" x="721" y="6" width="32" height="32"/>
@@ -181,6 +187,9 @@
                             <constraint firstAttribute="height" constant="32" id="jc4-C4-i7y"/>
                         </constraints>
                         <state key="normal" image="Product.png"/>
+                        <connections>
+                            <action selector="searchButtonPressed:" destination="QnI-rg-8dL" eventType="touchUpInside" id="YPw-uK-fEv"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>
@@ -263,9 +272,12 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="DhL-3R-XiG"/>
                         </constraints>
-                        <nil key="textColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <textInputTraits key="textInputTraits"/>
+                        <connections>
+                            <outlet property="delegate" destination="SCr-tb-Ud6" id="bnG-WC-ENv"/>
+                        </connections>
                     </textField>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BLa-AK-l7r">
                         <rect key="frame" x="721" y="6" width="32" height="32"/>
@@ -274,6 +286,9 @@
                             <constraint firstAttribute="height" constant="32" id="pTn-6Z-bMe"/>
                         </constraints>
                         <state key="normal" image="Product.png"/>
+                        <connections>
+                            <action selector="searchButtonPressed:" destination="SCr-tb-Ud6" eventType="touchUpInside" id="8L6-Pn-9SL"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>
@@ -320,6 +335,9 @@
                         <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        <connections>
+                            <outlet property="delegate" destination="PIC-GA-Jio" id="aSs-Gd-tuU"/>
+                        </connections>
                     </textView>
                 </subviews>
                 <constraints>

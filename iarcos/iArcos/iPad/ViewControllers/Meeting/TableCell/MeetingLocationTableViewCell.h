@@ -7,9 +7,9 @@
 //
 
 #import "MeetingBaseTableViewCell.h"
+#import "CustomerSelectionListingTableViewController.h"
 
-
-@interface MeetingLocationTableViewCell : MeetingBaseTableViewCell {
+@interface MeetingLocationTableViewCell : MeetingBaseTableViewCell <CustomerSelectionListingDelegate, UITextFieldDelegate>{
     UILabel* _fieldNameLabel;
     UITextField* _fieldValueTextField;
     UIButton* _searchButton;
@@ -18,6 +18,8 @@
 @property(nonatomic, retain) IBOutlet UILabel* fieldNameLabel;
 @property(nonatomic, retain) IBOutlet UITextField* fieldValueTextField;
 @property(nonatomic, retain) IBOutlet UIButton* searchButton;
+
+- (IBAction)searchButtonPressed:(id)sender;
 
 @end
 

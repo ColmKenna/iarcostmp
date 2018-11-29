@@ -13,6 +13,8 @@
 
 - (NSMutableDictionary*)retrieveHeadOfficeDataObjectDict;
 - (void)meetingBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath;
+@optional
+- (UIViewController*)retrieveMeetingMainViewController;
 
 @end
 

@@ -9,7 +9,7 @@
 #import "MeetingBaseTableViewCell.h"
 
 
-@interface MeetingStringTableViewCell : MeetingBaseTableViewCell {
+@interface MeetingStringTableViewCell : MeetingBaseTableViewCell<UITextFieldDelegate> {
     UILabel* _fieldNameLabel;
     UITextField* _fieldValueTextField;
 }

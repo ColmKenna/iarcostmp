@@ -43,4 +43,9 @@
     [super dealloc];
 }
 
+#pragma mark UITextViewDelegate
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    [self.actionDelegate meetingBaseInputFinishedWithData:textView.text atIndexPath:self.myIndexPath];
+}
+
 @end

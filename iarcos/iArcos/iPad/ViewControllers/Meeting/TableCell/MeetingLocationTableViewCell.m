@@ -35,6 +35,40 @@
 - (void)configCellWithData:(NSMutableDictionary *)aCellData {
     [super configCellWithData:aCellData];
     self.fieldNameLabel.text = [aCellData objectForKey:@"FieldName"];
+    self.fieldValueTextField.text = [aCellData objectForKey:@"FieldData"];
 }
+
+- (IBAction)searchButtonPressed:(id)sender {
+    CustomerSelectionListingTableViewController* CSLTVC = [[CustomerSelectionListingTableViewController alloc] initWithNibName:@"CustomerSelectionListingTableViewController" bundle:nil];
+    CSLTVC.selectionDelegate = self;
+    CSLTVC.isNotShowingAllButton = YES;
+    NSMutableArray* locationList = [[ArcosCoreData sharedArcosCoreData]outletsWithMasterIUR:[NSNumber numberWithInt:-1] withResultType:NSDictionaryResultType];
+    [CSLTVC resetCustomer:locationList];
+    UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:CSLTVC];
+    tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
+    tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    tmpNavigationController.popoverPresentationController.sourceView = self.searchButton;
+    [[self.actionDelegate retrieveMeetingMainViewController] presentViewController:tmpNavigationController animated:YES completion:nil];
+    [CSLTVC release];
+    [tmpNavigationController release];
+}
+
+#pragma mark CustomerSelectionListingDelegate
+- (void)didDismissSelectionPopover {
+    [[self.actionDelegate retrieveMeetingMainViewController] dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)didSelectCustomerSelectionListingRecord:(NSMutableDictionary*)aCustDict {
+    //    NSLog(@"aCustDict %@", aCustDict);
+    self.fieldValueTextField.text = [NSString stringWithFormat:@"%@ - %@",[ArcosUtils convertNilToEmpty:[aCustDict objectForKey:@"Name"]], [ArcosUtils convertNilToEmpty:[aCustDict objectForKey:@"Address1"]]];
+    [self.actionDelegate meetingBaseInputFinishedWithData:self.fieldValueTextField.text atIndexPath:self.myIndexPath];
+    [[self.actionDelegate retrieveMeetingMainViewController] dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark UITextFieldDelegate
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    [self.actionDelegate meetingBaseInputFinishedWithData:textField.text atIndexPath:self.myIndexPath];
+}
+
 
 @end

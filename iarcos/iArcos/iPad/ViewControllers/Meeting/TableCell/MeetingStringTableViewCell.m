@@ -35,4 +35,9 @@
     self.fieldNameLabel.text = [aCellData objectForKey:@"FieldName"];
 }
 
+#pragma mark UITextFieldDelegate
+- (void)textFieldDidEndEditing:(UITextField *)textField {    
+    [self.actionDelegate meetingBaseInputFinishedWithData:textField.text atIndexPath:self.myIndexPath];
+}
+
 @end

@@ -70,6 +70,7 @@
     
     // Configure the cell...
     cell.actionDelegate = self;
+    cell.myIndexPath = indexPath;
     [cell configCellWithData:cellData];
     
     return cell;
@@ -81,7 +82,11 @@
 }
 
 - (void)meetingBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath {
-    
+    [self.meetingDetailsDataManager dataMeetingBaseInputFinishedWithData:aData atIndexPath:anIndexPath];
+}
+
+- (UIViewController*)retrieveMeetingMainViewController {
+    return self;
 }
 
 

@@ -15,7 +15,7 @@
 
 @property(nonatomic, retain) NSMutableArray* displayList;
 
-- (void)dataMeetingBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath;
+
 - (void)displayListHeadOfficeAdaptor;
 
 @end
