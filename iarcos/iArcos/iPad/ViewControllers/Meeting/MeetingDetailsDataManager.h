@@ -15,6 +15,7 @@
 
 @property(nonatomic, retain) NSMutableArray* displayList;
 
+- (void)displayListHeadOfficeAdaptor;
 
 @end
 

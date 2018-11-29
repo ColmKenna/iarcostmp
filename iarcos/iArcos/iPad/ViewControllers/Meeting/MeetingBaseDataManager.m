@@ -39,38 +39,57 @@
     return cellData;
 }
 
-- (NSMutableDictionary*)createStringCellWithFieldName:(NSString*)aFieldName {
-    NSMutableDictionary* tmpDataDict = [NSMutableDictionary dictionaryWithCapacity:2];
+- (NSMutableDictionary*)createDefaultEmployeeDict {
+    NSMutableDictionary* cellData = [NSMutableDictionary dictionaryWithCapacity:2];
+    [cellData setObject:[NSNumber numberWithInt:0] forKey:@"IUR"];
+    [cellData setObject:@"" forKey:@"Title"];
+    
+    return cellData;
+}
+
+- (NSMutableDictionary*)createStringCellWithFieldName:(NSString*)aFieldName cellKey:(NSString*)aCellKey fieldData:(id)aFieldData {
+    NSMutableDictionary* tmpDataDict = [NSMutableDictionary dictionaryWithCapacity:4];
     [tmpDataDict setObject:[NSNumber numberWithInt:2] forKey:@"CellType"];
     [tmpDataDict setObject:aFieldName forKey:@"FieldName"];
+    [tmpDataDict setObject:aCellKey forKey:@"CellKey"];
+    [tmpDataDict setObject:aFieldData forKey:@"FieldData"];
     return tmpDataDict;
 }
 
-- (NSMutableDictionary*)createLocationCellWithFieldName:(NSString*)aFieldName {
-    NSMutableDictionary* tmpDataDict = [NSMutableDictionary dictionaryWithCapacity:2];
+- (NSMutableDictionary*)createLocationCellWithFieldName:(NSString*)aFieldName cellKey:(NSString*)aCellKey fieldData:(id)aFieldData {
+    NSMutableDictionary* tmpDataDict = [NSMutableDictionary dictionaryWithCapacity:4];
     [tmpDataDict setObject:[NSNumber numberWithInt:3] forKey:@"CellType"];
     [tmpDataDict setObject:aFieldName forKey:@"FieldName"];
+    [tmpDataDict setObject:aCellKey forKey:@"CellKey"];
+    [tmpDataDict setObject:aFieldData forKey:@"FieldData"];
     return tmpDataDict;
 }
 
-- (NSMutableDictionary*)createEmployeeCellWithFieldName:(NSString*)aFieldName {
-    NSMutableDictionary* tmpDataDict = [NSMutableDictionary dictionaryWithCapacity:2];
+- (NSMutableDictionary*)createEmployeeCellWithFieldName:(NSString*)aFieldName cellKey:(NSString*)aCellKey fieldData:(id)aFieldData {
+    NSMutableDictionary* tmpDataDict = [NSMutableDictionary dictionaryWithCapacity:4];
     [tmpDataDict setObject:[NSNumber numberWithInt:4] forKey:@"CellType"];
     [tmpDataDict setObject:aFieldName forKey:@"FieldName"];
+    [tmpDataDict setObject:aCellKey forKey:@"CellKey"];
+    [tmpDataDict setObject:aFieldData forKey:@"FieldData"];
     return tmpDataDict;
 }
 
-- (NSMutableDictionary*)createTextViewCellWithFieldName:(NSString*)aFieldName {
-    NSMutableDictionary* tmpDataDict = [NSMutableDictionary dictionaryWithCapacity:2];
+- (NSMutableDictionary*)createTextViewCellWithFieldName:(NSString*)aFieldName cellKey:(NSString*)aCellKey fieldData:(id)aFieldData {
+    NSMutableDictionary* tmpDataDict = [NSMutableDictionary dictionaryWithCapacity:4];
     [tmpDataDict setObject:[NSNumber numberWithInt:5] forKey:@"CellType"];
     [tmpDataDict setObject:aFieldName forKey:@"FieldName"];
+    [tmpDataDict setObject:aCellKey forKey:@"CellKey"];
+    [tmpDataDict setObject:aFieldData forKey:@"FieldData"];
     return tmpDataDict;
 }
 
-- (NSMutableDictionary*)createIURCellWithFieldName:(NSString*)aFieldName {
-    NSMutableDictionary* tmpDataDict = [NSMutableDictionary dictionaryWithCapacity:2];
+- (NSMutableDictionary*)createIURCellWithFieldName:(NSString*)aFieldName cellKey:(NSString*)aCellKey fieldData:(id)aFieldData descrTypeCode:(NSString*)aDescrTypeCode {
+    NSMutableDictionary* tmpDataDict = [NSMutableDictionary dictionaryWithCapacity:5];
     [tmpDataDict setObject:[NSNumber numberWithInt:6] forKey:@"CellType"];
     [tmpDataDict setObject:aFieldName forKey:@"FieldName"];
+    [tmpDataDict setObject:aCellKey forKey:@"CellKey"];
+    [tmpDataDict setObject:aFieldData forKey:@"FieldData"];
+    [tmpDataDict setObject:aDescrTypeCode forKey:@"DescrTypeCode"];
     return tmpDataDict;
 }
 

@@ -42,14 +42,28 @@
     [self createDataObjectDict];
     self.groupedDataDict = [NSMutableDictionary dictionaryWithCapacity:3];
     NSMutableArray* auditorDisplayList = [NSMutableArray arrayWithCapacity:1];
-    [auditorDisplayList addObject:[self createEmployeeCellWithFieldName:@"Approved By"]];
+    [auditorDisplayList addObject:[self createEmployeeCellWithFieldName:@"Approved By" cellKey:self.meetingCellKeyDefinition.approvedByKey fieldData:[self createDefaultEmployeeDict]]];
     [self.groupedDataDict setObject:auditorDisplayList forKey:self.auditorSectionTitle];
     NSMutableArray* detailingDisplayList = [NSMutableArray arrayWithCapacity:2];
-    [detailingDisplayList addObject:[self createIURCellWithFieldName:@"L4"]];
-    [detailingDisplayList addObject:[self createIURCellWithFieldName:@"L5"]];
+    NSMutableArray* l4ObjectList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrTypeCode:@"SD" descrDetailCode:@"L4"];
+    NSString* l4FieldName = @"";
+    if ([l4ObjectList count] > 0) {
+        NSDictionary* l4DescrDetailDict = [l4ObjectList objectAtIndex:0];
+        NSString* l4Detail = [l4DescrDetailDict objectForKey:@"Detail"];
+        l4FieldName = [ArcosUtils convertNilToEmpty:l4Detail];
+    }
+    NSString* l5FieldName = @"";
+    NSMutableArray* l5ObjectList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrTypeCode:@"SD" descrDetailCode:@"L5"];
+    if ([l5ObjectList count] > 0) {
+        NSDictionary* l5DescrDetailDict = [l5ObjectList objectAtIndex:0];
+        NSString* l5Detail = [l5DescrDetailDict objectForKey:@"Detail"];
+        l5FieldName = [ArcosUtils convertNilToEmpty:l5Detail];
+    }
+    [detailingDisplayList addObject:[self createIURCellWithFieldName:l4FieldName cellKey:self.meetingCellKeyDefinition.l4Key fieldData:[self createDefaultIURDict] descrTypeCode:@"L4"]];
+    [detailingDisplayList addObject:[self createIURCellWithFieldName:l5FieldName cellKey:self.meetingCellKeyDefinition.l5Key fieldData:[self createDefaultIURDict] descrTypeCode:@"L5"]];
     [self.groupedDataDict setObject:detailingDisplayList forKey:self.detailingSectionTitle];
     NSMutableArray* speakerDisplayList = [NSMutableArray arrayWithCapacity:2];
-    [speakerDisplayList addObject:[self createTextViewCellWithFieldName:@"Terms"]];
+    [speakerDisplayList addObject:[self createTextViewCellWithFieldName:@"Terms" cellKey:self.meetingCellKeyDefinition.speakerAgreementDetailsKey fieldData:@""]];
     [self.groupedDataDict setObject:speakerDisplayList forKey:self.speakerSectionTitle];
 }
 

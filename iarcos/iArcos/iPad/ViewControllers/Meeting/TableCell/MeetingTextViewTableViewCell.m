@@ -33,6 +33,7 @@
         self.styleSetFlag = YES;
     }
     self.fieldNameLabel.text = [aCellData objectForKey:@"FieldName"];
+    self.fieldValueTextView.text = [aCellData objectForKey:@"FieldData"];
 }
 
 - (void)dealloc {

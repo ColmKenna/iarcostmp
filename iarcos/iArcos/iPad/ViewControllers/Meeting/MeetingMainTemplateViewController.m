@@ -67,7 +67,16 @@
 //    [self.templateView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(0)-[AuxDetails]-(0)-|" options:0 metrics:0 views:self.layoutDict]];
 //    [self.templateView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[AuxDetails]-(0)-|" options:0 metrics:0 views:self.layoutDict]];
     [self segmentedAction];
-    
+    UIBarButtonItem* saveBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonPressed)];
+    self.navigationItem.rightBarButtonItem = saveBarButtonItem;
+    [saveBarButtonItem release];
+}
+
+- (void)saveButtonPressed {
+    [self.view endEditing:YES];
+    [self.meetingDetailsTableViewController.meetingDetailsDataManager displayListHeadOfficeAdaptor];
+    [self.meetingCostingsViewController.meetingCostingsDataManager displayListHeadOfficeAdaptor];
+    NSLog(@"abc: %@", self.meetingDetailsTableViewController.meetingDetailsDataManager.headOfficeDataObjectDict);
 }
 
 - (void)dealloc {

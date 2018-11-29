@@ -36,13 +36,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    NSArray* minuteItemList = [NSArray arrayWithObjects:@"0 min", @"15 min", @"30 min", @"45 min", nil];
-    UISegmentedControl* mySegmentedController = [[UISegmentedControl alloc] initWithItems:minuteItemList];
-    [mySegmentedController addTarget:self action:@selector(segmentedAction:) forControlEvents:UIControlEventValueChanged];
-    mySegmentedController.frame = CGRectMake(0, 0, 200, 30);
-    mySegmentedController.momentary = YES;
-    self.myNavigationItem.titleView = mySegmentedController;
-    [mySegmentedController release];
+    if (self.widgetType == DatePickerHourMinuteAccessTimesType) {
+        NSArray* minuteItemList = [NSArray arrayWithObjects:@"0 min", @"15 min", @"30 min", @"45 min", nil];
+        UISegmentedControl* mySegmentedController = [[UISegmentedControl alloc] initWithItems:minuteItemList];
+        [mySegmentedController addTarget:self action:@selector(segmentedAction:) forControlEvents:UIControlEventValueChanged];
+        mySegmentedController.frame = CGRectMake(0, 0, 200, 30);
+        mySegmentedController.momentary = YES;
+        self.myNavigationItem.titleView = mySegmentedController;
+        [mySegmentedController release];
+    } else {
+        self.myNavigationItem.title = @"Time";
+    }
+    
     if (self.defaultPickerDate != nil) {
         self.myDatePicker.date = self.defaultPickerDate;
     }

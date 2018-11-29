@@ -1164,6 +1164,11 @@
 		634E59CD20EF67E6004B7C82 /* ArcosArrayOfDashBoardRowData.m in Sources */ = {isa = PBXBuildFile; fileRef = 634E59CA20EF67E4004B7C82 /* ArcosArrayOfDashBoardRowData.m */; };
 		634E59CE20EF67E6004B7C82 /* ArcosDashBoardData.m in Sources */ = {isa = PBXBuildFile; fileRef = 634E59CB20EF67E5004B7C82 /* ArcosDashBoardData.m */; };
 		634EE4331CC643B400E6F1AE /* FormRowsTableDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 634EE4321CC643B400E6F1AE /* FormRowsTableDataManager.m */; };
+		6357A2BA21AD56B1000130CB /* MeetingBudgetTableViewCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6357A2B921AD56B1000130CB /* MeetingBudgetTableViewCells.xib */; };
+		6357A2BD21AD56FA000130CB /* MeetingBudgetBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6357A2BC21AD56FA000130CB /* MeetingBudgetBaseTableViewCell.m */; };
+		6357A2C121AD5AFC000130CB /* MeetingBudgetIntegerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6357A2C021AD5AFC000130CB /* MeetingBudgetIntegerTableViewCell.m */; };
+		6357A2C421AD5B59000130CB /* MeetingBudgetDecimalTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6357A2C321AD5B59000130CB /* MeetingBudgetDecimalTableViewCell.m */; };
+		6357A2C721AD6068000130CB /* MeetingBudgetTableCellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6357A2C621AD6068000130CB /* MeetingBudgetTableCellFactory.m */; };
 		63580B9B1C1EE497002D5199 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63580B9A1C1EE497002D5199 /* MapKit.framework */; };
 		63580B9D1C1EE49F002D5199 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63580B9C1C1EE49F002D5199 /* ExternalAccessory.framework */; };
 		63624518216B5FDE00A4D43D /* MATFormRowsTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63624517216B5FDE00A4D43D /* MATFormRowsTableHeaderView.m */; };
@@ -3759,6 +3764,16 @@
 		634EE4321CC643B400E6F1AE /* FormRowsTableDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormRowsTableDataManager.m; sourceTree = "<group>"; };
 		635083261A1E30B80013CE01 /* CheckLocationIURTemplateDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckLocationIURTemplateDelegate.h; sourceTree = "<group>"; };
 		63529A671BB01B110002D8B2 /* iArcos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = iArcos.entitlements; sourceTree = "<group>"; };
+		6357A2B921AD56B1000130CB /* MeetingBudgetTableViewCells.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeetingBudgetTableViewCells.xib; sourceTree = "<group>"; };
+		6357A2BB21AD56FA000130CB /* MeetingBudgetBaseTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingBudgetBaseTableViewCell.h; sourceTree = "<group>"; };
+		6357A2BC21AD56FA000130CB /* MeetingBudgetBaseTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingBudgetBaseTableViewCell.m; sourceTree = "<group>"; };
+		6357A2BE21AD571B000130CB /* MeetingBudgetBaseTableViewCellDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingBudgetBaseTableViewCellDelegate.h; sourceTree = "<group>"; };
+		6357A2BF21AD5AFC000130CB /* MeetingBudgetIntegerTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingBudgetIntegerTableViewCell.h; sourceTree = "<group>"; };
+		6357A2C021AD5AFC000130CB /* MeetingBudgetIntegerTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingBudgetIntegerTableViewCell.m; sourceTree = "<group>"; };
+		6357A2C221AD5B59000130CB /* MeetingBudgetDecimalTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingBudgetDecimalTableViewCell.h; sourceTree = "<group>"; };
+		6357A2C321AD5B59000130CB /* MeetingBudgetDecimalTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingBudgetDecimalTableViewCell.m; sourceTree = "<group>"; };
+		6357A2C521AD6067000130CB /* MeetingBudgetTableCellFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingBudgetTableCellFactory.h; sourceTree = "<group>"; };
+		6357A2C621AD6068000130CB /* MeetingBudgetTableCellFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingBudgetTableCellFactory.m; sourceTree = "<group>"; };
 		63580B9A1C1EE497002D5199 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		63580B9C1C1EE49F002D5199 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		63624516216B5FDE00A4D43D /* MATFormRowsTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MATFormRowsTableHeaderView.h; sourceTree = "<group>"; };
@@ -7792,6 +7807,8 @@
 				63A132FE21A86828000128F5 /* MeetingExpenseTableViewController.h */,
 				63A132FF21A86828000128F5 /* MeetingExpenseTableViewController.m */,
 				63D287CE21AC4501007C463D /* MeetingExpenseTableViewControllerDelegate.h */,
+				6357A2C521AD6067000130CB /* MeetingBudgetTableCellFactory.h */,
+				6357A2C621AD6068000130CB /* MeetingBudgetTableCellFactory.m */,
 			);
 			path = Meeting;
 			sourceTree = "<group>";
@@ -7871,6 +7888,14 @@
 				63A1330421A86C02000128F5 /* MeetingExpenseTableViewHeader.h */,
 				63A1330521A86C02000128F5 /* MeetingExpenseTableViewHeader.m */,
 				63A1330721A86C26000128F5 /* MeetingExpenseTableViewCells.xib */,
+				6357A2B921AD56B1000130CB /* MeetingBudgetTableViewCells.xib */,
+				6357A2BB21AD56FA000130CB /* MeetingBudgetBaseTableViewCell.h */,
+				6357A2BC21AD56FA000130CB /* MeetingBudgetBaseTableViewCell.m */,
+				6357A2BE21AD571B000130CB /* MeetingBudgetBaseTableViewCellDelegate.h */,
+				6357A2BF21AD5AFC000130CB /* MeetingBudgetIntegerTableViewCell.h */,
+				6357A2C021AD5AFC000130CB /* MeetingBudgetIntegerTableViewCell.m */,
+				6357A2C221AD5B59000130CB /* MeetingBudgetDecimalTableViewCell.h */,
+				6357A2C321AD5B59000130CB /* MeetingBudgetDecimalTableViewCell.m */,
 			);
 			path = TableCell;
 			sourceTree = "<group>";
@@ -8406,6 +8431,7 @@
 				630B3DE619F01CB9007B2442 /* presenterTableCell_yellow_stretchable.png in Resources */,
 				630B3CC819F01CB9007B2442 /* ReportExcelViewController.xib in Resources */,
 				630D689A219AFF2100E85F8F /* email_all@2x.png in Resources */,
+				6357A2BA21AD56B1000130CB /* MeetingBudgetTableViewCells.xib in Resources */,
 				630B3B5519F01CB9007B2442 /* LocationStampMapView.xib in Resources */,
 				63F97089207F7BF200CE188A /* DashboardMainTemplateTableViewCell.xib in Resources */,
 				630B3DE819F01CB9007B2442 /* Analysis.png in Resources */,
@@ -8596,6 +8622,7 @@
 				630B3C0619F01CB9007B2442 /* OrderDetailCallEmailActionDataManager.m in Sources */,
 				638A42C02191FF0C006F993B /* MeetingMiscDataManager.m in Sources */,
 				6314EF341EDDC17300488950 /* CustomerSurveySegmentedControlTableCell.m in Sources */,
+				6357A2C121AD5AFC000130CB /* MeetingBudgetIntegerTableViewCell.m in Sources */,
 				630B3BA119F01CB9007B2442 /* CustomerContactInfoTableCell.m in Sources */,
 				630B3B4C19F01CB9007B2442 /* CustomerPopoverMenuViewController.m in Sources */,
 				630B3B0E19F01CB8007B2442 /* GalleryView.m in Sources */,
@@ -8836,6 +8863,7 @@
 				630B3C1C19F01CB9007B2442 /* OrderLineDetailProductTableViewController.m in Sources */,
 				631DE1F9200522E300658474 /* RemoveRecordUpdateCenter.m in Sources */,
 				63E44F321EC614820074456F /* DashboardVanStocksHeaderView.m in Sources */,
+				6357A2C721AD6068000130CB /* MeetingBudgetTableCellFactory.m in Sources */,
 				630B3B6819F01CB9007B2442 /* CustomerContactWrapperModalViewController.m in Sources */,
 				630B3BE219F01CB9007B2442 /* CustomerInfoCell.m in Sources */,
 				63F042CD207E13570063C46F /* DashboardMainTemplateDataManager.m in Sources */,
@@ -9162,6 +9190,7 @@
 				630B34D719F014E9007B2442 /* MBProgressHUD.m in Sources */,
 				630B34CA19F014E9007B2442 /* ArcosMemoryUtils.m in Sources */,
 				630B3BE119F01CB9007B2442 /* CustomerSurveyWheelTableCell.m in Sources */,
+				6357A2BD21AD56FA000130CB /* MeetingBudgetBaseTableViewCell.m in Sources */,
 				630B3C8E19F01CB9007B2442 /* SelectedableTableCell.m in Sources */,
 				63F73A911FC86E0C00091A32 /* ProductPredictiveSearchDataManager.m in Sources */,
 				630B3DCE19F01CB9007B2442 /* CXMLNode.m in Sources */,
@@ -9421,6 +9450,7 @@
 				630B3DB019F01CB9007B2442 /* ArcosPresenter.m in Sources */,
 				63C19BB021A2D6950064726E /* MeetingExpenseDetailsViewController.m in Sources */,
 				630B34F819F0171A007B2442 /* CustomerMasterBottomTabBarItemTableCell.m in Sources */,
+				6357A2C421AD5B59000130CB /* MeetingBudgetDecimalTableViewCell.m in Sources */,
 				630B3CD119F01CB9007B2442 /* ReportCellFactory.m in Sources */,
 				630B3DAD19F01CB9007B2442 /* ArcosOrderHeaderBO.m in Sources */,
 				63C3E6F91BB049BC0067213D /* Location.m in Sources */,

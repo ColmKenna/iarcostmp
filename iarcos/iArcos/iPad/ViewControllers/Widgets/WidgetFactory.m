@@ -57,7 +57,7 @@
     return self.popoverController;
 }
 -(UIPopoverController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource defaultPickerDate:(NSDate*)aDefaultPickerDate {
-    WidgetViewController* wvc;
+    WidgetViewController* wvc = nil;
     switch (dataSource) {
         case WidgetDataSourceNormalDate:
             wvc=[[[DatePickerWidgetViewController alloc]initWithType:DatePickerNormalDateType defaultPickerDate:aDefaultPickerDate]autorelease];
@@ -169,9 +169,6 @@
         case WidgetDataSourceCustomerSurvey:
             wvc = [self getPickerWidgetWithType:PickerCustomerSurvey];
             break;
-        case WidgetDataSourceExpenseType:
-            wvc = [self getPickerWidgetWithType:PickerExpenseType];
-            break;
         default:
             break;
     }
@@ -244,7 +241,7 @@
 }
 
 -(UIPopoverController*)CreateGenericCategoryWidgetWithDataSource:(WidgetDataSource)dataSource pickerDefaultValue:(NSNumber*)aDefaultIURValue {
-    WidgetViewController* wvc;
+    WidgetViewController* wvc = nil;
     switch (dataSource) {
         case WidgetDataSourceOrderStatus:            
             wvc = [[[PickerWidgetViewController alloc] initWithType:PickerOrderStatusType pickerDefaultValue:aDefaultIURValue] autorelease];

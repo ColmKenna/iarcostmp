@@ -29,10 +29,10 @@
 - (void)createBasicData {
     [self createDataObjectDict];
     self.displayList = [NSMutableArray arrayWithCapacity:4];
-    [self.displayList addObject:[self createIURCellWithFieldName:@"Meeting"]];
-    [self.displayList addObject:[self createTextViewCellWithFieldName:@"Pre-Meet"]];
-    [self.displayList addObject:[self createTextViewCellWithFieldName:@"Post-Meet"]];
-    [self.displayList addObject:[self createTextViewCellWithFieldName:@"Agenda"]];
+    [self.displayList addObject:[self createIURCellWithFieldName:@"Meeting" cellKey:self.meetingCellKeyDefinition.meetingMOKey fieldData:[self createDefaultIURDict] descrTypeCode:@"MO"]];
+    [self.displayList addObject:[self createTextViewCellWithFieldName:@"Pre-Meet" cellKey:self.meetingCellKeyDefinition.preMeetingKey fieldData:@""]];
+    [self.displayList addObject:[self createTextViewCellWithFieldName:@"Post-Meet" cellKey:self.meetingCellKeyDefinition.postMeetingKey fieldData:@""]];
+    [self.displayList addObject:[self createTextViewCellWithFieldName:@"Agenda" cellKey:self.meetingCellKeyDefinition.agendaKey fieldData:@""]];
 }
 
 - (void)createDataObjectDict {

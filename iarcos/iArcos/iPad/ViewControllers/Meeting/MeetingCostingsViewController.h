@@ -10,8 +10,9 @@
 #import "MeetingCostingsDataManager.h"
 #import "MeetingExpenseDetailsViewController.h"
 #import "MeetingExpenseTableViewController.h"
+#import "MeetingBudgetTableCellFactory.h"
 
-@interface MeetingCostingsViewController : UIViewController <ModalPresentViewControllerDelegate, MeetingExpenseDetailsViewControllerDelegate, MeetingExpenseTableViewControllerDelegate>{
+@interface MeetingCostingsViewController : UIViewController <ModalPresentViewControllerDelegate, MeetingExpenseDetailsViewControllerDelegate, MeetingExpenseTableViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, MeetingBaseTableViewCellDelegate>{
     UIView* _budgetTemplateView;
     UIView* _expensesTemplateView;
     UINavigationBar* _budgetNavigationBar;
@@ -22,6 +23,7 @@
     NSArray* _templateViewList;
     UIBarButtonItem* _addBarButtonItem;
     MeetingExpenseTableViewController* _meetingExpenseTableViewController;
+    MeetingBudgetTableCellFactory* _meetingBudgetTableCellFactory;
 }
 
 @property(nonatomic, retain) IBOutlet UIView* budgetTemplateView;
@@ -34,6 +36,7 @@
 @property(nonatomic, retain) NSArray* templateViewList;
 @property(nonatomic, retain) UIBarButtonItem* addBarButtonItem;
 @property(nonatomic, retain) MeetingExpenseTableViewController* meetingExpenseTableViewController;
+@property(nonatomic, retain) MeetingBudgetTableCellFactory* meetingBudgetTableCellFactory;
 
 @end
 

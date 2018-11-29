@@ -27,35 +27,59 @@
 }
 
 - (void)createBasicData {
-    [self createDataObjectDict];
+//    [self createDataObjectDict];
     self.displayList = [NSMutableArray arrayWithCapacity:9];
-    [self.displayList addObject:[self createDateTimeCell]];
-    [self.displayList addObject:[self createStringCellWithFieldName:@"Code"]];
-    [self.displayList addObject:[self createLocationCellWithFieldName:@"Venue"]];
-    [self.displayList addObject:[self createIURCellWithFieldName:@"Status"]];
-    [self.displayList addObject:[self createIURCellWithFieldName:@"Type"]];
-    [self.displayList addObject:[self createIURCellWithFieldName:@"Style"]];
-    [self.displayList addObject:[self createStringCellWithFieldName:@"Title"]];
-    [self.displayList addObject:[self createEmployeeCellWithFieldName:@"Operator"]];
-    [self.displayList addObject:[self createTextViewCellWithFieldName:@"Comments"]];
+    [self.displayList addObject:[self createDateTimeCellWithDate:[NSDate date] time:[NSDate date] duration:@""]];
+    [self.displayList addObject:[self createStringCellWithFieldName:@"Code" cellKey:self.meetingCellKeyDefinition.codeKey fieldData:@""]];
+    [self.displayList addObject:[self createLocationCellWithFieldName:@"Venue" cellKey:self.meetingCellKeyDefinition.venueKey fieldData:@""]];
+    [self.displayList addObject:[self createIURCellWithFieldName:@"Status" cellKey:self.meetingCellKeyDefinition.statusKey fieldData:[self createDefaultIURDict] descrTypeCode:@"MS"]];
+    [self.displayList addObject:[self createIURCellWithFieldName:@"Type" cellKey:self.meetingCellKeyDefinition.typeKey fieldData:[self createDefaultIURDict] descrTypeCode:@"MP"]];
+    [self.displayList addObject:[self createIURCellWithFieldName:@"Style" cellKey:self.meetingCellKeyDefinition.styleKey fieldData:[self createDefaultIURDict] descrTypeCode:@"MY"]];
+    [self.displayList addObject:[self createStringCellWithFieldName:@"Title" cellKey:self.meetingCellKeyDefinition.titleKey fieldData:@""]];
+    [self.displayList addObject:[self createEmployeeCellWithFieldName:@"Operator" cellKey:self.meetingCellKeyDefinition.operatorKey fieldData:[self createDefaultEmployeeDict]]];
+    [self.displayList addObject:[self createTextViewCellWithFieldName:@"Comments" cellKey:self.meetingCellKeyDefinition.commentsKey fieldData:@""]];
 }
 
 - (void)createDataObjectDict {
-    self.headOfficeDataObjectDict = [NSMutableDictionary dictionaryWithCapacity:11];
-    [self.headOfficeDataObjectDict setObject:[NSDate date] forKey:self.meetingCellKeyDefinition.dateKey];
-    [self.headOfficeDataObjectDict setObject:[NSDate date] forKey:self.meetingCellKeyDefinition.timeKey];
-    [self.headOfficeDataObjectDict setObject:@"0" forKey:self.meetingCellKeyDefinition.durationKey];
-    [self.headOfficeDataObjectDict setObject:@"" forKey:self.meetingCellKeyDefinition.codeKey];
-    [self.headOfficeDataObjectDict setObject:@"" forKey:self.meetingCellKeyDefinition.venueKey];
-    [self.headOfficeDataObjectDict setObject:[self createDefaultIURDict] forKey:self.meetingCellKeyDefinition.statusKey];
+//    self.headOfficeDataObjectDict = [NSMutableDictionary dictionaryWithCapacity:11];
+//    [self.headOfficeDataObjectDict setObject:[NSDate date] forKey:self.meetingCellKeyDefinition.dateKey];
+//    [self.headOfficeDataObjectDict setObject:[NSDate date] forKey:self.meetingCellKeyDefinition.timeKey];
+//    [self.headOfficeDataObjectDict setObject:@"0" forKey:self.meetingCellKeyDefinition.durationKey];
+//    [self.headOfficeDataObjectDict setObject:@"" forKey:self.meetingCellKeyDefinition.codeKey];
+//    [self.headOfficeDataObjectDict setObject:@"" forKey:self.meetingCellKeyDefinition.venueKey];
+//    [self.headOfficeDataObjectDict setObject:[self createDefaultIURDict] forKey:self.meetingCellKeyDefinition.statusKey];
 }
 
-- (NSMutableDictionary*)createDateTimeCell {
-    NSMutableDictionary* tmpDataDict = [NSMutableDictionary dictionaryWithCapacity:1];
+- (NSMutableDictionary*)createDateTimeCellWithDate:(NSDate*)aDate time:(NSDate*)aTime duration:(NSString*)aDuration {
+    NSMutableDictionary* tmpDataDict = [NSMutableDictionary dictionaryWithCapacity:4];
     [tmpDataDict setObject:[NSNumber numberWithInt:1] forKey:@"CellType"];
+    NSMutableDictionary* fieldDataDict = [NSMutableDictionary dictionaryWithCapacity:3];
+    [fieldDataDict setObject:aDate forKey:self.meetingCellKeyDefinition.dateKey];
+    [fieldDataDict setObject:aTime forKey:self.meetingCellKeyDefinition.timeKey];
+    [fieldDataDict setObject:aDuration forKey:self.meetingCellKeyDefinition.durationKey];
+    [tmpDataDict setObject:fieldDataDict forKey:@"FieldData"];
+    
     return tmpDataDict;
 }
 
-
+- (void)displayListHeadOfficeAdaptor {
+    self.headOfficeDataObjectDict = [NSMutableDictionary dictionaryWithCapacity:11];
+    @try {
+        NSMutableDictionary* dateTimeCellDataDict = [self.displayList objectAtIndex:0];
+        NSMutableDictionary* dateTimeFieldDataDict = [dateTimeCellDataDict objectForKey:@"FieldData"];
+        [self.headOfficeDataObjectDict setObject:[dateTimeFieldDataDict objectForKey:self.meetingCellKeyDefinition.dateKey] forKey:self.meetingCellKeyDefinition.dateKey];
+        [self.headOfficeDataObjectDict setObject:[dateTimeFieldDataDict objectForKey:self.meetingCellKeyDefinition.timeKey] forKey:self.meetingCellKeyDefinition.timeKey];
+        [self.headOfficeDataObjectDict setObject:[dateTimeFieldDataDict objectForKey:self.meetingCellKeyDefinition.durationKey] forKey:self.meetingCellKeyDefinition.durationKey];
+        for (int i = 1; i < [self.displayList count]; i++) {
+            NSMutableDictionary* cellDataDict = [self.displayList objectAtIndex:i];
+            NSString* auxCellKey = [cellDataDict objectForKey:@"CellKey"];
+            [self.headOfficeDataObjectDict setObject:[cellDataDict objectForKey:@"FieldData"] forKey:auxCellKey];
+        }
+    } @catch (NSException *exception) {
+        
+    } @finally {
+        
+    }
+}
 
 @end

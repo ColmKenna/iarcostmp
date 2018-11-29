@@ -7,9 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MeetingBaseDataManager.h"
 
+@interface MeetingCostingsDataManager : MeetingBaseDataManager {
+    NSMutableArray* _displayList;
+}
 
-@interface MeetingCostingsDataManager : NSObject
+@property(nonatomic, retain) NSMutableArray* displayList;
+
+- (void)dataMeetingBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath;
+- (void)displayListHeadOfficeAdaptor;
 
 @end
 

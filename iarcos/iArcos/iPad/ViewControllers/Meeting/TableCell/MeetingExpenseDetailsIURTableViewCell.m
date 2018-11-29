@@ -47,7 +47,10 @@
         self.widgetFactory = [WidgetFactory factory];
         self.widgetFactory.delegate = self;
     }
-    self.thePopover = [self.widgetFactory CreateCategoryWidgetWithDataSource:WidgetDataSourceExpenseType];
+    NSMutableArray* descrDetailList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:@"EX"];
+    NSDictionary* descrTypeDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"EX"];
+    NSString* myTitle = [ArcosUtils convertNilToEmpty:[descrTypeDict objectForKey:@"Details"]];
+    self.thePopover = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:descrDetailList title:myTitle];
     self.thePopover.delegate = self;
     [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }

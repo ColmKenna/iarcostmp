@@ -29,6 +29,7 @@
 - (void)dealloc {
     self.cellData = nil;
     self.myIndexPath = nil;
+    self.widgetFactory.popoverController = nil;
     self.widgetFactory = nil;
     self.thePopover = nil;
     

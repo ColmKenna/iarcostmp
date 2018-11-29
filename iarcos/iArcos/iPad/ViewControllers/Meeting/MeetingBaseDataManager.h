@@ -19,11 +19,12 @@
 
 - (void)createBasicData;
 - (NSMutableDictionary*)createDefaultIURDict;
-- (NSMutableDictionary*)createStringCellWithFieldName:(NSString*)aFieldName;
-- (NSMutableDictionary*)createLocationCellWithFieldName:(NSString*)aFieldName;
-- (NSMutableDictionary*)createEmployeeCellWithFieldName:(NSString*)aFieldName;
-- (NSMutableDictionary*)createTextViewCellWithFieldName:(NSString*)aFieldName;
-- (NSMutableDictionary*)createIURCellWithFieldName:(NSString*)aFieldName;
+- (NSMutableDictionary*)createDefaultEmployeeDict;
+- (NSMutableDictionary*)createStringCellWithFieldName:(NSString*)aFieldName cellKey:(NSString*)aCellKey fieldData:(id)aFieldData;
+- (NSMutableDictionary*)createLocationCellWithFieldName:(NSString*)aFieldName cellKey:(NSString*)aCellKey fieldData:(id)aFieldData;
+- (NSMutableDictionary*)createEmployeeCellWithFieldName:(NSString*)aFieldName cellKey:(NSString*)aCellKey fieldData:(id)aFieldData;
+- (NSMutableDictionary*)createTextViewCellWithFieldName:(NSString*)aFieldName cellKey:(NSString*)aCellKey fieldData:(id)aFieldData;
+- (NSMutableDictionary*)createIURCellWithFieldName:(NSString*)aFieldName cellKey:(NSString*)aCellKey fieldData:(id)aFieldData descrTypeCode:(NSString*)aDescrTypeCode;
 
 @end
 

@@ -94,5 +94,9 @@
     return self.meetingMiscDataManager.headOfficeDataObjectDict;
 }
 
+- (void)meetingBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath {
+    
+}
+
 
 @end

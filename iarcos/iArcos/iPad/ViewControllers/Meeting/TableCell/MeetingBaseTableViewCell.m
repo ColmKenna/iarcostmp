@@ -11,6 +11,8 @@
 @implementation MeetingBaseTableViewCell
 @synthesize actionDelegate = _actionDelegate;
 @synthesize meetingCellKeyDefinition = _meetingCellKeyDefinition;
+@synthesize cellData = _cellData;
+@synthesize myIndexPath = _myIndexPath;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -19,6 +21,8 @@
 
 - (void)dealloc {
     self.meetingCellKeyDefinition = nil;
+    self.cellData = nil;
+    self.myIndexPath = nil;
     
     [super dealloc];
 }
@@ -30,6 +34,7 @@
 }
 
 - (void)configCellWithData:(NSMutableDictionary*)aCellData {
+    self.cellData = aCellData;
     self.meetingCellKeyDefinition = [[[MeetingCellKeyDefinition alloc] init] autorelease];
 }
 

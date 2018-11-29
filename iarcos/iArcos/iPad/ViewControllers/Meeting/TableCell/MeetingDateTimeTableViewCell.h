@@ -9,14 +9,18 @@
 #import "MeetingBaseTableViewCell.h"
 #import "ArcosUtils.h"
 #import "GlobalSharedClass.h"
+#import "WidgetFactory.h"
 
-@interface MeetingDateTimeTableViewCell : MeetingBaseTableViewCell {
+@interface MeetingDateTimeTableViewCell : MeetingBaseTableViewCell <WidgetFactoryDelegate, UIPopoverControllerDelegate, UITextFieldDelegate>{
     UILabel* _dateFieldNameLabel;
     UILabel* _dateFieldValueLabel;
     UILabel* _timeFieldNameLabel;
     UILabel* _timeFieldValueLabel;
     UILabel* _durationFieldNameLabel;
     UITextField* _durationFieldValueTextField;
+    UILabel* _currentSelectedLabel;
+    WidgetFactory* _widgetFactory;
+    UIPopoverController* _thePopover;
 }
 
 @property(nonatomic, retain) IBOutlet UILabel* dateFieldNameLabel;
@@ -25,6 +29,10 @@
 @property(nonatomic, retain) IBOutlet UILabel* timeFieldValueLabel;
 @property(nonatomic, retain) IBOutlet UILabel* durationFieldNameLabel;
 @property(nonatomic, retain) IBOutlet UITextField* durationFieldValueTextField;
+@property(nonatomic, retain) UILabel* currentSelectedLabel;
+@property(nonatomic, retain) WidgetFactory* widgetFactory;
+@property(nonatomic, retain) UIPopoverController* thePopover;
+
 
 @end
 

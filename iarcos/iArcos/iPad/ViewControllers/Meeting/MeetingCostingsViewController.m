@@ -23,6 +23,7 @@
 @synthesize templateViewList = _templateViewList;
 @synthesize addBarButtonItem = _addBarButtonItem;
 @synthesize meetingExpenseTableViewController = _meetingExpenseTableViewController;
+@synthesize meetingBudgetTableCellFactory = _meetingBudgetTableCellFactory;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,6 +38,12 @@
     self.expensesTableView.delegate = self.meetingExpenseTableViewController;
     
     [self createRightBarButtonItems];
+    
+    self.meetingCostingsDataManager = [[[MeetingCostingsDataManager alloc] init] autorelease];
+    [self.meetingCostingsDataManager createBasicData];
+    self.meetingBudgetTableCellFactory = [[[MeetingBudgetTableCellFactory alloc] init] autorelease];
+    self.budgetTableView.dataSource = self;
+    self.budgetTableView.delegate = self;
 }
 
 - (void)createRightBarButtonItems {
@@ -65,6 +72,7 @@
     self.templateViewList = nil;
     self.addBarButtonItem = nil;
     self.meetingExpenseTableViewController = nil;
+    self.meetingBudgetTableCellFactory = nil;
     
     [super dealloc];
 }
@@ -128,6 +136,36 @@
     }];
 }
 
+#pragma mark - Table view data source
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {    
+    return 44;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    // Return the number of sections.
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    // Return the number of rows in the section.
+    return [self.meetingCostingsDataManager.displayList count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSMutableDictionary* cellData = [self.meetingCostingsDataManager.displayList objectAtIndex:indexPath.row];
+    MeetingBudgetBaseTableViewCell* cell = (MeetingBudgetBaseTableViewCell*)[tableView dequeueReusableCellWithIdentifier:[self.meetingBudgetTableCellFactory identifierWithData:cellData]];
+    if (cell == nil) {
+        cell = (MeetingBudgetBaseTableViewCell*)[self.meetingBudgetTableCellFactory createMeetingBudgetBaseTableCellWithData:cellData];
+    }
+    // Configure the cell...
+    cell.myIndexPath = indexPath;
+    cell.actionDelegate = self;
+    [cell configCellWithData:cellData];
+    
+    return cell;
+}
+
+
 #pragma mark ModalPresentViewControllerDelegate
 - (void)didDismissModalPresentViewController {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -143,6 +181,15 @@
 #pragma mark MeetingExpenseTableViewControllerDelegate
 - (UITableView*)retrieveExpenseTableView {
     return self.expensesTableView;
+}
+
+#pragma mark MeetingBaseTableViewCellDelegate
+- (NSMutableDictionary*)retrieveHeadOfficeDataObjectDict {
+    return self.meetingCostingsDataManager.headOfficeDataObjectDict;
+}
+
+- (void)meetingBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath {
+    [self.meetingCostingsDataManager dataMeetingBaseInputFinishedWithData:aData atIndexPath:anIndexPath];
 }
 
 @end

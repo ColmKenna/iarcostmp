@@ -12,6 +12,7 @@
 @protocol MeetingBaseTableViewCellDelegate <NSObject>
 
 - (NSMutableDictionary*)retrieveHeadOfficeDataObjectDict;
+- (void)meetingBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath;
 
 @end
 

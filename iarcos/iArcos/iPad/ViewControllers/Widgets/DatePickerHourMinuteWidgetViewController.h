@@ -10,7 +10,8 @@
 #import "ArcosUtils.h"
 
 typedef enum {
-    DatePickerHourMinuteAccessTimesType = 0
+    DatePickerHourMinuteAccessTimesType = 0,
+    DatePickerHourMinuteNormalType
 } DatePickerHourMinuteWidgetType;
 
 @interface DatePickerHourMinuteWidgetViewController : WidgetViewController {

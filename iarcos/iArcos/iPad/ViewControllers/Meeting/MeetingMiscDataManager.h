@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MeetingBaseDataManager.h"
-
+#import "ArcosCoreData.h"
 
 @interface MeetingMiscDataManager : MeetingBaseDataManager {
     NSString* _auditorSectionTitle;

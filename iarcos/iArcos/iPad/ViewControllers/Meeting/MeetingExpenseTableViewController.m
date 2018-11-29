@@ -100,12 +100,9 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)aTableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
-forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (editingStyle == UITableViewCellEditingStyleDelete)
-    {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
         self.currentSelectDeleteIndexPath = indexPath;
         [self deleteSelectedExpense];
     }
