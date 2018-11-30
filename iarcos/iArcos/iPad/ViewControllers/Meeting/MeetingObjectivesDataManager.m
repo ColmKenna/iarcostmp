@@ -54,4 +54,15 @@
     }
 }
 
+- (void)populateArcosMeetingBO:(ArcosMeetingBO*)anArcosMeetingBO {
+    @try {
+        NSMutableDictionary* resMeetingMODict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.meetingMOKey];
+        anArcosMeetingBO.MOIUR = [[resMeetingMODict objectForKey:@"IUR"] intValue];
+    } @catch (NSException *exception) {
+        NSLog(@"%@", [exception reason]);
+    } @finally {
+        
+    }
+}
+
 @end

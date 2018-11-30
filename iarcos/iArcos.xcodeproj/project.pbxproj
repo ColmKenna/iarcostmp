@@ -1424,6 +1424,10 @@
 		63E9CD671B29AB7300B64E50 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E9CD641B29AB7300B64E50 /* AudioToolbox.framework */; };
 		63E9CD681B29AB7300B64E50 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E9CD651B29AB7300B64E50 /* AVFoundation.framework */; };
 		63E9F9702178AD1900D00D2A /* ArcosTargetDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E9F96F2178AD1700D00D2A /* ArcosTargetDetail.m */; };
+		63EC09BC21B1540F0010F757 /* ArcosMeetingBO.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EC09B421B1540C0010F757 /* ArcosMeetingBO.m */; };
+		63EC09BD21B1540F0010F757 /* ArcosArrayOfAttendeeWithDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EC09B821B1540E0010F757 /* ArcosArrayOfAttendeeWithDetails.m */; };
+		63EC09BE21B1540F0010F757 /* ArcosAttendeeWithDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EC09B921B1540E0010F757 /* ArcosAttendeeWithDetails.m */; };
+		63EC09BF21B1540F0010F757 /* ArcosMeetingWithDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EC09BA21B1540E0010F757 /* ArcosMeetingWithDetails.m */; };
 		63EE6F292137FA82008869F9 /* TargetTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EE6F272137FA82008869F9 /* TargetTableViewController.m */; };
 		63EE6F2A2137FA82008869F9 /* TargetTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63EE6F282137FA82008869F9 /* TargetTableViewController.xib */; };
 		63EE6F2E2137FB20008869F9 /* TargetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EE6F2D2137FB20008869F9 /* TargetTableViewCell.m */; };
@@ -4276,6 +4280,14 @@
 		63E9CD651B29AB7300B64E50 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		63E9F96E2178AD1400D00D2A /* ArcosTargetDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArcosTargetDetail.h; sourceTree = "<group>"; };
 		63E9F96F2178AD1700D00D2A /* ArcosTargetDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArcosTargetDetail.m; sourceTree = "<group>"; };
+		63EC09B421B1540C0010F757 /* ArcosMeetingBO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArcosMeetingBO.m; sourceTree = "<group>"; };
+		63EC09B521B1540D0010F757 /* ArcosArrayOfAttendeeWithDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArcosArrayOfAttendeeWithDetails.h; sourceTree = "<group>"; };
+		63EC09B621B1540D0010F757 /* ArcosMeetingWithDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArcosMeetingWithDetails.h; sourceTree = "<group>"; };
+		63EC09B721B1540E0010F757 /* ArcosAttendeeWithDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArcosAttendeeWithDetails.h; sourceTree = "<group>"; };
+		63EC09B821B1540E0010F757 /* ArcosArrayOfAttendeeWithDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArcosArrayOfAttendeeWithDetails.m; sourceTree = "<group>"; };
+		63EC09B921B1540E0010F757 /* ArcosAttendeeWithDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArcosAttendeeWithDetails.m; sourceTree = "<group>"; };
+		63EC09BA21B1540E0010F757 /* ArcosMeetingWithDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArcosMeetingWithDetails.m; sourceTree = "<group>"; };
+		63EC09BB21B1540E0010F757 /* ArcosMeetingBO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArcosMeetingBO.h; sourceTree = "<group>"; };
 		63ED66F7205C11100058C50B /* ModalPresentViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModalPresentViewControllerDelegate.h; sourceTree = "<group>"; };
 		63EE6F262137FA82008869F9 /* TargetTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TargetTableViewController.h; sourceTree = "<group>"; };
 		63EE6F272137FA82008869F9 /* TargetTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TargetTableViewController.m; sourceTree = "<group>"; };
@@ -6984,6 +6996,14 @@
 		630B397719F01CB7007B2442 /* Generated */ = {
 			isa = PBXGroup;
 			children = (
+				63EC09B521B1540D0010F757 /* ArcosArrayOfAttendeeWithDetails.h */,
+				63EC09B821B1540E0010F757 /* ArcosArrayOfAttendeeWithDetails.m */,
+				63EC09B721B1540E0010F757 /* ArcosAttendeeWithDetails.h */,
+				63EC09B921B1540E0010F757 /* ArcosAttendeeWithDetails.m */,
+				63EC09BB21B1540E0010F757 /* ArcosMeetingBO.h */,
+				63EC09B421B1540C0010F757 /* ArcosMeetingBO.m */,
+				63EC09B621B1540D0010F757 /* ArcosMeetingWithDetails.h */,
+				63EC09BA21B1540E0010F757 /* ArcosMeetingWithDetails.m */,
 				6300C6A42178C17B00D3012E /* ArcosArrayOfTargetDetail.h */,
 				6300C6A32178C17A00D3012E /* ArcosArrayOfTargetDetail.m */,
 				63E9F96E2178AD1400D00D2A /* ArcosTargetDetail.h */,
@@ -8619,6 +8639,7 @@
 				630B3C8619F01CB9007B2442 /* OrderProductTableCell.m in Sources */,
 				63FA4A001F4F1DFD00B911DF /* OrderDetailIArcosPrintTableCell.m in Sources */,
 				63A0E3C81CDB4FA10061D9A3 /* CustomerInfoLinkedToTableViewCell.m in Sources */,
+				63EC09BD21B1540F0010F757 /* ArcosArrayOfAttendeeWithDetails.m in Sources */,
 				630B3C6819F01CB9007B2442 /* ProductDetailStockTableViewController.m in Sources */,
 				630B3C2819F01CB9007B2442 /* BranchLargeSmallDataManager.m in Sources */,
 				639CAE741CFC7EE800D7246C /* GetRecordTypeGenericDecimalObject.m in Sources */,
@@ -9097,6 +9118,7 @@
 				630B3DC419F01CB9007B2442 /* SoapLiteral.m in Sources */,
 				639CAE651CFC7E4800D7246C /* GetRecordTypeGenericIURObject.m in Sources */,
 				630B34FE19F0171A007B2442 /* CustomerMasterDataManager.m in Sources */,
+				63EC09BC21B1540F0010F757 /* ArcosMeetingBO.m in Sources */,
 				630B3B5019F01CB9007B2442 /* CustomerSplitViewContorller.m in Sources */,
 				630B3C6519F01CB9007B2442 /* ProductDetailLevelTableViewController.m in Sources */,
 				632BB2611A07D112005491DD /* CustomerIarcosSavedOrderTableViewController.m in Sources */,
@@ -9162,6 +9184,7 @@
 				634A7DD81C18349B00EA0CFD /* DashboardPromotionTableViewController.m in Sources */,
 				63D2FB5F1D672D1000040C5A /* CustomerInfoAccessTimesCalendarHeaderView.m in Sources */,
 				634E59CD20EF67E6004B7C82 /* ArcosArrayOfDashBoardRowData.m in Sources */,
+				63EC09BF21B1540F0010F757 /* ArcosMeetingWithDetails.m in Sources */,
 				630B3B9919F01CB9007B2442 /* CustomerBaseTableCell.m in Sources */,
 				630B3B9019F01CB9007B2442 /* EmailRecipientDataManager.m in Sources */,
 				630B3BF319F01CB9007B2442 /* DetailingTableCellFactory.m in Sources */,
@@ -9377,6 +9400,7 @@
 				630B3D6719F01CB9007B2442 /* TableWidgetViewController.m in Sources */,
 				63ABC89119F0263300DE2B1B /* ArcosAppDelegate_iPad.m in Sources */,
 				630B3BEC19F01CB9007B2442 /* DetailingDataManager.m in Sources */,
+				63EC09BE21B1540F0010F757 /* ArcosAttendeeWithDetails.m in Sources */,
 				630B3D7D19F01CB9007B2442 /* ArcosArrayOfEmployeeBO.m in Sources */,
 				630B343C19F0127C007B2442 /* Docket.m in Sources */,
 				630B3CA019F01CB9007B2442 /* NewOrderViewController.m in Sources */,

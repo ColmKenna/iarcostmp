@@ -110,4 +110,8 @@
     
 }
 
+- (void)populateArcosMeetingBO:(ArcosMeetingBO*)anArcosMeetingBO {
+    
+}
+
 @end

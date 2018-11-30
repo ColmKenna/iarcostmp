@@ -11,6 +11,8 @@
 #import "MeetingMiscTableViewController.h"
 #import "MeetingObjectivesTableViewController.h"
 #import "MeetingCostingsViewController.h"
+#import "CallGenericServices.h"
+#import "ArcosMeetingBO.h"
 
 @interface MeetingMainTemplateViewController : UIViewController {
     UISegmentedControl* _mySegmentedControl;
@@ -23,6 +25,7 @@
     NSArray* _layoutObjectList;
     NSArray* _objectViewControllerList;
     NSDictionary* _layoutDict;
+    CallGenericServices* _callGenericServices;
 }
 
 @property(nonatomic, retain) IBOutlet UISegmentedControl* mySegmentedControl;
@@ -35,6 +38,7 @@
 @property(nonatomic, retain) NSArray* layoutObjectList;
 @property(nonatomic, retain) NSArray* objectViewControllerList;
 @property(nonatomic, retain) NSDictionary* layoutDict;
+@property(nonatomic, retain) CallGenericServices* callGenericServices;
 
 @end
 

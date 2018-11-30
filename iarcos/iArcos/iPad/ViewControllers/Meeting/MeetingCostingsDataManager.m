@@ -65,4 +65,21 @@
     }
 }
 
+- (void)populateArcosMeetingBO:(ArcosMeetingBO*)anArcosMeetingBO {
+    @try {
+        NSString* resEstimatedCost = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.estimatedCostKey];
+        anArcosMeetingBO.EstimatedCost = [[ArcosUtils convertStringToNumber:resEstimatedCost] intValue];
+        NSString* resEstimatedCostPerHead = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.estimatedCostPerHeadKey];
+//        NSNumber* resEstimatedCostPerHeadNumber = [ArcosUtils convertStringToFloatNumber:resEstimatedCostPerHead];
+//        anArcosMeetingBO.EstimatedCostPerHead = [NSDecimalNumber decimalNumberWithDecimal:[resEstimatedCostPerHeadNumber decimalValue]];
+        anArcosMeetingBO.EstimatedCostPerHead = [NSDecimalNumber decimalNumberWithString:resEstimatedCostPerHead];
+        NSString* resEstimatedAttendees = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.estimatedAttendeesKey];
+        anArcosMeetingBO.EstimatedAttendees = [[ArcosUtils convertStringToNumber:resEstimatedAttendees] intValue];;
+    } @catch (NSException *exception) {
+        NSLog(@"%@", [exception reason]);
+    } @finally {
+        
+    }
+}
+
 @end

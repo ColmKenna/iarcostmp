@@ -23,6 +23,7 @@
 @synthesize layoutObjectList = _layoutObjectList;
 @synthesize objectViewControllerList = _objectViewControllerList;
 @synthesize layoutDict = _layoutDict;
+@synthesize callGenericServices = _callGenericServices;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -70,6 +71,7 @@
     UIBarButtonItem* saveBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonPressed)];
     self.navigationItem.rightBarButtonItem = saveBarButtonItem;
     [saveBarButtonItem release];
+    self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.navigationController.view] autorelease];
 }
 
 - (void)saveButtonPressed {
@@ -78,9 +80,15 @@
     [self.meetingMiscTableViewController.meetingMiscDataManager displayListHeadOfficeAdaptor];
     [self.meetingObjectivesTableViewController.meetingObjectivesDataManager displayListHeadOfficeAdaptor];
     [self.meetingCostingsViewController.meetingCostingsDataManager displayListHeadOfficeAdaptor];
-    
+    ArcosMeetingBO* arcosMeetingBO = [[[ArcosMeetingBO alloc] init] autorelease];
+    [self.meetingDetailsTableViewController.meetingDetailsDataManager populateArcosMeetingBO:arcosMeetingBO];
+    [self.meetingMiscTableViewController.meetingMiscDataManager populateArcosMeetingBO:arcosMeetingBO];
+    [self.meetingObjectivesTableViewController.meetingObjectivesDataManager populateArcosMeetingBO:arcosMeetingBO];
+    [self.meetingCostingsViewController.meetingCostingsDataManager populateArcosMeetingBO:arcosMeetingBO];
+    NSLog(@"abc %@", arcosMeetingBO);
+    [self.callGenericServices genericUpdateMeetingByMeetingBO:arcosMeetingBO action:@selector(resultBackFromUpdateMeeting:) target:self];
 //    NSLog(@"abc: %@", self.meetingDetailsTableViewController.meetingDetailsDataManager.headOfficeDataObjectDict);
-    NSLog(@"ac: %@", self.meetingMiscTableViewController.meetingMiscDataManager.headOfficeDataObjectDict);
+//    NSLog(@"ac: %@", self.meetingMiscTableViewController.meetingMiscDataManager.headOfficeDataObjectDict);
 //    NSLog(@"def: %@", self.meetingObjectivesTableViewController.meetingObjectivesDataManager.headOfficeDataObjectDict);
 }
 
@@ -101,9 +109,19 @@
     self.layoutKeyList = nil;
     self.layoutObjectList = nil;
     self.objectViewControllerList = nil;
+    self.callGenericServices = nil;
     
     [super dealloc];
 }
+
+- (void)resultBackFromUpdateMeeting:(id)result {
+    result = [self.callGenericServices handleResultErrorProcess:result];
+    if (result == nil) {
+        return;
+    }
+    
+}
+
 
 - (void)segmentedAction {
     for (int i = 0; i < [self.objectViewControllerList count]; i++) {

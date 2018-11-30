@@ -36,6 +36,8 @@
 #import "ArcosTargetDetail.h"
 #import "ArcosLevel5Spec.h"
 #import "ArcosPriceBO.h"
+#import "ArcosAttendeeWithDetails.h"
+#import "ArcosMeetingBO.h"
 #import "ArcosIncompleteObject.h"
 #import "ArcosArrayOfSurveyBO.h"
 #import "ArcosSurveyBO.h"
@@ -75,6 +77,8 @@
 #import "ArcosArrayOfLevel5Spec.h"
 #import "ArcosArrayOfCallBO.h"
 #import "ArcosArrayOfPriceBO.h"
+#import "ArcosMeetingWithDetails.h"
+#import "ArcosArrayOfAttendeeWithDetails.h"
 #import "ArcosDashBoardData.h"
 #import "ArcosArrayOfDashBoardRowData.h"
 #import "ArcosDashBoardRowData.h"
@@ -95,6 +99,12 @@
 	- (SoapRequest*) ListAllInCopiedXMLFiles: (id <SoapDelegate>) handler;
 	- (SoapRequest*) ListAllInCopiedXMLFiles: (id) target action: (SEL) action;
 	-(SoapRequest*)ListAllInCopiedXMLFilesWithProgress:(SoapRequestProgressBlock)progressBlock completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns NSString*
+	/*  */
+	- (SoapRequest*) GetSomeString: (id <SoapDelegate>) handler;
+	- (SoapRequest*) GetSomeString: (id) target action: (SEL) action;
+	-(SoapRequest*)GetSomeStringWithProgress:(SoapRequestProgressBlock)progressBlock completion:(SoapRequestCompletionBlock)completionBlock;
 
 	// Returns NSMutableArray*
 	/*  */
@@ -695,6 +705,18 @@
 	- (SoapRequest*) GetPrices: (id <SoapDelegate>) handler employeeiur: (int) employeeiur;
 	- (SoapRequest*) GetPrices: (id) target action: (SEL) action employeeiur: (int) employeeiur;
 	-(SoapRequest*)GetPricesWithProgress:(SoapRequestProgressBlock)progressBlock employeeiur: (int) employeeiur completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns ArcosMeetingWithDetails*
+	/*  */
+	- (SoapRequest*) GetMeeting: (id <SoapDelegate>) handler meetingiur: (int) meetingiur;
+	- (SoapRequest*) GetMeeting: (id) target action: (SEL) action meetingiur: (int) meetingiur;
+	-(SoapRequest*)GetMeetingWithProgress:(SoapRequestProgressBlock)progressBlock meetingiur: (int) meetingiur completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns int
+	/*  */
+	- (SoapRequest*) UpdateMeeting: (id <SoapDelegate>) handler meetingToUpdate: (ArcosMeetingBO*) meetingToUpdate;
+	- (SoapRequest*) UpdateMeeting: (id) target action: (SEL) action meetingToUpdate: (ArcosMeetingBO*) meetingToUpdate;
+	-(SoapRequest*)UpdateMeetingWithProgress:(SoapRequestProgressBlock)progressBlock meetingToUpdate: (ArcosMeetingBO*) meetingToUpdate completion:(SoapRequestCompletionBlock)completionBlock;
 
 	// Returns ArcosDashBoardData*
 	/*  */
