@@ -63,6 +63,7 @@
     [detailingDisplayList addObject:[self createIURCellWithFieldName:l5FieldName cellKey:self.meetingCellKeyDefinition.l5Key fieldData:[self createDefaultIURDict] descrTypeCode:@"L5"]];
     [self.groupedDataDict setObject:detailingDisplayList forKey:self.detailingSectionTitle];
     NSMutableArray* speakerDisplayList = [NSMutableArray arrayWithCapacity:2];
+    [speakerDisplayList addObject:[self createBooleanCellWithFieldName:@"Agreed" cellKey:self.meetingCellKeyDefinition.speakerAgreementKey fieldData:[NSNumber numberWithBool:YES]]];
     [speakerDisplayList addObject:[self createTextViewCellWithFieldName:@"Terms" cellKey:self.meetingCellKeyDefinition.speakerAgreementDetailsKey fieldData:@""]];
     [self.groupedDataDict setObject:speakerDisplayList forKey:self.speakerSectionTitle];
 }
@@ -80,6 +81,23 @@
     NSString* tmpSectionTitle = [self.sectionTitleList objectAtIndex:anIndexPath.section];
     NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:tmpSectionTitle];
     return [tmpDisplayList objectAtIndex:anIndexPath.row];
+}
+
+- (void)dataMeetingBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath {
+    NSMutableDictionary* tmpDataDict = [self cellDataWithIndexPath:anIndexPath];
+    [tmpDataDict setObject:aData forKey:@"FieldData"];
+}
+
+- (void)displayListHeadOfficeAdaptor {
+    for (int i = 0; i < [self.sectionTitleList count]; i++) {
+        NSString* tmpSectionTitle = [self.sectionTitleList objectAtIndex:i];
+        NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:tmpSectionTitle];
+        for (int j = 0; j < [tmpDisplayList count]; j++) {
+            NSMutableDictionary* tmpDataDict = [tmpDisplayList objectAtIndex:j];
+            NSString* auxCellKey = [tmpDataDict objectForKey:@"CellKey"];
+            [self.headOfficeDataObjectDict setObject:[tmpDataDict objectForKey:@"FieldData"] forKey:auxCellKey];
+        }
+    }
 }
 
 @end

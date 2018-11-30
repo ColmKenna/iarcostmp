@@ -75,8 +75,13 @@
 - (void)saveButtonPressed {
     [self.view endEditing:YES];
     [self.meetingDetailsTableViewController.meetingDetailsDataManager displayListHeadOfficeAdaptor];
+    [self.meetingMiscTableViewController.meetingMiscDataManager displayListHeadOfficeAdaptor];
+    [self.meetingObjectivesTableViewController.meetingObjectivesDataManager displayListHeadOfficeAdaptor];
     [self.meetingCostingsViewController.meetingCostingsDataManager displayListHeadOfficeAdaptor];
-    NSLog(@"abc: %@", self.meetingDetailsTableViewController.meetingDetailsDataManager.headOfficeDataObjectDict);
+    
+//    NSLog(@"abc: %@", self.meetingDetailsTableViewController.meetingDetailsDataManager.headOfficeDataObjectDict);
+    NSLog(@"ac: %@", self.meetingMiscTableViewController.meetingMiscDataManager.headOfficeDataObjectDict);
+//    NSLog(@"def: %@", self.meetingObjectivesTableViewController.meetingObjectivesDataManager.headOfficeDataObjectDict);
 }
 
 - (void)dealloc {

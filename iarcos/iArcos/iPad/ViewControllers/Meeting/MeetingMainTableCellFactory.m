@@ -15,6 +15,7 @@
 @synthesize employeeTableCellId = _employeeTableCellId;
 @synthesize textViewTableCellId = _textViewTableCellId;
 @synthesize iurTableCellId = _iurTableCellId;
+@synthesize booleanTableCellId = _booleanTableCellId;
 
 - (instancetype)init {
     self = [super init];
@@ -25,6 +26,7 @@
         self.employeeTableCellId = @"IdMeetingEmployeeTableViewCell";
         self.textViewTableCellId = @"IdMeetingTextViewTableViewCell";
         self.iurTableCellId = @"IdMeetingIURTableViewCell";
+        self.booleanTableCellId = @"IdMeetingBooleanTableViewCell";
     }
     return self;
 }
@@ -36,6 +38,7 @@
     self.employeeTableCellId = nil;
     self.textViewTableCellId = nil;
     self.iurTableCellId = nil;
+    self.booleanTableCellId = nil;
     
     [super dealloc];
 }
@@ -78,6 +81,9 @@
             break;
         case 6:
             auxIdentifier = self.iurTableCellId;
+            break;
+        case 7:
+            auxIdentifier = self.booleanTableCellId;
             break;
             
         default:

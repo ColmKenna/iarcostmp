@@ -1395,6 +1395,7 @@
 		63CCFD0D20232ADB00EEF7C1 /* ArcosMailSubjectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CCFD0C20232ADB00EEF7C1 /* ArcosMailSubjectTableViewCell.m */; };
 		63CCFD1020232B1C00EEF7C1 /* ArcosMailBodyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CCFD0F20232B1C00EEF7C1 /* ArcosMailBodyTableViewCell.m */; };
 		63D021091FBC5AA8003F0586 /* OrderDetailDeliveryInstructions1TextFieldTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D021081FBC5AA8003F0586 /* OrderDetailDeliveryInstructions1TextFieldTableCell.m */; };
+		63D17D6721B0550100CE0072 /* MeetingBooleanTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D17D6621B0550100CE0072 /* MeetingBooleanTableViewCell.m */; };
 		63D2FB4F1D67173100040C5A /* CustomerInfoAccessTimesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D2FB4E1D67173100040C5A /* CustomerInfoAccessTimesTableViewCell.m */; };
 		63D2FB531D6724F000040C5A /* CustomerInfoAccessTimesCalendarTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D2FB511D6724F000040C5A /* CustomerInfoAccessTimesCalendarTableViewController.m */; };
 		63D2FB541D6724F000040C5A /* CustomerInfoAccessTimesCalendarTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63D2FB521D6724F000040C5A /* CustomerInfoAccessTimesCalendarTableViewController.xib */; };
@@ -4221,6 +4222,8 @@
 		63CCFD0F20232B1C00EEF7C1 /* ArcosMailBodyTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosMailBodyTableViewCell.m; sourceTree = "<group>"; };
 		63D021071FBC5AA8003F0586 /* OrderDetailDeliveryInstructions1TextFieldTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderDetailDeliveryInstructions1TextFieldTableCell.h; sourceTree = "<group>"; };
 		63D021081FBC5AA8003F0586 /* OrderDetailDeliveryInstructions1TextFieldTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderDetailDeliveryInstructions1TextFieldTableCell.m; sourceTree = "<group>"; };
+		63D17D6521B0550100CE0072 /* MeetingBooleanTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingBooleanTableViewCell.h; sourceTree = "<group>"; };
+		63D17D6621B0550100CE0072 /* MeetingBooleanTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingBooleanTableViewCell.m; sourceTree = "<group>"; };
 		63D287CE21AC4501007C463D /* MeetingExpenseTableViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingExpenseTableViewControllerDelegate.h; sourceTree = "<group>"; };
 		63D2FB4D1D67173100040C5A /* CustomerInfoAccessTimesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerInfoAccessTimesTableViewCell.h; sourceTree = "<group>"; };
 		63D2FB4E1D67173100040C5A /* CustomerInfoAccessTimesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerInfoAccessTimesTableViewCell.m; sourceTree = "<group>"; };
@@ -7896,6 +7899,8 @@
 				6357A2C021AD5AFC000130CB /* MeetingBudgetIntegerTableViewCell.m */,
 				6357A2C221AD5B59000130CB /* MeetingBudgetDecimalTableViewCell.h */,
 				6357A2C321AD5B59000130CB /* MeetingBudgetDecimalTableViewCell.m */,
+				63D17D6521B0550100CE0072 /* MeetingBooleanTableViewCell.h */,
+				63D17D6621B0550100CE0072 /* MeetingBooleanTableViewCell.m */,
 			);
 			path = TableCell;
 			sourceTree = "<group>";
@@ -8676,6 +8681,7 @@
 				630B3B9F19F01CB9007B2442 /* CustomerContactBaseTableCell.m in Sources */,
 				63035BB920E0FD1C00956B8B /* WeeklyDayPartsDataManager.m in Sources */,
 				630B345A19F0127C007B2442 /* Price.m in Sources */,
+				63D17D6721B0550100CE0072 /* MeetingBooleanTableViewCell.m in Sources */,
 				630B3C3319F01CB9007B2442 /* LargeSmallFormDetailDataManager.m in Sources */,
 				63BF569F1EC078DC00FA50DA /* CheckoutPDFRenderer.m in Sources */,
 				630B344219F0127C007B2442 /* FormColumn.m in Sources */,

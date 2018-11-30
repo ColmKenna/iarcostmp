@@ -93,9 +93,21 @@
     return tmpDataDict;
 }
 
+- (NSMutableDictionary*)createBooleanCellWithFieldName:(NSString*)aFieldName cellKey:(NSString*)aCellKey fieldData:(id)aFieldData {
+    NSMutableDictionary* tmpDataDict = [NSMutableDictionary dictionaryWithCapacity:4];
+    [tmpDataDict setObject:[NSNumber numberWithInt:7] forKey:@"CellType"];
+    [tmpDataDict setObject:aFieldName forKey:@"FieldName"];
+    [tmpDataDict setObject:aCellKey forKey:@"CellKey"];
+    [tmpDataDict setObject:aFieldData forKey:@"FieldData"];
+    return tmpDataDict;
+}
+
 - (void)dataMeetingBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath {
     
 }
 
+- (void)displayListHeadOfficeAdaptor {
+    
+}
 
 @end
