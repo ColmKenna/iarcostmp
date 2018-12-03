@@ -13,6 +13,8 @@
 #import "MeetingCostingsViewController.h"
 #import "CallGenericServices.h"
 #import "ArcosMeetingBO.h"
+#import "MeetingMainTemplateCreateAction.h"
+#import "MeetingMainTemplateUpdateAction.h"
 
 @interface MeetingMainTemplateViewController : UIViewController {
     UISegmentedControl* _mySegmentedControl;
@@ -26,6 +28,9 @@
     NSArray* _objectViewControllerList;
     NSDictionary* _layoutDict;
     CallGenericServices* _callGenericServices;
+    NSString* _actionType;
+    NSString* _createActionType;
+    id<MeetingMainTemplateActionDelegate> _meetingMainTemplateActionDelegate;
 }
 
 @property(nonatomic, retain) IBOutlet UISegmentedControl* mySegmentedControl;
@@ -39,6 +44,12 @@
 @property(nonatomic, retain) NSArray* objectViewControllerList;
 @property(nonatomic, retain) NSDictionary* layoutDict;
 @property(nonatomic, retain) CallGenericServices* callGenericServices;
+@property(nonatomic, retain) NSString* actionType;
+@property(nonatomic, retain) NSString* createActionType;
+@property(nonatomic, retain) id<MeetingMainTemplateActionDelegate> meetingMainTemplateActionDelegate;
+
+- (void)retrieveCreateMeetingMainTemplateData;
+- (void)retrieveUpdateMeetingMainTemplateData;
 
 @end
 

@@ -20,7 +20,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.meetingDetailsDataManager = [[[MeetingDetailsDataManager alloc] init] autorelease];
-        [self.meetingDetailsDataManager createBasicData];
+//        [self.meetingDetailsDataManager createBasicData];
         self.tableCellFactory = [[[MeetingMainTableCellFactory alloc] init] autorelease];
     }
     return self;

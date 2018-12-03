@@ -24,6 +24,17 @@
 @synthesize objectViewControllerList = _objectViewControllerList;
 @synthesize layoutDict = _layoutDict;
 @synthesize callGenericServices = _callGenericServices;
+@synthesize actionType = _actionType;
+@synthesize createActionType = _createActionType;
+@synthesize meetingMainTemplateActionDelegate = _meetingMainTemplateActionDelegate;
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.createActionType = @"create";
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -44,13 +55,12 @@
     self.meetingMiscTableViewController = [[[MeetingMiscTableViewController alloc] initWithNibName:@"MeetingMiscTableViewController" bundle:nil] autorelease];
     self.meetingObjectivesTableViewController = [[[MeetingObjectivesTableViewController alloc] initWithNibName:@"MeetingObjectivesTableViewController" bundle:nil] autorelease];
     self.meetingCostingsViewController = [[[MeetingCostingsViewController alloc] initWithNibName:@"MeetingCostingsViewController" bundle:nil] autorelease];
+    
     self.layoutKeyList = [NSArray arrayWithObjects:@"AuxDetails", @"AuxMisc", @"AuxObjectives", @"AuxCostings", nil];
     self.layoutObjectList = [NSArray arrayWithObjects:self.meetingDetailsTableViewController.view, self.meetingMiscTableViewController.view, self.meetingObjectivesTableViewController.view, self.meetingCostingsViewController.view, nil];
     self.objectViewControllerList = [NSArray arrayWithObjects:self.meetingDetailsTableViewController, self.meetingMiscTableViewController, self.meetingObjectivesTableViewController, self.meetingCostingsViewController, nil];
     
     self.layoutDict = [NSDictionary dictionaryWithObjects:self.layoutObjectList forKeys:self.layoutKeyList];
-//    self.layoutDict = @{@"AuxDetails" : self.meetingDetailsTableViewController.view,
-//                        @"AuxMisc" : self.meetingMiscTableViewController.view };
     for (int i = 0; i < [self.layoutKeyList count]; i++) {
         NSString* tmpLayoutKey = [self.layoutKeyList objectAtIndex:i];
         UIViewController* tmpObjectViewController = [self.objectViewControllerList objectAtIndex:i];
@@ -61,17 +71,18 @@
         [self.templateView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"|-(0)-[%@]-(0)-|", tmpLayoutKey] options:0 metrics:0 views:self.layoutDict]];
         [self.templateView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|-(0)-[%@]-(0)-|", tmpLayoutKey] options:0 metrics:0 views:self.layoutDict]];
     }
-//    [self addChildViewController:self.meetingDetailsTableViewController];
-//    [self.templateView addSubview:self.meetingDetailsTableViewController.view];
-//    [self.meetingDetailsTableViewController didMoveToParentViewController:self];
-//    [self.meetingDetailsTableViewController.view setTranslatesAutoresizingMaskIntoConstraints:NO];
-//    [self.templateView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(0)-[AuxDetails]-(0)-|" options:0 metrics:0 views:self.layoutDict]];
-//    [self.templateView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[AuxDetails]-(0)-|" options:0 metrics:0 views:self.layoutDict]];
+
     [self segmentedAction];
     UIBarButtonItem* saveBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonPressed)];
     self.navigationItem.rightBarButtonItem = saveBarButtonItem;
     [saveBarButtonItem release];
     self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.navigationController.view] autorelease];
+    if ([self.actionType isEqualToString:self.createActionType]) {
+        self.meetingMainTemplateActionDelegate = [[[MeetingMainTemplateCreateAction alloc] initWithTarget:self] autorelease];
+    } else {
+        self.meetingMainTemplateActionDelegate = [[[MeetingMainTemplateUpdateAction alloc] initWithTarget:self] autorelease];
+    }
+    [self.meetingMainTemplateActionDelegate retrieveMeetingMainTemplateData];
 }
 
 - (void)saveButtonPressed {
@@ -85,6 +96,7 @@
     [self.meetingMiscTableViewController.meetingMiscDataManager populateArcosMeetingBO:arcosMeetingBO];
     [self.meetingObjectivesTableViewController.meetingObjectivesDataManager populateArcosMeetingBO:arcosMeetingBO];
     [self.meetingCostingsViewController.meetingCostingsDataManager populateArcosMeetingBO:arcosMeetingBO];
+    arcosMeetingBO.Attachments = @"";
     NSLog(@"abc %@", arcosMeetingBO);
     [self.callGenericServices genericUpdateMeetingByMeetingBO:arcosMeetingBO action:@selector(resultBackFromUpdateMeeting:) target:self];
 //    NSLog(@"abc: %@", self.meetingDetailsTableViewController.meetingDetailsDataManager.headOfficeDataObjectDict);
@@ -110,6 +122,9 @@
     self.layoutObjectList = nil;
     self.objectViewControllerList = nil;
     self.callGenericServices = nil;
+    self.actionType = nil;
+    self.createActionType = nil;
+    self.meetingMainTemplateActionDelegate = nil;
     
     [super dealloc];
 }
@@ -152,6 +167,27 @@
         default:
             break;
     }
+}
+
+- (void)retrieveCreateMeetingMainTemplateData {
+    [self.meetingDetailsTableViewController.meetingDetailsDataManager createBasicData];
+    [self.meetingMiscTableViewController.meetingMiscDataManager createBasicData];
+    [self.meetingObjectivesTableViewController.meetingObjectivesDataManager createBasicData];
+    [self.meetingCostingsViewController.meetingCostingsDataManager createBasicData];
+}
+
+- (void)retrieveUpdateMeetingMainTemplateData {
+    NSLog(@"update abc");
+    [self.callGenericServices genericGetMeetingWithIUR:[NSNumber numberWithInt:0] action:@selector(resultBackFromGetMeeting:) target:self];
+}
+
+- (void)resultBackFromGetMeeting:(id)result {
+    NSLog(@"ax: %@", result);
+    result = [self.callGenericServices handleResultErrorProcess:result];
+    if (result == nil) {
+        return;
+    }
+    
 }
 
 @end

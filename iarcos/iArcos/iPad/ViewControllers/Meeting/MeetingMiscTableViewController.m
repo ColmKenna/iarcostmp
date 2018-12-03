@@ -21,7 +21,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.meetingMiscDataManager = [[[MeetingMiscDataManager alloc] init] autorelease];
-        [self.meetingMiscDataManager createBasicData];
+//        [self.meetingMiscDataManager createBasicData];
         self.sectionViewFactory = [[[MeetingMainSectionViewFactory alloc] init] autorelease];
         self.tableCellFactory = [[[MeetingMainTableCellFactory alloc] init] autorelease];
     }
@@ -63,6 +63,11 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     if (section == 0) {
+        return @"";
+    }
+    NSString* tmpSectionTitle = [self.meetingMiscDataManager.sectionTitleList objectAtIndex:section];
+    NSMutableArray* tmpDisplayList = [self.meetingMiscDataManager.groupedDataDict objectForKey:tmpSectionTitle];
+    if ([tmpDisplayList count] == 0) {
         return @"";
     }
     return [self.meetingMiscDataManager.sectionTitleList objectAtIndex:section];

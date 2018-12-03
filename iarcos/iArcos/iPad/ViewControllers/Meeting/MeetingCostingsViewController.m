@@ -25,6 +25,16 @@
 @synthesize meetingExpenseTableViewController = _meetingExpenseTableViewController;
 @synthesize meetingBudgetTableCellFactory = _meetingBudgetTableCellFactory;
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.meetingCostingsDataManager = [[[MeetingCostingsDataManager alloc] init] autorelease];
+//        [self.meetingCostingsDataManager createBasicData];
+        self.meetingBudgetTableCellFactory = [[[MeetingBudgetTableCellFactory alloc] init] autorelease];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -39,9 +49,7 @@
     
     [self createRightBarButtonItems];
     
-    self.meetingCostingsDataManager = [[[MeetingCostingsDataManager alloc] init] autorelease];
-    [self.meetingCostingsDataManager createBasicData];
-    self.meetingBudgetTableCellFactory = [[[MeetingBudgetTableCellFactory alloc] init] autorelease];
+    
     self.budgetTableView.dataSource = self;
     self.budgetTableView.delegate = self;
 }

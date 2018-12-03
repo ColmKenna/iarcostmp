@@ -90,5 +90,6 @@
 - (void)genericGet_Resource_FilenamesByLocation:(int)aLocationIUR locationCode:(NSString*)aLocationCode action:(SEL)anAction target:(id)aTarget;
 - (void)genericGetTargetByEmployee:(int)anEmployeeIUR action:(SEL)anAction target:(id)aTarget;
 - (void)genericUpdateMeetingByMeetingBO:(ArcosMeetingBO*)aMeetingToUpdate action:(SEL)anAction target:(id)aTarget;
+- (void)genericGetMeetingWithIUR:(NSNumber*)anIUR action:(SEL)anAction target:(id)aTarget;
 
 @end

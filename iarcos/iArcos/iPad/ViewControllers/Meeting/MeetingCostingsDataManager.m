@@ -69,7 +69,7 @@
     @try {
         NSString* resEstimatedCost = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.estimatedCostKey];
         anArcosMeetingBO.EstimatedCost = [[ArcosUtils convertStringToNumber:resEstimatedCost] intValue];
-        NSString* resEstimatedCostPerHead = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.estimatedCostPerHeadKey];
+        NSString* resEstimatedCostPerHead = [ArcosUtils convertBlankToZero:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.estimatedCostPerHeadKey]];
 //        NSNumber* resEstimatedCostPerHeadNumber = [ArcosUtils convertStringToFloatNumber:resEstimatedCostPerHead];
 //        anArcosMeetingBO.EstimatedCostPerHead = [NSDecimalNumber decimalNumberWithDecimal:[resEstimatedCostPerHeadNumber decimalValue]];
         anArcosMeetingBO.EstimatedCostPerHead = [NSDecimalNumber decimalNumberWithString:resEstimatedCostPerHead];

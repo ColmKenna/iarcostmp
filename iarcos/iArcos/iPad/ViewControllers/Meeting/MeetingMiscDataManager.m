@@ -39,7 +39,7 @@
 }
 
 - (void)createBasicData {
-    [self createDataObjectDict];
+//    [self createDataObjectDict];
     self.groupedDataDict = [NSMutableDictionary dictionaryWithCapacity:3];
     NSMutableArray* auditorDisplayList = [NSMutableArray arrayWithCapacity:1];
     [auditorDisplayList addObject:[self createEmployeeCellWithFieldName:@"Approved By" cellKey:self.meetingCellKeyDefinition.approvedByKey fieldData:[self createDefaultEmployeeDict]]];

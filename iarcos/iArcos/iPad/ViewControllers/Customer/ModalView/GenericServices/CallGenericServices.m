@@ -385,6 +385,13 @@
     [self.arcosService UpdateMeeting:aTarget action:anAction meetingToUpdate:aMeetingToUpdate];
 }
 
+- (void)genericGetMeetingWithIUR:(NSNumber*)anIUR action:(SEL)anAction target:(id)aTarget {
+    if (![self startCallService]) {
+        return;
+    }
+    [self.arcosService GetMeeting:aTarget action:anAction meetingiur:[anIUR intValue]];
+}
+
 -(void)dealloc{
 //    if (self.delegate != nil) { self.delegate = nil; }
     [self.HUD removeFromSuperview];

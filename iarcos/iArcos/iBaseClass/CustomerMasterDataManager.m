@@ -131,6 +131,8 @@
         self.targetTableViewController = [[[TargetTableViewController alloc] initWithNibName:@"TargetTableViewController" bundle:nil] autorelease];
         self.targetNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.targetTableViewController] autorelease];
         self.meetingMainTemplateViewController = [[[MeetingMainTemplateViewController alloc] initWithNibName:@"MeetingMainTemplateViewController" bundle:nil] autorelease];
+        self.meetingMainTemplateViewController.actionType = self.meetingMainTemplateViewController.createActionType;
+//        self.meetingMainTemplateViewController.actionType = @"";
         self.meetingNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.meetingMainTemplateViewController] autorelease];
         
         NSMutableDictionary* dashboardCellData = [self createItemCellData:self.dashboardText imageFile:@"Dashboard.png" myCustomController:self.templateDashboardViewController];
@@ -150,8 +152,8 @@
         
         
         //dashboardMainTemplateCellData,
-        //, meetingCellData
-        self.displayList = [NSMutableArray arrayWithObjects:dashboardCellData, locatorCellData, customerCellData, contactCellData, reporterCellData, listingsCellData, weeklyCellData, utilitiesCellData, targetCellData, presenterCellData, nil];
+        //
+        self.displayList = [NSMutableArray arrayWithObjects:dashboardCellData, locatorCellData, customerCellData, contactCellData, reporterCellData, listingsCellData, weeklyCellData, utilitiesCellData, targetCellData, meetingCellData, presenterCellData, nil];
     }
     return self;
 }
