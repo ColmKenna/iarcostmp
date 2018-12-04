@@ -146,6 +146,10 @@
         [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:@"Touch to pick a wholesaler" forKey:@"wholesalerText"];
         [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader removeObjectForKey:@"wholesaler"];
     }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] clearOrderTypeFlag]) {
+        [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:@"Touch to pick an order type" forKey:@"orderTypeText"];
+        [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader removeObjectForKey:@"type"];
+    }
     
     if ([defaultDeliveryDate compare:[NSDate date]] == NSOrderedDescending) {
         [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[ArcosUtils addHours:0 date:defaultDeliveryDate] forKey:@"deliveryDate"];
@@ -210,6 +214,10 @@
         }
         //save the order
         NSMutableDictionary* auxOrderType = [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"type"];
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] clearOrderTypeFlag] && auxOrderType == nil) {
+            [ArcosUtils showDialogBox:@"Please select an order type" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
+            return;
+        }
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableVanSaleFlag] && ![[auxOrderType objectForKey:@"DescrDetailCode"] isEqualToString:[GlobalSharedClass shared].vansCode]) {
             void (^continueActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
                 [self checkoutSaveProcessor];

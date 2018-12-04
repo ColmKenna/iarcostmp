@@ -225,6 +225,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConfigDataManager);
     return [self retrieveConfigFlagByIndex:55];
 }
 
+- (BOOL)clearOrderTypeFlag {
+    return [self retrieveConfigFlagByIndex:56];
+}
+
+- (BOOL)disableMemoFlag {
+    return [self retrieveConfigFlagByIndex:57];
+}
+
 - (void)resetSystemCodes:(NSString*)aSystemCodes {
     self.systemCodes = aSystemCodes;
 }

@@ -67,6 +67,8 @@
 - (BOOL)enablePriceChangeFlag;
 - (BOOL)showRRPInOrderPadFlag;
 - (BOOL)clearWholeSalerFlag;
+- (BOOL)clearOrderTypeFlag;
+- (BOOL)disableMemoFlag;
 - (void)resetSystemCodes:(NSString*)aSystemCodes;
 - (void)persistentSystemCodes;
 

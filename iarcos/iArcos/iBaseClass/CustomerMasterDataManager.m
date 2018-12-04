@@ -152,8 +152,8 @@
         
         
         //dashboardMainTemplateCellData,
-        //
-        self.displayList = [NSMutableArray arrayWithObjects:dashboardCellData, locatorCellData, customerCellData, contactCellData, reporterCellData, listingsCellData, weeklyCellData, utilitiesCellData, targetCellData, meetingCellData, presenterCellData, nil];
+        //, meetingCellData
+        self.displayList = [NSMutableArray arrayWithObjects:dashboardCellData, locatorCellData, customerCellData, contactCellData, reporterCellData, listingsCellData, weeklyCellData, utilitiesCellData, targetCellData, presenterCellData, nil];
     }
     return self;
 }
