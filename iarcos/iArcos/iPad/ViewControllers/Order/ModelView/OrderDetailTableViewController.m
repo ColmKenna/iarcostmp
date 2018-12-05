@@ -356,7 +356,7 @@
         return;
     }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] forceEnterCusRefOnCheckoutFlag] && [[self.orderDetailDataManager.orderHeader objectForKey:@"NumberOflines"] intValue] > 0 && [[ArcosUtils trim:[self.orderDetailDataManager.orderHeader objectForKey:@"custRef"]] isEqualToString:@""]) {
-        [ArcosUtils showDialogBox:@"Please enter a reference" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
+        [ArcosUtils showDialogBox:@"Please enter a customer reference" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
         return;
     }
     BOOL resultFlag = [self.orderDetailDataManager saveTheOrderHeader];

@@ -213,7 +213,7 @@
             return;
         }
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] forceEnterCusRefOnCheckoutFlag] && [[ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"custRef"]] isEqualToString:@""]) {
-            [ArcosUtils showDialogBox:@"Please enter a reference" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
+            [ArcosUtils showDialogBox:@"Please enter a customer reference" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
             return;
         }
         //save the order
