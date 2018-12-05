@@ -11,7 +11,9 @@
 @implementation SavedIarcosOrderDetailRemoteCallDataManager
 - (void)createAllSectionData {
     [self createRemoteContactSectionData];
-    [self createRemoteCallMemoSectionData];
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] disableMemoFlag]) {
+        [self createRemoteCallMemoSectionData];
+    }
     [self createDrillDownSectionDataWithSectionTitle:@"Call Details" orderHeaderType:[NSNumber numberWithInt:4]];
 }
 @end

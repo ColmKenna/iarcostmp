@@ -148,9 +148,21 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString* sectionTitle = [self.orderDetailDataManager.sectionTitleList objectAtIndex:indexPath.section];
     NSMutableArray* auxDisplayList = [self.orderDetailDataManager.groupedDataDict objectForKey:sectionTitle];
-    if ([sectionTitle isEqualToString:@"Memo"] && indexPath.row == ([auxDisplayList count] - 1)) {
+    NSMutableDictionary* auxCellDataDict = nil;
+    @try {
+        auxCellDataDict = [auxDisplayList objectAtIndex:indexPath.row];
+    } @catch (NSException *exception) {
+        
+    } @finally {
+        
+    }
+    NSString* fieldNameLabel = [auxCellDataDict objectForKey:@"FieldNameLabel"];
+    if ([sectionTitle isEqualToString:@"Memo"] && [fieldNameLabel isEqualToString:@"Memo"]) {
         return 212;
     }
+//    if ([sectionTitle isEqualToString:@"Memo"] && indexPath.row == ([auxDisplayList count] - 1)) {
+//        return 212;
+//    }
     return 44;
 }
 
@@ -341,6 +353,10 @@
         [ArcosUtils showDialogBox:[NSString stringWithFormat:@"The %@ is not allowed to be saved.", requestSourceText] title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
             
         }];
+        return;
+    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] forceEnterCusRefOnCheckoutFlag] && [[self.orderDetailDataManager.orderHeader objectForKey:@"NumberOflines"] intValue] > 0 && [[ArcosUtils trim:[self.orderDetailDataManager.orderHeader objectForKey:@"custRef"]] isEqualToString:@""]) {
+        [ArcosUtils showDialogBox:@"Please enter a reference" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
         return;
     }
     BOOL resultFlag = [self.orderDetailDataManager saveTheOrderHeader];

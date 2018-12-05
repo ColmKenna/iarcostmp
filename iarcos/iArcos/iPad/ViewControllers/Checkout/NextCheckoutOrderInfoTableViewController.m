@@ -95,15 +95,24 @@
 - (void)createBasicDataWithOrderHeader:(NSMutableDictionary*)anOrderHeader {
     self.orderHeader = anOrderHeader;
     self.groupedDataDict = [NSMutableDictionary dictionaryWithCapacity:4];
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] recordTasksFlag]) {
-        self.sectionTitleList = [NSMutableArray arrayWithObjects:self.orderDetailsTitle, self.contactDetailsTitle, self.commentsTitle, self.followUpTitle, nil];
-        [self createFollowUpData];
-    } else {
-        self.sectionTitleList = [NSMutableArray arrayWithObjects:self.orderDetailsTitle, self.contactDetailsTitle, self.commentsTitle, nil];
+    self.sectionTitleList = [NSMutableArray arrayWithObjects:self.orderDetailsTitle, self.contactDetailsTitle, nil];
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] disableMemoFlag]) {
+        [self.sectionTitleList addObject:self.commentsTitle];
+        [self createCommentsData];
     }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] recordTasksFlag]) {
+        [self.sectionTitleList addObject:self.followUpTitle];
+        [self createFollowUpData];
+    }
+//    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] recordTasksFlag]) {
+//        self.sectionTitleList = [NSMutableArray arrayWithObjects:self.orderDetailsTitle, self.contactDetailsTitle, self.commentsTitle, self.followUpTitle, nil];
+//        [self createFollowUpData];
+//    } else {
+//        self.sectionTitleList = [NSMutableArray arrayWithObjects:self.orderDetailsTitle, self.contactDetailsTitle, self.commentsTitle, nil];
+//    }
     [self createOrderDetailsData];
     [self createContactDetailsData];
-    [self createCommentsData];
+//    [self createCommentsData];
 }
 
 - (void)createOrderDetailsData {
@@ -161,7 +170,10 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return [self.orderInfoDelegate retrieveOrderInfoHeaderView:section];
+    NSString* sectionTitle = [self.sectionTitleList objectAtIndex:section];
+    NextCheckoutOrderInfoHeaderView* tmpOrderInfoHeaderView = (NextCheckoutOrderInfoHeaderView*)[self.orderInfoDelegate retrieveOrderInfoHeaderView:section];
+    tmpOrderInfoHeaderView.myLabel.text = [sectionTitle uppercaseString];
+    return tmpOrderInfoHeaderView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

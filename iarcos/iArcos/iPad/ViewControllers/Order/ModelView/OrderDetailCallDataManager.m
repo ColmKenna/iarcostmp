@@ -13,7 +13,9 @@
 - (void)createAllSectionData {
     [self createLocationSectionData];
     [self createCallContactSectionData];
-    [self createCallMemoSectionData];
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] disableMemoFlag]) {
+        [self createCallMemoSectionData];
+    }
     [self createDrillDownSectionDataWithSectionTitle:@"Call Details" orderHeaderType:[NSNumber numberWithInt:2]];
 }
 

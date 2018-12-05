@@ -93,7 +93,9 @@
     [acctNoCellDict setObject:[self.orderHeader objectForKey:@"LocationIUR"] forKey:@"LocationIUR"];
     [acctNoCellDict setObject:[self.orderHeader objectForKey:@"FromLocationIUR"] forKey:@"FromLocationIUR"];
     [memoDisplayList addObject:acctNoCellDict];
-    [memoDisplayList addObject:[self createTextViewCellDataWithCellKey:@"memo" fieldNameLabel:@"Memo" fieldData:[self.orderHeader objectForKey:@"memo"]]];
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] disableMemoFlag]) {
+        [memoDisplayList addObject:[self createTextViewCellDataWithCellKey:@"memo" fieldNameLabel:@"Memo" fieldData:[self.orderHeader objectForKey:@"memo"]]];
+    }
     
     [self.groupedDataDict setObject:memoDisplayList forKey:sectionTitle];
 }
@@ -139,7 +141,9 @@
     NSMutableArray* memoDisplayList = [NSMutableArray arrayWithCapacity:3];
     [memoDisplayList addObject:[self createTextFieldCellDataWithCellKey:@"custRef" fieldNameLabel:@"Customer Ref" fieldData:[self.orderHeader objectForKey:@"custRef"]]];
     [memoDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"acctNo" fieldNameLabel:@"Account No." fieldData:[self.orderHeader objectForKey:@"acctNoText"]]];
-    [memoDisplayList addObject:[self createTextViewCellDataWithCellKey:@"memo" fieldNameLabel:@"Memo" fieldData:[self.orderHeader objectForKey:@"memo"]]];
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] disableMemoFlag]) {
+        [memoDisplayList addObject:[self createTextViewCellDataWithCellKey:@"memo" fieldNameLabel:@"Memo" fieldData:[self.orderHeader objectForKey:@"memo"]]];
+    }
     [self.groupedDataDict setObject:memoDisplayList forKey:sectionTitle];
 }
 - (void)createRemoteCallMemoSectionData {

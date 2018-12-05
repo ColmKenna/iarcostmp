@@ -127,12 +127,21 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString* sectionTitle = [self.savedIarcosOrderDetailDataManager.sectionTitleList objectAtIndex:indexPath.section];
     NSMutableArray* auxDisplayList = [self.savedIarcosOrderDetailDataManager.groupedDataDict objectForKey:sectionTitle];
+    NSMutableDictionary* auxCellDataDict = nil;
+    @try {
+        auxCellDataDict = [auxDisplayList objectAtIndex:indexPath.row];
+    } @catch (NSException *exception) {
+        
+    } @finally {
+        
+    }    
+    NSString* fieldNameLabel = [auxCellDataDict objectForKey:@"FieldNameLabel"];
     if ([[self.savedIarcosOrderDetailDataManager.orderHeader objectForKey:@"NumberOflines"] intValue] > 0) {
-        if ([sectionTitle isEqualToString:@"Memo"] && self.savedIarcosOrderDetailDataManager.isMemoDetailsShowed && indexPath.row == ([auxDisplayList count] - 1)) {
+        if ([sectionTitle isEqualToString:@"Memo"] && self.savedIarcosOrderDetailDataManager.isMemoDetailsShowed && [fieldNameLabel isEqualToString:@"Memo"]) {
             return 212;
         }
     } else {
-        if ([sectionTitle isEqualToString:@"Memo"] && indexPath.row == ([auxDisplayList count] - 1)) {
+        if ([sectionTitle isEqualToString:@"Memo"] && [fieldNameLabel isEqualToString:@"Memo"]) {
             return 212;
         }
     }
@@ -481,6 +490,10 @@
         [ArcosUtils showDialogBox:[NSString stringWithFormat:@"The %@ is not allowed to be saved.", requestSourceText] title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
             
         }];
+        return;
+    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] forceEnterCusRefOnCheckoutFlag] && [[self.savedIarcosOrderDetailDataManager.orderHeader objectForKey:@"NumberOflines"] intValue] > 0 && [[ArcosUtils trim:[self.savedIarcosOrderDetailDataManager.orderHeader objectForKey:@"custRef"]] isEqualToString:@""]) {
+        [ArcosUtils showDialogBox:@"Please enter a reference" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
         return;
     }
     BOOL resultFlag = [self.savedIarcosOrderDetailDataManager saveTheOrderHeader];

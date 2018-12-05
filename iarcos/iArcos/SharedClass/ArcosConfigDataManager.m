@@ -233,6 +233,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConfigDataManager);
     return [self retrieveConfigFlagByIndex:57];
 }
 
+- (BOOL)forceEnterCusRefOnCheckoutFlag {
+    return [self retrieveConfigFlagByIndex:58];
+}
+
 - (void)resetSystemCodes:(NSString*)aSystemCodes {
     self.systemCodes = aSystemCodes;
 }

@@ -69,6 +69,7 @@
 - (BOOL)clearWholeSalerFlag;
 - (BOOL)clearOrderTypeFlag;
 - (BOOL)disableMemoFlag;
+- (BOOL)forceEnterCusRefOnCheckoutFlag;
 - (void)resetSystemCodes:(NSString*)aSystemCodes;
 - (void)persistentSystemCodes;
 

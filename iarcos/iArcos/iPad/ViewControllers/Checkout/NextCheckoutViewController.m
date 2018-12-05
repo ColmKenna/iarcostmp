@@ -212,6 +212,10 @@
             }];
             return;
         }
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] forceEnterCusRefOnCheckoutFlag] && [[ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"custRef"]] isEqualToString:@""]) {
+            [ArcosUtils showDialogBox:@"Please enter a reference" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
+            return;
+        }
         //save the order
         NSMutableDictionary* auxOrderType = [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"type"];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] clearOrderTypeFlag] && auxOrderType == nil) {

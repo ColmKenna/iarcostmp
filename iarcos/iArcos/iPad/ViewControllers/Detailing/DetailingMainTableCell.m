@@ -61,6 +61,13 @@
     self.Memo.layer.borderWidth=0.5f;
     self.Memo.layer.borderColor=[[UIColor greenColor]CGColor];
     [self.Memo.layer setCornerRadius:5.0f];
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] disableMemoFlag]) {
+        self.memoTitle.hidden = NO;
+        self.Memo.hidden = NO;
+    } else {
+        self.memoTitle.hidden = YES;
+        self.Memo.hidden = YES;
+    }
     self.detailsContent.layer.borderWidth = 0.5f;
     self.detailsContent.layer.borderColor = [[UIColor greenColor]CGColor];
     [self.detailsContent.layer setCornerRadius:5.0f];

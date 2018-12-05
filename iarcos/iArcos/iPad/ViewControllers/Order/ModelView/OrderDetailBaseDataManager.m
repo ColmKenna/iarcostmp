@@ -127,7 +127,10 @@
     [acctNoCellDict setObject:[self.orderHeader objectForKey:@"LocationIUR"] forKey:@"LocationIUR"];
     [acctNoCellDict setObject:[self.orderHeader objectForKey:@"FromLocationIUR"] forKey:@"FromLocationIUR"];
     [memoDisplayList addObject:acctNoCellDict];
-    [memoDisplayList addObject:[self createTextViewCellDataWithCellKey:@"memo" fieldNameLabel:@"Memo" fieldData:[self.orderHeader objectForKey:@"memo"]]];
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] disableMemoFlag]) {
+        [memoDisplayList addObject:[self createTextViewCellDataWithCellKey:@"memo" fieldNameLabel:@"Memo" fieldData:[self.orderHeader objectForKey:@"memo"]]];
+    }
+    
     
     [self.groupedDataDict setObject:memoDisplayList forKey:sectionTitle];
 }
