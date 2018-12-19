@@ -109,7 +109,13 @@
     [self.orderHeader setObject:[SettingManager employeeIUR] forKey:@"EmployeeIUR"];
     [self.orderHeader setObject:[ArcosUtils convertStringToFloatNumber:[arcosGenericClass Field27]] forKey:@"TotalGoods"];
     [self.orderHeader setObject:[ArcosUtils convertNilToEmpty:[arcosGenericClass Field17]] forKey:@"invoiceRef"];
-    [self.orderHeader setObject:[ArcosUtils convertStringToNumber:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:arcosGenericClass.Field11]]] forKey:@"FormIUR"];
+    NSNumber* formIUR = [ArcosUtils convertStringToNumber:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:arcosGenericClass.Field11]]];
+    [self.orderHeader setObject:formIUR forKey:@"FormIUR"];
+    NSDictionary* auxFormTypeDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:formIUR];    
+    if (auxFormTypeDict != nil) {
+        NSMutableDictionary* formTypeDict = [NSMutableDictionary dictionaryWithDictionary:auxFormTypeDict];
+        [self.orderHeader setObject:formTypeDict forKey:@"formType"];
+    }
     NSMutableDictionary* acctNoDict = [NSMutableDictionary dictionaryWithCapacity:2];
     [acctNoDict setObject:[ArcosUtils convertNilToEmpty:[arcosGenericClass Field30]] forKey:@"acctNo"];
     [acctNoDict setObject:[ArcosUtils convertNilToEmpty:[arcosGenericClass Field30]] forKey:@"Title"];

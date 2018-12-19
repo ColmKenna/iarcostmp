@@ -218,7 +218,7 @@
         }
         //save the order
         NSMutableDictionary* auxOrderType = [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"type"];
-        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] clearOrderTypeFlag] && auxOrderType == nil) {
+        if (auxOrderType == nil) {
             [ArcosUtils showDialogBox:@"Please select an order type" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
             return;
         }

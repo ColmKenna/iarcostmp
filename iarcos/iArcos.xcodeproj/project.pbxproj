@@ -1405,6 +1405,7 @@
 		63D2FB5F1D672D1000040C5A /* CustomerInfoAccessTimesCalendarHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D2FB5E1D672D1000040C5A /* CustomerInfoAccessTimesCalendarHeaderView.m */; };
 		63D3DD161CD0B56100737B0D /* CustomerSurveyPreviewPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D3DD141CD0B56100737B0D /* CustomerSurveyPreviewPhotoViewController.m */; };
 		63D3DD171CD0B56100737B0D /* CustomerSurveyPreviewPhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63D3DD151CD0B56100737B0D /* CustomerSurveyPreviewPhotoViewController.xib */; };
+		63D5707721C91FFC00FF37D5 /* OrderDetailFormTypeLabelTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D5707621C91FFC00FF37D5 /* OrderDetailFormTypeLabelTableCell.m */; };
 		63D861A41EFD310A00733513 /* CustomerSurveyDetailsSubHeaderTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D861A31EFD310A00733513 /* CustomerSurveyDetailsSubHeaderTableCell.m */; };
 		63D8CC4E1A0BA145008AFE49 /* Orderlines.png in Resources */ = {isa = PBXBuildFile; fileRef = 63D8CC4D1A0BA145008AFE49 /* Orderlines.png */; };
 		63DA5DB21FBAFD67004E9F92 /* Arcos-Icon-2a-appstore.png in Resources */ = {isa = PBXBuildFile; fileRef = 63DA5DB11FBAFD66004E9F92 /* Arcos-Icon-2a-appstore.png */; };
@@ -4248,6 +4249,8 @@
 		63D3DD141CD0B56100737B0D /* CustomerSurveyPreviewPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerSurveyPreviewPhotoViewController.m; sourceTree = "<group>"; };
 		63D3DD151CD0B56100737B0D /* CustomerSurveyPreviewPhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomerSurveyPreviewPhotoViewController.xib; sourceTree = "<group>"; };
 		63D3DD181CD0C2A700737B0D /* CustomerSurveyPreviewPhotoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerSurveyPreviewPhotoDelegate.h; sourceTree = "<group>"; };
+		63D5707521C91FFC00FF37D5 /* OrderDetailFormTypeLabelTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderDetailFormTypeLabelTableCell.h; sourceTree = "<group>"; };
+		63D5707621C91FFC00FF37D5 /* OrderDetailFormTypeLabelTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderDetailFormTypeLabelTableCell.m; sourceTree = "<group>"; };
 		63D7E98D1D1171420045F710 /* AccessTimesWidgetViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccessTimesWidgetViewControllerDelegate.h; sourceTree = "<group>"; };
 		63D861A21EFD310A00733513 /* CustomerSurveyDetailsSubHeaderTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerSurveyDetailsSubHeaderTableCell.h; sourceTree = "<group>"; };
 		63D861A31EFD310A00733513 /* CustomerSurveyDetailsSubHeaderTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerSurveyDetailsSubHeaderTableCell.m; sourceTree = "<group>"; };
@@ -6340,6 +6343,8 @@
 				630C7886215BCC9300EA2D85 /* FormRowTableHeaderView.h */,
 				630C7887215BCC9300EA2D85 /* FormRowTableHeaderView.m */,
 				630F93592167A98C00996C59 /* MATFormRowsTableCells.xib */,
+				63D5707521C91FFC00FF37D5 /* OrderDetailFormTypeLabelTableCell.h */,
+				63D5707621C91FFC00FF37D5 /* OrderDetailFormTypeLabelTableCell.m */,
 			);
 			path = TableCell;
 			sourceTree = "<group>";
@@ -8674,6 +8679,7 @@
 				630B3C9719F01CB9007B2442 /* L3SearchDataManager.m in Sources */,
 				633FFE421CBBB9E0009B00FC /* PhotoFileInfoProvider.m in Sources */,
 				630B3B6A19F01CB9007B2442 /* CustomerDetailsIURModalViewController.m in Sources */,
+				63D5707721C91FFC00FF37D5 /* OrderDetailFormTypeLabelTableCell.m in Sources */,
 				634DC9E01BC80A3F00D3AC34 /* Meeting.m in Sources */,
 				630B3DC919F01CB9007B2442 /* SoapRequest.m in Sources */,
 				6331DAAF1A1CB8AE00A6C161 /* CheckLocationIURTemplateProcessor.m in Sources */,

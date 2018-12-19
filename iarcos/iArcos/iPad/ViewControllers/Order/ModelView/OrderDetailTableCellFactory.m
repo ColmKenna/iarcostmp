@@ -24,6 +24,7 @@
 @synthesize dateHourMinTableCellId = _dateHourMinTableCellId;
 @synthesize printTableCellId = _printTableCellId;
 @synthesize deliveryInstructions1TableCellId = _deliveryInstructions1TableCellId;
+@synthesize formTypeLabelTableCellId = _formTypeLabelTableCellId;
 
 -(id)init {
     if(self = [super init]) {
@@ -37,6 +38,7 @@
         self.dateHourMinTableCellId = @"IdOrderDetailDateHourMinTableCell";
         self.printTableCellId = @"IdOrderDetailPrintTableCell";
         self.deliveryInstructions1TableCellId = @"IdOrderDetailDeliveryInstructions1TextFieldTableCell";
+        self.formTypeLabelTableCellId = @"IdOrderDetailFormTypeLabelTableCell";
     }
     return self;
 }
@@ -52,6 +54,7 @@
     if (self.dateHourMinTableCellId != nil) { self.dateHourMinTableCellId = nil; }
     self.printTableCellId = nil;
     self.deliveryInstructions1TableCellId = nil;
+    self.formTypeLabelTableCellId = nil;
     
     [super dealloc];
 }
@@ -94,6 +97,9 @@
         case 11:
             cell = [self createOrderDetailDeliveryInstructions1TableCell];
             break;
+        case 12:
+            cell = [self createOrderDetailFormTypeLabelTableCell];
+            break;
         default:
             cell = [self createOrderDetailReadLabelTableCell];
             break;
@@ -129,6 +135,9 @@
 }
 -(OrderDetailBaseTableCell*)createOrderDetailDeliveryInstructions1TableCell {
     return [self getCellWithIdentifier:self.deliveryInstructions1TableCellId];
+}
+- (OrderDetailBaseTableCell*)createOrderDetailFormTypeLabelTableCell {
+    return [self getCellWithIdentifier:self.formTypeLabelTableCellId];
 }
 
 -(UITableViewCell*)getCellWithIdentifier:(NSString*)idendifier {
@@ -177,6 +186,9 @@
             break;
         case 11:
             identifier = self.deliveryInstructions1TableCellId;
+            break;
+        case 12:
+            identifier = self.formTypeLabelTableCellId;
             break;
             
         default:

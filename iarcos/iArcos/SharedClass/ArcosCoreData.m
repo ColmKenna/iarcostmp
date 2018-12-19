@@ -1933,6 +1933,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     [returnOrderHeader setObject:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[aCustomer objectForKey:@"Address4"]]] forKey:@"Address4"];
     [returnOrderHeader setObject:orderHeader.EmployeeIUR forKey:@"EmployeeIUR"];
     [returnOrderHeader setObject:orderHeader.FormIUR forKey:@"FormIUR"];
+    NSDictionary* auxFormTypeDict = [self formDetailWithFormIUR:orderHeader.FormIUR];
+    if (auxFormTypeDict != nil) {
+        NSMutableDictionary* formTypeDict = [NSMutableDictionary dictionaryWithDictionary:auxFormTypeDict];
+        [returnOrderHeader setObject:formTypeDict forKey:@"formType"];
+    }
     NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:orderHeader.EmployeeIUR];
     [returnOrderHeader setObject:[NSString stringWithFormat:@"%@ %@", [ArcosUtils convertNilToEmpty:[employeeDict objectForKey:@"ForeName"]], [ArcosUtils convertNilToEmpty:[employeeDict objectForKey:@"Surname"]]] forKey:@"Employee"];
     [returnOrderHeader setObject: orderHeader.OrderNumber forKey:@"OrderNumber"];
@@ -2119,6 +2124,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     NSMutableDictionary* callType=[orderHeader objectForKey:@"callType"];
     NSMutableDictionary* memoType=[orderHeader objectForKey:@"memoType"];
     NSMutableDictionary* contact=[orderHeader objectForKey:@"contact"];
+    NSDictionary* formTypeDict = [orderHeader objectForKey:@"formType"];
+    if (formTypeDict != nil) {
+        OH.FormIUR = [formTypeDict objectForKey:@"IUR"];
+    }
     
     //OH.EnteredDate=[NSDate date];
 //    NSLog(@"order header to save is %@",OH.EnteredDate);

@@ -73,6 +73,10 @@
     NSMutableDictionary* wholesalerDict = [NSMutableDictionary dictionaryWithDictionary:[self.orderHeader objectForKey:@"wholesaler"]];
     [wholesalerDict setObject:[self.orderHeader objectForKey:@"wholesalerText"] forKey:self.titleKey];
     [orderDetailDisplayList addObject:[self createWriteCellDataWithCellKey:@"wholesaler" fieldNameLabel:@"Wholesaler" writeType:[NSNumber numberWithInt:4] fieldData:wholesalerDict]];
+    NSMutableDictionary* formTypeDict = [self.orderHeader objectForKey:@"formType"];
+    if (formTypeDict != nil) {
+        [orderDetailDisplayList addObject:[self createFormTypeCellDataWithCellKey:@"formType" fieldNameLabel:@"Form Type" fieldData:formTypeDict]];
+    }
     NSMutableDictionary* orderStatusDict = [self addTitleToDict:@"status" titleKey:@"statusText"];
     [orderDetailDisplayList addObject:[self createWriteCellDataWithCellKey:@"status" fieldNameLabel:@"Status" writeType:[NSNumber numberWithInt:3] fieldData:orderStatusDict]];
     NSMutableDictionary* orderTypeDict = [self addTitleToDict:@"type" titleKey:@"orderTypeText"];
@@ -129,6 +133,10 @@
         [orderDetailDisplayList addObject:[self createDeliveryInstructions1TextFieldCellDataWithCellKey:@"DeliveryInstructions1" fieldNameLabel:@"Instructions" fieldData:[self.orderHeader objectForKey:@"DeliveryInstructions1"]]];
     }
     [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"wholesaler" fieldNameLabel:@"Wholesaler" fieldData:[self.orderHeader objectForKey:@"wholesalerText"]]];
+    NSMutableDictionary* formTypeDict = [self.orderHeader objectForKey:@"formType"];
+    if (formTypeDict != nil) {
+        [orderDetailDisplayList addObject:[self createFormTypeCellDataWithCellKey:@"formType" fieldNameLabel:@"Form Type" fieldData:formTypeDict]];
+    }
     [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"status" fieldNameLabel:@"Status" fieldData:[self.orderHeader objectForKey:@"statusText"]]];
     [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"type" fieldNameLabel:@"Type" fieldData:[self.orderHeader objectForKey:@"orderTypeText"]]];
     [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"totalGoodsText" fieldNameLabel:@"Value" fieldData:[self.orderHeader objectForKey:@"totalGoodsText"]]];
@@ -259,6 +267,15 @@
     [cellData setObject:aFieldNameLabel forKey:@"FieldNameLabel"];
     [cellData setObject:aWriteType forKey:@"WriteType"];
     [cellData setObject:[self.orderHeader objectForKey:aCellKey] forKey:@"FieldData"];
+    return cellData;
+}
+
+- (NSMutableDictionary*)createFormTypeCellDataWithCellKey:(NSString*)aCellKey fieldNameLabel:(NSString*)aFieldNameLabel fieldData:(NSMutableDictionary*)aFieldData {
+    NSMutableDictionary* cellData = [NSMutableDictionary dictionaryWithCapacity:4];
+    [cellData setObject:[NSNumber numberWithInt:12] forKey:@"CellType"];
+    [cellData setObject:aCellKey forKey:@"CellKey"];
+    [cellData setObject:aFieldNameLabel forKey:@"FieldNameLabel"];
+    [cellData setObject:aFieldData forKey:@"FieldData"];
     return cellData;
 }
 
