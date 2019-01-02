@@ -18,5 +18,7 @@
 -(void)showRemoteCallDetailsDelegate;
 -(UIViewController*)retrieveParentViewController;
 -(void)showPrintViewControllerDelegate;
+- (void)locationInputFinishedWithData:(id)data forIndexpath:(NSIndexPath*)theIndexpath;
+- (NSMutableDictionary*)retrieveParentOrderHeader;
 
 @end

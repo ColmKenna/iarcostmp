@@ -19,6 +19,7 @@
     NSMutableArray* _sectionTitleList;
     NSMutableDictionary* _groupedDataDict;
     NSMutableArray* _actionTableDataDictList;
+    BOOL _locationSwitchedFlag;
 }
 
 @property(nonatomic, retain) OrderDetailBaseDataManager* orderDetailBaseDataManager;
@@ -28,11 +29,13 @@
 @property(nonatomic, retain) NSMutableArray* sectionTitleList;
 @property(nonatomic, retain) NSMutableDictionary* groupedDataDict;
 @property(nonatomic, retain) NSMutableArray* actionTableDataDictList;
+@property(nonatomic, assign) BOOL locationSwitchedFlag;
 
 - (void)loadSavedOrderDetailCellData:(NSMutableDictionary*)aCellData;
 - (NSMutableDictionary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath;
 - (void)inputFinishedWithData:(id)data forIndexpath:(NSIndexPath*)theIndexpath;
 - (BOOL)saveTheOrderHeader;
 - (NSMutableArray*)createActionTableDataDictList:(NSMutableDictionary*)aCellData;
+- (void)locationInputFinishedWithData:(id)data forIndexpath:(NSIndexPath *)theIndexpath;
 
 @end

@@ -68,10 +68,12 @@
     }
     BOOL isContactTaped = NO;
     NSString* cellKey = [self.cellData objectForKey:@"CellKey"];
+    NSMutableDictionary* auxOrderHeader = [self.delegate retrieveParentOrderHeader];
+    NSDictionary* auxLocationDict = [auxOrderHeader objectForKey:@"Customer"];
     if ([cellKey isEqualToString:@"contact"]) {
         isContactTaped = YES;
         NSMutableArray* dataList = nil;
-        NSMutableArray* objectList = [[ArcosCoreData sharedArcosCoreData]orderContactsWithLocationIUR:[self.cellData objectForKey:@"LocationIUR"]];
+        NSMutableArray* objectList = [[ArcosCoreData sharedArcosCoreData]orderContactsWithLocationIUR:[auxLocationDict objectForKey:@"LocationIUR"]];
         if ([objectList count] > 0) {
             dataList = objectList;            
         }
@@ -91,8 +93,9 @@
         if (self.checkoutDataManager == nil) {
             self.checkoutDataManager = [[[CheckoutDataManager alloc] init] autorelease];
         }
-        NSNumber* locationIUR = [self.cellData objectForKey:@"LocationIUR"];
-        NSNumber* fromLocationIUR = [self.cellData objectForKey:@"FromLocationIUR"];
+        NSNumber* locationIUR = [auxLocationDict objectForKey:@"LocationIUR"];
+        NSDictionary* wholesalerDict = [auxOrderHeader objectForKey:@"wholesaler"];
+        NSNumber* fromLocationIUR = [ArcosUtils convertNilToZero:[wholesalerDict objectForKey:@"LocationIUR"]];
         NSMutableArray* accountNoList = [self.checkoutDataManager getAccountNoList:locationIUR fromLocationIUR:fromLocationIUR];
         NSMutableDictionary* miscDataDict = [self.checkoutDataManager getAcctNoMiscDataDict:locationIUR fromLocationIUR:fromLocationIUR];
 

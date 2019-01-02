@@ -21,6 +21,7 @@
     NSString* _printTableCellId;
     NSString* _deliveryInstructions1TableCellId;
     NSString* _formTypeLabelTableCellId;
+    NSString* _locationLabelTableCellId;
 }
 
 @property(nonatomic, retain) NSString* dateTableCellId;
@@ -34,6 +35,7 @@
 @property(nonatomic, retain) NSString* printTableCellId;
 @property(nonatomic, retain) NSString* deliveryInstructions1TableCellId;
 @property(nonatomic, retain) NSString* formTypeLabelTableCellId;
+@property(nonatomic, retain) NSString* locationLabelTableCellId;
 
 +(id)factory;
 - (OrderDetailBaseTableCell*)createOrderDetailBaseTableCellWithData:(NSMutableDictionary*)aData;
@@ -48,6 +50,7 @@
 -(OrderDetailBaseTableCell*)createOrderDetailDateHourMinTableCell;
 -(OrderDetailBaseTableCell*)createOrderDetailDeliveryInstructions1TableCell;
 - (OrderDetailBaseTableCell*)createOrderDetailFormTypeLabelTableCell;
+- (OrderDetailBaseTableCell*)createOrderDetailLocationLabelTableCell;
 -(NSString*)identifierWithData:(NSMutableDictionary*)aData;
 
 @end

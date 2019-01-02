@@ -453,6 +453,10 @@
     return self;
 }
 
+- (NSMutableDictionary*)retrieveParentOrderHeader {
+    return self.savedIarcosOrderDetailDataManager.orderHeader;
+}
+
 - (void)actionButtonPressed:(id)sender {
     if (self.factory == nil) {
         self.factory = [WidgetFactory factory];

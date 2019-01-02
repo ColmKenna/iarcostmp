@@ -362,7 +362,11 @@
     BOOL resultFlag = [self.orderDetailDataManager saveTheOrderHeader];
     
     if (resultFlag) {
-        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"The %@ has been saved.", requestSourceText] title:@"" delegate:self target:self tag:999999 handler:^(UIAlertAction *action) {
+        NSString* hintMsg = [NSString stringWithFormat:@"The %@ has been saved.", requestSourceText];
+        if (self.orderDetailDataManager.locationSwitchedFlag) {
+            hintMsg = @"Location has been switched, please check Contact and Account Number.";
+        }
+        [ArcosUtils showDialogBox:hintMsg title:@"" delegate:self target:self tag:999999 handler:^(UIAlertAction *action) {
             [self.navigationController popViewControllerAnimated:YES];
         }];
     } else {
@@ -414,6 +418,14 @@
         
     }];
     [cpwvc release];
+}
+
+- (void)locationInputFinishedWithData:(id)data forIndexpath:(NSIndexPath *)theIndexpath {
+    self.orderDetailDataManager.locationSwitchedFlag = YES;
+    [self.orderDetailDataManager inputFinishedWithData:data forIndexpath:theIndexpath];
+    [self.orderDetailDataManager locationInputFinishedWithData:data forIndexpath:theIndexpath];
+    [self.orderDetailDataManager.orderDetailBaseDataManager createLocationSectionDataProcessor];
+    [self.tableView reloadData];
 }
 
 #pragma mark ModalPresentViewControllerDelegate
@@ -470,6 +482,14 @@
     */
 }
 
+-(UIViewController*)retrieveParentViewController {
+    return self;
+}
+
+- (NSMutableDictionary*)retrieveParentOrderHeader {
+    return self.orderDetailDataManager.orderHeader;
+}
+
 #pragma mark ArcosMailTableViewControllerDelegate
 - (void)arcosMailDidFinishWithResult:(ArcosMailComposeResult)aResult error:(NSError *)anError {
     NSString* message = nil;
@@ -505,9 +525,7 @@
     
 }
 
--(UIViewController*)retrieveParentViewController {
-    return self;
-}
+
 
 #pragma mark UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {

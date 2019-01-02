@@ -1919,6 +1919,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     NSString* custName= [self locationNameWithIUR:orderHeader.LocationIUR];
     NSMutableArray* customer=[self locationWithIUR:orderHeader.LocationIUR];
     NSMutableDictionary* aCustomer=[customer objectAtIndex:0];
+    if (aCustomer != nil) {
+        [returnOrderHeader setObject:aCustomer forKey:@"Customer"];
+    }
     NSString* custAddress=[self fullAddressWith:aCustomer];
     NSString* locationCode = [ArcosUtils convertNilToEmpty:[aCustomer objectForKey:@"LocationCode"]];
     [returnOrderHeader setObject:locationCode forKey:@"LocationCode"];
@@ -2116,6 +2119,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     OrderHeader* OH=[self orderHeaderWithOrderNumber:orderNumber];
     if (OH==nil) {//is order header return 0 or nil
         return NO;
+    }
+    NSDictionary* customerDict = [orderHeader objectForKey:@"Customer"];
+    if (customerDict != nil) {
+        OH.LocationIUR = [customerDict objectForKey:@"LocationIUR"];
+        OH.LocationCode = [customerDict objectForKey:@"LocationCode"];
     }
     //setting the company iur and employee iur    
     NSMutableDictionary* wholesaler=[orderHeader objectForKey:@"wholesaler"];

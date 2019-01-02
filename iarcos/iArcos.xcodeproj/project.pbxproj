@@ -1263,6 +1263,7 @@
 		639CAE711CFC7ECC00D7246C /* GetRecordTypeGenericIntObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 639CAE701CFC7ECC00D7246C /* GetRecordTypeGenericIntObject.m */; };
 		639CAE741CFC7EE800D7246C /* GetRecordTypeGenericDecimalObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 639CAE731CFC7EE800D7246C /* GetRecordTypeGenericDecimalObject.m */; };
 		639E31721CEE03800024F79B /* ReportLocationHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 639E31711CEE03800024F79B /* ReportLocationHeaderView.m */; };
+		639EA04421CAA7420046D7BA /* OrderDetailLocationLabelTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 639EA04321CAA7420046D7BA /* OrderDetailLocationLabelTableCell.m */; };
 		639F88FC1CECB3C200151AF2 /* ReportMeetingWrapperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 639F88FA1CECB3C200151AF2 /* ReportMeetingWrapperViewController.m */; };
 		639F88FD1CECB3C200151AF2 /* ReportMeetingWrapperViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 639F88FB1CECB3C200151AF2 /* ReportMeetingWrapperViewController.xib */; };
 		639F89011CECB42400151AF2 /* ReportMeetingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 639F88FF1CECB42400151AF2 /* ReportMeetingTableViewController.m */; };
@@ -3974,6 +3975,8 @@
 		639CAE731CFC7EE800D7246C /* GetRecordTypeGenericDecimalObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetRecordTypeGenericDecimalObject.m; sourceTree = "<group>"; };
 		639E31701CEE03800024F79B /* ReportLocationHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportLocationHeaderView.h; sourceTree = "<group>"; };
 		639E31711CEE03800024F79B /* ReportLocationHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportLocationHeaderView.m; sourceTree = "<group>"; };
+		639EA04221CAA7420046D7BA /* OrderDetailLocationLabelTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderDetailLocationLabelTableCell.h; sourceTree = "<group>"; };
+		639EA04321CAA7420046D7BA /* OrderDetailLocationLabelTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderDetailLocationLabelTableCell.m; sourceTree = "<group>"; };
 		639F267B1D6B3F76008D976B /* CustomerInfoAccessTimesCalendarTableViewCellDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerInfoAccessTimesCalendarTableViewCellDelegate.h; sourceTree = "<group>"; };
 		639F88F91CECB3C200151AF2 /* ReportMeetingWrapperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportMeetingWrapperViewController.h; sourceTree = "<group>"; };
 		639F88FA1CECB3C200151AF2 /* ReportMeetingWrapperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportMeetingWrapperViewController.m; sourceTree = "<group>"; };
@@ -6345,6 +6348,8 @@
 				630F93592167A98C00996C59 /* MATFormRowsTableCells.xib */,
 				63D5707521C91FFC00FF37D5 /* OrderDetailFormTypeLabelTableCell.h */,
 				63D5707621C91FFC00FF37D5 /* OrderDetailFormTypeLabelTableCell.m */,
+				639EA04221CAA7420046D7BA /* OrderDetailLocationLabelTableCell.h */,
+				639EA04321CAA7420046D7BA /* OrderDetailLocationLabelTableCell.m */,
 			);
 			path = TableCell;
 			sourceTree = "<group>";
@@ -8978,6 +8983,7 @@
 				632BC7F81EFBC86400610764 /* CustomerSurveyDetailsResponseTableCell.m in Sources */,
 				630B3B3719F01CB9007B2442 /* CustomerDetailViewController.m in Sources */,
 				630B3DBA19F01CB9007B2442 /* ArcosSurveyBO.m in Sources */,
+				639EA04421CAA7420046D7BA /* OrderDetailLocationLabelTableCell.m in Sources */,
 				630B346419F0127C007B2442 /* Response.m in Sources */,
 				630B3B3219F01CB9007B2442 /* SplitViewCommonMasterViewController.m in Sources */,
 				63F5FD0C1F0BE3D400EE22E4 /* WebServiceSharedDataManager.m in Sources */,

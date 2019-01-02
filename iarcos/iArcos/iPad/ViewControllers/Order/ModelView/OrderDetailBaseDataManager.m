@@ -13,11 +13,15 @@
 @synthesize sectionTitleList = _sectionTitleList;
 @synthesize groupedDataDict = _groupedDataDict;
 @synthesize titleKey = _titleKey;
+@synthesize contactSectionKey = _contactSectionKey;
+@synthesize memoSectionKey = _memoSectionKey;
 
 - (id)init {
     self = [super init];
     if (self != nil) {
         self.titleKey = @"Title";
+        self.contactSectionKey = @"Contact";
+        self.memoSectionKey = @"Memo";
     }
     return self;
 }
@@ -27,6 +31,8 @@
     if (self.sectionTitleList != nil) { self.sectionTitleList = nil; }
     if (self.groupedDataDict != nil) { self.groupedDataDict = nil; }                    
     if (self.titleKey != nil) { self.titleKey = nil; }
+    self.contactSectionKey = nil;
+    self.memoSectionKey = nil;
     [super dealloc];
 }
 
@@ -51,33 +57,47 @@
 - (void)createLocationSectionData {
     NSString* sectionTitle = @"Location";
     [self.sectionTitleList addObject:sectionTitle];
-    NSDictionary* configDict = [[ArcosCoreData sharedArcosCoreData] configWithIUR:[NSNumber numberWithInt:0]];
-    NSNumber* showLocationCode = [configDict objectForKey:@"ShowlocationCode"];
+    [self createLocationSectionDataProcessor];
+}
+
+- (void)createLocationSectionDataProcessor {
+    NSString* sectionTitle = @"Location";
+    NSDictionary* customerDict = [self.orderHeader objectForKey:@"Customer"];
+    //    NSDictionary* configDict = [[ArcosCoreData sharedArcosCoreData] configWithIUR:[NSNumber numberWithInt:0]];
+    //    NSNumber* showLocationCode = [configDict objectForKey:@"ShowlocationCode"];
     NSMutableArray* locationDisplayList = [NSMutableArray arrayWithCapacity:5];
-    NSString* locationName = [self.orderHeader objectForKey:@"CustName"];
-    if ([showLocationCode boolValue]) {
-        locationName = [NSString stringWithFormat:@"%@ [%@]",[self.orderHeader objectForKey:@"CustName"], [ArcosUtils trim:[self.orderHeader objectForKey:@"LocationCode"]]];
+    //    NSString* locationName = [self.orderHeader objectForKey:@"CustName"];
+    //    if ([showLocationCode boolValue]) {
+    //        locationName = [NSString stringWithFormat:@"%@ [%@]",[self.orderHeader objectForKey:@"CustName"], [ArcosUtils trim:[self.orderHeader objectForKey:@"LocationCode"]]];
+    //    }
+    
+    //    [locationDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"CustName" fieldNameLabel:@"Location" fieldData:locationName]];
+    //    [locationDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Address1" fieldNameLabel:@"Address" fieldData:[self.orderHeader objectForKey:@"Address1"]]];
+    if (customerDict == nil) {
+        [locationDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"CustName" fieldNameLabel:@"Location" fieldData:@""]];
+        [locationDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Address1" fieldNameLabel:@"Address" fieldData:@""]];
+    } else {
+        [locationDisplayList addObject:[self createLocationCellDataWithCellKey:@"Customer" fieldNameLabel:@"Location" fieldData:customerDict]];
+        [locationDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Address1" fieldNameLabel:@"Address" fieldData:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[customerDict objectForKey:@"Address1"]]]]];
+        NSString* address2 = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[customerDict objectForKey:@"Address2"]]];
+        if (![address2 isEqualToString:@""]) {
+            [locationDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Address2" fieldNameLabel:@"" fieldData:address2]];
+        }
+        NSString* address3 = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[customerDict objectForKey:@"Address3"]]];
+        if (![address3 isEqualToString:@""]) {
+            [locationDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Address3" fieldNameLabel:@"" fieldData:address3]];
+        }
+        NSString* address4 = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[customerDict objectForKey:@"Address4"]]];;
+        if (![address4 isEqualToString:@""]) {
+            [locationDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Address4" fieldNameLabel:@"" fieldData:address4]];
+        }
     }
-    [locationDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"CustName" fieldNameLabel:@"Location" fieldData:locationName]];
-    [locationDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Address1" fieldNameLabel:@"Address" fieldData:[self.orderHeader objectForKey:@"Address1"]]];
-    NSString* address2 = [self.orderHeader objectForKey:@"Address2"];
-    if (![address2 isEqualToString:@""]) {
-        [locationDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Address2" fieldNameLabel:@"" fieldData:[self.orderHeader objectForKey:@"Address2"]]];
-    }
-    NSString* address3 = [self.orderHeader objectForKey:@"Address3"];
-    if (![address3 isEqualToString:@""]) {
-        [locationDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Address3" fieldNameLabel:@"" fieldData:[self.orderHeader objectForKey:@"Address3"]]];
-    }
-    NSString* address4 = [self.orderHeader objectForKey:@"Address4"];
-    if (![address4 isEqualToString:@""]) {
-        [locationDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Address4" fieldNameLabel:@"" fieldData:[self.orderHeader objectForKey:@"Address4"]]];
-    }    
     [self.groupedDataDict setObject:locationDisplayList forKey:sectionTitle];
 }
 
 - (void)createContactSectionData {
-    NSString* sectionTitle = @"Contact";
-    [self.sectionTitleList addObject:sectionTitle];
+//    NSString* sectionTitle = @"Contact";
+    [self.sectionTitleList addObject:self.contactSectionKey];
     NSMutableArray* contactDisplayList = [NSMutableArray arrayWithCapacity:4];
     NSMutableDictionary* contactDict = [NSMutableDictionary dictionaryWithDictionary:[self.orderHeader objectForKey:@"contact"]];
     [contactDict setObject:[self.orderHeader objectForKey:@"contactText"] forKey:self.titleKey];
@@ -91,7 +111,7 @@
     [contactDisplayList addObject:[self createWriteCellDataWithCellKey:@"callType" fieldNameLabel:@"Call Type" writeType:[NSNumber numberWithInt:6] fieldData:callTypeDict]];
     [contactDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"EmployeeIUR" fieldNameLabel:@"Employee" fieldData:[self employeeName:[self.orderHeader objectForKey:@"EmployeeIUR"]]]];
     
-    [self.groupedDataDict setObject:contactDisplayList forKey:sectionTitle];    
+    [self.groupedDataDict setObject:contactDisplayList forKey:self.contactSectionKey];
 }
 
 - (void)createOrderDetailsSectionData {
@@ -120,8 +140,8 @@
 }
 
 - (void)createOrderMemoSectionData {
-    NSString* sectionTitle = @"Memo";
-    [self.sectionTitleList addObject:sectionTitle];
+//    NSString* sectionTitle = @"Memo";
+    [self.sectionTitleList addObject:self.memoSectionKey];
     NSMutableArray* memoDisplayList = [NSMutableArray arrayWithCapacity:3];
     [memoDisplayList addObject:[self createTextFieldCellDataWithCellKey:@"custRef" fieldNameLabel:@"Customer Ref" fieldData:[self.orderHeader objectForKey:@"custRef"]]];
     
@@ -136,16 +156,16 @@
     }
     
     
-    [self.groupedDataDict setObject:memoDisplayList forKey:sectionTitle];
+    [self.groupedDataDict setObject:memoDisplayList forKey:self.memoSectionKey];
 }
 
 - (void)createCallMemoSectionData {
-    NSString* sectionTitle = @"Memo";
-    [self.sectionTitleList addObject:sectionTitle];
+//    NSString* sectionTitle = @"Memo";
+    [self.sectionTitleList addObject:self.memoSectionKey];
     NSMutableArray* memoDisplayList = [NSMutableArray arrayWithCapacity:2];    
     [memoDisplayList addObject:[self createTextViewCellDataWithCellKey:@"memo" fieldNameLabel:@"Memo" fieldData:[self.orderHeader objectForKey:@"memo"]]];
     
-    [self.groupedDataDict setObject:memoDisplayList forKey:sectionTitle];
+    [self.groupedDataDict setObject:memoDisplayList forKey:self.memoSectionKey];
 }
 
 - (NSMutableDictionary*)createDateLabelCellDataWithCellKey:(NSString*)aCellKey fieldNameLabel:(NSString*)aFieldNameLabel writeType:(NSNumber*)aWriteType {
@@ -272,6 +292,15 @@
     return cellData;
 }
 
+- (NSMutableDictionary*)createLocationCellDataWithCellKey:(NSString*)aCellKey fieldNameLabel:(NSString*)aFieldNameLabel fieldData:(NSDictionary*)aFieldData {
+    NSMutableDictionary* cellData = [NSMutableDictionary dictionaryWithCapacity:4];
+    [cellData setObject:[NSNumber numberWithInt:15] forKey:@"CellType"];
+    [cellData setObject:aCellKey forKey:@"CellKey"];
+    [cellData setObject:aFieldNameLabel forKey:@"FieldNameLabel"];
+    [cellData setObject:aFieldData forKey:@"FieldData"];
+    return cellData;
+}
+
 - (NSMutableDictionary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath {
     NSString* sectionTitle = [self.sectionTitleList objectAtIndex:anIndexPath.section];
     NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:sectionTitle];
@@ -291,6 +320,36 @@
 
 - (void)createAllSectionData {
 
+}
+
+- (void)locationInputFinishedWithData:(id)data forIndexpath:(NSIndexPath *)theIndexpath {
+    NSLog(@"abc %p", self.orderHeader);
+}
+
+- (void)resetContactDataInContactSection {
+    NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:self.contactSectionKey];
+    for (int i = 0; i < [tmpDisplayList count]; i++) {
+        NSMutableDictionary* tmpCellDataDict = [tmpDisplayList objectAtIndex:i];
+        NSString* tmpCellKey = [tmpCellDataDict objectForKey:@"CellKey"];
+        if ([tmpCellKey isEqualToString:@"contact"]) {
+            NSMutableDictionary* contactDict = [NSMutableDictionary dictionaryWithDictionary:[self.orderHeader objectForKey:@"contact"]];
+            [contactDict setObject:[self.orderHeader objectForKey:@"contactText"] forKey:self.titleKey];
+            [tmpCellDataDict setObject:contactDict forKey:@"FieldData"];
+        }
+    }
+}
+
+- (void)resetAcctNoDataInMemoSection {
+    NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:self.memoSectionKey];
+    for (int i = 0; i < [tmpDisplayList count]; i++) {
+        NSMutableDictionary* tmpCellDataDict = [tmpDisplayList objectAtIndex:i];
+        NSString* tmpCellKey = [tmpCellDataDict objectForKey:@"CellKey"];
+        if ([tmpCellKey isEqualToString:@"acctNo"]) {            
+            NSMutableDictionary* acctNoDict = [self.orderHeader objectForKey:@"acctNo"];
+            [acctNoDict setObject:[self.orderHeader objectForKey:@"acctNoText"] forKey:self.titleKey];
+            [tmpCellDataDict setObject:acctNoDict forKey:@"FieldData"];
+        }
+    }
 }
 
 @end

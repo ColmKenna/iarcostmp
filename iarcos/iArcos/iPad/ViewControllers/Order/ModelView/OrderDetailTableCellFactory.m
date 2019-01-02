@@ -25,6 +25,7 @@
 @synthesize printTableCellId = _printTableCellId;
 @synthesize deliveryInstructions1TableCellId = _deliveryInstructions1TableCellId;
 @synthesize formTypeLabelTableCellId = _formTypeLabelTableCellId;
+@synthesize locationLabelTableCellId = _locationLabelTableCellId;
 
 -(id)init {
     if(self = [super init]) {
@@ -39,6 +40,7 @@
         self.printTableCellId = @"IdOrderDetailPrintTableCell";
         self.deliveryInstructions1TableCellId = @"IdOrderDetailDeliveryInstructions1TextFieldTableCell";
         self.formTypeLabelTableCellId = @"IdOrderDetailFormTypeLabelTableCell";
+        self.locationLabelTableCellId = @"IdOrderDetailLocationLabelTableCell";
     }
     return self;
 }
@@ -55,6 +57,7 @@
     self.printTableCellId = nil;
     self.deliveryInstructions1TableCellId = nil;
     self.formTypeLabelTableCellId = nil;
+    self.locationLabelTableCellId = nil;
     
     [super dealloc];
 }
@@ -100,6 +103,9 @@
         case 12:
             cell = [self createOrderDetailFormTypeLabelTableCell];
             break;
+        case 15:
+            cell = [self createOrderDetailLocationLabelTableCell];
+            break;
         default:
             cell = [self createOrderDetailReadLabelTableCell];
             break;
@@ -138,6 +144,9 @@
 }
 - (OrderDetailBaseTableCell*)createOrderDetailFormTypeLabelTableCell {
     return [self getCellWithIdentifier:self.formTypeLabelTableCellId];
+}
+- (OrderDetailBaseTableCell*)createOrderDetailLocationLabelTableCell {
+    return [self getCellWithIdentifier:self.locationLabelTableCellId];
 }
 
 -(UITableViewCell*)getCellWithIdentifier:(NSString*)idendifier {
@@ -189,6 +198,9 @@
             break;
         case 12:
             identifier = self.formTypeLabelTableCellId;
+            break;
+        case 15:
+            identifier = self.locationLabelTableCellId;
             break;
             
         default:

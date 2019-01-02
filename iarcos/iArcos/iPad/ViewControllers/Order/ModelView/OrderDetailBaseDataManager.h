@@ -14,14 +14,19 @@
     NSMutableArray* _sectionTitleList;
     NSMutableDictionary* _groupedDataDict;
     NSString* _titleKey;
+    NSString* _contactSectionKey;
+    NSString* _memoSectionKey;
 }
 
 @property(nonatomic, retain) NSMutableDictionary* orderHeader;
 @property(nonatomic, retain) NSMutableArray* sectionTitleList;
 @property(nonatomic, retain) NSMutableDictionary* groupedDataDict;
 @property(nonatomic, retain) NSString* titleKey;
+@property(nonatomic, retain) NSString* contactSectionKey;
+@property(nonatomic, retain) NSString* memoSectionKey;
 
 - (void)createLocationSectionData;
+- (void)createLocationSectionDataProcessor;
 - (void)createContactSectionData;
 - (void)createOrderDetailsSectionData;
 - (void)createOrderMemoSectionData;
@@ -39,8 +44,13 @@
 - (NSMutableDictionary*)createNumberTextFieldCellDataWithCellKey:(NSString*)aCellKey fieldNameLabel:(NSString*)aFieldNameLabel fieldData:(NSString*)aFieldData;
 - (NSMutableDictionary*)createDateHourMinLabelCellDataWithCellKey:(NSString*)aCellKey fieldNameLabel:(NSString*)aFieldNameLabel writeType:(NSNumber*)aWriteType;
 - (NSMutableDictionary*)createFormTypeCellDataWithCellKey:(NSString*)aCellKey fieldNameLabel:(NSString*)aFieldNameLabel fieldData:(NSMutableDictionary*)aFieldData;
+- (NSMutableDictionary*)createLocationCellDataWithCellKey:(NSString*)aCellKey fieldNameLabel:(NSString*)aFieldNameLabel fieldData:(NSDictionary*)aFieldData;
+
 - (NSString*)employeeName:(NSNumber*)anEmployeeIUR;
 - (NSMutableDictionary*)addTitleToDict:(NSString*)aCellKey titleKey:(NSString*)aTitleKey;
 - (void)createAllSectionData;
+- (void)locationInputFinishedWithData:(id)data forIndexpath:(NSIndexPath *)theIndexpath;
+- (void)resetContactDataInContactSection;
+- (void)resetAcctNoDataInMemoSection;
 
 @end

@@ -22,4 +22,9 @@
     [self createDrillDownSectionDataWithSectionTitle:@"Orderline Details" orderHeaderType:[NSNumber numberWithInt:1]];
 }
 
+- (void)locationInputFinishedWithData:(id)data forIndexpath:(NSIndexPath *)theIndexpath {
+    [self resetContactDataInContactSection];
+    [self resetAcctNoDataInMemoSection];
+}
+
 @end

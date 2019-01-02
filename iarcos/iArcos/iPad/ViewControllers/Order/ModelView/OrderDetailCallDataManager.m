@@ -38,4 +38,8 @@
     [self.groupedDataDict setObject:contactDisplayList forKey:sectionTitle];
 }
 
+- (void)locationInputFinishedWithData:(id)data forIndexpath:(NSIndexPath *)theIndexpath {
+    [self resetContactDataInContactSection];
+}
+
 @end
