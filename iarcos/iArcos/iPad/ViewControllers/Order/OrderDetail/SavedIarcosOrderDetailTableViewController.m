@@ -341,12 +341,13 @@
     NSNumber* isSealed = [self.savedOrderDetailCellData objectForKey:@"IsSealed"];
     NSNumber* orderNumber = [self.savedOrderDetailCellData objectForKey:@"OrderNumber"];
     NSMutableArray* orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:orderNumber withSortKey:@"OrderLine" locationIUR:[self.savedOrderDetailCellData objectForKey:@"LocationIUR"]];
-    NSNumber* formIUR = [self.savedOrderDetailCellData objectForKey:@"FormIUR"];
+//    NSNumber* formIUR = [self.savedOrderDetailCellData objectForKey:@"FormIUR"];
+    NSMutableDictionary* formTypeDict = [self.savedIarcosOrderDetailDataManager.orderHeader objectForKey:@"formType"];
     
     OrderlinesIarcosTableViewController* oitvc = [[OrderlinesIarcosTableViewController alloc] initWithStyle:UITableViewStylePlain];
     oitvc.isCellEditable = ![isSealed boolValue];
     oitvc.orderNumber = orderNumber;
-    oitvc.formIUR = formIUR;
+    oitvc.formIUR = [formTypeDict objectForKey:@"IUR"];
     oitvc.locationIUR = [self.savedOrderDetailCellData objectForKey:@"LocationIUR"];
     [oitvc resetTableDataWithData:orderLines];
     oitvc.vansOrderHeader = self.savedIarcosOrderDetailDataManager.orderHeader;
