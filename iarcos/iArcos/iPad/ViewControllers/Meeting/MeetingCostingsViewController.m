@@ -200,4 +200,9 @@
     [self.meetingCostingsDataManager dataMeetingBaseInputFinishedWithData:aData atIndexPath:anIndexPath];
 }
 
+- (void)reloadCustomiseTableView {
+    [self.budgetTableView reloadData];
+    [self.expensesTableView reloadData];
+}
+
 @end

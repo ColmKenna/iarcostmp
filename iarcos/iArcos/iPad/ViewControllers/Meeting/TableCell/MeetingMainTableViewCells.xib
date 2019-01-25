@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -227,7 +227,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to change" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iKT-6Y-Pwh">
-                        <rect key="frame" x="130" y="11" width="576" height="21"/>
+                        <rect key="frame" x="135" y="11" width="571" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="AwD-Ct-WWY"/>
                         </constraints>
@@ -240,7 +240,7 @@
                     <constraint firstItem="RW0-MD-tN4" firstAttribute="top" secondItem="fKm-qd-iun" secondAttribute="top" constant="11" id="7T3-B3-2QU"/>
                     <constraint firstAttribute="trailing" secondItem="iKT-6Y-Pwh" secondAttribute="trailing" constant="62" id="IUM-rQ-IUL"/>
                     <constraint firstItem="iKT-6Y-Pwh" firstAttribute="top" secondItem="fKm-qd-iun" secondAttribute="top" constant="11" id="Zfj-o9-DMB"/>
-                    <constraint firstItem="iKT-6Y-Pwh" firstAttribute="leading" secondItem="RW0-MD-tN4" secondAttribute="trailing" constant="10" id="dsp-40-EA5"/>
+                    <constraint firstItem="iKT-6Y-Pwh" firstAttribute="leading" secondItem="RW0-MD-tN4" secondAttribute="trailing" constant="15" id="dsp-40-EA5"/>
                     <constraint firstItem="RW0-MD-tN4" firstAttribute="leading" secondItem="fKm-qd-iun" secondAttribute="leading" constant="15" id="ju3-sV-ADb"/>
                 </constraints>
             </tableViewCellContentView>
@@ -408,6 +408,27 @@
                 <outlet property="yesLabel" destination="hQM-eS-UKC" id="SKt-KS-vSv"/>
             </connections>
             <point key="canvasLocation" x="104" y="293"/>
+        </tableViewCell>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="IdMeetingAttendeesEmployeesTableViewCell" id="IDL-dU-kdb" customClass="MeetingAttendeesEmployeesTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IDL-dU-kdb" id="fJy-eW-hoI">
+                <rect key="frame" x="0.0" y="0.0" width="768" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y4T-an-f6d">
+                        <rect key="frame" x="15" y="11" width="743" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="fieldValueLabel" destination="y4T-an-f6d" id="bJV-A9-xiu"/>
+            </connections>
+            <point key="canvasLocation" x="104" y="132.23388305847078"/>
         </tableViewCell>
     </objects>
     <resources>

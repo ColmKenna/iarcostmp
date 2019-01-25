@@ -82,7 +82,8 @@
     Product.DetailingFiles = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field33]];
     Product.PackFiles = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field34]];
     Product.POSFiles = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field35]];
-    Product.RadioFiles = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field36]]; 
+    Product.RadioFiles = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field36]];
+    Product.VCIUR = [ArcosUtils convertStringToNumber:anObject.Field37];
     
     return Product;
 }
@@ -159,6 +160,7 @@
     Product.PackFiles = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[aFieldList objectAtIndex:33]]];
     Product.POSFiles = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[aFieldList objectAtIndex:34]]];
     Product.RadioFiles = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[aFieldList objectAtIndex:35]]];
+    Product.VCIUR = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:36]];
     
     return Product;
 }
@@ -267,6 +269,9 @@
     DescrDetail.CodeType = [ArcosUtils convertStringToNumber:anObject.Field11];
     DescrDetail.Tooltip = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field12]];
     DescrDetail.Toggle1 = [NSNumber numberWithBool: [ArcosUtils convertStringToBool:anObject.Field13]];
+    float dec1FloatValue = [[ArcosUtils convertStringToFloatNumber:anObject.Field14] floatValue];
+    int dec1IntValue = (int)(dec1FloatValue * 100);
+    DescrDetail.Dec1 = [NSNumber numberWithInt:dec1IntValue];
     return DescrDetail;
 }
 
@@ -284,6 +289,9 @@
     DescrDetail.CodeType = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:10]];
     DescrDetail.Tooltip = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[aFieldList objectAtIndex:11]]];
     DescrDetail.Toggle1 = [NSNumber numberWithBool: [ArcosUtils convertStringToBool:[aFieldList objectAtIndex:12]]];
+    float dec1FloatValue = [[ArcosUtils convertStringToFloatNumber:[aFieldList objectAtIndex:13]] floatValue];
+    int dec1IntValue = (int)(dec1FloatValue * 100);
+    DescrDetail.Dec1 = [NSNumber numberWithInt:dec1IntValue];
     return DescrDetail;
 }
 

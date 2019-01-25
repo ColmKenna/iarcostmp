@@ -26,10 +26,14 @@
     [super dealloc];
 }
 
-- (void)createBasicData {
+- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
 //    [self createDataObjectDict];
     self.displayList = [NSMutableArray arrayWithCapacity:4];
-    [self.displayList addObject:[self createIURCellWithFieldName:@"Meeting" cellKey:self.meetingCellKeyDefinition.meetingMOKey fieldData:[self createDefaultIURDict] descrTypeCode:@"MO"]];
+    NSMutableDictionary* meetingDict = [self createDefaultIURDict];
+    if (anArcosMeetingWithDetails != nil) {
+        meetingDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetails.MOiur] title:anArcosMeetingWithDetails.MODetails];
+    }
+    [self.displayList addObject:[self createIURCellWithFieldName:@"Meeting" cellKey:self.meetingCellKeyDefinition.meetingMOKey fieldData:meetingDict descrTypeCode:@"MO"]];
     [self.displayList addObject:[self createTextViewCellWithFieldName:@"Pre-Meet" cellKey:self.meetingCellKeyDefinition.preMeetingKey fieldData:@""]];
     [self.displayList addObject:[self createTextViewCellWithFieldName:@"Post-Meet" cellKey:self.meetingCellKeyDefinition.postMeetingKey fieldData:@""]];
     [self.displayList addObject:[self createTextViewCellWithFieldName:@"Agenda" cellKey:self.meetingCellKeyDefinition.agendaKey fieldData:@""]];
@@ -57,7 +61,7 @@
 - (void)populateArcosMeetingBO:(ArcosMeetingBO*)anArcosMeetingBO {
     @try {
         NSMutableDictionary* resMeetingMODict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.meetingMOKey];
-        anArcosMeetingBO.MOIUR = [[resMeetingMODict objectForKey:@"IUR"] intValue];
+        anArcosMeetingBO.MOIUR = [[resMeetingMODict objectForKey:@"DescrDetailIUR"] intValue];
     } @catch (NSException *exception) {
         NSLog(@"%@", [exception reason]);
     } @finally {

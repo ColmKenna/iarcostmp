@@ -17,6 +17,8 @@
     NSString* _textViewTableCellId;
     NSString* _iurTableCellId;
     NSString* _booleanTableCellId;
+    NSString* _attendeesEmployeesTableCellId;
+    NSString* _attendeesContactsTableCellId;
 }
 
 @property(nonatomic, retain) NSString* datetimeTableCellId;
@@ -26,6 +28,8 @@
 @property(nonatomic, retain) NSString* textViewTableCellId;
 @property(nonatomic, retain) NSString* iurTableCellId;
 @property(nonatomic, retain) NSString* booleanTableCellId;
+@property(nonatomic, retain) NSString* attendeesEmployeesTableCellId;
+@property(nonatomic, retain) NSString* attendeesContactsTableCellId;
 
 - (MeetingBaseTableViewCell*)createMeetingBaseTableCellWithData:(NSMutableDictionary*)aData;
 - (NSString*)identifierWithData:(NSMutableDictionary*)aData;

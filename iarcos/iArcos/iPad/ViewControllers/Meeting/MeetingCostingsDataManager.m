@@ -26,11 +26,20 @@
     [super dealloc];
 }
 
-- (void)createBasicData {
+- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
     self.displayList = [NSMutableArray arrayWithCapacity:3];
-    [self.displayList addObject:[self createIntegerCellDataWithFieldName:@"Overall Cost" cellKey:self.meetingCellKeyDefinition.estimatedCostKey fieldData:@""]];
-    [self.displayList addObject:[self createDecimalCellDataWithFieldName:@"Cost Per Head" cellKey:self.meetingCellKeyDefinition.estimatedCostPerHeadKey fieldData:@""]];
-    [self.displayList addObject:[self createIntegerCellDataWithFieldName:@"Attendees" cellKey:self.meetingCellKeyDefinition.estimatedAttendeesKey fieldData:@""]];
+    NSString* estimatedCost = @"";
+    NSString* estimatedCostPerHead = @"";
+    NSString* estimatedAttendees = @"";
+    if (anArcosMeetingWithDetails != nil) {
+        estimatedCost = [NSString stringWithFormat:@"%d", anArcosMeetingWithDetails.EstimatedCost];
+        estimatedCostPerHead = [NSString stringWithFormat:@"%.2f", [anArcosMeetingWithDetails.EstimatedCostPerHead floatValue]];
+        estimatedAttendees = [NSString stringWithFormat:@"%d", anArcosMeetingWithDetails.EstimatedAttendees];
+    }
+    
+    [self.displayList addObject:[self createIntegerCellDataWithFieldName:@"Overall Cost" cellKey:self.meetingCellKeyDefinition.estimatedCostKey fieldData:estimatedCost]];
+    [self.displayList addObject:[self createDecimalCellDataWithFieldName:@"Cost Per Head" cellKey:self.meetingCellKeyDefinition.estimatedCostPerHeadKey fieldData:estimatedCostPerHead]];
+    [self.displayList addObject:[self createIntegerCellDataWithFieldName:@"Attendees" cellKey:self.meetingCellKeyDefinition.estimatedAttendeesKey fieldData:estimatedAttendees]];
 }
 
 - (NSMutableDictionary*)createIntegerCellDataWithFieldName:(NSString*)aFieldName cellKey:(NSString*)aCellKey fieldData:(NSString*)aFieldData {

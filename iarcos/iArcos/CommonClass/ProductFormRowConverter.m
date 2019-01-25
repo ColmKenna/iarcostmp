@@ -28,6 +28,7 @@
  MinimumUnitPrice used as weight at 29/01/2017
  RRIUR added for Price Change at 17/08/2018 0:default -1:price change
  UnitRRP at 26/09/2018
+ VCIUR at 04/01/2019
  */
 + (NSMutableDictionary*)createFormRowWithProduct:(NSMutableDictionary*) product {
     NSMutableDictionary* formRow = [NSMutableDictionary dictionary];
@@ -56,6 +57,7 @@
     [formRow setObject:[product objectForKey:@"MinimumUnitPrice"] forKey:@"MinimumUnitPrice"];
     [formRow setObject:[ArcosUtils convertNilToZero:[product objectForKey:@"RRIUR"]] forKey:@"RRIUR"];
     [formRow setObject:[product objectForKey:@"UnitRRP"] forKey:@"UnitRRP"];
+    [formRow setObject:[product objectForKey:@"VCIUR"] forKey:@"VCIUR"];
     
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
     [formRow setObject:[NSNumber numberWithInt:0]  forKey:@"Qty"];
@@ -121,6 +123,7 @@
     [formRow setObject:[anOrderLine objectForKey:@"MinimumUnitPrice"] forKey:@"MinimumUnitPrice"];
     [formRow setObject:[ArcosUtils convertNilToZero:[anOrderLine objectForKey:@"RRIUR"]] forKey:@"RRIUR"];
     [formRow setObject:[anOrderLine objectForKey:@"UnitRRP"] forKey:@"UnitRRP"];
+    [formRow setObject:[anOrderLine objectForKey:@"VCIUR"] forKey:@"VCIUR"];
     return formRow;
 }
 
@@ -153,6 +156,7 @@
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"MinimumUnitPrice"];
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"RRIUR"];
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"UnitRRP"];
+    [formRow setObject:[NSNumber numberWithInt:0] forKey:@"VCIUR"];
     
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
     [formRow setObject:[NSNumber numberWithInt:0]  forKey:@"Qty"];
@@ -246,6 +250,7 @@
         [tempDict setObject:[aProduct objectForKey:@"MinimumUnitPrice"] forKey:@"MinimumUnitPrice"];
 //        [tempDict setObject:[ArcosUtils convertNilToZero:[aProduct objectForKey:@"RRIUR"]] forKey:@"RRIUR"];
         [tempDict setObject:[aProduct objectForKey:@"UnitRRP"] forKey:@"UnitRRP"];
+        [tempDict setObject:[aProduct objectForKey:@"VCIUR"] forKey:@"VCIUR"];
         [tempDict setObject:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"EAN"]] forKey:@"EAN"];
     }else{
         [tempDict setObject:@"Product unassigned" forKey:@"Description"];
@@ -271,6 +276,7 @@
         [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"MinimumUnitPrice"];
         [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"RRIUR"];
         [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"UnitRRP"];
+        [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"VCIUR"];
         [tempDict setObject:@"" forKey:@"EAN"];
     }
     return tempDict;

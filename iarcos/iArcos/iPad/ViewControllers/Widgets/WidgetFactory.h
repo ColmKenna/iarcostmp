@@ -15,6 +15,7 @@
 #import "TableMSWidgetViewController.h"
 #import "ArcosConfigDataManager.h"
 #import "DatePickerHourMinuteWidgetViewController.h"
+#import "TableGenericMSWidgetViewController.h"
 typedef enum {
     WidgetDataSourceDeliveryDate = 0,
     WidgetDataSourceOrderDate,
@@ -77,6 +78,7 @@ typedef enum {
 -(UIPopoverController*)CreateTableWidgetWithData:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentContentString:(NSString*)aParentContentString;
 -(UIPopoverController*)CreateTableWidgetWithData:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentContentString:(NSString*)aParentContentString requestSource:(TableWidgetRequestSource)aTableWidgetRequestSource;
 -(UIPopoverController*)CreateTableMSWidgetWithData:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentItemList:(NSMutableArray*)aParentItemList requestSource:(TableMSWidgetRequestSource)aTableMSWidgetRequestSource;
+-(UIPopoverController*)CreateGenericTableMSWidgetWithData:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentItemList:(NSMutableArray*)aParentItemList;
 
 - (void)processPopoverController:(WidgetViewController*)wvc;
 @end

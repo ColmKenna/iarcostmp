@@ -516,22 +516,28 @@
 }
 -(void)showMeetingDetail:(CXMLElement*)data {
     NSNumber* iUR = [ArcosUtils convertStringToNumber:[self valueForTag:@"iur" withElement:data]];
-    ReportMeetingWrapperViewController* rmwvc = [[ReportMeetingWrapperViewController alloc] initWithNibName:@"ReportMeetingWrapperViewController" bundle:nil];
-    rmwvc.myDelegate = self;
-    rmwvc.iUR = iUR;
-    rmwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
-    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:rmwvc] autorelease];
-    CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.rootView];
-    self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
-    [self.rootView addChildViewController:self.globalNavigationController];
-    [self.rootView.view addSubview:self.globalNavigationController.view];
-    [self.globalNavigationController didMoveToParentViewController:self.rootView];
-    [rmwvc release];
-    [UIView animateWithDuration:0.3f animations:^{
-        self.globalNavigationController.view.frame = parentNavigationRect;
-    } completion:^(BOOL finished){
-        
-    }];
+    MeetingMainTemplateViewController* mmtvc = [[MeetingMainTemplateViewController alloc] initWithNibName:@"MeetingMainTemplateViewController" bundle:nil];
+    mmtvc.animateDelegate = self;
+    mmtvc.meetingIUR = iUR;
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:mmtvc] autorelease];
+    [self.rootView presentViewController:self.globalNavigationController animated:YES completion:nil];
+    [mmtvc release];
+//    ReportMeetingWrapperViewController* rmwvc = [[ReportMeetingWrapperViewController alloc] initWithNibName:@"ReportMeetingWrapperViewController" bundle:nil];
+//    rmwvc.myDelegate = self;
+//    rmwvc.iUR = iUR;
+//    rmwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
+//    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:rmwvc] autorelease];
+//    CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.rootView];
+//    self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+//    [self.rootView addChildViewController:self.globalNavigationController];
+//    [self.rootView.view addSubview:self.globalNavigationController.view];
+//    [self.globalNavigationController didMoveToParentViewController:self.rootView];
+//    [rmwvc release];
+//    [UIView animateWithDuration:0.3f animations:^{
+//        self.globalNavigationController.view.frame = parentNavigationRect;
+//    } completion:^(BOOL finished){
+//
+//    }];
 }
 -(void)detailViewWithData:(CXMLElement*)data{
     if ([reportCode isEqualToString:@"2.00"]) {//location report

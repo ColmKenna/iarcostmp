@@ -7,17 +7,20 @@
 //
 
 #import "MeetingMainTemplateViewController.h"
+#import "ArcosRootViewController.h"
 
 @interface MeetingMainTemplateViewController ()
 
 @end
 
 @implementation MeetingMainTemplateViewController
+@synthesize animateDelegate = _animateDelegate;
 @synthesize mySegmentedControl = _mySegmentedControl;
 @synthesize templateView = _templateView;
 @synthesize meetingDetailsTableViewController = _meetingDetailsTableViewController;
 @synthesize meetingMiscTableViewController = _meetingMiscTableViewController;
 @synthesize meetingObjectivesTableViewController = _meetingObjectivesTableViewController;
+@synthesize meetingAttendeesTableViewController = _meetingAttendeesTableViewController;
 @synthesize meetingCostingsViewController = _meetingCostingsViewController;
 @synthesize layoutKeyList = _layoutKeyList;
 @synthesize layoutObjectList = _layoutObjectList;
@@ -27,11 +30,17 @@
 @synthesize actionType = _actionType;
 @synthesize createActionType = _createActionType;
 @synthesize meetingMainTemplateActionDelegate = _meetingMainTemplateActionDelegate;
+@synthesize meetingIUR = _meetingIUR;
+@synthesize arcosRootViewController = _arcosRootViewController;
+@synthesize meetingRecordCreated = _meetingRecordCreated;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.createActionType = @"create";
+        self.arcosRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
+        self.meetingRecordCreated = NO;
+        self.meetingIUR = [NSNumber numberWithInt:0];
     }
     return self;
 }
@@ -54,11 +63,12 @@
     self.meetingDetailsTableViewController = [[[MeetingDetailsTableViewController alloc] initWithNibName:@"MeetingDetailsTableViewController" bundle:nil] autorelease];
     self.meetingMiscTableViewController = [[[MeetingMiscTableViewController alloc] initWithNibName:@"MeetingMiscTableViewController" bundle:nil] autorelease];
     self.meetingObjectivesTableViewController = [[[MeetingObjectivesTableViewController alloc] initWithNibName:@"MeetingObjectivesTableViewController" bundle:nil] autorelease];
+    self.meetingAttendeesTableViewController = [[[MeetingAttendeesTableViewController alloc] initWithNibName:@"MeetingAttendeesTableViewController" bundle:nil] autorelease];
     self.meetingCostingsViewController = [[[MeetingCostingsViewController alloc] initWithNibName:@"MeetingCostingsViewController" bundle:nil] autorelease];
     
-    self.layoutKeyList = [NSArray arrayWithObjects:@"AuxDetails", @"AuxMisc", @"AuxObjectives", @"AuxCostings", nil];
-    self.layoutObjectList = [NSArray arrayWithObjects:self.meetingDetailsTableViewController.view, self.meetingMiscTableViewController.view, self.meetingObjectivesTableViewController.view, self.meetingCostingsViewController.view, nil];
-    self.objectViewControllerList = [NSArray arrayWithObjects:self.meetingDetailsTableViewController, self.meetingMiscTableViewController, self.meetingObjectivesTableViewController, self.meetingCostingsViewController, nil];
+    self.layoutKeyList = [NSArray arrayWithObjects:@"AuxDetails", @"AuxMisc", @"AuxObjectives", @"AuxAttendees", @"AuxCostings", nil];
+    self.layoutObjectList = [NSArray arrayWithObjects:self.meetingDetailsTableViewController.view, self.meetingMiscTableViewController.view, self.meetingObjectivesTableViewController.view, self.meetingAttendeesTableViewController.view, self.meetingCostingsViewController.view, nil];
+    self.objectViewControllerList = [NSArray arrayWithObjects:self.meetingDetailsTableViewController, self.meetingMiscTableViewController, self.meetingObjectivesTableViewController, self.meetingAttendeesTableViewController, self.meetingCostingsViewController, nil];
     
     self.layoutDict = [NSDictionary dictionaryWithObjects:self.layoutObjectList forKeys:self.layoutKeyList];
     for (int i = 0; i < [self.layoutKeyList count]; i++) {
@@ -80,9 +90,25 @@
     if ([self.actionType isEqualToString:self.createActionType]) {
         self.meetingMainTemplateActionDelegate = [[[MeetingMainTemplateCreateAction alloc] initWithTarget:self] autorelease];
     } else {
+        UIBarButtonItem* cancelBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonPressed)];
+        self.navigationItem.leftBarButtonItem = cancelBarButtonItem;
+        [cancelBarButtonItem release];
         self.meetingMainTemplateActionDelegate = [[[MeetingMainTemplateUpdateAction alloc] initWithTarget:self] autorelease];
     }
     [self.meetingMainTemplateActionDelegate retrieveMeetingMainTemplateData];
+}
+
+- (void)cancelButtonPressed {
+    [self.animateDelegate dismissSlideAcrossViewAnimation];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if ([self.actionType isEqualToString:self.createActionType] && self.meetingRecordCreated) {
+        self.meetingRecordCreated = NO;
+        [self.meetingMainTemplateActionDelegate retrieveMeetingMainTemplateData];
+        [self reloadCustomiseTableView];
+    }
 }
 
 - (void)saveButtonPressed {
@@ -97,7 +123,11 @@
     [self.meetingObjectivesTableViewController.meetingObjectivesDataManager populateArcosMeetingBO:arcosMeetingBO];
     [self.meetingCostingsViewController.meetingCostingsDataManager populateArcosMeetingBO:arcosMeetingBO];
     arcosMeetingBO.Attachments = @"";
-    NSLog(@"abc %@", arcosMeetingBO);
+//    NSLog(@"abc %@", arcosMeetingBO);
+    if ([self.actionType isEqualToString:self.createActionType]) {
+        
+    }
+    arcosMeetingBO.IUR = [self.meetingIUR intValue];
     [self.callGenericServices genericUpdateMeetingByMeetingBO:arcosMeetingBO action:@selector(resultBackFromUpdateMeeting:) target:self];
 //    NSLog(@"abc: %@", self.meetingDetailsTableViewController.meetingDetailsDataManager.headOfficeDataObjectDict);
 //    NSLog(@"ac: %@", self.meetingMiscTableViewController.meetingMiscDataManager.headOfficeDataObjectDict);
@@ -110,6 +140,7 @@
     self.meetingDetailsTableViewController = nil;
     self.meetingMiscTableViewController = nil;
     self.meetingObjectivesTableViewController = nil;
+    self.meetingAttendeesTableViewController = nil;
     self.meetingCostingsViewController = nil;
     for (int i = 0; i < [self.objectViewControllerList count]; i++) {
         UIViewController* tmpObjectViewController = [self.objectViewControllerList objectAtIndex:i];
@@ -124,7 +155,9 @@
     self.callGenericServices = nil;
     self.actionType = nil;
     self.createActionType = nil;
+    self.meetingIUR = nil;
     self.meetingMainTemplateActionDelegate = nil;
+    self.arcosRootViewController = nil;
     
     [super dealloc];
 }
@@ -134,7 +167,19 @@
     if (result == nil) {
         return;
     }
-    
+    [ArcosUtils showDialogBox:@"Completed" title:@"" delegate:self target:self tag:77 handler:^(UIAlertAction *action) {
+        if ([self.actionType isEqualToString:self.createActionType]) {
+            [self saveButtonCallBack];
+        } else {
+            [self.animateDelegate dismissSlideAcrossViewAnimation];
+        }
+    }];
+}
+
+- (void)saveButtonCallBack {
+    self.meetingRecordCreated = YES;
+    int itemIndex = [self.arcosRootViewController.customerMasterViewController.customerMasterDataManager retrieveIndexByTitle:[GlobalSharedClass shared].customerText];
+    [self.arcosRootViewController.customerMasterViewController selectCustomerMasterTopViewWithIndexPath:[NSIndexPath indexPathForRow:itemIndex inSection:0]];
 }
 
 
@@ -159,6 +204,12 @@
         }
             break;
             
+        case 3: {
+            self.meetingAttendeesTableViewController.view.hidden = NO;
+        }
+            break;
+            
+            
         case 5: {
             self.meetingCostingsViewController.view.hidden = NO;
         }
@@ -170,24 +221,38 @@
 }
 
 - (void)retrieveCreateMeetingMainTemplateData {
-    [self.meetingDetailsTableViewController.meetingDetailsDataManager createBasicData];
-    [self.meetingMiscTableViewController.meetingMiscDataManager createBasicData];
-    [self.meetingObjectivesTableViewController.meetingObjectivesDataManager createBasicData];
-    [self.meetingCostingsViewController.meetingCostingsDataManager createBasicData];
+    [self.meetingDetailsTableViewController.meetingDetailsDataManager createBasicDataWithReturnObject:nil];
+    [self.meetingMiscTableViewController.meetingMiscDataManager createBasicDataWithReturnObject:nil];
+    [self.meetingObjectivesTableViewController.meetingObjectivesDataManager createBasicDataWithReturnObject:nil];
+    [self.meetingAttendeesTableViewController.meetingAttendeesDataManager createBasicDataWithReturnObject:nil];
+    [self.meetingCostingsViewController.meetingCostingsDataManager createBasicDataWithReturnObject:nil];
+    [self.meetingCostingsViewController.meetingExpenseTableViewController createBasicDataWithReturnObject:nil];
+}
+
+- (void)reloadCustomiseTableView {
+    [self.meetingDetailsTableViewController reloadCustomiseTableView];
+    [self.meetingMiscTableViewController reloadCustomiseTableView];
+    [self.meetingObjectivesTableViewController reloadCustomiseTableView];
+    [self.meetingCostingsViewController reloadCustomiseTableView];
 }
 
 - (void)retrieveUpdateMeetingMainTemplateData {
     NSLog(@"update abc");
-    [self.callGenericServices genericGetMeetingWithIUR:[NSNumber numberWithInt:0] action:@selector(resultBackFromGetMeeting:) target:self];
+    [self.callGenericServices genericGetMeetingWithIUR:self.meetingIUR action:@selector(resultBackFromGetMeeting:) target:self];
 }
 
 - (void)resultBackFromGetMeeting:(id)result {
-    NSLog(@"ax: %@", result);
+//    NSLog(@"ax: %@", result);
     result = [self.callGenericServices handleResultErrorProcess:result];
     if (result == nil) {
         return;
     }
-    
+    [self.meetingDetailsTableViewController.meetingDetailsDataManager createBasicDataWithReturnObject:result];
+    [self.meetingMiscTableViewController.meetingMiscDataManager createBasicDataWithReturnObject:result];
+    [self.meetingObjectivesTableViewController.meetingObjectivesDataManager createBasicDataWithReturnObject:result];
+    [self.meetingCostingsViewController.meetingCostingsDataManager createBasicDataWithReturnObject:result];
+    [self.meetingCostingsViewController.meetingExpenseTableViewController createBasicDataWithReturnObject:result];
+    [self reloadCustomiseTableView];
 }
 
 @end

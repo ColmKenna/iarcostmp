@@ -89,6 +89,10 @@
     return self;
 }
 
+- (void)reloadCustomiseTableView {
+    [self.tableView reloadData];
+}
+
 
 
 @end

@@ -21,6 +21,10 @@
     // Configure the view for the selected state
 }
 
+//- (void)configCellWithData:(NSMutableDictionary*)aCellData {
+//    self.fieldValueTextField.text = [aCellData objectForKey:@"FieldData"];
+//}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     [self.actionDelegate meetingBaseInputFinishedWithData:textField.text atIndexPath:self.myIndexPath];
 }

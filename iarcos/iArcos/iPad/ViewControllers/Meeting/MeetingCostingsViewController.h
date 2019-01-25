@@ -38,5 +38,7 @@
 @property(nonatomic, retain) MeetingExpenseTableViewController* meetingExpenseTableViewController;
 @property(nonatomic, retain) MeetingBudgetTableCellFactory* meetingBudgetTableCellFactory;
 
+- (void)reloadCustomiseTableView;
+
 @end
 

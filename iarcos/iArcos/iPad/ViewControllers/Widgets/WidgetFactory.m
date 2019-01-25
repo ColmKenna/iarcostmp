@@ -400,6 +400,23 @@
     return self.popoverController;
 }
 
+-(UIPopoverController*)CreateGenericTableMSWidgetWithData:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentItemList:(NSMutableArray*)aParentItemList {
+    WidgetViewController* wvc;
+    wvc = [[[TableGenericMSWidgetViewController alloc] initWithDataList:aDataList withTitle:aTitle withParentItemList:aParentItemList] autorelease];
+    
+    self.popoverController=[[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
+    CGSize size = CGSizeMake(320, 748);
+    self.popoverController.popoverContentSize = size;
+    
+    wvc.delegate=self;
+    
+    //no data  return nil
+    if (!wvc.anyDataSource) {
+        return nil;
+    }
+    return self.popoverController;
+}
+
 - (void)processPopoverController:(WidgetViewController*)wvc {
     
 }

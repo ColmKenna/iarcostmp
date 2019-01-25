@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TableGenericMSWidgetViewController">
+            <connections>
+                <outlet property="myNavigationBar" destination="H7U-bP-nyc" id="vLY-4e-xQC"/>
+                <outlet property="myTableView" destination="zNs-g6-0uR" id="oS5-2V-pTV"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H7U-bP-nyc">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="dAP-Bv-d3p"/>
+                    </constraints>
+                    <items>
+                        <navigationItem title="Title" id="Fkz-RI-PQP"/>
+                    </items>
+                </navigationBar>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="zNs-g6-0uR">
+                    <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="ZDz-EO-kAV"/>
+                        <outlet property="delegate" destination="-1" id="8tA-Mq-ZeD"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="H7U-bP-nyc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="9cV-M9-rMe"/>
+                <constraint firstItem="H7U-bP-nyc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ADU-G4-HeU"/>
+                <constraint firstAttribute="trailing" secondItem="H7U-bP-nyc" secondAttribute="trailing" id="Gx6-At-wV1"/>
+                <constraint firstItem="zNs-g6-0uR" firstAttribute="top" secondItem="H7U-bP-nyc" secondAttribute="bottom" id="Jfg-oD-NVu"/>
+                <constraint firstAttribute="bottom" secondItem="zNs-g6-0uR" secondAttribute="bottom" id="RgH-id-ubV"/>
+                <constraint firstAttribute="trailing" secondItem="zNs-g6-0uR" secondAttribute="trailing" id="XVN-5F-7Yg"/>
+                <constraint firstItem="zNs-g6-0uR" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="jer-1s-CC7"/>
+            </constraints>
+            <point key="canvasLocation" x="132" y="154.27286356821591"/>
+        </view>
+    </objects>
+</document>

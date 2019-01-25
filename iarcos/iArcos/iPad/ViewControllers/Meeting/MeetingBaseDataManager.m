@@ -27,7 +27,7 @@
     [super dealloc];
 }
 
-- (void)createBasicData {
+- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
     
 }
 
@@ -39,10 +39,25 @@
     return cellData;
 }
 
+- (NSMutableDictionary*)createDefaultIURDictWithIUR:(NSNumber*)anIUR title:(NSString*)aTitle {
+    NSMutableDictionary* cellData = [NSMutableDictionary dictionaryWithCapacity:2];
+    [cellData setObject:anIUR forKey:@"DescrDetailIUR"];
+    [cellData setObject:[ArcosUtils convertNilToEmpty:aTitle] forKey:@"Title"];
+    return cellData;
+}
+
 - (NSMutableDictionary*)createDefaultEmployeeDict {
     NSMutableDictionary* cellData = [NSMutableDictionary dictionaryWithCapacity:2];
     [cellData setObject:[NSNumber numberWithInt:0] forKey:@"IUR"];
     [cellData setObject:@"" forKey:@"Title"];
+    
+    return cellData;
+}
+
+- (NSMutableDictionary*)createDefaultEmployeeDictWithIUR:(NSNumber*)anIUR title:(NSString*)aTitle {
+    NSMutableDictionary* cellData = [NSMutableDictionary dictionaryWithCapacity:2];
+    [cellData setObject:anIUR forKey:@"IUR"];
+    [cellData setObject:[ArcosUtils convertNilToEmpty:aTitle] forKey:@"Title"];
     
     return cellData;
 }

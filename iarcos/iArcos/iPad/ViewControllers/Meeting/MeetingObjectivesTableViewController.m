@@ -84,4 +84,8 @@
     [self.meetingObjectivesDataManager dataMeetingBaseInputFinishedWithData:aData atIndexPath:anIndexPath];
 }
 
+- (void)reloadCustomiseTableView {
+    [self.tableView reloadData];
+}
+
 @end

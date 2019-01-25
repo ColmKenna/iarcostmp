@@ -54,7 +54,7 @@
     NSNumber* downloadMode = [dataDict objectForKey:@"DownloadMode"];
     NSNumber* isDownloaded = [dataDict objectForKey:@"IsDownloaded"];
     self.descrDetailsPaginatedRequestField = [[[PaginatedRequestObject alloc] init] autorelease];
-    NSString* selectStatement = @"Select Iur,DescrTypeCode,Details,DescrDetailCode,ImageIUR,ForDetailing,ProfileOrder,Active,ParentCode,DetailingFiles,CodeType,Tooltip,Toggle1";
+    NSString* selectStatement = @"Select Iur,DescrTypeCode,Details,DescrDetailCode,ImageIUR,ForDetailing,ProfileOrder,Active,ParentCode,DetailingFiles,CodeType,Tooltip,Toggle1,Dec1";
     NSString* fromStatement = [NSString stringWithFormat:@"from DescrDetail %@", fullEmployeeSqlStatement];
     if ([downloadMode intValue] == 1 && [isDownloaded boolValue]) {
         NSDate* downloadDate = [dataDict objectForKey:@"DownloadDate"];
@@ -82,7 +82,7 @@
     NSString* keypath = [NSString stringWithFormat:@"CompanySetting.%@",@"Download"];
     NSMutableDictionary* activeOnly = [sm getSettingForKeypath:keypath atIndex:3];
     NSNumber* active = [activeOnly objectForKey:@"Value"];
-    NSString* selectStatement = @"Select IUR,ProductCode,Description,L1Code,L2Code,L3Code,L4Code,L5Code,UnitTradePrice,Active,Productsize,UnitsPerPack,ForDetailing,SamplesAvailable,ForSampling,ScoreProcedure,BonusBy,StockAvailable,OrderPadDetails,ImageIUR,BonusGiven,BonusRequired,SellBy,BonusMinimum,EAN,FlagIUR,MinimumUnitPrice,PackEAN,UnitRRP,UnitManufacturerPrice,UnitRevenueAmount,AdvertFiles,DetailingFiles,PackFiles,POSFiles,RadioFiles";
+    NSString* selectStatement = @"Select IUR,ProductCode,Description,L1Code,L2Code,L3Code,L4Code,L5Code,UnitTradePrice,Active,Productsize,UnitsPerPack,ForDetailing,SamplesAvailable,ForSampling,ScoreProcedure,BonusBy,StockAvailable,OrderPadDetails,ImageIUR,BonusGiven,BonusRequired,SellBy,BonusMinimum,EAN,FlagIUR,MinimumUnitPrice,PackEAN,UnitRRP,UnitManufacturerPrice,UnitRevenueAmount,AdvertFiles,DetailingFiles,PackFiles,POSFiles,RadioFiles,VCIUR";
     NSString* fromStatement = nil;
     if ([downloadMode intValue] == 1 && [isDownloaded boolValue]) {//1:Partial
         NSDate* downloadDate = [dataDict objectForKey:@"DownloadDate"];

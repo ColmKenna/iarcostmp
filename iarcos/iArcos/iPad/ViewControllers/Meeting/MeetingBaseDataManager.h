@@ -10,6 +10,7 @@
 #import "MeetingCellKeyDefinition.h"
 #import "ArcosMeetingBO.h"
 #import "ArcosUtils.h"
+#import "ArcosMeetingWithDetails.h"
 
 @interface MeetingBaseDataManager : NSObject {
     MeetingCellKeyDefinition* _meetingCellKeyDefinition;
@@ -19,9 +20,11 @@
 @property(nonatomic, retain) MeetingCellKeyDefinition* meetingCellKeyDefinition;
 @property(nonatomic, retain) NSMutableDictionary* headOfficeDataObjectDict;
 
-- (void)createBasicData;
+- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails;
 - (NSMutableDictionary*)createDefaultIURDict;
+- (NSMutableDictionary*)createDefaultIURDictWithIUR:(NSNumber*)anIUR title:(NSString*)aTitle;
 - (NSMutableDictionary*)createDefaultEmployeeDict;
+- (NSMutableDictionary*)createDefaultEmployeeDictWithIUR:(NSNumber*)anIUR title:(NSString*)aTitle;
 - (NSMutableDictionary*)createStringCellWithFieldName:(NSString*)aFieldName cellKey:(NSString*)aCellKey fieldData:(id)aFieldData;
 - (NSMutableDictionary*)createLocationCellWithFieldName:(NSString*)aFieldName cellKey:(NSString*)aCellKey fieldData:(id)aFieldData;
 - (NSMutableDictionary*)createEmployeeCellWithFieldName:(NSString*)aFieldName cellKey:(NSString*)aCellKey fieldData:(id)aFieldData;

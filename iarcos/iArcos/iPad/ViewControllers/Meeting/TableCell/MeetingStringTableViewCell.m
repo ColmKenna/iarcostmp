@@ -33,6 +33,7 @@
 - (void)configCellWithData:(NSMutableDictionary *)aCellData {
     [super configCellWithData:aCellData];
     self.fieldNameLabel.text = [aCellData objectForKey:@"FieldName"];
+    self.fieldValueTextField.text = [aCellData objectForKey:@"FieldData"];
 }
 
 #pragma mark UITextFieldDelegate

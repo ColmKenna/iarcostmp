@@ -38,11 +38,22 @@
     [super dealloc];
 }
 
-- (void)createBasicData {
+- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
 //    [self createDataObjectDict];
+    NSMutableDictionary* approvedByDict = [self createDefaultEmployeeDict];
+    NSMutableDictionary* l4FieldDataDict = [self createDefaultIURDict];
+    NSMutableDictionary* l5FieldDataDict = [self createDefaultIURDict];
+    NSNumber* speakerAgreementNumber = [NSNumber numberWithBool:YES];
+    if (anArcosMeetingWithDetails != nil) {
+        approvedByDict = [self createDefaultEmployeeDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetails.ApprovedByIUR] title:anArcosMeetingWithDetails.ApprovedByName];
+        l4FieldDataDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetails.L4iur] title:anArcosMeetingWithDetails.L4Details];
+        l5FieldDataDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetails.L5iur] title:anArcosMeetingWithDetails.L5Details];
+        speakerAgreementNumber = [NSNumber numberWithBool:anArcosMeetingWithDetails.SpeakerAgreement];
+    }
+    
     self.groupedDataDict = [NSMutableDictionary dictionaryWithCapacity:3];
     NSMutableArray* auditorDisplayList = [NSMutableArray arrayWithCapacity:1];
-    [auditorDisplayList addObject:[self createEmployeeCellWithFieldName:@"Approved By" cellKey:self.meetingCellKeyDefinition.approvedByKey fieldData:[self createDefaultEmployeeDict]]];
+    [auditorDisplayList addObject:[self createEmployeeCellWithFieldName:@"Approved By" cellKey:self.meetingCellKeyDefinition.approvedByKey fieldData:approvedByDict]];
     [self.groupedDataDict setObject:auditorDisplayList forKey:self.auditorSectionTitle];
     NSMutableArray* detailingDisplayList = [NSMutableArray arrayWithCapacity:2];
     NSMutableArray* l4ObjectList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrTypeCode:@"SD" descrDetailCode:@"L4"];
@@ -59,11 +70,11 @@
         NSString* l5Detail = [l5DescrDetailDict objectForKey:@"Detail"];
         l5FieldName = [ArcosUtils convertNilToEmpty:l5Detail];
     }
-    [detailingDisplayList addObject:[self createIURCellWithFieldName:l4FieldName cellKey:self.meetingCellKeyDefinition.l4Key fieldData:[self createDefaultIURDict] descrTypeCode:@"L4"]];
-    [detailingDisplayList addObject:[self createIURCellWithFieldName:l5FieldName cellKey:self.meetingCellKeyDefinition.l5Key fieldData:[self createDefaultIURDict] descrTypeCode:@"L5"]];
+    [detailingDisplayList addObject:[self createIURCellWithFieldName:l4FieldName cellKey:self.meetingCellKeyDefinition.l4Key fieldData:l4FieldDataDict descrTypeCode:@"L4"]];
+    [detailingDisplayList addObject:[self createIURCellWithFieldName:l5FieldName cellKey:self.meetingCellKeyDefinition.l5Key fieldData:l5FieldDataDict descrTypeCode:@"L5"]];
     [self.groupedDataDict setObject:detailingDisplayList forKey:self.detailingSectionTitle];
     NSMutableArray* speakerDisplayList = [NSMutableArray arrayWithCapacity:2];
-    [speakerDisplayList addObject:[self createBooleanCellWithFieldName:@"Agreed" cellKey:self.meetingCellKeyDefinition.speakerAgreementKey fieldData:[NSNumber numberWithBool:YES]]];
+    [speakerDisplayList addObject:[self createBooleanCellWithFieldName:@"Agreed" cellKey:self.meetingCellKeyDefinition.speakerAgreementKey fieldData:speakerAgreementNumber]];
     [speakerDisplayList addObject:[self createTextViewCellWithFieldName:@"Terms" cellKey:self.meetingCellKeyDefinition.speakerAgreementDetailsKey fieldData:@""]];
     [self.groupedDataDict setObject:speakerDisplayList forKey:self.speakerSectionTitle];
 }
@@ -89,6 +100,7 @@
 }
 
 - (void)displayListHeadOfficeAdaptor {
+    self.headOfficeDataObjectDict = [NSMutableDictionary dictionaryWithCapacity:5];
     for (int i = 0; i < [self.sectionTitleList count]; i++) {
         NSString* tmpSectionTitle = [self.sectionTitleList objectAtIndex:i];
         NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:tmpSectionTitle];

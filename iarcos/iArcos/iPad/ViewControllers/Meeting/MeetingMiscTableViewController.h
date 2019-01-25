@@ -21,5 +21,7 @@
 @property(nonatomic, retain) MeetingMainSectionViewFactory* sectionViewFactory;
 @property(nonatomic, retain) MeetingMainTableCellFactory* tableCellFactory;
 
+- (void)reloadCustomiseTableView;
+
 @end
 

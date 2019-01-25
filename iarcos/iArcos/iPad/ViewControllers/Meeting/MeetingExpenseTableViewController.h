@@ -12,6 +12,7 @@
 #import "ArcosUtils.h"
 #import "GlobalSharedClass.h"
 #import "MeetingExpenseTableViewControllerDelegate.h"
+#import "ArcosMeetingWithDetails.h"
 
 
 @interface MeetingExpenseTableViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>{
@@ -25,6 +26,8 @@
 @property(nonatomic, retain) NSMutableArray* displayList;
 @property(nonatomic, retain) MeetingExpenseDetailsDataManager* meetingExpenseDetailsDataManager;
 @property(nonatomic, retain) NSIndexPath* currentSelectDeleteIndexPath;
+
+- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails;
 
 @end
 

@@ -18,5 +18,7 @@
 @property(nonatomic, retain) MeetingDetailsDataManager* meetingDetailsDataManager;
 @property(nonatomic, retain) MeetingMainTableCellFactory* tableCellFactory;
 
+- (void)reloadCustomiseTableView;
+
 @end
 

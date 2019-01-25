@@ -26,19 +26,44 @@
     [super dealloc];
 }
 
-- (void)createBasicData {
+- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
 //    [self createDataObjectDict];
     self.displayList = [NSMutableArray arrayWithCapacity:9];
-    [self.displayList addObject:[self createDateTimeCellWithDate:[NSDate date] time:[NSDate date] duration:@""]];
-    [self.displayList addObject:[self createStringCellWithFieldName:@"Code" cellKey:self.meetingCellKeyDefinition.codeKey fieldData:@""]];
-    [self.displayList addObject:[self createLocationCellWithFieldName:@"Venue" cellKey:self.meetingCellKeyDefinition.venueKey fieldData:@""]];
-    [self.displayList addObject:[self createIURCellWithFieldName:@"Status" cellKey:self.meetingCellKeyDefinition.statusKey fieldData:[self createDefaultIURDict] descrTypeCode:@"MS"]];
-    [self.displayList addObject:[self createIURCellWithFieldName:@"Type" cellKey:self.meetingCellKeyDefinition.typeKey fieldData:[self createDefaultIURDict] descrTypeCode:@"MP"]];
-    [self.displayList addObject:[self createIURCellWithFieldName:@"Style" cellKey:self.meetingCellKeyDefinition.styleKey fieldData:[self createDefaultIURDict] descrTypeCode:@"MY"]];
-    [self.displayList addObject:[self createStringCellWithFieldName:@"Title" cellKey:self.meetingCellKeyDefinition.titleKey fieldData:@""]];
-    [self.displayList addObject:[self createEmployeeCellWithFieldName:@"Operator" cellKey:self.meetingCellKeyDefinition.operatorKey fieldData:[self createDefaultEmployeeDict]]];
-    [self.displayList addObject:[self createTextViewCellWithFieldName:@"Comments" cellKey:self.meetingCellKeyDefinition.commentsKey fieldData:@""]];
+    NSDate* currentDate = [NSDate date];
+    NSDate* currentTime = [NSDate date];
+    NSString* duration = @"";
+    NSString* code = @"";
+    NSString* venue = @"";
+    NSMutableDictionary* statusDict = [self createDefaultIURDict];
+    NSMutableDictionary* typeDict = [self createDefaultIURDict];
+    NSMutableDictionary* styleDict = [self createDefaultIURDict];
+    NSString* title = @"";
+    NSMutableDictionary* operatorDict = [self createDefaultEmployeeDict];
+    NSString* comments = @"";
+    if (anArcosMeetingWithDetails != nil) {
+        currentDate = anArcosMeetingWithDetails.DateTime;
+        currentTime = anArcosMeetingWithDetails.DateTime;
+        duration = [NSString stringWithFormat:@"%d", anArcosMeetingWithDetails.Duration];
+        code = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetails.Code];
+        venue = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetails.Venue];
+        statusDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetails.MSiur] title:anArcosMeetingWithDetails.MSDetails];
+        typeDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetails.MPiur] title:anArcosMeetingWithDetails.MPDetails];
+        styleDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetails.MYiur] title:anArcosMeetingWithDetails.MYDetails];        
+        title = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetails.Reason];
+        operatorDict = [self createDefaultEmployeeDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetails.OrganiserIUR] title:anArcosMeetingWithDetails.OrganiserName];
+        comments = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetails.Comments];
+    }
+    [self.displayList addObject:[self createDateTimeCellWithDate:currentDate time:currentTime duration:duration]];
+    [self.displayList addObject:[self createStringCellWithFieldName:@"Code" cellKey:self.meetingCellKeyDefinition.codeKey fieldData:code]];
+    [self.displayList addObject:[self createLocationCellWithFieldName:@"Venue" cellKey:self.meetingCellKeyDefinition.venueKey fieldData:venue]];
+    [self.displayList addObject:[self createIURCellWithFieldName:@"Status" cellKey:self.meetingCellKeyDefinition.statusKey fieldData:statusDict descrTypeCode:@"MS"]];
+    [self.displayList addObject:[self createIURCellWithFieldName:@"Type" cellKey:self.meetingCellKeyDefinition.typeKey fieldData:typeDict descrTypeCode:@"MP"]];
+    [self.displayList addObject:[self createIURCellWithFieldName:@"Style" cellKey:self.meetingCellKeyDefinition.styleKey fieldData:styleDict descrTypeCode:@"MY"]];
+    [self.displayList addObject:[self createStringCellWithFieldName:@"Title" cellKey:self.meetingCellKeyDefinition.titleKey fieldData:title]];
+    [self.displayList addObject:[self createEmployeeCellWithFieldName:@"Operator" cellKey:self.meetingCellKeyDefinition.operatorKey fieldData:operatorDict]];
+    [self.displayList addObject:[self createTextViewCellWithFieldName:@"Comments" cellKey:self.meetingCellKeyDefinition.commentsKey fieldData:comments]];
 }
+
 
 - (void)createDataObjectDict {
 //    self.headOfficeDataObjectDict = [NSMutableDictionary dictionaryWithCapacity:11];
@@ -96,18 +121,18 @@
         anArcosMeetingBO.DateTime = resDateTime;
         NSString* resDuration = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.durationKey];
         anArcosMeetingBO.Duration = [[ArcosUtils convertStringToNumber:resDuration] intValue];
-        anArcosMeetingBO.Code = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.codeKey];
-        anArcosMeetingBO.Venue = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.venueKey];
+        anArcosMeetingBO.Code = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.codeKey]];
+        anArcosMeetingBO.Venue = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.venueKey]];
         NSMutableDictionary* resStatusDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.statusKey];
         anArcosMeetingBO.MSIUR = [[resStatusDict objectForKey:@"DescrDetailIUR"] intValue];
         NSMutableDictionary* resTypeDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.typeKey];
         anArcosMeetingBO.MPIUR = [[resTypeDict objectForKey:@"DescrDetailIUR"] intValue];
         NSMutableDictionary* resStyleDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.styleKey];
         anArcosMeetingBO.MYIUR = [[resStyleDict objectForKey:@"DescrDetailIUR"] intValue];
-        anArcosMeetingBO.Reason = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.titleKey];//come back
+        anArcosMeetingBO.Reason = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.titleKey]];//come back
         NSMutableDictionary* resOperatorDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.operatorKey];
         anArcosMeetingBO.OrganiserIUR = [[resOperatorDict objectForKey:@"IUR"] intValue];
-        anArcosMeetingBO.Comments = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.commentsKey];
+        anArcosMeetingBO.Comments = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.commentsKey]];
     } @catch (NSException *exception) {
         NSLog(@"%@", [exception reason]);
     } @finally {
