@@ -55,6 +55,7 @@
     [self addChildViewController:self.meetingAttendeesEmployeesHeaderViewController];
     [self.meetingAttendeesEmployeesHeaderViewController didMoveToParentViewController:self];
     self.meetingAttendeesContactsHeaderViewController = [[[MeetingAttendeesContactsHeaderViewController alloc] initWithNibName:@"MeetingAttendeesContactsHeaderViewController" bundle:nil] autorelease];
+    self.meetingAttendeesContactsHeaderViewController.actionDelegate = self;
     [self addChildViewController:self.meetingAttendeesContactsHeaderViewController];
     [self.meetingAttendeesContactsHeaderViewController didMoveToParentViewController:self];
 }
@@ -122,28 +123,33 @@
 
 #pragma mark MeetingAttendeesEmployeesHeaderViewControllerDelegate
 - (void)meetingAttendeesEmployeesOperationDone:(NSMutableArray *)selectedEmployeeList {
-//    NSMutableArray* currentEmployeeList = [self.meetingAttendeesDataManager.groupedDataDict  objectForKey:self.meetingAttendeesDataManager.employeeTitle];
-//    for (int i = 0; i < [selectedEmployeeList count]; i++) {
-//        NSMutableDictionary* selectedEmployeeDict = [selectedEmployeeList objectAtIndex:i];
-//        NSNumber* selectedEmployeeIUR = [selectedEmployeeDict objectForKey:@"IUR"];
-//        BOOL foundFlag = NO;
-//        for (int j = 0; j < [currentEmployeeList count]; j++) {
-//            NSMutableDictionary* currentEmployeeDict = [currentEmployeeList objectAtIndex:j];
-//            NSNumber* currentEmployeeIUR = [currentEmployeeDict objectForKey:@"IUR"];
-//            if ([selectedEmployeeIUR isEqualToNumber:currentEmployeeIUR]) {
-//                foundFlag = YES;
-//                break;
-//            }
-//        }
-//        if (!foundFlag) {
-//            [currentEmployeeList addObject:selectedEmployeeDict];
-//        }
-//    }
-//    NSSortDescriptor* foreNameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"ForeName" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
-//    [currentEmployeeList sortUsingDescriptors:[NSArray arrayWithObjects:foreNameDescriptor,nil]];
-    [self.meetingAttendeesDataManager processAttendeesEmployeesCellDataDictList:selectedEmployeeList];
-    [self.meetingAttendeesDataManager.groupedDataDict setObject:selectedEmployeeList forKey:self.meetingAttendeesDataManager.employeeTitle];
+    NSMutableArray* currentEmployeeList = [self.meetingAttendeesDataManager.groupedDataDict  objectForKey:self.meetingAttendeesDataManager.employeeTitle];
+    for (int i = 0; i < [selectedEmployeeList count]; i++) {
+        NSMutableDictionary* selectedEmployeeDict = [selectedEmployeeList objectAtIndex:i];
+        NSNumber* selectedEmployeeIUR = [selectedEmployeeDict objectForKey:@"IUR"];
+        BOOL foundFlag = NO;
+        for (int j = 0; j < [currentEmployeeList count]; j++) {
+            NSMutableDictionary* currentEmployeeDict = [currentEmployeeList objectAtIndex:j];
+            NSNumber* currentEmployeeIUR = [currentEmployeeDict objectForKey:@"IUR"];
+            if ([selectedEmployeeIUR isEqualToNumber:currentEmployeeIUR]) {
+                foundFlag = YES;
+                break;
+            }
+        }
+        if (!foundFlag) {
+            [currentEmployeeList addObject:selectedEmployeeDict];
+        }
+    }
+    NSSortDescriptor* foreNameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"ForeName" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
+    [currentEmployeeList sortUsingDescriptors:[NSArray arrayWithObjects:foreNameDescriptor,nil]];
+    [self.meetingAttendeesDataManager processAttendeesEmployeesCellDataDictList:currentEmployeeList];
+    [self.meetingAttendeesDataManager.groupedDataDict setObject:currentEmployeeList forKey:self.meetingAttendeesDataManager.employeeTitle];
     [self.tableView reloadData];
+}
+
+#pragma mark MeetingAttendeesContactsHeaderViewControllerDelegate
+- (UIViewController*)retrieveParentViewController {
+    return self;
 }
 
 

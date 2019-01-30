@@ -7,13 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ContactSelectionListingTableViewController.h"
+#import "MeetingAttendeesContactsHeaderViewControllerDelegate.h"
+#import "CustomerGroupDataManager.h"
 
 
-@interface MeetingAttendeesContactsHeaderViewController : UIViewController {
+@interface MeetingAttendeesContactsHeaderViewController : UIViewController <ContactSelectionListingTableViewControllerDelegate> {
+    id<MeetingAttendeesContactsHeaderViewControllerDelegate> _actionDelegate;
     UIButton* _addButton;
+    CustomerGroupDataManager* _customerGroupDataManager;
 }
 
+@property(nonatomic, assign) id<MeetingAttendeesContactsHeaderViewControllerDelegate> actionDelegate;
 @property(nonatomic, retain) IBOutlet UIButton* addButton;
+@property(nonatomic, retain) CustomerGroupDataManager* customerGroupDataManager;
 
 - (IBAction)addButtonPressed:(id)sender;
 

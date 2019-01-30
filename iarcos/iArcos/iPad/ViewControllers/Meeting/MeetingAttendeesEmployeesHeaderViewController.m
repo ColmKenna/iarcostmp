@@ -32,7 +32,6 @@
 }
 
 - (IBAction)addButtonPressed:(id)sender {
-    NSLog(@"ac1");
     if (self.factory == nil) {
         self.factory = [WidgetFactory factory];
         self.factory.delegate = self;
