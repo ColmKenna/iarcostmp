@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MeetingBaseTableViewCell.h"
 
 
-
-@interface MeetingAttendeesContactsTableViewCell : UITableViewCell {
+@interface MeetingAttendeesContactsTableViewCell : MeetingBaseTableViewCell {
     UILabel* _fieldValueLabel;
 }
 

@@ -17,6 +17,8 @@
 //    NSString* _otherTitle;
     NSMutableArray* _sectionTitleList;
     NSMutableDictionary* _groupedDataDict;
+    NSIndexPath* _currentSelectedDeleteIndexPath;
+    NSMutableDictionary* _currentSelectedCellData;
 }
 
 @property(nonatomic, retain) NSString* emptyTitle;
@@ -25,9 +27,12 @@
 //@property(nonatomic, retain) NSString* otherTitle;
 @property(nonatomic, retain) NSMutableArray* sectionTitleList;
 @property(nonatomic, retain) NSMutableDictionary* groupedDataDict;
+@property(nonatomic, retain) NSIndexPath* currentSelectedDeleteIndexPath;
+@property(nonatomic, retain) NSMutableDictionary* currentSelectedCellData;
 
 - (NSMutableDictionary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath;
 - (void)processAttendeesEmployeesCellDataDictList:(NSMutableArray*)aCellDataDictList;
+- (void)processAttendeesContactsCellDataDictList:(NSMutableArray*)aCellDataDictList;
 
 
 @end

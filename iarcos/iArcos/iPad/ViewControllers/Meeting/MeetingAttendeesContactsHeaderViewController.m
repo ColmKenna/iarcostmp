@@ -36,7 +36,7 @@
     [self.customerGroupDataManager sortContactLocationResultList:contactLocationObjectList];
     ContactSelectionListingTableViewController* contactSelectionListingTableViewController = [[ContactSelectionListingTableViewController alloc] initWithNibName:@"ContactSelectionListingTableViewController" bundle:nil];
     contactSelectionListingTableViewController.actionDelegate = self;
-    [contactSelectionListingTableViewController resetCustomer:contactLocationObjectList];
+    [contactSelectionListingTableViewController resetContact:contactLocationObjectList];
     UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:contactSelectionListingTableViewController];
     tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
     tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
@@ -52,8 +52,8 @@
     [[self.actionDelegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)didSelectContactSelectionListing:(NSMutableDictionary*)aContactDict {
-    
+- (void)didSelectContactSelectionListing:(NSMutableArray*)aContactList {
+    [self.actionDelegate meetingAttendeesDidSelectContactSelectionListing:aContactList];
 }
 
 @end

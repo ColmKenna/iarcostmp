@@ -31,7 +31,16 @@
 - (void)configCellWithData:(NSMutableDictionary *)aCellData {
     [super configCellWithData:aCellData];
     self.fieldValueLabel.text = [aCellData objectForKey:@"Title"];
-    
+    for (UIGestureRecognizer* recognizer in self.fieldValueLabel.gestureRecognizers) {
+        [self.fieldValueLabel removeGestureRecognizer:recognizer];
+    }
+    UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
+    [self.fieldValueLabel addGestureRecognizer:singleTap];
+    [singleTap release];
+}
+
+- (void)handleSingleTapGesture:(id)sender {
+    [self.actionDelegate meetingAttendeeEmployeeSelectFinishedWithData:self.cellData atIndexPath:self.myIndexPath];
 }
 
 @end

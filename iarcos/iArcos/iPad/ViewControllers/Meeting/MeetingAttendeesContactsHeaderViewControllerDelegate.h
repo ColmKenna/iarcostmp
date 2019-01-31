@@ -13,6 +13,8 @@
 @protocol MeetingAttendeesContactsHeaderViewControllerDelegate <NSObject>
 
 - (UIViewController*)retrieveParentViewController;
+- (void)meetingAttendeesDidSelectContactSelectionListing:(NSMutableArray*)aContactList;
+
 
 @end
 

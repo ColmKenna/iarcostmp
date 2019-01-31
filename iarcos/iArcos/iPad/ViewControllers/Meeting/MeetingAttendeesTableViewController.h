@@ -12,7 +12,7 @@
 #import "MeetingAttendeesContactsHeaderViewController.h"
 #import "MeetingMainTableCellFactory.h"
 
-@interface MeetingAttendeesTableViewController : UITableViewController <MeetingAttendeesEmployeesHeaderViewControllerDelegate, MeetingAttendeesContactsHeaderViewControllerDelegate> {
+@interface MeetingAttendeesTableViewController : UITableViewController <MeetingAttendeesEmployeesHeaderViewControllerDelegate, MeetingAttendeesContactsHeaderViewControllerDelegate, MeetingBaseTableViewCellDelegate> {
     MeetingAttendeesDataManager* _meetingAttendeesDataManager;
     MeetingAttendeesEmployeesHeaderViewController* _meetingAttendeesEmployeesHeaderViewController;
     MeetingAttendeesContactsHeaderViewController* _meetingAttendeesContactsHeaderViewController;

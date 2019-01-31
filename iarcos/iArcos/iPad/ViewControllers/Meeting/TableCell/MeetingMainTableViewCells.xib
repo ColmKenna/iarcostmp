@@ -416,14 +416,21 @@
                 <rect key="frame" x="0.0" y="0.0" width="768" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y4T-an-f6d">
-                        <rect key="frame" x="15" y="11" width="743" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y4T-an-f6d">
+                        <rect key="frame" x="15" y="0.0" width="743" height="43"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="43" id="1HU-KW-AIF"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="y4T-an-f6d" firstAttribute="top" secondItem="fJy-eW-hoI" secondAttribute="top" id="LVm-BG-h0y"/>
+                    <constraint firstAttribute="trailing" secondItem="y4T-an-f6d" secondAttribute="trailing" constant="10" id="XXb-QL-Gce"/>
+                    <constraint firstItem="y4T-an-f6d" firstAttribute="leading" secondItem="fJy-eW-hoI" secondAttribute="leading" constant="15" id="uxX-K9-EgW"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="fieldValueLabel" destination="y4T-an-f6d" id="bJV-A9-xiu"/>
@@ -437,19 +444,26 @@
                 <rect key="frame" x="0.0" y="0.0" width="768" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fzA-Sf-vC7">
-                        <rect key="frame" x="15" y="11" width="743" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fzA-Sf-vC7">
+                        <rect key="frame" x="15" y="0.0" width="743" height="43"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="43" id="URG-8q-Qj6"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="fzA-Sf-vC7" firstAttribute="leading" secondItem="h7k-ea-NNN" secondAttribute="leading" constant="15" id="0Mi-IC-Wyl"/>
+                    <constraint firstAttribute="trailing" secondItem="fzA-Sf-vC7" secondAttribute="trailing" constant="10" id="GT3-HF-aoL"/>
+                    <constraint firstItem="fzA-Sf-vC7" firstAttribute="top" secondItem="h7k-ea-NNN" secondAttribute="top" id="Uab-Qy-MBG"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="fieldValueLabel" destination="fzA-Sf-vC7" id="1bb-Hj-WnM"/>
             </connections>
-            <point key="canvasLocation" x="104" y="132.23388305847078"/>
+            <point key="canvasLocation" x="104" y="237"/>
         </tableViewCell>
     </objects>
     <resources>

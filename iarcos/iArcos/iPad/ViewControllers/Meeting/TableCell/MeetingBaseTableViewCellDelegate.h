@@ -15,6 +15,8 @@
 - (void)meetingBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath;
 @optional
 - (UIViewController*)retrieveMeetingMainViewController;
+- (void)meetingAttendeeEmployeeSelectFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath;
+- (void)meetingAttendeeContactSelectFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath;
 
 @end
 

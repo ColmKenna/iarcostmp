@@ -14,7 +14,9 @@
 
 @implementation ContactSelectionListingTableViewController
 @synthesize actionDelegate = _actionDelegate;
-@synthesize myCustomers = _myCustomers;
+@synthesize originalContactList = _originalContactList;
+@synthesize myContactList = _myContactList;
+//@synthesize myCustomers = _myCustomers;
 @synthesize tableData = _tableData;
 @synthesize searchedData = _searchedData;
 @synthesize customerNames = _customerNames;
@@ -61,7 +63,9 @@
 }
 
 - (void)dealloc {
-    self.myCustomers = nil;
+    self.originalContactList = nil;
+    self.myContactList = nil;
+//    self.myCustomers = nil;
     self.tableData = nil;
     self.searchedData = nil;
     self.customerNames = nil;
@@ -78,22 +82,25 @@
 }
 
 - (void)saveButtonPressed:(id)sender {
-//    NSMutableArray* resultDictList = [NSMutableArray array];
-//    for (int i = 0; i < [self.displayList count]; i++) {
-//        NSMutableDictionary* tmpCellData = [self.displayList objectAtIndex:i];
-//        NSNumber* selectedNumber = [tmpCellData objectForKey:@"IsSelected"];
-//        if ([selectedNumber boolValue]) {
-//            [resultDictList addObject:tmpCellData];
-//        }
-//    }
-//    [self.delegate operationDone:resultDictList];
-//    [self.delegate dismissPopoverController];
+    NSMutableArray* resultDictList = [NSMutableArray array];
+    for (int i = 0; i < [self.customerSections count]; i++) {
+        NSString* aKey = [self.sortKeys objectAtIndex:i+1];
+        NSMutableArray* aSectionArray = [self.customerSections objectForKey:aKey];
+        for (int j = 0; j < [aSectionArray count]; j++) {
+            NSMutableDictionary* aContactDict = [aSectionArray objectAtIndex:j];
+            if ([[aContactDict objectForKey:@"IsSelected"] boolValue]) {
+                [resultDictList addObject:aContactDict];
+            }
+        }
+    }
+    [self.actionDelegate didSelectContactSelectionListing:resultDictList];
+    [self.actionDelegate didDismissContactSelectionPopover];
 }
 
 - (void)locationButtonPressed:(id)sender {
     CustomerSelectionListingTableViewController* CSLTVC = [[CustomerSelectionListingTableViewController alloc] initWithNibName:@"CustomerSelectionListingTableViewController" bundle:nil];
     CSLTVC.selectionDelegate = self;
-    CSLTVC.isNotShowingAllButton = YES;
+    CSLTVC.isNotShowingAllButton = NO;
     NSMutableArray* locationList = [[ArcosCoreData sharedArcosCoreData]outletsWithMasterIUR:[NSNumber numberWithInt:-1] withResultType:NSDictionaryResultType];
     [CSLTVC resetCustomer:locationList];
     UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:CSLTVC];
@@ -248,11 +255,12 @@
     [self.tableView reloadData];
 }
 
-- (void)resetCustomer:(NSMutableArray*)aCustomers {
-    self.myCustomers = aCustomers;
+- (void)resetContact:(NSMutableArray*)aContactList {
+    self.myContactList = aContactList;
+    self.originalContactList = [NSMutableArray arrayWithArray:aContactList];
     
     [self.tableData removeAllObjects];
-    [self.tableData addObjectsFromArray:self.myCustomers];
+    [self.tableData addObjectsFromArray:self.myContactList];
     [self resetList:self.tableData];
     
     //back to the root view
@@ -379,11 +387,11 @@
     self.needIndexView=YES;
     [self.tableData removeAllObjects];// remove all data that belongs to previous search
     if([searchText isEqualToString:@""]||searchText==nil){
-        [self resetList:self.myCustomers];
+        [self resetList:self.myContactList];
         return;
     }
 //    NSInteger counter = 0;
-    for(NSMutableDictionary *cust in self.myCustomers)
+    for(NSMutableDictionary *cust in self.myContactList)
     {
         NSString* name=[cust objectForKey:@"Name"];
         NSString* fullAddress=[[ArcosCoreData sharedArcosCoreData]fullAddressWith:cust];
@@ -411,7 +419,7 @@
     self.needIndexView=YES;
     // if a valid search was entered but the user wanted to cancel, bring back the main list content
     [self.tableData removeAllObjects];
-    [self.tableData addObjectsFromArray:self.myCustomers];
+    [self.tableData addObjectsFromArray:self.myContactList];
     @try{
         [self resetList:self.tableData];
     }
@@ -438,12 +446,21 @@
 - (void)didSelectCustomerSelectionListingRecord:(NSMutableDictionary*)aCustDict {
 //    [self.delegate locationInputFinishedWithData:aCustDict forIndexpath:self.indexPath];
     self.needIndexView = YES;
+    [self.myContactList removeAllObjects];
     [self.tableData removeAllObjects];
     NSNumber* selectedLocationIUR = [aCustDict objectForKey:@"LocationIUR"];
-    for(NSMutableDictionary* cust in self.myCustomers)
+    if ([selectedLocationIUR intValue] == 0) {
+        self.myContactList = [NSMutableArray arrayWithArray:self.originalContactList];
+        self.tableData = [NSMutableArray arrayWithArray:self.originalContactList];
+        [self resetList:self.tableData];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
+    for(NSMutableDictionary* cust in self.originalContactList)
     {
         NSNumber* locationIUR = [cust objectForKey:@"LocationIUR"];
         if ([selectedLocationIUR isEqualToNumber:locationIUR]) {
+            [self.myContactList addObject:cust];
             [self.tableData addObject:cust];
         }
     }

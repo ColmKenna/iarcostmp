@@ -15,6 +15,8 @@
 //@synthesize otherTitle = _otherTitle;
 @synthesize sectionTitleList = _sectionTitleList;
 @synthesize groupedDataDict = _groupedDataDict;
+@synthesize currentSelectedDeleteIndexPath = _currentSelectedDeleteIndexPath;
+@synthesize currentSelectedCellData = _currentSelectedCellData;
 
 - (instancetype)init {
     self = [super init];
@@ -34,6 +36,8 @@
 //    self.otherTitle = nil;
     self.sectionTitleList = nil;
     self.groupedDataDict = nil;
+    self.currentSelectedDeleteIndexPath = nil;
+    self.currentSelectedCellData = nil;
     
     [super dealloc];
 }
@@ -59,6 +63,13 @@
     for (int i = 0; i < [aCellDataDictList count]; i++) {
         NSMutableDictionary* aCellDataDict = [aCellDataDictList objectAtIndex:i];
         [aCellDataDict setObject:[NSNumber numberWithInt:8] forKey:@"CellType"];
+    }
+}
+
+- (void)processAttendeesContactsCellDataDictList:(NSMutableArray*)aCellDataDictList {
+    for (int i = 0; i < [aCellDataDictList count]; i++) {
+        NSMutableDictionary* aCellDataDict = [aCellDataDictList objectAtIndex:i];
+        [aCellDataDict setObject:[NSNumber numberWithInt:9] forKey:@"CellType"];
     }
 }
 

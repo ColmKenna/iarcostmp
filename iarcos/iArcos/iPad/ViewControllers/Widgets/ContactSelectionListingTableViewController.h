@@ -12,12 +12,13 @@
 
 @protocol ContactSelectionListingTableViewControllerDelegate <NSObject>
 - (void)didDismissContactSelectionPopover;
-- (void)didSelectContactSelectionListing:(NSMutableArray*)aContactListing;
+- (void)didSelectContactSelectionListing:(NSMutableArray*)aContactList;
 @end
 
 @interface ContactSelectionListingTableViewController : UITableViewController <UISearchBarDelegate, CustomerSelectionListingDelegate>{
     id<ContactSelectionListingTableViewControllerDelegate> _actionDelegate;
-    NSMutableArray* _myCustomers;
+    NSMutableArray* _originalContactList;
+    NSMutableArray* _myContactList;
     NSMutableArray* _tableData;//will be storing data that will be displayed in table
     NSMutableArray* _searchedData;//will be storing data matching with the search string
     NSMutableArray* _customerNames;
@@ -29,7 +30,9 @@
 }
 
 @property(nonatomic,assign) id<ContactSelectionListingTableViewControllerDelegate> actionDelegate;
-@property(nonatomic,retain) NSMutableArray* myCustomers;
+@property(nonatomic,retain) NSMutableArray* originalContactList;
+@property(nonatomic,retain) NSMutableArray* myContactList;
+//@property(nonatomic,retain) NSMutableArray* myCustomers;
 @property(nonatomic,retain) NSMutableArray* tableData;
 @property(nonatomic,retain) NSMutableArray* searchedData;
 @property(nonatomic,retain) NSMutableArray* customerNames;
@@ -39,7 +42,7 @@
 @property(nonatomic,retain) IBOutlet UISearchBar* mySearchBar;
 @property(nonatomic,retain) UIBarButtonItem* locationButton;
 
-- (void)resetCustomer:(NSMutableArray*)aCustomers;
+- (void)resetContact:(NSMutableArray*)aContactList;
 
 @end
 

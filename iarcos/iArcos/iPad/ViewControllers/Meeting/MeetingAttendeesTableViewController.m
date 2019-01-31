@@ -95,15 +95,69 @@
     }
     
     // Configure the cell...
-//    cell.actionDelegate = self;
+    cell.actionDelegate = self;
     cell.myIndexPath = indexPath;
     [cell configCellWithData:cellData];
     
     return cell;
 }
 
+#pragma mark MeetingBaseTableViewCellDelegate
+- (NSMutableDictionary*)retrieveHeadOfficeDataObjectDict {
+    return nil;
+}
 
+- (void)meetingBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath {
+    
+}
 
+- (void)meetingAttendeeEmployeeSelectFinishedWithData:(id)aData atIndexPath:(NSIndexPath *)anIndexPath {
+    self.meetingAttendeesDataManager.currentSelectedCellData = aData;
+    self.meetingAttendeesDataManager.currentSelectedDeleteIndexPath = anIndexPath;
+    void (^deleteEmployeeActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        [self deleteEmployeeProcessor];
+    };
+    void (^cancelEmployeeActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        
+    };
+    [ArcosUtils showTwoBtnsDialogBox:[NSString stringWithFormat:@"Are you sure you want to delete %@", [aData objectForKey:@"Title"]] title:@"" delegate:self target:self tag:101 lBtnText:@"Cancel" rBtnText:@"Delete" lBtnHandler:cancelEmployeeActionHandler rBtnHandler:deleteEmployeeActionHandler];
+}
+
+- (void)deleteEmployeeProcessor {
+    NSString* tmpSectionTitle = [self.meetingAttendeesDataManager.sectionTitleList objectAtIndex:self.meetingAttendeesDataManager.currentSelectedDeleteIndexPath.section];
+    NSMutableArray* tmpDisplayList = [self.meetingAttendeesDataManager.groupedDataDict objectForKey:tmpSectionTitle];
+    [tmpDisplayList removeObjectAtIndex:self.meetingAttendeesDataManager.currentSelectedDeleteIndexPath.row];
+    [self.tableView reloadData];
+}
+
+- (void)meetingAttendeeContactSelectFinishedWithData:(id)aData atIndexPath:(NSIndexPath *)anIndexPath {
+    self.meetingAttendeesDataManager.currentSelectedCellData = aData;
+    self.meetingAttendeesDataManager.currentSelectedDeleteIndexPath = anIndexPath;
+    void (^deleteContactActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        [self deleteContactProcessor];
+    };
+    void (^cancelContactActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        
+    };
+    [ArcosUtils showTwoBtnsDialogBox:[NSString stringWithFormat:@"Are you sure you want to delete %@", [aData objectForKey:@"Name"]] title:@"" delegate:self target:self tag:100 lBtnText:@"Cancel" rBtnText:@"Delete" lBtnHandler:cancelContactActionHandler rBtnHandler:deleteContactActionHandler];
+}
+
+- (void)deleteContactProcessor {
+    NSString* tmpSectionTitle = [self.meetingAttendeesDataManager.sectionTitleList objectAtIndex:self.meetingAttendeesDataManager.currentSelectedDeleteIndexPath.section];
+    NSMutableArray* tmpDisplayList = [self.meetingAttendeesDataManager.groupedDataDict objectForKey:tmpSectionTitle];
+    [tmpDisplayList removeObjectAtIndex:self.meetingAttendeesDataManager.currentSelectedDeleteIndexPath.row];
+    [self.tableView reloadData];
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != [alertView cancelButtonIndex] && alertView.tag == 100) {
+        [self deleteContactProcessor];
+    }
+    if (buttonIndex != [alertView cancelButtonIndex] && alertView.tag == 101) {
+        [self deleteEmployeeProcessor];
+    }
+}
 
 /*
 #pragma mark - Table view delegate
@@ -152,5 +206,29 @@
     return self;
 }
 
+- (void)meetingAttendeesDidSelectContactSelectionListing:(NSMutableArray *)selectedContactList {
+    NSMutableArray* currentContactList = [self.meetingAttendeesDataManager.groupedDataDict  objectForKey:self.meetingAttendeesDataManager.contactTitle];
+    for (int i = 0; i < [selectedContactList count]; i++) {
+        NSMutableDictionary* selectedContactDict = [selectedContactList objectAtIndex:i];
+        NSNumber* selectedContactIUR = [selectedContactDict objectForKey:@"ContactIUR"];
+        BOOL foundFlag = NO;
+        for (int j = 0; j < [currentContactList count]; j++) {
+            NSMutableDictionary* currentContactDict = [currentContactList objectAtIndex:j];
+            NSNumber* currentContactIUR = [currentContactDict objectForKey:@"ContactIUR"];
+            if ([currentContactIUR isEqualToNumber:selectedContactIUR]) {
+                foundFlag = YES;
+                break;
+            }
+        }
+        if (!foundFlag) {
+            [currentContactList addObject:selectedContactDict];
+        }
+    }
+    NSSortDescriptor* surnameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Surname" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
+    [currentContactList sortUsingDescriptors:[NSArray arrayWithObjects:surnameDescriptor,nil]];
+    [self.meetingAttendeesDataManager processAttendeesContactsCellDataDictList:currentContactList];
+    [self.meetingAttendeesDataManager.groupedDataDict setObject:currentContactList forKey:self.meetingAttendeesDataManager.contactTitle];
+    [self.tableView reloadData];
+}
 
 @end
