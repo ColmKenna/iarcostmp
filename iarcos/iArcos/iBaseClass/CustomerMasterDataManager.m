@@ -153,7 +153,14 @@
         
         //dashboardMainTemplateCellData,
         //
-        self.displayList = [NSMutableArray arrayWithObjects:dashboardCellData, locatorCellData, customerCellData, contactCellData, reporterCellData, listingsCellData, weeklyCellData, utilitiesCellData, targetCellData, meetingCellData, presenterCellData, nil];
+        self.displayList = [NSMutableArray arrayWithObjects:dashboardCellData, locatorCellData, customerCellData, contactCellData, reporterCellData, listingsCellData, weeklyCellData, utilitiesCellData, nil];
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTargetFlag]) {
+            [self.displayList addObject:targetCellData];
+        }
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showMeetingFlag]) {
+            [self.displayList addObject:meetingCellData];
+        }
+        [self.displayList addObject:presenterCellData];
     }
     return self;
 }

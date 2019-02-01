@@ -70,6 +70,8 @@
 - (BOOL)clearOrderTypeFlag;
 - (BOOL)disableMemoFlag;
 - (BOOL)forceEnterCusRefOnCheckoutFlag;
+- (BOOL)showMeetingFlag;
+- (BOOL)showTargetFlag;
 - (void)resetSystemCodes:(NSString*)aSystemCodes;
 - (void)persistentSystemCodes;
 

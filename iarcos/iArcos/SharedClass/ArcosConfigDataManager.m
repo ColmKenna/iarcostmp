@@ -237,6 +237,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConfigDataManager);
     return [self retrieveConfigFlagByIndex:58];
 }
 
+- (BOOL)showMeetingFlag {
+    return [self retrieveConfigFlagByIndex:59];
+}
+
+- (BOOL)showTargetFlag {
+    return [self retrieveConfigFlagByIndex:60];
+}
+
 - (void)resetSystemCodes:(NSString*)aSystemCodes {
     self.systemCodes = aSystemCodes;
 }
