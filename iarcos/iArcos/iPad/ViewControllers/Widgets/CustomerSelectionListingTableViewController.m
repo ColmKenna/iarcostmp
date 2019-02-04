@@ -242,7 +242,8 @@
 	NSString *key = [sortKeys objectAtIndex:index];
 	if (key == UITableViewIndexSearch) {
 //		[tableView setContentOffset:CGPointZero animated:NO];
-        [tableView setContentOffset:CGPointMake(0.0, -tableView.contentInset.top)];
+//        [tableView setContentOffset:CGPointMake(0.0, -tableView.contentInset.top)];
+        [tableView scrollRectToVisible:self.mySearchBar.frame animated:NO];
 		return NSNotFound;
 	}
 	else return index-1;
@@ -280,7 +281,7 @@
         
 }
 -(void)resetList:(NSMutableArray*)aList{
-    self.searchedData=[NSMutableArray arrayWithArray: aList];
+//    self.searchedData=[NSMutableArray arrayWithArray: aList];
     
     [self sortCustomers:aList];
     [self.tableView reloadData];
@@ -435,11 +436,11 @@
     [tableData removeAllObjects];// remove all data that belongs to previous search
     if([searchText isEqualToString:@""]||searchText==nil){
         [self resetList:self.myCustomers];
-        self.searchedData=self.myCustomers;
+//        self.searchedData=self.myCustomers;
         return;
     }
     NSInteger counter = 0;
-    for(NSMutableDictionary *cust in searchedData)
+    for(NSMutableDictionary *cust in self.myCustomers)
     {
         NSString* name=[cust objectForKey:@"Name"];
         NSString* fullAddress=[[ArcosCoreData sharedArcosCoreData]fullAddressWith:cust];

@@ -222,7 +222,8 @@
     NSString *key = [self.sortKeys objectAtIndex:index];
     if (key == UITableViewIndexSearch) {
         //        [tableView setContentOffset:CGPointZero animated:NO];
-        [tableView setContentOffset:CGPointMake(0.0, -tableView.contentInset.top)];
+//        [tableView setContentOffset:CGPointMake(0.0, -tableView.contentInset.top)];
+        [tableView scrollRectToVisible:self.mySearchBar.frame animated:NO];
         return NSNotFound;
     }
     else return index-1;
