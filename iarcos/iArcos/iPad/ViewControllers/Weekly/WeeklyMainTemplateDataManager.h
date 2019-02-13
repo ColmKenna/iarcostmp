@@ -64,6 +64,11 @@
     NSMutableArray* _updatedFieldValueList;
     
     NSMutableArray* _weekDayDescList;
+    
+    NSMutableArray* _dayPartsTagArrayList;
+    
+    NSMutableArray* _sortedWeekDayDescList;
+    NSMutableArray* _sortedDayPartsTagArrayList;
 }
 
 @property(nonatomic, retain) NSNumber* employeeIUR;
@@ -118,6 +123,11 @@
 @property(nonatomic, retain) NSMutableArray* updatedFieldValueList;
 
 @property(nonatomic, retain) NSMutableArray* weekDayDescList;
+
+@property(nonatomic, retain) NSMutableArray* dayPartsTagArrayList;
+
+@property(nonatomic, retain) NSMutableArray* sortedWeekDayDescList;
+@property(nonatomic, retain) NSMutableArray* sortedDayPartsTagArrayList;
 
 - (NSNumber*)getDayOfWeekend;
 - (NSDate*)weekendOfWeek:(NSDate*)aDate config:(NSInteger)aDayOfWeekend;

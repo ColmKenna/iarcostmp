@@ -238,12 +238,12 @@
     if (![self validatePresentationPopover]) return;
     [self.view endEditing:YES];
     self.weeklyMainTemplateDataManager.currentWeekendDate = [ArcosUtils nextSunday:self.weeklyMainTemplateDataManager.currentWeekendDate];
-    NSComparisonResult dateCompareResult = [self.weeklyMainTemplateDataManager.currentWeekendDate compare:self.weeklyMainTemplateDataManager.highestAllowedWeekendDate];
-    if (dateCompareResult == NSOrderedDescending) {
-        self.weeklyMainTemplateDataManager.currentWeekendDate = [ArcosUtils prevSunday:self.weeklyMainTemplateDataManager.currentWeekendDate];
-        [ArcosUtils showMsg:-1 message:@"It is not allowed to fill out the weekly report on the date that is bigger than the day of weekend of the current week." delegate:nil];
-        return;
-    }
+//    NSComparisonResult dateCompareResult = [self.weeklyMainTemplateDataManager.currentWeekendDate compare:self.weeklyMainTemplateDataManager.highestAllowedWeekendDate];
+//    if (dateCompareResult == NSOrderedDescending) {
+//        self.weeklyMainTemplateDataManager.currentWeekendDate = [ArcosUtils prevSunday:self.weeklyMainTemplateDataManager.currentWeekendDate];
+//        [ArcosUtils showMsg:-1 message:@"It is not allowed to fill out the weekly report on the date that is bigger than the day of weekend of the current week." delegate:nil];
+//        return;
+//    }
     [self.weeklyMainTemplateDataManager reinitiateAttachmentAuxiObject];
     [self navigationTitleWrapper:[ArcosUtils stringFromDate:self.weeklyMainTemplateDataManager.currentWeekendDate format:[GlobalSharedClass shared].dateFormat]];
     [self queryWeeklyRecord:self.weeklyMainTemplateDataManager.currentWeekendDate];

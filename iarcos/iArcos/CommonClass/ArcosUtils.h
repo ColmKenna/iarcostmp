@@ -50,6 +50,7 @@
 + (NSDate*)prevSunday:(NSDate*)aCurrentSundayDate;
 + (NSDate*)nextSunday:(NSDate*)aCurrentSundayDate;
 + (NSString*)stringFromDate:(NSDate*)aDate format:(NSString*)dateFormat;
++ (NSString*)weekDayNameFromDate:(NSDate*)aDate format:(NSString*)dateFormat;
 + (NSString*)stringFromFileSize:(NSNumber*)aFileSize;
 + (NSString*)convertToString:(id)aFieldValue fieldType:(NSString*)aFieldType;
 + (UIViewController*)getRootView;

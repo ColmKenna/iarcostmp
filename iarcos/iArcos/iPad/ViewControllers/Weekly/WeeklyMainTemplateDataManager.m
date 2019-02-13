@@ -58,6 +58,9 @@
 @synthesize updatedFieldNameList = _updatedFieldNameList;
 @synthesize updatedFieldValueList = _updatedFieldValueList;
 @synthesize weekDayDescList = _weekDayDescList;
+@synthesize dayPartsTagArrayList = _dayPartsTagArrayList;
+@synthesize sortedWeekDayDescList = _sortedWeekDayDescList;
+@synthesize sortedDayPartsTagArrayList = _sortedDayPartsTagArrayList;
 
 - (instancetype)init {
     self = [super init];
@@ -93,6 +96,14 @@
         self.daysOfWeekKeyList = [NSMutableArray arrayWithObjects:self.mondayAmKey, self.mondayPmKey, self.tuesdayAmKey, self.tuesdayPmKey, self.wednesdayAmKey, self.wednesdayPmKey, self.thursdayAmKey, self.thursdayPmKey, self.fridayAmKey, self.fridayPmKey, self.saturdayAmKey, self.saturdayPmKey, self.sundayAmKey, self.sundayPmKey, nil];
         self.dayPartsDbFieldNameList = [NSMutableArray arrayWithObjects:@"Day1AM",@"Day1PM",@"Day2AM",@"Day2PM",@"Day3AM",@"Day3PM",@"Day4AM",@"Day4PM",@"Day5AM",@"Day5PM",@"Day6AM",@"Day6PM",@"Day7AM",@"Day7PM", nil];
         self.weekDayDescList = [NSMutableArray arrayWithObjects:@"MONDAY", @"TUESDAY", @"WEDNEDDAY", @"THURSDAY", @"FRIDAY", @"SATURDAY", @"SUNDAY", nil];
+        self.dayPartsTagArrayList = [NSMutableArray arrayWithCapacity:7];
+        [self.dayPartsTagArrayList addObject:[NSMutableArray arrayWithObjects:self.mondayAmKey, self.mondayPmKey, nil]];
+        [self.dayPartsTagArrayList addObject:[NSMutableArray arrayWithObjects:self.tuesdayAmKey, self.tuesdayPmKey, nil]];
+        [self.dayPartsTagArrayList addObject:[NSMutableArray arrayWithObjects:self.wednesdayAmKey, self.wednesdayPmKey, nil]];
+        [self.dayPartsTagArrayList addObject:[NSMutableArray arrayWithObjects:self.thursdayAmKey, self.thursdayPmKey, nil]];
+        [self.dayPartsTagArrayList addObject:[NSMutableArray arrayWithObjects:self.fridayAmKey, self.fridayPmKey, nil]];
+        [self.dayPartsTagArrayList addObject:[NSMutableArray arrayWithObjects:self.saturdayAmKey, self.saturdayPmKey, nil]];
+        [self.dayPartsTagArrayList addObject:[NSMutableArray arrayWithObjects:self.sundayAmKey, self.sundayPmKey, nil]];
         [self createBasicData];
     }
     return self;
@@ -146,6 +157,10 @@
     self.updatedFieldNameList = nil;
     self.updatedFieldValueList = nil;
     self.weekDayDescList = nil;
+    self.dayPartsTagArrayList = nil;
+    
+    self.sortedWeekDayDescList = nil;
+    self.sortedDayPartsTagArrayList = nil;
     
     [super dealloc];
 }

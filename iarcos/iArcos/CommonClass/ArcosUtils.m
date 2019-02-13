@@ -302,6 +302,14 @@
     return [dateFormatter stringFromDate:aDate];
 }
 
++ (NSString*)weekDayNameFromDate:(NSDate*)aDate format:(NSString*)dateFormat {
+    NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    NSLocale* ieLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"en_IE"] autorelease];
+    [dateFormatter setLocale:ieLocale];
+    [dateFormatter setDateFormat:dateFormat];
+    return [dateFormatter stringFromDate:aDate];
+}
+
 + (NSString*)stringFromFileSize:(NSNumber*)aFileSize {
     float theSize = [aFileSize floatValue];
     float floatSize = theSize;

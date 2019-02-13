@@ -96,6 +96,7 @@
     NSMutableArray* _labelList;
     NSMutableArray* _viewList;
     WeeklyDayPartsDataManager* _weeklyDayPartsDataManager;
+    NSMutableArray* _weeklyDayPartsLabelDictList;
 }
 
 @property(nonatomic, retain) WeeklyMainTemplateDataManager* weeklyMainTemplateDataManager;
@@ -179,7 +180,9 @@
 @property(nonatomic, retain) NSMutableArray* labelList;
 @property(nonatomic, retain) NSMutableArray* viewList;
 @property(nonatomic, retain) WeeklyDayPartsDataManager* weeklyDayPartsDataManager;
+@property(nonatomic, retain) NSMutableArray* weeklyDayPartsLabelDictList;
 
 - (void)reloadDayPartsData;
+- (void)reloadDayPartsDescAndTag;
 
 @end

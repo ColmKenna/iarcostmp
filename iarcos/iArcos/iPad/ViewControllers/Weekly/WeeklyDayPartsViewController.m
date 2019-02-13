@@ -95,6 +95,7 @@
 @synthesize labelList = _labelList;
 @synthesize viewList = _viewList;
 @synthesize weeklyDayPartsDataManager = _weeklyDayPartsDataManager;
+@synthesize weeklyDayPartsLabelDictList = _weeklyDayPartsLabelDictList;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -167,7 +168,22 @@
     [self.sundayPM addGestureRecognizer:singleTap71];
     [singleTap71 release];
     self.labelList = [NSMutableArray arrayWithObjects:self.mondayAM, self.mondayPM, self.tuesdayAM, self.tuesdayPM, self.wednesdayAM, self.wednesdayPM, self.thursdayAM, self.thursdayPM, self.fridayAM, self.fridayPM, self.saturdayAM, self.saturdayPM, self.sundayAM, self.sundayPM, nil];
-    
+    self.weeklyDayPartsLabelDictList = [NSMutableArray arrayWithCapacity:7];
+    [self.weeklyDayPartsLabelDictList addObject:[self createWeeklyDayPartsLabelDict:self.mondayDesc amLabel:self.mondayAM pmLabel:self.mondayPM]];
+    [self.weeklyDayPartsLabelDictList addObject:[self createWeeklyDayPartsLabelDict:self.tuesdayDesc amLabel:self.tuesdayAM pmLabel:self.tuesdayPM]];
+    [self.weeklyDayPartsLabelDictList addObject:[self createWeeklyDayPartsLabelDict:self.wednesdayDesc amLabel:self.wednesdayAM pmLabel:self.wednesdayPM]];
+    [self.weeklyDayPartsLabelDictList addObject:[self createWeeklyDayPartsLabelDict:self.thursdayDesc amLabel:self.thursdayAM pmLabel:self.thursdayPM]];
+    [self.weeklyDayPartsLabelDictList addObject:[self createWeeklyDayPartsLabelDict:self.fridayDesc amLabel:self.fridayAM pmLabel:self.fridayPM]];
+    [self.weeklyDayPartsLabelDictList addObject:[self createWeeklyDayPartsLabelDict:self.saturdayDesc amLabel:self.saturdayAM pmLabel:self.saturdayPM]];
+    [self.weeklyDayPartsLabelDictList addObject:[self createWeeklyDayPartsLabelDict:self.sundayDesc amLabel:self.sundayAM pmLabel:self.sundayPM]];
+}
+
+- (NSMutableDictionary*)createWeeklyDayPartsLabelDict:(UILabel*)descLabel amLabel:(UILabel*)amLabel pmLabel:(UILabel*)pmLabel {
+    NSMutableDictionary* labelDict = [NSMutableDictionary dictionaryWithCapacity:3];
+    [labelDict setObject:descLabel forKey:@"DayDesc"];
+    [labelDict setObject:amLabel forKey:@"DayAm"];
+    [labelDict setObject:pmLabel forKey:@"DayPm"];
+    return labelDict;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -264,6 +280,7 @@
     
     self.currentLabel = nil;
     self.weeklyDayPartsDataManager = nil;
+    self.weeklyDayPartsLabelDictList = nil;
     
     [super dealloc];
 }
@@ -305,6 +322,7 @@
 }
 
 - (void)reloadDayPartsData {
+    [self reloadDayPartsDescAndTag];
     for (int i = 0; i < [self.weeklyMainTemplateDataManager.daysOfWeekKeyList count]; i++) {
         NSNumber* auxDayKey = [self.weeklyMainTemplateDataManager.daysOfWeekKeyList objectAtIndex:i];
         UILabel* auxDayLabel = (UILabel*)[self.view viewWithTag:[auxDayKey integerValue]];
@@ -314,6 +332,49 @@
         [self configDayPartsColorWithDict:auxDaysOfWeekCompositeContentDataDict label:auxDayLabel];
     }
     [self calculateThisWeekFigure];
+}
+
+- (void)reloadDayPartsDescAndTag {
+    self.weeklyMainTemplateDataManager.sortedWeekDayDescList = [NSMutableArray arrayWithCapacity:7];
+    self.weeklyMainTemplateDataManager.sortedDayPartsTagArrayList = [NSMutableArray arrayWithCapacity:7];
+    int dayOfWeekend = [self.weeklyMainTemplateDataManager.dayOfWeekend intValue];
+    if (dayOfWeekend == 0) {
+        dayOfWeekend = 7;
+    }
+    if (dayOfWeekend > 7 || dayOfWeekend < 0) return;
+    int dayIndex = dayOfWeekend - 1;
+    int rowPointer = 0;
+    for (int i = 6; i > dayIndex; i--) {
+        NSMutableArray* dayPartsTagArray = [self.weeklyMainTemplateDataManager.dayPartsTagArrayList objectAtIndex:i];
+        [self.weeklyMainTemplateDataManager.sortedDayPartsTagArrayList addObject:[NSMutableArray arrayWithArray:dayPartsTagArray]];
+        NSDate* dayDate = [ArcosUtils addDays:-i date:self.weeklyMainTemplateDataManager.currentWeekendDate];
+        NSMutableDictionary* weeklyDayPartsLabelDict = [self.weeklyDayPartsLabelDictList objectAtIndex:rowPointer];
+        UILabel* dayDescLabel = [weeklyDayPartsLabelDict objectForKey:@"DayDesc"];
+        NSString* dayDescText = [NSString stringWithFormat:@"%@ %@", [ArcosUtils stringFromDate:dayDate format:@"dd/MM/yy"], [ArcosUtils weekDayNameFromDate:dayDate format:@"EEEE"]];
+        dayDescLabel.text = dayDescText;
+        [self.weeklyMainTemplateDataManager.sortedWeekDayDescList addObject:dayDescText];
+        UILabel* dayAmLabel = [weeklyDayPartsLabelDict objectForKey:@"DayAm"];
+        dayAmLabel.tag = [[dayPartsTagArray objectAtIndex:0] integerValue];
+        UILabel* dayPmLabel = [weeklyDayPartsLabelDict objectForKey:@"DayPm"];
+        dayPmLabel.tag = [[dayPartsTagArray objectAtIndex:1] integerValue];
+        rowPointer++;
+    }
+    for (int j = 0; j <= dayIndex; j++) {
+        NSMutableArray* dayPartsTagArray = [self.weeklyMainTemplateDataManager.dayPartsTagArrayList objectAtIndex:j];
+        [self.weeklyMainTemplateDataManager.sortedDayPartsTagArrayList addObject:[NSMutableArray arrayWithArray:dayPartsTagArray]];
+        NSDate* dayDate = [ArcosUtils addDays:-(dayIndex - j) date:self.weeklyMainTemplateDataManager.currentWeekendDate];
+        NSMutableDictionary* weeklyDayPartsLabelDict = [self.weeklyDayPartsLabelDictList objectAtIndex:rowPointer];        
+        UILabel* dayDescLabel = [weeklyDayPartsLabelDict objectForKey:@"DayDesc"];
+        NSString* dayDescText = [NSString stringWithFormat:@"%@ %@", [ArcosUtils stringFromDate:dayDate format:@"dd/MM/yy"], [ArcosUtils weekDayNameFromDate:dayDate format:@"EEEE"]];
+        dayDescLabel.text = dayDescText;
+        [self.weeklyMainTemplateDataManager.sortedWeekDayDescList addObject:dayDescText];
+        UILabel* dayAmLabel = [weeklyDayPartsLabelDict objectForKey:@"DayAm"];
+        dayAmLabel.tag = [[dayPartsTagArray objectAtIndex:0] integerValue];
+        UILabel* dayPmLabel = [weeklyDayPartsLabelDict objectForKey:@"DayPm"];
+        dayPmLabel.tag = [[dayPartsTagArray objectAtIndex:1] integerValue];
+        rowPointer++;
+    }
+    
 }
 
 - (void)calculateThisWeekFigure {

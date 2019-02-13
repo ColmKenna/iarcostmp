@@ -24,21 +24,22 @@
         [body appendString:[cellData objectForKey:@"Narrative"]];
         [body appendString:@"</td></tr>"];
     }
-    for (int j = 0; j < [aWeeklyMainTemplateDataManager.weekDayDescList count]; j++) {
-        int firstIndex = j * 2;
-        int secondIndex = j * 2 + 1;
-        [body appendString:@"<tr><td width='20%' height='40'>"];
-        [body appendString:[aWeeklyMainTemplateDataManager.weekDayDescList objectAtIndex:j]];
+    for (int j = 0; j < [aWeeklyMainTemplateDataManager.sortedWeekDayDescList count]; j++) {
+//        int firstIndex = j * 2;
+//        int secondIndex = j * 2 + 1;
+        [body appendString:@"<tr><td width='30%' height='40'>"];
+        [body appendString:[aWeeklyMainTemplateDataManager.sortedWeekDayDescList objectAtIndex:j]];
         [body appendString:@"</td>"];
-        [body appendString:@"<td width='40%' height='40'>"];
-        NSNumber* firstDaysOfWeekKey = [aWeeklyMainTemplateDataManager.daysOfWeekKeyList objectAtIndex:firstIndex];
+        [body appendString:@"<td width='35%' height='40'>"];
+        NSMutableArray* sortedDayPartsTagArray = [aWeeklyMainTemplateDataManager.sortedDayPartsTagArrayList objectAtIndex:j];
+        NSNumber* firstDaysOfWeekKey = [sortedDayPartsTagArray objectAtIndex:0];
         NSMutableDictionary* firstDaysOfWeekDataDict =  [aWeeklyMainTemplateDataManager.dayPartsGroupedDataDict objectForKey:firstDaysOfWeekKey];
         NSMutableDictionary* firstDayPartsDict = [firstDaysOfWeekDataDict objectForKey:@"Data"];
         [body appendString:[firstDayPartsDict objectForKey:@"Title"]];        
         [body appendString:@"</td>"];
         
-        [body appendString:@"<td width='40%' height='40'>"];
-        NSNumber* secondDaysOfWeekKey = [aWeeklyMainTemplateDataManager.daysOfWeekKeyList objectAtIndex:secondIndex];
+        [body appendString:@"<td width='35%' height='40'>"];
+        NSNumber* secondDaysOfWeekKey = [sortedDayPartsTagArray objectAtIndex:1];
         NSMutableDictionary* secondDaysOfWeekDataDict =  [aWeeklyMainTemplateDataManager.dayPartsGroupedDataDict objectForKey:secondDaysOfWeekKey];
         NSMutableDictionary* secondDayPartsDict = [secondDaysOfWeekDataDict objectForKey:@"Data"];
         [body appendString:[secondDayPartsDict objectForKey:@"Title"]];        
