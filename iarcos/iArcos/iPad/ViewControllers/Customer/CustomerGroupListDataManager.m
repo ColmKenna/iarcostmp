@@ -10,7 +10,6 @@
 @interface CustomerGroupListDataManager()
 
 - (NSMutableDictionary*)createMasterLocationDict;
-- (NSMutableDictionary*)createLocationTypesDict;
 - (NSMutableArray*)retrieveLocationProfileList;
 - (NSMutableArray*)retrieveLocationApplyPredicateList;
 
@@ -18,7 +17,7 @@
 
 @implementation CustomerGroupListDataManager
 @synthesize masterLocationTitle = _masterLocationTitle;
-@synthesize locationTypesTitle = _locationTypesTitle;
+
 @synthesize buyingGroupTitle = _buyingGroupTitle;
 @synthesize buyingGroupDescrTypeCode = _buyingGroupDescrTypeCode;
 
@@ -26,7 +25,7 @@
     self = [super init];
     if (self != nil) {
         self.masterLocationTitle = @"Master Location";
-        self.locationTypesTitle = @"Location Types";
+        
         self.buyingGroupTitle = @"Buying Group";
         self.buyingGroupDescrTypeCode = @"buyingGroup";
     }
@@ -35,7 +34,7 @@
 
 - (void)dealloc {
     self.masterLocationTitle = nil;
-    self.locationTypesTitle = nil;
+    
     self.buyingGroupTitle = nil;
     self.buyingGroupDescrTypeCode = nil;
     
@@ -53,16 +52,7 @@
     return resultMasterLocationDict;
 }
 
-- (NSMutableDictionary*)createLocationTypesDict {
-    NSMutableDictionary* resultLocationTypesDict = [NSMutableDictionary dictionaryWithCapacity:6];
-    [resultLocationTypesDict setObject:[NSNumber numberWithInt:0] forKey:@"CellType"];
-    [resultLocationTypesDict setObject:self.locationTypesTitle forKey:@"Title"];
-    [resultLocationTypesDict setObject:self.locationTypesTitle forKey:@"Details"];
-    [resultLocationTypesDict setObject:self.locationTypesDescrTypeCode forKey:@"DescrTypeCode"];
-    [resultLocationTypesDict setObject:@"LTiur" forKey:@"FieldName"];
-    [resultLocationTypesDict setObject:[self createInitialAnswer] forKey:@"Answer"];
-    return resultLocationTypesDict;
-}
+
 
 - (NSMutableArray*)retrieveLocationProfileList {
     NSMutableArray* descrTypeCodeList = [NSMutableArray arrayWithObjects:@"21", @"22", @"23", @"24", @"25", @"26", @"27", @"28", @"29", @"30", nil];
@@ -93,7 +83,7 @@
     NSMutableDictionary* tmpAccessTimesDict = [self createAccessTimesDict];
     NSMutableDictionary* tmpNotSeenDict = [self createNotSeenDict];
     NSMutableDictionary* tmpBuyingGroupDict = [self createBuyingGroupDict];
-    self.displayList = [NSMutableArray arrayWithCapacity:([locationProfileList count] + 4)];
+    self.displayList = [NSMutableArray arrayWithCapacity:([locationProfileList count] + 5)];
     [self.displayList addObject:tmpMasterLocationDict];
     [self.displayList addObject:tmpLocationTypesDict];
     [self.displayList addObjectsFromArray:locationProfileList];

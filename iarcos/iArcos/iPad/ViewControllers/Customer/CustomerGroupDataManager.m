@@ -26,6 +26,7 @@
 @synthesize notSeenDescrTypeCode = _notSeenDescrTypeCode;
 @synthesize answeredNumber = _answeredNumber;
 @synthesize notSeenDateKey = _notSeenDateKey;
+@synthesize locationTypesTitle = _locationTypesTitle;
 
 - (instancetype)init {
     self = [super init];
@@ -40,6 +41,7 @@
         self.notSeenDescrTypeCode = @"notSeen";
         self.answeredNumber = 999;
         self.notSeenDateKey = @"notSeenDate";
+        self.locationTypesTitle = @"Location Types";
     }
     return self;
 }
@@ -58,6 +60,7 @@
     self.notSeenTitle = nil;
     self.notSeenDescrTypeCode = nil;
     self.notSeenDateKey = nil;
+    self.locationTypesTitle = nil;
     
     [super dealloc];
 }
@@ -247,6 +250,17 @@
     [auxAnswerDict setObject:[NSNumber numberWithInt:self.answeredNumber] forKey:@"DescrDetailIUR"];
     [auxAnswerDict setObject:[ArcosUtils convertNilToEmpty:[aResultDict objectForKey:@"Name"]] forKey:@"Detail"];
     return auxAnswerDict;
+}
+
+- (NSMutableDictionary*)createLocationTypesDict {
+    NSMutableDictionary* resultLocationTypesDict = [NSMutableDictionary dictionaryWithCapacity:6];
+    [resultLocationTypesDict setObject:[NSNumber numberWithInt:0] forKey:@"CellType"];
+    [resultLocationTypesDict setObject:self.locationTypesTitle forKey:@"Title"];
+    [resultLocationTypesDict setObject:self.locationTypesTitle forKey:@"Details"];
+    [resultLocationTypesDict setObject:self.locationTypesDescrTypeCode forKey:@"DescrTypeCode"];
+    [resultLocationTypesDict setObject:@"LTiur" forKey:@"FieldName"];
+    [resultLocationTypesDict setObject:[self createInitialAnswer] forKey:@"Answer"];
+    return resultLocationTypesDict;
 }
 
 @end

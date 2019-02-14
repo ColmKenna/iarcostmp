@@ -53,11 +53,13 @@
 
 - (void)createDataList {
     NSMutableDictionary* tmpContactTypeDict = [self createContactTypeDict];
+    NSMutableDictionary* tmpLocationTypesDict = [self createLocationTypesDict];
     NSMutableArray* contactProfileList = [self retrieveContactProfileList];
     NSMutableDictionary* tmpAccessTimesDict = [self createAccessTimesDict];
     NSMutableDictionary* tmpNotSeenDict = [self createNotSeenDict];
-    self.displayList = [NSMutableArray arrayWithCapacity:([contactProfileList count] + 2)];
+    self.displayList = [NSMutableArray arrayWithCapacity:([contactProfileList count] + 4)];
     [self.displayList addObject:tmpContactTypeDict];
+    [self.displayList addObject:tmpLocationTypesDict];
     [self.displayList addObjectsFromArray:contactProfileList];
     [self.displayList addObject:tmpAccessTimesDict];
     [self.displayList addObject:tmpNotSeenDict];
@@ -70,6 +72,8 @@
     [self sortContactLocationResultList:contactLocationObjectList];
     NSMutableDictionary* notSeenDataDict = [self retrieveCellDataWithDescrTypeCode:self.notSeenDescrTypeCode];
     [self filterWithNotSeenCondition:notSeenDataDict resultList:contactLocationObjectList fieldName:@"ContactIUR"];
+    NSMutableDictionary* locationTypesDataDict = [self retrieveCellDataWithDescrTypeCode:self.locationTypesDescrTypeCode];
+    [self filterWithLocationTypeCondition:locationTypesDataDict resultList:contactLocationObjectList];
     return contactLocationObjectList;
 }
 
@@ -79,6 +83,9 @@
         NSMutableDictionary* anAnswer = [aContactDataDict objectForKey:@"Answer"];
         NSNumber* aDescrDetailIUR = [anAnswer objectForKey:@"DescrDetailIUR"];
         if ([aDescrDetailIUR intValue] != 0) {
+            if ([[aContactDataDict objectForKey:@"DescrTypeCode"] isEqualToString:self.locationTypesDescrTypeCode]) {
+                continue;
+            }
             if ([[aContactDataDict objectForKey:@"DescrTypeCode"] isEqualToString:self.accessTimesDescrTypeCode]) {
                 [predicateList addObject:[self retrieveAccessTimesPredicateWithDict:anAnswer]];
                 continue;
@@ -94,6 +101,20 @@
         [predicateList addObject:[NSPredicate predicateWithFormat:@"Active = 1"]];
     }
     return predicateList;
+}
+
+- (NSMutableArray*)filterWithLocationTypeCondition:(NSMutableDictionary*)aLocationTypeDataDict resultList:(NSMutableArray*)aResultList {
+    NSMutableDictionary* anAnswer = [aLocationTypeDataDict objectForKey:@"Answer"];
+    NSNumber* aDescrDetailIUR = [anAnswer objectForKey:@"DescrDetailIUR"];
+    if ([aDescrDetailIUR intValue] == 0) return aResultList;
+    for (int i = [ArcosUtils convertNSUIntegerToUnsignedInt:[aResultList count]] - 1; i >= 0; i--) {
+        NSDictionary* auxEntityDict = [aResultList objectAtIndex:i];
+        NSNumber* auxLTiur = [auxEntityDict objectForKey:@"LTiur"];
+        if ([auxLTiur intValue] != [aDescrDetailIUR intValue]) {
+            [aResultList removeObjectAtIndex:i];
+        }
+    }
+    return aResultList;
 }
 
 @end

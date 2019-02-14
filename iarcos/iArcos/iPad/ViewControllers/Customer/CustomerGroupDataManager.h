@@ -25,6 +25,7 @@
     NSString* _notSeenDescrTypeCode;
     int _answeredNumber;
     NSString* _notSeenDateKey;
+    NSString* _locationTypesTitle;
 }
 
 //@property(nonatomic, retain) NSMutableArray* contactDisplayList;
@@ -41,6 +42,7 @@
 @property(nonatomic, retain) NSString* notSeenDescrTypeCode;
 @property(nonatomic, assign) int answeredNumber;
 @property(nonatomic, retain) NSString* notSeenDateKey;
+@property(nonatomic, retain) NSString* locationTypesTitle;
 
 //- (void)createContactDataList;
 - (void)inputFinishedWithData:(id)aData indexPath:(NSIndexPath*)anIndexPath;
@@ -59,5 +61,6 @@
 - (NSMutableDictionary*)retrieveCellDataWithDescrTypeCode:(NSString*)aDescrTypeCode;
 - (NSMutableArray*)filterWithNotSeenCondition:(NSMutableDictionary*)aNotSeenDataDict resultList:(NSMutableArray*)aResultList fieldName:(NSString*)aFieldName;
 - (NSMutableDictionary*)processBuyingGroupResult:(NSMutableDictionary*)aResultDict;
+- (NSMutableDictionary*)createLocationTypesDict;
 
 @end
