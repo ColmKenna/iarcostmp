@@ -20,6 +20,10 @@
 
 @synthesize buyingGroupTitle = _buyingGroupTitle;
 @synthesize buyingGroupDescrTypeCode = _buyingGroupDescrTypeCode;
+@synthesize locationStatusDescrTypeCode = _locationStatusDescrTypeCode;
+@synthesize creditStatusDescrTypeCode = _creditStatusDescrTypeCode;
+@synthesize locationStatusTitle = _locationStatusTitle;
+@synthesize creditStatusTitle = _creditStatusTitle;
 
 - (instancetype)init {
     self = [super init];
@@ -28,6 +32,10 @@
         
         self.buyingGroupTitle = @"Buying Group";
         self.buyingGroupDescrTypeCode = @"buyingGroup";
+        self.locationStatusDescrTypeCode = @"LS";
+        self.creditStatusDescrTypeCode = @"CS";
+        self.locationStatusTitle = @"Location Status";
+        self.creditStatusTitle = @"Credit Status";
     }
     return self;
 }
@@ -37,6 +45,10 @@
     
     self.buyingGroupTitle = nil;
     self.buyingGroupDescrTypeCode = nil;
+    self.locationStatusDescrTypeCode = nil;
+    self.creditStatusDescrTypeCode = nil;
+    self.locationStatusTitle = nil;
+    self.creditStatusTitle = nil;
     
     [super dealloc];
 }
@@ -79,13 +91,17 @@
 - (void)createDataList {
     NSMutableDictionary* tmpMasterLocationDict = [self createMasterLocationDict];
     NSMutableDictionary* tmpLocationTypesDict = [self createLocationTypesDict];
+    NSMutableDictionary* tmpLocationStatusDict = [self createLocationStatusDict];
+    NSMutableDictionary* tmpCreditStatusDict = [self createCreditStatusDict];
     NSMutableArray* locationProfileList = [self retrieveLocationProfileList];
     NSMutableDictionary* tmpAccessTimesDict = [self createAccessTimesDict];
     NSMutableDictionary* tmpNotSeenDict = [self createNotSeenDict];
     NSMutableDictionary* tmpBuyingGroupDict = [self createBuyingGroupDict];
-    self.displayList = [NSMutableArray arrayWithCapacity:([locationProfileList count] + 5)];
+    self.displayList = [NSMutableArray arrayWithCapacity:([locationProfileList count] + 7)];
     [self.displayList addObject:tmpMasterLocationDict];
     [self.displayList addObject:tmpLocationTypesDict];
+    [self.displayList addObject:tmpLocationStatusDict];
+    [self.displayList addObject:tmpCreditStatusDict];
     [self.displayList addObjectsFromArray:locationProfileList];
     [self.displayList addObject:tmpAccessTimesDict];
     [self.displayList addObject:tmpBuyingGroupDict];
@@ -159,6 +175,28 @@
 - (NSMutableArray*)retrieveLocLocLinkWithFromLocationIUR:(NSNumber*)aFromLocationIUR {
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"FromLocationIUR = %d", [aFromLocationIUR intValue]];
     return [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"LocLocLink" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
+}
+
+- (NSMutableDictionary*)createLocationStatusDict {
+    NSMutableDictionary* resultLocationStatusDict = [NSMutableDictionary dictionaryWithCapacity:6];
+    [resultLocationStatusDict setObject:[NSNumber numberWithInt:0] forKey:@"CellType"];
+    [resultLocationStatusDict setObject:self.locationStatusTitle forKey:@"Title"];
+    [resultLocationStatusDict setObject:self.locationStatusTitle forKey:@"Details"];
+    [resultLocationStatusDict setObject:self.locationStatusDescrTypeCode forKey:@"DescrTypeCode"];
+    [resultLocationStatusDict setObject:@"lsiur" forKey:@"FieldName"];
+    [resultLocationStatusDict setObject:[self createInitialAnswer] forKey:@"Answer"];
+    return resultLocationStatusDict;
+}
+
+- (NSMutableDictionary*)createCreditStatusDict {
+    NSMutableDictionary* resultCreditStatusDict = [NSMutableDictionary dictionaryWithCapacity:6];
+    [resultCreditStatusDict setObject:[NSNumber numberWithInt:0] forKey:@"CellType"];
+    [resultCreditStatusDict setObject:self.creditStatusTitle forKey:@"Title"];
+    [resultCreditStatusDict setObject:self.creditStatusTitle forKey:@"Details"];
+    [resultCreditStatusDict setObject:self.creditStatusDescrTypeCode forKey:@"DescrTypeCode"];
+    [resultCreditStatusDict setObject:@"CSiur" forKey:@"FieldName"];
+    [resultCreditStatusDict setObject:[self createInitialAnswer] forKey:@"Answer"];
+    return resultCreditStatusDict;
 }
 
 @end
