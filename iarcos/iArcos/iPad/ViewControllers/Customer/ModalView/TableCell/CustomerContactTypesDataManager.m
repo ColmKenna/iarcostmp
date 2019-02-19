@@ -36,6 +36,7 @@
 @synthesize linkLocationIUR = _linkLocationIUR;
 @synthesize currentLinkIndexPathRow = _currentLinkIndexPathRow;
 @synthesize accessTimesSectionTitle = _accessTimesSectionTitle;
+@synthesize myCustDict = _myCustDict;
 
 -(id)init{
     self = [super init];
@@ -88,6 +89,7 @@
     if (self.linksAlias != nil ) { self.linksAlias = nil; }    
     if (self.linkLocationIUR != nil ) { self.linkLocationIUR = nil; }
     self.accessTimesSectionTitle = nil;
+    self.myCustDict = nil;
                 
     [super dealloc];
 }
@@ -444,6 +446,21 @@
     if ([self.displayList count] == 0) return @"";
     [body appendString:@"<html><head><style>td {font-size: 15px;}</style></head><body leftmargin='0' rightmargin='0' topmargin='0' marginwidth='0' marginheight='0' width='100%' height='100%'><table width='100%'  border='1' cellpadding='2' cellspacing='0'>"];
     int flagSectionIndex = [self.customerContactActionBaseDataManager retrieveFlagSectionIndex];
+    NSMutableArray* locationFieldNameList = [NSMutableArray arrayWithObjects:@"Name", @"Address1", @"Address2", @"Address3", @"Address4", nil];
+    NSMutableArray* locationFieldValueList = [NSMutableArray arrayWithObjects:[ArcosUtils convertNilToEmpty:[self.myCustDict objectForKey:@"Name"]], [ArcosUtils convertNilToEmpty:[self.myCustDict objectForKey:@"Address1"]], [ArcosUtils convertNilToEmpty:[self.myCustDict objectForKey:@"Address2"]], [ArcosUtils convertNilToEmpty:[self.myCustDict objectForKey:@"Address3"]], [ArcosUtils convertNilToEmpty:[self.myCustDict objectForKey:@"Address4"]], nil];
+    [body appendString:@"<tr><th width='100%' height='44' colspan='3' align='center' bgcolor='#d3d3d3'>"];
+    [body appendString:@"Location Details"];
+    [body appendString:@"</th></tr>"];
+    for (int i = 0; i < [locationFieldNameList count]; i++) {
+        [body appendString:@"<tr><td width='30%' height='44'><b>"];
+        [body appendString:[locationFieldNameList objectAtIndex:i]];
+        [body appendString:@"</b></td><td width='40%' height='44'>"];
+        [body appendString:[locationFieldValueList objectAtIndex:i]];
+        [body appendString:@"</td><td width='30%' height='44'>"];
+        [body appendString:@""];
+        [body appendString:@"</td></tr>"];
+    }
+    
     for (int i = 0; i <= flagSectionIndex; i++) {
         NSString* fieldType = [self.orderedFieldTypeList objectAtIndex:i];
         if ([fieldType isEqualToString:self.accessTimesSectionTitle]) continue;

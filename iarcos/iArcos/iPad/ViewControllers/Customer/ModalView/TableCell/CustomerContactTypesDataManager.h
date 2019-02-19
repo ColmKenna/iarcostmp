@@ -47,6 +47,7 @@
     NSNumber* _linkLocationIUR;
     NSInteger _currentLinkIndexPathRow;
     NSString* _accessTimesSectionTitle;
+    NSMutableDictionary* _myCustDict;
 }
 
 @property(nonatomic,retain) NSMutableDictionary* groupedDataDict;
@@ -77,6 +78,7 @@
 @property(nonatomic, retain) NSNumber* linkLocationIUR;
 @property(nonatomic, assign) NSInteger currentLinkIndexPathRow;
 @property(nonatomic, retain) NSString* accessTimesSectionTitle;
+@property(nonatomic, retain) NSMutableDictionary* myCustDict;
 
 -(void)processRawData:(ArcosGenericReturnObject*)aContactResult flagData:(NSMutableArray*)anArrayOfFlagData;
 -(void)createFlagBasicData;

@@ -160,13 +160,13 @@
                 auxLabel.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
                 auxLabel.textColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
                 auxLabel.font = [UIFont systemFontOfSize:10.0];
-                auxLabel.text = [NSString stringWithFormat:@"%1.0f Days Gone", [daysText floatValue]];
+                auxLabel.text = [NSString stringWithFormat:@"%1.1f%% (%1.0f Days Gone)", [daysData floatValue] * 100, [daysText floatValue]];
                 break;
             case 1:
                 auxLabel.backgroundColor = [UIColor colorWithRed:211.0/255.0 green:211.0/255.0 blue:211.0/255.0 alpha:1.0];
                 auxLabel.textColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0];
                 auxLabel.font = [UIFont systemFontOfSize:10.0];
-                auxLabel.text = [NSString stringWithFormat:@"%1.0f Days Left", [daysText floatValue]];
+                auxLabel.text = [NSString stringWithFormat:@"%1.1f%% (%1.0f Days Left)", [daysData floatValue] * 100, [daysText floatValue]];
                 break;
                 
             default:

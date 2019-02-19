@@ -1130,6 +1130,7 @@
     }
     if (result.ErrorModel.Code >= 0 && [result.ArrayOfData count] > 0) {
         self.customerTypesDataManager = [[[CustomerTypesDataManager alloc] init] autorelease];
+        self.customerTypesDataManager.myCustDict = self.aCustDict;
         [self.customerTypesDataManager createCustomerDetailsActionDataManager:@"edit"];
         self.customerTypesDataManager.orderedFieldTypeList = self.customerTypesDataManager.customerDetailsActionBaseDataManager.orderedFieldTypeList;
         [self.customerTypesDataManager processRawData:result withNumOfFields:47];

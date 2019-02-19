@@ -37,6 +37,7 @@
     BOOL _isTableViewEditable;
     NSInteger _currentLinkIndexPathRow;
     NSString* _accessTimesSectionTitle;
+    NSMutableDictionary* _myCustDict;
 }
 
 @property(nonatomic,retain) NSMutableDictionary* groupedDataDict;
@@ -61,6 +62,7 @@
 @property (nonatomic, assign) BOOL isTableViewEditable;
 @property (nonatomic, assign) NSInteger currentLinkIndexPathRow;
 @property(nonatomic,retain) NSString* accessTimesSectionTitle;
+@property(nonatomic,retain) NSMutableDictionary* myCustDict;
 
 -(void)processRawData:(ArcosGenericReturnObject*) result withNumOfFields:(int)numFields;
 -(NSMutableDictionary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath;

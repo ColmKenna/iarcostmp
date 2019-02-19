@@ -34,6 +34,7 @@
 @synthesize isTableViewEditable = _isTableViewEditable;
 @synthesize currentLinkIndexPathRow = _currentLinkIndexPathRow;
 @synthesize accessTimesSectionTitle = _accessTimesSectionTitle;
+@synthesize myCustDict = _myCustDict;
 
 -(id)init{
     self = [super init];
@@ -76,6 +77,7 @@
     self.locationIUR = nil;
     self.fromLocationIUR = nil;
     self.accessTimesSectionTitle = nil;
+    self.myCustDict = nil;
     
     [super dealloc];
 }
@@ -283,6 +285,23 @@
             [body appendString:[cellData objectForKey:@"fieldDesc"]];
             [body appendString:@"</b></td><td width='40%' height='44'>"];
             [body appendString:[cellData objectForKey:@"contentString"]];
+            [body appendString:@"</td><td width='30%' height='44'>"];
+            [body appendString:@""];
+            [body appendString:@"</td></tr>"];
+        }
+    }
+    if (self.myCustDict != nil) {
+        NSNumber* auxLocationIUR = [self.myCustDict objectForKey:@"LocationIUR"];
+        NSMutableArray* contactList = [[ArcosCoreData sharedArcosCoreData] orderContactsWithLocationIUR:auxLocationIUR];
+        [body appendString:@"<tr><th width='100%' height='44' colspan='3' align='center' bgcolor='#d3d3d3'>"];
+        [body appendString:@"Contacts"];
+        [body appendString:@"</th></tr>"];
+        for (int i = 0; i < [contactList count]; i++) {
+            NSMutableDictionary* contactDict = [contactList objectAtIndex:i];
+            [body appendString:@"<tr><td width='30%' height='44'><b>"];
+            [body appendString:[contactDict objectForKey:@"Title"]];
+            [body appendString:@"</b></td><td width='40%' height='44'>"];
+            [body appendString:@""];
             [body appendString:@"</td><td width='30%' height='44'>"];
             [body appendString:@""];
             [body appendString:@"</td></tr>"];

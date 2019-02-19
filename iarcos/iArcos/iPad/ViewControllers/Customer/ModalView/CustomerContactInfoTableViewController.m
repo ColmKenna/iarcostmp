@@ -434,6 +434,7 @@
         self.contactGenericReturnObject = result;
 //        self.contactGenericClass = [result.ArrayOfData objectAtIndex:0];
         self.customerContactTypesDataManager = [[[CustomerContactTypesDataManager alloc] init] autorelease];
+        self.customerContactTypesDataManager.myCustDict = self.aCustDict;
         [self.customerContactTypesDataManager createCustomerContactActionDataManager:self.emailActionType];
         self.customerContactTypesDataManager.orderedFieldTypeList = self.customerContactTypesDataManager.customerContactActionBaseDataManager.orderedFieldTypeList;
         if (![self.emailActionType isEqualToString:@"edit"]) {
