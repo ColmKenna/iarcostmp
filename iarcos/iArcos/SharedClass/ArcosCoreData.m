@@ -4391,21 +4391,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 //survey
 #pragma mark survey
 -(NSMutableArray*)allSurvey {
-    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSString* todayStr = [NSString stringWithFormat:@"%@ 00:00:00", [dateFormatter stringFromDate:[NSDate date]]];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+//    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+//    NSString* todayStr = [NSString stringWithFormat:@"%@ 00:00:00", [dateFormatter stringFromDate:[NSDate date]]];
+//    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSDate* endOfToday = [ArcosUtils endOfDay:[NSDate date]];
-    NSDate* today = [dateFormatter dateFromString:todayStr];
-//    NSLog(@"date is %@", today);
+//    NSDate* today = [dateFormatter dateFromString:todayStr];
+    NSDate* beginOfToday = [ArcosUtils beginOfDay:[NSDate date]];
     NSArray* sortDescNames = [NSArray arrayWithObjects:@"StartDate",nil];
     
     //using fetch with context
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"(StartDate <= %@) AND (EndDate >= %@) and IUR != 0",endOfToday , today];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"(StartDate <= %@) AND (EndDate >= %@) and IUR != 0",endOfToday , beginOfToday];
     
     NSMutableArray* objectsArray = 
     [self fetchRecordsWithEntity:@"Survey" withPropertiesToFetch:nil  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
-    [dateFormatter release];
+//    [dateFormatter release];
     return objectsArray;
 }
 
@@ -4776,12 +4776,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 
 -(void)executeTransaction {
     if (1==1) {
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"ProductIUR = 158533"];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Product" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"IUR != 0"];
+        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Survey" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
         if ([objectsArray count] > 0) {
-            for (Product* aProduct in objectsArray) {
-                aProduct.UnitManufacturePrice = [NSNumber numberWithInt:970];
-                aProduct.UnitRevenueAmount = [NSNumber numberWithInt:1230];
+            for (Survey* aSurvey in objectsArray) {
+                aSurvey.EndDate = [ArcosUtils dateFromString:@"01/12/2030" format:[GlobalSharedClass shared].dateFormat];
                 [self saveContext:self.fetchManagedObjectContext];
             }
         }
