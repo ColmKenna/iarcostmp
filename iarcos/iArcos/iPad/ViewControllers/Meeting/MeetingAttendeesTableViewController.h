@@ -24,5 +24,7 @@
 @property(nonatomic, retain) MeetingAttendeesContactsHeaderViewController* meetingAttendeesContactsHeaderViewController;
 @property(nonatomic, retain) MeetingMainTableCellFactory* tableCellFactory;
 
+- (void)reloadCustomiseTableView;
+
 @end
 

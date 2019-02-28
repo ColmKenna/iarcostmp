@@ -50,7 +50,23 @@
     [self.groupedDataDict setObject:employeeDisplayList forKey:self.employeeTitle];
     NSMutableArray* contactDisplayList = [NSMutableArray array];
     [self.groupedDataDict setObject:contactDisplayList forKey:self.contactTitle];
-    
+    if (anArcosMeetingWithDetails == nil) return;
+    if ([anArcosMeetingWithDetails.Attendees count] == 0) return;
+    for (int i = 0; i < [anArcosMeetingWithDetails.Attendees count]; i++) {
+        ArcosAttendeeWithDetails* tmpArcosAttendeeWithDetails = [anArcosMeetingWithDetails.Attendees objectAtIndex:i];
+        if (tmpArcosAttendeeWithDetails.EmployeeIUR != 0 && tmpArcosAttendeeWithDetails.ContactIUR == 0) {
+            [employeeDisplayList addObject:[self employeeAdaptorWithAttendee:tmpArcosAttendeeWithDetails]];
+        }
+        if (tmpArcosAttendeeWithDetails.EmployeeIUR == 0 && tmpArcosAttendeeWithDetails.ContactIUR != 0) {
+            [contactDisplayList addObject:[self contactAdaptorWithAttendee:tmpArcosAttendeeWithDetails]];
+        }
+    }
+    NSSortDescriptor* foreNameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"ForeName" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
+    [employeeDisplayList sortUsingDescriptors:[NSArray arrayWithObjects:foreNameDescriptor,nil]];
+    [self processAttendeesEmployeesCellDataDictList:employeeDisplayList];
+    NSSortDescriptor* surnameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Surname" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
+    [contactDisplayList sortUsingDescriptors:[NSArray arrayWithObjects:surnameDescriptor,nil]];
+    [self processAttendeesContactsCellDataDictList:contactDisplayList];
 }
 
 - (NSMutableDictionary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath {
@@ -71,6 +87,24 @@
         NSMutableDictionary* aCellDataDict = [aCellDataDictList objectAtIndex:i];
         [aCellDataDict setObject:[NSNumber numberWithInt:9] forKey:@"CellType"];
     }
+}
+
+- (NSMutableDictionary*)employeeAdaptorWithAttendee:(ArcosAttendeeWithDetails*)anArcosAttendeeWithDetails {
+    NSMutableDictionary* auxEmployeeDict = [NSMutableDictionary dictionaryWithCapacity:5];
+    [auxEmployeeDict setObject:[NSNumber numberWithInt:anArcosAttendeeWithDetails.EmployeeIUR] forKey:@"IUR"];
+    [auxEmployeeDict setObject:[ArcosUtils convertNilToEmpty:anArcosAttendeeWithDetails.Name] forKey:@"ForeName"];
+    [auxEmployeeDict setObject:[ArcosUtils convertNilToEmpty:anArcosAttendeeWithDetails.Name] forKey:@"Title"];
+    
+    return auxEmployeeDict;
+}
+
+- (NSMutableDictionary*)contactAdaptorWithAttendee:(ArcosAttendeeWithDetails*)anArcosAttendeeWithDetails {
+    NSMutableDictionary* auxContactDict = [NSMutableDictionary dictionaryWithCapacity:5];
+    [auxContactDict setObject:[NSNumber numberWithInt:anArcosAttendeeWithDetails.ContactIUR] forKey:@"ContactIUR"];
+    [auxContactDict setObject:[ArcosUtils convertNilToEmpty:anArcosAttendeeWithDetails.Name] forKey:@"Surname"];
+    [auxContactDict setObject:[ArcosUtils convertNilToEmpty:anArcosAttendeeWithDetails.Name] forKey:@"Name"];
+    
+    return auxContactDict;
 }
 
 

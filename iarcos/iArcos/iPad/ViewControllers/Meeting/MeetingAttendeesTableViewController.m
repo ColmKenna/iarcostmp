@@ -231,4 +231,8 @@
     [self.tableView reloadData];
 }
 
+- (void)reloadCustomiseTableView {
+    [self.tableView reloadData];
+}
+
 @end

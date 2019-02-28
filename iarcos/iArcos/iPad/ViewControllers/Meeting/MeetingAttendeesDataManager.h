@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ArcosMeetingWithDetails.h"
 #import "MeetingBaseDataManager.h"
+#import "ArcosAttendeeWithDetails.h"
 
 @interface MeetingAttendeesDataManager : MeetingBaseDataManager {
     NSString* _emptyTitle;
@@ -33,6 +34,8 @@
 - (NSMutableDictionary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath;
 - (void)processAttendeesEmployeesCellDataDictList:(NSMutableArray*)aCellDataDictList;
 - (void)processAttendeesContactsCellDataDictList:(NSMutableArray*)aCellDataDictList;
+- (NSMutableDictionary*)employeeAdaptorWithAttendee:(ArcosAttendeeWithDetails*)anArcosAttendeeWithDetails;
+- (NSMutableDictionary*)contactAdaptorWithAttendee:(ArcosAttendeeWithDetails*)anArcosAttendeeWithDetails;
 
 
 @end

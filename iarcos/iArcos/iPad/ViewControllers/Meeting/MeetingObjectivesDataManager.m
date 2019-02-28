@@ -30,13 +30,19 @@
 //    [self createDataObjectDict];
     self.displayList = [NSMutableArray arrayWithCapacity:4];
     NSMutableDictionary* meetingDict = [self createDefaultIURDict];
+    NSString* preMeetDetails = @"";
+    NSString* postMeetDetails = @"";
+    NSString* agendaDetails = @"";
     if (anArcosMeetingWithDetails != nil) {
         meetingDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetails.MOiur] title:anArcosMeetingWithDetails.MODetails];
+        preMeetDetails = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetails.PreMeetingDetails];
+        postMeetDetails = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetails.PostMeetingDetails];
+        agendaDetails = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetails.AgendaDetails];
     }
     [self.displayList addObject:[self createIURCellWithFieldName:@"Meeting" cellKey:self.meetingCellKeyDefinition.meetingMOKey fieldData:meetingDict descrTypeCode:@"MO"]];
-    [self.displayList addObject:[self createTextViewCellWithFieldName:@"Pre-Meet" cellKey:self.meetingCellKeyDefinition.preMeetingKey fieldData:@""]];
-    [self.displayList addObject:[self createTextViewCellWithFieldName:@"Post-Meet" cellKey:self.meetingCellKeyDefinition.postMeetingKey fieldData:@""]];
-    [self.displayList addObject:[self createTextViewCellWithFieldName:@"Agenda" cellKey:self.meetingCellKeyDefinition.agendaKey fieldData:@""]];
+    [self.displayList addObject:[self createTextViewCellWithFieldName:@"Pre-Meet" cellKey:self.meetingCellKeyDefinition.preMeetingKey fieldData:preMeetDetails]];
+    [self.displayList addObject:[self createTextViewCellWithFieldName:@"Post-Meet" cellKey:self.meetingCellKeyDefinition.postMeetingKey fieldData:postMeetDetails]];
+    [self.displayList addObject:[self createTextViewCellWithFieldName:@"Agenda" cellKey:self.meetingCellKeyDefinition.agendaKey fieldData:agendaDetails]];
 }
 
 - (void)createDataObjectDict {

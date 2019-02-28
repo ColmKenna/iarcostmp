@@ -210,7 +210,7 @@
             break;
             
             
-        case 5: {
+        case 4: {
             self.meetingCostingsViewController.view.hidden = NO;
         }
             break;
@@ -233,6 +233,7 @@
     [self.meetingDetailsTableViewController reloadCustomiseTableView];
     [self.meetingMiscTableViewController reloadCustomiseTableView];
     [self.meetingObjectivesTableViewController reloadCustomiseTableView];
+    [self.meetingAttendeesTableViewController reloadCustomiseTableView];
     [self.meetingCostingsViewController reloadCustomiseTableView];
 }
 
@@ -250,6 +251,7 @@
     [self.meetingDetailsTableViewController.meetingDetailsDataManager createBasicDataWithReturnObject:result];
     [self.meetingMiscTableViewController.meetingMiscDataManager createBasicDataWithReturnObject:result];
     [self.meetingObjectivesTableViewController.meetingObjectivesDataManager createBasicDataWithReturnObject:result];
+    [self.meetingAttendeesTableViewController.meetingAttendeesDataManager createBasicDataWithReturnObject:result];
     [self.meetingCostingsViewController.meetingCostingsDataManager createBasicDataWithReturnObject:result];
     [self.meetingCostingsViewController.meetingExpenseTableViewController createBasicDataWithReturnObject:result];
     [self reloadCustomiseTableView];
