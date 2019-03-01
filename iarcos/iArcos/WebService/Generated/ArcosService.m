@@ -12,13 +12,13 @@
 #import "ArcosQuestionBO.h"
 #import "ArcosAuthenticator.h"
 #import "ArcosConLocLinkBO.h"
+#import "ArcosErrorModel.h"
 #import "ArcosDescrTypeBO.h"
 #import "ArcosDescrDetailBO.h"
 #import "ArcosCallTran.h"
 #import "ArcosMemoBO.h"
 #import "ArcosOrderLineBO.h"
 #import "ArcosLocationBO.h"
-#import "ArcosErrorModel.h"
 #import "ArcosLocationLongtitideLatitudeUpdateObject.h"
 #import "ArcosJourneyBO.h"
 #import "ArcosResponseBO.h"
@@ -37,12 +37,15 @@
 #import "ArcosLevel5Spec.h"
 #import "ArcosPriceBO.h"
 #import "ArcosAttendeeWithDetails.h"
-#import "ArcosMeetingBO.h"
+#import "ArcosExpenses.h"
 #import "ArcosIncompleteObject.h"
 #import "ArcosArrayOfSurveyBO.h"
 #import "ArcosSurveyBO.h"
 #import "ArcosArrayOfQuestionBO.h"
 #import "ArcosArrayOfConLocLinkBO.h"
+#import "ArcosArrayOfGenericClass.h"
+#import "ArcosGenericClass.h"
+#import "ArcosArrayOfGenericReturnObject.h"
 #import "ArcosArrayOfDescrTypeBO.h"
 #import "ArcosArrayOfOrderHeaderBO.h"
 #import "ArcosArrayOfRequestBO.h"
@@ -53,9 +56,6 @@
 #import "ArcosArrayOfMemoBO.h"
 #import "ArcosArrayOfOrderLineBO.h"
 #import "ArcosArrayOfLocationBO.h"
-#import "ArcosArrayOfGenericClass.h"
-#import "ArcosGenericClass.h"
-#import "ArcosArrayOfGenericReturnObject.h"
 #import "ArcosArrayOfLocationLongtitideLatitudeUpdateObject.h"
 #import "ArcosArrayOfJourneyBO.h"
 #import "ArcosArrayOfResponseBO.h"
@@ -77,18 +77,21 @@
 #import "ArcosArrayOfLevel5Spec.h"
 #import "ArcosArrayOfCallBO.h"
 #import "ArcosArrayOfPriceBO.h"
-#import "ArcosMeetingWithDetails.h"
 #import "ArcosArrayOfAttendeeWithDetails.h"
+#import "ArcosArrayOfPresenterForMeeting.h"
+#import "ArcosPresenterForMeeting.h"
+#import "ArcosArrayOfExpenses.h"
 #import "ArcosDashBoardData.h"
 #import "ArcosArrayOfDashBoardRowData.h"
 #import "ArcosDashBoardRowData.h"
 #import "ArcosOrderTransferObject.h"
 #import "ArcosCreateRecordObject.h"
+#import "ArcosGenericReturnObject.h"
 #import "ArcosOrderHeaderBO.h"
 #import "ArcosCallBO.h"
-#import "ArcosGenericReturnObject.h"
 #import "ArcosEmployeeTargets.h"
 #import "ArcosGenericObjectWithImage.h"
+#import "ArcosMeetingWithDetails.h"
 #import "SettingManager.h"
 /* Implementation of the service */
 				
@@ -289,6 +292,64 @@
 		[_params addObject: [[[SoapParameter alloc] initWithValue: [NSNumber numberWithBool: Active] forName: @"Active"] autorelease]];
 		NSString* _envelope = [Soap createEnvelope:@"GetAllConLocLinks" forNamespace:self.namespace withParameters:_params withHeaders:self.headers];
 		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/GetAllConLocLinks" postData:_envelope deserializeTo:[[ArcosArrayOfConLocLinkBO alloc] autorelease] completionBlock:completionBlock];
+		_request.progressBlock = progressBlock;
+		[_request send];
+		return _request;
+	}
+
+	// Returns ArcosGenericReturnObject*
+	/*  */
+	- (SoapRequest*) RunSavedSql: (id <SoapDelegate>) handler descrDetailiur: (int) descrDetailiur
+	{
+		return [self RunSavedSql: handler action: nil descrDetailiur: descrDetailiur];
+	}
+
+	- (SoapRequest*) RunSavedSql: (id) _target action: (SEL) _action descrDetailiur: (int) descrDetailiur
+		{
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		[_params addObject: [[[SoapParameter alloc] initWithValue: [NSNumber numberWithInt: descrDetailiur] forName: @"descrDetailiur"] autorelease]];
+		NSString* _envelope = [Soap createEnvelope: @"RunSavedSql" forNamespace: self.namespace withParameters: _params withHeaders: self.headers];
+		SoapRequest* _request = [SoapRequest create: _target action: _action service: self soapAction: @"http://www.strataarcos.com/RunSavedSql" postData: _envelope deserializeTo: [[ArcosGenericReturnObject alloc] autorelease]];
+		[_request send];
+		return _request;
+	}
+
+	-(SoapRequest*)RunSavedSqlWithProgress:(SoapRequestProgressBlock)progressBlock descrDetailiur: (int) descrDetailiur completion:(SoapRequestCompletionBlock)completionBlock {
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		[_params addObject: [[[SoapParameter alloc] initWithValue: [NSNumber numberWithInt: descrDetailiur] forName: @"descrDetailiur"] autorelease]];
+		NSString* _envelope = [Soap createEnvelope:@"RunSavedSql" forNamespace:self.namespace withParameters:_params withHeaders:self.headers];
+		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/RunSavedSql" postData:_envelope deserializeTo:[[ArcosGenericReturnObject alloc] autorelease] completionBlock:completionBlock];
+		_request.progressBlock = progressBlock;
+		[_request send];
+		return _request;
+	}
+
+	// Returns NSMutableArray*
+	/*  */
+	- (SoapRequest*) RunGenericQuery: (id <SoapDelegate>) handler code: (NSString*) code
+	{
+		return [self RunGenericQuery: handler action: nil code: code];
+	}
+
+	- (SoapRequest*) RunGenericQuery: (id) _target action: (SEL) _action code: (NSString*) code
+		{
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		[_params addObject: [[[SoapParameter alloc] initWithValue: code forName: @"code"] autorelease]];
+		NSString* _envelope = [Soap createEnvelope: @"RunGenericQuery" forNamespace: self.namespace withParameters: _params withHeaders: self.headers];
+		SoapRequest* _request = [SoapRequest create: _target action: _action service: self soapAction: @"http://www.strataarcos.com/RunGenericQuery" postData: _envelope deserializeTo: [[ArcosArrayOfGenericReturnObject alloc] autorelease]];
+		[_request send];
+		return _request;
+	}
+
+	-(SoapRequest*)RunGenericQueryWithProgress:(SoapRequestProgressBlock)progressBlock code: (NSString*) code completion:(SoapRequestCompletionBlock)completionBlock {
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		[_params addObject: [[[SoapParameter alloc] initWithValue: code forName: @"code"] autorelease]];
+		NSString* _envelope = [Soap createEnvelope:@"RunGenericQuery" forNamespace:self.namespace withParameters:_params withHeaders:self.headers];
+		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/RunGenericQuery" postData:_envelope deserializeTo:[[ArcosArrayOfGenericReturnObject alloc] autorelease] completionBlock:completionBlock];
 		_request.progressBlock = progressBlock;
 		[_request send];
 		return _request;
@@ -3454,12 +3515,12 @@
 
 	// Returns int
 	/*  */
-	- (SoapRequest*) UpdateMeeting: (id <SoapDelegate>) handler meetingToUpdate: (ArcosMeetingBO*) meetingToUpdate
+	- (SoapRequest*) UpdateMeeting: (id <SoapDelegate>) handler meetingToUpdate: (ArcosMeetingWithDetails*) meetingToUpdate
 	{
 		return [self UpdateMeeting: handler action: nil meetingToUpdate: meetingToUpdate];
 	}
 
-	- (SoapRequest*) UpdateMeeting: (id) _target action: (SEL) _action meetingToUpdate: (ArcosMeetingBO*) meetingToUpdate
+	- (SoapRequest*) UpdateMeeting: (id) _target action: (SEL) _action meetingToUpdate: (ArcosMeetingWithDetails*) meetingToUpdate
 		{
 		NSMutableArray* _params = [NSMutableArray array];
 		
@@ -3470,7 +3531,7 @@
 		return _request;
 	}
 
-	-(SoapRequest*)UpdateMeetingWithProgress:(SoapRequestProgressBlock)progressBlock meetingToUpdate: (ArcosMeetingBO*) meetingToUpdate completion:(SoapRequestCompletionBlock)completionBlock {
+	-(SoapRequest*)UpdateMeetingWithProgress:(SoapRequestProgressBlock)progressBlock meetingToUpdate: (ArcosMeetingWithDetails*) meetingToUpdate completion:(SoapRequestCompletionBlock)completionBlock {
 		NSMutableArray* _params = [NSMutableArray array];
 		
 		[_params addObject: [[[SoapParameter alloc] initWithValue: meetingToUpdate forName: @"meetingToUpdate"] autorelease]];

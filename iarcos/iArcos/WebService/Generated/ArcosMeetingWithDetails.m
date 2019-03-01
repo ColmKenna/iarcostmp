@@ -6,7 +6,10 @@
 #import "ArcosMeetingWithDetails.h"
 
 #import "ArcosArrayOfAttendeeWithDetails.h"
+#import "ArcosArrayOfPresenterForMeeting.h"
+#import "ArcosArrayOfExpenses.h"
 @implementation ArcosMeetingWithDetails
+	@synthesize IUR = _IUR;
 	@synthesize DateTime = _DateTime;
 	@synthesize Venue = _Venue;
 	@synthesize Reason = _Reason;
@@ -45,6 +48,8 @@
 	@synthesize SpeakerAgreementDetails = _SpeakerAgreementDetails;
 	@synthesize SpeakerAgreement = _SpeakerAgreement;
 	@synthesize Attendees = _Attendees;
+	@synthesize Presenters = _Presenters;
+	@synthesize Expenses = _Expenses;
 
 	- (id) init
 	{
@@ -70,6 +75,8 @@
 			self.Attachments = nil;
 			self.SpeakerAgreementDetails = nil;
 			self.Attendees = [[[NSMutableArray alloc] init] autorelease];
+			self.Presenters = [[[NSMutableArray alloc] init] autorelease];
+			self.Expenses = [[[NSMutableArray alloc] init] autorelease];
 
 		}
 		return self;
@@ -84,6 +91,7 @@
 	- (id) initWithNode: (CXMLNode*) node {
 		if(self = [super initWithNode: node])
 		{
+			self.IUR = [[Soap getNodeValue: node withName: @"IUR"] intValue];
 			self.DateTime = [Soap dateFromString: [Soap getNodeValue: node withName: @"DateTime"]];
 			self.Venue = [Soap getNodeValue: node withName: @"Venue"];
 			self.Reason = [Soap getNodeValue: node withName: @"Reason"];
@@ -122,6 +130,8 @@
 			self.SpeakerAgreementDetails = [Soap getNodeValue: node withName: @"SpeakerAgreementDetails"];
 			self.SpeakerAgreement = [[Soap getNodeValue: node withName: @"SpeakerAgreement"] boolValue];
 			self.Attendees = [[ArcosArrayOfAttendeeWithDetails createWithNode: [Soap getNode: node withName: @"Attendees"]] object];
+			self.Presenters = [[ArcosArrayOfPresenterForMeeting createWithNode: [Soap getNode: node withName: @"Presenters"]] object];
+			self.Expenses = [[ArcosArrayOfExpenses createWithNode: [Soap getNode: node withName: @"Expenses"]] object];
 		}
 		return self;
 	}
@@ -145,6 +155,7 @@
 	- (NSMutableString*) serializeElements
 	{
 		NSMutableString* s = [super serializeElements];
+		[s appendFormat: @"<IUR>%@</IUR>", [NSString stringWithFormat: @"%i", self.IUR]];
 		if (self.DateTime != nil) [s appendFormat: @"<DateTime>%@</DateTime>", [Soap getDateString: self.DateTime]];
 		if (self.Venue != nil) [s appendFormat: @"<Venue>%@</Venue>", [[self.Venue stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"] stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"]];
 		if (self.Reason != nil) [s appendFormat: @"<Reason>%@</Reason>", [[self.Reason stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"] stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"]];
@@ -186,6 +197,16 @@
 			[s appendFormat: @"<Attendees>%@</Attendees>", [ArcosArrayOfAttendeeWithDetails serialize: self.Attendees]];
 		} else {
 			[s appendString: @"<Attendees/>"];
+		}
+		if (self.Presenters != nil && self.Presenters.count > 0) {
+			[s appendFormat: @"<Presenters>%@</Presenters>", [ArcosArrayOfPresenterForMeeting serialize: self.Presenters]];
+		} else {
+			[s appendString: @"<Presenters/>"];
+		}
+		if (self.Expenses != nil && self.Expenses.count > 0) {
+			[s appendFormat: @"<Expenses>%@</Expenses>", [ArcosArrayOfExpenses serialize: self.Expenses]];
+		} else {
+			[s appendString: @"<Expenses/>"];
 		}
 
 		return s;
@@ -232,6 +253,8 @@
 		self.Attachments = nil;
 		self.SpeakerAgreementDetails = nil;
 		self.Attendees = nil;
+		self.Presenters = nil;
+		self.Expenses = nil;
 		[super dealloc];
 	}
 

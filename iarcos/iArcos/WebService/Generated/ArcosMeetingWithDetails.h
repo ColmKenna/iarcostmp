@@ -7,9 +7,12 @@
 #import "Soap.h"
 	
 @class ArcosArrayOfAttendeeWithDetails;
+@class ArcosArrayOfPresenterForMeeting;
+@class ArcosArrayOfExpenses;
 
 @interface ArcosMeetingWithDetails : SoapObject
 {
+	int _IUR;
 	NSDate* _DateTime;
 	NSString* _Venue;
 	NSString* _Reason;
@@ -48,9 +51,12 @@
 	NSString* _SpeakerAgreementDetails;
 	BOOL _SpeakerAgreement;
 	NSMutableArray* _Attendees;
+	NSMutableArray* _Presenters;
+	NSMutableArray* _Expenses;
 	
 }
 		
+	@property int IUR;
 	@property (retain, nonatomic) NSDate* DateTime;
 	@property (retain, nonatomic) NSString* Venue;
 	@property (retain, nonatomic) NSString* Reason;
@@ -89,6 +95,8 @@
 	@property (retain, nonatomic) NSString* SpeakerAgreementDetails;
 	@property BOOL SpeakerAgreement;
 	@property (retain, nonatomic) NSMutableArray* Attendees;
+	@property (retain, nonatomic) NSMutableArray* Presenters;
+	@property (retain, nonatomic) NSMutableArray* Expenses;
 
 	+ (ArcosMeetingWithDetails*) createWithNode: (CXMLNode*) node;
 	- (id) initWithNode: (CXMLNode*) node;
