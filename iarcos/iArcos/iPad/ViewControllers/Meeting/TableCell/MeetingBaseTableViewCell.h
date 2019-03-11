@@ -9,20 +9,25 @@
 #import <UIKit/UIKit.h>
 #import "MeetingCellKeyDefinition.h"
 #import "MeetingBaseTableViewCellDelegate.h"
+#import "ArcosAttendeeWithDetails.h"
 
 @interface MeetingBaseTableViewCell : UITableViewCell {
     id<MeetingBaseTableViewCellDelegate> _actionDelegate;
     MeetingCellKeyDefinition* _meetingCellKeyDefinition;
     NSMutableDictionary* _cellData;
     NSIndexPath* _myIndexPath;
+//    ArcosAttendeeWithDetails* _arcosAttendeeWithDetails;
 }
 
 @property(nonatomic, assign) id<MeetingBaseTableViewCellDelegate> actionDelegate;
 @property(nonatomic, retain) MeetingCellKeyDefinition* meetingCellKeyDefinition;
 @property(nonatomic, retain) NSMutableDictionary* cellData;
 @property(nonatomic, retain) NSIndexPath* myIndexPath;
+//@property(nonatomic, retain) ArcosAttendeeWithDetails* arcosAttendeeWithDetails;
 
 - (void)configCellWithData:(NSMutableDictionary*)aCellData;
+//- (void)configCellWithArcosAttendeeWithDetails:(ArcosAttendeeWithDetails*)anArcosAttendeeWithDetails;
+
 
 @end
 

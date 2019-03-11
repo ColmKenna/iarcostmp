@@ -13,6 +13,7 @@
 @synthesize meetingCellKeyDefinition = _meetingCellKeyDefinition;
 @synthesize cellData = _cellData;
 @synthesize myIndexPath = _myIndexPath;
+//@synthesize arcosAttendeeWithDetails = _arcosAttendeeWithDetails;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -23,6 +24,7 @@
     self.meetingCellKeyDefinition = nil;
     self.cellData = nil;
     self.myIndexPath = nil;
+//    self.arcosAttendeeWithDetails = nil;
     
     [super dealloc];
 }
@@ -37,5 +39,11 @@
     self.cellData = aCellData;
     self.meetingCellKeyDefinition = [[[MeetingCellKeyDefinition alloc] init] autorelease];
 }
+
+//- (void)configCellWithArcosAttendeeWithDetails:(ArcosAttendeeWithDetails*)anArcosAttendeeWithDetails {
+//    self.arcosAttendeeWithDetails = anArcosAttendeeWithDetails;
+//    self.meetingCellKeyDefinition = [[[MeetingCellKeyDefinition alloc] init] autorelease];
+//    
+//}
 
 @end

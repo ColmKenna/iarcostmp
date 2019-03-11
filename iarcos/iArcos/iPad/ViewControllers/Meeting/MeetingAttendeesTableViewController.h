@@ -10,18 +10,22 @@
 #import "MeetingAttendeesDataManager.h"
 #import "MeetingAttendeesEmployeesHeaderViewController.h"
 #import "MeetingAttendeesContactsHeaderViewController.h"
+#import "MeetingAttendeesOthersHeaderViewController.h"
 #import "MeetingMainTableCellFactory.h"
+#import "MeetingAttendeesTableViewCell.h"
 
-@interface MeetingAttendeesTableViewController : UITableViewController <MeetingAttendeesEmployeesHeaderViewControllerDelegate, MeetingAttendeesContactsHeaderViewControllerDelegate, MeetingBaseTableViewCellDelegate> {
+@interface MeetingAttendeesTableViewController : UITableViewController <MeetingAttendeesEmployeesHeaderViewControllerDelegate, MeetingAttendeesContactsHeaderViewControllerDelegate, MeetingBaseTableViewCellDelegate, MeetingAttendeesOthersHeaderViewControllerDelegate> {
     MeetingAttendeesDataManager* _meetingAttendeesDataManager;
     MeetingAttendeesEmployeesHeaderViewController* _meetingAttendeesEmployeesHeaderViewController;
     MeetingAttendeesContactsHeaderViewController* _meetingAttendeesContactsHeaderViewController;
+    MeetingAttendeesOthersHeaderViewController* _meetingAttendeesOthersHeaderViewController;
     MeetingMainTableCellFactory* _tableCellFactory;
 }
 
 @property(nonatomic, retain) MeetingAttendeesDataManager* meetingAttendeesDataManager;
 @property(nonatomic, retain) MeetingAttendeesEmployeesHeaderViewController* meetingAttendeesEmployeesHeaderViewController;
 @property(nonatomic, retain) MeetingAttendeesContactsHeaderViewController* meetingAttendeesContactsHeaderViewController;
+@property(nonatomic, retain) MeetingAttendeesOthersHeaderViewController* meetingAttendeesOthersHeaderViewController;
 @property(nonatomic, retain) MeetingMainTableCellFactory* tableCellFactory;
 
 - (void)reloadCustomiseTableView;

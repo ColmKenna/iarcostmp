@@ -12,10 +12,12 @@
 @interface TargetTableCellFactory : NSObject {
     NSString* _monthTableCellId;
     NSString* _yearTableCellId;
+    NSString* _g1TableCellId;
 }
 
 @property(nonatomic, retain) NSString* monthTableCellId;
 @property(nonatomic, retain) NSString* yearTableCellId;
+@property(nonatomic, retain) NSString* g1TableCellId;
 
 - (TargetBaseTableViewCell*)createTargetBaseTableCellWithData:(NSMutableDictionary*)aData;
 - (NSString*)identifierWithData:(NSMutableDictionary*)aData;

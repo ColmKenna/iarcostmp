@@ -70,6 +70,36 @@
     
 }
 
+- (void)processG1RawData {
+    NSMutableArray* auxDataList = [NSMutableArray arrayWithCapacity:21];
+    [auxDataList addObject:[self createG1DataItem:@"Apple" value:[NSNumber numberWithInt:75]]];
+    [auxDataList addObject:[self createG1DataItem:@"Orange Pear" value:[NSNumber numberWithInt:50]]];
+    [auxDataList addObject:[self createG1DataItem:@"Pear" value:[NSNumber numberWithInt:35]]];
+    [auxDataList addObject:[self createG1DataItem:@"Apple" value:[NSNumber numberWithInt:100]]];
+    [auxDataList addObject:[self createG1DataItem:@"Orange" value:[NSNumber numberWithInt:50]]];
+    [auxDataList addObject:[self createG1DataItem:@"Pear Item" value:[NSNumber numberWithInt:135]]];
+    [auxDataList addObject:[self createG1DataItem:@"Chris Thompson" value:[NSNumber numberWithInt:96]]];
+    [auxDataList addObject:[self createG1DataItem:@"Mary Jane Brassill" value:[NSNumber numberWithInt:50]]];
+    [auxDataList addObject:[self createG1DataItem:@"Pear" value:[NSNumber numberWithInt:35]]];
+    [auxDataList addObject:[self createG1DataItem:@"Apple" value:[NSNumber numberWithInt:75]]];
+    [auxDataList addObject:[self createG1DataItem:@"Orange" value:[NSNumber numberWithInt:50]]];
+    [auxDataList addObject:[self createG1DataItem:@"Pear" value:[NSNumber numberWithInt:35]]];
+    [auxDataList addObject:[self createG1DataItem:@"Apple" value:[NSNumber numberWithInt:75]]];
+    [auxDataList addObject:[self createG1DataItem:@"Orange" value:[NSNumber numberWithInt:50]]];
+    [auxDataList addObject:[self createG1DataItem:@"Pear" value:[NSNumber numberWithInt:35]]];
+    [auxDataList addObject:[self createG1DataItem:@"Pear" value:[NSNumber numberWithInt:35]]];
+    [auxDataList addObject:[self createG1DataItem:@"Apple" value:[NSNumber numberWithInt:75]]];
+    [auxDataList addObject:[self createG1DataItem:@"Orange" value:[NSNumber numberWithInt:50]]];
+    [auxDataList addObject:[self createG1DataItem:@"Pear" value:[NSNumber numberWithInt:35]]];
+    [auxDataList addObject:[self createG1DataItem:@"Apple" value:[NSNumber numberWithInt:75]]];
+    [auxDataList addObject:[self createG1DataItem:@"Orange" value:[NSNumber numberWithInt:50]]];
+    [auxDataList addObject:[self createG1DataItem:@"Pear" value:[NSNumber numberWithInt:35]]];
+    NSSortDescriptor* valueDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Value" ascending:YES] autorelease];
+    [auxDataList sortUsingDescriptors:[NSArray arrayWithObjects:valueDescriptor,nil]];
+    [self.displayList addObject:[self createG1DataWithTitle:@"Employee Score" subTitle:@"Feb 2019" dataList:auxDataList]];
+    
+}
+
 - (void)addResultDataItemDictWithCellType:(NSNumber*)aCellType title:(NSString*)anAuxTitle data:(ArcosEmployeeTargets*)anArcosEmployeeTargets {
     @try {
         NSString* resultTitle = [anAuxTitle substringFromIndex:1];
@@ -129,6 +159,24 @@
     [barDataItem setObject:aTarget forKey:@"Target"];
     [barDataItem setObject:aMonthTitle forKey:@"Month"];    
     return barDataItem;
+}
+
+- (NSMutableDictionary*)createG1DataWithTitle:(NSString*)aTitle subTitle:(NSString*)aSubTitle dataList:(NSMutableArray*)aDataList {
+    NSMutableDictionary* cellData = [NSMutableDictionary dictionaryWithCapacity:3];
+    [cellData setObject:[NSNumber numberWithInt:3] forKey:@"CellType"];
+    [cellData setObject:aTitle forKey:@"Title"];
+    [cellData setObject:aSubTitle forKey:@"SubTitle"];
+    [cellData setObject:aDataList forKey:@"DataList"];
+    
+    return cellData;
+}
+
+- (NSMutableDictionary*)createG1DataItem:(NSString*)aNarrative value:(NSNumber*)aValue {
+    NSMutableDictionary* dataItem = [NSMutableDictionary dictionaryWithCapacity:2];
+    [dataItem setObject:aNarrative forKey:@"Narrative"];
+    [dataItem setObject:aValue forKey:@"Value"];
+    
+    return dataItem;
 }
 
 @end

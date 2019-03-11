@@ -64,10 +64,17 @@
     }
 }
 
-- (void)populateArcosMeetingBO:(ArcosMeetingBO*)anArcosMeetingBO {
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
     @try {
         NSMutableDictionary* resMeetingMODict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.meetingMOKey];
-        anArcosMeetingBO.MOIUR = [[resMeetingMODict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetails.MOiur = [[resMeetingMODict objectForKey:@"DescrDetailIUR"] intValue];
+        NSString* preMeetDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.preMeetingKey];
+        NSString* postMeetDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.postMeetingKey];
+        NSString* agendaDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.agendaKey];
+        anArcosMeetingWithDetails.PreMeetingDetails = preMeetDetails;
+        anArcosMeetingWithDetails.PostMeetingDetails = postMeetDetails;
+        anArcosMeetingWithDetails.AgendaDetails = agendaDetails;
+        
     } @catch (NSException *exception) {
         NSLog(@"%@", [exception reason]);
     } @finally {

@@ -191,6 +191,30 @@
             </connections>
             <point key="canvasLocation" x="-160" y="263"/>
         </tableViewCell>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="IdTargetG1TableViewCell" rowHeight="38" id="wNC-ob-uhm" customClass="TargetG1TableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="680"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wNC-ob-uhm" id="b1e-5U-ly7">
+                <rect key="frame" x="0.0" y="0.0" width="768" height="679.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tXh-p8-ze6" customClass="CPTGraphHostingView">
+                        <rect key="frame" x="34" y="8" width="700" height="664"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="tXh-p8-ze6" secondAttribute="bottom" constant="7.5" id="3y6-LS-Cmt"/>
+                    <constraint firstItem="tXh-p8-ze6" firstAttribute="top" secondItem="b1e-5U-ly7" secondAttribute="top" constant="8" id="WVd-lM-QR2"/>
+                    <constraint firstAttribute="trailing" secondItem="tXh-p8-ze6" secondAttribute="trailing" constant="34" id="ad1-8M-Z46"/>
+                    <constraint firstItem="tXh-p8-ze6" firstAttribute="leading" secondItem="b1e-5U-ly7" secondAttribute="leading" constant="34" id="chK-lr-lWb"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="g1ChartView" destination="tXh-p8-ze6" id="dmW-Oo-phK"/>
+            </connections>
+            <point key="canvasLocation" x="-160" y="694"/>
+        </tableViewCell>
     </objects>
     <resources>
         <image name="presenterTableCell_stretchable.png" width="433" height="171"/>

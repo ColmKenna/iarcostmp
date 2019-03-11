@@ -125,7 +125,7 @@
     
 }
 
-- (void)populateArcosMeetingBO:(ArcosMeetingBO*)anArcosMeetingBO {
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
     
 }
 

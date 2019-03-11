@@ -17,11 +17,13 @@
 @implementation TargetTableCellFactory
 @synthesize monthTableCellId = _monthTableCellId;
 @synthesize yearTableCellId = _yearTableCellId;
+@synthesize g1TableCellId = _g1TableCellId;
 
 - (instancetype)init {
     if(self = [super init]) {
         self.monthTableCellId = @"IdTargetMonthTableViewCell";
         self.yearTableCellId = @"IdTargetYearTableViewCell";
+        self.g1TableCellId = @"IdTargetG1TableViewCell";
     }
     return self;
 }
@@ -29,6 +31,7 @@
 - (void)dealloc {
     self.monthTableCellId = nil;
     self.yearTableCellId = nil;
+    self.g1TableCellId = nil;
     
     [super dealloc];
 }
@@ -60,6 +63,9 @@
             break;
         case 1:
             identifier = self.yearTableCellId;
+            break;
+        case 3:
+            identifier = self.g1TableCellId;
             break;
             
         default:

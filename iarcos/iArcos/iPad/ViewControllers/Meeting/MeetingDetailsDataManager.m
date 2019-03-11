@@ -112,27 +112,27 @@
     [tmpDataDict setObject:aData forKey:@"FieldData"];
 }
 
-- (void)populateArcosMeetingBO:(ArcosMeetingBO*)anArcosMeetingBO {
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
     @try {
         NSDate* resDate = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.dateKey];
         NSDate* resTime = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.timeKey];
         NSString* resDateTimeStr = [NSString stringWithFormat:@"%@ %@", [ArcosUtils stringFromDate:resDate format:[GlobalSharedClass shared].dateFormat], [ArcosUtils stringFromDate:resTime format:[GlobalSharedClass shared].hourMinuteFormat]];
         NSDate* resDateTime = [ArcosUtils dateFromString:resDateTimeStr format:[GlobalSharedClass shared].datetimehmFormat];
-        anArcosMeetingBO.DateTime = resDateTime;
+        anArcosMeetingWithDetails.DateTime = resDateTime;
         NSString* resDuration = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.durationKey];
-        anArcosMeetingBO.Duration = [[ArcosUtils convertStringToNumber:resDuration] intValue];
-        anArcosMeetingBO.Code = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.codeKey]];
-        anArcosMeetingBO.Venue = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.venueKey]];
+        anArcosMeetingWithDetails.Duration = [[ArcosUtils convertStringToNumber:resDuration] intValue];
+        anArcosMeetingWithDetails.Code = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.codeKey]];
+        anArcosMeetingWithDetails.Venue = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.venueKey]];
         NSMutableDictionary* resStatusDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.statusKey];
-        anArcosMeetingBO.MSIUR = [[resStatusDict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetails.MSiur = [[resStatusDict objectForKey:@"DescrDetailIUR"] intValue];
         NSMutableDictionary* resTypeDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.typeKey];
-        anArcosMeetingBO.MPIUR = [[resTypeDict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetails.MPiur = [[resTypeDict objectForKey:@"DescrDetailIUR"] intValue];
         NSMutableDictionary* resStyleDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.styleKey];
-        anArcosMeetingBO.MYIUR = [[resStyleDict objectForKey:@"DescrDetailIUR"] intValue];
-        anArcosMeetingBO.Reason = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.titleKey]];//come back
+        anArcosMeetingWithDetails.MYiur = [[resStyleDict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetails.Reason = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.titleKey]];//come back
         NSMutableDictionary* resOperatorDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.operatorKey];
-        anArcosMeetingBO.OrganiserIUR = [[resOperatorDict objectForKey:@"IUR"] intValue];
-        anArcosMeetingBO.Comments = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.commentsKey]];
+        anArcosMeetingWithDetails.OrganiserIUR = [[resOperatorDict objectForKey:@"IUR"] intValue];
+        anArcosMeetingWithDetails.Comments = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.commentsKey]];
     } @catch (NSException *exception) {
         NSLog(@"%@", [exception reason]);
     } @finally {

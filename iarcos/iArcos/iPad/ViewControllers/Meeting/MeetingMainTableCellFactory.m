@@ -53,6 +53,10 @@
     return [self getCellWithIdentifier:[self identifierWithData:aData]];
 }
 
+- (MeetingBaseTableViewCell*)createMeetingBaseTableCellWithArcosAttendeeWithDetails:(ArcosAttendeeWithDetails*)anArcosAttendeeWithDetails {
+    return [self getCellWithIdentifier:[self identifierWithArcosAttendeeWithDetails:anArcosAttendeeWithDetails]];
+}
+
 - (MeetingBaseTableViewCell*)getCellWithIdentifier:(NSString*)anIdendifier {
     MeetingBaseTableViewCell* cell = nil;
     NSArray* nibContents = [[NSBundle mainBundle] loadNibNamed:@"MeetingMainTableViewCells" owner:self options:nil];
@@ -104,5 +108,18 @@
     }
     return auxIdentifier;
 }
+
+- (NSString*)identifierWithArcosAttendeeWithDetails:(ArcosAttendeeWithDetails*)anArcosAttendeeWithDetails {
+    NSString* auxIdentifier = nil;
+    if (anArcosAttendeeWithDetails.EmployeeIUR != 0 && anArcosAttendeeWithDetails.ContactIUR == 0) {
+        auxIdentifier = self.attendeesEmployeesTableCellId;
+    }
+    if (anArcosAttendeeWithDetails.EmployeeIUR == 0 && anArcosAttendeeWithDetails.ContactIUR != 0) {
+        auxIdentifier = self.attendeesContactsTableCellId;
+    }
+    
+    return auxIdentifier;
+}
+
 
 @end

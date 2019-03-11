@@ -89,7 +89,7 @@
 -(void)genericGetSurveryDetailsByLocation:(int)aLocationiur contactiur:(int)aContactiur surveyiur:(int)aSurveyiur responseDate:(NSDate*)aResponseDate action:(SEL)anAction target:(id)aTarget;
 - (void)genericGet_Resource_FilenamesByLocation:(int)aLocationIUR locationCode:(NSString*)aLocationCode action:(SEL)anAction target:(id)aTarget;
 - (void)genericGetTargetByEmployee:(int)anEmployeeIUR action:(SEL)anAction target:(id)aTarget;
-- (void)genericUpdateMeetingByMeetingBO:(ArcosMeetingBO*)aMeetingToUpdate action:(SEL)anAction target:(id)aTarget;
+- (void)genericUpdateMeetingByMeetingBO:(ArcosMeetingWithDetails*)aMeetingToUpdate action:(SEL)anAction target:(id)aTarget;
 - (void)genericGetMeetingWithIUR:(NSNumber*)anIUR action:(SEL)anAction target:(id)aTarget;
 
 @end

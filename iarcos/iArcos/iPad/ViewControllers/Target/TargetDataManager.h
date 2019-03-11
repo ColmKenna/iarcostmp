@@ -25,5 +25,6 @@
 - (void)createBasicData;
 - (void)removeData;
 - (void)processRawData:(ArcosArrayOfEmployeeTargets*)aDataList;
+- (void)processG1RawData;
 
 @end

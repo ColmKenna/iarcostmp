@@ -16,6 +16,7 @@
 @synthesize meetingAttendeesDataManager = _meetingAttendeesDataManager;
 @synthesize meetingAttendeesEmployeesHeaderViewController = _meetingAttendeesEmployeesHeaderViewController;
 @synthesize meetingAttendeesContactsHeaderViewController = _meetingAttendeesContactsHeaderViewController;
+@synthesize meetingAttendeesOthersHeaderViewController = _meetingAttendeesOthersHeaderViewController;
 @synthesize tableCellFactory = _tableCellFactory;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -37,6 +38,10 @@
     [self.meetingAttendeesContactsHeaderViewController.view removeFromSuperview];
     [self.meetingAttendeesContactsHeaderViewController removeFromParentViewController];
     self.meetingAttendeesContactsHeaderViewController = nil;
+    [self.meetingAttendeesOthersHeaderViewController willMoveToParentViewController:nil];
+    [self.meetingAttendeesOthersHeaderViewController.view removeFromSuperview];
+    [self.meetingAttendeesOthersHeaderViewController removeFromParentViewController];
+    self.meetingAttendeesOthersHeaderViewController = nil;
     self.tableCellFactory = nil;
     
     [super dealloc];
@@ -58,6 +63,10 @@
     self.meetingAttendeesContactsHeaderViewController.actionDelegate = self;
     [self addChildViewController:self.meetingAttendeesContactsHeaderViewController];
     [self.meetingAttendeesContactsHeaderViewController didMoveToParentViewController:self];
+    self.meetingAttendeesOthersHeaderViewController = [[[MeetingAttendeesOthersHeaderViewController alloc] initWithNibName:@"MeetingAttendeesOthersHeaderViewController" bundle:nil] autorelease];
+    self.meetingAttendeesOthersHeaderViewController.actionDelegate = self;
+    [self addChildViewController:self.meetingAttendeesOthersHeaderViewController];
+    [self.meetingAttendeesOthersHeaderViewController didMoveToParentViewController:self];
 }
 
 #pragma mark - Table view data source
@@ -84,20 +93,31 @@
     if ([sectionTitle isEqualToString:self.meetingAttendeesDataManager.employeeTitle]) {
         return self.meetingAttendeesContactsHeaderViewController.view;
     }
+    if ([sectionTitle isEqualToString:self.meetingAttendeesDataManager.contactTitle]) {
+        return self.meetingAttendeesOthersHeaderViewController.view;
+    }
     return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSMutableDictionary* cellData = [self.meetingAttendeesDataManager cellDataWithIndexPath:indexPath];
-    MeetingBaseTableViewCell* cell = (MeetingBaseTableViewCell*)[tableView dequeueReusableCellWithIdentifier:[self.tableCellFactory identifierWithData:cellData]];
+//    NSMutableDictionary* cellData = [self.meetingAttendeesDataManager cellDataWithIndexPath:indexPath];
+    static NSString* attendeeCellIdentifier = @"IdMeetingAttendeesTableViewCell";
+    ArcosAttendeeWithDetails* auxArcosAttendeeWithDetails = [self.meetingAttendeesDataManager cellDataWithIndexPath:indexPath];
+    MeetingAttendeesTableViewCell* cell = (MeetingAttendeesTableViewCell*)[tableView dequeueReusableCellWithIdentifier:attendeeCellIdentifier];
     if (cell == nil) {
-        cell = (MeetingBaseTableViewCell*)[self.tableCellFactory createMeetingBaseTableCellWithData:cellData];
+//        cell = (MeetingBaseTableViewCell*)[self.tableCellFactory createMeetingBaseTableCellWithArcosAttendeeWithDetails:arcosAttendeeWithDetails];
+        NSArray* nibContents = [[NSBundle mainBundle] loadNibNamed:@"MeetingAttendeesTableViewCell" owner:self options:nil];
+        
+        for (id nibItem in nibContents) {
+            if ([nibItem isKindOfClass:[MeetingAttendeesTableViewCell class]] && [[(MeetingAttendeesTableViewCell *)nibItem reuseIdentifier] isEqualToString:attendeeCellIdentifier]) {
+                cell = (MeetingAttendeesTableViewCell*)nibItem;
+            }
+        }
     }
     
     // Configure the cell...
-    cell.actionDelegate = self;
     cell.myIndexPath = indexPath;
-    [cell configCellWithData:cellData];
+    [cell configCellWithArcosAttendeeWithDetails:auxArcosAttendeeWithDetails];
     
     return cell;
 }
@@ -183,20 +203,20 @@
         NSNumber* selectedEmployeeIUR = [selectedEmployeeDict objectForKey:@"IUR"];
         BOOL foundFlag = NO;
         for (int j = 0; j < [currentEmployeeList count]; j++) {
-            NSMutableDictionary* currentEmployeeDict = [currentEmployeeList objectAtIndex:j];
-            NSNumber* currentEmployeeIUR = [currentEmployeeDict objectForKey:@"IUR"];
+            ArcosAttendeeWithDetails* arcosAttendeeWithDetails = [currentEmployeeList objectAtIndex:j];
+            NSNumber* currentEmployeeIUR = [NSNumber numberWithInt:arcosAttendeeWithDetails.EmployeeIUR];
             if ([selectedEmployeeIUR isEqualToNumber:currentEmployeeIUR]) {
                 foundFlag = YES;
                 break;
             }
         }
         if (!foundFlag) {
-            [currentEmployeeList addObject:selectedEmployeeDict];
+            [currentEmployeeList addObject:[self.meetingAttendeesDataManager attendeeAdaptorWithEmployee:selectedEmployeeDict]];
         }
     }
-    NSSortDescriptor* foreNameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"ForeName" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
+    NSSortDescriptor* foreNameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
     [currentEmployeeList sortUsingDescriptors:[NSArray arrayWithObjects:foreNameDescriptor,nil]];
-    [self.meetingAttendeesDataManager processAttendeesEmployeesCellDataDictList:currentEmployeeList];
+//    [self.meetingAttendeesDataManager processAttendeesEmployeesCellDataDictList:currentEmployeeList];
     [self.meetingAttendeesDataManager.groupedDataDict setObject:currentEmployeeList forKey:self.meetingAttendeesDataManager.employeeTitle];
     [self.tableView reloadData];
 }
@@ -213,26 +233,37 @@
         NSNumber* selectedContactIUR = [selectedContactDict objectForKey:@"ContactIUR"];
         BOOL foundFlag = NO;
         for (int j = 0; j < [currentContactList count]; j++) {
-            NSMutableDictionary* currentContactDict = [currentContactList objectAtIndex:j];
-            NSNumber* currentContactIUR = [currentContactDict objectForKey:@"ContactIUR"];
+            ArcosAttendeeWithDetails* arcosAttendeeWithDetails = [currentContactList objectAtIndex:j];
+            NSNumber* currentContactIUR = [NSNumber numberWithInt:arcosAttendeeWithDetails.ContactIUR];
             if ([currentContactIUR isEqualToNumber:selectedContactIUR]) {
                 foundFlag = YES;
                 break;
             }
         }
         if (!foundFlag) {
-            [currentContactList addObject:selectedContactDict];
+            [currentContactList addObject:[self.meetingAttendeesDataManager attendeeAdaptorWithContact:selectedContactDict]];
         }
     }
-    NSSortDescriptor* surnameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Surname" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
-    [currentContactList sortUsingDescriptors:[NSArray arrayWithObjects:surnameDescriptor,nil]];
-    [self.meetingAttendeesDataManager processAttendeesContactsCellDataDictList:currentContactList];
+    NSSortDescriptor* nameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
+    [currentContactList sortUsingDescriptors:[NSArray arrayWithObjects:nameDescriptor,nil]];
+//    [self.meetingAttendeesDataManager processAttendeesContactsCellDataDictList:currentContactList];
     [self.meetingAttendeesDataManager.groupedDataDict setObject:currentContactList forKey:self.meetingAttendeesDataManager.contactTitle];
+    [self.tableView reloadData];
+}
+
+#pragma mark MeetingAttendeesOthersHeaderViewControllerDelegate
+- (void)meetingAttendeesOthersWithName:(NSString*)aName organisation:(NSString*)anOrganisation {
+    NSMutableArray* currentOthersList = [self.meetingAttendeesDataManager.groupedDataDict  objectForKey:self.meetingAttendeesDataManager.otherTitle];
+    [currentOthersList addObject:[self.meetingAttendeesDataManager attendeeOtherAdaptorWithName:aName organisation:anOrganisation]];
+    NSSortDescriptor* nameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
+    [currentOthersList sortUsingDescriptors:[NSArray arrayWithObjects:nameDescriptor,nil]];
     [self.tableView reloadData];
 }
 
 - (void)reloadCustomiseTableView {
     [self.tableView reloadData];
 }
+
+
 
 @end

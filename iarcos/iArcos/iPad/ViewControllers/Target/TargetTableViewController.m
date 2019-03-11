@@ -35,7 +35,18 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.title = @"Target";
-    
+    UIBarButtonItem* lockTableButton = [[UIBarButtonItem alloc] initWithTitle:@"Lock Table" style:UIBarButtonItemStylePlain target:self action:@selector(lockTableAction)];
+    self.navigationItem.rightBarButtonItem = lockTableButton;
+    [lockTableButton release];
+}
+
+- (void)lockTableAction {
+    if (self.tableView.scrollEnabled) {
+        [self.navigationItem.rightBarButtonItem setTitle:@"Unlock Table"];
+    } else {
+        [self.navigationItem.rightBarButtonItem setTitle:@"Lock Table"];
+    }
+    self.tableView.scrollEnabled = !self.tableView.scrollEnabled;
 }
 
 - (void)testBarButtonPressed:(id)sender {
@@ -77,6 +88,7 @@
     ArcosArrayOfEmployeeTargets* employeeTargetList = (ArcosArrayOfEmployeeTargets*)result;
     if ([employeeTargetList count] > 0) {
         [self.targetDataManager processRawData:employeeTargetList];
+//        [self.targetDataManager processG1RawData];
         [self.tableView reloadData];
     } else if ([employeeTargetList count] <= 0) {
         [ArcosUtils showDialogBox:[GlobalSharedClass shared].noDataFoundMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
@@ -96,6 +108,11 @@
 
 #pragma mark - Table view data source
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSMutableDictionary* auxCellData = [self.targetDataManager.displayList objectAtIndex:indexPath.row];
+    NSNumber* cellType = [auxCellData objectForKey:@"CellType"];
+    if ([cellType intValue] == 3) {
+        return 170 * 4;
+    }
     return 170;
 }
 

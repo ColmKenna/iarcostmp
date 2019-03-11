@@ -114,17 +114,17 @@
     }
 }
 
-- (void)populateArcosMeetingBO:(ArcosMeetingBO*)anArcosMeetingBO {
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
     @try {
         NSMutableDictionary* resApprovedByDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.approvedByKey];
-        anArcosMeetingBO.ApprovedByIUR = [[resApprovedByDict objectForKey:@"IUR"] intValue];
+        anArcosMeetingWithDetails.ApprovedByIUR = [[resApprovedByDict objectForKey:@"IUR"] intValue];
         NSMutableDictionary* resL4Dict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.l4Key];
-        anArcosMeetingBO.L4IUR = [[resL4Dict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetails.L4iur = [[resL4Dict objectForKey:@"DescrDetailIUR"] intValue];
         NSMutableDictionary* resL5Dict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.l5Key];
-        anArcosMeetingBO.L5IUR = [[resL5Dict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetails.L5iur = [[resL5Dict objectForKey:@"DescrDetailIUR"] intValue];
         NSNumber* resSpeakerAgreement = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.speakerAgreementKey];
-        anArcosMeetingBO.SpeakerAgreement = [resSpeakerAgreement boolValue];
-//        anArcosMeetingBO  come back
+        anArcosMeetingWithDetails.SpeakerAgreement = [resSpeakerAgreement boolValue];
+        anArcosMeetingWithDetails.SpeakerAgreementDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.speakerAgreementDetailsKey];
     } @catch (NSException *exception) {
         NSLog(@"%@", [exception reason]);
     } @finally {

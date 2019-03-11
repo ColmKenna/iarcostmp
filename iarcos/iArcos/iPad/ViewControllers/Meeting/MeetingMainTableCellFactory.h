@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MeetingBaseTableViewCell.h"
+#import "ArcosAttendeeWithDetails.h"
 
 @interface MeetingMainTableCellFactory : NSObject {
     NSString* _datetimeTableCellId;
@@ -32,7 +33,9 @@
 @property(nonatomic, retain) NSString* attendeesContactsTableCellId;
 
 - (MeetingBaseTableViewCell*)createMeetingBaseTableCellWithData:(NSMutableDictionary*)aData;
+- (MeetingBaseTableViewCell*)createMeetingBaseTableCellWithArcosAttendeeWithDetails:(ArcosAttendeeWithDetails*)anArcosAttendeeWithDetails;
 - (NSString*)identifierWithData:(NSMutableDictionary*)aData;
+- (NSString*)identifierWithArcosAttendeeWithDetails:(ArcosAttendeeWithDetails*)anArcosAttendeeWithDetails;
 
 @end
 

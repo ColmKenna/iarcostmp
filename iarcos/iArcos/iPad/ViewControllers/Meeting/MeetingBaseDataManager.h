@@ -33,7 +33,7 @@
 - (NSMutableDictionary*)createBooleanCellWithFieldName:(NSString*)aFieldName cellKey:(NSString*)aCellKey fieldData:(id)aFieldData;
 - (void)dataMeetingBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath;
 - (void)displayListHeadOfficeAdaptor;
-- (void)populateArcosMeetingBO:(ArcosMeetingBO*)anArcosMeetingBO;
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails;
 
 @end
 

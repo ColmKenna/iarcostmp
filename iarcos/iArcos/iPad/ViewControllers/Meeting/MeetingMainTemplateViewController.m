@@ -118,17 +118,18 @@
     [self.meetingObjectivesTableViewController.meetingObjectivesDataManager displayListHeadOfficeAdaptor];
     [self.meetingCostingsViewController.meetingCostingsDataManager displayListHeadOfficeAdaptor];
     ArcosMeetingBO* arcosMeetingBO = [[[ArcosMeetingBO alloc] init] autorelease];
-    [self.meetingDetailsTableViewController.meetingDetailsDataManager populateArcosMeetingBO:arcosMeetingBO];
-    [self.meetingMiscTableViewController.meetingMiscDataManager populateArcosMeetingBO:arcosMeetingBO];
-    [self.meetingObjectivesTableViewController.meetingObjectivesDataManager populateArcosMeetingBO:arcosMeetingBO];
-    [self.meetingCostingsViewController.meetingCostingsDataManager populateArcosMeetingBO:arcosMeetingBO];
+    ArcosMeetingWithDetails* arcosMeetingWithDetails = [[[ArcosMeetingWithDetails alloc] init] autorelease];
+    [self.meetingDetailsTableViewController.meetingDetailsDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetails];
+    [self.meetingMiscTableViewController.meetingMiscDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetails];
+    [self.meetingObjectivesTableViewController.meetingObjectivesDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetails];
+    [self.meetingCostingsViewController.meetingCostingsDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetails];
     arcosMeetingBO.Attachments = @"";
 //    NSLog(@"abc %@", arcosMeetingBO);
     if ([self.actionType isEqualToString:self.createActionType]) {
         
     }
     arcosMeetingBO.IUR = [self.meetingIUR intValue];
-    [self.callGenericServices genericUpdateMeetingByMeetingBO:arcosMeetingBO action:@selector(resultBackFromUpdateMeeting:) target:self];
+    [self.callGenericServices genericUpdateMeetingByMeetingBO:arcosMeetingWithDetails action:@selector(resultBackFromUpdateMeeting:) target:self];
 //    NSLog(@"abc: %@", self.meetingDetailsTableViewController.meetingDetailsDataManager.headOfficeDataObjectDict);
 //    NSLog(@"ac: %@", self.meetingMiscTableViewController.meetingMiscDataManager.headOfficeDataObjectDict);
 //    NSLog(@"def: %@", self.meetingObjectivesTableViewController.meetingObjectivesDataManager.headOfficeDataObjectDict);

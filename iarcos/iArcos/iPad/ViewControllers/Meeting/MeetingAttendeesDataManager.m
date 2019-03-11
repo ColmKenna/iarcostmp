@@ -12,7 +12,7 @@
 @synthesize emptyTitle = _emptyTitle;
 @synthesize employeeTitle = _employeeTitle;
 @synthesize contactTitle = _contactTitle;
-//@synthesize otherTitle = _otherTitle;
+@synthesize otherTitle = _otherTitle;
 @synthesize sectionTitleList = _sectionTitleList;
 @synthesize groupedDataDict = _groupedDataDict;
 @synthesize currentSelectedDeleteIndexPath = _currentSelectedDeleteIndexPath;
@@ -24,7 +24,8 @@
         self.emptyTitle = @"";
         self.employeeTitle = @"Employees";
         self.contactTitle = @"Contacts";
-        self.sectionTitleList = [NSMutableArray arrayWithObjects:self.emptyTitle, self.employeeTitle, self.contactTitle, nil];
+        self.otherTitle = @"Other";
+        self.sectionTitleList = [NSMutableArray arrayWithObjects:self.emptyTitle, self.employeeTitle, self.contactTitle, self.otherTitle, nil];
     }
     return self;
 }
@@ -33,7 +34,7 @@
     self.emptyTitle = nil;
     self.employeeTitle = nil;
     self.contactTitle = nil;
-//    self.otherTitle = nil;
+    self.otherTitle = nil;
     self.sectionTitleList = nil;
     self.groupedDataDict = nil;
     self.currentSelectedDeleteIndexPath = nil;
@@ -50,26 +51,33 @@
     [self.groupedDataDict setObject:employeeDisplayList forKey:self.employeeTitle];
     NSMutableArray* contactDisplayList = [NSMutableArray array];
     [self.groupedDataDict setObject:contactDisplayList forKey:self.contactTitle];
+    NSMutableArray* otherDisplayList = [NSMutableArray array];
+    [self.groupedDataDict setObject:otherDisplayList forKey:self.otherTitle];
     if (anArcosMeetingWithDetails == nil) return;
     if ([anArcosMeetingWithDetails.Attendees count] == 0) return;
     for (int i = 0; i < [anArcosMeetingWithDetails.Attendees count]; i++) {
         ArcosAttendeeWithDetails* tmpArcosAttendeeWithDetails = [anArcosMeetingWithDetails.Attendees objectAtIndex:i];
         if (tmpArcosAttendeeWithDetails.EmployeeIUR != 0 && tmpArcosAttendeeWithDetails.ContactIUR == 0) {
-            [employeeDisplayList addObject:[self employeeAdaptorWithAttendee:tmpArcosAttendeeWithDetails]];
+//            [employeeDisplayList addObject:[self employeeAdaptorWithAttendee:tmpArcosAttendeeWithDetails]];
+            [employeeDisplayList addObject:tmpArcosAttendeeWithDetails];
         }
         if (tmpArcosAttendeeWithDetails.EmployeeIUR == 0 && tmpArcosAttendeeWithDetails.ContactIUR != 0) {
-            [contactDisplayList addObject:[self contactAdaptorWithAttendee:tmpArcosAttendeeWithDetails]];
+//            [contactDisplayList addObject:[self contactAdaptorWithAttendee:tmpArcosAttendeeWithDetails]];
+            [contactDisplayList addObject:tmpArcosAttendeeWithDetails];
+        }
+        if (tmpArcosAttendeeWithDetails.EmployeeIUR == 0 && tmpArcosAttendeeWithDetails.ContactIUR == 0) {
+            [otherDisplayList addObject:tmpArcosAttendeeWithDetails];
         }
     }
-    NSSortDescriptor* foreNameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"ForeName" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
+    NSSortDescriptor* foreNameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
     [employeeDisplayList sortUsingDescriptors:[NSArray arrayWithObjects:foreNameDescriptor,nil]];
-    [self processAttendeesEmployeesCellDataDictList:employeeDisplayList];
-    NSSortDescriptor* surnameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Surname" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
-    [contactDisplayList sortUsingDescriptors:[NSArray arrayWithObjects:surnameDescriptor,nil]];
-    [self processAttendeesContactsCellDataDictList:contactDisplayList];
+//    [self processAttendeesEmployeesCellDataDictList:employeeDisplayList];
+    NSSortDescriptor* nameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
+    [contactDisplayList sortUsingDescriptors:[NSArray arrayWithObjects:nameDescriptor,nil]];
+//    [self processAttendeesContactsCellDataDictList:contactDisplayList];
 }
 
-- (NSMutableDictionary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath {
+- (ArcosAttendeeWithDetails*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath {
     NSString* tmpSectionTitle = [self.sectionTitleList objectAtIndex:anIndexPath.section];
     NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:tmpSectionTitle];
     return [tmpDisplayList objectAtIndex:anIndexPath.row];
@@ -95,6 +103,7 @@
     [auxEmployeeDict setObject:[ArcosUtils convertNilToEmpty:anArcosAttendeeWithDetails.Name] forKey:@"ForeName"];
     [auxEmployeeDict setObject:[ArcosUtils convertNilToEmpty:anArcosAttendeeWithDetails.Name] forKey:@"Title"];
     
+    
     return auxEmployeeDict;
 }
 
@@ -105,6 +114,78 @@
     [auxContactDict setObject:[ArcosUtils convertNilToEmpty:anArcosAttendeeWithDetails.Name] forKey:@"Name"];
     
     return auxContactDict;
+}
+
+- (ArcosAttendeeWithDetails*)attendeeAdaptorWithEmployee:(NSMutableDictionary*)anEmployeeDict {
+    ArcosAttendeeWithDetails* arcosAttendeeWithDetails = [[[ArcosAttendeeWithDetails alloc] init] autorelease];
+    arcosAttendeeWithDetails.IUR = 0;
+    arcosAttendeeWithDetails.MeetingIUR = 0;
+    arcosAttendeeWithDetails.ContactIUR = 0;
+    arcosAttendeeWithDetails.ContactName = @"";
+    arcosAttendeeWithDetails.EmployeeIUR = [[anEmployeeDict objectForKey:@"IUR"] intValue];
+    arcosAttendeeWithDetails.EmployeeName = [ArcosUtils convertNilToEmpty:[anEmployeeDict objectForKey:@"Title"]];
+    arcosAttendeeWithDetails.Name = [ArcosUtils convertNilToEmpty:[anEmployeeDict objectForKey:@"Title"]];
+    arcosAttendeeWithDetails.Organisation = @"";
+    arcosAttendeeWithDetails.Address1 = @"";
+    arcosAttendeeWithDetails.Address2 = @"";
+    arcosAttendeeWithDetails.Address3 = @"";
+    arcosAttendeeWithDetails.Address4 = @"";
+    arcosAttendeeWithDetails.Address5 = @"";
+    arcosAttendeeWithDetails.Confirmed = NO;
+    arcosAttendeeWithDetails.Attended = NO;
+    arcosAttendeeWithDetails.Informed = NO;
+    arcosAttendeeWithDetails.Email = @"";
+    arcosAttendeeWithDetails.COiur = 0;
+    
+    return arcosAttendeeWithDetails;
+}
+
+- (ArcosAttendeeWithDetails*)attendeeAdaptorWithContact:(NSMutableDictionary*)aContactDict {
+    ArcosAttendeeWithDetails* arcosAttendeeWithDetails = [[[ArcosAttendeeWithDetails alloc] init] autorelease];
+    arcosAttendeeWithDetails.IUR = 0;
+    arcosAttendeeWithDetails.MeetingIUR = 0;
+    arcosAttendeeWithDetails.ContactIUR = [[aContactDict objectForKey:@"ContactIUR"] intValue];
+    arcosAttendeeWithDetails.ContactName = [ArcosUtils convertNilToEmpty:[aContactDict objectForKey:@"Name"]];
+    arcosAttendeeWithDetails.EmployeeIUR = 0;
+    arcosAttendeeWithDetails.EmployeeName = @"";
+    arcosAttendeeWithDetails.Name = [ArcosUtils convertNilToEmpty:[aContactDict objectForKey:@"Name"]];
+    arcosAttendeeWithDetails.Organisation = @"";
+    arcosAttendeeWithDetails.Address1 = @"";
+    arcosAttendeeWithDetails.Address2 = @"";
+    arcosAttendeeWithDetails.Address3 = @"";
+    arcosAttendeeWithDetails.Address4 = @"";
+    arcosAttendeeWithDetails.Address5 = @"";
+    arcosAttendeeWithDetails.Confirmed = NO;
+    arcosAttendeeWithDetails.Attended = NO;
+    arcosAttendeeWithDetails.Informed = NO;
+    arcosAttendeeWithDetails.Email = @"";
+    arcosAttendeeWithDetails.COiur = 0;
+    
+    return arcosAttendeeWithDetails;
+}
+
+- (ArcosAttendeeWithDetails*)attendeeOtherAdaptorWithName:(NSString*)aName organisation:(NSString*)anOrganisation {
+    ArcosAttendeeWithDetails* arcosAttendeeWithDetails = [[[ArcosAttendeeWithDetails alloc] init] autorelease];
+    arcosAttendeeWithDetails.IUR = 0;
+    arcosAttendeeWithDetails.MeetingIUR = 0;
+    arcosAttendeeWithDetails.ContactIUR = 0;
+    arcosAttendeeWithDetails.ContactName = @"";
+    arcosAttendeeWithDetails.EmployeeIUR = 0;
+    arcosAttendeeWithDetails.EmployeeName = @"";
+    arcosAttendeeWithDetails.Name = [ArcosUtils convertNilToEmpty:aName];
+    arcosAttendeeWithDetails.Organisation = [ArcosUtils convertNilToEmpty:anOrganisation];;
+    arcosAttendeeWithDetails.Address1 = @"";
+    arcosAttendeeWithDetails.Address2 = @"";
+    arcosAttendeeWithDetails.Address3 = @"";
+    arcosAttendeeWithDetails.Address4 = @"";
+    arcosAttendeeWithDetails.Address5 = @"";
+    arcosAttendeeWithDetails.Confirmed = NO;
+    arcosAttendeeWithDetails.Attended = NO;
+    arcosAttendeeWithDetails.Informed = NO;
+    arcosAttendeeWithDetails.Email = @"";
+    arcosAttendeeWithDetails.COiur = 0;
+    
+    return arcosAttendeeWithDetails;
 }
 
 
