@@ -18,6 +18,7 @@
 @class ArcosRootViewController;
 #import "SlideAcrossViewAnimationDelegate.h"
 #import "MeetingAttendeesTableViewController.h"
+#import "MeetingPresentersTableViewController.h"
 
 @interface MeetingMainTemplateViewController : UIViewController {
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
@@ -28,6 +29,7 @@
     MeetingObjectivesTableViewController* _meetingObjectivesTableViewController;
     MeetingAttendeesTableViewController* _meetingAttendeesTableViewController;
     MeetingCostingsViewController* _meetingCostingsViewController;
+    MeetingPresentersTableViewController* _meetingPresentersTableViewController;
     NSArray* _layoutKeyList;
     NSArray* _layoutObjectList;
     NSArray* _objectViewControllerList;
@@ -49,6 +51,7 @@
 @property(nonatomic, retain) MeetingObjectivesTableViewController* meetingObjectivesTableViewController;
 @property(nonatomic, retain) MeetingAttendeesTableViewController* meetingAttendeesTableViewController;
 @property(nonatomic, retain) MeetingCostingsViewController* meetingCostingsViewController;
+@property(nonatomic, retain) MeetingPresentersTableViewController* meetingPresentersTableViewController;
 @property(nonatomic, retain) NSArray* layoutKeyList;
 @property(nonatomic, retain) NSArray* layoutObjectList;
 @property(nonatomic, retain) NSArray* objectViewControllerList;

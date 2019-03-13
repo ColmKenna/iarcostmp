@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MeetingAttendeesOthersItemTableViewCellDelegate.h"
 
-@interface MeetingAttendeesOthersItemTableViewCell : UITableViewCell {
+@interface MeetingAttendeesOthersItemTableViewCell : UITableViewCell <UITextFieldDelegate>{
     id<MeetingAttendeesOthersItemTableViewCellDelegate> _actionDelegate;
     UILabel* _fieldNameLabel;
     UITextField* _fieldValueTextField;

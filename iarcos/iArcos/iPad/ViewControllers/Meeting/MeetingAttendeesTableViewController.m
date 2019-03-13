@@ -100,12 +100,10 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSMutableDictionary* cellData = [self.meetingAttendeesDataManager cellDataWithIndexPath:indexPath];
     static NSString* attendeeCellIdentifier = @"IdMeetingAttendeesTableViewCell";
     ArcosAttendeeWithDetails* auxArcosAttendeeWithDetails = [self.meetingAttendeesDataManager cellDataWithIndexPath:indexPath];
     MeetingAttendeesTableViewCell* cell = (MeetingAttendeesTableViewCell*)[tableView dequeueReusableCellWithIdentifier:attendeeCellIdentifier];
     if (cell == nil) {
-//        cell = (MeetingBaseTableViewCell*)[self.tableCellFactory createMeetingBaseTableCellWithArcosAttendeeWithDetails:arcosAttendeeWithDetails];
         NSArray* nibContents = [[NSBundle mainBundle] loadNibNamed:@"MeetingAttendeesTableViewCell" owner:self options:nil];
         
         for (id nibItem in nibContents) {
@@ -116,6 +114,7 @@
     }
     
     // Configure the cell...
+    cell.actionDelegate = self;
     cell.myIndexPath = indexPath;
     [cell configCellWithArcosAttendeeWithDetails:auxArcosAttendeeWithDetails];
     
@@ -216,7 +215,6 @@
     }
     NSSortDescriptor* foreNameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
     [currentEmployeeList sortUsingDescriptors:[NSArray arrayWithObjects:foreNameDescriptor,nil]];
-//    [self.meetingAttendeesDataManager processAttendeesEmployeesCellDataDictList:currentEmployeeList];
     [self.meetingAttendeesDataManager.groupedDataDict setObject:currentEmployeeList forKey:self.meetingAttendeesDataManager.employeeTitle];
     [self.tableView reloadData];
 }
@@ -246,7 +244,6 @@
     }
     NSSortDescriptor* nameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
     [currentContactList sortUsingDescriptors:[NSArray arrayWithObjects:nameDescriptor,nil]];
-//    [self.meetingAttendeesDataManager processAttendeesContactsCellDataDictList:currentContactList];
     [self.meetingAttendeesDataManager.groupedDataDict setObject:currentContactList forKey:self.meetingAttendeesDataManager.contactTitle];
     [self.tableView reloadData];
 }
@@ -254,7 +251,19 @@
 #pragma mark MeetingAttendeesOthersHeaderViewControllerDelegate
 - (void)meetingAttendeesOthersWithName:(NSString*)aName organisation:(NSString*)anOrganisation {
     NSMutableArray* currentOthersList = [self.meetingAttendeesDataManager.groupedDataDict  objectForKey:self.meetingAttendeesDataManager.otherTitle];
-    [currentOthersList addObject:[self.meetingAttendeesDataManager attendeeOtherAdaptorWithName:aName organisation:anOrganisation]];
+    BOOL foundFlag = NO;
+    for (int i = 0; i < [currentOthersList count]; i++) {
+        ArcosAttendeeWithDetails* arcosAttendeeWithDetails = [currentOthersList objectAtIndex:i];
+        NSString* currentName = arcosAttendeeWithDetails.Name;
+        NSString* currentOrganisation = arcosAttendeeWithDetails.Organisation;
+        if ([currentName isEqualToString:aName] && [currentOrganisation isEqualToString:anOrganisation]) {
+            foundFlag = YES;
+        }
+    }
+    if (!foundFlag) {
+        [currentOthersList addObject:[self.meetingAttendeesDataManager attendeeOtherAdaptorWithName:aName organisation:anOrganisation]];
+    }    
+    
     NSSortDescriptor* nameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
     [currentOthersList sortUsingDescriptors:[NSArray arrayWithObjects:nameDescriptor,nil]];
     [self.tableView reloadData];
@@ -264,6 +273,41 @@
     [self.tableView reloadData];
 }
 
+#pragma mark MeetingAttendeesTableViewCellDelegate
+- (void)meetingAttendeeSelectFinishedWithData:(ArcosAttendeeWithDetails*)anArcosAttendeeWithDetails indexPath:(NSIndexPath*)anIndexPath {
+    self.meetingAttendeesDataManager.currentSelectedArcosAttendeeWithDetails = anArcosAttendeeWithDetails;
+    self.meetingAttendeesDataManager.currentSelectedDeleteIndexPath = anIndexPath;
+    void (^deleteAttendeeActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        [self deleteAttendeeProcessor];
+    };
+    void (^cancelAttendeeActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        
+    };
+    [ArcosUtils showTwoBtnsDialogBox:[NSString stringWithFormat:@"Are you sure you want to delete %@", anArcosAttendeeWithDetails.Name] title:@"" delegate:self target:self tag:100 lBtnText:@"Cancel" rBtnText:@"Delete" lBtnHandler:cancelAttendeeActionHandler rBtnHandler:deleteAttendeeActionHandler];
+}
 
+- (void)deleteAttendeeProcessor {
+    NSString* tmpSectionTitle = [self.meetingAttendeesDataManager.sectionTitleList objectAtIndex:self.meetingAttendeesDataManager.currentSelectedDeleteIndexPath.section];
+    NSMutableArray* tmpDisplayList = [self.meetingAttendeesDataManager.groupedDataDict objectForKey:tmpSectionTitle];
+    ArcosAttendeeWithDetails* auxArcosAttendeeWithDetails = [tmpDisplayList objectAtIndex:self.meetingAttendeesDataManager.currentSelectedDeleteIndexPath.row];
+    auxArcosAttendeeWithDetails.COiur = -999;
+    [self.tableView reloadData];
+}
+
+- (void)meetingAttendeeRevertDeleteActionWithIndexPath:(NSIndexPath*)anIndexPath {
+    [self.tableView reloadData];
+}
+
+- (void)meetingAttendeesInformedFlag:(BOOL)anInformedFlag atIndexPath:(NSIndexPath *)anIndexPath {
+    [self.meetingAttendeesDataManager dataMeetingAttendeesInformedFlag:anInformedFlag atIndexPath:anIndexPath];
+}
+
+- (void)meetingAttendeesConfirmedFlag:(BOOL)aConfirmedFlag atIndexPath:(NSIndexPath *)anIndexPath {
+    [self.meetingAttendeesDataManager dataMeetingAttendeesConfirmedFlag:aConfirmedFlag atIndexPath:anIndexPath];
+}
+
+- (void)meetingAttendeesAttendedFlag:(BOOL)anAttendedFlag atIndexPath:(NSIndexPath *)anIndexPath {
+    [self.meetingAttendeesDataManager dataMeetingAttendeesAttendedFlag:anAttendedFlag atIndexPath:anIndexPath];
+}
 
 @end

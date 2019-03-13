@@ -22,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="qQ5-6c-hN3">
-                    <rect key="frame" x="3" y="3" width="663" height="45"/>
+                    <rect key="frame" x="3" y="3" width="666" height="45"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="44" id="0NN-e1-6ea"/>
                     </constraints>
@@ -33,6 +33,7 @@
                         <segment title="Attendees"/>
                         <segment title="Costings"/>
                         <segment title="Presenters"/>
+                        <segment title="Attachments"/>
                     </segments>
                 </segmentedControl>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zbS-tc-EDK">
@@ -45,7 +46,7 @@
                 <constraint firstItem="qQ5-6c-hN3" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="3" id="5tn-Oq-fil"/>
                 <constraint firstItem="zbS-tc-EDK" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="3" id="6Mg-JQ-nyx"/>
                 <constraint firstAttribute="trailing" secondItem="zbS-tc-EDK" secondAttribute="trailing" constant="3" id="8v9-8q-2bh"/>
-                <constraint firstAttribute="trailing" secondItem="qQ5-6c-hN3" secondAttribute="trailing" constant="102" id="Kgb-T5-AdH"/>
+                <constraint firstAttribute="trailing" secondItem="qQ5-6c-hN3" secondAttribute="trailing" constant="99" id="Kgb-T5-AdH"/>
                 <constraint firstItem="zbS-tc-EDK" firstAttribute="top" secondItem="qQ5-6c-hN3" secondAttribute="bottom" constant="-1" id="cgA-mw-feu"/>
                 <constraint firstItem="qQ5-6c-hN3" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="3" id="nSY-Hf-YBv"/>
                 <constraint firstAttribute="bottom" secondItem="zbS-tc-EDK" secondAttribute="bottom" constant="3" id="p1K-7p-cFg"/>

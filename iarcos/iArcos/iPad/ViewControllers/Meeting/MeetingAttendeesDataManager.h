@@ -20,6 +20,7 @@
     NSMutableDictionary* _groupedDataDict;
     NSIndexPath* _currentSelectedDeleteIndexPath;
     NSMutableDictionary* _currentSelectedCellData;
+    ArcosAttendeeWithDetails* _currentSelectedArcosAttendeeWithDetails;
 }
 
 @property(nonatomic, retain) NSString* emptyTitle;
@@ -30,6 +31,7 @@
 @property(nonatomic, retain) NSMutableDictionary* groupedDataDict;
 @property(nonatomic, retain) NSIndexPath* currentSelectedDeleteIndexPath;
 @property(nonatomic, retain) NSMutableDictionary* currentSelectedCellData;
+@property(nonatomic, retain) ArcosAttendeeWithDetails* currentSelectedArcosAttendeeWithDetails;
 
 - (ArcosAttendeeWithDetails*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath;
 - (void)processAttendeesEmployeesCellDataDictList:(NSMutableArray*)aCellDataDictList;
@@ -39,6 +41,10 @@
 - (ArcosAttendeeWithDetails*)attendeeAdaptorWithEmployee:(NSMutableDictionary*)anEmployeeDict;
 - (ArcosAttendeeWithDetails*)attendeeAdaptorWithContact:(NSMutableDictionary*)aContactDict;
 - (ArcosAttendeeWithDetails*)attendeeOtherAdaptorWithName:(NSString*)aName organisation:(NSString*)anOrganisation;
+
+- (void)dataMeetingAttendeesInformedFlag:(BOOL)anInformedFlag atIndexPath:(NSIndexPath *)anIndexPath;
+- (void)dataMeetingAttendeesConfirmedFlag:(BOOL)aConfirmedFlag atIndexPath:(NSIndexPath *)anIndexPath;
+- (void)dataMeetingAttendeesAttendedFlag:(BOOL)anAttendedFlag atIndexPath:(NSIndexPath *)anIndexPath;
 
 
 @end

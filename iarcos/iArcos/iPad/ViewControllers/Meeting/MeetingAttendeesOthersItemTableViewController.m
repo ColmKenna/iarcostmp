@@ -45,11 +45,13 @@
 }
 
 - (void)saveButtonPressed {
+    [self.view endEditing:YES];
     NSMutableDictionary* nameDataDict = [self.displayList objectAtIndex:0];
     NSString* name = [nameDataDict objectForKey:@"FieldData"];
     NSMutableDictionary* organisationDataDict = [self.displayList objectAtIndex:1];
     NSString* organisation = [organisationDataDict objectForKey:@"FieldData"];
     [self.actionDelegate saveButtonPressedWithName:name organisation:organisation];
+    [self.actionDelegate didDismissOthersItemPopover];
 }
 
 #pragma mark - Table view data source

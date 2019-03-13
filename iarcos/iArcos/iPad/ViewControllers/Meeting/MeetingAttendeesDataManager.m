@@ -17,6 +17,7 @@
 @synthesize groupedDataDict = _groupedDataDict;
 @synthesize currentSelectedDeleteIndexPath = _currentSelectedDeleteIndexPath;
 @synthesize currentSelectedCellData = _currentSelectedCellData;
+@synthesize currentSelectedArcosAttendeeWithDetails = _currentSelectedArcosAttendeeWithDetails;
 
 - (instancetype)init {
     self = [super init];
@@ -24,7 +25,7 @@
         self.emptyTitle = @"";
         self.employeeTitle = @"Employees";
         self.contactTitle = @"Contacts";
-        self.otherTitle = @"Other";
+        self.otherTitle = @"Others";
         self.sectionTitleList = [NSMutableArray arrayWithObjects:self.emptyTitle, self.employeeTitle, self.contactTitle, self.otherTitle, nil];
     }
     return self;
@@ -39,12 +40,13 @@
     self.groupedDataDict = nil;
     self.currentSelectedDeleteIndexPath = nil;
     self.currentSelectedCellData = nil;
+    self.currentSelectedArcosAttendeeWithDetails = nil;
     
     [super dealloc];
 }
 
 - (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
-    self.groupedDataDict = [NSMutableDictionary dictionaryWithCapacity:3];
+    self.groupedDataDict = [NSMutableDictionary dictionaryWithCapacity:4];
     NSMutableArray* emptyDisplayList = [NSMutableArray arrayWithCapacity:0];
     [self.groupedDataDict setObject:emptyDisplayList forKey:self.emptyTitle];
     NSMutableArray* employeeDisplayList = [NSMutableArray array];
@@ -71,10 +73,8 @@
     }
     NSSortDescriptor* foreNameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
     [employeeDisplayList sortUsingDescriptors:[NSArray arrayWithObjects:foreNameDescriptor,nil]];
-//    [self processAttendeesEmployeesCellDataDictList:employeeDisplayList];
     NSSortDescriptor* nameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
     [contactDisplayList sortUsingDescriptors:[NSArray arrayWithObjects:nameDescriptor,nil]];
-//    [self processAttendeesContactsCellDataDictList:contactDisplayList];
 }
 
 - (ArcosAttendeeWithDetails*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath {
@@ -188,5 +188,33 @@
     return arcosAttendeeWithDetails;
 }
 
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
+    for (int i = 0; i < [self.sectionTitleList count]; i++) {
+        NSString* tmpSectionTitle = [self.sectionTitleList objectAtIndex:i];
+        NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:tmpSectionTitle];
+        for (int j = 0; j < [tmpDisplayList count]; j++) {
+            ArcosAttendeeWithDetails* auxArcosAttendeeWithDetails = [tmpDisplayList objectAtIndex:j];
+            if (auxArcosAttendeeWithDetails.COiur == -999) {
+                auxArcosAttendeeWithDetails.Name = @"DELETE";
+            }
+            [anArcosMeetingWithDetails.Attendees addObject:auxArcosAttendeeWithDetails];
+        }
+    }
+}
+
+- (void)dataMeetingAttendeesInformedFlag:(BOOL)anInformedFlag atIndexPath:(NSIndexPath *)anIndexPath {
+    ArcosAttendeeWithDetails* auxArcosAttendeeWithDetails = [self cellDataWithIndexPath:anIndexPath];
+    auxArcosAttendeeWithDetails.Informed = anInformedFlag;
+}
+
+- (void)dataMeetingAttendeesConfirmedFlag:(BOOL)aConfirmedFlag atIndexPath:(NSIndexPath *)anIndexPath {
+    ArcosAttendeeWithDetails* auxArcosAttendeeWithDetails = [self cellDataWithIndexPath:anIndexPath];
+    auxArcosAttendeeWithDetails.Confirmed = aConfirmedFlag;
+}
+
+- (void)dataMeetingAttendeesAttendedFlag:(BOOL)anAttendedFlag atIndexPath:(NSIndexPath *)anIndexPath {
+    ArcosAttendeeWithDetails* auxArcosAttendeeWithDetails = [self cellDataWithIndexPath:anIndexPath];
+    auxArcosAttendeeWithDetails.Attended = anAttendedFlag;
+}
 
 @end

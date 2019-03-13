@@ -47,7 +47,7 @@
 }
 
 - (void)saveButtonPressedWithName:(NSString *)aName organisation:(NSString *)anOrganisation {
-    
+    [self.actionDelegate meetingAttendeesOthersWithName:aName organisation:anOrganisation];
 }
 
 @end
