@@ -45,7 +45,7 @@
     [super dealloc];
 }
 
-- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
+- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload {
     self.groupedDataDict = [NSMutableDictionary dictionaryWithCapacity:4];
     NSMutableArray* emptyDisplayList = [NSMutableArray arrayWithCapacity:0];
     [self.groupedDataDict setObject:emptyDisplayList forKey:self.emptyTitle];
@@ -55,10 +55,10 @@
     [self.groupedDataDict setObject:contactDisplayList forKey:self.contactTitle];
     NSMutableArray* otherDisplayList = [NSMutableArray array];
     [self.groupedDataDict setObject:otherDisplayList forKey:self.otherTitle];
-    if (anArcosMeetingWithDetails == nil) return;
-    if ([anArcosMeetingWithDetails.Attendees count] == 0) return;
-    for (int i = 0; i < [anArcosMeetingWithDetails.Attendees count]; i++) {
-        ArcosAttendeeWithDetails* tmpArcosAttendeeWithDetails = [anArcosMeetingWithDetails.Attendees objectAtIndex:i];
+    if (anArcosMeetingWithDetailsDownload == nil) return;
+    if ([anArcosMeetingWithDetailsDownload.Attendees count] == 0) return;
+    for (int i = 0; i < [anArcosMeetingWithDetailsDownload.Attendees count]; i++) {
+        ArcosAttendeeWithDetails* tmpArcosAttendeeWithDetails = [anArcosMeetingWithDetailsDownload.Attendees objectAtIndex:i];
         if (tmpArcosAttendeeWithDetails.EmployeeIUR != 0 && tmpArcosAttendeeWithDetails.ContactIUR == 0) {
 //            [employeeDisplayList addObject:[self employeeAdaptorWithAttendee:tmpArcosAttendeeWithDetails]];
             [employeeDisplayList addObject:tmpArcosAttendeeWithDetails];
@@ -188,7 +188,7 @@
     return arcosAttendeeWithDetails;
 }
 
-- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsUpload*)anArcosMeetingWithDetailsUpload {
     for (int i = 0; i < [self.sectionTitleList count]; i++) {
         NSString* tmpSectionTitle = [self.sectionTitleList objectAtIndex:i];
         NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:tmpSectionTitle];
@@ -197,7 +197,7 @@
             if (auxArcosAttendeeWithDetails.COiur == -999) {
                 auxArcosAttendeeWithDetails.Name = @"DELETE";
             }
-            [anArcosMeetingWithDetails.Attendees addObject:auxArcosAttendeeWithDetails];
+            [anArcosMeetingWithDetailsUpload.Attendees addObject:auxArcosAttendeeWithDetails];
         }
     }
 }

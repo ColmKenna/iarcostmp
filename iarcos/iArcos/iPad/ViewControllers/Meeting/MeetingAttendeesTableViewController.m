@@ -17,13 +17,13 @@
 @synthesize meetingAttendeesEmployeesHeaderViewController = _meetingAttendeesEmployeesHeaderViewController;
 @synthesize meetingAttendeesContactsHeaderViewController = _meetingAttendeesContactsHeaderViewController;
 @synthesize meetingAttendeesOthersHeaderViewController = _meetingAttendeesOthersHeaderViewController;
-@synthesize tableCellFactory = _tableCellFactory;
+//@synthesize tableCellFactory = _tableCellFactory;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.meetingAttendeesDataManager = [[[MeetingAttendeesDataManager alloc] init] autorelease];
-        self.tableCellFactory = [[[MeetingMainTableCellFactory alloc] init] autorelease];
+//        self.tableCellFactory = [[[MeetingMainTableCellFactory alloc] init] autorelease];
     }
     return self;
 }
@@ -42,7 +42,7 @@
     [self.meetingAttendeesOthersHeaderViewController.view removeFromSuperview];
     [self.meetingAttendeesOthersHeaderViewController removeFromParentViewController];
     self.meetingAttendeesOthersHeaderViewController = nil;
-    self.tableCellFactory = nil;
+//    self.tableCellFactory = nil;
     
     [super dealloc];
 }
@@ -251,18 +251,19 @@
 #pragma mark MeetingAttendeesOthersHeaderViewControllerDelegate
 - (void)meetingAttendeesOthersWithName:(NSString*)aName organisation:(NSString*)anOrganisation {
     NSMutableArray* currentOthersList = [self.meetingAttendeesDataManager.groupedDataDict  objectForKey:self.meetingAttendeesDataManager.otherTitle];
-    BOOL foundFlag = NO;
-    for (int i = 0; i < [currentOthersList count]; i++) {
-        ArcosAttendeeWithDetails* arcosAttendeeWithDetails = [currentOthersList objectAtIndex:i];
-        NSString* currentName = arcosAttendeeWithDetails.Name;
-        NSString* currentOrganisation = arcosAttendeeWithDetails.Organisation;
-        if ([currentName isEqualToString:aName] && [currentOrganisation isEqualToString:anOrganisation]) {
-            foundFlag = YES;
-        }
-    }
-    if (!foundFlag) {
-        [currentOthersList addObject:[self.meetingAttendeesDataManager attendeeOtherAdaptorWithName:aName organisation:anOrganisation]];
-    }    
+//    BOOL foundFlag = NO;
+//    for (int i = 0; i < [currentOthersList count]; i++) {
+//        ArcosAttendeeWithDetails* arcosAttendeeWithDetails = [currentOthersList objectAtIndex:i];
+//        NSString* currentName = arcosAttendeeWithDetails.Name;
+//        NSString* currentOrganisation = arcosAttendeeWithDetails.Organisation;
+//        if ([currentName isEqualToString:aName] && [currentOrganisation isEqualToString:anOrganisation]) {
+//            foundFlag = YES;
+//        }
+//    }
+//    if (!foundFlag) {
+//
+//    }
+    [currentOthersList addObject:[self.meetingAttendeesDataManager attendeeOtherAdaptorWithName:aName organisation:anOrganisation]];
     
     NSSortDescriptor* nameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
     [currentOthersList sortUsingDescriptors:[NSArray arrayWithObjects:nameDescriptor,nil]];

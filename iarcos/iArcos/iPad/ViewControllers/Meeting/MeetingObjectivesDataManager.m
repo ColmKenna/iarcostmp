@@ -26,18 +26,18 @@
     [super dealloc];
 }
 
-- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
+- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload {
 //    [self createDataObjectDict];
     self.displayList = [NSMutableArray arrayWithCapacity:4];
     NSMutableDictionary* meetingDict = [self createDefaultIURDict];
     NSString* preMeetDetails = @"";
     NSString* postMeetDetails = @"";
     NSString* agendaDetails = @"";
-    if (anArcosMeetingWithDetails != nil) {
-        meetingDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetails.MOiur] title:anArcosMeetingWithDetails.MODetails];
-        preMeetDetails = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetails.PreMeetingDetails];
-        postMeetDetails = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetails.PostMeetingDetails];
-        agendaDetails = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetails.AgendaDetails];
+    if (anArcosMeetingWithDetailsDownload != nil) {
+        meetingDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetailsDownload.MOiur] title:anArcosMeetingWithDetailsDownload.MODetails];
+        preMeetDetails = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetailsDownload.PreMeetingDetails];
+        postMeetDetails = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetailsDownload.PostMeetingDetails];
+        agendaDetails = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetailsDownload.AgendaDetails];
     }
     [self.displayList addObject:[self createIURCellWithFieldName:@"Meeting" cellKey:self.meetingCellKeyDefinition.meetingMOKey fieldData:meetingDict descrTypeCode:@"MO"]];
     [self.displayList addObject:[self createTextViewCellWithFieldName:@"Pre-Meet" cellKey:self.meetingCellKeyDefinition.preMeetingKey fieldData:preMeetDetails]];
@@ -64,16 +64,16 @@
     }
 }
 
-- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsUpload*)anArcosMeetingWithDetailsUpload {
     @try {
         NSMutableDictionary* resMeetingMODict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.meetingMOKey];
-        anArcosMeetingWithDetails.MOiur = [[resMeetingMODict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetailsUpload.MOiur = [[resMeetingMODict objectForKey:@"DescrDetailIUR"] intValue];
         NSString* preMeetDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.preMeetingKey];
         NSString* postMeetDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.postMeetingKey];
         NSString* agendaDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.agendaKey];
-        anArcosMeetingWithDetails.PreMeetingDetails = preMeetDetails;
-        anArcosMeetingWithDetails.PostMeetingDetails = postMeetDetails;
-        anArcosMeetingWithDetails.AgendaDetails = agendaDetails;
+        anArcosMeetingWithDetailsUpload.PreMeetingDetails = preMeetDetails;
+        anArcosMeetingWithDetailsUpload.PostMeetingDetails = postMeetDetails;
+        anArcosMeetingWithDetailsUpload.AgendaDetails = agendaDetails;
         
     } @catch (NSException *exception) {
         NSLog(@"%@", [exception reason]);

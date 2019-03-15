@@ -37,7 +37,11 @@
 #import "ArcosLevel5Spec.h"
 #import "ArcosPriceBO.h"
 #import "ArcosAttendeeWithDetails.h"
+#import "ArcosPresenterForMeeting.h"
 #import "ArcosExpenses.h"
+#import "ArcosAttachmentSummary.h"
+#import "ArcosMeetingWithDetailsUpload.h"
+#import "ArcosAttachmentWithFileContents.h"
 #import "ArcosIncompleteObject.h"
 #import "ArcosArrayOfSurveyBO.h"
 #import "ArcosSurveyBO.h"
@@ -77,10 +81,12 @@
 #import "ArcosArrayOfLevel5Spec.h"
 #import "ArcosArrayOfCallBO.h"
 #import "ArcosArrayOfPriceBO.h"
+#import "ArcosMeetingWithDetailsDownload.h"
 #import "ArcosArrayOfAttendeeWithDetails.h"
 #import "ArcosArrayOfPresenterForMeeting.h"
-#import "ArcosPresenterForMeeting.h"
 #import "ArcosArrayOfExpenses.h"
+#import "ArcosArrayOfAttachmentSummary.h"
+#import "ArcosArrayOfAttachmentWithFileContents.h"
 #import "ArcosDashBoardData.h"
 #import "ArcosArrayOfDashBoardRowData.h"
 #import "ArcosDashBoardRowData.h"
@@ -91,7 +97,7 @@
 #import "ArcosCallBO.h"
 #import "ArcosEmployeeTargets.h"
 #import "ArcosGenericObjectWithImage.h"
-#import "ArcosMeetingWithDetails.h"
+#import "ArcosMeetingWithDetailsDownloadBase.h"
 
 /* Interface for the service */
 				
@@ -721,7 +727,7 @@
 	- (SoapRequest*) GetPrices: (id) target action: (SEL) action employeeiur: (int) employeeiur;
 	-(SoapRequest*)GetPricesWithProgress:(SoapRequestProgressBlock)progressBlock employeeiur: (int) employeeiur completion:(SoapRequestCompletionBlock)completionBlock;
 
-	// Returns ArcosMeetingWithDetails*
+	// Returns ArcosMeetingWithDetailsDownload*
 	/*  */
 	- (SoapRequest*) GetMeeting: (id <SoapDelegate>) handler meetingiur: (int) meetingiur;
 	- (SoapRequest*) GetMeeting: (id) target action: (SEL) action meetingiur: (int) meetingiur;
@@ -729,9 +735,21 @@
 
 	// Returns int
 	/*  */
-	- (SoapRequest*) UpdateMeeting: (id <SoapDelegate>) handler meetingToUpdate: (ArcosMeetingWithDetails*) meetingToUpdate;
-	- (SoapRequest*) UpdateMeeting: (id) target action: (SEL) action meetingToUpdate: (ArcosMeetingWithDetails*) meetingToUpdate;
-	-(SoapRequest*)UpdateMeetingWithProgress:(SoapRequestProgressBlock)progressBlock meetingToUpdate: (ArcosMeetingWithDetails*) meetingToUpdate completion:(SoapRequestCompletionBlock)completionBlock;
+	- (SoapRequest*) UpdateMeeting: (id <SoapDelegate>) handler meetingToUpdate: (ArcosMeetingWithDetailsUpload*) meetingToUpdate;
+	- (SoapRequest*) UpdateMeeting: (id) target action: (SEL) action meetingToUpdate: (ArcosMeetingWithDetailsUpload*) meetingToUpdate;
+	-(SoapRequest*)UpdateMeetingWithProgress:(SoapRequestProgressBlock)progressBlock meetingToUpdate: (ArcosMeetingWithDetailsUpload*) meetingToUpdate completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns int
+	/*  */
+	- (SoapRequest*) UpdateAttachmentsForMeeting: (id <SoapDelegate>) handler meetingToUpdate: (int) meetingToUpdate attachments: (NSMutableArray*) attachments;
+	- (SoapRequest*) UpdateAttachmentsForMeeting: (id) target action: (SEL) action meetingToUpdate: (int) meetingToUpdate attachments: (NSMutableArray*) attachments;
+	-(SoapRequest*)UpdateAttachmentsForMeetingWithProgress:(SoapRequestProgressBlock)progressBlock meetingToUpdate: (int) meetingToUpdate attachments: (NSMutableArray*) attachments completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns ArcosAttachmentWithFileContents*
+	/*  */
+	- (SoapRequest*) GetAttachment: (id <SoapDelegate>) handler iur: (int) iur;
+	- (SoapRequest*) GetAttachment: (id) target action: (SEL) action iur: (int) iur;
+	-(SoapRequest*)GetAttachmentWithProgress:(SoapRequestProgressBlock)progressBlock iur: (int) iur completion:(SoapRequestCompletionBlock)completionBlock;
 
 	// Returns ArcosDashBoardData*
 	/*  */

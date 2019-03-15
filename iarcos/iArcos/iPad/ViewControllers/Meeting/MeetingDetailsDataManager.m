@@ -26,7 +26,7 @@
     [super dealloc];
 }
 
-- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
+- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload {
 //    [self createDataObjectDict];
     self.displayList = [NSMutableArray arrayWithCapacity:9];
     NSDate* currentDate = [NSDate date];
@@ -40,18 +40,18 @@
     NSString* title = @"";
     NSMutableDictionary* operatorDict = [self createDefaultEmployeeDict];
     NSString* comments = @"";
-    if (anArcosMeetingWithDetails != nil) {
-        currentDate = anArcosMeetingWithDetails.DateTime;
-        currentTime = anArcosMeetingWithDetails.DateTime;
-        duration = [NSString stringWithFormat:@"%d", anArcosMeetingWithDetails.Duration];
-        code = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetails.Code];
-        venue = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetails.Venue];
-        statusDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetails.MSiur] title:anArcosMeetingWithDetails.MSDetails];
-        typeDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetails.MPiur] title:anArcosMeetingWithDetails.MPDetails];
-        styleDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetails.MYiur] title:anArcosMeetingWithDetails.MYDetails];        
-        title = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetails.Reason];
-        operatorDict = [self createDefaultEmployeeDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetails.OrganiserIUR] title:anArcosMeetingWithDetails.OrganiserName];
-        comments = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetails.Comments];
+    if (anArcosMeetingWithDetailsDownload != nil) {
+        currentDate = anArcosMeetingWithDetailsDownload.DateTime;
+        currentTime = anArcosMeetingWithDetailsDownload.DateTime;
+        duration = [NSString stringWithFormat:@"%d", anArcosMeetingWithDetailsDownload.Duration];
+        code = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetailsDownload.Code];
+        venue = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetailsDownload.Venue];
+        statusDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetailsDownload.MSiur] title:anArcosMeetingWithDetailsDownload.MSDetails];
+        typeDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetailsDownload.MPiur] title:anArcosMeetingWithDetailsDownload.MPDetails];
+        styleDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetailsDownload.MYiur] title:anArcosMeetingWithDetailsDownload.MYDetails];
+        title = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetailsDownload.Reason];
+        operatorDict = [self createDefaultEmployeeDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetailsDownload.OrganiserIUR] title:anArcosMeetingWithDetailsDownload.OrganiserName];
+        comments = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetailsDownload.Comments];
     }
     [self.displayList addObject:[self createDateTimeCellWithDate:currentDate time:currentTime duration:duration]];
     [self.displayList addObject:[self createStringCellWithFieldName:@"Code" cellKey:self.meetingCellKeyDefinition.codeKey fieldData:code]];
@@ -112,27 +112,27 @@
     [tmpDataDict setObject:aData forKey:@"FieldData"];
 }
 
-- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsUpload*)anArcosMeetingWithDetailsUpload {
     @try {
         NSDate* resDate = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.dateKey];
         NSDate* resTime = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.timeKey];
         NSString* resDateTimeStr = [NSString stringWithFormat:@"%@ %@", [ArcosUtils stringFromDate:resDate format:[GlobalSharedClass shared].dateFormat], [ArcosUtils stringFromDate:resTime format:[GlobalSharedClass shared].hourMinuteFormat]];
         NSDate* resDateTime = [ArcosUtils dateFromString:resDateTimeStr format:[GlobalSharedClass shared].datetimehmFormat];
-        anArcosMeetingWithDetails.DateTime = resDateTime;
+        anArcosMeetingWithDetailsUpload.DateTime = resDateTime;
         NSString* resDuration = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.durationKey];
-        anArcosMeetingWithDetails.Duration = [[ArcosUtils convertStringToNumber:resDuration] intValue];
-        anArcosMeetingWithDetails.Code = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.codeKey]];
-        anArcosMeetingWithDetails.Venue = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.venueKey]];
+        anArcosMeetingWithDetailsUpload.Duration = [[ArcosUtils convertStringToNumber:resDuration] intValue];
+        anArcosMeetingWithDetailsUpload.Code = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.codeKey]];
+        anArcosMeetingWithDetailsUpload.Venue = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.venueKey]];
         NSMutableDictionary* resStatusDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.statusKey];
-        anArcosMeetingWithDetails.MSiur = [[resStatusDict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetailsUpload.MSiur = [[resStatusDict objectForKey:@"DescrDetailIUR"] intValue];
         NSMutableDictionary* resTypeDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.typeKey];
-        anArcosMeetingWithDetails.MPiur = [[resTypeDict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetailsUpload.MPiur = [[resTypeDict objectForKey:@"DescrDetailIUR"] intValue];
         NSMutableDictionary* resStyleDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.styleKey];
-        anArcosMeetingWithDetails.MYiur = [[resStyleDict objectForKey:@"DescrDetailIUR"] intValue];
-        anArcosMeetingWithDetails.Reason = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.titleKey]];//come back
+        anArcosMeetingWithDetailsUpload.MYiur = [[resStyleDict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetailsUpload.Reason = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.titleKey]];//come back
         NSMutableDictionary* resOperatorDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.operatorKey];
-        anArcosMeetingWithDetails.OrganiserIUR = [[resOperatorDict objectForKey:@"IUR"] intValue];
-        anArcosMeetingWithDetails.Comments = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.commentsKey]];
+        anArcosMeetingWithDetailsUpload.OrganiserIUR = [[resOperatorDict objectForKey:@"IUR"] intValue];
+        anArcosMeetingWithDetailsUpload.Comments = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.commentsKey]];
     } @catch (NSException *exception) {
         NSLog(@"%@", [exception reason]);
     } @finally {

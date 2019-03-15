@@ -11,10 +11,10 @@
 @implementation MeetingPresentersDataManager
 @synthesize displayList = _displayList;
 
-- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
-    if (anArcosMeetingWithDetails == nil) return;
-    if ([anArcosMeetingWithDetails.Presenters count] == 0) return;
-    self.displayList = anArcosMeetingWithDetails.Presenters;
+- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload {
+    if (anArcosMeetingWithDetailsDownload == nil) return;
+    if ([anArcosMeetingWithDetailsDownload.Presenters count] == 0) return;
+    self.displayList = anArcosMeetingWithDetailsDownload.Presenters;
 }
 
 - (void)dealloc {
@@ -25,13 +25,13 @@
 
 - (void)dataMeetingPresentersLinkToMeeting:(BOOL)aLinkToMeetingFlag atIndexPath:(NSIndexPath *)anIndexPath {
     ArcosPresenterForMeeting* auxArcosPresenterForMeeting = [self.displayList objectAtIndex:anIndexPath.row];
-    auxArcosPresenterForMeeting.LinkedToMeeting = aLinkToMeetingFlag;
+    auxArcosPresenterForMeeting.Shown = aLinkToMeetingFlag;
 }
 
-- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsUpload*)anArcosMeetingWithDetailsUpload {
     for (int i = 0; i < [self.displayList count]; i++) {
         ArcosPresenterForMeeting* auxArcosPresenterForMeeting = [self.displayList objectAtIndex:i];
-        [anArcosMeetingWithDetails.Presenters addObject:auxArcosPresenterForMeeting];
+        [anArcosMeetingWithDetailsUpload.Presenters addObject:auxArcosPresenterForMeeting];
     }
 }
 

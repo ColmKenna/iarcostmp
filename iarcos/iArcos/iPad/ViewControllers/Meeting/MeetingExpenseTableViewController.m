@@ -123,7 +123,7 @@
     [[self.accessDelegate retrieveExpenseTableView] reloadData];
 }
 
-- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
+- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload {
     self.displayList = [NSMutableArray array];
 }
 

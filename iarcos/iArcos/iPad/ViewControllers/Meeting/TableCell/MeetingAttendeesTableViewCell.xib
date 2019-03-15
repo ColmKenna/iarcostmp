@@ -18,7 +18,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="768" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgF-hK-QRq">
+                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgF-hK-QRq">
                         <rect key="frame" x="15" y="4" width="401" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="kBE-QP-VIb"/>
@@ -33,7 +33,7 @@
                             <constraint firstAttribute="height" constant="15" id="oso-wN-Waw"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <color key="textColor" red="0.43529411764705883" green="0.44313725490196076" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CKU-1j-haF" customClass="ArcosGrayBorderUIButton">
@@ -43,7 +43,7 @@
                             <constraint firstAttribute="height" constant="30" id="klO-E2-6SC"/>
                         </constraints>
                         <state key="normal" title="Remove">
-                            <color key="titleColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleColor" red="0.43529411764705883" green="0.44313725490196076" blue="0.47450980392156861" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                         <connections>
                             <action selector="removedButtonPressed:" destination="AgN-VA-3jR" eventType="touchUpInside" id="dyT-u4-EzP"/>
@@ -56,7 +56,7 @@
                             <constraint firstAttribute="height" constant="30" id="QqP-1z-vUr"/>
                         </constraints>
                         <state key="normal" title="Attended">
-                            <color key="titleColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleColor" red="0.43529411764705883" green="0.44313725490196076" blue="0.47450980392156861" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                         <connections>
                             <action selector="attendedButtonPressed:" destination="AgN-VA-3jR" eventType="touchUpInside" id="kp1-EP-zpV"/>
@@ -69,7 +69,7 @@
                             <constraint firstAttribute="height" constant="30" id="Ch2-X6-391"/>
                         </constraints>
                         <state key="normal" title="Confirmed">
-                            <color key="titleColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleColor" red="0.43529411764705883" green="0.44313725490196076" blue="0.47450980392156861" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                         <connections>
                             <action selector="confirmedButtonPressed:" destination="AgN-VA-3jR" eventType="touchUpInside" id="Lta-8g-DzM"/>
@@ -82,7 +82,7 @@
                             <constraint firstAttribute="height" constant="30" id="geO-lB-jBi"/>
                         </constraints>
                         <state key="normal" title="Informed">
-                            <color key="titleColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleColor" red="0.43529411764705883" green="0.44313725490196076" blue="0.47450980392156861" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                         <connections>
                             <action selector="informedButtonPressed:" destination="AgN-VA-3jR" eventType="touchUpInside" id="WIE-jC-uYx"/>

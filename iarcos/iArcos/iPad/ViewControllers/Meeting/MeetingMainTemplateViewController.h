@@ -19,6 +19,7 @@
 #import "SlideAcrossViewAnimationDelegate.h"
 #import "MeetingAttendeesTableViewController.h"
 #import "MeetingPresentersTableViewController.h"
+#import "MeetingAttachmentsTableViewController.h"
 
 @interface MeetingMainTemplateViewController : UIViewController {
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
@@ -30,6 +31,7 @@
     MeetingAttendeesTableViewController* _meetingAttendeesTableViewController;
     MeetingCostingsViewController* _meetingCostingsViewController;
     MeetingPresentersTableViewController* _meetingPresentersTableViewController;
+    MeetingAttachmentsTableViewController* _meetingAttachmentsTableViewController;
     NSArray* _layoutKeyList;
     NSArray* _layoutObjectList;
     NSArray* _objectViewControllerList;
@@ -52,6 +54,7 @@
 @property(nonatomic, retain) MeetingAttendeesTableViewController* meetingAttendeesTableViewController;
 @property(nonatomic, retain) MeetingCostingsViewController* meetingCostingsViewController;
 @property(nonatomic, retain) MeetingPresentersTableViewController* meetingPresentersTableViewController;
+@property(nonatomic, retain) MeetingAttachmentsTableViewController* meetingAttachmentsTableViewController;
 @property(nonatomic, retain) NSArray* layoutKeyList;
 @property(nonatomic, retain) NSArray* layoutObjectList;
 @property(nonatomic, retain) NSArray* objectViewControllerList;

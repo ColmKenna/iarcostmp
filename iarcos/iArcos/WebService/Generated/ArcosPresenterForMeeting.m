@@ -5,16 +5,20 @@
 */
 #import "ArcosPresenterForMeeting.h"
 
-#import "ArcosPresenter.h"
 @implementation ArcosPresenterForMeeting
-	@synthesize LinkedToMeeting = _LinkedToMeeting;
-	@synthesize Presenter = _Presenter;
+	@synthesize Shown = _Shown;
+	@synthesize IUR = _IUR;
+	@synthesize Title = _Title;
+	@synthesize Active = _Active;
+	@synthesize ImageIUR = _ImageIUR;
+	@synthesize MemoDetails = _MemoDetails;
 
 	- (id) init
 	{
 		if(self = [super init])
 		{
-			self.Presenter = nil; // [[ArcosPresenter alloc] init];
+			self.Title = nil;
+			self.MemoDetails = nil;
 
 		}
 		return self;
@@ -29,8 +33,12 @@
 	- (id) initWithNode: (CXMLNode*) node {
 		if(self = [super initWithNode: node])
 		{
-			self.LinkedToMeeting = [[Soap getNodeValue: node withName: @"LinkedToMeeting"] boolValue];
-			self.Presenter = [[ArcosPresenter createWithNode: [Soap getNode: node withName: @"Presenter"]] object];
+			self.Shown = [[Soap getNodeValue: node withName: @"Shown"] boolValue];
+			self.IUR = [[Soap getNodeValue: node withName: @"IUR"] intValue];
+			self.Title = [Soap getNodeValue: node withName: @"Title"];
+			self.Active = [[Soap getNodeValue: node withName: @"Active"] boolValue];
+			self.ImageIUR = [[Soap getNodeValue: node withName: @"ImageIUR"] intValue];
+			self.MemoDetails = [Soap getNodeValue: node withName: @"MemoDetails"];
 		}
 		return self;
 	}
@@ -54,8 +62,12 @@
 	- (NSMutableString*) serializeElements
 	{
 		NSMutableString* s = [super serializeElements];
-		[s appendFormat: @"<LinkedToMeeting>%@</LinkedToMeeting>", (self.LinkedToMeeting)?@"true":@"false"];
-		if (self.Presenter != nil) [s appendString: [self.Presenter serialize: @"Presenter"]];
+		[s appendFormat: @"<Shown>%@</Shown>", (self.Shown)?@"true":@"false"];
+		[s appendFormat: @"<IUR>%@</IUR>", [NSString stringWithFormat: @"%i", self.IUR]];
+		if (self.Title != nil) [s appendFormat: @"<Title>%@</Title>", [[self.Title stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"] stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"]];
+		[s appendFormat: @"<Active>%@</Active>", (self.Active)?@"true":@"false"];
+		[s appendFormat: @"<ImageIUR>%@</ImageIUR>", [NSString stringWithFormat: @"%i", self.ImageIUR]];
+		if (self.MemoDetails != nil) [s appendFormat: @"<MemoDetails>%@</MemoDetails>", [[self.MemoDetails stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"] stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"]];
 
 		return s;
 	}
@@ -81,7 +93,8 @@
 	
 	- (void) dealloc
 	{
-		self.Presenter = nil;
+		self.Title = nil;
+		self.MemoDetails = nil;
 		[super dealloc];
 	}
 

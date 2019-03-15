@@ -13,6 +13,7 @@
 #import "GlobalSharedClass.h"
 #import "MeetingExpenseTableViewControllerDelegate.h"
 #import "ArcosMeetingWithDetails.h"
+#import "ArcosMeetingWithDetailsDownload.h"
 
 
 @interface MeetingExpenseTableViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>{

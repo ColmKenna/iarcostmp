@@ -6,17 +6,24 @@
 
 #import "Soap.h"
 	
-@class ArcosPresenter;
 
 @interface ArcosPresenterForMeeting : SoapObject
 {
-	BOOL _LinkedToMeeting;
-	ArcosPresenter* _Presenter;
+	BOOL _Shown;
+	int _IUR;
+	NSString* _Title;
+	BOOL _Active;
+	int _ImageIUR;
+	NSString* _MemoDetails;
 	
 }
 		
-	@property BOOL LinkedToMeeting;
-	@property (retain, nonatomic) ArcosPresenter* Presenter;
+	@property BOOL Shown;
+	@property int IUR;
+	@property (retain, nonatomic) NSString* Title;
+	@property BOOL Active;
+	@property int ImageIUR;
+	@property (retain, nonatomic) NSString* MemoDetails;
 
 	+ (ArcosPresenterForMeeting*) createWithNode: (CXMLNode*) node;
 	- (id) initWithNode: (CXMLNode*) node;

@@ -37,7 +37,11 @@
 #import "ArcosLevel5Spec.h"
 #import "ArcosPriceBO.h"
 #import "ArcosAttendeeWithDetails.h"
+#import "ArcosPresenterForMeeting.h"
 #import "ArcosExpenses.h"
+#import "ArcosAttachmentSummary.h"
+#import "ArcosMeetingWithDetailsUpload.h"
+#import "ArcosAttachmentWithFileContents.h"
 #import "ArcosIncompleteObject.h"
 #import "ArcosArrayOfSurveyBO.h"
 #import "ArcosSurveyBO.h"
@@ -77,10 +81,12 @@
 #import "ArcosArrayOfLevel5Spec.h"
 #import "ArcosArrayOfCallBO.h"
 #import "ArcosArrayOfPriceBO.h"
+#import "ArcosMeetingWithDetailsDownload.h"
 #import "ArcosArrayOfAttendeeWithDetails.h"
 #import "ArcosArrayOfPresenterForMeeting.h"
-#import "ArcosPresenterForMeeting.h"
 #import "ArcosArrayOfExpenses.h"
+#import "ArcosArrayOfAttachmentSummary.h"
+#import "ArcosArrayOfAttachmentWithFileContents.h"
 #import "ArcosDashBoardData.h"
 #import "ArcosArrayOfDashBoardRowData.h"
 #import "ArcosDashBoardRowData.h"
@@ -91,7 +97,7 @@
 #import "ArcosCallBO.h"
 #import "ArcosEmployeeTargets.h"
 #import "ArcosGenericObjectWithImage.h"
-#import "ArcosMeetingWithDetails.h"
+#import "ArcosMeetingWithDetailsDownloadBase.h"
 #import "SettingManager.h"
 /* Implementation of the service */
 				
@@ -3484,7 +3490,7 @@
 		return _request;
 	}
 
-	// Returns ArcosMeetingWithDetails*
+	// Returns ArcosMeetingWithDetailsDownload*
 	/*  */
 	- (SoapRequest*) GetMeeting: (id <SoapDelegate>) handler meetingiur: (int) meetingiur
 	{
@@ -3497,7 +3503,7 @@
 		
 		[_params addObject: [[[SoapParameter alloc] initWithValue: [NSNumber numberWithInt: meetingiur] forName: @"meetingiur"] autorelease]];
 		NSString* _envelope = [Soap createEnvelope: @"GetMeeting" forNamespace: self.namespace withParameters: _params withHeaders: self.headers];
-		SoapRequest* _request = [SoapRequest create: _target action: _action service: self soapAction: @"http://www.strataarcos.com/GetMeeting" postData: _envelope deserializeTo: [[ArcosMeetingWithDetails alloc] autorelease]];
+		SoapRequest* _request = [SoapRequest create: _target action: _action service: self soapAction: @"http://www.strataarcos.com/GetMeeting" postData: _envelope deserializeTo: [[ArcosMeetingWithDetailsDownload alloc] autorelease]];
 		[_request send];
 		return _request;
 	}
@@ -3507,7 +3513,7 @@
 		
 		[_params addObject: [[[SoapParameter alloc] initWithValue: [NSNumber numberWithInt: meetingiur] forName: @"meetingiur"] autorelease]];
 		NSString* _envelope = [Soap createEnvelope:@"GetMeeting" forNamespace:self.namespace withParameters:_params withHeaders:self.headers];
-		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/GetMeeting" postData:_envelope deserializeTo:[[ArcosMeetingWithDetails alloc] autorelease] completionBlock:completionBlock];
+		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/GetMeeting" postData:_envelope deserializeTo:[[ArcosMeetingWithDetailsDownload alloc] autorelease] completionBlock:completionBlock];
 		_request.progressBlock = progressBlock;
 		[_request send];
 		return _request;
@@ -3515,12 +3521,12 @@
 
 	// Returns int
 	/*  */
-	- (SoapRequest*) UpdateMeeting: (id <SoapDelegate>) handler meetingToUpdate: (ArcosMeetingWithDetails*) meetingToUpdate
+	- (SoapRequest*) UpdateMeeting: (id <SoapDelegate>) handler meetingToUpdate: (ArcosMeetingWithDetailsUpload*) meetingToUpdate
 	{
 		return [self UpdateMeeting: handler action: nil meetingToUpdate: meetingToUpdate];
 	}
 
-	- (SoapRequest*) UpdateMeeting: (id) _target action: (SEL) _action meetingToUpdate: (ArcosMeetingWithDetails*) meetingToUpdate
+	- (SoapRequest*) UpdateMeeting: (id) _target action: (SEL) _action meetingToUpdate: (ArcosMeetingWithDetailsUpload*) meetingToUpdate
 		{
 		NSMutableArray* _params = [NSMutableArray array];
 		
@@ -3531,12 +3537,72 @@
 		return _request;
 	}
 
-	-(SoapRequest*)UpdateMeetingWithProgress:(SoapRequestProgressBlock)progressBlock meetingToUpdate: (ArcosMeetingWithDetails*) meetingToUpdate completion:(SoapRequestCompletionBlock)completionBlock {
+	-(SoapRequest*)UpdateMeetingWithProgress:(SoapRequestProgressBlock)progressBlock meetingToUpdate: (ArcosMeetingWithDetailsUpload*) meetingToUpdate completion:(SoapRequestCompletionBlock)completionBlock {
 		NSMutableArray* _params = [NSMutableArray array];
 		
 		[_params addObject: [[[SoapParameter alloc] initWithValue: meetingToUpdate forName: @"meetingToUpdate"] autorelease]];
 		NSString* _envelope = [Soap createEnvelope:@"UpdateMeeting" forNamespace:self.namespace withParameters:_params withHeaders:self.headers];
 		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/UpdateMeeting" postData:_envelope deserializeTo:@"int" completionBlock:completionBlock];
+		_request.progressBlock = progressBlock;
+		[_request send];
+		return _request;
+	}
+
+	// Returns int
+	/*  */
+	- (SoapRequest*) UpdateAttachmentsForMeeting: (id <SoapDelegate>) handler meetingToUpdate: (int) meetingToUpdate attachments: (NSMutableArray*) attachments
+	{
+		return [self UpdateAttachmentsForMeeting: handler action: nil meetingToUpdate: meetingToUpdate attachments: attachments];
+	}
+
+	- (SoapRequest*) UpdateAttachmentsForMeeting: (id) _target action: (SEL) _action meetingToUpdate: (int) meetingToUpdate attachments: (NSMutableArray*) attachments
+		{
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		[_params addObject: [[[SoapParameter alloc] initWithValue: [NSNumber numberWithInt: meetingToUpdate] forName: @"meetingToUpdate"] autorelease]];
+		[_params addObject: [[[SoapParameter alloc] initWithValue: attachments forName: @"attachments"] autorelease]];
+		NSString* _envelope = [Soap createEnvelope: @"UpdateAttachmentsForMeeting" forNamespace: self.namespace withParameters: _params withHeaders: self.headers];
+		SoapRequest* _request = [SoapRequest create: _target action: _action service: self soapAction: @"http://www.strataarcos.com/UpdateAttachmentsForMeeting" postData: _envelope deserializeTo: @"int"];
+		[_request send];
+		return _request;
+	}
+
+	-(SoapRequest*)UpdateAttachmentsForMeetingWithProgress:(SoapRequestProgressBlock)progressBlock meetingToUpdate: (int) meetingToUpdate attachments: (NSMutableArray*) attachments completion:(SoapRequestCompletionBlock)completionBlock {
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		[_params addObject: [[[SoapParameter alloc] initWithValue: [NSNumber numberWithInt: meetingToUpdate] forName: @"meetingToUpdate"] autorelease]];
+		[_params addObject: [[[SoapParameter alloc] initWithValue: attachments forName: @"attachments"] autorelease]];
+		NSString* _envelope = [Soap createEnvelope:@"UpdateAttachmentsForMeeting" forNamespace:self.namespace withParameters:_params withHeaders:self.headers];
+		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/UpdateAttachmentsForMeeting" postData:_envelope deserializeTo:@"int" completionBlock:completionBlock];
+		_request.progressBlock = progressBlock;
+		[_request send];
+		return _request;
+	}
+
+	// Returns ArcosAttachmentWithFileContents*
+	/*  */
+	- (SoapRequest*) GetAttachment: (id <SoapDelegate>) handler iur: (int) iur
+	{
+		return [self GetAttachment: handler action: nil iur: iur];
+	}
+
+	- (SoapRequest*) GetAttachment: (id) _target action: (SEL) _action iur: (int) iur
+		{
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		[_params addObject: [[[SoapParameter alloc] initWithValue: [NSNumber numberWithInt: iur] forName: @"iur"] autorelease]];
+		NSString* _envelope = [Soap createEnvelope: @"GetAttachment" forNamespace: self.namespace withParameters: _params withHeaders: self.headers];
+		SoapRequest* _request = [SoapRequest create: _target action: _action service: self soapAction: @"http://www.strataarcos.com/GetAttachment" postData: _envelope deserializeTo: [[ArcosAttachmentWithFileContents alloc] autorelease]];
+		[_request send];
+		return _request;
+	}
+
+	-(SoapRequest*)GetAttachmentWithProgress:(SoapRequestProgressBlock)progressBlock iur: (int) iur completion:(SoapRequestCompletionBlock)completionBlock {
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		[_params addObject: [[[SoapParameter alloc] initWithValue: [NSNumber numberWithInt: iur] forName: @"iur"] autorelease]];
+		NSString* _envelope = [Soap createEnvelope:@"GetAttachment" forNamespace:self.namespace withParameters:_params withHeaders:self.headers];
+		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/GetAttachment" postData:_envelope deserializeTo:[[ArcosAttachmentWithFileContents alloc] autorelease] completionBlock:completionBlock];
 		_request.progressBlock = progressBlock;
 		[_request send];
 		return _request;

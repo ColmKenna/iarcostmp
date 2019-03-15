@@ -11,6 +11,8 @@
 #import "ArcosMeetingBO.h"
 #import "ArcosUtils.h"
 #import "ArcosMeetingWithDetails.h"
+#import "ArcosMeetingWithDetailsDownload.h"
+#import "ArcosMeetingWithDetailsUpload.h"
 
 @interface MeetingBaseDataManager : NSObject {
     MeetingCellKeyDefinition* _meetingCellKeyDefinition;
@@ -20,7 +22,7 @@
 @property(nonatomic, retain) MeetingCellKeyDefinition* meetingCellKeyDefinition;
 @property(nonatomic, retain) NSMutableDictionary* headOfficeDataObjectDict;
 
-- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails;
+- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload;
 - (NSMutableDictionary*)createDefaultIURDict;
 - (NSMutableDictionary*)createDefaultIURDictWithIUR:(NSNumber*)anIUR title:(NSString*)aTitle;
 - (NSMutableDictionary*)createDefaultEmployeeDict;
@@ -33,7 +35,7 @@
 - (NSMutableDictionary*)createBooleanCellWithFieldName:(NSString*)aFieldName cellKey:(NSString*)aCellKey fieldData:(id)aFieldData;
 - (void)dataMeetingBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath;
 - (void)displayListHeadOfficeAdaptor;
-- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails;
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsUpload*)anArcosMeetingWithDetailsUpload;
 
 @end
 

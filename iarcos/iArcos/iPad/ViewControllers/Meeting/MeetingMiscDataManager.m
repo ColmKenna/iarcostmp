@@ -38,19 +38,19 @@
     [super dealloc];
 }
 
-- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
+- (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload {
 //    [self createDataObjectDict];
     NSMutableDictionary* approvedByDict = [self createDefaultEmployeeDict];
     NSMutableDictionary* l4FieldDataDict = [self createDefaultIURDict];
     NSMutableDictionary* l5FieldDataDict = [self createDefaultIURDict];
     NSNumber* speakerAgreementNumber = [NSNumber numberWithBool:YES];
     NSString* speakerAgreementDetails = @"";
-    if (anArcosMeetingWithDetails != nil) {
-        approvedByDict = [self createDefaultEmployeeDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetails.ApprovedByIUR] title:anArcosMeetingWithDetails.ApprovedByName];
-        l4FieldDataDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetails.L4iur] title:anArcosMeetingWithDetails.L4Details];
-        l5FieldDataDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetails.L5iur] title:anArcosMeetingWithDetails.L5Details];
-        speakerAgreementNumber = [NSNumber numberWithBool:anArcosMeetingWithDetails.SpeakerAgreement];
-        speakerAgreementDetails = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetails.SpeakerAgreementDetails];
+    if (anArcosMeetingWithDetailsDownload != nil) {
+        approvedByDict = [self createDefaultEmployeeDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetailsDownload.ApprovedByIUR] title:anArcosMeetingWithDetailsDownload.ApprovedByName];
+        l4FieldDataDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetailsDownload.L4iur] title:anArcosMeetingWithDetailsDownload.L4Details];
+        l5FieldDataDict = [self createDefaultIURDictWithIUR:[NSNumber numberWithInt:anArcosMeetingWithDetailsDownload.L5iur] title:anArcosMeetingWithDetailsDownload.L5Details];
+        speakerAgreementNumber = [NSNumber numberWithBool:anArcosMeetingWithDetailsDownload.SpeakerAgreement];
+        speakerAgreementDetails = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetailsDownload.SpeakerAgreementDetails];
     }
     
     self.groupedDataDict = [NSMutableDictionary dictionaryWithCapacity:3];
@@ -114,17 +114,17 @@
     }
 }
 
-- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails {
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsUpload*)anArcosMeetingWithDetailsUpload {
     @try {
         NSMutableDictionary* resApprovedByDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.approvedByKey];
-        anArcosMeetingWithDetails.ApprovedByIUR = [[resApprovedByDict objectForKey:@"IUR"] intValue];
+        anArcosMeetingWithDetailsUpload.ApprovedByIUR = [[resApprovedByDict objectForKey:@"IUR"] intValue];
         NSMutableDictionary* resL4Dict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.l4Key];
-        anArcosMeetingWithDetails.L4iur = [[resL4Dict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetailsUpload.L4iur = [[resL4Dict objectForKey:@"DescrDetailIUR"] intValue];
         NSMutableDictionary* resL5Dict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.l5Key];
-        anArcosMeetingWithDetails.L5iur = [[resL5Dict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetailsUpload.L5iur = [[resL5Dict objectForKey:@"DescrDetailIUR"] intValue];
         NSNumber* resSpeakerAgreement = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.speakerAgreementKey];
-        anArcosMeetingWithDetails.SpeakerAgreement = [resSpeakerAgreement boolValue];
-        anArcosMeetingWithDetails.SpeakerAgreementDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.speakerAgreementDetailsKey];
+        anArcosMeetingWithDetailsUpload.SpeakerAgreement = [resSpeakerAgreement boolValue];
+        anArcosMeetingWithDetailsUpload.SpeakerAgreementDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.speakerAgreementDetailsKey];
     } @catch (NSException *exception) {
         NSLog(@"%@", [exception reason]);
     } @finally {

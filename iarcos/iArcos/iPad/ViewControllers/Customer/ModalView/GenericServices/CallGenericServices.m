@@ -378,7 +378,7 @@
     [self.arcosService GetTargetByEmployee:aTarget action:anAction EmployeeIUR:anEmployeeIUR];
 }
 
-- (void)genericUpdateMeetingByMeetingBO:(ArcosMeetingWithDetails*)aMeetingToUpdate action:(SEL)anAction target:(id)aTarget {
+- (void)genericUpdateMeetingByMeetingBO:(ArcosMeetingWithDetailsUpload*)aMeetingToUpdate action:(SEL)anAction target:(id)aTarget {
     if (![self startCallService]) {
         return;
     }

@@ -40,16 +40,15 @@
 }
 
 - (void)configCellWithArcosPresenterForMeeting:(ArcosPresenterForMeeting*)anArcosPresenterForMeeting {
-    ArcosPresenter* auxPresenter = anArcosPresenterForMeeting.Presenter;
-    int auxImageIUR = auxPresenter.ImageIUR;
+    int auxImageIUR = anArcosPresenterForMeeting.ImageIUR;
     self.myImageView.image = [ArcosUtils genericImageWithIUR:[NSNumber numberWithInt:auxImageIUR]];
-    self.fullTitleLabel.text = [ArcosUtils convertNilToEmpty:auxPresenter.FullTitle];
-    self.memoDetailsLabel.text = [ArcosUtils convertNilToEmpty:auxPresenter.MemoDetails];
-    [self configHideShownButtonWithFlag:anArcosPresenterForMeeting.LinkedToMeeting];
-    if (auxPresenter.Active) {
+    self.fullTitleLabel.text = [ArcosUtils convertNilToEmpty:anArcosPresenterForMeeting.Title];
+    self.memoDetailsLabel.text = [ArcosUtils convertNilToEmpty:anArcosPresenterForMeeting.MemoDetails];
+    [self configHideShownButtonWithFlag:anArcosPresenterForMeeting.Shown];
+    if (anArcosPresenterForMeeting.Active) {
         self.memoDetailsLabel.textColor = [UIColor darkTextColor];
     } else {
-        self.memoDetailsLabel.textColor = [UIColor colorWithRed:128.0/255.0 green:128.0/255.0 blue:128.0/255.0 alpha:1.0];
+        self.memoDetailsLabel.textColor = [UIColor colorWithRed:111.0/255.0 green:113.0/255.0 blue:121.0/255.0 alpha:1.0];
     }
 }
 
