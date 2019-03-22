@@ -10,14 +10,21 @@
 #import "MeetingAttachmentsDataManager.h"
 #import "MeetingAttachmentsHeaderViewController.h"
 #import "MeetingAttachmentsTableViewCell.h"
+#import "CallGenericServices.h"
+#import "MeetingAttachmentsFileViewController.h"
+#import "MeetingAttachmentsTableViewControllerDelegate.h"
 
-@interface MeetingAttachmentsTableViewController : UITableViewController {
+@interface MeetingAttachmentsTableViewController : UITableViewController<MeetingAttachmentsTableViewCellDelegate, ModalPresentViewControllerDelegate, MeetingAttachmentsHeaderViewControllerDelegate> {
+    id<MeetingAttachmentsTableViewControllerDelegate> _actionDelegate;
     MeetingAttachmentsDataManager* _meetingAttachmentsDataManager;
     MeetingAttachmentsHeaderViewController* _meetingAttachmentsHeaderViewController;
+    CallGenericServices* _callGenericServices;
 }
 
+@property(nonatomic, assign) id<MeetingAttachmentsTableViewControllerDelegate> actionDelegate;
 @property(nonatomic, retain) MeetingAttachmentsDataManager* meetingAttachmentsDataManager;
 @property(nonatomic, retain) MeetingAttachmentsHeaderViewController* meetingAttachmentsHeaderViewController;
+@property(nonatomic, retain) CallGenericServices* callGenericServices;
 
 - (void)reloadCustomiseTableView;
 

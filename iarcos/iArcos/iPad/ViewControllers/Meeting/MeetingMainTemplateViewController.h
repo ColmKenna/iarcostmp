@@ -20,8 +20,9 @@
 #import "MeetingAttendeesTableViewController.h"
 #import "MeetingPresentersTableViewController.h"
 #import "MeetingAttachmentsTableViewController.h"
+#import "FileCommon.h"
 
-@interface MeetingMainTemplateViewController : UIViewController {
+@interface MeetingMainTemplateViewController : UIViewController <MeetingAttachmentsTableViewControllerDelegate>{
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
     UISegmentedControl* _mySegmentedControl;
     UIView* _templateView;
@@ -41,6 +42,7 @@
     NSString* _createActionType;
     BOOL _meetingRecordCreated;
     NSNumber* _meetingIUR;
+    NSNumber* _meetingLocationIUR;
     id<MeetingMainTemplateActionDelegate> _meetingMainTemplateActionDelegate;
     ArcosRootViewController* _arcosRootViewController;
 }
@@ -64,6 +66,7 @@
 @property(nonatomic, retain) NSString* createActionType;
 @property(nonatomic, retain) id<MeetingMainTemplateActionDelegate> meetingMainTemplateActionDelegate;
 @property(nonatomic, retain) NSNumber* meetingIUR;
+@property(nonatomic, retain) NSNumber* meetingLocationIUR;
 @property(nonatomic, retain) ArcosRootViewController* arcosRootViewController;
 @property(nonatomic, assign) BOOL meetingRecordCreated;
 

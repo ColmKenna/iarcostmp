@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "MeetingAttachmentsHeaderViewControllerDelegate.h"
+#import "ArcosCoreData.h"
 
-@interface MeetingAttachmentsHeaderViewController : UIViewController {
+@interface MeetingAttachmentsHeaderViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate> {
     id<MeetingAttachmentsHeaderViewControllerDelegate> _actionDelegate;
     UIButton* _addButton;
 }

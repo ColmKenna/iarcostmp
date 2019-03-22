@@ -33,6 +33,7 @@
 @synthesize createActionType = _createActionType;
 @synthesize meetingMainTemplateActionDelegate = _meetingMainTemplateActionDelegate;
 @synthesize meetingIUR = _meetingIUR;
+@synthesize meetingLocationIUR = _meetingLocationIUR;
 @synthesize arcosRootViewController = _arcosRootViewController;
 @synthesize meetingRecordCreated = _meetingRecordCreated;
 
@@ -43,6 +44,7 @@
         self.arcosRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
         self.meetingRecordCreated = NO;
         self.meetingIUR = [NSNumber numberWithInt:0];
+        self.meetingLocationIUR = [NSNumber numberWithInt:0];
     }
     return self;
 }
@@ -52,6 +54,7 @@
     // Do any additional setup after loading the view from its nib.
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.title = @"Meeting";
+    [FileCommon createFolder:@"meeting"];
     UIColor* myColor = [UIColor colorWithRed:135.0/255.0f green:206.0/255.0f blue:250.0/255.0f alpha:1.0f];
     self.mySegmentedControl.layer.cornerRadius = 0.0;
     self.mySegmentedControl.layer.borderColor = myColor.CGColor;
@@ -69,6 +72,7 @@
     self.meetingCostingsViewController = [[[MeetingCostingsViewController alloc] initWithNibName:@"MeetingCostingsViewController" bundle:nil] autorelease];
     self.meetingPresentersTableViewController = [[[MeetingPresentersTableViewController alloc] initWithNibName:@"MeetingPresentersTableViewController" bundle:nil] autorelease];
     self.meetingAttachmentsTableViewController = [[[MeetingAttachmentsTableViewController alloc] initWithNibName:@"MeetingAttachmentsTableViewController" bundle:nil] autorelease];
+    self.meetingAttachmentsTableViewController.actionDelegate = self;
     
     self.layoutKeyList = [NSArray arrayWithObjects:@"AuxDetails", @"AuxMisc", @"AuxObjectives", @"AuxAttendees", @"AuxCostings", @"AuxPresenters", @"AuxAttachments", nil];
     self.layoutObjectList = [NSArray arrayWithObjects:self.meetingDetailsTableViewController.view, self.meetingMiscTableViewController.view, self.meetingObjectivesTableViewController.view, self.meetingAttendeesTableViewController.view, self.meetingCostingsViewController.view, self.meetingPresentersTableViewController.view, self.meetingAttachmentsTableViewController.view, nil];
@@ -130,6 +134,7 @@
     [self.meetingAttendeesTableViewController.meetingAttendeesDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
     [self.meetingCostingsViewController.meetingCostingsDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
     [self.meetingPresentersTableViewController.meetingPresentersDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
+    
 //    arcosMeetingBO.Attachments = @"";
 //    NSLog(@"abc %@", arcosMeetingBO);
     if ([self.actionType isEqualToString:self.createActionType]) {
@@ -288,6 +293,8 @@
     if (result == nil) {
         return;
     }
+    ArcosMeetingWithDetailsDownload* arcosMeetingWithDetailsDownload = (ArcosMeetingWithDetailsDownload*)result;
+    self.meetingLocationIUR = [NSNumber numberWithInt:arcosMeetingWithDetailsDownload.LocationIUR];
     [self.meetingDetailsTableViewController.meetingDetailsDataManager createBasicDataWithReturnObject:result];
     [self.meetingMiscTableViewController.meetingMiscDataManager createBasicDataWithReturnObject:result];
     [self.meetingObjectivesTableViewController.meetingObjectivesDataManager createBasicDataWithReturnObject:result];
@@ -297,6 +304,15 @@
     [self.meetingPresentersTableViewController.meetingPresentersDataManager createBasicDataWithReturnObject:result];
     [self.meetingAttachmentsTableViewController.meetingAttachmentsDataManager createBasicDataWithReturnObject:result];
     [self reloadCustomiseTableView];
+}
+
+#pragma mark MeetingAttachmentsTableViewControllerDelegate
+- (NSNumber*)retrieveMeetingAttachmentsTableLocationIUR {
+    if ([self.actionType isEqualToString:self.createActionType]) {
+        return [NSNumber numberWithInt:0];
+    } else {
+        return self.meetingLocationIUR;
+    }
 }
 
 @end

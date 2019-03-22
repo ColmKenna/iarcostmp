@@ -13,8 +13,10 @@
 @end
 
 @implementation MeetingAttachmentsTableViewController
+@synthesize actionDelegate = _actionDelegate;
 @synthesize meetingAttachmentsDataManager = _meetingAttachmentsDataManager;
 @synthesize meetingAttachmentsHeaderViewController = _meetingAttachmentsHeaderViewController;
+@synthesize callGenericServices = _callGenericServices;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -33,8 +35,10 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.meetingAttachmentsHeaderViewController = [[[MeetingAttachmentsHeaderViewController alloc] initWithNibName:@"MeetingAttachmentsHeaderViewController" bundle:nil] autorelease];
+    self.meetingAttachmentsHeaderViewController.actionDelegate = self;
     [self addChildViewController:self.meetingAttachmentsHeaderViewController];
     [self.meetingAttachmentsHeaderViewController didMoveToParentViewController:self];
+    self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.view] autorelease];
 }
 
 - (void)dealloc {
@@ -44,7 +48,7 @@
     [self.meetingAttachmentsHeaderViewController.view removeFromSuperview];
     [self.meetingAttachmentsHeaderViewController removeFromParentViewController];
     self.meetingAttachmentsHeaderViewController = nil;
-    
+    self.callGenericServices = nil;
     
     [super dealloc];
 }
@@ -76,10 +80,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString* attachmentsCellIdentifier = @"IdMeetingAttachmentsTableViewCell";
-    
-    NSString* tmpSectionTitle = [self.meetingAttachmentsDataManager.sectionTitleList objectAtIndex:indexPath.section];
-    NSMutableArray* tmpDisplayList = [self.meetingAttachmentsDataManager.groupedDataDict objectForKey:tmpSectionTitle];
-    ArcosAttachmentSummary* auxArcosAttachmentSummary = [tmpDisplayList objectAtIndex:indexPath.row];
+    ArcosAttachmentSummary* auxArcosAttachmentSummary = [self.meetingAttachmentsDataManager cellDataWithIndexPath:indexPath];
     MeetingAttachmentsTableViewCell* cell = (MeetingAttachmentsTableViewCell*)[tableView dequeueReusableCellWithIdentifier:attachmentsCellIdentifier];
     if (cell == nil) {
         NSArray* nibContents = [[NSBundle mainBundle] loadNibNamed:@"MeetingAttachmentsTableViewCell" owner:self options:nil];
@@ -92,8 +93,8 @@
     }
     
     // Configure the cell...
-//    cell.actionDelegate = self;
-//    cell.myIndexPath = indexPath;
+    cell.actionDelegate = self;
+    cell.myIndexPath = indexPath;
     [cell configCellWithArcosAttachmentSummary:auxArcosAttachmentSummary];
     
     return cell;
@@ -122,5 +123,106 @@
     [self.tableView reloadData];
 }
 
+#pragma mark MeetingAttachmentsTableViewCellDelegate
+- (void)meetingAttachmentsViewButtonPressedWithFileName:(NSString *)aFileName atIndexPath:(NSIndexPath *)anIndexPath {
+    self.meetingAttachmentsDataManager.currentFileName = aFileName;
+    ArcosAttachmentSummary* auxArcosAttachmentSummary = [self.meetingAttachmentsDataManager cellDataWithIndexPath:anIndexPath];
+    if (auxArcosAttachmentSummary.IUR == 0 && auxArcosAttachmentSummary.TableIUR == 0) {
+        NSString* auxFilePath = [NSString stringWithFormat:@"%@/%@", [FileCommon photosPath], self.meetingAttachmentsDataManager.currentFileName];
+        [self showFileViewControllerWithFilePath:auxFilePath];
+        return;
+    }
+    
+    [self.callGenericServices genericGetFromResourcesWithFileName:aFileName action:@selector(setGenericGetFromResourcesResult:) target:self];
+}
+
+- (void)setGenericGetFromResourcesResult:(id)result {
+    result = [self.callGenericServices handleResultErrorProcess:result];
+    if (result == nil) {
+        return;
+    }
+    BOOL saveFileFlag = NO;
+    NSString* auxFilePath = [NSString stringWithFormat:@"%@/%@", [FileCommon meetingPath], self.meetingAttachmentsDataManager.currentFileName];
+    NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:result options:0] autorelease];
+    saveFileFlag = [myNSData writeToFile:auxFilePath atomically:YES];
+    if (!saveFileFlag) {
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Unable to save %@ on the iPad.", self.meetingAttachmentsDataManager.currentFileName] title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
+    }
+    if (!saveFileFlag) return;
+    [self showFileViewControllerWithFilePath:auxFilePath];
+}
+
+- (void)showFileViewControllerWithFilePath:(NSString*)aFilePath {
+    MeetingAttachmentsFileViewController* mafvc = [[MeetingAttachmentsFileViewController alloc] initWithNibName:@"MeetingAttachmentsFileViewController" bundle:nil];
+//    mafvc.fileName = self.meetingAttachmentsDataManager.currentFileName;
+    mafvc.filePath = aFilePath;
+    mafvc.modalDelegate = self;
+    UINavigationController* auxNavigationController = [[UINavigationController alloc] initWithRootViewController:mafvc];
+    [self presentViewController:auxNavigationController animated:YES completion:nil];
+    [auxNavigationController release];
+    [mafvc release];
+}
+
+- (void)meetingAttachmentsRevertDeleteActionWithIndexPath:(NSIndexPath *)anIndexPath {
+    [self.tableView reloadData];
+}
+
+- (void)meetingAttachmentsDeleteFinishedWithData:(ArcosAttachmentSummary*)anArcosAttachmentSummary atIndexPath:(NSIndexPath *)anIndexPath {
+    self.meetingAttachmentsDataManager.currentSelectedDeleteIndexPath = anIndexPath;
+    void (^deleteAttachmentsActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        [self deleteAttachmentsProcessor];
+    };
+    void (^cancelAttachmentsActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        
+    };
+    [ArcosUtils showTwoBtnsDialogBox:[NSString stringWithFormat:@"Are you sure you want to delete %@", anArcosAttachmentSummary.FileName] title:@"" delegate:self target:self tag:100 lBtnText:@"Cancel" rBtnText:@"Delete" lBtnHandler:cancelAttachmentsActionHandler rBtnHandler:deleteAttachmentsActionHandler];
+}
+
+- (void)deleteAttachmentsProcessor {
+    NSString* tmpSectionTitle = [self.meetingAttachmentsDataManager.sectionTitleList objectAtIndex:self.meetingAttachmentsDataManager.currentSelectedDeleteIndexPath.section];
+    NSMutableArray* tmpDisplayList = [self.meetingAttachmentsDataManager.groupedDataDict objectForKey:tmpSectionTitle];
+    ArcosAttachmentSummary* auxArcosAttendeeWithDetails = [tmpDisplayList objectAtIndex:self.meetingAttachmentsDataManager.currentSelectedDeleteIndexPath.row];
+    auxArcosAttendeeWithDetails.PCiur = -999;
+    [self.tableView reloadData];
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != [alertView cancelButtonIndex] && alertView.tag == 100) {
+        [self deleteAttachmentsProcessor];
+    }
+}
+
+#pragma mark ModalPresentViewControllerDelegate
+- (void)didDismissModalPresentViewController {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark MeetingAttachmentsHeaderViewControllerDelegate
+- (UIViewController*)retrieveParentViewController {
+    return self;
+}
+
+- (NSNumber*)retrieveMeetingAttachmentsHeaderLocationIUR {
+    return [self.actionDelegate retrieveMeetingAttachmentsTableLocationIUR];
+}
+
+- (void)addMeetingAttachmentsRecordWithFileName:(NSString *)aFileName {
+    ArcosAttachmentSummary* arcosAttachmentSummary = [[[ArcosAttachmentSummary alloc] init] autorelease];
+    arcosAttachmentSummary.IUR = 0;
+    arcosAttachmentSummary.TableIUR = 0;
+    arcosAttachmentSummary.TableName = @"Meeting";
+    arcosAttachmentSummary.FileName = aFileName;
+    arcosAttachmentSummary.FileLocation = @"";
+    arcosAttachmentSummary.Description = aFileName;
+    arcosAttachmentSummary.LocationIUR = [[self.actionDelegate retrieveMeetingAttachmentsTableLocationIUR] intValue];
+    arcosAttachmentSummary.DateAttached = [NSDate date];
+    arcosAttachmentSummary.EmployeeIUR = [[SettingManager employeeIUR] intValue];
+    arcosAttachmentSummary.PCiur = 0;
+    
+    NSMutableArray* tmpDisplayList = [self.meetingAttachmentsDataManager.groupedDataDict objectForKey:self.meetingAttachmentsDataManager.attachmentsTitle];
+    [tmpDisplayList addObject:arcosAttachmentSummary];
+    [self.tableView reloadData];
+}
 
 @end

@@ -13,13 +13,15 @@
 @synthesize attachmentsTitle = _attachmentsTitle;
 @synthesize sectionTitleList = _sectionTitleList;
 @synthesize groupedDataDict = _groupedDataDict;
+@synthesize currentFileName = _currentFileName;
+@synthesize currentSelectedDeleteIndexPath = _currentSelectedDeleteIndexPath;
 
 - (instancetype)init {
     self = [super init];
     if (self) {
         self.emptyTitle = @"";
         self.attachmentsTitle = @"Attachments";
-        self.sectionTitleList = [NSMutableArray arrayWithObjects:self.emptyTitle, self.attachmentsTitle, nil];
+        self.sectionTitleList = [NSMutableArray arrayWithObjects:self.emptyTitle, self.attachmentsTitle, nil];        
     }
     return self;
 }
@@ -29,6 +31,8 @@
     self.attachmentsTitle = nil;
     self.sectionTitleList = nil;
     self.groupedDataDict = nil;
+    self.currentFileName = nil;
+    self.currentSelectedDeleteIndexPath = nil;
     
     [super dealloc];
 }
@@ -47,5 +51,24 @@
     }
 }
 
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsUpload*)anArcosMeetingWithDetailsUpload {
+    for (int i = 0; i < [self.sectionTitleList count]; i++) {
+        NSString* tmpSectionTitle = [self.sectionTitleList objectAtIndex:i];
+        NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:tmpSectionTitle];
+        for (int j = 0; j < [tmpDisplayList count]; j++) {
+            ArcosAttachmentSummary* auxArcosAttachmentSummary = [tmpDisplayList objectAtIndex:j];
+            if (auxArcosAttachmentSummary.PCiur == -999) {
+                auxArcosAttachmentSummary.Description = @"DELETE";
+            }
+//            [anArcosMeetingWithDetailsUpload. addObject:auxArcosAttendeeWithDetails];
+        }
+    }
+}
+
+- (ArcosAttachmentSummary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath {
+    NSString* tmpSectionTitle = [self.sectionTitleList objectAtIndex:anIndexPath.section];
+    NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:tmpSectionTitle];
+    return [tmpDisplayList objectAtIndex:anIndexPath.row];
+}
 
 @end

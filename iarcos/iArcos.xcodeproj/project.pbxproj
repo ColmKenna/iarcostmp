@@ -1211,6 +1211,8 @@
 		636BC5DF219EE455006B18BF /* MeetingCostingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 636BC5DD219EE455006B18BF /* MeetingCostingsViewController.m */; };
 		636BC5E0219EE455006B18BF /* MeetingCostingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 636BC5DE219EE455006B18BF /* MeetingCostingsViewController.xib */; };
 		6370809F1AEA4DF1007A63C4 /* UtilitiesConfigurationDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6370809E1AEA4DF1007A63C4 /* UtilitiesConfigurationDataManager.m */; };
+		6373C5C52240FFB2002A8194 /* MeetingAttachmentsFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6373C5C32240FFB2002A8194 /* MeetingAttachmentsFileViewController.m */; };
+		6373C5C62240FFB2002A8194 /* MeetingAttachmentsFileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6373C5C42240FFB2002A8194 /* MeetingAttachmentsFileViewController.xib */; };
 		63787682218325770088BB36 /* CustomerMasterMainHeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63787680218325770088BB36 /* CustomerMasterMainHeaderViewController.m */; };
 		63787683218325770088BB36 /* CustomerMasterMainHeaderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63787681218325770088BB36 /* CustomerMasterMainHeaderViewController.xib */; };
 		6378CB8E1CB54A0300A1E904 /* DownloadFunctionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6378CB8D1CB54A0300A1E904 /* DownloadFunctionTableViewCell.m */; };
@@ -3515,6 +3517,7 @@
 		630F0EF42174E39A000BDA94 /* ProductDetailDesignViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductDetailDesignViewController.h; sourceTree = "<group>"; };
 		630F0EF52174E39A000BDA94 /* ProductDetailDesignViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductDetailDesignViewController.m; sourceTree = "<group>"; };
 		630F0EF62174E39A000BDA94 /* ProductDetailDesignViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductDetailDesignViewController.xib; sourceTree = "<group>"; };
+		630F722B22426EF100C45399 /* MeetingAttachmentsTableViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingAttachmentsTableViewControllerDelegate.h; sourceTree = "<group>"; };
 		630F93522167A4AE00996C59 /* MATFormRowsTableCellGeneratorDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MATFormRowsTableCellGeneratorDelegate.h; sourceTree = "<group>"; };
 		630F93532167A4CE00996C59 /* MATFormRowsTableCellRrpGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MATFormRowsTableCellRrpGenerator.h; sourceTree = "<group>"; };
 		630F93542167A4CE00996C59 /* MATFormRowsTableCellRrpGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MATFormRowsTableCellRrpGenerator.m; sourceTree = "<group>"; };
@@ -3907,6 +3910,9 @@
 		636BC5DE219EE455006B18BF /* MeetingCostingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeetingCostingsViewController.xib; sourceTree = "<group>"; };
 		6370809D1AEA4DF1007A63C4 /* UtilitiesConfigurationDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilitiesConfigurationDataManager.h; sourceTree = "<group>"; };
 		6370809E1AEA4DF1007A63C4 /* UtilitiesConfigurationDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtilitiesConfigurationDataManager.m; sourceTree = "<group>"; };
+		6373C5C22240FFB2002A8194 /* MeetingAttachmentsFileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingAttachmentsFileViewController.h; sourceTree = "<group>"; };
+		6373C5C32240FFB2002A8194 /* MeetingAttachmentsFileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingAttachmentsFileViewController.m; sourceTree = "<group>"; };
+		6373C5C42240FFB2002A8194 /* MeetingAttachmentsFileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeetingAttachmentsFileViewController.xib; sourceTree = "<group>"; };
 		6378767F218325770088BB36 /* CustomerMasterMainHeaderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerMasterMainHeaderViewController.h; sourceTree = "<group>"; };
 		63787680218325770088BB36 /* CustomerMasterMainHeaderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerMasterMainHeaderViewController.m; sourceTree = "<group>"; };
 		63787681218325770088BB36 /* CustomerMasterMainHeaderViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomerMasterMainHeaderViewController.xib; sourceTree = "<group>"; };
@@ -8057,6 +8063,10 @@
 				63155669223BB59D00DEF591 /* MeetingAttachmentsHeaderViewController.m */,
 				6315566A223BB59D00DEF591 /* MeetingAttachmentsHeaderViewController.xib */,
 				6315566D223BD78300DEF591 /* MeetingAttachmentsHeaderViewControllerDelegate.h */,
+				6373C5C22240FFB2002A8194 /* MeetingAttachmentsFileViewController.h */,
+				6373C5C32240FFB2002A8194 /* MeetingAttachmentsFileViewController.m */,
+				6373C5C42240FFB2002A8194 /* MeetingAttachmentsFileViewController.xib */,
+				630F722B22426EF100C45399 /* MeetingAttachmentsTableViewControllerDelegate.h */,
 			);
 			path = Meeting;
 			sourceTree = "<group>";
@@ -8760,6 +8770,7 @@
 				630B3DE119F01CB9007B2442 /* Blackhall_sale.png in Resources */,
 				630B3B8C19F01CB9007B2442 /* CustomerWeeklyMainWrapperModalViewController.xib in Resources */,
 				630B3E0719F01CB9007B2442 /* Order.png in Resources */,
+				6373C5C62240FFB2002A8194 /* MeetingAttachmentsFileViewController.xib in Resources */,
 				632E6BBC19F7B1220076B819 /* GenericMasterTemplateViewController.xib in Resources */,
 				630B3C5D19F01CB9007B2442 /* MATFormRowsTableViewController.xib in Resources */,
 				63787683218325770088BB36 /* CustomerMasterMainHeaderViewController.xib in Resources */,
@@ -9457,6 +9468,7 @@
 				638944CE1B204AEF00B7E6E5 /* Product.m in Sources */,
 				630B3B2119F01CB9007B2442 /* PresenterFactViewController.m in Sources */,
 				630B344E19F0127C007B2442 /* LocFormLink.m in Sources */,
+				6373C5C52240FFB2002A8194 /* MeetingAttachmentsFileViewController.m in Sources */,
 				630B3B7819F01CB9007B2442 /* CustomerMemoModalViewController.m in Sources */,
 				637F81C81AE7ACE80089978D /* SaveRecordBaseUpdateCenter.m in Sources */,
 				630B3D1819F01CB9007B2442 /* GenericWrapperUITableViewController.m in Sources */,

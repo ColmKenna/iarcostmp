@@ -11,7 +11,9 @@
 
 @protocol MeetingAttachmentsTableViewCellDelegate <NSObject>
 
-
+- (void)meetingAttachmentsViewButtonPressedWithFileName:(NSString*)aFileName atIndexPath:(NSIndexPath*)anIndexPath;
+- (void)meetingAttachmentsRevertDeleteActionWithIndexPath:(NSIndexPath*)anIndexPath;
+- (void)meetingAttachmentsDeleteFinishedWithData:(ArcosAttachmentSummary*)anArcosAttachmentSummary atIndexPath:(NSIndexPath*)anIndexPath;
 
 @end
 

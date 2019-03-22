@@ -16,12 +16,18 @@
     NSString* _attachmentsTitle;
     NSMutableArray* _sectionTitleList;
     NSMutableDictionary* _groupedDataDict;
+    NSString* _currentFileName;
+    NSIndexPath* _currentSelectedDeleteIndexPath;
 }
 
 @property(nonatomic, retain) NSString* emptyTitle;
 @property(nonatomic, retain) NSString* attachmentsTitle;
 @property(nonatomic, retain) NSMutableArray* sectionTitleList;
 @property(nonatomic, retain) NSMutableDictionary* groupedDataDict;
+@property(nonatomic, retain) NSString* currentFileName;
+@property(nonatomic, retain) NSIndexPath* currentSelectedDeleteIndexPath;
+
+- (ArcosAttachmentSummary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath;
 
 @end
 

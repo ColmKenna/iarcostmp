@@ -12,6 +12,8 @@
 @protocol MeetingAttachmentsHeaderViewControllerDelegate <NSObject>
 
 - (UIViewController*)retrieveParentViewController;
+- (NSNumber*)retrieveMeetingAttachmentsHeaderLocationIUR;
+- (void)addMeetingAttachmentsRecordWithFileName:(NSString*)aFileName;
 
 @end
 

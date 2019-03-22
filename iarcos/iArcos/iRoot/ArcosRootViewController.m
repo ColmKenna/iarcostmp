@@ -68,6 +68,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [FileCommon removeAllFileUnderFolder:@"meeting"];
     self.masterWidth = [GlobalSharedClass shared].mainMasterWidth;   //56.0f;
     self.isMasterViewNotShowing = NO;
     self.dividerWidth = 2.0f;
