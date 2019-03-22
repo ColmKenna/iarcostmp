@@ -133,6 +133,7 @@
     [self.meetingObjectivesTableViewController.meetingObjectivesDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
     [self.meetingAttendeesTableViewController.meetingAttendeesDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
     [self.meetingCostingsViewController.meetingCostingsDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
+    [self.meetingCostingsViewController.meetingExpenseTableViewController populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
     [self.meetingPresentersTableViewController.meetingPresentersDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
     
 //    arcosMeetingBO.Attachments = @"";

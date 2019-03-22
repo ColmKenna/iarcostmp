@@ -12,6 +12,7 @@
 @protocol MeetingExpenseTableViewControllerDelegate <NSObject>
 
 - (UITableView*)retrieveExpenseTableView;
+- (UIViewController*)retrieveMeetingCostingViewController;
 
 @end
 

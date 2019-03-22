@@ -15,6 +15,7 @@
 @implementation MeetingExpenseTableViewController
 @synthesize accessDelegate = _accessDelegate;
 @synthesize displayList = _displayList;
+@synthesize deleteDisplayList = _deleteDisplayList;
 @synthesize meetingExpenseDetailsDataManager = _meetingExpenseDetailsDataManager;
 @synthesize currentSelectDeleteIndexPath = _currentSelectDeleteIndexPath;
 
@@ -22,6 +23,7 @@
     self = [super init];
     if (self) {
         self.displayList = [NSMutableArray array];
+        self.deleteDisplayList = [NSMutableArray array];
         self.meetingExpenseDetailsDataManager = [[[MeetingExpenseDetailsDataManager alloc] init] autorelease];
     }
     return self;
@@ -89,13 +91,12 @@
     }
     
     // Configure the cell...
-    NSMutableDictionary* cellData = [self.displayList objectAtIndex:indexPath.row];
-    cell.dateLabel.text = [ArcosUtils stringFromDate:[cellData objectForKey:self.meetingExpenseDetailsDataManager.expDateKey] format:[GlobalSharedClass shared].dateFormat];
-    NSMutableDictionary* exTypeDataDict = [cellData objectForKey:self.meetingExpenseDetailsDataManager.exTypeKey];
-    cell.detailsLabel.text = [exTypeDataDict objectForKey:@"Title"];
-    cell.commentsLabel.text = [cellData objectForKey:self.meetingExpenseDetailsDataManager.commentsKey];
-    cell.amountLabel.text = [cellData objectForKey:self.meetingExpenseDetailsDataManager.totalAmountKey];
-    
+    ArcosExpenses* tmpArcosExpenses = [self.displayList objectAtIndex:indexPath.row];
+    cell.dateLabel.text = [ArcosUtils stringFromDate:tmpArcosExpenses.ExpDate format:[GlobalSharedClass shared].dateFormat];
+    NSDictionary* exTypeDataDict = [[ArcosCoreData sharedArcosCoreData] descriptionWithIUR:[NSNumber numberWithInt:tmpArcosExpenses.EXiur]];
+    cell.detailsLabel.text = [ArcosUtils convertNilToEmpty:[exTypeDataDict objectForKey:@"Detail"]];
+    cell.commentsLabel.text = tmpArcosExpenses.Comments;
+    cell.amountLabel.text = [NSString stringWithFormat:@"%.2f", [[NSNumber numberWithDouble:tmpArcosExpenses.TotalAmount] floatValue]];
     
     return cell;
 }
@@ -115,16 +116,48 @@
     void (^cancelActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
         
     };
-    [ArcosUtils showTwoBtnsDialogBox:@"Are you sure you want to delete the expense" title:@"" delegate:nil target:self tag:0 lBtnText:@"Cancel" rBtnText:@"Delete" lBtnHandler:cancelActionHandler rBtnHandler:deleteActionHandler];
+    [ArcosUtils showTwoBtnsDialogBox:@"Are you sure you want to delete the expense" title:@"" delegate:nil target:[self.accessDelegate retrieveMeetingCostingViewController] tag:0 lBtnText:@"Cancel" rBtnText:@"Delete" lBtnHandler:cancelActionHandler rBtnHandler:deleteActionHandler];
 }
 
 - (void)deleteExpenseProcessor {
+    ArcosExpenses* tmpArcosExpenses = [self.displayList objectAtIndex:self.currentSelectDeleteIndexPath.row];
+    tmpArcosExpenses.Comments = @"DELETE";
+    [self.deleteDisplayList addObject:tmpArcosExpenses];
     [self.displayList removeObjectAtIndex:self.currentSelectDeleteIndexPath.row];
     [[self.accessDelegate retrieveExpenseTableView] reloadData];
 }
 
 - (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload {
     self.displayList = [NSMutableArray array];
+    self.deleteDisplayList = [NSMutableArray array];
+    if (anArcosMeetingWithDetailsDownload == nil) return;
+    if ([anArcosMeetingWithDetailsDownload.Expenses count] == 0) return;
+    for (int i = 0; i < [anArcosMeetingWithDetailsDownload.Expenses count]; i++) {
+        ArcosExpenses* tmpArcosExpenses = [anArcosMeetingWithDetailsDownload.Expenses objectAtIndex:i];
+        [self.displayList addObject:tmpArcosExpenses];
+    }
+}
+
+- (void)meetingExpenseDetailsSaveButtonProcessorWithData:(NSMutableDictionary*)aHeadOfficeDataObjectDict {
+    ArcosExpenses* tmpArcosExpenses = [[[ArcosExpenses alloc] init] autorelease];
+    tmpArcosExpenses.IUR = 0;
+    NSMutableDictionary* exTypeDataDict = [aHeadOfficeDataObjectDict objectForKey:self.meetingExpenseDetailsDataManager.exTypeKey];
+    tmpArcosExpenses.EXiur = [[exTypeDataDict objectForKey:@"DescrDetailIUR"] intValue];
+    tmpArcosExpenses.ExpDate = [aHeadOfficeDataObjectDict objectForKey:self.meetingExpenseDetailsDataManager.expDateKey];
+    tmpArcosExpenses.Comments = [aHeadOfficeDataObjectDict objectForKey:self.meetingExpenseDetailsDataManager.commentsKey];
+    tmpArcosExpenses.TotalAmount = [[aHeadOfficeDataObjectDict objectForKey:self.meetingExpenseDetailsDataManager.totalAmountKey] doubleValue];
+    [self.displayList addObject:tmpArcosExpenses];
+}
+
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsUpload*)anArcosMeetingWithDetailsUpload {
+    for (int i = 0; i < [self.displayList count]; i++) {
+        ArcosExpenses* tmpArcosExpenses = [self.displayList objectAtIndex:i];
+        [anArcosMeetingWithDetailsUpload.Expenses addObject:tmpArcosExpenses];
+    }
+    for (int j = 0; j < [self.deleteDisplayList count]; j++) {
+        ArcosExpenses* tmpArcosExpenses = [self.deleteDisplayList objectAtIndex:j];
+        [anArcosMeetingWithDetailsUpload.Expenses addObject:tmpArcosExpenses];
+    }
 }
 
 

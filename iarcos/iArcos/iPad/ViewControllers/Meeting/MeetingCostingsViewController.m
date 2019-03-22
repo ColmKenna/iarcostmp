@@ -181,7 +181,7 @@
 
 #pragma mark MeetingExpenseDetailsViewControllerDelegate
 - (void)meetingExpenseDetailsSaveButtonWithData:(NSMutableDictionary *)aHeadOfficeDataObjectDict {
-    [self.meetingExpenseTableViewController.displayList addObject:[NSMutableDictionary dictionaryWithDictionary:aHeadOfficeDataObjectDict]];
+    [self.meetingExpenseTableViewController meetingExpenseDetailsSaveButtonProcessorWithData:aHeadOfficeDataObjectDict];
     [self.expensesTableView reloadData];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -189,6 +189,10 @@
 #pragma mark MeetingExpenseTableViewControllerDelegate
 - (UITableView*)retrieveExpenseTableView {
     return self.expensesTableView;
+}
+
+- (UIViewController*)retrieveMeetingCostingViewController {
+    return self;
 }
 
 #pragma mark MeetingBaseTableViewCellDelegate
