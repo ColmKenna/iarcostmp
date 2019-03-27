@@ -52,6 +52,9 @@
 @synthesize checkoutPrinterWrapperDataManager = _checkoutPrinterWrapperDataManager;
 @synthesize globalNavigationController = _globalNavigationController;
 @synthesize rootView = _rootView;
+@synthesize descrDetailDictList = _descrDetailDictList;
+@synthesize descrDetailDictHashMap = _descrDetailDictHashMap;
+@synthesize descrDetailIurLineValueHashMap = _descrDetailIurLineValueHashMap;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -116,6 +119,19 @@
         [self.drawingAreaView loadData:auxDataList];
         [self.drawingAreaView setUserInteractionEnabled:NO];
     }
+    NSMutableArray* vcIurList = [NSMutableArray array];
+    for (int i = 0; i < [self.orderLines count]; i++) {
+        NSMutableDictionary* tmpOrderLineDict = [self.orderLines objectAtIndex:i];
+        [vcIurList addObject:[tmpOrderLineDict objectForKey:@"VCIUR"]];
+    }
+    self.descrDetailDictList = [[ArcosCoreData sharedArcosCoreData] descriptionWithIURList:vcIurList];
+    NSSortDescriptor* descrDetailCodeDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"DescrDetailCode" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
+    [self.descrDetailDictList sortUsingDescriptors:[NSArray arrayWithObjects:descrDetailCodeDescriptor,nil]];
+    self.descrDetailDictHashMap = [NSMutableDictionary dictionaryWithCapacity:[self.descrDetailDictList count]];
+    for (int i = 0; i < [self.descrDetailDictList count]; i++) {
+        NSDictionary* tmpDescrDetailDict = [self.descrDetailDictList objectAtIndex:i];
+        [self.descrDetailDictHashMap setObject:tmpDescrDetailDict forKey:[tmpDescrDetailDict objectForKey:@"DescrDetailIUR"]];
+    }
 }
 
 - (void)dealloc {
@@ -147,6 +163,9 @@
     self.checkoutPrinterWrapperDataManager = nil;
     self.globalNavigationController = nil;
     self.rootView = nil;
+    self.descrDetailDictList = nil;
+    self.descrDetailDictHashMap = nil;
+    self.descrDetailIurLineValueHashMap = nil;
     
     [super dealloc];
 }
@@ -437,9 +456,9 @@
     NSNumber* auxOrderNumber = [self.orderHeader objectForKey:@"OrderNumber"];
     if (auxOrderNumber == nil) return;
     NSError* error = nil;
-    NSString* orderNumberFormat = @"^XA^POI^PW750^MNN^LL40^LH0,0" \
-    @"^FO25,5"\
-    @"^FB700,1,0,R,0"\
+    NSString* orderNumberFormat = @"^XA^POI^PW800^MNN^LL40^LH0,0" \
+    @"^FO0,5"\
+    @"^FB790,1,0,R,0"\
     @"^A0N,32,25"\
     @"^FD%@^FS" \
     @"^XZ";
@@ -449,9 +468,9 @@
 
 - (void)printCustomerName:(id<NSObject,ZebraPrinter>)printer {
     NSError* error = nil;
-    NSString* customerNameFormat = @"^XA^POI^PW750^MNN^LL50^LH0,0" \
-    @"^FO25,5"\
-    @"^FB700,1,0,L,0"\
+    NSString* customerNameFormat = @"^XA^POI^PW800^MNN^LL50^LH0,0" \
+    @"^FO0,5"\
+    @"^FB800,1,0,L,0"\
     @"^A0N,25,25"\
     @"^FD%@^FS" \
     @"^XZ";
@@ -465,9 +484,9 @@
     NSString* auxContactText = [ArcosUtils convertUnAssignedToBlank:[ArcosUtils convertNilToEmpty:[self.orderHeader objectForKey:@"contactText"]]];
     if ([auxContactText isEqualToString:@""]) return;
     NSError* error = nil;
-    NSString* contactNameFormat = @"^XA^POI^PW750^MNN^LL40^LH0,0" \
-    @"^FO25,5"\
-    @"^FB700,1,0,L,0"\
+    NSString* contactNameFormat = @"^XA^POI^PW800^MNN^LL40^LH0,0" \
+    @"^FO0,5"\
+    @"^FB800,1,0,L,0"\
     @"^A0N,25,25"\
     @"^FD%@^FS" \
     @"^XZ";
@@ -478,49 +497,105 @@
 - (void)printOrderLineHeader:(id<NSObject,ZebraPrinter>)printer {
     NSError* error = nil;    
     NSString* orderLineHeaderFormat =
-    @"^XA^POI^PW750^MNN^LL40^LH0,0" \
-    @"^FO25,5"\
+    @"^XA^POI^PW800^MNN^LL40^LH0,0" \
+    @"^FO0,5"\
+    @"^FB45,1,0,L,0"\
+    @"^A0N,20,20"\
+    @"^FD%@^FS"\
+    
+    @"^FO50,5"\
     @"^FB530,1,0,L,0"\
     @"^A0N,20,20"\
     @"^FD%@^FS"\
     
-    @"^FO560,5"\
-    @"^FB70,1,0,L,0"\
+    @"^FO585,5"\
+    @"^FB65,1,0,L,0"\
     @"^A0N,20,20"\
     @"^FD%@^FS" \
-    @"^FO630,5"\
-    @"^FB70,1,0,L,0"\
+    @"^FO650,5"\
+    @"^FB65,1,0,L,0"\
     @"^A0N,20,20"\
     @"^FD%@^FS" \
+    
+    @"^FO715,5"\
+    @"^FB75,1,0,R,0"\
+    @"^A0N,20,20"\
+    @"^FD%@^FS" \
+    
     @"^XZ";
-    NSString* orderLineHeaderString = [NSString stringWithFormat:orderLineHeaderFormat, @"Description", @"Qty", @"Bon"];
+    NSString* orderLineHeaderString = [NSString stringWithFormat:orderLineHeaderFormat, @"VC", @"Description", @"Qty", @"Bon", @"Value"];
     [[printer getToolsUtil] sendCommand:orderLineHeaderString error:&error];
 }
 
-- (void)printOrderLineFooter:(id<NSObject,ZebraPrinter>)printer totalQty:(int)aTotalQty totalBonus:(int)aTotalBonus {
-    NSError* error = nil;    
-    NSString* orderLineFooterFormat =
-    @"^XA^POI^PW750^MNN^LL40^LH0,0" \
-    @"^FO560,5"\
-    @"^FB50,1,0,R,0"\
-    @"^A0N,20,20"\
-    @"^FD%@^FS" \
-    @"^FO630,5"\
-    @"^FB50,1,0,R,0"\
-    @"^A0N,20,20"\
-    @"^FD%@^FS" \
+- (void)printOrderLineFooter:(id<NSObject,ZebraPrinter>)printer totalQty:(int)aTotalQty totalBonus:(int)aTotalBonus totalGoods:(float)aTotalGoods {
+    NSError* error = nil;
+    NSString* horizontalLine = @"^XA^POI^PW800^MNN^LL20^LH0,0" \
+    @"^FO0,5"\
+    @"^GB800,0,1^FS"\
     @"^XZ";
-    NSString* orderLineFooterString = [NSString stringWithFormat:orderLineFooterFormat, [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", aTotalQty]], [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", aTotalBonus]]];
+    [[printer getToolsUtil] sendCommand:horizontalLine error:&error];
+    
+    NSString* orderLineFooterFormat =
+    @"^XA^POI^PW800^MNN^LL40^LH0,0" \
+    @"^FO585,5"\
+    @"^FB45,1,0,R,0"\
+    @"^A0N,20,20"\
+    @"^FD%@^FS" \
+    @"^FO650,5"\
+    @"^FB45,1,0,R,0"\
+    @"^A0N,20,20"\
+    @"^FD%@^FS" \
+    @"^FO715,5"\
+    @"^FB75,1,0,R,0"\
+    @"^A0N,20,20"\
+    @"^FD%.2f^FS" \
+    @"^XZ";
+    NSString* orderLineFooterString = [NSString stringWithFormat:orderLineFooterFormat, [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", aTotalQty]], [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", aTotalBonus]], aTotalGoods];
     [[printer getToolsUtil] sendCommand:orderLineFooterString error:&error];
+    float totalDueValue = aTotalGoods;
+    for (int i = 0; i < [self.descrDetailDictList count]; i++) {
+        NSDictionary* auxDescrDetailDict = [self.descrDetailDictList objectAtIndex:i];
+        NSNumber* descrDetailIUR = [auxDescrDetailDict objectForKey:@"DescrDetailIUR"];
+        NSNumber* sumLineValue = [self.descrDetailIurLineValueHashMap objectForKey:descrDetailIUR];
+        float vatValue = [sumLineValue floatValue] / 100.0 * [[auxDescrDetailDict objectForKey:@"Dec1"] floatValue];
+        totalDueValue += vatValue;
+        NSString* vatValueLineFormat =
+        @"^XA^POI^PW800^MNN^LL40^LH0,0" \
+        @"^FO0,5"\
+        @"^FB695,1,0,R,0"\
+        @"^A0N,20,20"\
+        @"^FD%@^FS" \
+        @"^FO715,5"\
+        @"^FB75,1,0,R,0"\
+        @"^A0N,20,20"\
+        @"^FD%.2f^FS" \
+        @"^XZ";
+        NSString* vatValueDesc = [NSString stringWithFormat:@"%@ - %@", [ArcosUtils convertNilToEmpty:[auxDescrDetailDict objectForKey:@"DescrDetailCode"]], [ArcosUtils convertNilToEmpty:[auxDescrDetailDict objectForKey:@"Detail"]]];
+        NSString* vatValueLineString = [NSString stringWithFormat:vatValueLineFormat, vatValueDesc, vatValue];
+        [[printer getToolsUtil] sendCommand:vatValueLineString error:&error];
+    }
+    NSString* totalDueLineFormat =
+    @"^XA^POI^PW800^MNN^LL40^LH0,0" \
+    @"^FO0,5"\
+    @"^FB695,1,0,R,0"\
+    @"^A0N,20,20"\
+    @"^FD%@^FS" \
+    @"^FO715,5"\
+    @"^FB75,1,0,R,0"\
+    @"^A0N,20,20"\
+    @"^FD%.2f^FS" \
+    @"^XZ";
+    NSString* totalDueLineString = [NSString stringWithFormat:totalDueLineFormat, @"Total Due", totalDueValue];
+    [[printer getToolsUtil] sendCommand:totalDueLineString error:&error];
 }
 
 - (void)printCustRef:(id<NSObject,ZebraPrinter>)printer {
     NSString* auxCustRef = [ArcosUtils convertUnAssignedToBlank:[ArcosUtils convertNilToEmpty:[self.orderHeader objectForKey:@"custRef"]]];
     if ([auxCustRef isEqualToString:@""]) return;
     NSError* error = nil;
-    NSString* custRefFormat = @"^XA^POI^PW750^MNN^LL90^LH0,0" \
-    @"^FO25,5"\
-    @"^FB700,1,0,L,0"\
+    NSString* custRefFormat = @"^XA^POI^PW800^MNN^LL90^LH0,0" \
+    @"^FO0,5"\
+    @"^FB800,1,0,L,0"\
     @"^A0N,25,25"\
     @"^FDYOUR REF:%@^FS" \
     @"^XZ";
@@ -531,35 +606,35 @@
 - (void)printReceiptBody:(id<NSObject,ZebraPrinter>)printer {
     NSError* error = nil;
     NSString *header = [NSString stringWithFormat:
-                        @"^XA^POI^PW750^MNN^LL160^LH0,0" \
+                        @"^XA^POI^PW800^MNN^LL160^LH0,0" \
                         
-                        @"^FO25,5" \
-                        @"^FB450,1,0,L,0"\
+                        @"^FO0,5" \
+                        @"^FB520,1,0,L,0"\
                         @"^A0N,25,25" \
                         @"^FD%@^FS" \
                         
-                        @"^FO480,5" \
-                        @"^FB80,1,0,L,0"\
+                        @"^FO570,5" \
+                        @"^FB80,1,0,R,0"\
                         @"^A0N,25,25" \
                         @"^FDDate:^FS" \
                         
-                        @"^FO560,5" \
-                        @"^FB140,1,0,L,0"\
+                        @"^FO650,5" \
+                        @"^FB140,1,0,R,0"\
                         @"^A0N,25,25" \
                         @"^FD%@^FS" \
                         
-                        @"^FO25,45" \
-                        @"^FB700,1,0,L,0"\
+                        @"^FO0,45" \
+                        @"^FB800,1,0,L,0"\
                         @"^A0N,25,25" \
                         @"^FD%@^FS" \
                         
-                        @"^FO25,85" \
-                        @"^FB700,1,0,L,0"\
+                        @"^FO0,85" \
+                        @"^FB800,1,0,L,0"\
                         @"^A0N,25,25" \
                         @"^FD%@^FS" \
                         
-                        @"^FO25,125" \
-                        @"^FB700,1,0,L,0"\
+                        @"^FO0,125" \
+                        @"^FB800,1,0,L,0"\
                         @"^A0N,25,25" \
                         @"^FD%@^FS^XZ", self.address1Label.text, [ArcosUtils stringFromDate:[self.orderHeader objectForKey:@"orderDate"] format:[GlobalSharedClass shared].dateFormat],
                          self.address2Label.text, self.address3Label.text
@@ -569,6 +644,8 @@
     [self printOrderLineHeader:printer];
     int auxTotalQty = 0;
     int auxTotalBonus = 0;
+    float auxTotalGoods = 0.0;
+    self.descrDetailIurLineValueHashMap = [NSMutableDictionary dictionaryWithCapacity:[self.descrDetailDictHashMap count]];
     for (int i = 0; i < self.orderLines.count; i++) {
         NSMutableDictionary* orderLineDict = [self.orderLines objectAtIndex:i];
         NSString* orderPadDetailsSubString = @"";
@@ -580,7 +657,10 @@
             }
         } @catch (NSException *exception) {
             
-        }        
+        }
+        NSNumber* vcIUR = [orderLineDict objectForKey:@"VCIUR"];
+        NSDictionary* descrDetailDict = [self.descrDetailDictHashMap objectForKey:vcIUR];
+        NSString* descrDetailCode = [ArcosUtils convertNilToEmpty:[descrDetailDict objectForKey:@"DescrDetailCode"]];
         NSString* details = [orderLineDict objectForKey:@"Details"];
         NSNumber* qty = [orderLineDict objectForKey:@"Qty"];
         NSString* qtyStr = [ArcosUtils convertZeroToBlank:[ArcosUtils convertNumberToIntString:qty]];
@@ -590,36 +670,53 @@
         NSString* bonusStr = [ArcosUtils convertZeroToBlank:[ArcosUtils convertNumberToIntString:bonus]];
         NSNumber* foc = [orderLineDict objectForKey:@"FOC"];
         NSString* focStr = [ArcosUtils convertZeroToBlank:[ArcosUtils convertNumberToIntString:foc]];
+        float lineValue = [[orderLineDict objectForKey:@"LineValue"] floatValue];
+        if ([self.descrDetailIurLineValueHashMap objectForKey:vcIUR] == nil) {
+            [self.descrDetailIurLineValueHashMap setObject:[orderLineDict objectForKey:@"LineValue"] forKey:vcIUR];
+        } else {
+            float sumLineValue = [[orderLineDict objectForKey:@"LineValue"] floatValue] + [[self.descrDetailIurLineValueHashMap objectForKey:vcIUR] floatValue];
+            [self.descrDetailIurLineValueHashMap setObject:[NSNumber numberWithFloat:sumLineValue] forKey:vcIUR];
+        }
         auxTotalQty += [qty intValue];
         auxTotalBonus += [bonus intValue];
+        auxTotalGoods += lineValue;
         NSString* lineItem =
-        @"^XA^POI^PW750^MNN^LL40^LH0,0" \
-        @"^FO25,5"\
+        @"^XA^POI^PW800^MNN^LL40^LH0,0" \
+        @"^FO0,5"\
+        @"^FB45,1,0,L,0"\
+        @"^A0N,20,20"\
+        @"^FD%@^FS"\
+        
+        @"^FO50,5"\
         @"^FB530,1,0,L,0"\
         @"^A0N,20,20"\
         @"^FD%@^FS"\
-        @"^FO560,5"\
-        @"^FB50,1,0,R,0"\
+        @"^FO585,5"\
+        @"^FB45,1,0,R,0"\
         @"^A0N,20,20"\
         @"^FD%@^FS" \
-        @"^FO610,10"\
+        @"^FO630,10"\
         @"^FB20,1,0,L,0"\
         @"^A0N,20,20"\
         @"^FD%@^FS" \
-        @"^FO630,5"\
-        @"^FB50,1,0,R,0"\
+        @"^FO650,5"\
+        @"^FB45,1,0,R,0"\
         @"^A0N,20,20"\
         @"^FD%@^FS" \
-        @"^FO680,10"\
+        @"^FO695,10"\
         @"^FB20,1,0,L,0"\
         @"^A0N,20,20"\
         @"^FD%@^FS" \
+        @"^FO715,5"\
+        @"^FB75,1,0,R,0"\
+        @"^A0N,20,20"\
+        @"^FD%.2f^FS" \
         @"^XZ";
         
-        NSString* lineItemWithVars = [NSString stringWithFormat:lineItem, [ArcosUtils trim:[NSString stringWithFormat:@"%@ %@", orderPadDetailsSubString, details]], qtyStr, instockStr, bonusStr, focStr];
+        NSString* lineItemWithVars = [NSString stringWithFormat:lineItem, descrDetailCode, [ArcosUtils trim:[NSString stringWithFormat:@"%@ %@", orderPadDetailsSubString, details]], qtyStr, instockStr, bonusStr, focStr, lineValue];
         [[printer getToolsUtil] sendCommand:lineItemWithVars error:&error];
     }
-    [self printOrderLineFooter:printer totalQty:auxTotalQty totalBonus:auxTotalBonus];
+    [self printOrderLineFooter:printer totalQty:auxTotalQty totalBonus:auxTotalBonus totalGoods:auxTotalGoods];
 }
 
 - (void)printSignatureImage:(id<NSObject,ZebraPrinter>)printer {

@@ -62,6 +62,9 @@ typedef enum {
     CheckoutPrinterWrapperDataManager* _checkoutPrinterWrapperDataManager;
     UINavigationController* _globalNavigationController;
     UIViewController* _rootView;
+    NSMutableArray* _descrDetailDictList;
+    NSMutableDictionary* _descrDetailDictHashMap;
+    NSMutableDictionary* _descrDetailIurLineValueHashMap;
 }
 
 @property(nonatomic, assign) BOOL isOrderPadPrinterType;
@@ -96,6 +99,9 @@ typedef enum {
 @property(nonatomic, retain) CheckoutPrinterWrapperDataManager* checkoutPrinterWrapperDataManager;
 @property (nonatomic, retain) UINavigationController* globalNavigationController;
 @property (nonatomic, retain) UIViewController* rootView;
+@property (nonatomic, retain) NSMutableArray* descrDetailDictList;
+@property (nonatomic, retain) NSMutableDictionary* descrDetailDictHashMap;
+@property (nonatomic, retain) NSMutableDictionary* descrDetailIurLineValueHashMap;
 
 - (IBAction)cancelButtonPressed:(id)sender;
 - (IBAction)printButtonPressed:(id)sender;
