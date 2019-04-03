@@ -1190,6 +1190,7 @@
 		6357A2C721AD6068000130CB /* MeetingBudgetTableCellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6357A2C621AD6068000130CB /* MeetingBudgetTableCellFactory.m */; };
 		63580B9B1C1EE497002D5199 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63580B9A1C1EE497002D5199 /* MapKit.framework */; };
 		63580B9D1C1EE49F002D5199 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63580B9C1C1EE49F002D5199 /* ExternalAccessory.framework */; };
+		635C2463224E42CA00761A94 /* MeetingPhotoUploadProcessMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 635C2462224E42CA00761A94 /* MeetingPhotoUploadProcessMachine.m */; };
 		63624518216B5FDE00A4D43D /* MATFormRowsTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63624517216B5FDE00A4D43D /* MATFormRowsTableHeaderView.m */; };
 		636307221EB9E8960044FB91 /* CheckoutPrinterWrapperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 636307201EB9E8960044FB91 /* CheckoutPrinterWrapperViewController.m */; };
 		636307231EB9E8960044FB91 /* CheckoutPrinterWrapperViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 636307211EB9E8960044FB91 /* CheckoutPrinterWrapperViewController.xib */; };
@@ -3871,6 +3872,9 @@
 		6357A2C621AD6068000130CB /* MeetingBudgetTableCellFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingBudgetTableCellFactory.m; sourceTree = "<group>"; };
 		63580B9A1C1EE497002D5199 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		63580B9C1C1EE49F002D5199 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		635C2461224E42CA00761A94 /* MeetingPhotoUploadProcessMachine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingPhotoUploadProcessMachine.h; sourceTree = "<group>"; };
+		635C2462224E42CA00761A94 /* MeetingPhotoUploadProcessMachine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingPhotoUploadProcessMachine.m; sourceTree = "<group>"; };
+		635C2464224E434900761A94 /* MeetingPhotoUploadProcessMachineDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingPhotoUploadProcessMachineDelegate.h; sourceTree = "<group>"; };
 		63624516216B5FDE00A4D43D /* MATFormRowsTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MATFormRowsTableHeaderView.h; sourceTree = "<group>"; };
 		63624517216B5FDE00A4D43D /* MATFormRowsTableHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MATFormRowsTableHeaderView.m; sourceTree = "<group>"; };
 		6363071F1EB9E8960044FB91 /* CheckoutPrinterWrapperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckoutPrinterWrapperViewController.h; sourceTree = "<group>"; };
@@ -8067,6 +8071,9 @@
 				6373C5C32240FFB2002A8194 /* MeetingAttachmentsFileViewController.m */,
 				6373C5C42240FFB2002A8194 /* MeetingAttachmentsFileViewController.xib */,
 				630F722B22426EF100C45399 /* MeetingAttachmentsTableViewControllerDelegate.h */,
+				635C2461224E42CA00761A94 /* MeetingPhotoUploadProcessMachine.h */,
+				635C2462224E42CA00761A94 /* MeetingPhotoUploadProcessMachine.m */,
+				635C2464224E434900761A94 /* MeetingPhotoUploadProcessMachineDelegate.h */,
 			);
 			path = Meeting;
 			sourceTree = "<group>";
@@ -9315,6 +9322,7 @@
 				630B3D8C19F01CB9007B2442 /* ArcosArrayOfPresenter.m in Sources */,
 				630B3B0619F01CB8007B2442 /* AccountNumberWrapperViewController.m in Sources */,
 				631F011020AAFCBE001BA762 /* DashboardGenericTableViewCell.m in Sources */,
+				635C2463224E42CA00761A94 /* MeetingPhotoUploadProcessMachine.m in Sources */,
 				637F64691CCA82A600FF80B7 /* ArcosBorderBackgroundUIButton.m in Sources */,
 				63D2FB5B1D67258500040C5A /* CustomerInfoAccessTimesCalendarTableViewCell.m in Sources */,
 				630B3BFE19F01CB9007B2442 /* StockistChildTableViewController.m in Sources */,

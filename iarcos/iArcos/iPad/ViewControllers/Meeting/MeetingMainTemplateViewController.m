@@ -36,6 +36,8 @@
 @synthesize meetingLocationIUR = _meetingLocationIUR;
 @synthesize arcosRootViewController = _arcosRootViewController;
 @synthesize meetingRecordCreated = _meetingRecordCreated;
+@synthesize isPhotoUploadingFinished = _isPhotoUploadingFinished;
+@synthesize meetingPhotoUploadProcessMachine = _meetingPhotoUploadProcessMachine;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -45,6 +47,7 @@
         self.meetingRecordCreated = NO;
         self.meetingIUR = [NSNumber numberWithInt:0];
         self.meetingLocationIUR = [NSNumber numberWithInt:0];
+        self.isPhotoUploadingFinished = YES;
     }
     return self;
 }
@@ -121,12 +124,33 @@
 
 - (void)saveButtonPressed {
     [self.view endEditing:YES];
+    self.callGenericServices.isNotRecursion = NO;
+    NSMutableArray* brandNewAttachmentList = [self.meetingAttachmentsTableViewController.meetingAttachmentsDataManager retrieveBrandNewAttachmentList];
+    if ([brandNewAttachmentList count] == 0) {
+        [self saveButtonMeetingProcessor];
+        return;
+    }
+    self.meetingPhotoUploadProcessMachine = [[[MeetingPhotoUploadProcessMachine alloc] initWithTarget:self action:@selector(uploadPhotoWithData:) loadingAction:@selector(photoUploadingActionFlag) dataDictList:brandNewAttachmentList] autorelease];
+    self.meetingPhotoUploadProcessMachine.uploadDelegate = self;
+    [self.meetingPhotoUploadProcessMachine runTask];
+}
+
+#pragma mark MeetingPhotoUploadProcessMachineDelegate
+- (void)photoUploadStartedWithText:(NSString*)aText {
+    
+}
+
+- (void)photoUploadCompleted {
+    [self saveButtonMeetingProcessor];
+}
+
+- (void)saveButtonMeetingProcessor {
     [self.meetingDetailsTableViewController.meetingDetailsDataManager displayListHeadOfficeAdaptor];
     [self.meetingMiscTableViewController.meetingMiscDataManager displayListHeadOfficeAdaptor];
     [self.meetingObjectivesTableViewController.meetingObjectivesDataManager displayListHeadOfficeAdaptor];
     [self.meetingCostingsViewController.meetingCostingsDataManager displayListHeadOfficeAdaptor];
-//    ArcosMeetingBO* arcosMeetingBO = [[[ArcosMeetingBO alloc] init] autorelease];
-//    ArcosMeetingWithDetails* arcosMeetingWithDetails = [[[ArcosMeetingWithDetails alloc] init] autorelease];
+    //    ArcosMeetingBO* arcosMeetingBO = [[[ArcosMeetingBO alloc] init] autorelease];
+    //    ArcosMeetingWithDetails* arcosMeetingWithDetails = [[[ArcosMeetingWithDetails alloc] init] autorelease];
     ArcosMeetingWithDetailsUpload* arcosMeetingWithDetailsUpload = [[[ArcosMeetingWithDetailsUpload alloc] init] autorelease];
     [self.meetingDetailsTableViewController.meetingDetailsDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
     [self.meetingMiscTableViewController.meetingMiscDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
@@ -136,17 +160,17 @@
     [self.meetingCostingsViewController.meetingExpenseTableViewController populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
     [self.meetingPresentersTableViewController.meetingPresentersDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
     
-//    arcosMeetingBO.Attachments = @"";
-//    NSLog(@"abc %@", arcosMeetingBO);
+    //    arcosMeetingBO.Attachments = @"";
+    //    NSLog(@"abc %@", arcosMeetingBO);
     if ([self.actionType isEqualToString:self.createActionType]) {
         
     }
-//    arcosMeetingBO.IUR = [self.meetingIUR intValue];
+    //    arcosMeetingBO.IUR = [self.meetingIUR intValue];
     arcosMeetingWithDetailsUpload.IUR = [self.meetingIUR intValue];
     [self.callGenericServices genericUpdateMeetingByMeetingBO:arcosMeetingWithDetailsUpload action:@selector(resultBackFromUpdateMeeting:) target:self];
-//    NSLog(@"abc: %@", self.meetingDetailsTableViewController.meetingDetailsDataManager.headOfficeDataObjectDict);
-//    NSLog(@"ac: %@", self.meetingMiscTableViewController.meetingMiscDataManager.headOfficeDataObjectDict);
-//    NSLog(@"def: %@", self.meetingObjectivesTableViewController.meetingObjectivesDataManager.headOfficeDataObjectDict);
+    //    NSLog(@"abc: %@", self.meetingDetailsTableViewController.meetingDetailsDataManager.headOfficeDataObjectDict);
+    //    NSLog(@"ac: %@", self.meetingMiscTableViewController.meetingMiscDataManager.headOfficeDataObjectDict);
+    //    NSLog(@"def: %@", self.meetingObjectivesTableViewController.meetingObjectivesDataManager.headOfficeDataObjectDict);
 }
 
 - (void)dealloc {
@@ -175,28 +199,31 @@
     self.meetingMainTemplateActionDelegate = nil;
     self.arcosRootViewController = nil;
     self.meetingPresentersTableViewController = nil;
+    self.meetingPhotoUploadProcessMachine = nil;
     
     [super dealloc];
 }
 
 - (void)resultBackFromUpdateMeeting:(id)result {
+    [self.callGenericServices.HUD hide:YES];
     result = [self.callGenericServices handleResultErrorProcess:result];
     if (result == nil) {
         return;
     }
-    int code = (int)result;
-    if (code == 1) {
-        NSLog(@"successful");
+    ArcosGenericReturnObject* arcosGenericReturnObject = (ArcosGenericReturnObject*)result;
+    if (arcosGenericReturnObject.ErrorModel.Code == 1) {
+        [ArcosUtils showDialogBox:@"Completed" title:@"" delegate:self target:self tag:77 handler:^(UIAlertAction *action) {
+            if ([self.actionType isEqualToString:self.createActionType]) {
+                [self saveButtonCallBack];
+            } else {
+                [self.animateDelegate dismissSlideAcrossViewAnimation];
+            }
+        }];
     } else {
-        NSLog(@"failed");
+        [ArcosUtils showDialogBox:arcosGenericReturnObject.ErrorModel.Message title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+            
+        }];
     }
-    [ArcosUtils showDialogBox:@"Completed" title:@"" delegate:self target:self tag:77 handler:^(UIAlertAction *action) {
-        if ([self.actionType isEqualToString:self.createActionType]) {
-            [self saveButtonCallBack];
-        } else {
-            [self.animateDelegate dismissSlideAcrossViewAnimation];
-        }
-    }];
 }
 
 - (void)saveButtonCallBack {
@@ -315,5 +342,45 @@
         return self.meetingLocationIUR;
     }
 }
+
+- (NSNumber*)retrieveMeetingAttachmentsMeetingIUR {
+    return self.meetingIUR;
+}
+
+- (BOOL)photoUploadingActionFlag {
+    return self.isPhotoUploadingFinished;
+}
+
+- (void)uploadPhotoWithData:(ArcosAttachmentSummary*)anArcosAttachmentSummary {
+    if (self.isPhotoUploadingFinished) {
+        self.isPhotoUploadingFinished = NO;
+        NSString* fileName = anArcosAttachmentSummary.FileName;
+        NSString* filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon meetingPath], fileName];
+        NSData* myData = nil;
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableSendOriginalPhotoFlag]) {
+            myData = [NSData dataWithContentsOfFile:filePath];
+        } else {
+            UIImage* myImage = [UIImage imageWithContentsOfFile:filePath];
+            CGSize newSize = CGSizeMake(1280.0f, 960.0f);
+            UIGraphicsBeginImageContext(newSize);
+            [myImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+            UIImage* compressedImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            myData = UIImageJPEGRepresentation(compressedImage, 0.85);
+        }
+        
+        [self.callGenericServices genericUploadFileNewWithContents:myData fileName:fileName description:anArcosAttachmentSummary.Description tableIUR:[ArcosUtils convertNumberToIntString:[NSNumber numberWithInt:anArcosAttachmentSummary.TableIUR]] tableName:anArcosAttachmentSummary.TableName employeeiur:anArcosAttachmentSummary.EmployeeIUR locationiur:anArcosAttachmentSummary.LocationIUR dateAttached:anArcosAttachmentSummary.DateAttached action:@selector(backFromUploadPhotoWithData:) target:self];
+    }
+}
+
+- (void)backFromUploadPhotoWithData:(id)result {
+    result = [self.callGenericServices handleResultErrorProcess:result];
+    if (result == nil) {
+        [self.meetingPhotoUploadProcessMachine stopTask];
+    }
+    self.isPhotoUploadingFinished = YES;
+}
+
+
 
 @end

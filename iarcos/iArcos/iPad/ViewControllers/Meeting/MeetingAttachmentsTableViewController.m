@@ -127,8 +127,8 @@
 - (void)meetingAttachmentsViewButtonPressedWithFileName:(NSString *)aFileName atIndexPath:(NSIndexPath *)anIndexPath {
     self.meetingAttachmentsDataManager.currentFileName = aFileName;
     ArcosAttachmentSummary* auxArcosAttachmentSummary = [self.meetingAttachmentsDataManager cellDataWithIndexPath:anIndexPath];
-    if (auxArcosAttachmentSummary.IUR == 0 && auxArcosAttachmentSummary.TableIUR == 0) {
-        NSString* auxFilePath = [NSString stringWithFormat:@"%@/%@", [FileCommon photosPath], self.meetingAttachmentsDataManager.currentFileName];
+    if (auxArcosAttachmentSummary.IUR == 0) {
+        NSString* auxFilePath = [NSString stringWithFormat:@"%@/%@", [FileCommon meetingPath], self.meetingAttachmentsDataManager.currentFileName];
         [self showFileViewControllerWithFilePath:auxFilePath];
         return;
     }
@@ -208,13 +208,19 @@
 }
 
 - (void)addMeetingAttachmentsRecordWithFileName:(NSString *)aFileName {
+    NSNumber* tmpMeetingIUR = [self.actionDelegate retrieveMeetingAttachmentsMeetingIUR];
     ArcosAttachmentSummary* arcosAttachmentSummary = [[[ArcosAttachmentSummary alloc] init] autorelease];
+    
     arcosAttachmentSummary.IUR = 0;
-    arcosAttachmentSummary.TableIUR = 0;
-    arcosAttachmentSummary.TableName = @"Meeting";
+    arcosAttachmentSummary.TableIUR = [tmpMeetingIUR intValue];
+    if ([tmpMeetingIUR intValue] > 0) {
+        arcosAttachmentSummary.TableName = @"Meeting";
+    } else {
+        arcosAttachmentSummary.TableName = @"Location";
+    }
     arcosAttachmentSummary.FileName = aFileName;
     arcosAttachmentSummary.FileLocation = @"";
-    arcosAttachmentSummary.Description = aFileName;
+    arcosAttachmentSummary.Description = [NSString stringWithFormat:@"Taken on %@'s iPad", [self.meetingAttachmentsDataManager retrieveEmployeeName]];
     arcosAttachmentSummary.LocationIUR = [[self.actionDelegate retrieveMeetingAttachmentsTableLocationIUR] intValue];
     arcosAttachmentSummary.DateAttached = [NSDate date];
     arcosAttachmentSummary.EmployeeIUR = [[SettingManager employeeIUR] intValue];

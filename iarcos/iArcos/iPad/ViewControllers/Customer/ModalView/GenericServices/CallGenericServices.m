@@ -392,6 +392,13 @@
     [self.arcosService GetMeeting:aTarget action:anAction meetingiur:[anIUR intValue]];
 }
 
+- (void)genericUploadFileNewWithContents:(NSData*)aContents fileName:(NSString*)aFileName description:(NSString*)aDescription tableIUR:(NSString*)aTableIUR tableName:(NSString*)aTableName employeeiur:(int)anEmployeeiur locationiur:(int)aLocationiur dateAttached:(NSDate*)aDateAttached action:(SEL)anAction target:(id)aTarget {
+    if (![self startCallService]) {
+        return;
+    }
+    [self.arcosService UploadFileNew:aTarget action:anAction contents:aContents _fileName:aFileName _description:aDescription tableIUR:aTableIUR tableName:aTableName employeeiur:anEmployeeiur Locationiur:aLocationiur DateAttached:aDateAttached];
+}
+
 -(void)dealloc{
 //    if (self.delegate != nil) { self.delegate = nil; }
     [self.HUD removeFromSuperview];

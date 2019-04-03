@@ -10,6 +10,7 @@
 #import "ArcosMeetingWithDetailsDownload.h"
 #import "MeetingBaseDataManager.h"
 #import "ArcosAttachmentSummary.h"
+#import "ArcosCoreData.h"
 
 @interface MeetingAttachmentsDataManager : MeetingBaseDataManager {
     NSString* _emptyTitle;
@@ -28,6 +29,8 @@
 @property(nonatomic, retain) NSIndexPath* currentSelectedDeleteIndexPath;
 
 - (ArcosAttachmentSummary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath;
+- (NSMutableArray*)retrieveBrandNewAttachmentList;
+- (NSString*)retrieveEmployeeName;
 
 @end
 

@@ -90,13 +90,10 @@
         if (![aTextFieldFileName isEqualToString:@""]) {
             fileName = [NSString stringWithFormat:@"%@_%@.jpg", aTextFieldFileName, fileSequenceNumber];
         }
-        NSString* imageJpgPath = [NSString stringWithFormat:@"%@/%@",[FileCommon photosPath],fileName];
+        NSString* imageJpgPath = [NSString stringWithFormat:@"%@/%@",[FileCommon meetingPath],fileName];
         BOOL jpgImageSaved = [UIImageJPEGRepresentation(image, 1.0) writeToFile:imageJpgPath atomically:YES];
         if (jpgImageSaved) {
-            //            NSNumber* locationIUR = [self.aCustDict objectForKey:@"LocationIUR"];
-            NSNumber* meetingLocationIUR = [self.actionDelegate retrieveMeetingAttachmentsHeaderLocationIUR];
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-            [[ArcosCoreData sharedArcosCoreData] insertCollectedWithLocationIUR:meetingLocationIUR comments:fileName iUR:[NSNumber numberWithInt:0] date:[NSDate date]];
             [self.actionDelegate addMeetingAttachmentsRecordWithFileName:fileName];
         } else {
             [ArcosUtils showMsg:-1 message:@"The photo has not been saved." delegate:nil];

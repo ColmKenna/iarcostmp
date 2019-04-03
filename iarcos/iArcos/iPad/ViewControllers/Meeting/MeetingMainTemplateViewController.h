@@ -21,8 +21,10 @@
 #import "MeetingPresentersTableViewController.h"
 #import "MeetingAttachmentsTableViewController.h"
 #import "FileCommon.h"
+#import "MeetingPhotoUploadProcessMachine.h"
+#import "ArcosErrorModel.h"
 
-@interface MeetingMainTemplateViewController : UIViewController <MeetingAttachmentsTableViewControllerDelegate>{
+@interface MeetingMainTemplateViewController : UIViewController <MeetingAttachmentsTableViewControllerDelegate, MeetingPhotoUploadProcessMachineDelegate>{
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
     UISegmentedControl* _mySegmentedControl;
     UIView* _templateView;
@@ -45,6 +47,8 @@
     NSNumber* _meetingLocationIUR;
     id<MeetingMainTemplateActionDelegate> _meetingMainTemplateActionDelegate;
     ArcosRootViewController* _arcosRootViewController;
+    BOOL _isPhotoUploadingFinished;
+    MeetingPhotoUploadProcessMachine* _meetingPhotoUploadProcessMachine;
 }
 
 @property(nonatomic, assign) id<SlideAcrossViewAnimationDelegate> animateDelegate;
@@ -69,6 +73,8 @@
 @property(nonatomic, retain) NSNumber* meetingLocationIUR;
 @property(nonatomic, retain) ArcosRootViewController* arcosRootViewController;
 @property(nonatomic, assign) BOOL meetingRecordCreated;
+@property(nonatomic, assign) BOOL isPhotoUploadingFinished;
+@property(nonatomic, retain) MeetingPhotoUploadProcessMachine* meetingPhotoUploadProcessMachine;
 
 - (void)retrieveCreateMeetingMainTemplateData;
 - (void)retrieveUpdateMeetingMainTemplateData;

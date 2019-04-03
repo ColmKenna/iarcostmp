@@ -12,6 +12,7 @@
 @protocol MeetingAttachmentsTableViewControllerDelegate <NSObject>
 
 - (NSNumber*)retrieveMeetingAttachmentsTableLocationIUR;
+- (NSNumber*)retrieveMeetingAttachmentsMeetingIUR;
 
 @end
 

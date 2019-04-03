@@ -92,5 +92,6 @@
 - (void)genericGetTargetByEmployee:(int)anEmployeeIUR action:(SEL)anAction target:(id)aTarget;
 - (void)genericUpdateMeetingByMeetingBO:(ArcosMeetingWithDetailsUpload*)aMeetingToUpdate action:(SEL)anAction target:(id)aTarget;
 - (void)genericGetMeetingWithIUR:(NSNumber*)anIUR action:(SEL)anAction target:(id)aTarget;
+- (void)genericUploadFileNewWithContents:(NSData*)aContents fileName:(NSString*)aFileName description:(NSString*)aDescription tableIUR:(NSString*)aTableIUR tableName:(NSString*)aTableName employeeiur:(int)anEmployeeiur locationiur:(int)aLocationiur dateAttached:(NSDate*)aDateAttached action:(SEL)anAction target:(id)aTarget;
 
 @end

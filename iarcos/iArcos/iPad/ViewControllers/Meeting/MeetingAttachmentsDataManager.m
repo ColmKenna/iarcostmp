@@ -27,6 +27,7 @@
 }
 
 - (void)dealloc {
+    NSLog(@"attachment dealloc");
     self.emptyTitle = nil;
     self.attachmentsTitle = nil;
     self.sectionTitleList = nil;
@@ -69,6 +70,23 @@
     NSString* tmpSectionTitle = [self.sectionTitleList objectAtIndex:anIndexPath.section];
     NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:tmpSectionTitle];
     return [tmpDisplayList objectAtIndex:anIndexPath.row];
+}
+
+- (NSMutableArray*)retrieveBrandNewAttachmentList {
+    NSMutableArray* resultDisplayList = [NSMutableArray array];
+    NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:self.attachmentsTitle];
+    for (int i = 0; i < [tmpDisplayList count]; i++) {
+        ArcosAttachmentSummary* tmpArcosAttachmentSummary = [tmpDisplayList objectAtIndex:i];
+        if (tmpArcosAttachmentSummary.IUR == 0) {
+            [resultDisplayList addObject:tmpArcosAttachmentSummary];
+        }        
+    }
+    return resultDisplayList;
+}
+
+- (NSString*)retrieveEmployeeName {
+    NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:[SettingManager employeeIUR]];
+    return [NSString stringWithFormat:@"%@ %@", [ArcosUtils convertNilToEmpty:[employeeDict objectForKey:@"ForeName"]], [ArcosUtils convertNilToEmpty:[employeeDict objectForKey:@"Surname"]]];
 }
 
 @end
