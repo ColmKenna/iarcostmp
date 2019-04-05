@@ -733,7 +733,7 @@
 	- (SoapRequest*) GetMeeting: (id) target action: (SEL) action meetingiur: (int) meetingiur;
 	-(SoapRequest*)GetMeetingWithProgress:(SoapRequestProgressBlock)progressBlock meetingiur: (int) meetingiur completion:(SoapRequestCompletionBlock)completionBlock;
 
-	// Returns int
+	// Returns ArcosGenericReturnObject*
 	/*  */
 	- (SoapRequest*) UpdateMeeting: (id <SoapDelegate>) handler meetingToUpdate: (ArcosMeetingWithDetailsUpload*) meetingToUpdate;
 	- (SoapRequest*) UpdateMeeting: (id) target action: (SEL) action meetingToUpdate: (ArcosMeetingWithDetailsUpload*) meetingToUpdate;

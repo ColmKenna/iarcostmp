@@ -3519,7 +3519,7 @@
 		return _request;
 	}
 
-	// Returns int
+	// Returns ArcosGenericReturnObject*
 	/*  */
 	- (SoapRequest*) UpdateMeeting: (id <SoapDelegate>) handler meetingToUpdate: (ArcosMeetingWithDetailsUpload*) meetingToUpdate
 	{
@@ -3532,7 +3532,7 @@
 		
 		[_params addObject: [[[SoapParameter alloc] initWithValue: meetingToUpdate forName: @"meetingToUpdate"] autorelease]];
 		NSString* _envelope = [Soap createEnvelope: @"UpdateMeeting" forNamespace: self.namespace withParameters: _params withHeaders: self.headers];
-		SoapRequest* _request = [SoapRequest create: _target action: _action service: self soapAction: @"http://www.strataarcos.com/UpdateMeeting" postData: _envelope deserializeTo: @"int"];
+		SoapRequest* _request = [SoapRequest create: _target action: _action service: self soapAction: @"http://www.strataarcos.com/UpdateMeeting" postData: _envelope deserializeTo: [[ArcosGenericReturnObject alloc] autorelease]];
 		[_request send];
 		return _request;
 	}
@@ -3542,7 +3542,7 @@
 		
 		[_params addObject: [[[SoapParameter alloc] initWithValue: meetingToUpdate forName: @"meetingToUpdate"] autorelease]];
 		NSString* _envelope = [Soap createEnvelope:@"UpdateMeeting" forNamespace:self.namespace withParameters:_params withHeaders:self.headers];
-		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/UpdateMeeting" postData:_envelope deserializeTo:@"int" completionBlock:completionBlock];
+		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/UpdateMeeting" postData:_envelope deserializeTo:[[ArcosGenericReturnObject alloc] autorelease] completionBlock:completionBlock];
 		_request.progressBlock = progressBlock;
 		[_request send];
 		return _request;

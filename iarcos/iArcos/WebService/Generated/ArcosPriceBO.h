@@ -17,6 +17,7 @@
 	int _ProductIur;
 	int _LocationIur;
 	int _Iur;
+	NSString* _BonusDeal;
 	
 }
 		
@@ -28,6 +29,7 @@
 	@property int ProductIur;
 	@property int LocationIur;
 	@property int Iur;
+	@property (retain, nonatomic) NSString* BonusDeal;
 
 	+ (ArcosPriceBO*) createWithNode: (CXMLNode*) node;
 	- (id) initWithNode: (CXMLNode*) node;

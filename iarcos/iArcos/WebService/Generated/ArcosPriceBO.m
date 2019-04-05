@@ -14,6 +14,7 @@
 	@synthesize ProductIur = _ProductIur;
 	@synthesize LocationIur = _LocationIur;
 	@synthesize Iur = _Iur;
+	@synthesize BonusDeal = _BonusDeal;
 
 	- (id) init
 	{
@@ -23,6 +24,7 @@
 			self.DiscountPercent = nil;
 			self.MinimumUnitPrice = nil;
 			self.UnitTradePrice = nil;
+			self.BonusDeal = nil;
 
 		}
 		return self;
@@ -45,6 +47,7 @@
 			self.ProductIur = [[Soap getNodeValue: node withName: @"ProductIur"] intValue];
 			self.LocationIur = [[Soap getNodeValue: node withName: @"LocationIur"] intValue];
 			self.Iur = [[Soap getNodeValue: node withName: @"Iur"] intValue];
+			self.BonusDeal = [Soap getNodeValue: node withName: @"BonusDeal"];
 		}
 		return self;
 	}
@@ -76,6 +79,7 @@
 		[s appendFormat: @"<ProductIur>%@</ProductIur>", [NSString stringWithFormat: @"%i", self.ProductIur]];
 		[s appendFormat: @"<LocationIur>%@</LocationIur>", [NSString stringWithFormat: @"%i", self.LocationIur]];
 		[s appendFormat: @"<Iur>%@</Iur>", [NSString stringWithFormat: @"%i", self.Iur]];
+		if (self.BonusDeal != nil) [s appendFormat: @"<BonusDeal>%@</BonusDeal>", [[self.BonusDeal stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"] stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"]];
 
 		return s;
 	}
@@ -105,6 +109,7 @@
 		self.DiscountPercent = nil;
 		self.MinimumUnitPrice = nil;
 		self.UnitTradePrice = nil;
+		self.BonusDeal = nil;
 		[super dealloc];
 	}
 
