@@ -8,6 +8,10 @@
 
 #import "SaveRecordBaseUpdateCenter.h"
 
-@interface SaveRecordPriceUpdateCenter : SaveRecordBaseUpdateCenter
+@interface SaveRecordPriceUpdateCenter : SaveRecordBaseUpdateCenter {
+    NSMutableDictionary* _existingPromotionDict;
+}
+
+@property(nonatomic, retain) NSMutableDictionary* existingPromotionDict;
 
 @end

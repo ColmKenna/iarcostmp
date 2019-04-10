@@ -372,6 +372,8 @@
     NSMutableDictionary* productDetailDict = [aSectionArray objectAtIndex:self.branchLeafProductDataManager.selectedIndexPath.row];
     OrderInputPadViewController* oipvc = (OrderInputPadViewController*) self.inputPopover.contentViewController;
     oipvc.Data = productDetailDict;
+    oipvc.bonusDealResultDict = [oipvc interpretBonusDeal:[productDetailDict objectForKey:@"BonusDeal"]];
+    [self checkQtyByBonusDeal:productDetailDict orderInputPadViewController:oipvc numberBtn:aNumberBtn funcBtn:aFuncBtn];
     oipvc.showSeparator = self.showSeparator;
     ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
     if (!arcosErrorResult.successFlag) {
@@ -394,6 +396,13 @@
     [[OrderSharedClass sharedOrderSharedClass] saveOrderLine:productDetailDict];
 
     [self.myTableView reloadData];
+}
+
+- (void)checkQtyByBonusDeal:(NSMutableDictionary*)aProductDetailDict orderInputPadViewController:(OrderInputPadViewController*)anOipvc numberBtn:(UIButton *)aNumberBtn funcBtn:(UIButton*)aFuncBtn {
+    if ([[aProductDetailDict objectForKey:@"PriceFlag"] intValue] != 1) return;
+    if (![[anOipvc.bonusDealResultDict objectForKey:@"OkFlag"] boolValue]) return;
+    if (aFuncBtn.tag != 0) return;
+    [anOipvc enterQtyFoundProcessor:[[NSNumber numberWithInteger:aNumberBtn.tag] intValue]];
 }
 
 - (void)numberInputPadWithOtherBtn {
@@ -550,6 +559,9 @@
     if ([popoverController.contentViewController isKindOfClass:[OrderInputPadViewController class]]) {
         OrderInputPadViewController* oipvc = (OrderInputPadViewController*) popoverController.contentViewController;
         if ([[oipvc.Data objectForKey:@"RRIUR"] intValue] == -1) {
+            return NO;
+        }
+        if (![[ArcosUtils convertNilToEmpty:[oipvc.Data objectForKey:@"BonusDeal"]] isEqualToString:@""]) {
             return NO;
         }
     }    

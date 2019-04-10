@@ -23,6 +23,7 @@
 #import "ArcosValidator.h"
 #import "LocationProductMAT.h"
 #import "OrderLine.h"
+#import "Promotion.h"
 
 @interface ArcosCoreDataManager : NSObject
 
@@ -34,6 +35,7 @@
 -(Location*)populateLocationWithSoapOB:(ArcosGenericReturnObjectWithImage*)anObject location:(Location*)Location;
 -(Location*)populateLocationWithFieldList:(NSArray*)aFieldList location:(Location*)Location;
 -(Price*)populatePriceWithFieldList:(NSArray*)aFieldList price:(Price*)Price;
+-(Promotion*)populatePromotionWithFieldList:(NSArray*)aFieldList promotion:(Promotion*)aPromotion;
 -(Contact*)populateContactWithSoapOB:(ArcosGenericReturnObjectWithImage*)anObject contact:(Contact*)Contact;
 -(ConLocLink*)populateConLocLinkWithSoapOB:(ArcosGenericReturnObjectWithImage*)anObject conLocLink:(ConLocLink*)ConLocLink;
 -(Image*)populateImageWithSoapOB:(ArcosGenericReturnObjectWithImage*)anObject image:(Image*)Image;
@@ -43,10 +45,12 @@
 -(void)populateLocLocLinkWithSoapOB:(ArcosGenericReturnObjectWithImage*)anObject locLocLink:(LocLocLink*)aLocLocLink;
 -(void)populateLocLocLinkWithFieldList:(NSArray*)aFieldList locLocLink:(LocLocLink*)anLocLocLink;
 - (NSMutableDictionary*)createOrderLineWithManagedOrderLine:(OrderLine*)anOrderLine;
-- (NSMutableArray*)processPriceProductList:(NSMutableArray*)aProductList priceHashMap:(NSMutableDictionary*)aPriceHashMap;
-- (NSMutableArray*)processMasterPriceProductList:(NSMutableArray*)aProductList masterPriceHashMap:(NSMutableDictionary*)aMasterPriceHashMap;
+- (NSMutableArray*)processPriceProductList:(NSMutableArray*)aProductList priceHashMap:(NSMutableDictionary*)aPriceHashMap bonusDealHashMap:(NSMutableDictionary*)aBonusDealHashMap;
+- (NSMutableArray*)processMasterPriceProductList:(NSMutableArray*)aProductList masterPriceHashMap:(NSMutableDictionary*)aMasterPriceHashMap masterBonusDealHashMap:(NSMutableDictionary*)aMasterBonusDealHashMap;
 - (NSMutableArray*)processPriceOverrideWithProductList:(NSMutableArray*)aProductList priceOverride:(int)aPriceOverride;
 - (NSMutableArray*)processCUiurWithProductList:(NSMutableArray*)aProductList;
+- (NSMutableArray*)processBonusDealProductList:(NSMutableArray*)aProductList bonusDealHashMap:(NSMutableDictionary*)aBonusDealHashMap;
+- (NSMutableArray*)processMasterBonusDealProductList:(NSMutableArray*)aProductList masterBonusDealHashMap:(NSMutableDictionary*)aMasterBonusDealHashMap;
 
 
 @end

@@ -407,6 +407,9 @@
         if ([[oipvc.Data objectForKey:@"RRIUR"] intValue] == -1) {
             return NO;
         }
+        if (![[ArcosUtils convertNilToEmpty:[oipvc.Data objectForKey:@"BonusDeal"]] isEqualToString:@""]) {
+            return NO;
+        }
     }    
     return YES;
 }

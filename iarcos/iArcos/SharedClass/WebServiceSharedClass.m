@@ -1500,6 +1500,7 @@
                     NSMutableDictionary* priceDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].priceSelectorName];
                     if ([[priceDataDict objectForKey:@"DownloadMode"] intValue] == 0) {
                         [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"Price"];
+                        [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"Promotion"];
                     }
                 }                
                 self.saveRecordUpdateCenter = [[[NSClassFromString(aClassName) alloc] initWithRecordList:rowList] autorelease];

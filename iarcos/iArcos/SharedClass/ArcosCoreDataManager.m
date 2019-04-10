@@ -422,6 +422,15 @@
     return Price;
 }
 
+-(Promotion*)populatePromotionWithFieldList:(NSArray*)aFieldList promotion:(Promotion*)aPromotion {
+    aPromotion.IUR = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:0]];
+    aPromotion.MemoIUr = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:1]];
+    aPromotion.ProductIUR = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:2]];
+    aPromotion.Advertfiles = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[aFieldList objectAtIndex:10]]];
+    
+    return aPromotion;
+}
+
 -(Contact*)populateContactWithSoapOB:(ArcosGenericReturnObjectWithImage*)anObject contact:(Contact*)Contact {    
     Contact.IUR = [ArcosUtils convertStringToNumber:anObject.Field1];
     Contact.SecondIUR = [ArcosUtils convertStringToNumber:anObject.Field2];
@@ -538,7 +547,7 @@
     return orderLineDict;
 }
 
-- (NSMutableArray*)processPriceProductList:(NSMutableArray*)aProductList priceHashMap:(NSMutableDictionary*)aPriceHashMap {
+- (NSMutableArray*)processPriceProductList:(NSMutableArray*)aProductList priceHashMap:(NSMutableDictionary*)aPriceHashMap bonusDealHashMap:(NSMutableDictionary*)aBonusDealHashMap {
     NSMutableArray* resultProductList = [NSMutableArray arrayWithCapacity:[aProductList count]];
     for (NSDictionary* auxProductDict in aProductList) {
         NSMutableDictionary* resultProductDict = [NSMutableDictionary dictionaryWithDictionary:auxProductDict];
@@ -548,13 +557,18 @@
         if (auxUnitPriceFromPrice != nil) {
             [resultProductDict setObject:[NSNumber numberWithBool:YES] forKey:@"PriceFlag"];
             [resultProductDict setObject:auxUnitPriceFromPrice forKey:@"UnitTradePrice"];
+            [resultProductDict setObject:@"" forKey:@"BonusDeal"];
+            NSString* bonusDeal = [aBonusDealHashMap objectForKey:auxProductIUR];
+            if (bonusDeal != nil) {
+                [resultProductDict setObject:bonusDeal forKey:@"BonusDeal"];
+            }
         }
         [resultProductList addObject:resultProductDict];
     }
     return resultProductList;
 }
 
-- (NSMutableArray*)processMasterPriceProductList:(NSMutableArray*)aProductList masterPriceHashMap:(NSMutableDictionary*)aMasterPriceHashMap {
+- (NSMutableArray*)processMasterPriceProductList:(NSMutableArray*)aProductList masterPriceHashMap:(NSMutableDictionary*)aMasterPriceHashMap  masterBonusDealHashMap:(NSMutableDictionary*)aMasterBonusDealHashMap {
     NSMutableArray* resultProductList = [NSMutableArray arrayWithCapacity:[aProductList count]];
     for (NSDictionary* auxProductDict in aProductList) {
         NSMutableDictionary* resultProductDict = [NSMutableDictionary dictionaryWithDictionary:auxProductDict];
@@ -565,6 +579,10 @@
             if (![tmpPriceFlag boolValue]) {
                 [resultProductDict setObject:[NSNumber numberWithBool:YES] forKey:@"PriceFlag"];
                 [resultProductDict setObject:auxUnitPriceFromPrice forKey:@"UnitTradePrice"];
+                NSString* bonusDeal = [aMasterBonusDealHashMap objectForKey:auxProductIUR];
+                if (bonusDeal != nil) {
+                    [resultProductDict setObject:bonusDeal forKey:@"BonusDeal"];
+                }
             }            
         }
         [resultProductList addObject:resultProductDict];
@@ -603,6 +621,14 @@
         [resultProductDict setObject:[NSNumber numberWithInt:[unitRevenueAmount intValue]] forKey:@"UnitRRP"];
     }
     return resultProductList;
+}
+
+- (NSMutableArray*)processBonusDealProductList:(NSMutableArray*)aProductList bonusDealHashMap:(NSMutableDictionary*)aBonusDealHashMap {
+    return nil;
+}
+
+- (NSMutableArray*)processMasterBonusDealProductList:(NSMutableArray*)aProductList masterBonusDealHashMap:(NSMutableDictionary*)aMasterBonusDealHashMap {
+    return nil;
 }
 
 @end

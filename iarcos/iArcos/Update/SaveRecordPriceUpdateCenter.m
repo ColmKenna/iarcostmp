@@ -13,6 +13,7 @@
 @end
 
 @implementation SaveRecordPriceUpdateCenter
+@synthesize existingPromotionDict = _existingPromotionDict;
 
 - (id)initWithRecordList:(NSArray*)aRecordList {
     self = [super initWithRecordList:aRecordList];
@@ -26,12 +27,12 @@
 }
 
 - (void)dealloc {
-    
+    self.existingPromotionDict = nil;
     [super dealloc];
 }
 
 - (void)loadObjectWithFieldList:(NSArray*)aFieldList{
-    [[ArcosCoreData sharedArcosCoreData] LoadPriceWithFieldList:aFieldList existingPriceDict:self.existingObjectDict];
+    [[ArcosCoreData sharedArcosCoreData] LoadPriceWithFieldList:aFieldList existingPriceDict:self.existingObjectDict existingPromotionDict:self.existingPromotionDict];
 }
 
 - (void)commitObjectRecord {
@@ -54,6 +55,13 @@
     self.existingObjectDict = [NSMutableDictionary dictionaryWithCapacity:[objectArray count]];
     for (Price* aPrice in objectArray) {
         [self.existingObjectDict setObject:aPrice forKey:aPrice.IUR];
+    }
+    
+    NSPredicate* promotionPredicate = [NSPredicate predicateWithFormat:@"IUR in %@", priceIURList];
+    NSMutableArray* promotionObjectArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithContext:[ArcosCoreData sharedArcosCoreData].importManagedObjectContext withEntity:@"Promotion" withPropertiesToFetch:nil withPredicate:promotionPredicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
+    self.existingPromotionDict = [NSMutableDictionary dictionaryWithCapacity:[promotionObjectArray count]];
+    for (Promotion* aPromotion in promotionObjectArray) {
+        [self.existingPromotionDict setObject:aPromotion forKey:aPromotion.IUR];
     }
 }
 

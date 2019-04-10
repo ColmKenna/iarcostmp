@@ -27,7 +27,7 @@
     IBOutlet UITextField* BonusField;
     IBOutlet UITextField* DiscountField;
     IBOutlet UITextField* ValueField;
-    UITextField* currentTextField;
+    UITextField* _currentTextField;
     IBOutlet UILabel* productName;
     IBOutlet UINavigationBar* bar;
     UILabel* _unitPriceTitleLabel;
@@ -98,6 +98,7 @@
     NSMutableDictionary* _vansOrderHeader;
     UIButton* _priceChangeButton;
     UINavigationController* _globalNavigationController;
+    NSMutableDictionary* _bonusDealResultDict;
 }
 @property(nonatomic,retain) IBOutlet UITextField* QTYField;
 @property(nonatomic,retain) IBOutlet UITextField* BonusField;
@@ -105,6 +106,7 @@
 @property(nonatomic,retain) IBOutlet UIButton* dotButton;
 
 @property(nonatomic,retain)     IBOutlet UITextField* ValueField;
+@property(nonatomic,retain) UITextField* currentTextField;
 @property(nonatomic,retain)     IBOutlet UILabel* productName;
 @property(nonatomic,retain)     IBOutlet UINavigationBar* bar;
 @property(nonatomic,retain) IBOutlet UILabel* unitPriceTitleLabel;
@@ -172,6 +174,7 @@
 @property(nonatomic,retain) NSMutableDictionary* vansOrderHeader;
 @property(nonatomic,retain) IBOutlet UIButton* priceChangeButton;
 @property(nonatomic,retain) UINavigationController* globalNavigationController;
+@property(nonatomic,retain) NSMutableDictionary* bonusDealResultDict;
 
 -(IBAction)textFieldTouched:(id)sender;
 -(IBAction)numberKeyTouched:(id)sender;
@@ -180,4 +183,7 @@
 
 -(void)highlightSelectField;
 - (ArcosErrorResult*)productCheckProcedure;
+- (NSMutableDictionary*)interpretBonusDeal:(NSString*)aBonusDeal;
+- (void)checkQtyByBonusDeal;
+- (BOOL)enterQtyFoundProcessor:(int)auxQuantity;
 @end

@@ -50,6 +50,7 @@
 #import "LocationProductMAT.h"
 #import "ArcosConfigDataManager.h"
 #import "ArcosStockonHandUtils.h"
+#import "Promotion.h"
 
 typedef enum {
     PresenterFileTypeAudio = 800,
@@ -301,6 +302,7 @@ typedef enum {
 - (NSMutableArray*)productWithIURList:(NSMutableArray*)anIURList withResultType:(NSFetchRequestResultType)aResultType;
 //Price data
 - (NSMutableDictionary*)retrievePriceWithLocationIUR:(NSNumber*)aLocationIUR productIURList:(NSMutableArray*)aProductIURList;
+- (NSMutableDictionary*)retrieveBonusDealWithLocationIUR:(NSNumber*)aLocationIUR productIURList:(NSMutableArray*)aProductIURList;
 
 //Collected data
 - (BOOL)deleteCollectedWithLocationIUR:(NSNumber*)aLocationIUR comments:(NSString*)aComments;
@@ -319,7 +321,7 @@ typedef enum {
 - (void)loadLocationProductMATWithFieldList:(NSArray*)aFieldList existingLocationProductMATDict:(NSMutableDictionary*)anExistingLocationProductMATDict levelIUR:(NSNumber*)aLevelIUR;
 - (BOOL)LoadLocationWithSoapOB:(ArcosGenericReturnObjectWithImage*)anObject;
 - (void)LoadLocationWithFieldList:(NSArray*)aFieldList existingLocationDict:(NSMutableDictionary*)anExistingLocationDict;
-- (void)LoadPriceWithFieldList:(NSArray*)aFieldList existingPriceDict:(NSMutableDictionary*)anExistingPriceDict;
+- (void)LoadPriceWithFieldList:(NSArray*)aFieldList existingPriceDict:(NSMutableDictionary*)anExistingPriceDict existingPromotionDict:(NSMutableDictionary*)anExistingPromotionDict;
 -(void)loadLocLocLinkWithSoapOB:(ArcosGenericReturnObjectWithImage*)anObject;
 - (void)loadLocLocLinkWithFieldList:(NSArray*)aFieldList existingLocLocLinkDict:(NSMutableDictionary*)anExistingLocLocLinkDict;
 -(void)loadFormDetailsWithSoapOB:(ArcosFormDetailBO*)anObject;

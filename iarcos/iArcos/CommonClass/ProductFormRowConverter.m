@@ -29,6 +29,7 @@
  RRIUR added for Price Change at 17/08/2018 0:default -1:price change
  UnitRRP at 26/09/2018
  VCIUR at 04/01/2019
+ BonusDeal at 08/04/2019
  */
 + (NSMutableDictionary*)createFormRowWithProduct:(NSMutableDictionary*) product {
     NSMutableDictionary* formRow = [NSMutableDictionary dictionary];
@@ -58,6 +59,7 @@
     [formRow setObject:[ArcosUtils convertNilToZero:[product objectForKey:@"RRIUR"]] forKey:@"RRIUR"];
     [formRow setObject:[product objectForKey:@"UnitRRP"] forKey:@"UnitRRP"];
     [formRow setObject:[product objectForKey:@"VCIUR"] forKey:@"VCIUR"];
+    [formRow setObject:[ArcosUtils convertNilToEmpty:[product objectForKey:@"BonusDeal"]] forKey:@"BonusDeal"];
     
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
     [formRow setObject:[NSNumber numberWithInt:0]  forKey:@"Qty"];
@@ -124,6 +126,7 @@
     [formRow setObject:[ArcosUtils convertNilToZero:[anOrderLine objectForKey:@"RRIUR"]] forKey:@"RRIUR"];
     [formRow setObject:[anOrderLine objectForKey:@"UnitRRP"] forKey:@"UnitRRP"];
     [formRow setObject:[anOrderLine objectForKey:@"VCIUR"] forKey:@"VCIUR"];
+    [formRow setObject:[ArcosUtils convertNilToEmpty:[anOrderLine objectForKey:@"BonusDeal"]] forKey:@"BonusDeal"];
     return formRow;
 }
 
@@ -157,6 +160,7 @@
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"RRIUR"];
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"UnitRRP"];
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"VCIUR"];
+    [formRow setObject:@"" forKey:@"BonusDeal"];
     
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
     [formRow setObject:[NSNumber numberWithInt:0]  forKey:@"Qty"];
@@ -251,6 +255,7 @@
 //        [tempDict setObject:[ArcosUtils convertNilToZero:[aProduct objectForKey:@"RRIUR"]] forKey:@"RRIUR"];
         [tempDict setObject:[aProduct objectForKey:@"UnitRRP"] forKey:@"UnitRRP"];
         [tempDict setObject:[aProduct objectForKey:@"VCIUR"] forKey:@"VCIUR"];
+        [tempDict setObject:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"BonusDeal"]] forKey:@"BonusDeal"];
         [tempDict setObject:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"EAN"]] forKey:@"EAN"];
     }else{
         [tempDict setObject:@"Product unassigned" forKey:@"Description"];
@@ -277,6 +282,7 @@
         [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"RRIUR"];
         [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"UnitRRP"];
         [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"VCIUR"];
+        [tempDict setObject:@"" forKey:@"BonusDeal"];
         [tempDict setObject:@"" forKey:@"EAN"];
     }
     return tempDict;
