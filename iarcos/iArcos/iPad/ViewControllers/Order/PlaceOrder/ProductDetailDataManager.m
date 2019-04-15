@@ -68,6 +68,28 @@
         [self.stockDisplayList addObject:[self cellDataDict:@"Qty Required:" value:[ArcosUtils convertNumberToIntString:[productDict objectForKey:@"BonusRequired"]]]];
         [self.stockDisplayList addObject:[self cellDataDict:@"Bonus Given:" value:[ArcosUtils convertNumberToIntString:[productDict objectForKey:@"BonusGiven"]]]];
         [self.stockDisplayList addObject:[self cellDataDict:@"Rule:" value:@""]];
+        if ([[self.formRowDict objectForKey:@"PriceFlag"] intValue] == 1) {
+            NSString* auxBonusDeal = [ArcosUtils convertNilToEmpty:[self.formRowDict objectForKey:@"BonusDeal"]];
+            NSArray* bonusDealChildren = [auxBonusDeal componentsSeparatedByString:[GlobalSharedClass shared].fieldDelimiter];
+            if ([bonusDealChildren count] == 10) {
+                @try {
+                    NSRange firstHalfRange = NSMakeRange(0, 5);
+                    NSRange secondHalfRange = NSMakeRange(5, 5);
+                    NSArray* firstHalfArray = [bonusDealChildren subarrayWithRange:firstHalfRange];
+                    NSArray* secondHalfArray = [bonusDealChildren subarrayWithRange:secondHalfRange];
+                    NSString* firstHalfArrayContent = [firstHalfArray componentsJoinedByString:[GlobalSharedClass shared].fieldDelimiter];
+                    NSString* secondHalfArrayContent = [secondHalfArray componentsJoinedByString:[GlobalSharedClass shared].fieldDelimiter];
+                    [self.stockDisplayList addObject:[self cellDataDict:@"" value:@""]];
+                    [self.stockDisplayList addObject:[self cellDataDict:@"" value:@""]];
+                    [self.stockDisplayList addObject:[self cellDataDict:@"" value:firstHalfArrayContent]];
+                    [self.stockDisplayList addObject:[self cellDataDict:@"" value:secondHalfArrayContent]];
+                } @catch (NSException *exception) {
+                    
+                } @finally {
+                    
+                }
+            }
+        }
     }
     
     

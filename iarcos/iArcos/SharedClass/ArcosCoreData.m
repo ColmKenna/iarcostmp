@@ -3580,8 +3580,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 - (void)LoadPriceWithFieldList:(NSArray*)aFieldList existingPriceDict:(NSMutableDictionary*)anExistingPriceDict existingPromotionDict:(NSMutableDictionary*)anExistingPromotionDict {
     NSNumber* priceIUR = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:0]];
     Price* aPrice = [anExistingPriceDict objectForKey:priceIUR];
+    NSString* auxBonusDeal = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[aFieldList objectAtIndex:10]]];
     if (aPrice != nil) {
-        [self.arcosCoreDataManager populatePriceWithFieldList:aFieldList price:aPrice];
+        if ([auxBonusDeal isEqualToString:@"DELETE"]) {
+            NSManagedObjectContext* context = [self importManagedObjectContext];
+            [context deleteObject:aPrice];
+        } else {
+            [self.arcosCoreDataManager populatePriceWithFieldList:aFieldList price:aPrice];
+        }
     } else {
         NSManagedObjectContext* context = [self importManagedObjectContext];
         Price* Price = [NSEntityDescription
@@ -3591,8 +3597,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     }
     Promotion* aPromotion = [anExistingPromotionDict objectForKey:priceIUR];
     if (aPromotion != nil) {
-        [self.arcosCoreDataManager populatePromotionWithFieldList:aFieldList promotion:aPromotion];
+        if ([auxBonusDeal isEqualToString:@"DELETE"]) {
+            NSManagedObjectContext* context = [self importManagedObjectContext];
+            [context deleteObject:aPromotion];
+        } else {
+            [self.arcosCoreDataManager populatePromotionWithFieldList:aFieldList promotion:aPromotion];
+        }
     } else {
+        if ([auxBonusDeal isEqualToString:@""]) {
+            return;
+        }
         NSManagedObjectContext* context = [self importManagedObjectContext];
         Promotion* Promotion = [NSEntityDescription
                         insertNewObjectForEntityForName:@"Promotion"
@@ -4896,193 +4910,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         
         [self saveContext:context];
     }
-    /*
-    if (1==1) {
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"IUR = 3"];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"FormDetail" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
-        if ([objectsArray count] > 0) {
-            for (FormDetail* aFormDetail in objectsArray) {
-                aFormDetail.FormType = @"534";
-                [self saveContext:self.fetchManagedObjectContext];
-            }
-        }
-    }
-    if (1==1) {
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"DescrDetailCode = 'Pamex' OR DescrDetailCode = 'SKIN CARE'"];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
-        if ([objectsArray count] > 0) {
-            for (DescrDetail* aDescrDetail in objectsArray) {
-                aDescrDetail.Active = [NSNumber numberWithBool:YES];
-                [self saveContext:self.fetchManagedObjectContext];
-            }
-        }
-    }
     
-    
-    
-    
-    
-    if (1==1) {
-        NSMutableArray* productIurList = [NSMutableArray arrayWithObjects:[NSNumber numberWithInt:160376], [NSNumber numberWithInt:160377], nil];
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"ProductIUR in %@", productIurList];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Product" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
-        if ([objectsArray count] > 0) {
-            for (Product* aProduct in objectsArray) {
-                aProduct.VCIUR = [NSNumber numberWithInt:191];
-                [self saveContext:self.fetchManagedObjectContext];
-            }
-        }
-    }
-    if (1==1) {
-        NSMutableArray* productIurList = [NSMutableArray arrayWithObjects:[NSNumber numberWithInt:160421], [NSNumber numberWithInt:160426], nil];
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"ProductIUR in %@", productIurList];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Product" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
-        if ([objectsArray count] > 0) {
-            for (Product* aProduct in objectsArray) {
-                aProduct.VCIUR = [NSNumber numberWithInt:190];
-                [self saveContext:self.fetchManagedObjectContext];
-            }
-        }
-    }
-    if (1==1) {
-        NSMutableArray* productIurList = [NSMutableArray arrayWithObjects:[NSNumber numberWithInt:160459],[NSNumber numberWithInt:160460],[NSNumber numberWithInt:160456], nil];
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"ProductIUR in %@", productIurList];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Product" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
-        if ([objectsArray count] > 0) {
-            for (Product* aProduct in objectsArray) {
-                aProduct.VCIUR = [NSNumber numberWithInt:189];
-                [self saveContext:self.fetchManagedObjectContext];
-            }
-        }
-    }
-    if (1==1) {
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"DescrDetailIUR = 189"];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
-        if ([objectsArray count] > 0) {
-            for (DescrDetail* aDescrDetail in objectsArray) {
-                aDescrDetail.Dec1 = [NSNumber numberWithInt:10];
-                [self saveContext:self.fetchManagedObjectContext];
-            }
-        }
-    }
-    if (1==1) {
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"DescrDetailIUR = 190"];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
-        if ([objectsArray count] > 0) {
-            for (DescrDetail* aDescrDetail in objectsArray) {
-                aDescrDetail.Dec1 = [NSNumber numberWithInt:20];
-                [self saveContext:self.fetchManagedObjectContext];
-            }
-        }
-    }
-    if (1==1) {
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"DescrDetailIUR = 191"];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
-        if ([objectsArray count] > 0) {
-            for (DescrDetail* aDescrDetail in objectsArray) {
-                aDescrDetail.Dec1 = [NSNumber numberWithInt:25];
-                [self saveContext:self.fetchManagedObjectContext];
-            }
-        }
-    }
-    if (1==1) {
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Product" withPropertiesToFetch:nil withPredicate:nil withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
-        if ([objectsArray count] > 0) {
-            for (Product* aProduct in objectsArray) {
-                aProduct.UnitsPerPack = [NSNumber numberWithInt:32];
-                [self saveContext:self.fetchManagedObjectContext];
-            }
-        }
-    }
-    if (1==1) {
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"IUR = 2011"];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"FormDetail" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
-        if ([objectsArray count] > 0) {
-            for (FormDetail* aFormDetail in objectsArray) {
-                aFormDetail.ShowSeperators = [NSNumber numberWithInt:1];
-                [self saveContext:self.fetchManagedObjectContext];
-            }
-        }
-    }
-    if (1==1) {
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Location" withPropertiesToFetch:nil withPredicate:nil withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
-        if ([objectsArray count] > 0) {
-            for (Location* aLocation in objectsArray) {
-                aLocation.CUiur = [NSNumber numberWithInt:272];
-                [self saveContext:self.fetchManagedObjectContext];
-            }
-        }
-    }
-    */
-    /*
-    if (1==1) {
-        NSManagedObjectContext* context = [self addManagedObjectContext];
-        Price* price = [NSEntityDescription insertNewObjectForEntityForName:@"Price"
-                                                     inManagedObjectContext:context];
-        price.LocationIUR = [NSNumber numberWithInt:45765];
-        price.ProductIUR = [NSNumber numberWithInt:158512];
-        price.UnitTradePrice = [NSNumber numberWithFloat:3.21f];
-        price.RebatePercent = [[[NSDecimalNumber alloc] initWithDecimal:[[NSNumber numberWithFloat:5.7f] decimalValue]] autorelease];
-        price.DiscountPercent = [[[NSDecimalNumber alloc] initWithDecimal:[[NSNumber numberWithFloat:2.51f] decimalValue]] autorelease];
-        
-        [self saveContext:context];
-    }
-    
-    if (1==1) {
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"LocationCode = 'AP07'"];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Location" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
-        if ([objectsArray count] > 0) {
-            for (Location* aLocation in objectsArray) {
-                aLocation.lsiur = [NSNumber numberWithInt:1131];
-                [self saveContext:self.fetchManagedObjectContext];
-            }
-        }
-    }
-    if (1==1) {
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"DescrDetailIUR = 39241"];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
-        if ([objectsArray count] > 0) {
-            for (DescrDetail* aDescrDetail in objectsArray) {                
-                aDescrDetail.ImageIUR = [NSNumber numberWithInt:102];
-                [self saveContext:self.fetchManagedObjectContext];
-            }
-        }
-    }
-    if (1==1) {
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"DescrDetailIUR = 267"];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
-        if ([objectsArray count] > 0) {
-            for (DescrDetail* aDescrDetail in objectsArray) {                
-                aDescrDetail.ImageIUR = [NSNumber numberWithInt:108];
-                aDescrDetail.CodeType = [NSNumber numberWithInt:1];
-                aDescrDetail.Tooltip = @"ac";
-                [self saveContext:self.fetchManagedObjectContext];
-            }
-        }
-    }
-    if (1==1) {
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"DescrDetailIUR = 1131"];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
-        if ([objectsArray count] > 0) {
-            for (DescrDetail* aDescrDetail in objectsArray) {                
-                aDescrDetail.ImageIUR = [NSNumber numberWithInt:105];
-                aDescrDetail.CodeType = [NSNumber numberWithInt:1];
-                aDescrDetail.Tooltip = @"zz";
-                [self saveContext:self.fetchManagedObjectContext];
-            }
-        }
-    }
-    if (1==1) {
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"IUR = 2008"];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"FormDetail" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
-        if ([objectsArray count] > 0) {
-            for (FormDetail* aFormDetail in objectsArray) {                
-                aFormDetail.FormType = @"105";
-                [self saveContext:self.fetchManagedObjectContext];
-            }
-        }
-    }
-    */
 }
 
 #pragma mark core data initialize region
