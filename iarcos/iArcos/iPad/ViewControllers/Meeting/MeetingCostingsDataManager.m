@@ -74,16 +74,16 @@
     }
 }
 
-- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsUpload*)anArcosMeetingWithDetailsUpload {
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload {
     @try {
         NSString* resEstimatedCost = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.estimatedCostKey];
-        anArcosMeetingWithDetailsUpload.EstimatedCost = [[ArcosUtils convertStringToNumber:resEstimatedCost] intValue];
+        anArcosMeetingWithDetailsDownload.EstimatedCost = [[ArcosUtils convertStringToNumber:resEstimatedCost] intValue];
         NSString* resEstimatedCostPerHead = [ArcosUtils convertBlankToZero:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.estimatedCostPerHeadKey]];
 //        NSNumber* resEstimatedCostPerHeadNumber = [ArcosUtils convertStringToFloatNumber:resEstimatedCostPerHead];
 //        anArcosMeetingBO.EstimatedCostPerHead = [NSDecimalNumber decimalNumberWithDecimal:[resEstimatedCostPerHeadNumber decimalValue]];
-        anArcosMeetingWithDetailsUpload.EstimatedCostPerHead = [NSDecimalNumber decimalNumberWithString:resEstimatedCostPerHead];
+        anArcosMeetingWithDetailsDownload.EstimatedCostPerHead = [NSDecimalNumber decimalNumberWithString:resEstimatedCostPerHead];
         NSString* resEstimatedAttendees = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.estimatedAttendeesKey];
-        anArcosMeetingWithDetailsUpload.EstimatedAttendees = [[ArcosUtils convertStringToNumber:resEstimatedAttendees] intValue];
+        anArcosMeetingWithDetailsDownload.EstimatedAttendees = [[ArcosUtils convertStringToNumber:resEstimatedAttendees] intValue];
     } @catch (NSException *exception) {
         NSLog(@"%@", [exception reason]);
     } @finally {

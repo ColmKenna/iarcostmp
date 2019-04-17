@@ -27,7 +27,6 @@
 }
 
 - (void)dealloc {
-    NSLog(@"attachment dealloc");
     self.emptyTitle = nil;
     self.attachmentsTitle = nil;
     self.sectionTitleList = nil;
@@ -52,7 +51,7 @@
     }
 }
 
-- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsUpload*)anArcosMeetingWithDetailsUpload {
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload {
     for (int i = 0; i < [self.sectionTitleList count]; i++) {
         NSString* tmpSectionTitle = [self.sectionTitleList objectAtIndex:i];
         NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:tmpSectionTitle];
@@ -61,7 +60,7 @@
             if (auxArcosAttachmentSummary.PCiur == -999) {
                 auxArcosAttachmentSummary.Description = @"DELETE";
             }
-//            [anArcosMeetingWithDetailsUpload. addObject:auxArcosAttendeeWithDetails];
+            [anArcosMeetingWithDetailsDownload.LinkedAttachments addObject:auxArcosAttachmentSummary];
         }
     }
 }

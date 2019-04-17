@@ -40,7 +40,6 @@
 #import "ArcosPresenterForMeeting.h"
 #import "ArcosExpenses.h"
 #import "ArcosAttachmentSummary.h"
-#import "ArcosMeetingWithDetailsUpload.h"
 #import "ArcosAttachmentWithFileContents.h"
 #import "ArcosIncompleteObject.h"
 #import "ArcosArrayOfSurveyBO.h"
@@ -735,9 +734,9 @@
 
 	// Returns ArcosGenericReturnObject*
 	/*  */
-	- (SoapRequest*) UpdateMeeting: (id <SoapDelegate>) handler meetingToUpdate: (ArcosMeetingWithDetailsUpload*) meetingToUpdate;
-	- (SoapRequest*) UpdateMeeting: (id) target action: (SEL) action meetingToUpdate: (ArcosMeetingWithDetailsUpload*) meetingToUpdate;
-	-(SoapRequest*)UpdateMeetingWithProgress:(SoapRequestProgressBlock)progressBlock meetingToUpdate: (ArcosMeetingWithDetailsUpload*) meetingToUpdate completion:(SoapRequestCompletionBlock)completionBlock;
+	- (SoapRequest*) UpdateMeeting: (id <SoapDelegate>) handler meetingToUpdate: (ArcosMeetingWithDetailsDownload*) meetingToUpdate;
+	- (SoapRequest*) UpdateMeeting: (id) target action: (SEL) action meetingToUpdate: (ArcosMeetingWithDetailsDownload*) meetingToUpdate;
+	-(SoapRequest*)UpdateMeetingWithProgress:(SoapRequestProgressBlock)progressBlock meetingToUpdate: (ArcosMeetingWithDetailsDownload*) meetingToUpdate completion:(SoapRequestCompletionBlock)completionBlock;
 
 	// Returns int
 	/*  */

@@ -12,6 +12,7 @@
 #import "CallGenericServices.h"
 #import "SettingManager.h"
 #import "TargetTableCellFactory.h"
+#import "ArcosCoreData.h"
 
 @interface TargetTableViewController : UITableViewController {
     TargetDataManager* _targetDataManager;

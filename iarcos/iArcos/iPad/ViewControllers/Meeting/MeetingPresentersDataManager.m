@@ -28,10 +28,10 @@
     auxArcosPresenterForMeeting.Shown = aLinkToMeetingFlag;
 }
 
-- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsUpload*)anArcosMeetingWithDetailsUpload {
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload {
     for (int i = 0; i < [self.displayList count]; i++) {
         ArcosPresenterForMeeting* auxArcosPresenterForMeeting = [self.displayList objectAtIndex:i];
-        [anArcosMeetingWithDetailsUpload.Presenters addObject:auxArcosPresenterForMeeting];
+        [anArcosMeetingWithDetailsDownload.Presenters addObject:auxArcosPresenterForMeeting];
     }
 }
 

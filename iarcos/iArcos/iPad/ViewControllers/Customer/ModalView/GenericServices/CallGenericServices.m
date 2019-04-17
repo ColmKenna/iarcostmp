@@ -378,7 +378,7 @@
     [self.arcosService GetTargetByEmployee:aTarget action:anAction EmployeeIUR:anEmployeeIUR];
 }
 
-- (void)genericUpdateMeetingByMeetingBO:(ArcosMeetingWithDetailsUpload*)aMeetingToUpdate action:(SEL)anAction target:(id)aTarget {
+- (void)genericUpdateMeetingByMeetingBO:(ArcosMeetingWithDetailsDownload*)aMeetingToUpdate action:(SEL)anAction target:(id)aTarget {
     if (![self startCallService]) {
         return;
     }
@@ -397,6 +397,13 @@
         return;
     }
     [self.arcosService UploadFileNew:aTarget action:anAction contents:aContents _fileName:aFileName _description:aDescription tableIUR:aTableIUR tableName:aTableName employeeiur:anEmployeeiur Locationiur:aLocationiur DateAttached:aDateAttached];
+}
+
+- (void)genericProcessDashboardQueryWithDashboardiur:(int)aDashboardiur Employeeiur:(int)anEmployeeiur Locationiur:(int)aLocationiur action:(SEL)anAction target:(id)aTarget {
+    if (![self startCallService]) {
+        return;
+    }
+    [self.arcosService ProcessDashboardQuery:aTarget action:anAction Dashboardiur:aDashboardiur Employeeiur:anEmployeeiur Locationiur:aLocationiur];
 }
 
 -(void)dealloc{

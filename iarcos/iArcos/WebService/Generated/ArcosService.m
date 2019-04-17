@@ -40,7 +40,6 @@
 #import "ArcosPresenterForMeeting.h"
 #import "ArcosExpenses.h"
 #import "ArcosAttachmentSummary.h"
-#import "ArcosMeetingWithDetailsUpload.h"
 #import "ArcosAttachmentWithFileContents.h"
 #import "ArcosIncompleteObject.h"
 #import "ArcosArrayOfSurveyBO.h"
@@ -3521,12 +3520,12 @@
 
 	// Returns ArcosGenericReturnObject*
 	/*  */
-	- (SoapRequest*) UpdateMeeting: (id <SoapDelegate>) handler meetingToUpdate: (ArcosMeetingWithDetailsUpload*) meetingToUpdate
+	- (SoapRequest*) UpdateMeeting: (id <SoapDelegate>) handler meetingToUpdate: (ArcosMeetingWithDetailsDownload*) meetingToUpdate
 	{
 		return [self UpdateMeeting: handler action: nil meetingToUpdate: meetingToUpdate];
 	}
 
-	- (SoapRequest*) UpdateMeeting: (id) _target action: (SEL) _action meetingToUpdate: (ArcosMeetingWithDetailsUpload*) meetingToUpdate
+	- (SoapRequest*) UpdateMeeting: (id) _target action: (SEL) _action meetingToUpdate: (ArcosMeetingWithDetailsDownload*) meetingToUpdate
 		{
 		NSMutableArray* _params = [NSMutableArray array];
 		
@@ -3537,7 +3536,7 @@
 		return _request;
 	}
 
-	-(SoapRequest*)UpdateMeetingWithProgress:(SoapRequestProgressBlock)progressBlock meetingToUpdate: (ArcosMeetingWithDetailsUpload*) meetingToUpdate completion:(SoapRequestCompletionBlock)completionBlock {
+	-(SoapRequest*)UpdateMeetingWithProgress:(SoapRequestProgressBlock)progressBlock meetingToUpdate: (ArcosMeetingWithDetailsDownload*) meetingToUpdate completion:(SoapRequestCompletionBlock)completionBlock {
 		NSMutableArray* _params = [NSMutableArray array];
 		
 		[_params addObject: [[[SoapParameter alloc] initWithValue: meetingToUpdate forName: @"meetingToUpdate"] autorelease]];

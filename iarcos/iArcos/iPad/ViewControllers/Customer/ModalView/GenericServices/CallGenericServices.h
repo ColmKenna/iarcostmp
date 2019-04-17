@@ -90,8 +90,9 @@
 -(void)genericGetSurveryDetailsByLocation:(int)aLocationiur contactiur:(int)aContactiur surveyiur:(int)aSurveyiur responseDate:(NSDate*)aResponseDate action:(SEL)anAction target:(id)aTarget;
 - (void)genericGet_Resource_FilenamesByLocation:(int)aLocationIUR locationCode:(NSString*)aLocationCode action:(SEL)anAction target:(id)aTarget;
 - (void)genericGetTargetByEmployee:(int)anEmployeeIUR action:(SEL)anAction target:(id)aTarget;
-- (void)genericUpdateMeetingByMeetingBO:(ArcosMeetingWithDetailsUpload*)aMeetingToUpdate action:(SEL)anAction target:(id)aTarget;
+- (void)genericUpdateMeetingByMeetingBO:(ArcosMeetingWithDetailsDownload*)aMeetingToUpdate action:(SEL)anAction target:(id)aTarget;
 - (void)genericGetMeetingWithIUR:(NSNumber*)anIUR action:(SEL)anAction target:(id)aTarget;
 - (void)genericUploadFileNewWithContents:(NSData*)aContents fileName:(NSString*)aFileName description:(NSString*)aDescription tableIUR:(NSString*)aTableIUR tableName:(NSString*)aTableName employeeiur:(int)anEmployeeiur locationiur:(int)aLocationiur dateAttached:(NSDate*)aDateAttached action:(SEL)anAction target:(id)aTarget;
+- (void)genericProcessDashboardQueryWithDashboardiur:(int)aDashboardiur Employeeiur:(int)anEmployeeiur Locationiur:(int)aLocationiur action:(SEL)anAction target:(id)aTarget;
 
 @end

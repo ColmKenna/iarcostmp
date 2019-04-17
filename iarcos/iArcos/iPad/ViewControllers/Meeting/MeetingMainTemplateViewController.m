@@ -151,14 +151,16 @@
     [self.meetingCostingsViewController.meetingCostingsDataManager displayListHeadOfficeAdaptor];
     //    ArcosMeetingBO* arcosMeetingBO = [[[ArcosMeetingBO alloc] init] autorelease];
     //    ArcosMeetingWithDetails* arcosMeetingWithDetails = [[[ArcosMeetingWithDetails alloc] init] autorelease];
-    ArcosMeetingWithDetailsUpload* arcosMeetingWithDetailsUpload = [[[ArcosMeetingWithDetailsUpload alloc] init] autorelease];
-    [self.meetingDetailsTableViewController.meetingDetailsDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
-    [self.meetingMiscTableViewController.meetingMiscDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
-    [self.meetingObjectivesTableViewController.meetingObjectivesDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
-    [self.meetingAttendeesTableViewController.meetingAttendeesDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
-    [self.meetingCostingsViewController.meetingCostingsDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
-    [self.meetingCostingsViewController.meetingExpenseTableViewController populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
-    [self.meetingPresentersTableViewController.meetingPresentersDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsUpload];
+//    ArcosMeetingWithDetailsUpload* arcosMeetingWithDetailsUpload = [[[ArcosMeetingWithDetailsUpload alloc] init] autorelease];
+    ArcosMeetingWithDetailsDownload* arcosMeetingWithDetailsDownload = [[[ArcosMeetingWithDetailsDownload alloc] init] autorelease];
+    [self.meetingDetailsTableViewController.meetingDetailsDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsDownload];
+    [self.meetingMiscTableViewController.meetingMiscDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsDownload];
+    [self.meetingObjectivesTableViewController.meetingObjectivesDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsDownload];
+    [self.meetingAttendeesTableViewController.meetingAttendeesDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsDownload];
+    [self.meetingCostingsViewController.meetingCostingsDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsDownload];
+    [self.meetingCostingsViewController.meetingExpenseTableViewController populateArcosMeetingWithDetails:arcosMeetingWithDetailsDownload];
+    [self.meetingPresentersTableViewController.meetingPresentersDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsDownload];
+    [self.meetingAttachmentsTableViewController.meetingAttachmentsDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsDownload];
     
     //    arcosMeetingBO.Attachments = @"";
     //    NSLog(@"abc %@", arcosMeetingBO);
@@ -166,8 +168,8 @@
         
     }
     //    arcosMeetingBO.IUR = [self.meetingIUR intValue];
-    arcosMeetingWithDetailsUpload.IUR = [self.meetingIUR intValue];
-    [self.callGenericServices genericUpdateMeetingByMeetingBO:arcosMeetingWithDetailsUpload action:@selector(resultBackFromUpdateMeeting:) target:self];
+    arcosMeetingWithDetailsDownload.IUR = [self.meetingIUR intValue];
+    [self.callGenericServices genericUpdateMeetingByMeetingBO:arcosMeetingWithDetailsDownload action:@selector(resultBackFromUpdateMeeting:) target:self];
     //    NSLog(@"abc: %@", self.meetingDetailsTableViewController.meetingDetailsDataManager.headOfficeDataObjectDict);
     //    NSLog(@"ac: %@", self.meetingMiscTableViewController.meetingMiscDataManager.headOfficeDataObjectDict);
     //    NSLog(@"def: %@", self.meetingObjectivesTableViewController.meetingObjectivesDataManager.headOfficeDataObjectDict);
@@ -211,7 +213,7 @@
         return;
     }
     ArcosGenericReturnObject* arcosGenericReturnObject = (ArcosGenericReturnObject*)result;
-    if (arcosGenericReturnObject.ErrorModel.Code == 1) {
+    if (arcosGenericReturnObject.ErrorModel.Code >= 1) {
         [ArcosUtils showDialogBox:@"Completed" title:@"" delegate:self target:self tag:77 handler:^(UIAlertAction *action) {
             if ([self.actionType isEqualToString:self.createActionType]) {
                 [self saveButtonCallBack];

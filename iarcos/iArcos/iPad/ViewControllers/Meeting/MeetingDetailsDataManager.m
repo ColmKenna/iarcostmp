@@ -112,27 +112,27 @@
     [tmpDataDict setObject:aData forKey:@"FieldData"];
 }
 
-- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsUpload*)anArcosMeetingWithDetailsUpload {
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload {
     @try {
         NSDate* resDate = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.dateKey];
         NSDate* resTime = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.timeKey];
         NSString* resDateTimeStr = [NSString stringWithFormat:@"%@ %@", [ArcosUtils stringFromDate:resDate format:[GlobalSharedClass shared].dateFormat], [ArcosUtils stringFromDate:resTime format:[GlobalSharedClass shared].hourMinuteFormat]];
         NSDate* resDateTime = [ArcosUtils dateFromString:resDateTimeStr format:[GlobalSharedClass shared].datetimehmFormat];
-        anArcosMeetingWithDetailsUpload.DateTime = resDateTime;
+        anArcosMeetingWithDetailsDownload.DateTime = resDateTime;
         NSString* resDuration = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.durationKey];
-        anArcosMeetingWithDetailsUpload.Duration = [[ArcosUtils convertStringToNumber:resDuration] intValue];
-        anArcosMeetingWithDetailsUpload.Code = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.codeKey]];
-        anArcosMeetingWithDetailsUpload.Venue = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.venueKey]];
+        anArcosMeetingWithDetailsDownload.Duration = [[ArcosUtils convertStringToNumber:resDuration] intValue];
+        anArcosMeetingWithDetailsDownload.Code = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.codeKey]];
+        anArcosMeetingWithDetailsDownload.Venue = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.venueKey]];
         NSMutableDictionary* resStatusDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.statusKey];
-        anArcosMeetingWithDetailsUpload.MSiur = [[resStatusDict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetailsDownload.MSiur = [[resStatusDict objectForKey:@"DescrDetailIUR"] intValue];
         NSMutableDictionary* resTypeDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.typeKey];
-        anArcosMeetingWithDetailsUpload.MPiur = [[resTypeDict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetailsDownload.MPiur = [[resTypeDict objectForKey:@"DescrDetailIUR"] intValue];
         NSMutableDictionary* resStyleDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.styleKey];
-        anArcosMeetingWithDetailsUpload.MYiur = [[resStyleDict objectForKey:@"DescrDetailIUR"] intValue];
-        anArcosMeetingWithDetailsUpload.Reason = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.titleKey]];//come back
+        anArcosMeetingWithDetailsDownload.MYiur = [[resStyleDict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetailsDownload.Reason = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.titleKey]];//come back
         NSMutableDictionary* resOperatorDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.operatorKey];
-        anArcosMeetingWithDetailsUpload.OrganiserIUR = [[resOperatorDict objectForKey:@"IUR"] intValue];
-        anArcosMeetingWithDetailsUpload.Comments = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.commentsKey]];
+        anArcosMeetingWithDetailsDownload.OrganiserIUR = [[resOperatorDict objectForKey:@"IUR"] intValue];
+        anArcosMeetingWithDetailsDownload.Comments = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.commentsKey]];
     } @catch (NSException *exception) {
         NSLog(@"%@", [exception reason]);
     } @finally {

@@ -188,7 +188,7 @@
     return arcosAttendeeWithDetails;
 }
 
-- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsUpload*)anArcosMeetingWithDetailsUpload {
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload {
     for (int i = 0; i < [self.sectionTitleList count]; i++) {
         NSString* tmpSectionTitle = [self.sectionTitleList objectAtIndex:i];
         NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:tmpSectionTitle];
@@ -197,7 +197,7 @@
             if (auxArcosAttendeeWithDetails.COiur == -999) {
                 auxArcosAttendeeWithDetails.Name = @"DELETE";
             }
-            [anArcosMeetingWithDetailsUpload.Attendees addObject:auxArcosAttendeeWithDetails];
+            [anArcosMeetingWithDetailsDownload.Attendees addObject:auxArcosAttendeeWithDetails];
         }
     }
 }

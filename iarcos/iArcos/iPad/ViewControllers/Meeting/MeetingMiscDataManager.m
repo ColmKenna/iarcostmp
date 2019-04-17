@@ -114,17 +114,17 @@
     }
 }
 
-- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsUpload*)anArcosMeetingWithDetailsUpload {
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload {
     @try {
         NSMutableDictionary* resApprovedByDict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.approvedByKey];
-        anArcosMeetingWithDetailsUpload.ApprovedByIUR = [[resApprovedByDict objectForKey:@"IUR"] intValue];
+        anArcosMeetingWithDetailsDownload.ApprovedByIUR = [[resApprovedByDict objectForKey:@"IUR"] intValue];
         NSMutableDictionary* resL4Dict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.l4Key];
-        anArcosMeetingWithDetailsUpload.L4iur = [[resL4Dict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetailsDownload.L4iur = [[resL4Dict objectForKey:@"DescrDetailIUR"] intValue];
         NSMutableDictionary* resL5Dict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.l5Key];
-        anArcosMeetingWithDetailsUpload.L5iur = [[resL5Dict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetailsDownload.L5iur = [[resL5Dict objectForKey:@"DescrDetailIUR"] intValue];
         NSNumber* resSpeakerAgreement = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.speakerAgreementKey];
-        anArcosMeetingWithDetailsUpload.SpeakerAgreement = [resSpeakerAgreement boolValue];
-        anArcosMeetingWithDetailsUpload.SpeakerAgreementDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.speakerAgreementDetailsKey];
+        anArcosMeetingWithDetailsDownload.SpeakerAgreement = [resSpeakerAgreement boolValue];
+        anArcosMeetingWithDetailsDownload.SpeakerAgreementDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.speakerAgreementDetailsKey];
     } @catch (NSException *exception) {
         NSLog(@"%@", [exception reason]);
     } @finally {

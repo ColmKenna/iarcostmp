@@ -34,7 +34,7 @@
 
 - (void)createBasicDataWithReturnObject:(ArcosMeetingWithDetails*)anArcosMeetingWithDetails;
 - (void)meetingExpenseDetailsSaveButtonProcessorWithData:(NSMutableDictionary*)aHeadOfficeDataObjectDict;
-- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsUpload*)anArcosMeetingWithDetailsUpload;
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload;
 
 @end
 

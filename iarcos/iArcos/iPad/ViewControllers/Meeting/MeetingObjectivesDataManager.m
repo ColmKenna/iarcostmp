@@ -64,16 +64,16 @@
     }
 }
 
-- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsUpload*)anArcosMeetingWithDetailsUpload {
+- (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload {
     @try {
         NSMutableDictionary* resMeetingMODict = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.meetingMOKey];
-        anArcosMeetingWithDetailsUpload.MOiur = [[resMeetingMODict objectForKey:@"DescrDetailIUR"] intValue];
+        anArcosMeetingWithDetailsDownload.MOiur = [[resMeetingMODict objectForKey:@"DescrDetailIUR"] intValue];
         NSString* preMeetDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.preMeetingKey];
         NSString* postMeetDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.postMeetingKey];
         NSString* agendaDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.agendaKey];
-        anArcosMeetingWithDetailsUpload.PreMeetingDetails = preMeetDetails;
-        anArcosMeetingWithDetailsUpload.PostMeetingDetails = postMeetDetails;
-        anArcosMeetingWithDetailsUpload.AgendaDetails = agendaDetails;
+        anArcosMeetingWithDetailsDownload.PreMeetingDetails = preMeetDetails;
+        anArcosMeetingWithDetailsDownload.PostMeetingDetails = postMeetDetails;
+        anArcosMeetingWithDetailsDownload.AgendaDetails = agendaDetails;
         
     } @catch (NSException *exception) {
         NSLog(@"%@", [exception reason]);

@@ -69,7 +69,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.navigationController.view] autorelease];    
+    self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.navigationController.view] autorelease];
+    self.callGenericServices.isNotRecursion = NO;
     [self.callGenericServices genericGetTargetByEmployee:[[SettingManager employeeIUR] intValue] action:@selector(resultBackFromGetTargetByEmployee:) target:self];
 }
 
@@ -88,12 +89,34 @@
     ArcosArrayOfEmployeeTargets* employeeTargetList = (ArcosArrayOfEmployeeTargets*)result;
     if ([employeeTargetList count] > 0) {
         [self.targetDataManager processRawData:employeeTargetList];
+        NSNumber* employeeTargetSQLiur = [NSNumber numberWithInt:0];
+        NSMutableArray* descrDetailDictList = [[ArcosCoreData sharedArcosCoreData] descrDetailAllFieldsWithDescrTypeCode:@"SQ" descrDetailCode:@"EMTA"];
+        if ([descrDetailDictList count] == 1) {
+            NSDictionary* descrDetailDict = [descrDetailDictList objectAtIndex:0];
+            employeeTargetSQLiur = [descrDetailDict objectForKey:@"DescrDetailIUR"];
+        }
+        if ([employeeTargetSQLiur intValue] != 0) {
+            [self.callGenericServices genericProcessDashboardQueryWithDashboardiur:[employeeTargetSQLiur intValue] Employeeiur:0 Locationiur:0 action:@selector(resultBackFromProcessDashboardQuery:) target:self];
+        } else {
+            [self.callGenericServices.HUD hide:YES];
+            [self.tableView reloadData];
+        }
 //        [self.targetDataManager processG1RawData];
-        [self.tableView reloadData];
+        
     } else if ([employeeTargetList count] <= 0) {
         [ArcosUtils showDialogBox:[GlobalSharedClass shared].noDataFoundMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
             
         }];
+    }
+}
+
+- (void)resultBackFromProcessDashboardQuery:(id)result {
+//    NSLog(@"result %@", result);
+    [self.callGenericServices.HUD hide:YES];
+    result = [self.callGenericServices handleResultErrorProcess:result];
+    if (result == nil) {
+        [self.tableView reloadData];
+        return;
     }
 }
 
