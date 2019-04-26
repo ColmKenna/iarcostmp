@@ -101,8 +101,6 @@
             [self.callGenericServices.HUD hide:YES];
             [self.tableView reloadData];
         }
-//        [self.targetDataManager processG1RawData];
-        
     } else if ([employeeTargetList count] <= 0) {
         [ArcosUtils showDialogBox:[GlobalSharedClass shared].noDataFoundMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
             
@@ -118,6 +116,9 @@
         [self.tableView reloadData];
         return;
     }
+    ArcosDashBoardData* resArcosDashBoardData = (ArcosDashBoardData*)result;
+    [self.targetDataManager processG1RawData:resArcosDashBoardData];
+    [self.tableView reloadData];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {

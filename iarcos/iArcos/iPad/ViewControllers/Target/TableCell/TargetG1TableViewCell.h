@@ -10,7 +10,7 @@
 #import "CPTGraphHostingView.h"
 #import "TargetBaseTableViewCell.h"
 #import "GlobalSharedClass.h"
-
+#import "ArcosUtils.h"
 
 @interface TargetG1TableViewCell : TargetBaseTableViewCell <CPTPlotSpaceDelegate>{
     CPTGraphHostingView* _g1ChartView;

@@ -13,6 +13,8 @@
 #import "ArcosEmployeeTargets.h"
 #import "ArcosValidator.h"
 #import "ArcosTargetDetail.h"
+#import "ArcosDashBoardData.h"
+#import "ArcosDashBoardRowData.h"
 
 @interface TargetDataManager : NSObject {
     NSMutableArray* _displayList;
@@ -25,6 +27,6 @@
 - (void)createBasicData;
 - (void)removeData;
 - (void)processRawData:(ArcosArrayOfEmployeeTargets*)aDataList;
-- (void)processG1RawData;
+- (void)processG1RawData:(ArcosDashBoardData*)anArcosDashBoardData;
 
 @end

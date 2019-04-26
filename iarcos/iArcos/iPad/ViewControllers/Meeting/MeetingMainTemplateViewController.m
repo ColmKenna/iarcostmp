@@ -289,6 +289,7 @@
     [self.meetingAttendeesTableViewController.meetingAttendeesDataManager createBasicDataWithReturnObject:nil];
     [self.meetingCostingsViewController.meetingCostingsDataManager createBasicDataWithReturnObject:nil];
     [self.meetingCostingsViewController.meetingExpenseTableViewController createBasicDataWithReturnObject:nil];
+    self.callGenericServices.isNotRecursion = YES;
     [self.callGenericServices genericGetMeetingWithIUR:self.meetingIUR action:@selector(resultBackFromCreateGetMeeting:) target:self];
 }
 
@@ -314,6 +315,7 @@
 
 - (void)retrieveUpdateMeetingMainTemplateData {
     NSLog(@"update abc");
+    self.callGenericServices.isNotRecursion = YES;
     [self.callGenericServices genericGetMeetingWithIUR:self.meetingIUR action:@selector(resultBackFromGetMeeting:) target:self];
 }
 

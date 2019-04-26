@@ -70,34 +70,42 @@
     
 }
 
-- (void)processG1RawData {
-    NSMutableArray* auxDataList = [NSMutableArray arrayWithCapacity:21];
-    [auxDataList addObject:[self createG1DataItem:@"Apple" value:[NSNumber numberWithInt:75]]];
-    [auxDataList addObject:[self createG1DataItem:@"Orange Pear" value:[NSNumber numberWithInt:50]]];
-    [auxDataList addObject:[self createG1DataItem:@"Pear" value:[NSNumber numberWithInt:35]]];
-    [auxDataList addObject:[self createG1DataItem:@"Apple" value:[NSNumber numberWithInt:100]]];
-    [auxDataList addObject:[self createG1DataItem:@"Orange" value:[NSNumber numberWithInt:50]]];
-    [auxDataList addObject:[self createG1DataItem:@"Pear Item" value:[NSNumber numberWithInt:135]]];
-    [auxDataList addObject:[self createG1DataItem:@"Chris Thompson" value:[NSNumber numberWithInt:96]]];
-    [auxDataList addObject:[self createG1DataItem:@"Mary Jane Brassill" value:[NSNumber numberWithInt:50]]];
-    [auxDataList addObject:[self createG1DataItem:@"Pear" value:[NSNumber numberWithInt:35]]];
-    [auxDataList addObject:[self createG1DataItem:@"Apple" value:[NSNumber numberWithInt:75]]];
-    [auxDataList addObject:[self createG1DataItem:@"Orange" value:[NSNumber numberWithInt:50]]];
-    [auxDataList addObject:[self createG1DataItem:@"Pear" value:[NSNumber numberWithInt:35]]];
-    [auxDataList addObject:[self createG1DataItem:@"Apple" value:[NSNumber numberWithInt:75]]];
-    [auxDataList addObject:[self createG1DataItem:@"Orange" value:[NSNumber numberWithInt:50]]];
-    [auxDataList addObject:[self createG1DataItem:@"Pear" value:[NSNumber numberWithInt:35]]];
-    [auxDataList addObject:[self createG1DataItem:@"Pear" value:[NSNumber numberWithInt:35]]];
-    [auxDataList addObject:[self createG1DataItem:@"Apple" value:[NSNumber numberWithInt:75]]];
-    [auxDataList addObject:[self createG1DataItem:@"Orange" value:[NSNumber numberWithInt:50]]];
-    [auxDataList addObject:[self createG1DataItem:@"Pear" value:[NSNumber numberWithInt:35]]];
-    [auxDataList addObject:[self createG1DataItem:@"Apple" value:[NSNumber numberWithInt:75]]];
-    [auxDataList addObject:[self createG1DataItem:@"Orange" value:[NSNumber numberWithInt:50]]];
-    [auxDataList addObject:[self createG1DataItem:@"Pear" value:[NSNumber numberWithInt:35]]];
-    NSSortDescriptor* valueDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Value" ascending:YES] autorelease];
-    [auxDataList sortUsingDescriptors:[NSArray arrayWithObjects:valueDescriptor,nil]];
-    [self.displayList addObject:[self createG1DataWithTitle:@"Employee Score" subTitle:@"Feb 2019" dataList:auxDataList]];
-    
+- (void)processG1RawData:(ArcosDashBoardData*)anArcosDashBoardData {
+    @try {
+        NSMutableArray* dashBoardDataRows = anArcosDashBoardData.Rows;
+        NSString* g1Title = @"";
+        NSMutableArray* narrativeList = [NSMutableArray array];
+        NSMutableArray* valueList = [NSMutableArray array];
+        for (int i = 0; i < [dashBoardDataRows count]; i++) {
+            ArcosDashBoardRowData* tmpArcosDashBoardRowData = [dashBoardDataRows objectAtIndex:i];
+            NSMutableArray* detailList = tmpArcosDashBoardRowData.Detail;
+            if ([tmpArcosDashBoardRowData.Title isEqualToString:@"ReportTitle"]) {
+                g1Title = [ArcosUtils convertNilToEmpty:[detailList objectAtIndex:0]];
+            }
+            if ([tmpArcosDashBoardRowData.Title isEqualToString:@"Details"]) {
+                for (int m = 0; m < [tmpArcosDashBoardRowData.Detail count]; m++) {
+                    [narrativeList addObject:[ArcosUtils convertNilToEmpty:[tmpArcosDashBoardRowData.Detail objectAtIndex:m]]];
+                }
+            }
+            if ([tmpArcosDashBoardRowData.Title isEqualToString:@"Value"]) {
+                for (int n = 0; n < [tmpArcosDashBoardRowData.Detail count]; n++) {
+                    [valueList addObject:[ArcosUtils convertStringToNumber:[ArcosUtils convertNilToEmpty:[tmpArcosDashBoardRowData.Detail objectAtIndex:n]]]];
+                }
+            }
+        }
+        if ([narrativeList count] == 0 || [narrativeList count] != [valueList count]) return;
+        NSMutableArray* auxDataList = [NSMutableArray array];
+        for (int i = 0; i < [narrativeList count]; i++) {
+            [auxDataList addObject:[self createG1DataItem:[narrativeList objectAtIndex:i] value:[valueList objectAtIndex:i]]];
+        }
+        NSSortDescriptor* valueDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Value" ascending:YES] autorelease];
+        [auxDataList sortUsingDescriptors:[NSArray arrayWithObjects:valueDescriptor,nil]];
+        [self.displayList addObject:[self createG1DataWithTitle:g1Title subTitle:@"Feb 2019" dataList:auxDataList]];
+    } @catch (NSException *exception) {
+        NSLog(@"%@", [exception reason]);
+    } @finally {
+        
+    }
 }
 
 - (void)addResultDataItemDictWithCellType:(NSNumber*)aCellType title:(NSString*)anAuxTitle data:(ArcosEmployeeTargets*)anArcosEmployeeTargets {

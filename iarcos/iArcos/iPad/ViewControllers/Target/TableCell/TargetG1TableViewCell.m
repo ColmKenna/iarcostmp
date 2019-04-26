@@ -77,7 +77,7 @@
     for (int i = 1; i < 5; i++) {
         CPTAxisLabel* axisLabel = [[CPTAxisLabel alloc] initWithText:[NSString stringWithFormat:@"%@%%",[[customXTickLocations objectAtIndex:i-1] stringValue]] textStyle:x.labelTextStyle];
         axisLabel.tickLocation = [NSNumber numberWithFloat:(i*[x.majorIntervalLength floatValue])];
-        NSLog(@"aac %f %f", x.labelOffset, x.majorTickLength);
+//        NSLog(@"aac %f %f", x.labelOffset, x.majorTickLength);
         axisLabel.offset = x.labelOffset + x.majorTickLength;
         axisLabel.alignment = CPTAlignmentMiddle;
         [customXLabels addObject:axisLabel];
@@ -100,10 +100,12 @@
     
     NSMutableArray* dataList = [self.cellDataDict objectForKey:@"DataList"];
     NSMutableArray* customLabels = [NSMutableArray arrayWithCapacity:[dataList count]];
+    CPTMutableTextStyle* yBlackTextStyle = [self textStyleWithFontSize:10.0f fontColor:[CPTColor blackColor]];
+    //x.labelTextStyle
     for (int i = 0; i < [dataList count]; i++) {
         NSMutableDictionary* tmpDict = [dataList objectAtIndex:i];
         NSString* narrativeString = [tmpDict objectForKey:@"Narrative"];
-        CPTAxisLabel* axisLabel = [[CPTAxisLabel alloc] initWithText:narrativeString textStyle:x.labelTextStyle];
+        CPTAxisLabel* axisLabel = [[CPTAxisLabel alloc] initWithText:narrativeString textStyle:yBlackTextStyle];
         axisLabel.tickLocation = [NSNumber numberWithFloat:(i+0.5)];
         axisLabel.offset = y.labelOffset + y.majorTickLength;
         axisLabel.alignment = CPTAlignmentMiddle;
@@ -135,7 +137,11 @@
     barPlotSpace.allowsUserInteraction = YES;
     barPlotSpace.delegate = self;
     barPlotSpace.xRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithFloat:120.0f]];
-    barPlotSpace.yRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithFloat:15.0]];
+    int yLength = [ArcosUtils convertNSUIntegerToUnsignedInt:[dataList count]];
+    if (yLength > 15) {
+        yLength = 15;
+    }
+    barPlotSpace.yRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithFloat:yLength]];
     [graph addPlotSpace:barPlotSpace];
     
     //Add title
