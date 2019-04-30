@@ -13,6 +13,7 @@
 #import "CallGenericServices.h"
 #import "MeetingAttachmentsFileViewController.h"
 #import "MeetingAttachmentsTableViewControllerDelegate.h"
+#import "ArcosAttachmentWithFileContents.h"
 
 @interface MeetingAttachmentsTableViewController : UITableViewController<MeetingAttachmentsTableViewCellDelegate, ModalPresentViewControllerDelegate, MeetingAttachmentsHeaderViewControllerDelegate> {
     id<MeetingAttachmentsTableViewControllerDelegate> _actionDelegate;

@@ -132,8 +132,7 @@
         [self showFileViewControllerWithFilePath:auxFilePath];
         return;
     }
-    
-    [self.callGenericServices genericGetFromResourcesWithFileName:aFileName action:@selector(setGenericGetFromResourcesResult:) target:self];
+    [self.callGenericServices genericGetAttachmentWithIUR:auxArcosAttachmentSummary.IUR action:@selector(setGenericGetFromResourcesResult:) target:self];
 }
 
 - (void)setGenericGetFromResourcesResult:(id)result {
@@ -143,8 +142,9 @@
     }
     BOOL saveFileFlag = NO;
     NSString* auxFilePath = [NSString stringWithFormat:@"%@/%@", [FileCommon meetingPath], self.meetingAttachmentsDataManager.currentFileName];
-    NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:result options:0] autorelease];
-    saveFileFlag = [myNSData writeToFile:auxFilePath atomically:YES];
+    ArcosAttachmentWithFileContents* arcosAttachmentWithFileContents = (ArcosAttachmentWithFileContents*)result;
+//    NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:arcosAttachmentWithFileContents.FileContents options:0] autorelease];
+    saveFileFlag = [arcosAttachmentWithFileContents.FileContents writeToFile:auxFilePath atomically:YES];
     if (!saveFileFlag) {
         [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Unable to save %@ on the iPad.", self.meetingAttachmentsDataManager.currentFileName] title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
     }

@@ -406,6 +406,13 @@
     [self.arcosService ProcessDashboardQuery:aTarget action:anAction Dashboardiur:aDashboardiur Employeeiur:anEmployeeiur Locationiur:aLocationiur];
 }
 
+- (void)genericGetAttachmentWithIUR:(int)anIUR action:(SEL)anAction target:(id)aTarget {
+    if (![self startCallService]) {
+        return;
+    }
+    [self.arcosService GetAttachment:aTarget action:anAction iur:anIUR];
+}
+
 -(void)dealloc{
 //    if (self.delegate != nil) { self.delegate = nil; }
     [self.HUD removeFromSuperview];

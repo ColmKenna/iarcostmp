@@ -124,7 +124,7 @@
         anArcosMeetingWithDetailsDownload.L5iur = [[resL5Dict objectForKey:@"DescrDetailIUR"] intValue];
         NSNumber* resSpeakerAgreement = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.speakerAgreementKey];
         anArcosMeetingWithDetailsDownload.SpeakerAgreement = [resSpeakerAgreement boolValue];
-        anArcosMeetingWithDetailsDownload.SpeakerAgreementDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.speakerAgreementDetailsKey];
+        anArcosMeetingWithDetailsDownload.SpeakerAgreementDetails = [ArcosUtils wrapStringByCDATA:[self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.speakerAgreementDetailsKey]];
     } @catch (NSException *exception) {
         NSLog(@"%@", [exception reason]);
     } @finally {

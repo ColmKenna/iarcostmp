@@ -94,5 +94,6 @@
 - (void)genericGetMeetingWithIUR:(NSNumber*)anIUR action:(SEL)anAction target:(id)aTarget;
 - (void)genericUploadFileNewWithContents:(NSData*)aContents fileName:(NSString*)aFileName description:(NSString*)aDescription tableIUR:(NSString*)aTableIUR tableName:(NSString*)aTableName employeeiur:(int)anEmployeeiur locationiur:(int)aLocationiur dateAttached:(NSDate*)aDateAttached action:(SEL)anAction target:(id)aTarget;
 - (void)genericProcessDashboardQueryWithDashboardiur:(int)aDashboardiur Employeeiur:(int)anEmployeeiur Locationiur:(int)aLocationiur action:(SEL)anAction target:(id)aTarget;
+- (void)genericGetAttachmentWithIUR:(int)anIUR action:(SEL)anAction target:(id)aTarget;
 
 @end

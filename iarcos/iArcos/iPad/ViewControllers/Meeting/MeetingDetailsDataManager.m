@@ -43,6 +43,12 @@
     if (anArcosMeetingWithDetailsDownload != nil) {
         currentDate = anArcosMeetingWithDetailsDownload.DateTime;
         currentTime = anArcosMeetingWithDetailsDownload.DateTime;
+        if (currentDate == nil) {
+            currentDate = [NSDate date];
+        }
+        if (currentTime == nil) {
+            currentTime = [NSDate date];
+        }
         duration = [NSString stringWithFormat:@"%d", anArcosMeetingWithDetailsDownload.Duration];
         code = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetailsDownload.Code];
         venue = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetailsDownload.Venue];

@@ -152,10 +152,12 @@
 - (void)populateArcosMeetingWithDetails:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload {
     for (int i = 0; i < [self.displayList count]; i++) {
         ArcosExpenses* tmpArcosExpenses = [self.displayList objectAtIndex:i];
+        tmpArcosExpenses.Comments = [ArcosUtils wrapStringByCDATA:tmpArcosExpenses.Comments];
         [anArcosMeetingWithDetailsDownload.Expenses addObject:tmpArcosExpenses];
     }
     for (int j = 0; j < [self.deleteDisplayList count]; j++) {
         ArcosExpenses* tmpArcosExpenses = [self.deleteDisplayList objectAtIndex:j];
+        tmpArcosExpenses.Comments = [ArcosUtils wrapStringByCDATA:tmpArcosExpenses.Comments];
         [anArcosMeetingWithDetailsDownload.Expenses addObject:tmpArcosExpenses];
     }
 }

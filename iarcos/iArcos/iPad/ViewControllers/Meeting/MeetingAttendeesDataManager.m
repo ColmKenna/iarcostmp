@@ -194,6 +194,10 @@
         NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:tmpSectionTitle];
         for (int j = 0; j < [tmpDisplayList count]; j++) {
             ArcosAttendeeWithDetails* auxArcosAttendeeWithDetails = [tmpDisplayList objectAtIndex:j];
+            if (auxArcosAttendeeWithDetails.EmployeeIUR == 0 && auxArcosAttendeeWithDetails.ContactIUR == 0) {
+                auxArcosAttendeeWithDetails.Name = [ArcosUtils wrapStringByCDATA:[ArcosUtils convertNilToEmpty:auxArcosAttendeeWithDetails.Name]];
+                auxArcosAttendeeWithDetails.Organisation = [ArcosUtils wrapStringByCDATA:[ArcosUtils convertNilToEmpty:auxArcosAttendeeWithDetails.Organisation]];
+            }
             if (auxArcosAttendeeWithDetails.COiur == -999) {
                 auxArcosAttendeeWithDetails.Name = @"DELETE";
             }

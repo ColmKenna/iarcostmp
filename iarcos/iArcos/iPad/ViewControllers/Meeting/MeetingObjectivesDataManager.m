@@ -71,9 +71,9 @@
         NSString* preMeetDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.preMeetingKey];
         NSString* postMeetDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.postMeetingKey];
         NSString* agendaDetails = [self.headOfficeDataObjectDict objectForKey:self.meetingCellKeyDefinition.agendaKey];
-        anArcosMeetingWithDetailsDownload.PreMeetingDetails = preMeetDetails;
-        anArcosMeetingWithDetailsDownload.PostMeetingDetails = postMeetDetails;
-        anArcosMeetingWithDetailsDownload.AgendaDetails = agendaDetails;
+        anArcosMeetingWithDetailsDownload.PreMeetingDetails = [ArcosUtils wrapStringByCDATA:preMeetDetails];
+        anArcosMeetingWithDetailsDownload.PostMeetingDetails = [ArcosUtils wrapStringByCDATA:postMeetDetails];
+        anArcosMeetingWithDetailsDownload.AgendaDetails = [ArcosUtils wrapStringByCDATA:agendaDetails];
         
     } @catch (NSException *exception) {
         NSLog(@"%@", [exception reason]);
