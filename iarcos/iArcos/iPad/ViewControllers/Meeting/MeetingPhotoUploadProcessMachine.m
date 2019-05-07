@@ -40,7 +40,7 @@
 - (void)runTask {
     if ([self.arcosAttachmentList count] <= 0 || self.isBusy) return;
     self.isBusy = YES;
-    self.fileTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkFileStack) userInfo:nil repeats:YES];
+    self.fileTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(checkFileStack) userInfo:nil repeats:YES];
 }
 
 - (void)checkFileStack {

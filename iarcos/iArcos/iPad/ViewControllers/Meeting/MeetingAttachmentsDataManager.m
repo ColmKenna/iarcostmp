@@ -57,6 +57,9 @@
         NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:tmpSectionTitle];
         for (int j = 0; j < [tmpDisplayList count]; j++) {
             ArcosAttachmentSummary* auxArcosAttachmentSummary = [tmpDisplayList objectAtIndex:j];
+            if (auxArcosAttachmentSummary.IUR == 0 || auxArcosAttachmentSummary.PCiur != -999) {
+                continue;
+            }
             if (auxArcosAttachmentSummary.PCiur == -999) {
                 auxArcosAttachmentSummary.Description = @"DELETE";
             }
@@ -76,7 +79,7 @@
     NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:self.attachmentsTitle];
     for (int i = 0; i < [tmpDisplayList count]; i++) {
         ArcosAttachmentSummary* tmpArcosAttachmentSummary = [tmpDisplayList objectAtIndex:i];
-        if (tmpArcosAttachmentSummary.IUR == 0) {
+        if (tmpArcosAttachmentSummary.IUR == 0 && tmpArcosAttachmentSummary.PCiur != -999) {
             [resultDisplayList addObject:tmpArcosAttachmentSummary];
         }        
     }

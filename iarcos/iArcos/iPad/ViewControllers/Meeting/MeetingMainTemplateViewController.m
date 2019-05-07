@@ -125,14 +125,15 @@
 - (void)saveButtonPressed {
     [self.view endEditing:YES];
     self.callGenericServices.isNotRecursion = NO;
-    NSMutableArray* brandNewAttachmentList = [self.meetingAttachmentsTableViewController.meetingAttachmentsDataManager retrieveBrandNewAttachmentList];
-    if ([brandNewAttachmentList count] == 0) {
-        [self saveButtonMeetingProcessor];
-        return;
-    }
-    self.meetingPhotoUploadProcessMachine = [[[MeetingPhotoUploadProcessMachine alloc] initWithTarget:self action:@selector(uploadPhotoWithData:) loadingAction:@selector(photoUploadingActionFlag) dataDictList:brandNewAttachmentList] autorelease];
-    self.meetingPhotoUploadProcessMachine.uploadDelegate = self;
-    [self.meetingPhotoUploadProcessMachine runTask];
+//    NSMutableArray* brandNewAttachmentList = [self.meetingAttachmentsTableViewController.meetingAttachmentsDataManager retrieveBrandNewAttachmentList];
+//    if ([brandNewAttachmentList count] == 0) {
+//        [self saveButtonMeetingProcessor];
+//        return;
+//    }
+//    self.meetingPhotoUploadProcessMachine = [[[MeetingPhotoUploadProcessMachine alloc] initWithTarget:self action:@selector(uploadPhotoWithData:) loadingAction:@selector(photoUploadingActionFlag) dataDictList:brandNewAttachmentList] autorelease];
+//    self.meetingPhotoUploadProcessMachine.uploadDelegate = self;
+//    [self.meetingPhotoUploadProcessMachine runTask];
+    [self saveButtonMeetingProcessor];
 }
 
 #pragma mark MeetingPhotoUploadProcessMachineDelegate
@@ -141,7 +142,15 @@
 }
 
 - (void)photoUploadCompleted {
-    [self saveButtonMeetingProcessor];
+//    [self saveButtonMeetingProcessor];
+    [self.callGenericServices.HUD hide:YES];
+    [ArcosUtils showDialogBox:@"Completed" title:@"" delegate:self target:self tag:77 handler:^(UIAlertAction *action) {
+        if ([self.actionType isEqualToString:self.createActionType]) {
+            [self saveButtonCallBack];
+        } else {
+            [self.animateDelegate dismissSlideAcrossViewAnimation];
+        }
+    }];
 }
 
 - (void)saveButtonMeetingProcessor {
@@ -160,12 +169,14 @@
     [self.meetingCostingsViewController.meetingCostingsDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsDownload];
     [self.meetingCostingsViewController.meetingExpenseTableViewController populateArcosMeetingWithDetails:arcosMeetingWithDetailsDownload];
     [self.meetingPresentersTableViewController.meetingPresentersDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsDownload];
-    [self.meetingAttachmentsTableViewController.meetingAttachmentsDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsDownload];
+    
     
     //    arcosMeetingBO.Attachments = @"";
     //    NSLog(@"abc %@", arcosMeetingBO);
     if ([self.actionType isEqualToString:self.createActionType]) {
         
+    } else {
+        [self.meetingAttachmentsTableViewController.meetingAttachmentsDataManager populateArcosMeetingWithDetails:arcosMeetingWithDetailsDownload];
     }
     //    arcosMeetingBO.IUR = [self.meetingIUR intValue];
     arcosMeetingWithDetailsDownload.IUR = [self.meetingIUR intValue];
@@ -207,21 +218,32 @@
 }
 
 - (void)resultBackFromUpdateMeeting:(id)result {
-    [self.callGenericServices.HUD hide:YES];
+//    [self.callGenericServices.HUD hide:YES];
     result = [self.callGenericServices handleResultErrorProcess:result];
     if (result == nil) {
         return;
     }
     ArcosGenericReturnObject* arcosGenericReturnObject = (ArcosGenericReturnObject*)result;
     if (arcosGenericReturnObject.ErrorModel.Code >= 1) {
-        [ArcosUtils showDialogBox:@"Completed" title:@"" delegate:self target:self tag:77 handler:^(UIAlertAction *action) {
-            if ([self.actionType isEqualToString:self.createActionType]) {
-                [self saveButtonCallBack];
-            } else {
-                [self.animateDelegate dismissSlideAcrossViewAnimation];
-            }
-        }];
+        self.meetingIUR = [NSNumber numberWithInt:arcosGenericReturnObject.ErrorModel.Code];
+        NSMutableArray* brandNewAttachmentList = [self.meetingAttachmentsTableViewController.meetingAttachmentsDataManager retrieveBrandNewAttachmentList];
+        if ([brandNewAttachmentList count] == 0) {
+//            [self saveButtonMeetingProcessor];
+            [ArcosUtils showDialogBox:@"Completed" title:@"" delegate:self target:self tag:77 handler:^(UIAlertAction *action) {
+                if ([self.actionType isEqualToString:self.createActionType]) {
+                    [self saveButtonCallBack];
+                } else {
+                    [self.animateDelegate dismissSlideAcrossViewAnimation];
+                }
+            }];
+            [self.callGenericServices.HUD hide:YES];
+            return;
+        }
+        self.meetingPhotoUploadProcessMachine = [[[MeetingPhotoUploadProcessMachine alloc] initWithTarget:self action:@selector(uploadPhotoWithData:) loadingAction:@selector(photoUploadingActionFlag) dataDictList:brandNewAttachmentList] autorelease];
+        self.meetingPhotoUploadProcessMachine.uploadDelegate = self;
+        [self.meetingPhotoUploadProcessMachine runTask];
     } else {
+        [self.callGenericServices.HUD hide:YES];
         [ArcosUtils showDialogBox:arcosGenericReturnObject.ErrorModel.Message title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
             
         }];
@@ -326,6 +348,9 @@
         return;
     }
     ArcosMeetingWithDetailsDownload* arcosMeetingWithDetailsDownload = (ArcosMeetingWithDetailsDownload*)result;
+    if (arcosMeetingWithDetailsDownload.DateTime == nil) {
+        [ArcosUtils showDialogBox:@"Invalid date format found" title:@"" delegate:nil target:self tag:0 handler:nil];
+    }
     self.meetingLocationIUR = [NSNumber numberWithInt:arcosMeetingWithDetailsDownload.LocationIUR];
     [self.meetingDetailsTableViewController.meetingDetailsDataManager createBasicDataWithReturnObject:result];
     [self.meetingMiscTableViewController.meetingMiscDataManager createBasicDataWithReturnObject:result];
@@ -373,7 +398,7 @@
             myData = UIImageJPEGRepresentation(compressedImage, 0.85);
         }
         
-        [self.callGenericServices genericUploadFileNewWithContents:myData fileName:fileName description:anArcosAttachmentSummary.Description tableIUR:[ArcosUtils convertNumberToIntString:[NSNumber numberWithInt:anArcosAttachmentSummary.TableIUR]] tableName:anArcosAttachmentSummary.TableName employeeiur:anArcosAttachmentSummary.EmployeeIUR locationiur:anArcosAttachmentSummary.LocationIUR dateAttached:anArcosAttachmentSummary.DateAttached action:@selector(backFromUploadPhotoWithData:) target:self];
+        [self.callGenericServices genericUploadFileNewWithContents:myData fileName:fileName description:anArcosAttachmentSummary.Description tableIUR:[ArcosUtils convertNumberToIntString:[NSNumber numberWithInt:[self.meetingIUR intValue]]] tableName:@"Meeting" employeeiur:anArcosAttachmentSummary.EmployeeIUR locationiur:anArcosAttachmentSummary.LocationIUR dateAttached:anArcosAttachmentSummary.DateAttached action:@selector(backFromUploadPhotoWithData:) target:self];
     }
 }
 
