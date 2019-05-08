@@ -125,6 +125,7 @@ typedef enum {
     int _deliveryInstructions1MaxLength;
     NSString* _ieLocale;
     int _mailTimeout;
+    NSString* _tildeDelimiter;
 }
 
 +(GlobalSharedClass*)shared;
@@ -227,6 +228,7 @@ typedef enum {
 @property (nonatomic,assign) int deliveryInstructions1MaxLength;
 @property (nonatomic,retain) NSString* ieLocale;
 @property (nonatomic,assign) int mailTimeout;
+@property (nonatomic,retain) NSString* tildeDelimiter;
 
 //usful functions
 - (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber;

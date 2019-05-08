@@ -58,6 +58,9 @@
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"InStock"] forKey:@"InStock"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"FOC"] forKey:@"FOC"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"LineValue"] forKey:@"LineValue"];
+        [tmpOrderRestoreDict setObject:[ArcosUtils convertNilToZero:[anOrderline objectForKey:@"PriceFlag"]] forKey:@"PriceFlag"];
+        [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"UnitPrice"] forKey:@"UnitPrice"];
+        [tmpOrderRestoreDict setObject:[ArcosUtils convertNilToZero:[anOrderline objectForKey:@"RRIUR"]] forKey:@"RRIUR"];
         
         [dataDict setObject:tmpOrderRestoreDict forKey:productIURSTR];
         [self saveOrderRestorePlist];
@@ -116,7 +119,7 @@
             [tempDict setObject:[ArcosUtils convertNilToEmpty:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"ProductCode"]]] forKey:@"ProductCode"];
             [tempDict setObject:[ArcosUtils convertNilToEmpty:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"Productsize"]]] forKey:@"ProductSize"];
             [tempDict setObject:description forKey:@"Details"];
-            [tempDict setObject:[aProduct objectForKey:@"UnitTradePrice"] forKey:@"UnitPrice"];
+//            [tempDict setObject:[aProduct objectForKey:@"UnitTradePrice"] forKey:@"UnitPrice"];
             [tempDict setObject:[aProduct objectForKey:@"UnitsPerPack"] forKey:@"UnitsPerPack"];
             [tempDict setObject:[aProduct objectForKey:@"Bonusby"] forKey:@"Bonusby"];
             [tempDict setObject:[aProduct objectForKey:@"StockAvailable"] forKey:@"StockAvailable"];
@@ -132,8 +135,11 @@
             }
             [tempDict setObject:[aProduct objectForKey:@"BonusMinimum"] forKey:@"BonusMinimum"];
             [tempDict setObject:[aProduct objectForKey:@"Active"] forKey:@"Active"];
-            [tempDict setObject:[ArcosUtils convertNilToZero:[aProduct objectForKey:@"PriceFlag"]] forKey:@"PriceFlag"];
+//            [tempDict setObject:[ArcosUtils convertNilToZero:[aProduct objectForKey:@"PriceFlag"]] forKey:@"PriceFlag"];
             [tempDict setObject:[aProduct objectForKey:@"MinimumUnitPrice"] forKey:@"MinimumUnitPrice"];
+            [tempDict setObject:[aProduct objectForKey:@"UnitRRP"] forKey:@"UnitRRP"];
+            [tempDict setObject:[aProduct objectForKey:@"VCIUR"] forKey:@"VCIUR"];
+            [tempDict setObject:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"BonusDeal"]] forKey:@"BonusDeal"];
         } else {
             NSString* description = @"Product unassigned";
             combinationKey = [NSString stringWithFormat:@"%@->%d", description, [tmpProductIUR intValue]];
@@ -158,8 +164,11 @@
             [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"SellBy"];
             [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"BonusMinimum"];
             [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"Active"];
-            [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"PriceFlag"];
+//            [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"PriceFlag"];
             [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"MinimumUnitPrice"];
+            [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"UnitRRP"];
+            [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"VCIUR"];
+            [tempDict setObject:@"" forKey:@"BonusDeal"];
         }
         [tempDict setObject:[NSNumber numberWithBool:YES] forKey:@"IsSelected"];
         [finalOrderlineDict setObject:tempDict forKey:combinationKey];

@@ -1035,7 +1035,7 @@
     if (aBonusDeal == nil || [aBonusDeal isEqualToString:@""]) {
         return resultDict;
     }
-    NSArray* bonusDealChildren = [aBonusDeal componentsSeparatedByString:[GlobalSharedClass shared].fieldDelimiter];
+    NSArray* bonusDealChildren = [aBonusDeal componentsSeparatedByString:[GlobalSharedClass shared].tildeDelimiter];
     if ([bonusDealChildren count] != 10) {
         return resultDict;
     }
