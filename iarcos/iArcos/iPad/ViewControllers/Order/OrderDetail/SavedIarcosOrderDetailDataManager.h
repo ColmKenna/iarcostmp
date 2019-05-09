@@ -23,6 +23,8 @@
     BOOL _isOrderDetailsShowed;
     BOOL _isMemoDetailsShowed;
     NSMutableArray* _actionTableDataDictList;
+    NSMutableArray* _taskObjectList;
+    NSDictionary* _selectedEmailRecipientDict;
 }
 
 @property(nonatomic, retain) NSNumber* orderNumber;
@@ -34,6 +36,8 @@
 @property(nonatomic, assign) BOOL isOrderDetailsShowed;
 @property(nonatomic, assign) BOOL isMemoDetailsShowed;
 @property(nonatomic, retain) NSMutableArray* actionTableDataDictList;
+@property(nonatomic, retain) NSMutableArray* taskObjectList;
+@property(nonatomic, retain) NSDictionary* selectedEmailRecipientDict;
 
 - (void)loadSavedOrderDetailCellData:(NSMutableDictionary*)aCellData;
 - (NSMutableDictionary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath;

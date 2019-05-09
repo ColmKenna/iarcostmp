@@ -23,9 +23,10 @@
 #import "CheckoutPrinterWrapperViewController.h"
 #import "RepeatOrderDataManager.h"
 #import "ArcosMailWrapperViewController.h"
+#import "CallGenericServices.h"
 
 
-@interface OrderDetailTableViewController : UITableViewController<OrderDetailTypesTableCellDelegate, EmailRecipientDelegate, MFMailComposeViewControllerDelegate, OrderProductViewControllerDelegate, WidgetFactoryDelegate, UIPopoverControllerDelegate,ModalPresentViewControllerDelegate,ArcosMailTableViewControllerDelegate> {
+@interface OrderDetailTableViewController : UITableViewController<OrderDetailTypesTableCellDelegate, EmailRecipientDelegate, MFMailComposeViewControllerDelegate, OrderProductViewControllerDelegate, WidgetFactoryDelegate, UIPopoverControllerDelegate,ModalPresentViewControllerDelegate,ArcosMailTableViewControllerDelegate,GetDataGenericDelegate> {
     UIBarButtonItem* _actionBarButton;
     UIBarButtonItem* _emailButton;
     UIBarButtonItem* _saveButton;
@@ -48,6 +49,7 @@
     RepeatOrderDataManager* _repeatOrderDataManager;
     UINavigationController* _globalNavigationController;
     UIViewController* _rootView;
+    CallGenericServices* _callGenericServices;
 }
 
 @property(nonatomic, retain) UIBarButtonItem* actionBarButton;
@@ -72,6 +74,7 @@
 @property(nonatomic,retain) RepeatOrderDataManager* repeatOrderDataManager;
 @property(nonatomic,retain) UINavigationController* globalNavigationController;
 @property(nonatomic,retain) UIViewController* rootView;
+@property(nonatomic, retain) CallGenericServices* callGenericServices;
 
 - (void)loadSavedOrderDetailCellData:(NSMutableDictionary*)aCellData;
 

@@ -28,10 +28,10 @@
 }
 
 #pragma mark - OrderDetailEmailActionDelegate
-- (NSMutableDictionary*)didSelectEmailRecipientRowWithCellData:(NSDictionary*)aCellData {
+- (NSMutableDictionary*)didSelectEmailRecipientRowWithCellData:(NSDictionary*)aCellData taskData:(NSMutableArray*)aTaskObjectList {
     NSMutableDictionary* mailDict = [NSMutableDictionary dictionaryWithCapacity:2];
     [mailDict setObject:[NSString stringWithFormat:@"Call made by %@", [self.orderHeader objectForKey:@"Employee"]] forKey:@"Subject"];
-    [mailDict setObject:[self.callEmailProcessCenter buildCallEmailMessageWithController] forKey:@"Body"];
+    [mailDict setObject:[self.callEmailProcessCenter buildCallEmailMessageWithController:aTaskObjectList] forKey:@"Body"];
     return mailDict;
 }
 

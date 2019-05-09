@@ -62,9 +62,9 @@
     
     self.rightBarButtonItemList = [NSMutableArray arrayWithObjects:self.saveButton, self.actionBarButton, nil];
     [self.navigationItem setRightBarButtonItems:self.rightBarButtonItemList];
-    if ([self.coordinateType intValue] == 1) {
-        self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.navigationController.view] autorelease];
-        self.callGenericServices.delegate = self;
+    self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.navigationController.view] autorelease];
+    self.callGenericServices.delegate = self;
+    if ([self.coordinateType intValue] == 1) {        
         if ([[self.savedOrderDetailCellData objectForKey:@"NumberOflines"] intValue] > 0) {
             [self.callGenericServices genericGetRecord:@"Order" iur:[[self.savedOrderDetailCellData objectForKey:@"OrderHeaderIUR"] intValue] action:@selector(orderGetRecordResult:) target:self];
         }
@@ -524,8 +524,19 @@
 
 #pragma mark - EmailRecipientDelegate
 - (void)didSelectEmailRecipientRow:(NSDictionary*)cellData {
-//    NSLog(@"didSelectEmailRecipientRow %@", cellData);    
-    NSMutableDictionary* mailDict = [self.emailActionDelegate didSelectEmailRecipientRowWithCellData:cellData];
+//    NSLog(@"didSelectEmailRecipientRow %@", cellData);
+    self.savedIarcosOrderDetailDataManager.selectedEmailRecipientDict = cellData;
+    self.savedIarcosOrderDetailDataManager.taskObjectList = [NSMutableArray array];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTaskInCallEmailFlag]) {
+        NSString* sqlStatement = [NSString stringWithFormat:@"SELECT  ContactName, TaskDescription, StartDate, TaskDetails, EmployeeName FROM  iPadOutstandingTasks WHERE LocationIUR = %@ order by StartDate asc", [self.savedOrderDetailCellData objectForKey:@"LocationIUR"]];
+        [self.callGenericServices getData:sqlStatement];
+    } else {
+        [self didSelectEmailRecipientRowProcessor:cellData taskData:self.savedIarcosOrderDetailDataManager.taskObjectList];
+    }
+}
+
+- (void)didSelectEmailRecipientRowProcessor:(NSDictionary*)cellData taskData:(NSMutableArray*)aTaskObjectList {
+    NSMutableDictionary* mailDict = [self.emailActionDelegate didSelectEmailRecipientRowWithCellData:cellData taskData:aTaskObjectList];
     NSMutableArray* toRecipients = [NSMutableArray arrayWithObjects:[cellData objectForKey:@"Email"] , nil];
     NSString* fileName = [self.emailActionDelegate retrieveFileName];
     self.emailRecipientTableViewController.emailRecipientDataManager.currentRecipientDict = [NSMutableDictionary dictionaryWithDictionary:cellData];
@@ -534,12 +545,12 @@
         amwvc.mailDelegate = self;
         amwvc.toRecipients = toRecipients;
         amwvc.subjectText = [mailDict objectForKey:@"Subject"];
-        amwvc.bodyText = [mailDict objectForKey:@"Body"];        
+        amwvc.bodyText = [mailDict objectForKey:@"Body"];
         amwvc.isHTML = YES;
         if (![fileName isEqualToString:@""]) {
             NSString* pdfFilePath = [[FileCommon documentsPath] stringByAppendingPathComponent:fileName];
             NSData* data = [NSData dataWithContentsOfFile:pdfFilePath];
-            [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:data filename:fileName]];            
+            [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:data filename:fileName]];
             [FileCommon removeFileAtPath:pdfFilePath];
         }
         amwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
@@ -558,7 +569,7 @@
         return;
     }
     if (![ArcosEmailValidator checkCanSendMailStatus]) return;
-    [self.emailPopover dismissPopoverAnimated:YES];    
+    [self.emailPopover dismissPopoverAnimated:YES];
     
     MFMailComposeViewController* mailComposeViewController = [[MFMailComposeViewController alloc] init];
     mailComposeViewController.mailComposeDelegate = self;
@@ -577,6 +588,18 @@
     
     [self presentViewController:mailComposeViewController animated:YES completion:nil];
     [mailComposeViewController release];
+}
+
+- (void)setGetDataResult:(ArcosGenericReturnObject *)result {
+    if (result == nil) {
+        return;
+    }
+    if (result.ErrorModel.Code > 0) {
+        self.savedIarcosOrderDetailDataManager.taskObjectList = result.ArrayOfData;
+        [self didSelectEmailRecipientRowProcessor:self.savedIarcosOrderDetailDataManager.selectedEmailRecipientDict taskData:self.savedIarcosOrderDetailDataManager.taskObjectList];
+    } else if(result.ErrorModel.Code <= 0) {
+        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:self];
+    }
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {

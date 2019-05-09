@@ -22,6 +22,8 @@
 @synthesize groupedDataDict = _groupedDataDict;
 @synthesize actionTableDataDictList = _actionTableDataDictList;
 @synthesize locationSwitchedFlag = _locationSwitchedFlag;
+@synthesize taskObjectList = _taskObjectList;
+@synthesize selectedEmailRecipientDict = _selectedEmailRecipientDict;
 //@synthesize titleKey = _titleKey;
 
 - (id)init {
@@ -43,6 +45,8 @@
     if (self.sectionTitleList != nil) { self.sectionTitleList = nil; }
     if (self.groupedDataDict != nil) { self.groupedDataDict = nil; }
     self.actionTableDataDictList = nil;
+    self.taskObjectList = nil;
+    self.selectedEmailRecipientDict = nil;
 //    if (self.titleKey != nil) { self.titleKey = nil; }    
     
     [super dealloc];

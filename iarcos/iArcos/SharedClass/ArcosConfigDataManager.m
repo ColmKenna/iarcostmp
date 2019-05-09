@@ -245,6 +245,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConfigDataManager);
     return [self retrieveConfigFlagByIndex:60];
 }
 
+- (BOOL)showTaskInCallEmailFlag {
+    return [self retrieveConfigFlagByIndex:61];
+}
+
+- (BOOL)showSingleTaskFlag {
+    return [self retrieveConfigFlagByIndex:62];
+}
+
 - (void)resetSystemCodes:(NSString*)aSystemCodes {
     self.systemCodes = aSystemCodes;
 }

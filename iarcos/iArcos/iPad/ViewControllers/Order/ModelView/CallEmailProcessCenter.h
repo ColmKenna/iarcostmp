@@ -58,7 +58,7 @@
 -(id)initWithOrderHeader:(NSMutableDictionary*)anOrderHeader;
 -(NSString*)employeeName;
 -(NSString*)companyName;
--(NSString*)buildCallEmailMessageWithController;
+-(NSString*)buildCallEmailMessageWithController:(NSMutableArray*)aTaskObjectList;
 -(void)fillCallTranTemplate;
 
 @end

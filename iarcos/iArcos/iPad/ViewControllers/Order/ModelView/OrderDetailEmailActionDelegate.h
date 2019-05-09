@@ -13,7 +13,7 @@
 
 @protocol OrderDetailEmailActionDelegate <NSObject>
 @required
-- (NSMutableDictionary*)didSelectEmailRecipientRowWithCellData:(NSDictionary*)aCellData;
+- (NSMutableDictionary*)didSelectEmailRecipientRowWithCellData:(NSDictionary*)aCellData taskData:(NSMutableArray*)aTaskObjectList;
 - (NSString*)retrieveFileName;
 /*
 - (void)didSelectEmailRecipientRow:(MFMailComposeViewController*)aMailController cellData:(NSDictionary*)aCellData;

@@ -72,6 +72,8 @@
 - (BOOL)forceEnterCusRefOnCheckoutFlag;
 - (BOOL)showMeetingFlag;
 - (BOOL)showTargetFlag;
+- (BOOL)showTaskInCallEmailFlag;
+- (BOOL)showSingleTaskFlag;
 - (void)resetSystemCodes:(NSString*)aSystemCodes;
 - (void)persistentSystemCodes;
 

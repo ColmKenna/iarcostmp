@@ -433,7 +433,7 @@
     if (![anActionType isEqualToString:@"create"]) return;
     float width = self.contentView.frame.size.width;
     float halfWidth = width / 2.0;
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] recordTasksFlag]) {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] recordTasksFlag] && [[ArcosConfigDataManager sharedArcosConfigDataManager] showSingleTaskFlag]) {
         for (int i = 0; i < [self.secondFieldList count]; i++) {
             UIView* auxUIView = [self.secondFieldList objectAtIndex:i];
             auxUIView.frame = CGRectMake(auxUIView.frame.origin.x, auxUIView.frame.origin.y, halfWidth - auxUIView.frame.origin.x - 5.0, auxUIView.frame.size.height);

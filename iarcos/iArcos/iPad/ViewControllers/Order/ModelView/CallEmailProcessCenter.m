@@ -127,7 +127,7 @@
     return [configDict objectForKey:@"StandardLocationCode"];
 }
 
--(NSString*)buildCallEmailMessageWithController {
+-(NSString*)buildCallEmailMessageWithController:(NSMutableArray*)aTaskObjectList {
     [self fillCallTranTemplate];
 //    NSLog(@"self.detailingSelections: %@", self.detailingSelections);
 //    NSLog(@"calltranSet: %@", calltranSet);    
@@ -155,8 +155,8 @@
     [body appendString:[self.orderHeader objectForKey:@"CustName"]];    
     [body appendString:@"</td>"];
     [body appendString:@"<td width='15%' align='right'>"];
-    [body appendString:@"Call Date:</td>"];
-    [body appendString:@"<td width='45%'><b>"];
+    [body appendString:@"</td>"];
+    [body appendString:@"<td width='45%' align='right'><b>"];
     [body appendString:[self.orderHeader objectForKey:@"orderDateText"]];    
     [body appendString:@"</b></td>"];
     [body appendString:@"</tr>"];
@@ -166,8 +166,8 @@
     [body appendString:[self.orderHeader objectForKey:@"Address1"]];
     [body appendString:@"</td>"];
     [body appendString:@"<td width='15%' align='right'>"];
-    [body appendString:@"Call Type:</td>"];
-    [body appendString:@"<td width='45%'><b>"];
+    [body appendString:@"</td>"];
+    [body appendString:@"<td width='45%' align='right'><b>"];
     [body appendString:[self.orderHeader objectForKey:@"callTypeText"]];    
     [body appendString:@"</b></td>"];
     [body appendString:@"</tr>"];
@@ -178,10 +178,10 @@
     [body appendString:@"</td>"];
     NSString* dueDateTitle = @"";
     NSString* dueDateContent = @"";
-    if (showInvoiceRefFlag) {
-        dueDateTitle = @"Due Date:";
-        dueDateContent = invoiceRefList[3];
-    }
+//    if (showInvoiceRefFlag) {
+//        dueDateTitle = @"Due Date:";
+//        dueDateContent = invoiceRefList[3];
+//    }
     [body appendString:@"<td width='15%' align='right'>"];
     [body appendString:dueDateTitle];
     [body appendString:@"</td>"];
@@ -192,14 +192,14 @@
     
     NSString* typeTitle = @"";
     NSString* typeContent = @"";
-    if (showInvoiceRefFlag) {
-        typeTitle = @"Type:";
-        NSNumber* typeIUR = [ArcosUtils convertStringToNumber:invoiceRefList[2]];
-        NSDictionary* descrDetailDict = [[ArcosCoreData sharedArcosCoreData] descriptionWithIUR:typeIUR];
-        if (descrDetailDict != nil) {
-            typeContent = [descrDetailDict objectForKey:@"Detail"];
-        }
-    }
+//    if (showInvoiceRefFlag) {
+//        typeTitle = @"Type:";
+//        NSNumber* typeIUR = [ArcosUtils convertStringToNumber:invoiceRefList[2]];
+//        NSDictionary* descrDetailDict = [[ArcosCoreData sharedArcosCoreData] descriptionWithIUR:typeIUR];
+//        if (descrDetailDict != nil) {
+//            typeContent = [descrDetailDict objectForKey:@"Detail"];
+//        }
+//    }
     [body appendString:@"<tr>"];
     [body appendString:@"<td width='40%'>"];
     [body appendString:[self.orderHeader objectForKey:@"Address3"]];
@@ -214,12 +214,12 @@
     
     NSString* employeeTitle = @"";
     NSString* employeeContent = @"";
-    if (showInvoiceRefFlag) {
-        employeeTitle = @"Employee:";
-        NSNumber* employeeIUR = [ArcosUtils convertStringToNumber:invoiceRefList[1]];
-        NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:employeeIUR];
-        employeeContent = [NSString stringWithFormat:@"%@ %@", [ArcosUtils convertNilToEmpty:[employeeDict objectForKey:@"ForeName"]], [ArcosUtils convertNilToEmpty:[employeeDict objectForKey:@"Surname"]]];
-    }
+//    if (showInvoiceRefFlag) {
+//        employeeTitle = @"Employee:";
+//        NSNumber* employeeIUR = [ArcosUtils convertStringToNumber:invoiceRefList[1]];
+//        NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:employeeIUR];
+//        employeeContent = [NSString stringWithFormat:@"%@ %@", [ArcosUtils convertNilToEmpty:[employeeDict objectForKey:@"ForeName"]], [ArcosUtils convertNilToEmpty:[employeeDict objectForKey:@"Surname"]]];
+//    }
     [body appendString:@"<tr>"];
     [body appendString:@"<td width='40%'>"];
     [body appendString:[self.orderHeader objectForKey:@"Address4"]];
@@ -232,20 +232,20 @@
     [body appendString:@"</b></td>"];
     [body appendString:@"</tr>"];
     
-    if (showInvoiceRefFlag) {
-        NSString* detailsTitle = @"Details:";
-        NSString* detailsContent = invoiceRefList[0];
-        [body appendString:@"<tr>"];
-        [body appendString:@"<td width='40%'>"];
-        [body appendString:@"</td>"];
-        [body appendString:@"<td width='15%' align='right'>"];
-        [body appendString:detailsTitle];
-        [body appendString:@"</td>"];
-        [body appendString:@"<td width='45%'><b>"];
-        [body appendString:detailsContent];
-        [body appendString:@"</b></td>"];
-        [body appendString:@"</tr>"];
-    }
+//    if (showInvoiceRefFlag) {
+//        NSString* detailsTitle = @"Details:";
+//        NSString* detailsContent = invoiceRefList[0];
+//        [body appendString:@"<tr>"];
+//        [body appendString:@"<td width='40%'>"];
+//        [body appendString:@"</td>"];
+//        [body appendString:@"<td width='15%' align='right'>"];
+//        [body appendString:detailsTitle];
+//        [body appendString:@"</td>"];
+//        [body appendString:@"<td width='45%'><b>"];
+//        [body appendString:detailsContent];
+//        [body appendString:@"</b></td>"];
+//        [body appendString:@"</tr>"];
+//    }
     
     
     [body appendString:@"</table></td></tr>"];
@@ -443,6 +443,56 @@
             }
         }
         [body appendString:@"</table></td></tr>"];
+    }
+    if (showInvoiceRefFlag) {
+        NSString* typeContent = @"";
+        NSNumber* typeIUR = [ArcosUtils convertStringToNumber:invoiceRefList[2]];
+        NSDictionary* descrDetailDict = [[ArcosCoreData sharedArcosCoreData] descriptionWithIUR:typeIUR];
+        if (descrDetailDict != nil) {
+            typeContent = [descrDetailDict objectForKey:@"Detail"];
+        }
+        NSString* detailsContent = invoiceRefList[0];
+        NSString* employeeContent = @"";
+        NSNumber* employeeIUR = [ArcosUtils convertStringToNumber:invoiceRefList[1]];
+        NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:employeeIUR];
+        employeeContent = [NSString stringWithFormat:@"%@ %@", [ArcosUtils convertNilToEmpty:[employeeDict objectForKey:@"ForeName"]], [ArcosUtils convertNilToEmpty:[employeeDict objectForKey:@"Surname"]]];
+        NSString* dueDateContent = invoiceRefList[3];
+        [body appendString:@"<tr><td height='30' width='100%'><table width='100%' height='100%'>"];
+        [body appendString:@"<tr><td colspan='2' width='100%'><hr></td></tr>"];
+        [body appendString:@"<tr><td colspan='2' width='100%'><b>"];
+        [body appendString:[ArcosUtils convertNilToEmpty:typeContent]];
+        [body appendString:@"</b></td></tr>"];
+        [body appendString:@"<tr><td width='5%' align='left'></td>"];
+        [body appendString:@"<td width='95%' align='left'>"];
+        [body appendString:[ArcosUtils convertNilToEmpty:detailsContent]];
+        [body appendString:@"</td></tr>"];
+        [body appendString:@"<tr><td width='5%' align='left'></td>"];
+        [body appendString:@"<td width='95%' align='left' style='font-size:12px'>"];
+        [body appendString:[NSString stringWithFormat:@"Entered by %@ on %@",[ArcosUtils convertNilToEmpty:employeeContent], [ArcosUtils convertNilToEmpty:dueDateContent]]];
+        [body appendString:@"</td></tr>"];
+        
+        [body appendString:@"</table></td></tr>"];
+    }
+    
+    if ([aTaskObjectList count] > 0) {
+        for (int i = 0; i < [aTaskObjectList count]; i++) {
+            ArcosGenericClass* auxArcosGenericClass = [aTaskObjectList objectAtIndex:i];
+            [body appendString:@"<tr><td height='30' width='100%'><table width='100%' height='100%'>"];
+            [body appendString:@"<tr><td colspan='2' width='100%'><hr></td></tr>"];
+            [body appendString:@"<tr><td colspan='2' width='100%'><b>"];
+            [body appendString:[ArcosUtils convertNilToEmpty:auxArcosGenericClass.Field2]];
+            [body appendString:@"</b></td></tr>"];
+            [body appendString:@"<tr><td width='5%' align='left'></td>"];
+            [body appendString:@"<td width='95%' align='left'>"];
+            [body appendString:[ArcosUtils convertNilToEmpty:auxArcosGenericClass.Field4]];
+            [body appendString:@"</td></tr>"];
+            [body appendString:@"<tr><td width='5%' align='left'></td>"];
+            [body appendString:@"<td width='95%' align='left' style='font-size:12px'>"];
+            [body appendString:[NSString stringWithFormat:@"Entered by %@ on %@ %@",[ArcosUtils convertNilToEmpty:auxArcosGenericClass.Field5], [ArcosUtils convertNilToEmpty:auxArcosGenericClass.Field3], [ArcosUtils convertNilToEmpty:auxArcosGenericClass.Field1]]];
+            [body appendString:@"</td></tr>"];
+            
+            [body appendString:@"</table></td></tr>"];
+        }
     }
     
     [body appendString:@"<tr><td height='100%' width='100%'><table width='100%' height='100%'>"];        

@@ -288,7 +288,7 @@
 
 - (IBAction)emailButtonPressed:(id)sender {
     self.orderDetailOrderEmailActionDataManager.signatureImage = [UIImage imageWithCGImage:[self.drawingAreaView getImage]];
-    NSMutableDictionary* mailDict = [self.orderDetailOrderEmailActionDataManager didSelectEmailRecipientRowWithCellData:nil];
+    NSMutableDictionary* mailDict = [self.orderDetailOrderEmailActionDataManager didSelectEmailRecipientRowWithCellData:nil taskData:nil];
     NSMutableArray* toRecipients = [NSMutableArray arrayWithObjects:[ArcosUtils convertNilToEmpty:[SettingManager arcosAdminEmail]], nil];
     NSArray* auxCcRecipients = [self.orderDetailOrderEmailActionDataManager retrieveCcRecipients];
     NSMutableArray* ccRecipients = [NSMutableArray arrayWithArray:auxCcRecipients];

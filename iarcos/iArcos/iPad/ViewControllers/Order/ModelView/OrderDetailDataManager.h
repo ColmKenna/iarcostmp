@@ -20,6 +20,8 @@
     NSMutableDictionary* _groupedDataDict;
     NSMutableArray* _actionTableDataDictList;
     BOOL _locationSwitchedFlag;
+    NSMutableArray* _taskObjectList;
+    NSDictionary* _selectedEmailRecipientDict;
 }
 
 @property(nonatomic, retain) OrderDetailBaseDataManager* orderDetailBaseDataManager;
@@ -30,6 +32,8 @@
 @property(nonatomic, retain) NSMutableDictionary* groupedDataDict;
 @property(nonatomic, retain) NSMutableArray* actionTableDataDictList;
 @property(nonatomic, assign) BOOL locationSwitchedFlag;
+@property(nonatomic, retain) NSMutableArray* taskObjectList;
+@property(nonatomic, retain) NSDictionary* selectedEmailRecipientDict;
 
 - (void)loadSavedOrderDetailCellData:(NSMutableDictionary*)aCellData;
 - (NSMutableDictionary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath;

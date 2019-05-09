@@ -22,6 +22,8 @@
 @synthesize isOrderDetailsShowed = _isOrderDetailsShowed;
 @synthesize isMemoDetailsShowed = _isMemoDetailsShowed;
 @synthesize actionTableDataDictList = _actionTableDataDictList;
+@synthesize taskObjectList = _taskObjectList;
+@synthesize selectedEmailRecipientDict = _selectedEmailRecipientDict;
 
 - (void)dealloc {
     self.orderNumber = nil;
@@ -30,6 +32,8 @@
     self.groupedDataDict = nil;
     self.savedIarcosOrderDetailBaseDataManager = nil;
     self.actionTableDataDictList = nil;
+    self.taskObjectList = nil;
+    self.selectedEmailRecipientDict = nil;
     
     [super dealloc];
 }
