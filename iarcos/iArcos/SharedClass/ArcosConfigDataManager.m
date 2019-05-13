@@ -253,6 +253,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConfigDataManager);
     return [self retrieveConfigFlagByIndex:62];
 }
 
+- (BOOL)useDiscountFromPriceFlag {
+    return [self retrieveConfigFlagByIndex:63];
+}
+
 - (void)resetSystemCodes:(NSString*)aSystemCodes {
     self.systemCodes = aSystemCodes;
 }

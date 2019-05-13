@@ -1099,15 +1099,20 @@
         NSMutableArray* locationDictList = [[ArcosCoreData sharedArcosCoreData] locationWithIURWithoutCheck:self.locationIUR];
         if (![[ArcosConfigDataManager sharedArcosConfigDataManager] enableUsePriceProductGroupFlag]) {
             NSMutableDictionary* priceHashMap = [[ArcosCoreData sharedArcosCoreData] retrievePriceWithLocationIUR:self.locationIUR productIURList:[NSMutableArray arrayWithObject:[self.Data objectForKey:@"ProductIUR"]]];
-            NSDecimalNumber* auxUnitPriceFromPrice = [priceHashMap objectForKey:[self.Data objectForKey:@"ProductIUR"]];
-            if (auxUnitPriceFromPrice != nil) {
+            
+//            NSDecimalNumber* auxUnitPriceFromPrice = [priceHashMap objectForKey:[self.Data objectForKey:@"ProductIUR"]];
+            NSDictionary* auxPriceDict = [priceHashMap objectForKey:[self.Data objectForKey:@"ProductIUR"]];
+            if (auxPriceDict != nil) {
+                NSDecimalNumber* auxUnitPriceFromPrice = [auxPriceDict objectForKey:@"RebatePercent"];
                 [self.Data setObject:auxUnitPriceFromPrice forKey:@"UnitPrice"];
             } else {
                 if (locationDictList != nil) {
                     NSDictionary* locationDict = [locationDictList objectAtIndex:0];
                     NSMutableDictionary* masterPriceHashMap = [[ArcosCoreData sharedArcosCoreData] retrievePriceWithLocationIUR:[locationDict objectForKey:@"MasterLocationIUR"] productIURList:[NSMutableArray arrayWithObject:[self.Data objectForKey:@"ProductIUR"]]];
-                    NSDecimalNumber* auxUnitPriceFromMasterPrice = [masterPriceHashMap objectForKey:[self.Data objectForKey:@"ProductIUR"]];
-                    if (auxUnitPriceFromMasterPrice != nil) {
+                    NSDictionary* auxMasterPriceDict = [masterPriceHashMap objectForKey:[self.Data objectForKey:@"ProductIUR"]];
+//                    NSDecimalNumber* auxUnitPriceFromMasterPrice = [masterPriceHashMap objectForKey:[self.Data objectForKey:@"ProductIUR"]];
+                    if (auxMasterPriceDict != nil) {
+                        NSDecimalNumber* auxUnitPriceFromMasterPrice = [auxMasterPriceDict objectForKey:@"RebatePercent"];
                         [self.Data setObject:auxUnitPriceFromMasterPrice forKey:@"UnitPrice"];
                     }
                 }
@@ -1116,8 +1121,10 @@
             if (locationDictList != nil) {
                 NSDictionary* locationDict = [locationDictList objectAtIndex:0];
                 NSMutableDictionary* pgPriceHashMap = [[ArcosCoreData sharedArcosCoreData] retrievePriceWithLocationIUR:[locationDict objectForKey:@"PGiur"] productIURList:[NSMutableArray arrayWithObject:[self.Data objectForKey:@"ProductIUR"]]];
-                NSDecimalNumber* auxUnitPriceFromPrice = [pgPriceHashMap objectForKey:[self.Data objectForKey:@"ProductIUR"]];
-                if (auxUnitPriceFromPrice != nil) {
+//                NSDecimalNumber* auxUnitPriceFromPrice = [pgPriceHashMap objectForKey:[self.Data objectForKey:@"ProductIUR"]];
+                NSDictionary* auxPgPriceDict = [pgPriceHashMap objectForKey:[self.Data objectForKey:@"ProductIUR"]];
+                if (auxPgPriceDict != nil) {
+                    NSDecimalNumber* auxUnitPriceFromPrice = [auxPgPriceDict objectForKey:@"RebatePercent"];
                     [self.Data setObject:auxUnitPriceFromPrice forKey:@"UnitPrice"];
                 }
             }

@@ -3589,11 +3589,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
             [self.arcosCoreDataManager populatePriceWithFieldList:aFieldList price:aPrice];
         }
     } else {
-        NSManagedObjectContext* context = [self importManagedObjectContext];
-        Price* Price = [NSEntityDescription
-                              insertNewObjectForEntityForName:@"Price"
-                              inManagedObjectContext:context];
-        [self.arcosCoreDataManager populatePriceWithFieldList:aFieldList price:Price];
+        if (![auxBonusDeal isEqualToString:@"DELETE"]) {
+            NSManagedObjectContext* context = [self importManagedObjectContext];
+            Price* Price = [NSEntityDescription
+                            insertNewObjectForEntityForName:@"Price"
+                            inManagedObjectContext:context];
+            [self.arcosCoreDataManager populatePriceWithFieldList:aFieldList price:Price];
+        }
     }
     Promotion* aPromotion = [anExistingPromotionDict objectForKey:priceIUR];
     if (aPromotion != nil) {
@@ -3607,11 +3609,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         if ([auxBonusDeal isEqualToString:@""]) {
             return;
         }
-        NSManagedObjectContext* context = [self importManagedObjectContext];
-        Promotion* Promotion = [NSEntityDescription
-                        insertNewObjectForEntityForName:@"Promotion"
-                        inManagedObjectContext:context];
-        [self.arcosCoreDataManager populatePromotionWithFieldList:aFieldList promotion:Promotion];
+        if (![auxBonusDeal isEqualToString:@"DELETE"]) {
+            NSManagedObjectContext* context = [self importManagedObjectContext];
+            Promotion* Promotion = [NSEntityDescription
+                                    insertNewObjectForEntityForName:@"Promotion"
+                                    inManagedObjectContext:context];
+            [self.arcosCoreDataManager populatePromotionWithFieldList:aFieldList promotion:Promotion];
+        }        
     }
 }
 
@@ -4761,8 +4765,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"LocationIUR = %@ AND ProductIUR in %@", aLocationIUR, aProductIURList];
     NSMutableArray* objectArray = [self fetchRecordsWithEntity:@"Price" withPropertiesToFetch:nil  withPredicate:predicate withSortDescNames:nil withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
     NSMutableDictionary* productIurPriceHashMap = [NSMutableDictionary dictionaryWithCapacity:[objectArray count]];
-    for (NSDictionary* aProductDict in objectArray) {
-        [productIurPriceHashMap setObject:[aProductDict objectForKey:@"RebatePercent"] forKey:[aProductDict objectForKey:@"ProductIUR"]];
+    for (NSDictionary* aPriceDict in objectArray) {
+//        [productIurPriceHashMap setObject:[aProductDict objectForKey:@"RebatePercent"] forKey:[aProductDict objectForKey:@"ProductIUR"]];
+        [productIurPriceHashMap setObject:aPriceDict forKey:[aPriceDict objectForKey:@"ProductIUR"]];
     }
     return productIurPriceHashMap;
 }

@@ -64,7 +64,21 @@
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
     [formRow setObject:[NSNumber numberWithInt:0]  forKey:@"Qty"];
     [formRow setObject:[NSNumber numberWithFloat:0]  forKey:@"LineValue"];
-    [formRow setObject:[NSNumber numberWithFloat:0]  forKey:@"DiscountPercent"];
+    
+    if ([[ArcosUtils convertNilToZero:[product objectForKey:@"PriceFlag"]] intValue] == 1 && [[ArcosConfigDataManager sharedArcosConfigDataManager] useDiscountFromPriceFlag]) {
+        NSNumber* allowDiscount = [SettingManager SettingForKeypath:@"CompanySetting.Order Processing" atIndex:1];
+        SettingManager* sm = [SettingManager setting];
+        NSMutableDictionary* presenterPwdDict = [sm getSettingForKeypath:@"CompanySetting.Connection" atIndex:8];
+        NSString* presenterPwd = [[presenterPwdDict objectForKey:@"Value"] uppercaseString];
+        NSRange aBDRange = [presenterPwd rangeOfString:@"[BD]"];
+        if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag]) {
+            [formRow setObject:[ArcosUtils convertNilToZero:[product objectForKey:@"DiscountPercent"]]  forKey:@"DiscountPercent"];
+        } else {
+            [formRow setObject:[NSNumber numberWithFloat:0]  forKey:@"DiscountPercent"];
+        }
+    } else {
+        [formRow setObject:[NSNumber numberWithFloat:0]  forKey:@"DiscountPercent"];
+    }
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"InStock"];
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"FOC"];
     [formRow setObject:[NSNumber numberWithBool:NO] forKey:@"IsSelected"];

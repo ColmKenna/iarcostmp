@@ -553,10 +553,14 @@
         NSMutableDictionary* resultProductDict = [NSMutableDictionary dictionaryWithDictionary:auxProductDict];
         [resultProductDict setObject:[NSNumber numberWithBool:NO] forKey:@"PriceFlag"];
         NSNumber* auxProductIUR = [auxProductDict objectForKey:@"ProductIUR"];
-        NSDecimalNumber* auxUnitPriceFromPrice = [aPriceHashMap objectForKey:auxProductIUR];
-        if (auxUnitPriceFromPrice != nil) {
+        NSDictionary* auxPriceDict = [aPriceHashMap objectForKey:auxProductIUR];
+//        NSDecimalNumber* auxUnitPriceFromPrice = [aPriceHashMap objectForKey:auxProductIUR];
+        if (auxPriceDict != nil) {
+            NSDecimalNumber* auxUnitPriceFromPrice = [auxPriceDict objectForKey:@"RebatePercent"];
+            NSDecimalNumber* auxDiscountPercentFromPrice = [auxPriceDict objectForKey:@"DiscountPercent"];
             [resultProductDict setObject:[NSNumber numberWithBool:YES] forKey:@"PriceFlag"];
             [resultProductDict setObject:auxUnitPriceFromPrice forKey:@"UnitTradePrice"];
+            [resultProductDict setObject:[NSNumber numberWithFloat:[auxDiscountPercentFromPrice floatValue]] forKey:@"DiscountPercent"];
             [resultProductDict setObject:@"" forKey:@"BonusDeal"];
             NSString* bonusDeal = [aBonusDealHashMap objectForKey:auxProductIUR];
             if (bonusDeal != nil) {
@@ -573,12 +577,16 @@
     for (NSDictionary* auxProductDict in aProductList) {
         NSMutableDictionary* resultProductDict = [NSMutableDictionary dictionaryWithDictionary:auxProductDict];
         NSNumber* auxProductIUR = [auxProductDict objectForKey:@"ProductIUR"];
-        NSDecimalNumber* auxUnitPriceFromPrice = [aMasterPriceHashMap objectForKey:auxProductIUR];
-        if (auxUnitPriceFromPrice != nil) {
+        NSDictionary* auxPriceDict = [aMasterPriceHashMap objectForKey:auxProductIUR];
+//        NSDecimalNumber* auxUnitPriceFromPrice = [aMasterPriceHashMap objectForKey:auxProductIUR];
+        if (auxPriceDict != nil) {
+            NSDecimalNumber* auxUnitPriceFromPrice = [auxPriceDict objectForKey:@"RebatePercent"];
+            NSDecimalNumber* auxDiscountPercentFromPrice = [auxPriceDict objectForKey:@"DiscountPercent"];
             NSNumber* tmpPriceFlag = [resultProductDict objectForKey:@"PriceFlag"];
             if (![tmpPriceFlag boolValue]) {
                 [resultProductDict setObject:[NSNumber numberWithBool:YES] forKey:@"PriceFlag"];
                 [resultProductDict setObject:auxUnitPriceFromPrice forKey:@"UnitTradePrice"];
+                [resultProductDict setObject:[NSNumber numberWithFloat:[auxDiscountPercentFromPrice floatValue]] forKey:@"DiscountPercent"];
                 NSString* bonusDeal = [aMasterBonusDealHashMap objectForKey:auxProductIUR];
                 if (bonusDeal != nil) {
                     [resultProductDict setObject:bonusDeal forKey:@"BonusDeal"];
