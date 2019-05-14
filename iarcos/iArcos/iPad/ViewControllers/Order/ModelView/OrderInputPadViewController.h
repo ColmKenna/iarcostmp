@@ -99,6 +99,7 @@
     UIButton* _priceChangeButton;
     UINavigationController* _globalNavigationController;
     NSMutableDictionary* _bonusDealResultDict;
+    NSNumber* _originalDiscountPercent;
 }
 @property(nonatomic,retain) IBOutlet UITextField* QTYField;
 @property(nonatomic,retain) IBOutlet UITextField* BonusField;
@@ -175,6 +176,7 @@
 @property(nonatomic,retain) IBOutlet UIButton* priceChangeButton;
 @property(nonatomic,retain) UINavigationController* globalNavigationController;
 @property(nonatomic,retain) NSMutableDictionary* bonusDealResultDict;
+@property(nonatomic,retain) NSNumber* originalDiscountPercent;
 
 -(IBAction)textFieldTouched:(id)sender;
 -(IBAction)numberKeyTouched:(id)sender;

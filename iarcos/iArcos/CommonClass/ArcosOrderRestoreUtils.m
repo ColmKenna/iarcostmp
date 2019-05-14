@@ -103,7 +103,8 @@
         NSString* tmpKey = [keyList objectAtIndex:i];
         NSNumber* tmpProductIUR = [ArcosUtils convertStringToNumber:tmpKey];
         NSMutableDictionary* tempDict = [dataDict objectForKey:tmpKey];
-        if ([[tempDict objectForKey:@"Qty"] intValue] == 0 && [[tempDict objectForKey:@"Bonus"] intValue] == 0 && [[tempDict objectForKey:@"InStock"] intValue] == 0 && [[tempDict objectForKey:@"FOC"] intValue] == 0 && [[tempDict objectForKey:@"DiscountPercent"] intValue] == 0) {
+        if ([[tempDict objectForKey:@"Qty"] intValue] == 0 && [[tempDict objectForKey:@"Bonus"] intValue] == 0 && [[tempDict objectForKey:@"InStock"] intValue] == 0 && [[tempDict objectForKey:@"FOC"] intValue] == 0) {
+            // && [[tempDict objectForKey:@"DiscountPercent"] intValue] == 0
             continue;
         }
         NSDictionary* aProduct = [productDictHashMap objectForKey:tmpProductIUR];

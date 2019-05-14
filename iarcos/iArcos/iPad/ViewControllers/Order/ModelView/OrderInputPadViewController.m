@@ -91,6 +91,7 @@
 @synthesize globalNavigationController = _globalNavigationController;
 
 @synthesize bonusDealResultDict = _bonusDealResultDict;
+@synthesize originalDiscountPercent = _originalDiscountPercent;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -174,6 +175,7 @@
     self.priceChangeButton = nil;
     self.globalNavigationController = nil;
     self.bonusDealResultDict = nil;
+    self.originalDiscountPercent = nil;
     
     [super dealloc];
 }
@@ -194,6 +196,7 @@
 //    NSNumber* qtyNumber=[self.Data objectForKey:@"Qty"];
 //    NSNumber* inStockNumber = [self.Data objectForKey:@"InStock"]; 
 //    if (([qtyNumber intValue]>0 && qtyNumber !=nil) || ([inStockNumber intValue]>0 && inStockNumber != nil)) {
+    self.originalDiscountPercent = [NSNumber numberWithFloat:[[self.Data objectForKey:@"DiscountPercent"] floatValue]];
     self.bonusDealResultDict = [self interpretBonusDeal:[self.Data objectForKey:@"BonusDeal"]];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showMATWithQtyPopoverFlag] && self.locationIUR != nil) {
         NSDate* dateLastModified = [NSDate date];
@@ -250,7 +253,7 @@
     if ([ProductFormRowConverter isSelectedWithFormRowDict:self.Data]) {
         self.QTYField.text=[[self.Data objectForKey:@"Qty"]stringValue];
         self.BonusField.text=[[self.Data objectForKey:@"Bonus"]stringValue];
-        self.DiscountField.text=[[[self.Data objectForKey:@"DiscountPercent"]stringValue]stringByAppendingString:@"%"];
+//        self.DiscountField.text=[[[self.Data objectForKey:@"DiscountPercent"]stringValue]stringByAppendingString:@"%"];
         self.ValueField.text=[NSString stringWithFormat:@"%1.2f" ,[[self.Data objectForKey:@"LineValue"]floatValue]];
         self.InStockField.text=[[self.Data objectForKey:@"InStock"] stringValue];        
         self.FOCField.text=[[self.Data objectForKey:@"FOC"]stringValue];
@@ -258,12 +261,13 @@
     }else{
         self.QTYField.text=@"0";
         self.BonusField.text=@"0";
-        self.DiscountField.text=@"0%";
+//        self.DiscountField.text=@"0%";
         self.ValueField.text=@"0.00";
         self.InStockField.text=@"0";
         self.FOCField.text=@"0";
         self.instockRBTextField.text = @"0";
     }
+    self.DiscountField.text=[[[self.Data objectForKey:@"DiscountPercent"]stringValue]stringByAppendingString:@"%"];
     self.bar.topItem.title=[self.Data objectForKey:@"Details"];
     self.productName.text=[self.Data objectForKey:@"Details"];
     self.unitPriceField.text=[NSString stringWithFormat:@"%1.2f",[[self.Data objectForKey:@"UnitPrice"]floatValue]];
@@ -815,7 +819,7 @@
         && ([inStock intValue] <= 0 || inStock == nil) && ([foc intValue] <= 0 || foc == nil)){
         [self.Data setObject:[NSNumber numberWithInt:0]  forKey:@"Qty"];
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
-        [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"DiscountPercent"];
+//        [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"DiscountPercent"];
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"LineValue"];
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"InStock"];
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"FOC"];
@@ -833,10 +837,20 @@
         [self.Data setObject:total forKey:@"LineValue"];
         [self.Data setObject:[NSNumber numberWithBool:YES] forKey: @"IsSelected"];
     }
+    if ([[ArcosUtils convertNilToZero:[self.Data objectForKey:@"PriceFlag"]] intValue] == 1 && [[ArcosConfigDataManager sharedArcosConfigDataManager] useDiscountFromPriceFlag]) {
+        NSNumber* allowDiscount = [SettingManager SettingForKeypath:@"CompanySetting.Order Processing" atIndex:1];
+        SettingManager* sm = [SettingManager setting];
+        NSMutableDictionary* presenterPwdDict = [sm getSettingForKeypath:@"CompanySetting.Connection" atIndex:8];
+        NSString* presenterPwd = [[presenterPwdDict objectForKey:@"Value"] uppercaseString];
+        NSRange aBDRange = [presenterPwd rangeOfString:@"[BD]"];
+        if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && [self.originalDiscountPercent floatValue] != [[self.Data objectForKey:@"DiscountPercent"] floatValue]) {            
+            [self.Data setObject:[NSNumber numberWithInt:-2] forKey:@"RRIUR"];
+        }
+    }
     //clear all fields
     QTYField.text=@"0";
     BonusField.text=@"0";
-    DiscountField.text=@"0%";
+//    DiscountField.text=@"0%";
     InStockField.text=@"0";
     FOCField.text=@"0";
     self.instockRBTextField.text=@"0";

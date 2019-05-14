@@ -341,7 +341,7 @@
     [aFormRowDict setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
     [aFormRowDict setObject:[NSNumber numberWithInt:0]  forKey:@"Qty"];
     [aFormRowDict setObject:[NSNumber numberWithFloat:0]  forKey:@"LineValue"];
-    [aFormRowDict setObject:[NSNumber numberWithFloat:0]  forKey:@"DiscountPercent"];
+//    [aFormRowDict setObject:[NSNumber numberWithFloat:0]  forKey:@"DiscountPercent"];
     [aFormRowDict setObject:[NSNumber numberWithInt:0] forKey:@"InStock"];
     [aFormRowDict setObject:[NSNumber numberWithInt:0] forKey:@"FOC"];
     [aFormRowDict setObject:[NSNumber numberWithBool:NO] forKey:@"IsSelected"];
