@@ -1373,6 +1373,7 @@
 		63ABC89119F0263300DE2B1B /* ArcosAppDelegate_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 63ABC89019F0263300DE2B1B /* ArcosAppDelegate_iPad.m */; };
 		63AC39411CE0AC2000459286 /* CustomerGroupContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AC39401CE0AC2000459286 /* CustomerGroupContactTableViewCell.m */; };
 		63AC39431CE0AC5B00459286 /* CustomerGroupContactTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63AC39421CE0AC5B00459286 /* CustomerGroupContactTableViewCell.xib */; };
+		63AC7B42228C1DAF000BD6B3 /* TopBorderUILabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AC7B41228C1DAF000BD6B3 /* TopBorderUILabel.m */; };
 		63ACADDA1D10293D004214DA /* AccessTimesWidgetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63ACADD81D10293D004214DA /* AccessTimesWidgetViewController.m */; };
 		63ACADDB1D10293D004214DA /* AccessTimesWidgetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63ACADD91D10293D004214DA /* AccessTimesWidgetViewController.xib */; };
 		63ACE2911F4EF7A50012B8AF /* Email.png in Resources */ = {isa = PBXBuildFile; fileRef = 63ACE2901F4EF7A50012B8AF /* Email.png */; };
@@ -4228,6 +4229,8 @@
 		63AC393F1CE0AC2000459286 /* CustomerGroupContactTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerGroupContactTableViewCell.h; sourceTree = "<group>"; };
 		63AC39401CE0AC2000459286 /* CustomerGroupContactTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerGroupContactTableViewCell.m; sourceTree = "<group>"; };
 		63AC39421CE0AC5B00459286 /* CustomerGroupContactTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomerGroupContactTableViewCell.xib; sourceTree = "<group>"; };
+		63AC7B40228C1DAF000BD6B3 /* TopBorderUILabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TopBorderUILabel.h; sourceTree = "<group>"; };
+		63AC7B41228C1DAF000BD6B3 /* TopBorderUILabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TopBorderUILabel.m; sourceTree = "<group>"; };
 		63ACADD71D10293D004214DA /* AccessTimesWidgetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccessTimesWidgetViewController.h; sourceTree = "<group>"; };
 		63ACADD81D10293D004214DA /* AccessTimesWidgetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccessTimesWidgetViewController.m; sourceTree = "<group>"; };
 		63ACADD91D10293D004214DA /* AccessTimesWidgetViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccessTimesWidgetViewController.xib; sourceTree = "<group>"; };
@@ -5225,6 +5228,8 @@
 				63EF9EDD2111C7ED009BDDB1 /* ArcosMiniToolkit.m */,
 				6383A897222FFB0800112EC9 /* ArcosGrayBorderUIButton.h */,
 				6383A898222FFB0800112EC9 /* ArcosGrayBorderUIButton.m */,
+				63AC7B40228C1DAF000BD6B3 /* TopBorderUILabel.h */,
+				63AC7B41228C1DAF000BD6B3 /* TopBorderUILabel.m */,
 			);
 			path = CommonClass;
 			sourceTree = "<group>";
@@ -9855,6 +9860,7 @@
 				630B345719F0127C007B2442 /* OrderLine.m in Sources */,
 				630B346219F0127C007B2442 /* Request.m in Sources */,
 				630B3D0D19F01CB9007B2442 /* QueryOrderTaskControlMemoTableCell.m in Sources */,
+				63AC7B42228C1DAF000BD6B3 /* TopBorderUILabel.m in Sources */,
 				630B3C5319F01CB9007B2442 /* LargeImageL5FormRowsDataManager.m in Sources */,
 				630B3B7A19F01CB9007B2442 /* CustomerNotBuyModalViewController.m in Sources */,
 				630B3DA719F01CB9007B2442 /* ArcosJourneyBO.m in Sources */,

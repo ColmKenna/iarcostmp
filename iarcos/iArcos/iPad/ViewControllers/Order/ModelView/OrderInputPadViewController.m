@@ -92,6 +92,8 @@
 
 @synthesize bonusDealResultDict = _bonusDealResultDict;
 @synthesize originalDiscountPercent = _originalDiscountPercent;
+@synthesize bottomDivider = _bottomDivider;
+@synthesize bonusDealContentInterpreter = _bonusDealContentInterpreter;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -176,6 +178,8 @@
     self.globalNavigationController = nil;
     self.bonusDealResultDict = nil;
     self.originalDiscountPercent = nil;
+    self.bottomDivider = nil;
+    self.bonusDealContentInterpreter = nil;
     
     [super dealloc];
 }
@@ -198,6 +202,30 @@
 //    if (([qtyNumber intValue]>0 && qtyNumber !=nil) || ([inStockNumber intValue]>0 && inStockNumber != nil)) {
     self.originalDiscountPercent = [NSNumber numberWithFloat:[[self.Data objectForKey:@"DiscountPercent"] floatValue]];
     self.bonusDealResultDict = [self interpretBonusDeal:[self.Data objectForKey:@"BonusDeal"]];
+    if ([[self.bonusDealResultDict objectForKey:@"OkFlag"] boolValue]) {
+        self.bottomDivider.hidden = NO;
+        self.bonusDealContentInterpreter.hidden = NO;
+        NSMutableString* contentInterpreter = [NSMutableString string];
+        if ([[self.bonusDealResultDict objectForKey:@"QB1"] intValue] != 99999) {
+            [contentInterpreter appendString:[NSString stringWithFormat:@"%@/%@", [self.bonusDealResultDict objectForKey:@"QB1"], [self.bonusDealResultDict objectForKey:@"QP1"]]];
+        }
+        if ([[self.bonusDealResultDict objectForKey:@"QB2"] intValue] != 99999) {
+            [contentInterpreter appendString:[NSString stringWithFormat:@"  %@/%@", [self.bonusDealResultDict objectForKey:@"QB2"], [self.bonusDealResultDict objectForKey:@"QP2"]]];
+        }
+        if ([[self.bonusDealResultDict objectForKey:@"QB3"] intValue] != 99999) {
+            [contentInterpreter appendString:[NSString stringWithFormat:@"  %@/%@", [self.bonusDealResultDict objectForKey:@"QB3"], [self.bonusDealResultDict objectForKey:@"QP3"]]];
+        }
+        if ([[self.bonusDealResultDict objectForKey:@"QB4"] intValue] != 99999) {
+            [contentInterpreter appendString:[NSString stringWithFormat:@"  %@/%@", [self.bonusDealResultDict objectForKey:@"QB4"], [self.bonusDealResultDict objectForKey:@"QP4"]]];
+        }
+        if ([[self.bonusDealResultDict objectForKey:@"QB5"] intValue] != 99999) {
+            [contentInterpreter appendString:[NSString stringWithFormat:@"  %@/%@", [self.bonusDealResultDict objectForKey:@"QB5"], [self.bonusDealResultDict objectForKey:@"QP5"]]];
+        }
+        self.bonusDealContentInterpreter.text = contentInterpreter;
+    } else {
+        self.bottomDivider.hidden = YES;
+        self.bonusDealContentInterpreter.hidden = YES;
+    }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showMATWithQtyPopoverFlag] && self.locationIUR != nil) {
         NSDate* dateLastModified = [NSDate date];
         NSMutableArray* objectList = [self.orderInputPadDataManager retrieveLocationProductMATWithLocationIUR:self.locationIUR productIUR:[self.Data objectForKey:@"ProductIUR"]];
