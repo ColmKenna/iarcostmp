@@ -25,10 +25,15 @@
 //@synthesize myDelegate = _myDelegate;
 @synthesize modalDelegate = _modalDelegate;
 @synthesize locationNameLabel = _locationNameLabel;
+@synthesize locationNameContent = _locationNameContent;
 @synthesize address1Label = _address1Label;
 @synthesize address2Label = _address2Label;
 @synthesize address3Label = _address3Label;
 @synthesize address4Label = _address4Label;
+@synthesize address1Content = _address1Content;
+@synthesize address2Content = _address2Content;
+@synthesize address3Content = _address3Content;
+@synthesize address4Content = _address4Content;
 //@synthesize totalOrderValueTitleLabel = _totalOrderValueTitleLabel;
 //@synthesize totalOrderValueContentLabel = _totalOrderValueContentLabel;
 @synthesize orderLineTableView = _orderLineTableView;
@@ -57,6 +62,7 @@
 @synthesize descrDetailIurLineValueHashMap = _descrDetailIurLineValueHashMap;
 @synthesize includePriceLabel = _includePriceLabel;
 @synthesize includePriceSwitch = _includePriceSwitch;
+@synthesize includePriceBoolValue = _includePriceBoolValue;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -138,10 +144,15 @@
 
 - (void)dealloc {
     self.locationNameLabel = nil;
+    self.locationNameContent = nil;
     self.address1Label = nil;
     self.address2Label = nil;
     self.address3Label = nil;
     self.address4Label = nil;
+    self.address1Content = nil;
+    self.address2Content = nil;
+    self.address3Content = nil;
+    self.address4Content = nil;
 //    self.totalOrderValueTitleLabel = nil;
 //    self.totalOrderValueContentLabel = nil;
     self.orderLineTableView = nil;
@@ -269,10 +280,20 @@
     [self.modalDelegate didDismissModalPresentViewController];
 }
 
+- (void)assignUIValueToMemory {
+    self.locationNameContent = self.locationNameLabel.text;
+    self.includePriceBoolValue = self.includePriceSwitch.isOn;
+    self.address1Content = self.address1Label.text;
+    self.address2Content = self.address2Label.text;
+    self.address3Content = self.address3Label.text;
+    self.address4Content = self.address4Label.text;
+}
+
 - (IBAction)printButtonPressed:(id)sender {
     self.printButton.enabled = NO;
     self.compositeErrorResult = [[[CompositeErrorResult alloc] init] autorelease];
     self.compositeErrorResult.successFlag = YES;
+    [self assignUIValueToMemory];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self performReceiptPrintingTask];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -353,6 +374,7 @@
     self.bothButton.enabled = NO;
     self.compositeErrorResult = [[[CompositeErrorResult alloc] init] autorelease];
     self.compositeErrorResult.successFlag = YES;
+    [self assignUIValueToMemory];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self performReceiptPrintingTask];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -478,7 +500,7 @@
     @"^A0N,25,25"\
     @"^FD%@^FS" \
     @"^XZ";
-    NSString* customerNameString = [NSString stringWithFormat:customerNameFormat, self.locationNameLabel.text];
+    NSString* customerNameString = [NSString stringWithFormat:customerNameFormat, self.locationNameContent];
     [[printer getToolsUtil] sendCommand:customerNameString error:&error];
 }
 
@@ -537,7 +559,7 @@
     @"^FD%@^FS";
 
     NSString* orderLineHeaderEndFormat = @"^XZ";
-    if (self.includePriceSwitch.isOn) {
+    if (self.includePriceBoolValue) {
         finalOrderLineHeaderFormat = [NSString stringWithFormat:@"%@%@%@",orderLineHeaderBeginFormat,orderLineHeaderValueFormat,orderLineHeaderEndFormat];
         orderLineHeaderString = [NSString stringWithFormat:finalOrderLineHeaderFormat, @"VC", @"Description", @"Qty", @"Bon", @"Value"];
     } else {
@@ -579,7 +601,7 @@
     @"^A0N,20,20"\
     @"^FD%.2f^FS";
     NSString* orderLineFooterEndFormat = @"^XZ";
-    if (self.includePriceSwitch.isOn) {
+    if (self.includePriceBoolValue) {
         finalOrderLineFooterFormat = [NSString stringWithFormat:@"%@%@%@",orderLineFooterBeginFormat, orderLineTotalGoodsFormat, orderLineFooterEndFormat];
         orderLineFooterString = [NSString stringWithFormat:finalOrderLineFooterFormat, [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", aTotalQty]], [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", aTotalBonus]], aTotalGoods];
         [[printer getToolsUtil] sendCommand:orderLineFooterString error:&error];
@@ -674,9 +696,9 @@
                         @"^FO0,125" \
                         @"^FB800,1,0,L,0"\
                         @"^A0N,25,25" \
-                        @"^FD%@^FS^XZ", self.address1Label.text, [ArcosUtils stringFromDate:[self.orderHeader objectForKey:@"orderDate"] format:[GlobalSharedClass shared].dateFormat],
-                         self.address2Label.text, self.address3Label.text
-                        , self.address4Label.text];
+                        @"^FD%@^FS^XZ", self.address1Content, [ArcosUtils stringFromDate:[self.orderHeader objectForKey:@"orderDate"] format:[GlobalSharedClass shared].dateFormat],
+                         self.address2Content, self.address3Content
+                        , self.address4Content];
     
     [[printer getToolsUtil] sendCommand:header error:&error];
     [self printOrderLineHeader:printer];
@@ -760,7 +782,7 @@
         @"^A0N,20,20"\
         @"^FD%.2f^FS";
         NSString* lineEndItem = @"^XZ";
-        if (self.includePriceSwitch.isOn) {
+        if (self.includePriceBoolValue) {
             lineItem = [NSString stringWithFormat:@"%@%@%@", lineBeginItem, lineValueFormat, lineEndItem];
             lineItemWithVars = [NSString stringWithFormat:lineItem, descrDetailCode, [ArcosUtils trim:[NSString stringWithFormat:@"%@ %@", orderPadDetailsSubString, details]], qtyStr, instockStr, bonusStr, focStr, lineValue];
         } else {

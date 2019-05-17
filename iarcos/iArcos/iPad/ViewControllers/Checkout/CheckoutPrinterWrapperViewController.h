@@ -33,10 +33,15 @@ typedef enum {
 //    id<CustomisePresentViewControllerDelegate> _myDelegate;
     id<ModalPresentViewControllerDelegate> _modalDelegate;
     UILabel* _locationNameLabel;
+    NSString* _locationNameContent;
     UILabel* _address1Label;
     UILabel* _address2Label;
     UILabel* _address3Label;
     UILabel* _address4Label;
+    NSString* _address1Content;
+    NSString* _address2Content;
+    NSString* _address3Content;
+    NSString* _address4Content;
 //    UILabel* _totalOrderValueTitleLabel;
 //    UILabel* _totalOrderValueContentLabel;
     UITableView* _orderLineTableView;
@@ -67,6 +72,7 @@ typedef enum {
     NSMutableDictionary* _descrDetailIurLineValueHashMap;
     UILabel* _includePriceLabel;
     UISwitch* _includePriceSwitch;
+    BOOL _includePriceBoolValue;
 }
 
 @property(nonatomic, assign) BOOL isOrderPadPrinterType;
@@ -74,10 +80,15 @@ typedef enum {
 //@property(nonatomic, assign) id<CustomisePresentViewControllerDelegate> myDelegate;
 @property(nonatomic, assign) id<ModalPresentViewControllerDelegate> modalDelegate;
 @property(nonatomic, retain) IBOutlet UILabel* locationNameLabel;
+@property(nonatomic, retain) NSString* locationNameContent;
 @property(nonatomic, retain) IBOutlet UILabel* address1Label;
 @property(nonatomic, retain) IBOutlet UILabel* address2Label;
 @property(nonatomic, retain) IBOutlet UILabel* address3Label;
 @property(nonatomic, retain) IBOutlet UILabel* address4Label;
+@property(nonatomic, retain) NSString* address1Content;
+@property(nonatomic, retain) NSString* address2Content;
+@property(nonatomic, retain) NSString* address3Content;
+@property(nonatomic, retain) NSString* address4Content;
 //@property(nonatomic, retain) IBOutlet UILabel* totalOrderValueTitleLabel;
 //@property(nonatomic, retain) IBOutlet UILabel* totalOrderValueContentLabel;
 @property(nonatomic, retain) IBOutlet UITableView* orderLineTableView;
@@ -106,6 +117,7 @@ typedef enum {
 @property (nonatomic, retain) NSMutableDictionary* descrDetailIurLineValueHashMap;
 @property(nonatomic, retain) IBOutlet UILabel* includePriceLabel;
 @property(nonatomic, retain) IBOutlet UISwitch* includePriceSwitch;
+@property(nonatomic, assign) BOOL includePriceBoolValue;
 
 - (IBAction)cancelButtonPressed:(id)sender;
 - (IBAction)printButtonPressed:(id)sender;
