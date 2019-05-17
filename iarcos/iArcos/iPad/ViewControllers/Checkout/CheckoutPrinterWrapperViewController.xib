@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="11762" systemVersion="16E195" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,6 +18,8 @@
                 <outlet property="bothButton" destination="Dz3-bj-d5k" id="jLl-Pa-ZRW"/>
                 <outlet property="cancelButton" destination="7ly-tC-svM" id="zK2-gI-ytJ"/>
                 <outlet property="drawingAreaView" destination="sLe-KM-p24" id="sDz-GX-BXy"/>
+                <outlet property="includePriceLabel" destination="va5-G9-l14" id="1OK-bJ-cnB"/>
+                <outlet property="includePriceSwitch" destination="OK5-gG-UZI" id="A4z-qU-mId"/>
                 <outlet property="locationNameLabel" destination="YhU-9z-SSN" id="sDO-NJ-5s7"/>
                 <outlet property="orderLineFooterView" destination="N58-Fe-Uib" id="AMf-6U-3dD"/>
                 <outlet property="orderLineHeaderView" destination="Xwe-JZ-GDC" id="CLu-0L-QU2"/>
@@ -46,7 +48,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ss2-94-qKN">
-                            <rect key="frame" x="20" y="35" width="500" height="21"/>
+                            <rect key="frame" x="20" y="35" width="342" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="Ldj-yc-8Ys"/>
                             </constraints>
@@ -149,14 +151,33 @@
                                 <action selector="bothButtonPressed:" destination="-1" eventType="touchUpInside" id="j0R-bh-v5N"/>
                             </connections>
                         </button>
+                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="OK5-gG-UZI">
+                            <rect key="frame" x="469" y="30" width="49" height="31"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="47" id="6pJ-Zy-l8z"/>
+                                <constraint firstAttribute="height" constant="31" id="ZhS-tq-FGJ"/>
+                            </constraints>
+                        </switch>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Include Price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="va5-G9-l14">
+                            <rect key="frame" x="368" y="35" width="99" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="99" id="AAj-8Z-BpU"/>
+                                <constraint firstAttribute="height" constant="21" id="dl0-mj-4Og"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <constraints>
                         <constraint firstItem="zVa-7q-S1n" firstAttribute="top" secondItem="0v9-Wg-sob" secondAttribute="bottom" constant="4" id="0pT-TG-HEi"/>
                         <constraint firstItem="dqk-vC-Rfp" firstAttribute="width" secondItem="PFa-lq-SGy" secondAttribute="width" id="3rf-rH-rnW"/>
                         <constraint firstItem="7ly-tC-svM" firstAttribute="leading" secondItem="Dz3-bj-d5k" secondAttribute="trailing" constant="20" id="8YT-4k-Y1T"/>
+                        <constraint firstItem="va5-G9-l14" firstAttribute="leading" secondItem="Ss2-94-qKN" secondAttribute="trailing" constant="6" id="8ki-cC-mfe"/>
                         <constraint firstItem="PFa-lq-SGy" firstAttribute="leading" secondItem="cDd-is-4An" secondAttribute="leading" constant="20" id="AGi-Fb-Q79"/>
                         <constraint firstItem="Dz3-bj-d5k" firstAttribute="width" secondItem="PFa-lq-SGy" secondAttribute="width" id="Akr-GB-Wq6"/>
                         <constraint firstAttribute="bottom" secondItem="dqk-vC-Rfp" secondAttribute="bottom" constant="10" id="G3b-nZ-Zrv"/>
+                        <constraint firstAttribute="trailing" secondItem="OK5-gG-UZI" secondAttribute="trailing" constant="24" id="L8h-ds-Q9k"/>
                         <constraint firstItem="sLe-KM-p24" firstAttribute="leading" secondItem="cDd-is-4An" secondAttribute="leading" constant="20" id="LcL-ms-W4U"/>
                         <constraint firstAttribute="bottom" secondItem="Dz3-bj-d5k" secondAttribute="bottom" constant="10" id="NL0-Kh-klH"/>
                         <constraint firstItem="Ss2-94-qKN" firstAttribute="leading" secondItem="YhU-9z-SSN" secondAttribute="leading" id="OvE-Gy-Fxk"/>
@@ -165,18 +186,20 @@
                         <constraint firstAttribute="width" constant="540" id="VJB-H2-ImV"/>
                         <constraint firstItem="zVa-7q-S1n" firstAttribute="leading" secondItem="YhU-9z-SSN" secondAttribute="leading" id="W5w-Hu-01s"/>
                         <constraint firstAttribute="bottom" secondItem="PFa-lq-SGy" secondAttribute="bottom" constant="10" id="WIG-Ly-j7A"/>
+                        <constraint firstItem="va5-G9-l14" firstAttribute="top" secondItem="YhU-9z-SSN" secondAttribute="bottom" constant="4" id="WQH-pJ-BJ8"/>
                         <constraint firstItem="0v9-Wg-sob" firstAttribute="trailing" secondItem="YhU-9z-SSN" secondAttribute="trailing" id="Ymf-gf-fuW"/>
                         <constraint firstItem="Kzv-TW-xNb" firstAttribute="leading" secondItem="cDd-is-4An" secondAttribute="leading" constant="20" id="ZR6-oU-fPW"/>
                         <constraint firstItem="b3z-Ot-VNB" firstAttribute="leading" secondItem="cDd-is-4An" secondAttribute="leading" constant="20" id="a9q-lO-kDm"/>
                         <constraint firstAttribute="trailing" secondItem="YhU-9z-SSN" secondAttribute="trailing" constant="20" id="aHZ-ky-tNK"/>
+                        <constraint firstItem="OK5-gG-UZI" firstAttribute="top" secondItem="cDd-is-4An" secondAttribute="top" constant="30" id="bK4-SQ-GBe"/>
                         <constraint firstItem="PBO-KH-Jrg" firstAttribute="trailing" secondItem="YhU-9z-SSN" secondAttribute="trailing" id="c0I-Bo-GUz"/>
                         <constraint firstAttribute="trailing" secondItem="Kzv-TW-xNb" secondAttribute="trailing" constant="20" id="cpM-bq-OWy"/>
                         <constraint firstAttribute="bottom" secondItem="b3z-Ot-VNB" secondAttribute="bottom" constant="50" id="f2A-s8-IPV"/>
                         <constraint firstItem="b3z-Ot-VNB" firstAttribute="top" secondItem="sLe-KM-p24" secondAttribute="bottom" constant="8" id="fFt-0V-kFc"/>
+                        <constraint firstItem="OK5-gG-UZI" firstAttribute="leading" secondItem="va5-G9-l14" secondAttribute="trailing" constant="2" id="ghs-VU-3fN"/>
                         <constraint firstAttribute="height" constant="620" id="hpD-BP-NaA"/>
                         <constraint firstItem="Dz3-bj-d5k" firstAttribute="leading" secondItem="dqk-vC-Rfp" secondAttribute="trailing" constant="20" id="iYA-ks-1zM"/>
                         <constraint firstItem="YhU-9z-SSN" firstAttribute="leading" secondItem="cDd-is-4An" secondAttribute="leading" constant="20" id="jV4-S0-roV"/>
-                        <constraint firstItem="Ss2-94-qKN" firstAttribute="trailing" secondItem="YhU-9z-SSN" secondAttribute="trailing" id="jYH-dC-NUV"/>
                         <constraint firstItem="7ly-tC-svM" firstAttribute="width" secondItem="PFa-lq-SGy" secondAttribute="width" id="jea-1y-YWO"/>
                         <constraint firstItem="Ss2-94-qKN" firstAttribute="top" secondItem="YhU-9z-SSN" secondAttribute="bottom" constant="4" id="qAU-J8-DpS"/>
                         <constraint firstItem="zVa-7q-S1n" firstAttribute="trailing" secondItem="YhU-9z-SSN" secondAttribute="trailing" id="qqn-ix-Npi"/>
@@ -198,7 +221,7 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <modalFormSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="25" y="53"/>
+            <point key="canvasLocation" x="19.53125" y="31.054687499999996"/>
         </view>
         <view contentMode="scaleToFill" id="Xwe-JZ-GDC" customClass="CheckoutPrinterOrderLineHeaderView">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -264,7 +287,7 @@
                 <outlet property="desc" destination="RHq-12-LIM" id="AD6-sZ-wwm"/>
                 <outlet property="qty" destination="N8P-as-Zsr" id="9Na-C1-hyc"/>
             </connections>
-            <point key="canvasLocation" x="91" y="509"/>
+            <point key="canvasLocation" x="71.09375" y="298.2421875"/>
         </view>
         <view contentMode="scaleToFill" id="N58-Fe-Uib" customClass="CheckoutPrinterOrderLineFooterView">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -330,12 +353,7 @@
                 <outlet property="totalBon" destination="F1q-e5-ycL" id="6Dh-D3-x2N"/>
                 <outlet property="totalQty" destination="and-jv-wOe" id="Tnf-Wm-fdy"/>
             </connections>
-            <point key="canvasLocation" x="91" y="630"/>
+            <point key="canvasLocation" x="71.09375" y="369.140625"/>
         </view>
     </objects>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination"/>
-    </simulatedMetricsContainer>
 </document>

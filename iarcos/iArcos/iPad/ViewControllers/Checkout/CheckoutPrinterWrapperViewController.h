@@ -65,6 +65,8 @@ typedef enum {
     NSMutableArray* _descrDetailDictList;
     NSMutableDictionary* _descrDetailDictHashMap;
     NSMutableDictionary* _descrDetailIurLineValueHashMap;
+    UILabel* _includePriceLabel;
+    UISwitch* _includePriceSwitch;
 }
 
 @property(nonatomic, assign) BOOL isOrderPadPrinterType;
@@ -102,6 +104,8 @@ typedef enum {
 @property (nonatomic, retain) NSMutableArray* descrDetailDictList;
 @property (nonatomic, retain) NSMutableDictionary* descrDetailDictHashMap;
 @property (nonatomic, retain) NSMutableDictionary* descrDetailIurLineValueHashMap;
+@property(nonatomic, retain) IBOutlet UILabel* includePriceLabel;
+@property(nonatomic, retain) IBOutlet UISwitch* includePriceSwitch;
 
 - (IBAction)cancelButtonPressed:(id)sender;
 - (IBAction)printButtonPressed:(id)sender;

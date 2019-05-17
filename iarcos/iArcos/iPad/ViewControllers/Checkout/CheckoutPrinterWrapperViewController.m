@@ -55,6 +55,8 @@
 @synthesize descrDetailDictList = _descrDetailDictList;
 @synthesize descrDetailDictHashMap = _descrDetailDictHashMap;
 @synthesize descrDetailIurLineValueHashMap = _descrDetailIurLineValueHashMap;
+@synthesize includePriceLabel = _includePriceLabel;
+@synthesize includePriceSwitch = _includePriceSwitch;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -166,6 +168,8 @@
     self.descrDetailDictList = nil;
     self.descrDetailDictHashMap = nil;
     self.descrDetailIurLineValueHashMap = nil;
+    self.includePriceLabel = nil;
+    self.includePriceSwitch = nil;
     
     [super dealloc];
 }
@@ -495,8 +499,10 @@
 }
 
 - (void)printOrderLineHeader:(id<NSObject,ZebraPrinter>)printer {
-    NSError* error = nil;    
-    NSString* orderLineHeaderFormat =
+    NSError* error = nil;
+    NSString* finalOrderLineHeaderFormat = @"";
+    NSString* orderLineHeaderString = @"";
+    NSString* orderLineHeaderBeginFormat =
     @"^XA^POI^PW800^MNN^LL40^LH0,0" \
     @"^FO0,5"\
     @"^FB45,1,0,L,0"\
@@ -515,15 +521,30 @@
     @"^FO650,5"\
     @"^FB65,1,0,L,0"\
     @"^A0N,20,20"\
-    @"^FD%@^FS" \
+    @"^FD%@^FS";
+//    \
     
+//    @"^FO715,5"\
+//    @"^FB75,1,0,R,0"\
+//    @"^A0N,20,20"\
+//    @"^FD%@^FS" \
+//
+//    @"^XZ";
+    NSString* orderLineHeaderValueFormat =
     @"^FO715,5"\
     @"^FB75,1,0,R,0"\
     @"^A0N,20,20"\
-    @"^FD%@^FS" \
-    
-    @"^XZ";
-    NSString* orderLineHeaderString = [NSString stringWithFormat:orderLineHeaderFormat, @"VC", @"Description", @"Qty", @"Bon", @"Value"];
+    @"^FD%@^FS";
+
+    NSString* orderLineHeaderEndFormat = @"^XZ";
+    if (self.includePriceSwitch.isOn) {
+        finalOrderLineHeaderFormat = [NSString stringWithFormat:@"%@%@%@",orderLineHeaderBeginFormat,orderLineHeaderValueFormat,orderLineHeaderEndFormat];
+        orderLineHeaderString = [NSString stringWithFormat:finalOrderLineHeaderFormat, @"VC", @"Description", @"Qty", @"Bon", @"Value"];
+    } else {
+        finalOrderLineHeaderFormat = [NSString stringWithFormat:@"%@%@",orderLineHeaderBeginFormat,orderLineHeaderEndFormat];
+        orderLineHeaderString = [NSString stringWithFormat:finalOrderLineHeaderFormat, @"VC", @"Description", @"Qty", @"Bon"];
+    }
+//    NSString* orderLineHeaderString = [NSString stringWithFormat:orderLineHeaderFormat, @"VC", @"Description", @"Qty", @"Bon", @"Value"];
     [[printer getToolsUtil] sendCommand:orderLineHeaderString error:&error];
 }
 
@@ -534,8 +555,9 @@
     @"^GB800,0,1^FS"\
     @"^XZ";
     [[printer getToolsUtil] sendCommand:horizontalLine error:&error];
-    
-    NSString* orderLineFooterFormat =
+    NSString* finalOrderLineFooterFormat = @"";
+    NSString* orderLineFooterString = @"";
+    NSString* orderLineFooterBeginFormat =
     @"^XA^POI^PW800^MNN^LL40^LH0,0" \
     @"^FO585,5"\
     @"^FB45,1,0,R,0"\
@@ -544,22 +566,46 @@
     @"^FO650,5"\
     @"^FB45,1,0,R,0"\
     @"^A0N,20,20"\
-    @"^FD%@^FS" \
+    @"^FD%@^FS";
+//    \
+//    @"^FO715,5"\
+//    @"^FB75,1,0,R,0"\
+//    @"^A0N,20,20"\
+//    @"^FD%.2f^FS" \
+//    @"^XZ";
+    NSString* orderLineTotalGoodsFormat =
     @"^FO715,5"\
     @"^FB75,1,0,R,0"\
     @"^A0N,20,20"\
-    @"^FD%.2f^FS" \
-    @"^XZ";
-    NSString* orderLineFooterString = [NSString stringWithFormat:orderLineFooterFormat, [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", aTotalQty]], [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", aTotalBonus]], aTotalGoods];
-    [[printer getToolsUtil] sendCommand:orderLineFooterString error:&error];
-    float totalDueValue = aTotalGoods;
-    for (int i = 0; i < [self.descrDetailDictList count]; i++) {
-        NSDictionary* auxDescrDetailDict = [self.descrDetailDictList objectAtIndex:i];
-        NSNumber* descrDetailIUR = [auxDescrDetailDict objectForKey:@"DescrDetailIUR"];
-        NSNumber* sumLineValue = [self.descrDetailIurLineValueHashMap objectForKey:descrDetailIUR];
-        float vatValue = [sumLineValue floatValue] / 100.0 * [[auxDescrDetailDict objectForKey:@"Dec1"] floatValue];
-        totalDueValue += vatValue;
-        NSString* vatValueLineFormat =
+    @"^FD%.2f^FS";
+    NSString* orderLineFooterEndFormat = @"^XZ";
+    if (self.includePriceSwitch.isOn) {
+        finalOrderLineFooterFormat = [NSString stringWithFormat:@"%@%@%@",orderLineFooterBeginFormat, orderLineTotalGoodsFormat, orderLineFooterEndFormat];
+        orderLineFooterString = [NSString stringWithFormat:finalOrderLineFooterFormat, [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", aTotalQty]], [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", aTotalBonus]], aTotalGoods];
+        [[printer getToolsUtil] sendCommand:orderLineFooterString error:&error];
+        float totalDueValue = aTotalGoods;
+        for (int i = 0; i < [self.descrDetailDictList count]; i++) {
+            NSDictionary* auxDescrDetailDict = [self.descrDetailDictList objectAtIndex:i];
+            NSNumber* descrDetailIUR = [auxDescrDetailDict objectForKey:@"DescrDetailIUR"];
+            NSNumber* sumLineValue = [self.descrDetailIurLineValueHashMap objectForKey:descrDetailIUR];
+            float vatValue = [sumLineValue floatValue] / 100.0 * [[auxDescrDetailDict objectForKey:@"Dec1"] floatValue];
+            totalDueValue += vatValue;
+            NSString* vatValueLineFormat =
+            @"^XA^POI^PW800^MNN^LL40^LH0,0" \
+            @"^FO0,5"\
+            @"^FB695,1,0,R,0"\
+            @"^A0N,20,20"\
+            @"^FD%@^FS" \
+            @"^FO715,5"\
+            @"^FB75,1,0,R,0"\
+            @"^A0N,20,20"\
+            @"^FD%.2f^FS" \
+            @"^XZ";
+            NSString* vatValueDesc = [NSString stringWithFormat:@"%@ - %@", [ArcosUtils convertNilToEmpty:[auxDescrDetailDict objectForKey:@"DescrDetailCode"]], [ArcosUtils convertNilToEmpty:[auxDescrDetailDict objectForKey:@"Detail"]]];
+            NSString* vatValueLineString = [NSString stringWithFormat:vatValueLineFormat, vatValueDesc, vatValue];
+            [[printer getToolsUtil] sendCommand:vatValueLineString error:&error];
+        }
+        NSString* totalDueLineFormat =
         @"^XA^POI^PW800^MNN^LL40^LH0,0" \
         @"^FO0,5"\
         @"^FB695,1,0,R,0"\
@@ -570,23 +616,15 @@
         @"^A0N,20,20"\
         @"^FD%.2f^FS" \
         @"^XZ";
-        NSString* vatValueDesc = [NSString stringWithFormat:@"%@ - %@", [ArcosUtils convertNilToEmpty:[auxDescrDetailDict objectForKey:@"DescrDetailCode"]], [ArcosUtils convertNilToEmpty:[auxDescrDetailDict objectForKey:@"Detail"]]];
-        NSString* vatValueLineString = [NSString stringWithFormat:vatValueLineFormat, vatValueDesc, vatValue];
-        [[printer getToolsUtil] sendCommand:vatValueLineString error:&error];
+        NSString* totalDueLineString = [NSString stringWithFormat:totalDueLineFormat, @"Total Due", totalDueValue];
+        [[printer getToolsUtil] sendCommand:totalDueLineString error:&error];
+    } else {
+        finalOrderLineFooterFormat = [NSString stringWithFormat:@"%@%@",orderLineFooterBeginFormat, orderLineFooterEndFormat];
+        orderLineFooterString = [NSString stringWithFormat:finalOrderLineFooterFormat, [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", aTotalQty]], [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", aTotalBonus]]];
+        [[printer getToolsUtil] sendCommand:orderLineFooterString error:&error];
     }
-    NSString* totalDueLineFormat =
-    @"^XA^POI^PW800^MNN^LL40^LH0,0" \
-    @"^FO0,5"\
-    @"^FB695,1,0,R,0"\
-    @"^A0N,20,20"\
-    @"^FD%@^FS" \
-    @"^FO715,5"\
-    @"^FB75,1,0,R,0"\
-    @"^A0N,20,20"\
-    @"^FD%.2f^FS" \
-    @"^XZ";
-    NSString* totalDueLineString = [NSString stringWithFormat:totalDueLineFormat, @"Total Due", totalDueValue];
-    [[printer getToolsUtil] sendCommand:totalDueLineString error:&error];
+//    NSString* orderLineFooterString = [NSString stringWithFormat:orderLineFooterFormat, [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", aTotalQty]], [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", aTotalBonus]], aTotalGoods];
+    
 }
 
 - (void)printCustRef:(id<NSObject,ZebraPrinter>)printer {
@@ -680,7 +718,9 @@
         auxTotalQty += [qty intValue];
         auxTotalBonus += [bonus intValue];
         auxTotalGoods += lineValue;
-        NSString* lineItem =
+        NSString* lineItem = @"";
+        NSString* lineItemWithVars = @"";
+        NSString* lineBeginItem =
         @"^XA^POI^PW800^MNN^LL40^LH0,0" \
         @"^FO0,5"\
         @"^FB45,1,0,L,0"\
@@ -706,14 +746,28 @@
         @"^FO695,10"\
         @"^FB20,1,0,L,0"\
         @"^A0N,20,20"\
-        @"^FD%@^FS" \
+        @"^FD%@^FS";
+//        \
+//        @"^FO715,5"\
+//        @"^FB75,1,0,R,0"\
+//        @"^A0N,20,20"\
+//        @"^FD%.2f^FS" \
+//
+//        @"^XZ";
+        NSString* lineValueFormat =
         @"^FO715,5"\
         @"^FB75,1,0,R,0"\
         @"^A0N,20,20"\
-        @"^FD%.2f^FS" \
-        @"^XZ";
-        
-        NSString* lineItemWithVars = [NSString stringWithFormat:lineItem, descrDetailCode, [ArcosUtils trim:[NSString stringWithFormat:@"%@ %@", orderPadDetailsSubString, details]], qtyStr, instockStr, bonusStr, focStr, lineValue];
+        @"^FD%.2f^FS";
+        NSString* lineEndItem = @"^XZ";
+        if (self.includePriceSwitch.isOn) {
+            lineItem = [NSString stringWithFormat:@"%@%@%@", lineBeginItem, lineValueFormat, lineEndItem];
+            lineItemWithVars = [NSString stringWithFormat:lineItem, descrDetailCode, [ArcosUtils trim:[NSString stringWithFormat:@"%@ %@", orderPadDetailsSubString, details]], qtyStr, instockStr, bonusStr, focStr, lineValue];
+        } else {
+            lineItem = [NSString stringWithFormat:@"%@%@", lineBeginItem, lineEndItem];
+            lineItemWithVars = [NSString stringWithFormat:lineItem, descrDetailCode, [ArcosUtils trim:[NSString stringWithFormat:@"%@ %@", orderPadDetailsSubString, details]], qtyStr, instockStr, bonusStr, focStr];
+        }
+//        NSString* lineItemWithVars = [NSString stringWithFormat:lineItem, descrDetailCode, [ArcosUtils trim:[NSString stringWithFormat:@"%@ %@", orderPadDetailsSubString, details]], qtyStr, instockStr, bonusStr, focStr, lineValue];
         [[printer getToolsUtil] sendCommand:lineItemWithVars error:&error];
     }
     [self printOrderLineFooter:printer totalQty:auxTotalQty totalBonus:auxTotalBonus totalGoods:auxTotalGoods];
