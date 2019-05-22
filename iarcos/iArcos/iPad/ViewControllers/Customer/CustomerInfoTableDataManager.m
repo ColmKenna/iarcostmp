@@ -105,7 +105,7 @@
         self.accessTimesLabel = @"Access Times";
         self.faxNumberIndex = 0;
         self.creditStatusIndex = 0;
-        self.headerItemList = [NSMutableArray arrayWithObjects:@"Address", @"Address2", @"Address3", @"Address4", @"Phone Number", @"Email", self.lastCallLabel, nil];
+        self.headerItemList = [NSMutableArray arrayWithObjects:@"Address", @"Address2", @"Address3", @"Address4", @"Address5", @"Phone Number", @"Email", self.lastCallLabel, nil];
         self.moreFooterItemList = [NSMutableArray arrayWithObjects:self.faxNumberLabel, self.creditStatusLabel, @"Location Type", @"Location Status", @"Location Code", @"Member Of", self.accessTimesLabel, self.buyingGroupLabel, nil];
 //        self.weekdayHashtable = [NSMutableDictionary dictionaryWithCapacity:7];
 //        [self.weekdayHashtable setObject:@"Sunday" forKey:[NSNumber numberWithInt:0]];

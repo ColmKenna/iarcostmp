@@ -347,6 +347,7 @@
     Location.PriceOverride = [NSNumber numberWithInt:priceOverrideIntValue];
     Location.CUiur = [ArcosUtils convertStringToNumber:anObject.Field42];
     Location.DialupNumber = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field43]];
+    Location.Address5            =    [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field44]];
     
     return Location;
 }
@@ -403,6 +404,7 @@
     Location.PriceOverride = [NSNumber numberWithInt:priceOverrideIntValue];
     Location.CUiur                =    [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:41]];
     Location.DialupNumber = [ArcosUtils convertToString:[aFieldList objectAtIndex:42]];
+    Location.Address5            =    [ArcosUtils convertToString:[aFieldList objectAtIndex:43]];
     
     return Location;
 }

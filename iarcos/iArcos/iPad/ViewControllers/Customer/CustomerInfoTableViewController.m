@@ -301,7 +301,7 @@
         }
         
         CustomerInfoCell* aCell=(CustomerInfoCell*)cell;
-        if (indexPath.row<1||indexPath.row>3) {
+        if (indexPath.row<1||indexPath.row>4) {
             NSString* tmpCustKey = [self.customerInfoTableDataManager.custKeyList objectAtIndex:indexPath.row];
             if (indexPath.row > self.customerInfoTableDataManager.buyingGroupIndex && [tmpCustKey hasPrefix:self.customerInfoTableDataManager.buyingGroupLabel]) {
                 aCell.infoTitle.text=@"";
@@ -313,12 +313,12 @@
 
         }
         aCell.infoValue.text=[self.aCustDict objectForKey:[self.customerInfoTableDataManager.custKeyList objectAtIndex:indexPath.row]];
-        if (indexPath.row == 5 && aCell.infoValue.text != nil && ![aCell.infoValue.text isEqualToString:@""]) {
+        if (indexPath.row == 6 && aCell.infoValue.text != nil && ![aCell.infoValue.text isEqualToString:@""]) {
             NSDictionary* underlineAttribute = @{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)};
             aCell.infoValue.attributedText = [[[NSAttributedString alloc] initWithString:[self.aCustDict objectForKey:[self.customerInfoTableDataManager.custKeyList objectAtIndex:indexPath.row]] attributes:underlineAttribute] autorelease];
             aCell.infoValue.textColor = [UIColor blueColor];
             aCell.accessoryType = UITableViewCellAccessoryNone;
-        } else if (indexPath.row == 6 && aCell.infoValue.text != nil && ![aCell.infoValue.text isEqualToString:@""]) {
+        } else if (indexPath.row == 7 && aCell.infoValue.text != nil && ![aCell.infoValue.text isEqualToString:@""]) {
             aCell.infoValue.textColor = [UIColor blackColor];
             aCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else {
@@ -391,7 +391,7 @@
         }
         
         //email checking
-        if (indexPath.row == 5) {
+        if (indexPath.row == 6) {
             CustomerInfoCell* aCell = (CustomerInfoCell*)[self.tableView cellForRowAtIndexPath:indexPath];
             if (aCell.infoValue.text != nil && ![aCell.infoValue.text isEqualToString:@""]) {
                 NSMutableArray* toRecipients = [NSMutableArray arrayWithObjects:aCell.infoValue.text, nil];
@@ -423,7 +423,7 @@
                 [self.rootView presentViewController:self.mailController animated:YES completion:nil];
             }            
         }
-        if (indexPath.row == 6 && [self.aCustDict objectForKey:@"LastOrderNumber"] != nil) {//last call
+        if (indexPath.row == 7 && [self.aCustDict objectForKey:@"LastOrderNumber"] != nil) {//last call
             NSMutableArray* tmpObjectList = [[ArcosCoreData sharedArcosCoreData] lastOrderWithOrderNumber:[self.aCustDict objectForKey:@"LastOrderNumber"]];
             if ([tmpObjectList count] > 0) {
                 NSDictionary* tmpDict = [tmpObjectList objectAtIndex:0];
