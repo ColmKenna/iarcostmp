@@ -84,6 +84,9 @@
         case WidgetDataSourceOrderDate:
             wvc=[[[DatePickerWidgetViewController alloc]initWithType:DatePickerOrderDateType pickerFormatType:aPickerFormatType]autorelease];
             break;
+        case WidgetDataSourceNormalDate:
+            wvc=[[[DatePickerWidgetViewController alloc]initWithType:DatePickerNormalDateType pickerFormatType:aPickerFormatType]autorelease];
+            break;
         default:
             break;
     }

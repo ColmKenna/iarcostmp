@@ -4817,6 +4817,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 
 -(void)executeTransaction {
     if (1==1) {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"IUR = 158386"];
+        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Presenter" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
+        if ([objectsArray count] > 0) {
+            for (Presenter* aPresenter in objectsArray) {
+                aPresenter.OrderLevel = [NSNumber numberWithInt:3];
+                aPresenter.L3code = @"Pamex";
+                [self saveContext:self.fetchManagedObjectContext];
+            }
+        }
+    }
+    if (1==1) {
         NSPredicate* predicate = [NSPredicate predicateWithFormat:@"LocationIUR = 161079"];
         NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Location" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
         if ([objectsArray count] > 0) {
@@ -4900,7 +4911,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         promotion.IUR = [NSNumber numberWithInt:160429];
         promotion.MemoIUr = [NSNumber numberWithInt:161079];
         promotion.ProductIUR = [NSNumber numberWithInt:160429];
-        promotion.Advertfiles = @"10|20|30|40|50|1.21|2.22|3.33|4.44|5.55";
+        promotion.Advertfiles = @"10~20~30~40~50~1.21~2.22~3.33~4.44~5.55";
         
         [self saveContext:context];
     }
@@ -4911,7 +4922,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         promotion.IUR = [NSNumber numberWithInt:160430];
         promotion.MemoIUr = [NSNumber numberWithInt:161080];
         promotion.ProductIUR = [NSNumber numberWithInt:160429];
-        promotion.Advertfiles = @"10|20|30|40|50|1.71|2.72|3.73|4.74|5.75";
+        promotion.Advertfiles = @"10~20~30~40~50~1.71~2.72~3.73~4.74~5.75";
         
         [self saveContext:context];
     }

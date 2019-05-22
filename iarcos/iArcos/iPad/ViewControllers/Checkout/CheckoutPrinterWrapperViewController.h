@@ -34,6 +34,7 @@ typedef enum {
     id<ModalPresentViewControllerDelegate> _modalDelegate;
     UILabel* _locationNameLabel;
     NSString* _locationNameContent;
+    NSString* _locationCodeContent;
     UILabel* _address1Label;
     UILabel* _address2Label;
     UILabel* _address3Label;
@@ -81,6 +82,7 @@ typedef enum {
 @property(nonatomic, assign) id<ModalPresentViewControllerDelegate> modalDelegate;
 @property(nonatomic, retain) IBOutlet UILabel* locationNameLabel;
 @property(nonatomic, retain) NSString* locationNameContent;
+@property(nonatomic, retain) NSString* locationCodeContent;
 @property(nonatomic, retain) IBOutlet UILabel* address1Label;
 @property(nonatomic, retain) IBOutlet UILabel* address2Label;
 @property(nonatomic, retain) IBOutlet UILabel* address3Label;

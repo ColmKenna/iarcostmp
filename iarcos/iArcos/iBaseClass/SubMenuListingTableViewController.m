@@ -15,6 +15,7 @@
 - (void)selectCurrentIndexPathRow:(NSIndexPath*)aCurrentIndexPath;
 - (void)fillDataByIndexPath:(NSIndexPath*)anIndexPath;
 - (void)addPhoto;
+- (void)addJourneyAppointment;
 - (NSIndexPath*)retrieveIndexPathWithTitle:(NSString*)aTitle;
 @end
 
@@ -41,6 +42,7 @@
 @synthesize CLController = _CLController;
 @synthesize subMenuListingDataManager = _subMenuListingDataManager;
 @synthesize locationCoordinateCaptured = _locationCoordinateCaptured;
+@synthesize appointmentTitle = _appointmentTitle;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -55,17 +57,20 @@
         self.myCustomControllerTitle = @"MyCustomController";
         self.mapTitle = @"Map";
         self.photosTitle = @"Photos";
+        self.appointmentTitle = @"Diary";
         self.ruleoutTitleDict = [NSMutableDictionary dictionaryWithCapacity:2];
         [self.ruleoutTitleDict setObject:self.orderTitle forKey:self.orderTitle];
         [self.ruleoutTitleDict setObject:self.presenterTitle forKey:self.presenterTitle];
         [self.ruleoutTitleDict setObject:self.mapTitle forKey:self.mapTitle];
         [self.ruleoutTitleDict setObject:self.photosTitle forKey:self.photosTitle];
+        [self.ruleoutTitleDict setObject:self.appointmentTitle forKey:self.appointmentTitle];
         NSMutableDictionary* orderCellData = [self createItemCellData:self.orderTitle imageFile:@"CheckoutIcon.png"];
         NSMutableDictionary* presenterCellData = [self createItemCellData:self.presenterTitle imageFile:@"PresenterIcon.png"];
         NSMutableDictionary* callCellData = [self createItemCellData:self.callTitle imageFile:@"CallIcon.png"];
         NSMutableDictionary* surveyCellData = [self createItemCellData:self.surveyTitle imageFile:@"OrderIcon.png"];
         NSMutableDictionary* mapCellData = [self createItemCellData:self.mapTitle imageFile:@"MapIcon.png"];
         NSMutableDictionary* photosCellData = [self createItemCellData:self.photosTitle imageFile:@"Camera.png"];
+//        NSMutableDictionary* appointmentCellData = [self createItemCellData:self.appointmentTitle imageFile:@"appointment.png"]; , appointmentCellData
         
         self.displayList = [NSMutableArray arrayWithObjects:orderCellData, presenterCellData, callCellData, surveyCellData, mapCellData, photosCellData, nil];
         self.CLController = [[[CoreLocationController alloc] init] autorelease];
@@ -95,6 +100,7 @@
     self.myCustomControllerTitle = nil;
     self.mapTitle = nil;
     self.photosTitle = nil;
+    self.appointmentTitle = nil;
     self.ruleoutTitleDict = nil;
     [self deleteAllObjectsCreated];
     self.CLController = nil;
@@ -221,6 +227,10 @@
     }
     if ([myTitle isEqualToString:self.photosTitle]) {
         [self addPhoto];
+        return;
+    }
+    if ([myTitle isEqualToString:self.appointmentTitle]) {
+        [self addJourneyAppointment];
         return;
     }
     UIViewController* myViewController = [cellDict objectForKey:self.myCustomControllerTitle];
@@ -418,6 +428,22 @@
     [[self.subMenuDelegate retrieveMasterViewController] presentViewController:imagePicker animated:YES completion:nil];
     [imagePicker release];
     
+}
+
+- (void)addJourneyAppointment {
+    CustomerJourneyAppointmentViewController* cjavc = [[CustomerJourneyAppointmentViewController alloc] initWithNibName:@"CustomerJourneyAppointmentViewController" bundle:nil];
+    cjavc.modalDelegate = self;
+    UINavigationController* auxNavigationController = [[UINavigationController alloc] initWithRootViewController:cjavc];
+    auxNavigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    auxNavigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [[self.subMenuDelegate retrieveMasterViewController] presentViewController:auxNavigationController animated:YES completion:nil];
+    [auxNavigationController release];
+    [cjavc release];
+}
+
+#pragma mark ModalPresentViewControllerDelegate
+- (void)didDismissModalPresentViewController {
+    [[self.subMenuDelegate retrieveMasterViewController] dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark image piker delegate

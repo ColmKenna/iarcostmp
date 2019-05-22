@@ -17,8 +17,9 @@
 #import "CoreLocationController.h"
 #import "SubMenuListingDataManager.h"
 #import "MainPresenterTableViewController.h"
+#import "CustomerJourneyAppointmentViewController.h"
 
-@interface SubMenuListingTableViewController : SubMenuTableViewController<SubMenuTableViewControllerDelegate, CoreLocationControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate> {
+@interface SubMenuListingTableViewController : SubMenuTableViewController<SubMenuTableViewControllerDelegate, CoreLocationControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,ModalPresentViewControllerDelegate> {
     NewOrderViewController* _myNewOrderViewController;
     UINavigationController* _myNewOrderNavigationController;
     DetailingTableViewController* _detailingTableViewController;
@@ -36,6 +37,7 @@
     NSString* _myCustomControllerTitle;
     NSString* _mapTitle;
     NSString* _photosTitle;
+    NSString* _appointmentTitle;
     NSMutableDictionary* _ruleoutTitleDict;
     CoreLocationController* _CLController;
     SubMenuListingDataManager* _subMenuListingDataManager;
@@ -59,6 +61,7 @@
 @property(nonatomic, retain) NSString* myCustomControllerTitle;
 @property(nonatomic, retain) NSString* mapTitle;
 @property(nonatomic, retain) NSString* photosTitle;
+@property(nonatomic, retain) NSString* appointmentTitle;
 @property(nonatomic, retain) NSMutableDictionary* ruleoutTitleDict;
 @property(nonatomic, retain) CoreLocationController* CLController;
 @property(nonatomic, retain) SubMenuListingDataManager* subMenuListingDataManager;

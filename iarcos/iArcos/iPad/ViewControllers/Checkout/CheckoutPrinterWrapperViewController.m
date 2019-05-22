@@ -26,6 +26,7 @@
 @synthesize modalDelegate = _modalDelegate;
 @synthesize locationNameLabel = _locationNameLabel;
 @synthesize locationNameContent = _locationNameContent;
+@synthesize locationCodeContent = _locationCodeContent;
 @synthesize address1Label = _address1Label;
 @synthesize address2Label = _address2Label;
 @synthesize address3Label = _address3Label;
@@ -85,6 +86,7 @@
     [self.orderLineTableView setSeparatorColor:myColor];
     
     self.locationNameLabel.text = [self.orderHeader objectForKey:@"CustName"];
+    self.locationCodeContent = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[self.orderHeader objectForKey:@"LocationCode"]]];
     self.address1Label.text = [self.orderHeader objectForKey:@"Address1"];
     self.address2Label.text = [self.orderHeader objectForKey:@"Address2"];
     self.address3Label.text = [self.orderHeader objectForKey:@"Address3"];
@@ -109,6 +111,7 @@
         if (locationList != nil && [locationList count] > 0) {
             NSDictionary* locationDict = [locationList objectAtIndex:0];
             self.locationNameLabel.text = [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Name"]];
+            self.locationCodeContent = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"LocationCode"]]];
             self.address1Label.text = [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address1"]];
             self.address2Label.text = [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address2"]];
             self.address3Label.text = [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address3"]];
@@ -145,6 +148,7 @@
 - (void)dealloc {
     self.locationNameLabel = nil;
     self.locationNameContent = nil;
+    self.locationCodeContent = nil;
     self.address1Label = nil;
     self.address2Label = nil;
     self.address3Label = nil;
@@ -433,7 +437,7 @@
                     self.compositeErrorResult.errorMsg = @"Could not work for CPCL printers";
                 } else {
                     [self printLogoImage:printer];
-                    [self printOrderNumber:printer];
+                    [self printLocationCodeOrderNumber:printer];
                     [self printCustomerName:printer];
                     [self printContactName:printer];
                     [self printReceiptBody:printer];
@@ -478,18 +482,33 @@
     [graphicsUtil printImage:logoImageRef atX:50 atY:10 withWidth:300 withHeight:180 andIsInsideFormat:NO error:&logoError];
 }
 
-- (void)printOrderNumber:(id<NSObject,ZebraPrinter>)printer {
+- (void)printLocationCodeOrderNumber:(id<NSObject,ZebraPrinter>)printer {
     NSNumber* auxOrderNumber = [self.orderHeader objectForKey:@"OrderNumber"];
-    if (auxOrderNumber == nil) return;
+//    if (auxOrderNumber == nil) return;
     NSError* error = nil;
-    NSString* orderNumberFormat = @"^XA^POI^PW800^MNN^LL40^LH0,0" \
+    NSString* finalLocationCodeOrderNumberFormat = @"";
+    NSString* finalLocationCodeOrderNumberString = @"";
+    NSString* locationCodeOrderNumberBeginFormat = @"^XA^POI^PW800^MNN^LL40^LH0,0" \
     @"^FO0,5"\
-    @"^FB790,1,0,R,0"\
+    @"^FB200,1,0,L,0"\
+    @"^A0N,25,25"\
+    @"^FD%@^FS";
+    NSString* orderNumberFormat =
+    @"^FO210,5"\
+    @"^FB580,1,0,R,0"\
     @"^A0N,32,25"\
-    @"^FD%@^FS" \
+    @"^FD%@^FS";
+    NSString* locationCodeOrderNumberEndFormat =
     @"^XZ";
-    NSString* orderNumberString = [NSString stringWithFormat:orderNumberFormat, auxOrderNumber];
-    [[printer getToolsUtil] sendCommand:orderNumberString error:&error];
+    if (auxOrderNumber == nil) {
+        finalLocationCodeOrderNumberFormat = [NSString stringWithFormat:@"%@%@", locationCodeOrderNumberBeginFormat, locationCodeOrderNumberEndFormat];
+        finalLocationCodeOrderNumberString = [NSString stringWithFormat:finalLocationCodeOrderNumberFormat, self.locationCodeContent];
+    } else {
+        finalLocationCodeOrderNumberFormat = [NSString stringWithFormat:@"%@%@%@", locationCodeOrderNumberBeginFormat, orderNumberFormat, locationCodeOrderNumberEndFormat];
+        finalLocationCodeOrderNumberString = [NSString stringWithFormat:finalLocationCodeOrderNumberFormat, self.locationCodeContent, auxOrderNumber];
+    }
+//    NSString* orderNumberString = [NSString stringWithFormat:orderNumberFormat, self.locationCodeContent, auxOrderNumber];
+    [[printer getToolsUtil] sendCommand:finalLocationCodeOrderNumberString error:&error];
 }
 
 - (void)printCustomerName:(id<NSObject,ZebraPrinter>)printer {
@@ -574,7 +593,7 @@
     NSError* error = nil;
     NSString* horizontalLine = @"^XA^POI^PW800^MNN^LL20^LH0,0" \
     @"^FO0,5"\
-    @"^GB800,0,1^FS"\
+    @"^GB790,0,1^FS"\
     @"^XZ";
     [[printer getToolsUtil] sendCommand:horizontalLine error:&error];
     NSString* finalOrderLineFooterFormat = @"";
