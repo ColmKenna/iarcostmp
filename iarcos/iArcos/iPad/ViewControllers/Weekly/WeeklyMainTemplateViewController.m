@@ -120,7 +120,7 @@
     self.weeklyMainTemplateDataManager.highestAllowedWeekendDate = [self.weeklyMainTemplateDataManager weekendOfWeek:[NSDate date] config:[self.weeklyMainTemplateDataManager.dayOfWeekend integerValue]];
     [self navigationTitleWrapper:[ArcosUtils stringFromDate:self.weeklyMainTemplateDataManager.currentWeekendDate format:[GlobalSharedClass shared].dateFormat]];
     
-    self.weeklyMainTemplateDataManager.sectionTitleDictList = [self.weeklyMainTemplateDataManager retrieveSectionTitleDictList];
+//    self.weeklyMainTemplateDataManager.sectionTitleDictList = [self.weeklyMainTemplateDataManager retrieveSectionTitleDictList];
     self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.navigationController.view] autorelease];
     self.callGenericServices.delegate = self;
 }
