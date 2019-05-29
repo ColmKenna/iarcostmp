@@ -3188,7 +3188,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     for (NSDictionary* aDict in objectsArray) {
         NSMutableDictionary* newDict=[NSMutableDictionary dictionaryWithDictionary:aDict];
         [newDict setObject:[aDict objectForKey:@"IUR"] forKey:@"DescrDetailIUR"];
-        [newDict setObject:[aDict objectForKey:@"Details"] forKey:@"Detail"];
+        [newDict setObject:[ArcosUtils convertNilToEmpty:[aDict objectForKey:@"Details"]] forKey:@"Detail"];
 
         if ([aDict objectForKey:@"Details"]==nil) {
             [newDict setObject:@"Not Defined" forKey:@"Title"];
