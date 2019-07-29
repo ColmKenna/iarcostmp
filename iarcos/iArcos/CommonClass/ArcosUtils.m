@@ -850,5 +850,17 @@
     }
 }
 
++ (NSString*)retrieveDefinedIssuesText {
+    NSString* definedIssuesText = @"";
+    NSMutableArray* taskObjectList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrTypeCode:@"SD" descrDetailCode:@"TASK"];
+    if ([taskObjectList count] > 0) {
+        NSDictionary* taskObjectDict = [taskObjectList objectAtIndex:0];
+        NSString* taskDetail = [taskObjectDict objectForKey:@"Detail"];
+        definedIssuesText = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:taskDetail]];
+    }
+    
+    return definedIssuesText;
+}
+
 
 @end

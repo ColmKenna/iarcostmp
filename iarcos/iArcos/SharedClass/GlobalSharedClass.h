@@ -126,6 +126,7 @@ typedef enum {
     NSString* _ieLocale;
     int _mailTimeout;
     NSString* _tildeDelimiter;
+    NSString* _issuesText;
 }
 
 +(GlobalSharedClass*)shared;
@@ -229,6 +230,7 @@ typedef enum {
 @property (nonatomic,retain) NSString* ieLocale;
 @property (nonatomic,assign) int mailTimeout;
 @property (nonatomic,retain) NSString* tildeDelimiter;
+@property (nonatomic,retain) NSString* issuesText;
 
 //usful functions
 - (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber;

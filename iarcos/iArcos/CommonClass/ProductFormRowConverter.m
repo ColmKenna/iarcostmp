@@ -102,6 +102,7 @@
     
     [orderPadFormRow setObject:[aRawFormRowDict objectForKey:@"DefaultQty"] forKey:@"DefaultQty"];
     [orderPadFormRow setObject:[aRawFormRowDict objectForKey:@"TradePrice"] forKey:@"DefaultPercent"];
+//    [orderPadFormRow setObject:[ArcosUtils convertNilToEmpty:[aRawFormRowDict objectForKey:@"Details"]] forKey:@"Details"];
     
     return orderPadFormRow;
 }

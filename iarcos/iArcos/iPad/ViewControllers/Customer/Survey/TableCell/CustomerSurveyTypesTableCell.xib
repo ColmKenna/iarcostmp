@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" colorMatched="YES">
     <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -38,7 +38,7 @@
                 <outlet property="narrative" destination="4" id="87"/>
                 <outlet property="surveyTitle" destination="12" id="32"/>
             </connections>
-            <point key="canvasLocation" x="897" y="318"/>
+            <point key="canvasLocation" x="700.78125" y="186.328125"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="IdCustomerSurveyContactTableCell" id="3" customClass="CustomerSurveyContactTableCell">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -67,7 +67,7 @@
                 <outlet property="contactTitle" destination="10" id="33"/>
                 <outlet property="narrative" destination="8" id="U1o-hi-0kh"/>
             </connections>
-            <point key="canvasLocation" x="83" y="144"/>
+            <point key="canvasLocation" x="64.84375" y="84.375"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="IdCustomerSurveyWheelTableCell" id="13" customClass="CustomerSurveyWheelTableCell">
             <rect key="frame" x="0.0" y="0.0" width="768" height="60"/>
@@ -76,12 +76,12 @@
                 <rect key="frame" x="0.0" y="0.0" width="768" height="59.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MX3-fE-Jli">
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MX3-fE-Jli">
                         <rect key="frame" x="2" y="0.0" width="12" height="60"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <state key="normal" title="Button"/>
                     </button>
-                    <label opaque="NO" clipsSubviews="YES" contentMode="left" text="Touch to pick a contact" lineBreakMode="tailTruncation" minimumFontSize="10" id="16">
+                    <label opaque="NO" clipsSubviews="YES" contentMode="left" text="Touch to pick a contact" lineBreakMode="wordWrap" numberOfLines="0" adjustsFontSizeToFit="NO" id="16">
                         <rect key="frame" x="15" y="0.0" width="743" height="21"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -102,6 +102,7 @@
                 <outlet property="narrative" destination="16" id="36"/>
                 <outlet property="responseLimits" destination="14" id="37"/>
             </connections>
+            <point key="canvasLocation" x="55" y="148"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="IdCustomerSurveySlideTableCell" id="44" customClass="CustomerSurveySlideTableCell">
             <rect key="frame" x="0.0" y="0.0" width="768" height="60"/>
@@ -110,7 +111,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="768" height="59.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="84c-wV-QME">
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="84c-wV-QME">
                         <rect key="frame" x="2" y="0.0" width="12" height="60"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <state key="normal" title="Button"/>
@@ -136,6 +137,7 @@
                 <outlet property="narrative" destination="45" id="49"/>
                 <outlet property="responseLimits" destination="56" id="57"/>
             </connections>
+            <point key="canvasLocation" x="48" y="-152"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="IdCustomerSurveyBooleanTableCell" id="17" customClass="CustomerSurveyBooleanTableCell">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -144,7 +146,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="768" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DIK-hT-Si4">
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DIK-hT-Si4">
                         <rect key="frame" x="2" y="0.0" width="12" height="43.5"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <state key="normal" title="Button"/>
@@ -175,7 +177,7 @@
                 <outlet property="narrative" destination="18" id="34"/>
                 <outlet property="responseSegmentedControl" destination="jBi-kf-Omd" id="sdT-IS-9S9"/>
             </connections>
-            <point key="canvasLocation" x="897" y="209"/>
+            <point key="canvasLocation" x="700.78125" y="122.46093749999999"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="IdCustomerSurveySliderBarTableCell" id="21" customClass="CustomerSurveySliderBarTableCell">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -184,7 +186,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="768" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="96V-wq-NpU">
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="96V-wq-NpU">
                         <rect key="frame" x="2" y="0.0" width="12" height="43.5"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <state key="normal" title="Button"/>
@@ -226,6 +228,7 @@
                 <outlet property="narrative" destination="59" id="60"/>
                 <outlet property="responseLimitSlider" destination="24" id="61"/>
             </connections>
+            <point key="canvasLocation" x="34" y="-212"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="IdCustomerSurveyKeyboardTableCell" id="25" customClass="CustomerSurveyKeyboardTableCell">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -234,7 +237,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="768" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cEf-Se-wNF">
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cEf-Se-wNF">
                         <rect key="frame" x="2" y="0.0" width="12" height="43.5"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <state key="normal" title="Button"/>
@@ -263,7 +266,7 @@
                 <outlet property="narrative" destination="27" id="38"/>
                 <outlet property="responseLimits" destination="28" id="39"/>
             </connections>
-            <point key="canvasLocation" x="83" y="228"/>
+            <point key="canvasLocation" x="59" y="28"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="IdCustomerSurveyKeyboardDecimalTableCell" id="29" customClass="CustomerSurveyKeyboardDecimalTableCell">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -272,7 +275,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="768" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Mj8-7i-D61">
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Mj8-7i-D61">
                         <rect key="frame" x="2" y="0.0" width="12" height="43.5"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <state key="normal" title="Button"/>
@@ -298,6 +301,7 @@
                 <outlet property="narrative" destination="67" id="81"/>
                 <outlet property="responseLimits" destination="30" id="82"/>
             </connections>
+            <point key="canvasLocation" x="55" y="-20"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="IdCustomerSurveyKeyboardDecimalTwoPlacesTableCell" id="74" customClass="CustomerSurveyKeyboardDecimalTwoPlacesTableCell">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -306,7 +310,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="768" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="BuT-b5-utM">
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="BuT-b5-utM">
                         <rect key="frame" x="2" y="0.0" width="12" height="43.5"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <state key="normal" title="Button"/>
@@ -332,6 +336,7 @@
                 <outlet property="narrative" destination="75" id="84"/>
                 <outlet property="responseLimits" destination="76" id="85"/>
             </connections>
+            <point key="canvasLocation" x="55" y="279"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="IdCustomerSurveyNumberWheelTableCell" id="cTo-H5-hLO" customClass="CustomerSurveyNumberWheelTableCell">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -340,7 +345,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="768" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="06A-LW-A43">
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="06A-LW-A43">
                         <rect key="frame" x="2" y="0.0" width="12" height="43.5"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <state key="normal" title="Button"/>
@@ -366,6 +371,7 @@
                 <outlet property="narrative" destination="bwT-OA-92p" id="7xM-v0-HQE"/>
                 <outlet property="responseLimits" destination="qeD-Bx-xlG" id="P3Y-HT-bHe"/>
             </connections>
+            <point key="canvasLocation" x="60" y="211"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="IdCustomerSurveyTableMSTableCell" id="eFU-ZD-r8r" customClass="CustomerSurveyTableMSTableCell">
             <rect key="frame" x="0.0" y="0.0" width="768" height="60"/>
@@ -374,7 +380,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="768" height="59.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uHU-WY-Dbo">
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uHU-WY-Dbo">
                         <rect key="frame" x="2" y="0.0" width="12" height="60"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <state key="normal" title="Button"/>
@@ -400,7 +406,7 @@
                 <outlet property="narrative" destination="s2p-e0-XBw" id="DNh-dh-g3K"/>
                 <outlet property="responseLimits" destination="RPL-ul-JRB" id="CPc-M0-VMn"/>
             </connections>
-            <point key="canvasLocation" x="70" y="-132"/>
+            <point key="canvasLocation" x="54.6875" y="-77.34375"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="IdCustomerSurveyPhotoTableCell" id="OAz-Eb-Wgu" customClass="CustomerSurveyPhotoTableCell">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -409,14 +415,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="768" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="l2N-K0-tEB">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="l2N-K0-tEB">
                         <rect key="frame" x="15" y="11" width="638" height="21"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="phq-K2-KaM" customClass="ArcosBorderBackgroundUIButton">
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="phq-K2-KaM" customClass="ArcosBorderBackgroundUIButton">
                         <rect key="frame" x="658" y="7" width="100" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -429,7 +435,7 @@
                             <action selector="pressPreviewButton:" destination="OAz-Eb-Wgu" eventType="touchUpInside" id="z53-J9-Pxg"/>
                         </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="e5o-mS-GtE" customClass="ArcosBorderUIButton">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="e5o-mS-GtE" customClass="ArcosBorderUIButton">
                         <rect key="frame" x="658" y="7" width="100" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -447,7 +453,7 @@
                 <outlet property="photoButton" destination="e5o-mS-GtE" id="69w-c5-BB8"/>
                 <outlet property="previewButton" destination="phq-K2-KaM" id="2jV-wz-m34"/>
             </connections>
-            <point key="canvasLocation" x="897" y="417"/>
+            <point key="canvasLocation" x="700.78125" y="244.33593749999997"/>
         </tableViewCell>
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="IdCustomerSurveySegmentedControlTableCell" id="URd-Rq-R9R" customClass="CustomerSurveySegmentedControlTableCell">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -456,14 +462,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="768" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="LabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabel" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="f4I-tQ-nNj">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabel" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="f4I-tQ-nNj">
                         <rect key="frame" x="15" y="2" width="361" height="41"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="Tth-lK-oUV">
+                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="Tth-lK-oUV">
                         <rect key="frame" x="384" y="7" width="374" height="29"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                         <segments>
@@ -480,7 +486,7 @@
                 <outlet property="narrative" destination="f4I-tQ-nNj" id="Ovk-F7-Rte"/>
                 <outlet property="responseSegmentedControl" destination="Tth-lK-oUV" id="Bey-YS-BPG"/>
             </connections>
-            <point key="canvasLocation" x="897" y="521"/>
+            <point key="canvasLocation" x="700.78125" y="305.2734375"/>
         </tableViewCell>
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="IdCustomerSurveyRankingTableCell" id="H6u-Gn-NtB" customClass="CustomerSurveyRankingTableCell">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -513,16 +519,16 @@
                 <outlet property="narrative" destination="egu-yJ-pgg" id="9aD-MW-etD"/>
                 <outlet property="responseSegmentedControl" destination="Wx8-k2-2Oq" id="sbx-3i-wG1"/>
             </connections>
-            <point key="canvasLocation" x="897" y="616"/>
+            <point key="canvasLocation" x="700.78125" y="360.9375"/>
         </tableViewCell>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="IdCustomerSurveySegmentedControlTextFieldTableCell" id="6fI-QT-dlL" customClass="CustomerSurveySegmentedControlTextFieldTableCell">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="IdCustomerSurveySegmentedControlTextFieldTableCell" id="6fI-QT-dlL" customClass="CustomerSurveySegmentedControlTextFieldTableCell">
             <rect key="frame" x="0.0" y="0.0" width="768" height="70"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6fI-QT-dlL" id="dh9-eM-M2M">
                 <rect key="frame" x="0.0" y="0.0" width="768" height="69.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UAZ-ZH-KCs">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UAZ-ZH-KCs">
                         <rect key="frame" x="15" y="3" width="361" height="64"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <string key="text">LabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabel</string>
@@ -530,7 +536,7 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" id="GBH-dj-yR0">
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" id="GBH-dj-yR0">
                         <rect key="frame" x="384" y="32" width="374" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                         <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -540,7 +546,7 @@
                             <outlet property="delegate" destination="6fI-QT-dlL" id="ar3-v2-5bh"/>
                         </connections>
                     </textField>
-                    <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="rK6-Dc-1n7">
+                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="rK6-Dc-1n7">
                         <rect key="frame" x="384" y="3" width="374" height="29"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                         <segments>
@@ -558,7 +564,7 @@
                 <outlet property="responseSegmentedControl" destination="rK6-Dc-1n7" id="HQG-RY-Rqp"/>
                 <outlet property="responseTextField" destination="GBH-dj-yR0" id="9z2-OW-NI5"/>
             </connections>
-            <point key="canvasLocation" x="897" y="79"/>
+            <point key="canvasLocation" x="700.78125" y="46.2890625"/>
         </tableViewCell>
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="IdCustomerSurveySubHeaderTableCell" id="EPV-Zx-U9i" customClass="CustomerSurveySubHeaderTableCell">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -567,7 +573,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="768" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="k9L-MT-8y9">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="k9L-MT-8y9">
                         <rect key="frame" x="15" y="11" width="738" height="21"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -580,7 +586,7 @@
             <connections>
                 <outlet property="narrative" destination="k9L-MT-8y9" id="Zje-6v-MRH"/>
             </connections>
-            <point key="canvasLocation" x="897" y="-52"/>
+            <point key="canvasLocation" x="700.78125" y="-30.468749999999996"/>
         </tableViewCell>
         <view contentMode="scaleToFill" id="SgJ-ju-xFN" customClass="CustomerSurveySectionHeader">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -600,7 +606,7 @@
             <connections>
                 <outlet property="narrative" destination="GdF-A4-UDd" id="9TX-O4-ypy"/>
             </connections>
-            <point key="canvasLocation" x="897" y="748"/>
+            <point key="canvasLocation" x="700.78125" y="438.28125"/>
         </view>
     </objects>
 </document>

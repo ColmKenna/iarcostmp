@@ -146,16 +146,32 @@
 	return YES;
 }
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];    
+    [self.tableView reloadData];
+}
+
 #pragma mark - Table view data source
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSMutableDictionary* cellData = [self.customerSurveyDataManager cellDataWithIndexPath:indexPath];
     int questionType = [[cellData objectForKey:@"QuestionType"] intValue];
-    if (questionType == 3 || questionType == 5 || questionType == 6 || questionType == 11) {
+    if (questionType == 3) {
+        NSMutableAttributedString* attributedNarrativeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",[cellData objectForKey:@"Narrative"]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}];
+        CGRect rect = [attributedNarrativeString boundingRectWithSize:CGSizeMake(self.tableView.frame.size.width - 25, CGFLOAT_MAX) options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) context:nil];
+        [attributedNarrativeString release];
+        if (rect.size.height < 21.0) {
+            rect.size.height = 21.0;
+        }
+
+        return rect.size.height + 39.0;
+    }
+    if (questionType == 5 || questionType == 6 || questionType == 11) {
         return 60;
     }
     if (questionType == 14) {
         return 70;
     }
+    
     return 44;
 }
 
@@ -275,6 +291,10 @@
     imagePicker.allowsEditing = NO;
     [self presentViewController:imagePicker animated:YES completion:nil];
     [imagePicker release];
+}
+
+- (UITableView*)retrieveSurveyTableView {
+    return self.tableView;
 }
 
 #pragma mark UIImagePickerControllerDelegate

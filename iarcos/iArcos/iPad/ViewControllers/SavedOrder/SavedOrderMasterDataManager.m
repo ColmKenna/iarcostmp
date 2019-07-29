@@ -8,6 +8,7 @@
 
 #import "SavedOrderMasterDataManager.h"
 #import "ArcosConfigDataManager.h"
+#import "GlobalSharedClass.h"
 
 @implementation SavedOrderMasterDataManager
 @synthesize sectionTitleList = _sectionTitleList;
@@ -19,7 +20,11 @@
     self = [super init];
     if (self != nil) {
         self.orderSectionTitle = @"Orders/Calls";
-        self.querySectionTitle = @"Queries";
+        self.querySectionTitle = [GlobalSharedClass shared].issuesText;//@"Queries"
+        NSString* definedIssuesText = [ArcosUtils retrieveDefinedIssuesText];
+        if (![definedIssuesText isEqualToString:@""]) {
+            self.querySectionTitle = definedIssuesText;
+        }
     }
     return self;
 }

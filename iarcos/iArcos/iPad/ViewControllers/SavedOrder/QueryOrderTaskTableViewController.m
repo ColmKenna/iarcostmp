@@ -301,7 +301,12 @@
 //    NSLog(@"%@ and %@", result.Field1, result);
     if (result.Field1 != nil && ![result.Field1 isEqualToString:@""]
         && ![result.Field1 isEqualToString:@"0"]) {
-        [ArcosUtils showDialogBox:@"New task has been created." title:@"" delegate:self target:self tag:0 handler:^(UIAlertAction *action) {
+        NSString* issuesTextResult = [GlobalSharedClass shared].issuesText;
+        NSString* definedIssuesText = [ArcosUtils retrieveDefinedIssuesText];
+        if (![definedIssuesText isEqualToString:@""]) {
+            issuesTextResult = definedIssuesText;
+        }
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"New %@ has been created.", issuesTextResult] title:@"" delegate:self target:self tag:0 handler:^(UIAlertAction *action) {
             [self alertViewCallBack];
         }];
     } else {

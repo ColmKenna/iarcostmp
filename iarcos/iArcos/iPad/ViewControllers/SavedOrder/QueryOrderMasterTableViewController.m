@@ -66,7 +66,11 @@
         [self.navigationController setNavigationBarHidden:YES animated:NO];
     }
     self.defaultComletionDateString = @"01/01/1990";
-    self.title = @"Tasks";
+    self.title = [GlobalSharedClass shared].issuesText;
+    NSString* definedIssuesText = [ArcosUtils retrieveDefinedIssuesText];
+    if (![definedIssuesText isEqualToString:@""]) {
+        self.title = definedIssuesText;
+    }
     self.myRootViewController = [ArcosUtils getRootView];
     arcosCustomiseAnimation = [[ArcosCustomiseAnimation alloc] init];
     self.addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonPressed:)] autorelease];
@@ -385,7 +389,12 @@
     qotwvc.IUR = [ArcosUtils convertStringToNumber:cellData.Field1];
     qotwvc.locationIUR = [ArcosUtils convertStringToNumber:cellData.Field2];
     qotwvc.contactIUR = [ArcosUtils convertStringToNumber:cellData.Field8];
-    qotwvc.navgationBarTitle = [NSString stringWithFormat:@"Task for %@", cellData.Field3];
+    NSString* issuesTextResult = [GlobalSharedClass shared].issuesText;
+    NSString* definedIssuesText = [ArcosUtils retrieveDefinedIssuesText];
+    if (![definedIssuesText isEqualToString:@""]) {
+        issuesTextResult = definedIssuesText;
+    }
+    qotwvc.navgationBarTitle = [NSString stringWithFormat:@"%@ for %@", issuesTextResult, cellData.Field3];
     qotwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:qotwvc] autorelease];
     CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.myRootViewController];
@@ -446,7 +455,12 @@
     qotwvc.refreshDelegate = self;
     qotwvc.actionType = @"create";
     qotwvc.IUR = [NSNumber numberWithInt:0];
-    qotwvc.navgationBarTitle = @"Create New Task";
+    NSString* issuesTextResult = [GlobalSharedClass shared].issuesText;
+    NSString* definedIssuesText = [ArcosUtils retrieveDefinedIssuesText];
+    if (![definedIssuesText isEqualToString:@""]) {
+        issuesTextResult = definedIssuesText;
+    }
+    qotwvc.navgationBarTitle = [NSString stringWithFormat:@"Create New %@", issuesTextResult];
     qotwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
     qotwvc.locationIUR = self.locationIUR;
     qotwvc.contactIUR = [GlobalSharedClass shared].currentSelectedContactIUR;

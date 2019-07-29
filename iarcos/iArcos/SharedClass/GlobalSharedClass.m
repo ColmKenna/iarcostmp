@@ -112,6 +112,7 @@ static GlobalSharedClass* _shared = nil;
 @synthesize ieLocale = _ieLocale;
 @synthesize mailTimeout = _mailTimeout;
 @synthesize tildeDelimiter = _tildeDelimiter;
+@synthesize issuesText = _issuesText;
 
 +(GlobalSharedClass*)shared 
 {
@@ -230,6 +231,7 @@ static GlobalSharedClass* _shared = nil;
         self.ieLocale = @"en_IE";
         self.mailTimeout = 150;
         self.tildeDelimiter = @"~";
+        self.issuesText = @"Issues";
 	}
     
 	return self;
@@ -563,6 +565,7 @@ CGFloat RadiansToDegrees(CGFloat radians)
     self.vansCode = nil;
     self.ieLocale = nil;
     self.tildeDelimiter = nil;
+    self.issuesText = nil;
     
     [super dealloc];
 }

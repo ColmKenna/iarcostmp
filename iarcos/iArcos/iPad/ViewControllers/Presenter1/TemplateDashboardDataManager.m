@@ -7,6 +7,7 @@
 //
 
 #import "TemplateDashboardDataManager.h"
+#import "GlobalSharedClass.h"
 
 @implementation TemplateDashboardDataManager
 @synthesize todayTitle = _todayTitle;
@@ -23,7 +24,11 @@
     self = [super init];
     if (self) {
         self.todayTitle = @"TODAY";
-        self.issuesTitle = @"ISSUES";
+        self.issuesTitle = [[GlobalSharedClass shared].issuesText uppercaseString];
+        NSString* definedIssuesText = [ArcosUtils retrieveDefinedIssuesText];
+        if (![definedIssuesText isEqualToString:@""]) {
+            self.issuesTitle = [definedIssuesText uppercaseString];
+        }
         self.newsTitle = @"NEWS";
         self.stockoutsTitle = @"STOCK OUTS";
         self.vanStocksTitle = @"VAN STOCKS";

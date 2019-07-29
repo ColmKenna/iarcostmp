@@ -74,6 +74,10 @@
         self.memosLabel = @"Memos";
         self.surveysLabel = @"Surveys";
         self.issuesLabel = @"Issues";
+        NSString* definedIssuesText = [ArcosUtils retrieveDefinedIssuesText];
+        if (![definedIssuesText isEqualToString:@""]) {
+            self.issuesLabel = definedIssuesText;
+        }
         self.issuesImageLabel = @"Query";
         self.contactsLabel = @"Contacts";
         self.flagsLabel = @"Flags";

@@ -18,4 +18,5 @@
 - (void)pressPreviewButtonDelegateWithIndexPath:(NSIndexPath*)anIndexpath;
 - (NSMutableDictionary*)retrieveRankingHashMap;
 - (void)refreshSurveyList;
+- (UITableView*)retrieveSurveyTableView;
 @end

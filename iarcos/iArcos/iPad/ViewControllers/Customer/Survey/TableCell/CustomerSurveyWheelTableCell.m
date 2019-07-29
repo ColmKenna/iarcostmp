@@ -49,6 +49,18 @@
     [self.narrative addGestureRecognizer:singleTap2];
     [singleTap2 release];
     [self configNarrativeWithLabel:self.narrative];
+    self.narrative.frame = CGRectMake(self.narrative.frame.origin.x, self.narrative.frame.origin.y, self.narrative.frame.size.width, 42);
+    int questionType = [[cellData objectForKey:@"QuestionType"] intValue];
+    if (questionType == 3) {
+        NSMutableAttributedString* attributedNarrativeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",[cellData objectForKey:@"Narrative"]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}];
+        CGRect rect = [attributedNarrativeString boundingRectWithSize:CGSizeMake([self.delegate retrieveSurveyTableView].frame.size.width - 25, CGFLOAT_MAX) options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) context:nil];
+        [attributedNarrativeString release];
+        if (rect.size.height < 21.0) {
+            rect.size.height = 21.0;
+        }
+        self.narrative.frame = CGRectMake(self.narrative.frame.origin.x, self.narrative.frame.origin.y, self.narrative.frame.size.width, rect.size.height);
+        self.responseLimits.frame = CGRectMake(self.responseLimits.frame.origin.x, rect.size.height + 9, self.responseLimits.frame.size.width, self.responseLimits.frame.size.height);
+    }
 }
 
 -(void)handleSingleTapGesture:(id)sender {
