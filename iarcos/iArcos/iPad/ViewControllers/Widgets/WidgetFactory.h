@@ -32,7 +32,8 @@ typedef enum {
     WidgetDataSourceDetaillingQA,
     WidgetDataSourceDetaillingBatch,
     WidgetDataSourceTitleType,
-    WidgetDataSourceCustomerSurvey
+    WidgetDataSourceCustomerSurvey,
+    WidgetDataSourcePriceGroup
 } WidgetDataSource;
 
 @protocol WidgetFactoryDelegate 

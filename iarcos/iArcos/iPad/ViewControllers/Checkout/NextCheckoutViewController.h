@@ -39,6 +39,7 @@
     ArcosRootViewController* _myRootViewController;
     AVAudioPlayer* _myAVAudioPlayer;
     BOOL _isCheckoutSuccessful;
+    UIBarButtonItem* _discountButton;
 }
 
 @property(nonatomic, retain) IBOutlet UITableView* orderInfoTableView;
@@ -59,6 +60,7 @@
 @property(nonatomic, retain) ArcosRootViewController* myRootViewController;
 @property(nonatomic,retain) AVAudioPlayer* myAVAudioPlayer;
 @property(nonatomic, assign) BOOL isCheckoutSuccessful;
+@property(nonatomic,retain) UIBarButtonItem* discountButton;
 
 
 @end

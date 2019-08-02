@@ -75,6 +75,7 @@
 - (BOOL)showTaskInCallEmailFlag;
 - (BOOL)showSingleTaskFlag;
 - (BOOL)useDiscountFromPriceFlag;
+- (BOOL)useDiscountByPriceGroupFlag;
 - (void)resetSystemCodes:(NSString*)aSystemCodes;
 - (void)persistentSystemCodes;
 

@@ -1387,6 +1387,7 @@
 		63AD7FFA1D772A62005F08F7 /* NextCheckoutFollowUpEmployeeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AD7FF91D772A62005F08F7 /* NextCheckoutFollowUpEmployeeTableViewCell.m */; };
 		63AD7FFD1D772A83005F08F7 /* NextCheckoutFollowUpWritableTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AD7FFC1D772A83005F08F7 /* NextCheckoutFollowUpWritableTableViewCell.m */; };
 		63AD80001D772AA6005F08F7 /* NextCheckoutFollowUpDateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AD7FFF1D772AA6005F08F7 /* NextCheckoutFollowUpDateTableViewCell.m */; };
+		63ADF5DD22F03D96008856EF /* discount@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63ADF5DC22F03D95008856EF /* discount@2x.png */; };
 		63AE3D871D14013E0097793D /* Arcos-Icon-2a-iPadPro@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63AE3D861D14013E0097793D /* Arcos-Icon-2a-iPadPro@2x.png */; };
 		63AF0F461D9EBEE500BBD20C /* CustomerDetailsContactAccessTimesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AF0F441D9EBEE500BBD20C /* CustomerDetailsContactAccessTimesTableViewCell.m */; };
 		63AF0F471D9EBEE500BBD20C /* CustomerDetailsContactAccessTimesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63AF0F451D9EBEE500BBD20C /* CustomerDetailsContactAccessTimesTableViewCell.xib */; };
@@ -4258,6 +4259,7 @@
 		63AD7FFC1D772A83005F08F7 /* NextCheckoutFollowUpWritableTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NextCheckoutFollowUpWritableTableViewCell.m; sourceTree = "<group>"; };
 		63AD7FFE1D772AA6005F08F7 /* NextCheckoutFollowUpDateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NextCheckoutFollowUpDateTableViewCell.h; sourceTree = "<group>"; };
 		63AD7FFF1D772AA6005F08F7 /* NextCheckoutFollowUpDateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NextCheckoutFollowUpDateTableViewCell.m; sourceTree = "<group>"; };
+		63ADF5DC22F03D95008856EF /* discount@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "discount@2x.png"; sourceTree = "<group>"; };
 		63AE3D861D14013E0097793D /* Arcos-Icon-2a-iPadPro@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Arcos-Icon-2a-iPadPro@2x.png"; sourceTree = "<group>"; };
 		63AF0F431D9EBEE500BBD20C /* CustomerDetailsContactAccessTimesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerDetailsContactAccessTimesTableViewCell.h; sourceTree = "<group>"; };
 		63AF0F441D9EBEE500BBD20C /* CustomerDetailsContactAccessTimesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerDetailsContactAccessTimesTableViewCell.m; sourceTree = "<group>"; };
@@ -7539,6 +7541,7 @@
 		630B3A5419F01CB8007B2442 /* ShareImage */ = {
 			isa = PBXGroup;
 			children = (
+				63ADF5DC22F03D95008856EF /* discount@2x.png */,
 				63A710CD2292EB1C007AB738 /* appointment.png */,
 				630D6899219AFF2100E85F8F /* email_all@2x.png */,
 				639FBA2D218A1A33001A5490 /* Meeting.png */,
@@ -8784,6 +8787,7 @@
 				63A12B6A1CEF30DA00CF963D /* GetRecordGenericTableViewCells.xib in Resources */,
 				63A0F56C1A321C8D00A58178 /* PresenterCombinedSlideViewVideoItemController.xib in Resources */,
 				63DAC0C52076212700E92B99 /* StandardOrderPadMatTableViewController.xib in Resources */,
+				63ADF5DD22F03D96008856EF /* discount@2x.png in Resources */,
 				6307FD53206D402A0058BE20 /* CustomerNotBuyDetailTableCell.xib in Resources */,
 				63155666223BAB4200DEF591 /* MeetingAttachmentsTableViewCell.xib in Resources */,
 				6302843D21147BC10009FE0F /* FormRowsSubDividerHeaderTableViewCell.xib in Resources */,
@@ -10296,7 +10300,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4a2d26cb-4c25-4fc4-a9fe-d2be993ec50d";
-				PROVISIONING_PROFILE_SPECIFIER = iArcos05Apr2019Distribution;
+				PROVISIONING_PROFILE_SPECIFIER = iArcos27May2019Distribution;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = AdHoc;

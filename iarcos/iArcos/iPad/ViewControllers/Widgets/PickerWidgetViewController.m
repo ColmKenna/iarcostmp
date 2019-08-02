@@ -108,6 +108,11 @@
             self.customiseNavigationBarTitle = @"Survey";
         }            
             break;
+        case PickerPriceGroup: {
+            self.pickerData = [[ArcosCoreData sharedArcosCoreData]settingSelectionWithType:@"PG"];
+            descrTypeCode = @"PG";
+        }
+            break;
         default:
             break;
             

@@ -13,7 +13,7 @@
 
 - (void)stampLocation;
 - (void)showNumberPadPopoverWithData:(NSMutableDictionary*)aCellDict;
-
+- (void)configRightBarButtons;
 @end
 
 @implementation NextCheckoutViewController
@@ -35,6 +35,7 @@
 @synthesize myRootViewController = _myRootViewController;
 @synthesize myAVAudioPlayer = _myAVAudioPlayer;
 @synthesize isCheckoutSuccessful = _isCheckoutSuccessful;
+@synthesize discountButton = _discountButton;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -50,9 +51,6 @@
     // Do any additional setup after loading the view from its nib.
     [ArcosUtils configEdgesForExtendedLayout:self];
     
-    UIBarButtonItem* saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveOrder)];
-    self.navigationItem.rightBarButtonItem = saveButton;
-    [saveButton release];
     self.orderInfoTableView.backgroundColor = [UIColor whiteColor];
     self.tableCellFactory = [[[OrderlinesIarcosTableCellFactory alloc] init] autorelease];
     self.headerViewList = [NSMutableArray arrayWithObjects:self.orderDetailsHeaderView, self.contactDetailsHeaderView, self.commentsHeaderView, self.followUpHeaderView, nil];
@@ -70,8 +68,8 @@
     
     self.widgetFactory = [WidgetFactory factory];
     self.widgetFactory.delegate = self;
-    self.thePopover = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
-    self.thePopover.delegate = self;
+//    self.thePopover = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+//    self.thePopover.delegate = self;
     self.myRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
     NSString* buzzerFilePath = [[NSBundle mainBundle] pathForResource:@"buzzer" ofType:@"wav"];
     NSURL* buzzerFileURL = [NSURL fileURLWithPath:buzzerFilePath];
@@ -103,6 +101,7 @@
     self.widgetFactory = nil;
     self.myRootViewController = nil;
     self.myAVAudioPlayer = nil;
+    self.discountButton = nil;
     
     [super dealloc];
 }
@@ -112,8 +111,33 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)discountButtonPressed {
+    self.thePopover = [self.widgetFactory CreateCategoryWidgetWithDataSource:WidgetDataSourcePriceGroup];
+    self.thePopover.delegate = self;
+    [self.thePopover presentPopoverFromBarButtonItem:self.discountButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
+- (void)configRightBarButtons {
+    NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:2];
+    UIBarButtonItem* saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveOrder)];
+    [rightButtonList addObject:saveButton];
+    self.discountButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"discount.png"] style:UIBarButtonItemStylePlain target:self action:@selector(discountButtonPressed)] autorelease];
+    //    self.navigationItem.rightBarButtonItem = saveButton;
+    NSNumber* allowDiscount = [SettingManager SettingForKeypath:@"CompanySetting.Order Processing" atIndex:1];
+    SettingManager* sm = [SettingManager setting];
+    NSMutableDictionary* presenterPwdDict = [sm getSettingForKeypath:@"CompanySetting.Connection" atIndex:8];
+    NSString* presenterPwd = [[presenterPwdDict objectForKey:@"Value"] uppercaseString];
+    NSRange aBDRange = [presenterPwd rangeOfString:@"[BD]"];
+    if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && [[ArcosConfigDataManager sharedArcosConfigDataManager] useDiscountByPriceGroupFlag]) {
+        [rightButtonList addObject:self.discountButton];
+    }
+    self.navigationItem.rightBarButtonItems = rightButtonList;
+    [saveButton release];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self configRightBarButtons];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] allowScannerToBeUsedFlag]) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(receiveBarCodeCheckoutNotification:)
@@ -489,6 +513,8 @@
     
     //popover the input pad
 //    self.thePopover = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+    self.thePopover = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+    self.thePopover.delegate = self;
     OrderInputPadViewController* oipvc = (OrderInputPadViewController*) self.thePopover.contentViewController;
     oipvc.Data = aCellDict;
     oipvc.showSeparator = showSeparator;
@@ -502,6 +528,34 @@
 
 #pragma mark WidgetFactoryDelegate
 - (void)operationDone:(id)data {
+    if ([self.thePopover.contentViewController isKindOfClass:[PickerWidgetViewController class]]) {
+        NSNumber* descrDetailIUR = [data objectForKey:@"DescrDetailIUR"];
+        NSMutableArray* productIURList = [NSMutableArray arrayWithCapacity:[self.nextCheckoutDataManager.sortedOrderKeys count]];
+        for (int i = 0; i < [self.nextCheckoutDataManager.sortedOrderKeys count]; i++) {
+            NSString* tmpCombinationKey = [self.nextCheckoutDataManager.sortedOrderKeys objectAtIndex:i];
+            NSMutableDictionary* tmpCellData = [[OrderSharedClass sharedOrderSharedClass].currentOrderCart objectForKey:tmpCombinationKey];
+            [productIURList addObject:[tmpCellData objectForKey:@"ProductIUR"]];
+        }
+        NSMutableDictionary* priceHashMap = [[ArcosCoreData sharedArcosCoreData] retrievePriceWithLocationIUR:descrDetailIUR productIURList:productIURList];
+        for (int j = 0; j < [self.nextCheckoutDataManager.sortedOrderKeys count]; j++) {
+            NSString* tmpCombinationKey = [self.nextCheckoutDataManager.sortedOrderKeys objectAtIndex:j];
+            NSMutableDictionary* tmpCellData = [[OrderSharedClass sharedOrderSharedClass].currentOrderCart objectForKey:tmpCombinationKey];
+            NSNumber* tmpProductIUR = [tmpCellData objectForKey:@"ProductIUR"];
+            NSDictionary* tmpPriceDict = [priceHashMap objectForKey:tmpProductIUR];
+            NSDecimalNumber* tmpDiscountPercent = [tmpPriceDict objectForKey:@"DiscountPercent"];
+            [tmpCellData setObject:[NSNumber numberWithFloat:[tmpDiscountPercent floatValue]] forKey:@"DiscountPercent"];
+            [tmpCellData setObject:[ProductFormRowConverter calculateLineValue:tmpCellData] forKey:@"LineValue"];
+        }
+        [self.orderlinesTableView reloadData];
+        [self.view endEditing:YES];
+        [self refreshTotalGoods];
+        [self.orderInfoTableViewController createBasicDataWithOrderHeader:[OrderSharedClass sharedOrderSharedClass].currentOrderHeader];
+        [self.orderInfoTableView reloadData];
+        if ([self.thePopover isPopoverVisible]) {
+            [self.thePopover dismissPopoverAnimated:YES];
+        }
+        return;
+    }
     if (self.checkoutDataManager.currentIndexPath.section == 0) {
         [[OrderSharedClass sharedOrderSharedClass] saveOrderLine:data];
     }
@@ -560,10 +614,12 @@
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    if ([self.thePopover isPopoverVisible]) {
-        [self.thePopover dismissPopoverAnimated:NO];
-        CGRect aRect = CGRectMake(self.myRootViewController.view.bounds.size.width - 10, self.myRootViewController.view.bounds.size.height - 10, 1, 1);
-        [self.thePopover presentPopoverFromRect:aRect inView:self.myRootViewController.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];        
+    if ([self.thePopover.contentViewController isKindOfClass:[OrderInputPadViewController class]]) {
+        if ([self.thePopover isPopoverVisible]) {
+            [self.thePopover dismissPopoverAnimated:NO];
+            CGRect aRect = CGRectMake(self.myRootViewController.view.bounds.size.width - 10, self.myRootViewController.view.bounds.size.height - 10, 1, 1);
+            [self.thePopover presentPopoverFromRect:aRect inView:self.myRootViewController.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+        }
     }
 }
 

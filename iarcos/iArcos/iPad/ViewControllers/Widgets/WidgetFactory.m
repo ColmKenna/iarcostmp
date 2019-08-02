@@ -172,6 +172,9 @@
         case WidgetDataSourceCustomerSurvey:
             wvc = [self getPickerWidgetWithType:PickerCustomerSurvey];
             break;
+        case WidgetDataSourcePriceGroup:
+            wvc = [self getPickerWidgetWithType:PickerPriceGroup];
+            break;
         default:
             break;
     }
