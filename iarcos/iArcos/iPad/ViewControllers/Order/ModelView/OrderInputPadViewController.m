@@ -753,6 +753,10 @@
     [self checkBonusWithGivenRequiredSellBy];
     //reset the total value
     [self resetTotalValue];
+    NSNumber* discount=[NSNumber numberWithFloat:[self.DiscountField.text floatValue]];
+    if (self.currentTextField.tag == 0 && [discount floatValue] != 0) {
+        [self submitInput];
+    }
 }
 -(void)deleteOneDigitFromCurrentFeild{
     NSString* fieldString=self.currentTextField.text;

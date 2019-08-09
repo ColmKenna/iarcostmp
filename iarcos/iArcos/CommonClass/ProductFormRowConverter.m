@@ -30,6 +30,7 @@
  UnitRRP at 26/09/2018
  VCIUR at 04/01/2019
  BonusDeal at 08/04/2019
+ PriceDiscountPercent at 08/08/2019
  */
 + (NSMutableDictionary*)createFormRowWithProduct:(NSMutableDictionary*) product {
     NSMutableDictionary* formRow = [NSMutableDictionary dictionary];
@@ -73,6 +74,7 @@
         NSRange aBDRange = [presenterPwd rangeOfString:@"[BD]"];
         if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag]) {
             [formRow setObject:[ArcosUtils convertNilToZero:[product objectForKey:@"DiscountPercent"]]  forKey:@"DiscountPercent"];
+            [formRow setObject:[ArcosUtils convertNilToZero:[product objectForKey:@"DiscountPercent"]]  forKey:@"PriceDiscountPercent"];
         } else {
             [formRow setObject:[NSNumber numberWithFloat:0]  forKey:@"DiscountPercent"];
         }
