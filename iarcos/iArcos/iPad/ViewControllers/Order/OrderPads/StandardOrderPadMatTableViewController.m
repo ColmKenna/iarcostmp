@@ -342,7 +342,8 @@
 
 - (void)operationDone:(id)data {  
     [self.inputPopover dismissPopoverAnimated:YES];
-    [[OrderSharedClass sharedOrderSharedClass] saveOrderLine:data];    
+    [[OrderSharedClass sharedOrderSharedClass] saveOrderLine:data];
+    [self.formRowsTableViewController processDefaultQtyPercentProcessor:data];
     [self.tableView reloadData];
 }
 
