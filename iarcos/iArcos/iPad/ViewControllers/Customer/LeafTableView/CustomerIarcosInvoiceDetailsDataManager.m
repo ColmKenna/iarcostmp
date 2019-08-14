@@ -121,7 +121,7 @@
         [orderlineDict setObject:[NSNumber numberWithInt:0] forKey:@"DiscountPercent"];
         [orderlineDict setObject:[NSNumber numberWithInt:0] forKey:@"InStock"];
         [orderlineDict setObject:[NSNumber numberWithInt:0] forKey:@"FOC"];
-        [orderlineDict setObject:[ArcosUtils convertStringToNumber:cellData.Field11] forKey:@"LineValue"];
+        [orderlineDict setObject:[ArcosUtils convertStringToFloatNumber:[ArcosUtils convertNilToEmpty:cellData.Field11]] forKey:@"LineValue"];
         NSNumber* productIUR = [ArcosUtils convertStringToNumber:cellData.Field8];
         [orderlineDict setObject:productIUR forKey:@"ProductIUR"];
         NSDictionary* aProduct = [productDictHashMap objectForKey:productIUR];
