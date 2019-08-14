@@ -35,6 +35,7 @@
 @synthesize memoDisplayList = _memoDisplayList;
 @synthesize isMemoDetailShowed = _isMemoDetailShowed;
 @synthesize heightList = _heightList;
+@synthesize specialIURFieldNameList = _specialIURFieldNameList;
 
 -(id)init{
     self = [super init];
@@ -75,6 +76,7 @@
         self.rowPointer = 0;
         self.issueClosedField = @"Issue Closed";
         self.defaultCompletionDateString = @"01/01/1990";
+        self.specialIURFieldNameList = [NSMutableArray arrayWithObjects:@"TYiur", @"TSiur", @"QSiur", @"QTiur", nil];
     }
     return self;
 }
@@ -102,6 +104,7 @@
     self.contactIUR = nil;
     self.memoDisplayList = nil;
     self.heightList = nil;
+    self.specialIURFieldNameList = nil;
     
     [super dealloc];
 }
@@ -134,13 +137,14 @@
         [dataDict setObject:[dataArray objectAtIndex:0] forKey:@"fieldDesc"];
         [dataDict setObject:[[ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[dataArray objectAtIndex:1]]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] forKey:@"contentString"];
         [dataDict setObject:[dataArray objectAtIndex:2] forKey:@"fieldType"];
-        [dataDict setObject:[ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[dataArray objectAtIndex:3]]] forKey:@"actualContent"];
+        [dataDict setObject:[ArcosUtils trim:[ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[dataArray objectAtIndex:3]]]] forKey:@"actualContent"];
         [dataDict setObject:[ArcosUtils convertBlankToZero:[ArcosUtils convertNilToEmpty:[dataArray objectAtIndex:4]]] forKey:@"securityLevel"];
         [dataDict setObject:[NSString stringWithFormat:@"%d", i] forKey:@"originalIndex"];
         [dataDict setObject:[self.constantFieldTypeDict objectForKey:[dataArray objectAtIndex:2]] forKey:@"fieldTypeCode"];
         
         NSString* descrTypeCode = [fieldName substringToIndex:2];
         [dataDict setObject:descrTypeCode forKey:@"descrTypeCode"];
+        [dataDict setObject:fieldName forKey:@"fieldName"];
         if ([fieldName isEqualToString:@"CompletionDate"]) {
             self.completionDateString = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[dataArray objectAtIndex:3]]];
         }
@@ -261,6 +265,11 @@
     self.arcosCreateRecordObject = [[[ArcosCreateRecordObject alloc] init] autorelease];
     self.createdFieldNameList = [NSMutableArray array];
     self.createdFieldValueList = [NSMutableArray array];
+    NSMutableArray* specialIURDataDictList = [self processSpecialIURFieldNameList:self.changedDataList];
+    if ([specialIURDataDictList count] > 0) {
+        [self.changedDataList addObjectsFromArray:specialIURDataDictList];
+    }
+    
     for (int i = 0; i < [self.changedDataList count]; i++) {
         NSMutableDictionary* cellData = [self.changedDataList objectAtIndex:i];
         NSString* fieldName = [self fieldNameWithIndex:[[cellData objectForKey:@"originalIndex"] intValue] - 1];
@@ -340,6 +349,44 @@
             break;
         }
     }
+}
+
+-(NSMutableArray*)processSpecialIURFieldNameList:(NSMutableArray*)aChangedDataArray {
+    /*
+     special case for TYiur(Task Type) TSiur(Task status) QSiur(Query Status) QTiur(Query Type)
+     if there is a default value and it is not included in the aChangedDataArray, then use the default value
+     */
+    //check whether is in the aChangedDataArray
+    
+    NSMutableArray* specialIURDataDictList = [NSMutableArray arrayWithCapacity:4];
+    for (int i = 0; i < [self.specialIURFieldNameList count]; i++) {
+        NSString* specialIURFieldName = [self.specialIURFieldNameList objectAtIndex:i];
+        BOOL isFound = NO;
+        
+        for (NSMutableDictionary* aChangedDataDict in aChangedDataArray) {
+            NSString* fieldName = [self fieldNameWithIndex:[[aChangedDataDict objectForKey:@"originalIndex"] intValue] - 1];
+            if ([fieldName isEqualToString:specialIURFieldName]) {
+                isFound = YES;
+                break;
+            }
+        }
+        if (!isFound) {
+            NSMutableArray* iurDictList = [self.originalGroupedDataDict objectForKey:@"IUR"];
+            for (NSMutableDictionary* anIURDict in iurDictList) {
+                NSString* fieldName = [self fieldNameWithIndex:[[anIURDict objectForKey:@"originalIndex"] intValue] - 1];
+                if ([fieldName isEqualToString:specialIURFieldName]) {
+                    NSMutableDictionary* newIURDict = [NSMutableDictionary dictionaryWithDictionary:anIURDict];
+                    if ([[ArcosUtils convertNilToEmpty:[anIURDict objectForKey:@"actualContent"]] isEqualToString:@""]) {
+                        [newIURDict setObject:[NSNumber numberWithInt:0] forKey:@"actualContent"];
+                    }
+                    [specialIURDataDictList addObject:newIURDict];
+                    break;
+                }
+            }
+        }
+    }
+    //    NSLog(@"specialIURDataDictList: %@", specialIURDataDictList);
+    return specialIURDataDictList;
 }
 
 @end

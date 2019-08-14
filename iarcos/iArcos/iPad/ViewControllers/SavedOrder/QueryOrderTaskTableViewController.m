@@ -7,6 +7,7 @@
 //
 
 #import "QueryOrderTaskTableViewController.h"
+#import "ArcosXMLParser.h"
 
 @interface QueryOrderTaskTableViewController ()
 -(void)getTaskData;

@@ -46,6 +46,8 @@
     NSMutableArray* _memoDisplayList;
     BOOL _isMemoDetailShowed;
     NSMutableArray* _heightList;
+    
+    NSMutableArray* _specialIURFieldNameList;
 }
 
 @property(nonatomic,retain) NSMutableArray* fieldNameList;
@@ -75,6 +77,8 @@
 @property(nonatomic,retain) NSMutableArray* memoDisplayList;
 @property(nonatomic,assign) BOOL isMemoDetailShowed;
 @property(nonatomic,retain) NSMutableArray* heightList;
+
+@property(nonatomic,retain) NSMutableArray* specialIURFieldNameList;
 
 -(void)processRawData:(ArcosGenericReturnObject*)result actionType:(NSString*)anActionType;
 -(NSMutableDictionary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath;
