@@ -610,15 +610,15 @@
 }
 
 - (void)setGetDataResult:(ArcosGenericReturnObject *)result {
-    if (result == nil) {
-        return;
-    }
-    if (result.ErrorModel.Code > 0) {
+//    if (result == nil) {
+//        return;
+//    }
+    if (result.ErrorModel.Code >= 0) {
         self.orderDetailDataManager.taskObjectList = result.ArrayOfData;
-        [self didSelectEmailRecipientRowProcessor:self.orderDetailDataManager.selectedEmailRecipientDict taskData:self.orderDetailDataManager.taskObjectList];
-    } else if(result.ErrorModel.Code <= 0) {
+    } else if(result.ErrorModel.Code < 0) {
         [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:self];
     }
+    [self didSelectEmailRecipientRowProcessor:self.orderDetailDataManager.selectedEmailRecipientDict taskData:self.orderDetailDataManager.taskObjectList];
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {    
