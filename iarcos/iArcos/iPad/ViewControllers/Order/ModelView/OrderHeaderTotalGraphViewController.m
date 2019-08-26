@@ -368,7 +368,12 @@
 	} else if ([plot isKindOfClass:[CPTScatterPlot class]]) {
         return [self.dataManager.weekDisplayList count];
     } else if ( [plot isKindOfClass:[CPTBarPlot class]] ) {
-		return [self.dataManager.yearDisplayList count];
+        if ([(NSString*)plot.identifier isEqualToString:self.dataManager.weekBarChartIdentifier]) {
+            return [self.dataManager.weekDisplayList count];
+        }
+        if ([(NSString*)plot.identifier isEqualToString:self.dataManager.targetMonthBarChartIdentifier] || [(NSString*)plot.identifier isEqualToString:self.dataManager.actualMonthBarChartIdentifier]) {
+            return [self.dataManager.yearDisplayList count];
+        }
 	}
 	return 0;
 }
@@ -416,8 +421,13 @@
 				break;
                 
 			case CPTBarPlotFieldBarTip:{
-                num = [[self.dataManager.yearDisplayList objectAtIndex:index] objectForKey:self.dataManager.barTotalValueMonthKey];
-                if ([(NSString*)plot.identifier isEqualToString:@"Bar Plot 2"]) {
+                if ([(NSString*)plot.identifier isEqualToString:self.dataManager.weekBarChartIdentifier]) {
+                    num = [[self.dataManager.weekDisplayList objectAtIndex:index] objectForKey:self.dataManager.barTotalValueDayKey];
+                }
+                if ([(NSString*)plot.identifier isEqualToString:self.dataManager.actualMonthBarChartIdentifier]) {
+                    num = [[self.dataManager.yearDisplayList objectAtIndex:index] objectForKey:self.dataManager.barTotalValueMonthKey];
+                }
+                if ([(NSString*)plot.identifier isEqualToString:self.dataManager.targetMonthBarChartIdentifier]) {//@"Bar Plot 2"
                     num = [NSNumber numberWithInt:[[[self.dataManager latestPersonalTarget] objectForKey:@"monthTarget"] intValue]];               
                 }
             }
@@ -440,6 +450,9 @@
 	}
     if ([plot.identifier isEqual:@"IdMonthPieChart"]) {
         return [[[CPTTextLayer alloc] initWithText:[NSString stringWithFormat:@"%.0f%%", [[self.dataManager.monthDisplayList objectAtIndex:index] floatValue]] style:whiteText] autorelease];
+    }
+    if ([(NSString*)plot.identifier isEqualToString:self.dataManager.weekBarChartIdentifier]) {
+        return [[[CPTTextLayer alloc] initWithText:[ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%.0f", [[[self.dataManager.weekDisplayList objectAtIndex:index] objectForKey:self.dataManager.barTotalValueDayKey] floatValue]]] style:whiteText] autorelease];
     }
     return nil;
 }
@@ -610,58 +623,66 @@
 	minorGridLineStyle.lineWidth = 0.25;
 	minorGridLineStyle.lineColor = [[CPTColor whiteColor] colorWithAlphaComponent:0.1];
     
-	CPTMutableLineStyle *redLineStyle = [CPTMutableLineStyle lineStyle];
-	redLineStyle.lineWidth = 10.0;
-	redLineStyle.lineColor = [[CPTColor redColor] colorWithAlphaComponent:0.5];
+//    CPTMutableLineStyle *redLineStyle = [CPTMutableLineStyle lineStyle];
+//    redLineStyle.lineWidth = 10.0;
+//    redLineStyle.lineColor = [[CPTColor redColor] colorWithAlphaComponent:0.5];
     // Axes
-    NSNumberFormatter* xAxisFormatter = [[[NSNumberFormatter alloc] init] autorelease];
-	xAxisFormatter.maximumFractionDigits = 0;
-	CPTXYAxisSet *xyAxisSet = (id)graph.axisSet;
-	CPTXYAxis *xAxis		= xyAxisSet.xAxis;
-	xAxis.majorIntervalLength	= [NSNumber numberWithInt:1];
-	xAxis.minorTicksPerInterval = 0;
-    xAxis.orthogonalPosition = [NSNumber numberWithInt:0];
-    xAxis.labelFormatter = xAxisFormatter;
     
-    xAxis.labelingPolicy = CPTAxisLabelingPolicyNone;    
+    NSNumberFormatter* yAxisFormatter = [[[NSNumberFormatter alloc] init] autorelease];
+	yAxisFormatter.maximumFractionDigits = 0;
+	CPTXYAxisSet *xyAxisSet = (id)graph.axisSet;
+	CPTXYAxis *yAxis		= xyAxisSet.yAxis;
+	yAxis.majorIntervalLength	= [NSNumber numberWithInt:1];
+	yAxis.minorTicksPerInterval = 0;
+    yAxis.orthogonalPosition = [NSNumber numberWithInt:0];
+    yAxis.labelFormatter = yAxisFormatter;
+    
+    CPTLineCap *lineCap = [[CPTLineCap alloc] init];
+    lineCap.lineStyle     = yAxis.axisLineStyle;
+    lineCap.lineCapType     = CPTLineCapTypeOpenArrow;
+    lineCap.size         = CGSizeMake(12.0, 12.0);
+    yAxis.axisLineCapMax = lineCap;
+    
+    
+    yAxis.labelingPolicy = CPTAxisLabelingPolicyNone;
     NSMutableArray* customTickLocations = [NSMutableArray arrayWithCapacity:7];
-    NSMutableArray* xAxisLabels = [NSMutableArray arrayWithCapacity:7];
+    NSMutableArray* yAxisLabels = [NSMutableArray arrayWithCapacity:7];
     for (int i = 0; i < 7; i++) {
         [customTickLocations addObject:[NSNumber numberWithInt:i]];
         NSDate* tmpDate = [ArcosUtils dateWithBeginOfWeek:self.dataManager.dateOfBeginOfWeek interval:i];
         NSInteger tmpWeekday = [ArcosUtils weekDayWithDate:tmpDate];
-        [xAxisLabels addObject: [self.dataManager.weekdayMapDict objectForKey:[NSNumber numberWithInteger:tmpWeekday]]];
+        [yAxisLabels addObject: [self.dataManager.weekdayMapDict objectForKey:[NSNumber numberWithInteger:tmpWeekday]]];
     }
     NSUInteger labelLocation	 = 0;
-    NSMutableArray* customLabels = [NSMutableArray arrayWithCapacity:[xAxisLabels count]];
+    NSMutableArray* customLabels = [NSMutableArray arrayWithCapacity:[yAxisLabels count]];
     for ( NSNumber* tickLocation in customTickLocations ) {
-        CPTAxisLabel* newLabel = [[CPTAxisLabel alloc] initWithText:[xAxisLabels objectAtIndex:labelLocation++] textStyle:xAxis.labelTextStyle];
+        CPTAxisLabel* newLabel = [[CPTAxisLabel alloc] initWithText:[yAxisLabels objectAtIndex:labelLocation++] textStyle:yAxis.labelTextStyle];
         newLabel.tickLocation = tickLocation;
-        newLabel.offset = xAxis.labelOffset + xAxis.majorTickLength;
+        newLabel.offset = yAxis.labelOffset + yAxis.majorTickLength;
         [customLabels addObject:newLabel];
         [newLabel release];
     }
-    xAxis.axisLabels = [NSSet setWithArray:customLabels];
-    
-	CPTLineCap *lineCap = [[CPTLineCap alloc] init];
-	lineCap.lineStyle	 = xAxis.axisLineStyle;
-	lineCap.lineCapType	 = CPTLineCapTypeOpenArrow;
-	lineCap.size		 = CGSizeMake(12.0, 12.0);
-	xAxis.axisLineCapMax = lineCap;
-	[lineCap release];
-    
-    NSNumberFormatter* yAxisFormatter = [[[NSNumberFormatter alloc] init] autorelease];
-	yAxisFormatter.maximumFractionDigits = 0;
-	CPTXYAxis *yAxis = xyAxisSet.yAxis;
-	yAxis.orthogonalPosition = [NSNumber numberWithFloat:-0.5];
-    float yAxisIntervalLine = [self.dataManager.maxOfWeekYAxis floatValue] / 10;
-    yAxis.majorIntervalLength = [NSNumber numberWithFloat:yAxisIntervalLine];
-    if (yAxisIntervalLine < 1.0) {
-        yAxisFormatter.maximumFractionDigits = 1;
-    }
-    yAxis.labelFormatter = yAxisFormatter;
+    yAxis.axisLabels = [NSSet setWithArray:customLabels];
     
 	
+    
+    NSNumberFormatter* xAxisFormatter = [[[NSNumberFormatter alloc] init] autorelease];
+	yAxisFormatter.maximumFractionDigits = 0;
+	CPTXYAxis *xAxis = xyAxisSet.xAxis;
+    if ([self.dataManager.maxOfWeekXAxis floatValue] > 0) {
+        self.dataManager.maxOfWeekXAxis = [NSNumber numberWithFloat:[self.dataManager.maxOfWeekXAxis floatValue] * 1.25];
+        xAxis.axisLineCapMax = lineCap;
+    }
+    [lineCap release];
+	xAxis.orthogonalPosition = [NSNumber numberWithFloat:0.0];
+    float xAxisIntervalLine = [self.dataManager.maxOfWeekXAxis floatValue] / 5;
+    xAxis.majorIntervalLength = [NSNumber numberWithFloat:xAxisIntervalLine];
+    if (xAxisIntervalLine < 1.0) {
+        xAxisFormatter.maximumFractionDigits = 1;
+    }
+    xAxis.labelFormatter = xAxisFormatter;
+//    xAxis.labelingPolicy = CPTAxisLabelingPolicyNone;
+	/*
     //Target plot
     CPTScatterPlot *targetLinePlot = [[[CPTScatterPlot alloc] init] autorelease];
 	targetLinePlot.identifier = @"Target Line";
@@ -699,28 +720,54 @@
 	areaGradientFill = [CPTFill fillWithGradient:areaGradient];
 	dataSourceLinePlot.areaFill2	  = areaGradientFill;
 	dataSourceLinePlot.areaBaseValue2 = [NSNumber numberWithFloat:0.0];
-	    
+     */
+    // Create a bar line style
+    CPTMutableLineStyle *barLineStyle = [[[CPTMutableLineStyle alloc] init] autorelease];
+    barLineStyle.lineWidth = 1.0;
+    barLineStyle.lineColor = [CPTColor clearColor];
+    
+    // Create bar plot
+    CPTBarPlot *barPlot = [[CPTBarPlot alloc] init];
+    barPlot.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:0.0 green:128.0/255.0 blue:1.0 alpha:1.0]];
+    barPlot.lineStyle          = barLineStyle;
+    barPlot.barWidth          = [NSNumber numberWithFloat:0.5f];
+    barPlot.barOffset = [NSNumber numberWithFloat:0.5f];
+    //    barPlot.barCornerRadius      = 4.0;
+    barPlot.barsAreHorizontal = YES;
+    barPlot.dataSource          = self;
+    barPlot.identifier          = self.dataManager.weekBarChartIdentifier;
+    barPlot.delegate = self;
+    [graph addPlot:barPlot];
+    [barPlot release];
+    // Add plot space for bar charts
+//    CPTXYPlotSpace *barPlotSpace = (CPTXYPlotSpace *)graph.defaultPlotSpace;
+//    barPlotSpace.allowsUserInteraction = YES;
+//    barPlotSpace.delegate = self;
+//    barPlotSpace.xRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithFloat:150.0f]];
+//    barPlotSpace.yRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithFloat:10.0]];
+//    [graph addPlotSpace:barPlotSpace];
+    
 	// Set plot ranges
     
 	CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)graph.defaultPlotSpace;
 //    plotSpace.allowsUserInteraction = YES;
 //    plotSpace.delegate = self;
-	plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:-0.5f] length:[NSNumber numberWithFloat:7.0f]];
-	plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithInt:0] length:self.dataManager.maxOfWeekYAxis];
-    
+	plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithFloat:7.0f]];
+	plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithInt:0.0f] length:self.dataManager.maxOfWeekXAxis];
+    [graph addPlotSpace:plotSpace];
     // Add plot symbols
-	CPTMutableLineStyle* symbolLineStyle = [CPTMutableLineStyle lineStyle];
-	symbolLineStyle.lineColor = [CPTColor blackColor];
-	CPTPlotSymbol* plotSymbol = [CPTPlotSymbol ellipsePlotSymbol];
-	plotSymbol.fill = [CPTFill fillWithColor:[CPTColor blueColor]];
-	plotSymbol.lineStyle = symbolLineStyle;
-	plotSymbol.size = CGSizeMake(10.0, 10.0);
-	dataSourceLinePlot.plotSymbol = plotSymbol;
+//    CPTMutableLineStyle* symbolLineStyle = [CPTMutableLineStyle lineStyle];
+//    symbolLineStyle.lineColor = [CPTColor blackColor];
+//    CPTPlotSymbol* plotSymbol = [CPTPlotSymbol ellipsePlotSymbol];
+//    plotSymbol.fill = [CPTFill fillWithColor:[CPTColor blueColor]];
+//    plotSymbol.lineStyle = symbolLineStyle;
+//    plotSymbol.size = CGSizeMake(10.0, 10.0);
+//    dataSourceLinePlot.plotSymbol = plotSymbol;
     
 	// Set plot delegate, to know when symbols have been touched
 	// We will display an annotation when a symbol is touched
-	dataSourceLinePlot.delegate = self;
-	dataSourceLinePlot.plotSymbolMarginForHitDetection = 5.0f;
+//    dataSourceLinePlot.delegate = self;
+//    dataSourceLinePlot.plotSymbolMarginForHitDetection = 5.0f;
     
     //Add title    
     graph.titleTextStyle = [self textStyleWithFontSize:17.0f];
@@ -805,7 +852,6 @@
         yAxisFormatter.maximumFractionDigits = 1;
     }
     y.labelFormatter = yAxisFormatter;
-
     
 	// Create a bar line style
 	CPTMutableLineStyle *barLineStyle = [[[CPTMutableLineStyle alloc] init] autorelease];
@@ -819,7 +865,7 @@
 	barPlot.barCornerRadius	  = 4.0;
 	barPlot.barsAreHorizontal = NO;
 	barPlot.dataSource		  = self;
-	barPlot.identifier		  = @"Bar Plot 1";    
+	barPlot.identifier		  = self.dataManager.actualMonthBarChartIdentifier;
     [graph addPlot:barPlot];
     
     // Second bar plot
@@ -829,7 +875,7 @@
     barPlot.barWidth = [NSNumber numberWithFloat:0.25f]; // bar is 75% of the
 	barPlot.barOffset = [NSNumber numberWithFloat:0.25f]; // 25% offset, 75% overlap
 	barPlot.barCornerRadius = 2.0f;
-	barPlot.identifier = @"Bar Plot 2";
+	barPlot.identifier = self.dataManager.targetMonthBarChartIdentifier;
 	barPlot.delegate = self;
         	    
 	[graph addPlot:barPlot];
@@ -848,6 +894,7 @@
 }
 
 -(void)barPlot:(CPTBarPlot *)plot barWasSelectedAtRecordIndex:(NSUInteger)index {
+    if ([plot.identifier isEqual:self.dataManager.weekBarChartIdentifier]) return;
     CPTGraph* lineGraph = self.yearBarChartView.hostedGraph;
     
 	if ( yearlySymbolTextAnnotation ) {

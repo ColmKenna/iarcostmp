@@ -21,12 +21,18 @@
 @synthesize yearTotalValue = _yearTotalValue;
 @synthesize settingManager = _settingManager;
 @synthesize weekDisplayList = _weekDisplayList;
+@synthesize weekBarChartIdentifier = _weekBarChartIdentifier;
+
 @synthesize monthNullLabelDisplayList = _monthNullLabelDisplayList;
 @synthesize monthLabelDisplayList = _monthLabelDisplayList;
 @synthesize monthDisplayList = _monthDisplayList;
 @synthesize yearDisplayList = _yearDisplayList;
+@synthesize targetMonthBarChartIdentifier = _targetMonthBarChartIdentifier;
+@synthesize actualMonthBarChartIdentifier = _actualMonthBarChartIdentifier;
 @synthesize weekAccumulativeValue = _weekAccumulativeValue;
 @synthesize maxOfWeekYAxis = _maxOfWeekYAxis;
+@synthesize maxOfWeekXAxis = _maxOfWeekXAxis;
+@synthesize barTotalValueDayKey = _barTotalValueDayKey;
 @synthesize maxOfYearYAxis = _maxOfYearYAxis;
 @synthesize weekdayMapDict = _weekdayMapDict;
 @synthesize monthMapDict = _monthMapDict;
@@ -40,6 +46,8 @@
         self.currentWeekendDate = [ArcosUtils weekendOfWeek:[NSDate date] config:[self.dayOfWeekend integerValue]];
         self.dateOfBeginOfWeek = [ArcosUtils beginOfWeek:self.currentWeekendDate];
         currentMonth = [ArcosUtils monthDayWithDate:[NSDate date]];
+        self.weekBarChartIdentifier = @"Week Bar Plot";
+        self.barTotalValueDayKey = @"totalValueDay";
         NSMutableArray* weekOrderList = [[ArcosCoreData sharedArcosCoreData] ordersWithDataRangeStart:[ArcosUtils beginOfDay:self.dateOfBeginOfWeek] withEndDate:[ArcosUtils endOfDay:self.currentWeekendDate]];
         self.weekOrderTotalValue = [weekOrderList valueForKeyPath:@"@sum.TotalGoods"];
         
@@ -64,6 +72,8 @@
         self.monthMapDict = [NSDictionary dictionaryWithObjects:monthMapValueList forKeys:monthMapKeyList];
         self.legendList = [NSMutableArray arrayWithObjects:@"Actual", @"Target", nil];
         self.barTotalValueMonthKey = @"totalValueMonth";
+        self.targetMonthBarChartIdentifier = @"Target Bar Plot";
+        self.actualMonthBarChartIdentifier = @"Actual Bar Plot";
     }
     return self;
 }
@@ -72,7 +82,8 @@
     if (self.orderTotalValueDict != nil) { self.orderTotalValueDict = nil; }
     if (self.dayOfWeekend != nil) { self.dayOfWeekend = nil; }
     if (self.currentWeekendDate != nil) { self.currentWeekendDate = nil; }
-    if (self.dateOfBeginOfWeek != nil) { self.dateOfBeginOfWeek = nil; }        
+    if (self.dateOfBeginOfWeek != nil) { self.dateOfBeginOfWeek = nil; }
+    self.weekBarChartIdentifier = nil;
     if (self.weekOrderTotalValue != nil) { self.weekOrderTotalValue = nil; }
     if (self.monthOrderTotalValue != nil) { self.monthOrderTotalValue = nil; }
     if (self.yearOrderTotalValue != nil) { self.yearOrderTotalValue = nil; }
@@ -85,7 +96,11 @@
     if (self.monthLabelDisplayList != nil) { self.monthLabelDisplayList = nil; }            
     if (self.monthDisplayList != nil) { self.monthDisplayList = nil; }
     if (self.yearDisplayList != nil) { self.yearDisplayList = nil; }
-    if (self.maxOfWeekYAxis != nil) { self.maxOfWeekYAxis = nil; }    
+    self.targetMonthBarChartIdentifier = nil;
+    self.actualMonthBarChartIdentifier = nil;
+    if (self.maxOfWeekYAxis != nil) { self.maxOfWeekYAxis = nil; }
+    self.maxOfWeekXAxis = nil;
+    self.barTotalValueDayKey = nil;
     if (self.maxOfYearYAxis != nil) { self.maxOfYearYAxis = nil; }
     if (self.weekdayMapDict != nil) { self.weekdayMapDict = nil; }
     if (self.monthMapDict != nil) { self.monthMapDict = nil; }

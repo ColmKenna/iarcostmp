@@ -28,23 +28,29 @@
 
 - (void)createBasicLineChartData {
     NSMutableDictionary* targetDict = [self latestPersonalTarget];
-    self.maxOfWeekYAxis = [targetDict objectForKey:@"weekTarget"];    
+    self.maxOfWeekYAxis = [targetDict objectForKey:@"weekTarget"];
+    self.maxOfWeekXAxis = [NSNumber numberWithFloat:0.0];
     NSMutableArray* lineContentArray = [NSMutableArray array];
-    self.weekAccumulativeValue = 0.0f;
+//    self.weekAccumulativeValue = 0.0f;
     for ( NSUInteger i = 0; i < 7; i++ ) {
-        NSTimeInterval x = i;
+//        NSTimeInterval y = i;
         NSDate* aDate = [ArcosUtils dateWithBeginOfWeek:self.dateOfBeginOfWeek interval:i];
         NSMutableArray* allOrders = [[ArcosCoreData sharedArcosCoreData] ordersWithDataRangeStart:[ArcosUtils beginOfDay:aDate]  withEndDate:[ArcosUtils endOfDay:aDate]];
-        NSNumber* totalOrderValueDate = [allOrders valueForKeyPath:@"@sum.TotalGoods"];
-        self.weekAccumulativeValue = self.weekAccumulativeValue + [totalOrderValueDate floatValue];
+        NSNumber* totalOrderValueDay = [allOrders valueForKeyPath:@"@sum.TotalGoods"];
+//        self.weekAccumulativeValue = self.weekAccumulativeValue + [totalOrderValueDate floatValue];
         
-        [lineContentArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSDecimalNumber numberWithDouble:x], @"x", [NSNumber numberWithFloat:self.weekAccumulativeValue], @"y", nil]];
+//        [lineContentArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSDecimalNumber numberWithDouble:y], @"y", [NSNumber numberWithFloat:self.weekAccumulativeValue], @"y", nil]];
+        NSMutableDictionary* dayOrderDict = [NSMutableDictionary dictionaryWithCapacity:1];
+        [dayOrderDict setObject:totalOrderValueDay forKey:self.barTotalValueDayKey];
+        [lineContentArray addObject:dayOrderDict];
     }
     
-    if (self.weekAccumulativeValue > [[targetDict objectForKey:@"weekTarget"] floatValue]) {
-        self.maxOfWeekYAxis = [NSNumber numberWithFloat:(self.weekAccumulativeValue + self.weekAccumulativeValue / 10)];
-    }    
+//    if (self.weekAccumulativeValue > [[targetDict objectForKey:@"weekTarget"] floatValue]) {
+//        self.maxOfWeekYAxis = [NSNumber numberWithFloat:(self.weekAccumulativeValue + self.weekAccumulativeValue / 10)];
+//    }
     self.weekDisplayList = lineContentArray;
+    self.maxOfWeekXAxis = [self.weekDisplayList valueForKeyPath:[NSString stringWithFormat:@"@max.%@", self.barTotalValueDayKey]];
+    
 }
 
 - (void)createBasicPieChartData {

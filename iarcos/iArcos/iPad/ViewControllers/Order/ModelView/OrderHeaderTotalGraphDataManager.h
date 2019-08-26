@@ -25,15 +25,20 @@
     NSInteger currentMonth;
     SettingManager* _settingManager;
     NSMutableArray* _weekDisplayList;
+    NSString* _weekBarChartIdentifier;
     
     NSMutableArray* _monthNullLabelDisplayList;
     NSMutableArray* _monthLabelDisplayList;
     NSMutableArray* _monthDisplayList;
     NSMutableArray* _yearDisplayList;
+    NSString* _targetMonthBarChartIdentifier;
+    NSString* _actualMonthBarChartIdentifier;
     
     float weekAccumulativeOrderValue;
     float _weekAccumulativeValue;
     NSNumber* _maxOfWeekYAxis;
+    NSNumber* _maxOfWeekXAxis;
+    NSString* _barTotalValueDayKey;
     
     NSNumber* _maxOfYearYAxis;
     NSDictionary* _weekdayMapDict;
@@ -55,12 +60,20 @@
 @property(nonatomic, retain) NSNumber* yearTotalValue;
 @property(nonatomic, retain) SettingManager* settingManager;
 @property(nonatomic, retain) NSMutableArray* weekDisplayList;
+@property(nonatomic, retain) NSString* weekBarChartIdentifier;
+
 @property(nonatomic, retain) NSMutableArray* monthNullLabelDisplayList;
 @property(nonatomic, retain) NSMutableArray* monthLabelDisplayList;
 @property(nonatomic, retain) NSMutableArray* monthDisplayList;
 @property(nonatomic, retain) NSMutableArray* yearDisplayList;
+@property(nonatomic, retain) NSString* targetMonthBarChartIdentifier;
+@property(nonatomic, retain) NSString* actualMonthBarChartIdentifier;
+
 @property(nonatomic, assign) float weekAccumulativeValue;
 @property(nonatomic, retain) NSNumber* maxOfWeekYAxis;
+@property(nonatomic, retain) NSNumber* maxOfWeekXAxis;
+@property(nonatomic, retain) NSString* barTotalValueDayKey;
+
 @property(nonatomic, retain) NSNumber* maxOfYearYAxis;
 @property(nonatomic, retain) NSDictionary* weekdayMapDict;
 @property(nonatomic, retain) NSDictionary* monthMapDict;
