@@ -32,7 +32,7 @@
     self.maxOfWeekXAxis = [NSNumber numberWithFloat:0.0];
     NSMutableArray* lineContentArray = [NSMutableArray array];
 //    self.weekAccumulativeValue = 0.0f;
-    for ( NSUInteger i = 0; i < 7; i++ ) {
+    for ( int i = 6; i >= 0; i-- ) {
 //        NSTimeInterval y = i;
         NSDate* aDate = [ArcosUtils dateWithBeginOfWeek:self.dateOfBeginOfWeek interval:i];
         NSMutableArray* allOrders = [[ArcosCoreData sharedArcosCoreData] ordersWithDataRangeStart:[ArcosUtils beginOfDay:aDate]  withEndDate:[ArcosUtils endOfDay:aDate]];

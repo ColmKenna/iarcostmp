@@ -28,8 +28,7 @@
     self.maxOfWeekXAxis = [NSNumber numberWithFloat:0.0];
     NSMutableArray* lineContentArray = [NSMutableArray array];
 //    self.weekAccumulativeValue = 0.0f;
-    for ( NSUInteger i = 0; i < 7; i++ ) {
-//        NSTimeInterval x = i;
+    for (int i = 6; i >= 0; i--) {        
         NSDate* aDate = [ArcosUtils dateWithBeginOfWeek:self.dateOfBeginOfWeek interval:i];
         NSNumber* callCountDay = [[ArcosCoreData sharedArcosCoreData] countCallsWithDataRangeStart:[ArcosUtils beginOfDay:aDate]  withEndDate:[ArcosUtils endOfDay:aDate]];
 //        self.weekAccumulativeValue = self.weekAccumulativeValue + [callCountDay floatValue];

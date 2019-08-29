@@ -641,23 +641,22 @@
     lineCap.lineStyle     = yAxis.axisLineStyle;
     lineCap.lineCapType     = CPTLineCapTypeOpenArrow;
     lineCap.size         = CGSizeMake(12.0, 12.0);
-    yAxis.axisLineCapMax = lineCap;
+//    yAxis.axisLineCapMax = lineCap;
     
     
     yAxis.labelingPolicy = CPTAxisLabelingPolicyNone;
     NSMutableArray* customTickLocations = [NSMutableArray arrayWithCapacity:7];
     NSMutableArray* yAxisLabels = [NSMutableArray arrayWithCapacity:7];
-    for (int i = 0; i < 7; i++) {
+    for (int i = 6; i >= 0; i--) {
         [customTickLocations addObject:[NSNumber numberWithInt:i]];
         NSDate* tmpDate = [ArcosUtils dateWithBeginOfWeek:self.dataManager.dateOfBeginOfWeek interval:i];
         NSInteger tmpWeekday = [ArcosUtils weekDayWithDate:tmpDate];
         [yAxisLabels addObject: [self.dataManager.weekdayMapDict objectForKey:[NSNumber numberWithInteger:tmpWeekday]]];
     }
-    NSUInteger labelLocation	 = 0;
     NSMutableArray* customLabels = [NSMutableArray arrayWithCapacity:[yAxisLabels count]];
-    for ( NSNumber* tickLocation in customTickLocations ) {
-        CPTAxisLabel* newLabel = [[CPTAxisLabel alloc] initWithText:[yAxisLabels objectAtIndex:labelLocation++] textStyle:yAxis.labelTextStyle];
-        newLabel.tickLocation = tickLocation;
+    for (int i = 0; i <= 6; i++) {
+        CPTAxisLabel* newLabel = [[CPTAxisLabel alloc] initWithText:[yAxisLabels objectAtIndex:i] textStyle:yAxis.labelTextStyle];
+        newLabel.tickLocation = [NSNumber numberWithInt:i];
         newLabel.offset = yAxis.labelOffset + yAxis.majorTickLength;
         [customLabels addObject:newLabel];
         [newLabel release];
@@ -681,7 +680,8 @@
         xAxisFormatter.maximumFractionDigits = 1;
     }
     xAxis.labelFormatter = xAxisFormatter;
-//    xAxis.labelingPolicy = CPTAxisLabelingPolicyNone;
+    xAxis.labelingPolicy = CPTAxisLabelingPolicyNone;
+    xAxis.hidden = YES;
 	/*
     //Target plot
     CPTScatterPlot *targetLinePlot = [[[CPTScatterPlot alloc] init] autorelease];
@@ -731,7 +731,7 @@
     barPlot.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:0.0 green:128.0/255.0 blue:1.0 alpha:1.0]];
     barPlot.lineStyle          = barLineStyle;
     barPlot.barWidth          = [NSNumber numberWithFloat:0.5f];
-    barPlot.barOffset = [NSNumber numberWithFloat:0.5f];
+    barPlot.barOffset = [NSNumber numberWithFloat:0.0f];
     //    barPlot.barCornerRadius      = 4.0;
     barPlot.barsAreHorizontal = YES;
     barPlot.dataSource          = self;
@@ -752,7 +752,7 @@
 	CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)graph.defaultPlotSpace;
 //    plotSpace.allowsUserInteraction = YES;
 //    plotSpace.delegate = self;
-	plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithFloat:7.0f]];
+	plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:-0.5f] length:[NSNumber numberWithFloat:7.0f]];
 	plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithInt:0.0f] length:self.dataManager.maxOfWeekXAxis];
     [graph addPlotSpace:plotSpace];
     // Add plot symbols
