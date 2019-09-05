@@ -759,6 +759,16 @@
         aView.frame = CGRectMake(0, 0, 768-mainMasterWidth, 1024 - diff);
     }
 }
++(void)processRotationEvent:(UIView*)aView tabBarHeight:(float)aHeight navigationController:(UINavigationController*)aNavigationController {
+    UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    float diff = [UIApplication sharedApplication].statusBarFrame.size.height + aNavigationController.navigationBar.frame.size.height + aHeight;
+    float mainMasterWidth = [GlobalSharedClass shared].mainMasterWidth;
+    if (UIInterfaceOrientationIsLandscape(currentOrientation)) {
+        aView.frame = CGRectMake(0, 0, 1024-mainMasterWidth, 768 - diff);
+    }else{
+        aView.frame = CGRectMake(0, 0, 768-mainMasterWidth, 1024 - diff);
+    }
+}
 +(CGRect)fromRect4ActionSheet:(UIView*)aView {
     return CGRectMake(aView.center.x, aView.center.y, 1.0, 1.0);
 }

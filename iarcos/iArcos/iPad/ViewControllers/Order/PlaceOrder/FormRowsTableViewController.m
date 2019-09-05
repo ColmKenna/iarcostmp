@@ -66,6 +66,7 @@
 @synthesize isPredicativeSearchProduct = _isPredicativeSearchProduct;
 @synthesize isStandardOrderPadFlag = _isStandardOrderPadFlag;
 @synthesize formRowTableCellGeneratorDelegate = _formRowTableCellGeneratorDelegate;
+@synthesize orderPadFooterViewDataManager = _orderPadFooterViewDataManager;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -83,6 +84,7 @@
         // Custom initialization
         self.formRowsTableDataManager = [[[FormRowsTableDataManager alloc] init] autorelease];
         self.rootView = [ArcosUtils getRootView];
+        self.orderPadFooterViewDataManager = [[[OrderPadFooterViewDataManager alloc] init] autorelease];
     }
     return self;
 }
@@ -119,6 +121,7 @@
     if (self.formRowSearchDelegate != nil) { self.formRowSearchDelegate = nil; }
     self.formRowsTableDataManager = nil;
     self.formRowTableCellGeneratorDelegate = nil;
+    self.orderPadFooterViewDataManager = nil;
     
     [super dealloc];
 }
@@ -136,7 +139,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     if (self.isCellEditable) {
         UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(EditTable:)];
         [self.navigationItem setRightBarButtonItem:addButton];
@@ -311,6 +313,13 @@
     return auxHeaderView;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showRunningTotalFlag]) return nil;
+    OrderPadFooterViewCell* orderPadFooterViewCell = [self.orderPadFooterViewDataManager generateTableFooterView];
+    [self.orderPadFooterViewDataManager configDataWithTableFooterView:orderPadFooterViewCell];
+    return orderPadFooterViewCell;
+}
+
 -(void)handleHeaderDoubleTapGesture:(id)sender{    
     UITapGestureRecognizer* auxRecognizer = (UITapGestureRecognizer*)sender;
     if (auxRecognizer.state == UIGestureRecognizerStateEnded) {
@@ -323,6 +332,13 @@
 //    if (!self.isShowingTableHeaderView) return 0;
 //    if (self.isRequestSourceFromPresenter) return 0;
     return 44;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRunningTotalFlag]) {
+        return 44;
+    }
+    return 0;
 }
 
 
@@ -945,6 +961,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 }
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
     [self.formRowSearchDelegate searchBarTextDidEndEditing:searchBar];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRunningTotalFlag]) {
+        [self.tableView reloadData];
+    }
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     [self.formRowSearchDelegate searchBar:searchBar textDidChange:searchText];
@@ -954,6 +973,14 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar {
     [self.formRowSearchDelegate searchBarCancelButtonClicked:searchBar];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRunningTotalFlag]) {
+        @try {
+            NSIndexPath* firstRowIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+            [self.tableView scrollToRowAtIndexPath:firstRowIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        } @catch (NSException *exception) {
+        } @finally {
+        }
+    }    
 }
 
 //-(void)resetFormRowTableViewDataSource:(NSMutableArray*)aDataList {
@@ -992,7 +1019,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     self.mySearchBar.text = @"";
     self.unsortedFormrows = [NSMutableArray arrayWithArray:self.originalUnsortedFormrows];
     [self fillTheUnsortListWithData];
-    [self reloadTableViewData];    
+    [self reloadTableViewData];
 }
 
 -(void)currentListSearchTextDidChange:(NSString *)searchText {

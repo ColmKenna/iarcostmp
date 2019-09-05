@@ -22,6 +22,7 @@
 #import "MATFormRowsTableCellRrpGenerator.h"
 #import "MATFormRowsTableCellNormalGenerator.h"
 #import "MATFormRowsTableHeaderView.h"
+#import "OrderPadFooterViewDataManager.h"
 
 @interface MATFormRowsTableViewController : OrderBaseTableViewController<WidgetFactoryDelegate, SlideAcrossViewAnimationDelegate, MATCheckoutViewDelegate, UISearchBarDelegate, UIPopoverControllerDelegate> {
     NSNumber* _locationIUR;
@@ -44,6 +45,7 @@
     UISearchBar* _mySearchBar;
     BOOL _isPageMultipleLoaded;
     id<MATFormRowsTableCellGeneratorDelegate> _mATFormRowsTableCellGeneratorDelegate;
+    OrderPadFooterViewDataManager* _orderPadFooterViewDataManager;
 }
 
 @property(nonatomic, retain) NSNumber* locationIUR;
@@ -66,5 +68,6 @@
 @property(nonatomic, retain) IBOutlet UISearchBar* mySearchBar;
 @property(nonatomic, assign) BOOL isPageMultipleLoaded;
 @property(nonatomic, retain) id<MATFormRowsTableCellGeneratorDelegate> mATFormRowsTableCellGeneratorDelegate;
+@property (nonatomic, retain) OrderPadFooterViewDataManager* orderPadFooterViewDataManager;
 
 @end

@@ -368,7 +368,7 @@
 //        }        
         NSNumber* formRowRecordQty = [self formRowDividerRecordQty:aCellData];
         if ([formRowRecordQty intValue] > 0) {
-            self.frdtvc = [[FormRowDividerTableViewController alloc] initWithNibName:@"FormRowDividerTableViewController" bundle:nil];
+            self.frdtvc = [[[FormRowDividerTableViewController alloc] initWithNibName:@"FormRowDividerTableViewController" bundle:nil] autorelease];
             self.frdtvc.delegate = self;
             self.frdtvc.formIUR = [aCellData objectForKey:@"IUR"];
             self.frdtvc.formName = [aCellData objectForKey:@"Details"];

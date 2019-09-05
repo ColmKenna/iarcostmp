@@ -280,7 +280,7 @@
         self.imageViewer.view.frame=CGRectMake(0, 0, 768, 911);
     }
     */
-    [ArcosUtils processRotationEvent:self.imageViewer.view tabBarHeight:0.0];
+    [ArcosUtils processRotationEvent:self.imageViewer.view tabBarHeight:0.0 navigationController:self.navigationController];
     
 }
 

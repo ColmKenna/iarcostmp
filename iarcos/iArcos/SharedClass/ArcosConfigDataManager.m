@@ -121,6 +121,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConfigDataManager);
     return [self retrieveConfigFlagByIndex:24];
 }
 
+- (BOOL)checkTotalOrderValueFlag {
+    return [self retrieveConfigFlagByIndex:25];
+}
+
 - (BOOL)allowDownloadByEmployeeFlag {
     return [self retrieveConfigFlagByIndex:26];
 }
@@ -259,6 +263,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConfigDataManager);
 
 - (BOOL)useDiscountByPriceGroupFlag {
     return [self retrieveConfigFlagByIndex:64];
+}
+
+- (BOOL)showRunningTotalFlag {
+    return [self retrieveConfigFlagByIndex:65];
 }
 
 - (void)resetSystemCodes:(NSString*)aSystemCodes {

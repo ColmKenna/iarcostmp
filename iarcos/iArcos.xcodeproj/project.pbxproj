@@ -17,6 +17,7 @@
 		6302843B21147B9B0009FE0F /* FormRowsSubDividerHeaderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6302843A21147B9B0009FE0F /* FormRowsSubDividerHeaderTableViewCell.m */; };
 		6302843D21147BC10009FE0F /* FormRowsSubDividerHeaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6302843C21147BC10009FE0F /* FormRowsSubDividerHeaderTableViewCell.xib */; };
 		63035BB920E0FD1C00956B8B /* WeeklyDayPartsDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 63035BB820E0FD1B00956B8B /* WeeklyDayPartsDataManager.m */; };
+		6303EB63231D6B8500EC21A8 /* OrderPadFooterViewDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6303EB62231D6B8500EC21A8 /* OrderPadFooterViewDataManager.m */; };
 		6304522D19EFC79D00CDE68A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6304522C19EFC79D00CDE68A /* main.m */; };
 		6304523019EFC79D00CDE68A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6304522F19EFC79D00CDE68A /* AppDelegate.m */; };
 		6304523619EFC79D00CDE68A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6304523519EFC79D00CDE68A /* ViewController.m */; };
@@ -1365,6 +1366,8 @@
 		63A6D9311D70A22F00439CC5 /* NextCheckoutOrderInfoHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A6D9301D70A22F00439CC5 /* NextCheckoutOrderInfoHeaderView.m */; };
 		63A710CE2292EB1E007AB738 /* appointment.png in Resources */ = {isa = PBXBuildFile; fileRef = 63A710CD2292EB1C007AB738 /* appointment.png */; };
 		63A904B31EDF0BBA001F5035 /* CustomerSurveyRankingTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A904B21EDF0BBA001F5035 /* CustomerSurveyRankingTableCell.m */; };
+		63A9E297231D582000D84D81 /* OrderPadFooterViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63A9E296231D582000D84D81 /* OrderPadFooterViewCell.xib */; };
+		63A9E29A231D5ED100D84D81 /* OrderPadFooterViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A9E299231D5ED100D84D81 /* OrderPadFooterViewCell.m */; };
 		63AAA5E01FB9BD680076CD78 /* ProductDetailPriceTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AAA5DF1FB9BD680076CD78 /* ProductDetailPriceTableCell.m */; };
 		63AAEED31CEB27D700C64272 /* ReportMeetingHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AAEED21CEB27D700C64272 /* ReportMeetingHeaderView.m */; };
 		63AAEED61CEB33AA00C64272 /* ReportMeetingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AAEED51CEB33AA00C64272 /* ReportMeetingTableViewCell.m */; };
@@ -1571,6 +1574,8 @@
 		63034C0E1F02741F0044CA79 /* CustomerSurveyDetailsResponseTableCellDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerSurveyDetailsResponseTableCellDelegate.h; sourceTree = "<group>"; };
 		63035BB720E0FD1B00956B8B /* WeeklyDayPartsDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeeklyDayPartsDataManager.h; sourceTree = "<group>"; };
 		63035BB820E0FD1B00956B8B /* WeeklyDayPartsDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeeklyDayPartsDataManager.m; sourceTree = "<group>"; };
+		6303EB61231D6B8500EC21A8 /* OrderPadFooterViewDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderPadFooterViewDataManager.h; sourceTree = "<group>"; };
+		6303EB62231D6B8500EC21A8 /* OrderPadFooterViewDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderPadFooterViewDataManager.m; sourceTree = "<group>"; };
 		6304522719EFC79D00CDE68A /* iArcos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iArcos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6304522B19EFC79D00CDE68A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6304522C19EFC79D00CDE68A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -4219,6 +4224,9 @@
 		63A7E2251CE226D600C2A84A /* CustomerGroupContactTableViewCellDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerGroupContactTableViewCellDelegate.h; sourceTree = "<group>"; };
 		63A904B11EDF0BBA001F5035 /* CustomerSurveyRankingTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerSurveyRankingTableCell.h; sourceTree = "<group>"; };
 		63A904B21EDF0BBA001F5035 /* CustomerSurveyRankingTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerSurveyRankingTableCell.m; sourceTree = "<group>"; };
+		63A9E296231D582000D84D81 /* OrderPadFooterViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderPadFooterViewCell.xib; sourceTree = "<group>"; };
+		63A9E298231D5ED100D84D81 /* OrderPadFooterViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderPadFooterViewCell.h; sourceTree = "<group>"; };
+		63A9E299231D5ED100D84D81 /* OrderPadFooterViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderPadFooterViewCell.m; sourceTree = "<group>"; };
 		63AAA5DE1FB9BD680076CD78 /* ProductDetailPriceTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductDetailPriceTableCell.h; sourceTree = "<group>"; };
 		63AAA5DF1FB9BD680076CD78 /* ProductDetailPriceTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductDetailPriceTableCell.m; sourceTree = "<group>"; };
 		63AAEED11CEB27D700C64272 /* ReportMeetingHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportMeetingHeaderView.h; sourceTree = "<group>"; };
@@ -6395,6 +6403,8 @@
 				630F0EF42174E39A000BDA94 /* ProductDetailDesignViewController.h */,
 				630F0EF52174E39A000BDA94 /* ProductDetailDesignViewController.m */,
 				630F0EF62174E39A000BDA94 /* ProductDetailDesignViewController.xib */,
+				6303EB61231D6B8500EC21A8 /* OrderPadFooterViewDataManager.h */,
+				6303EB62231D6B8500EC21A8 /* OrderPadFooterViewDataManager.m */,
 			);
 			path = PlaceOrder;
 			sourceTree = "<group>";
@@ -6517,6 +6527,9 @@
 				63D5707621C91FFC00FF37D5 /* OrderDetailFormTypeLabelTableCell.m */,
 				639EA04221CAA7420046D7BA /* OrderDetailLocationLabelTableCell.h */,
 				639EA04321CAA7420046D7BA /* OrderDetailLocationLabelTableCell.m */,
+				63A9E296231D582000D84D81 /* OrderPadFooterViewCell.xib */,
+				63A9E298231D5ED100D84D81 /* OrderPadFooterViewCell.h */,
+				63A9E299231D5ED100D84D81 /* OrderPadFooterViewCell.m */,
 			);
 			path = TableCell;
 			sourceTree = "<group>";
@@ -8719,6 +8732,7 @@
 				63A1330821A86C26000128F5 /* MeetingExpenseTableViewCells.xib in Resources */,
 				630B3BE419F01CB9007B2442 /* CustomerJourneyStartDateTableCell.xib in Resources */,
 				630B3B7919F01CB9007B2442 /* CustomerMemoModalViewController.xib in Resources */,
+				63A9E297231D582000D84D81 /* OrderPadFooterViewCell.xib in Resources */,
 				630B3CDC19F01CB9007B2442 /* ActivateEnterpriseViewController.xib in Resources */,
 				630B3BC619F01CB9007B2442 /* CustomerTyvLyTableCell.xib in Resources */,
 				630B3D2E19F01CB9007B2442 /* UtilitiesDescriptionDetailTableCell.xib in Resources */,
@@ -8952,6 +8966,7 @@
 				630B3C6819F01CB9007B2442 /* ProductDetailStockTableViewController.m in Sources */,
 				630B3C2819F01CB9007B2442 /* BranchLargeSmallDataManager.m in Sources */,
 				639CAE741CFC7EE800D7246C /* GetRecordTypeGenericDecimalObject.m in Sources */,
+				6303EB63231D6B8500EC21A8 /* OrderPadFooterViewDataManager.m in Sources */,
 				630B3B2B19F01CB9007B2442 /* PresenterSlideViewItemController.m in Sources */,
 				630B3C4E19F01CB9007B2442 /* ImageL5FormRowsTableViewController.m in Sources */,
 				630B3C0619F01CB9007B2442 /* OrderDetailCallEmailActionDataManager.m in Sources */,
@@ -9155,6 +9170,7 @@
 				633312F01CCA396C0055E241 /* CustomerSurveyPhotoTableCell.m in Sources */,
 				63A12B6D1CEF314900CF963D /* GetRecordGenericBaseTableViewCell.m in Sources */,
 				630B3D9E19F01CB9007B2442 /* ArcosEmployeeBO.m in Sources */,
+				63A9E29A231D5ED100D84D81 /* OrderPadFooterViewCell.m in Sources */,
 				63A0F5661A321C8D00A58178 /* PresenterCombinedSlideViewBaseItemController.m in Sources */,
 				6320FC2B2164C64F008FB5BC /* TargetBaseTableViewCell.m in Sources */,
 				63AD80001D772AA6005F08F7 /* NextCheckoutFollowUpDateTableViewCell.m in Sources */,

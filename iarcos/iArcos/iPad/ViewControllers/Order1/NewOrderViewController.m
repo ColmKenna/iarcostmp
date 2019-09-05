@@ -235,7 +235,7 @@
 //    [FileCommon testCopyItemAtPath:nil toPath:nil error:nil];
 //    [FileCommon copyfileTest];
 //    [[ArcosCoreData sharedArcosCoreData] executeTransaction];
-    [ArcosUtils processRotationEvent:self.orderBaseTableContentView tabBarHeight:0.0f];
+    [ArcosUtils processRotationEvent:self.orderBaseTableContentView tabBarHeight:0.0f navigationController:self.navigationController];
     [self layoutMySubviews];
     if ([GlobalSharedClass shared].currentSelectedLocationIUR == nil) {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Warning" 

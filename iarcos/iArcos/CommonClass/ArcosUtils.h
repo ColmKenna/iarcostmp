@@ -94,6 +94,7 @@
 + (BOOL)systemVersionGreaterThanSeven;
 + (int)systemMajorVersion;
 +(void)processRotationEvent:(UIView*)aView tabBarHeight:(float)aHeight;
++(void)processRotationEvent:(UIView*)aView tabBarHeight:(float)aHeight navigationController:(UINavigationController*)aNavigationController;
 +(CGRect)fromRect4ActionSheet:(UIView*)aView;
 +(UIImage*)genericImageWithIUR:(NSNumber*)imageIUR;
 +(NSString*)wrapStringByCDATA:(NSString*)aString;

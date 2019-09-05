@@ -15,6 +15,7 @@
 #import "MATFormRowsTableCellRrpGenerator.h"
 #import "MATFormRowsTableCellNormalGenerator.h"
 #import "MATFormRowsTableHeaderView.h"
+#import "OrderPadFooterViewDataManager.h"
 
 @interface StandardOrderPadMatTableViewController : UITableViewController<WidgetFactoryDelegate, UIPopoverControllerDelegate> {
     id<OrderFormNavigationControllerBackButtonDelegate> _backButtonDelegate;
@@ -29,6 +30,7 @@
     UISearchBar* _mySearchBar;
     BOOL _isPageMultipleLoaded;
     id<MATFormRowsTableCellGeneratorDelegate> _mATFormRowsTableCellGeneratorDelegate;
+    OrderPadFooterViewDataManager* _orderPadFooterViewDataManager;
 }
 
 @property(nonatomic, assign) id<OrderFormNavigationControllerBackButtonDelegate> backButtonDelegate;
@@ -43,5 +45,6 @@
 @property(nonatomic, retain) IBOutlet UISearchBar* mySearchBar;
 @property(nonatomic, assign) BOOL isPageMultipleLoaded;
 @property(nonatomic, retain) id<MATFormRowsTableCellGeneratorDelegate> mATFormRowsTableCellGeneratorDelegate;
+@property(nonatomic, retain) OrderPadFooterViewDataManager* orderPadFooterViewDataManager;
 
 @end

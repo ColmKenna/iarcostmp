@@ -248,12 +248,18 @@
         }
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableVanSaleFlag] && ![[auxOrderType objectForKey:@"DescrDetailCode"] isEqualToString:[GlobalSharedClass shared].vansCode]) {
             void (^continueActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
-                [self checkoutSaveProcessor];
+                if ([[ArcosConfigDataManager sharedArcosConfigDataManager] checkTotalOrderValueFlag]) {
+                    [self checkTotalOrderValueProcessor];
+                } else {
+                    [self checkoutSaveProcessor];
+                }
             };
             void (^cancelActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
                 
             };
             [ArcosUtils showTwoBtnsDialogBox:@"Order type is not set as van sales. Do you want to continue" title:@"Warning" delegate:nil target:self tag:0 lBtnText:@"Cancel" rBtnText:@"Continue" lBtnHandler:cancelActionHandler rBtnHandler:continueActionHandler];
+        } else if ([[ArcosConfigDataManager sharedArcosConfigDataManager] checkTotalOrderValueFlag]) {
+            [self checkTotalOrderValueProcessor];
         } else {
             [self checkoutSaveProcessor];
         }                
@@ -261,6 +267,41 @@
         [ArcosUtils showDialogBox:@"Order has no lines,please Re-enter or use 'new call!'" title:@"Warning" delegate:self target:self tag:888 handler:^(UIAlertAction *action) {
             [self backPressed:nil];
         }];
+    }
+}
+
+- (void)checkTotalOrderValueProcessor {
+    NSMutableArray* locationList = [[ArcosCoreData sharedArcosCoreData] locationWithIURWithoutCheck:[GlobalSharedClass shared].currentSelectedLocationIUR];
+    BOOL showMsgFlag = NO;
+    if (locationList != nil && [locationList count] > 0) {
+        NSDictionary* locationDict = [locationList objectAtIndex:0];
+        NSNumber* LTiurNumber = [locationDict objectForKey:@"LTiur"];
+        NSDictionary* LTiurDict = [[ArcosCoreData sharedArcosCoreData] descriptionWithIUR:LTiurNumber];
+        if (LTiurDict != nil) {
+            if ([[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"TotalGoods"] floatValue] < [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100) {
+                showMsgFlag = YES;
+                NSString* errorTitle = @"Minimum Order Value required";
+                NSString* errorMsg = [ArcosUtils trim:[NSString stringWithFormat:@"%@ must have a minimum Order Value of %.0f\nShortfall of %.2f\n%@", [ArcosUtils convertNilToEmpty:[LTiurDict objectForKey:@"Detail"]], [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100, [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100 - [[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"TotalGoods"] floatValue],[ArcosUtils convertNilToEmpty:[LTiurDict objectForKey:@"Tooltip"]]]];
+                void (^saveAnywayActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+                    [self checkoutSaveProcessor];
+                };
+                void (^continueOrderActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+                    [self backPressed:nil];
+                };
+                void (^okActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+                    
+                };
+                
+                if ([[LTiurDict objectForKey:@"Toggle1"] boolValue]) {
+                    [ArcosUtils showTwoBtnsDialogBox:errorMsg title:errorTitle delegate:self target:self tag:75 lBtnText:@"Save Anyway" rBtnText:@"Continue Order" lBtnHandler:saveAnywayActionHandler rBtnHandler:continueOrderActionHandler];
+                } else {
+                    [ArcosUtils showDialogBox:errorMsg title:errorTitle delegate:self target:self tag:0 handler:okActionHandler];
+                }
+            }
+        }
+    }
+    if (!showMsgFlag) {
+        [self checkoutSaveProcessor];
     }
 }
 
@@ -392,6 +433,13 @@
     }
     if (alertView.tag == 99) {
         [self saveButtonCallBack];
+    }
+    if (alertView.tag == 75) {
+        if (buttonIndex == alertView.cancelButtonIndex) {
+            [self checkoutSaveProcessor];
+        } else {
+            [self backPressed:nil];
+        }
     }
 }
 

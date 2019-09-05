@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="ipad9_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view tag="1" contentMode="scaleToFill" id="InY-Te-XEk" customClass="OrderPadFooterViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Bonus Value" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zXL-le-ReD">
+                    <rect key="frame" x="15" y="11" width="270" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="270" id="Kkl-zB-V5c"/>
+                        <constraint firstAttribute="height" constant="21" id="OkU-RF-0T8"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Trade" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9rA-1h-Vcw">
+                    <rect key="frame" x="533" y="11" width="88" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="88" id="8ci-4f-net"/>
+                        <constraint firstAttribute="height" constant="21" id="EJF-hq-Ud2"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Trade Value" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q7w-yq-Yxj">
+                    <rect key="frame" x="623" y="11" width="135" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="MIN-Ad-P5S"/>
+                        <constraint firstAttribute="width" constant="135" id="Odh-v5-3fd"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="zXL-le-ReD" firstAttribute="top" secondItem="InY-Te-XEk" secondAttribute="top" constant="11" id="8gl-WX-oXu"/>
+                <constraint firstItem="9rA-1h-Vcw" firstAttribute="top" secondItem="InY-Te-XEk" secondAttribute="top" constant="11" id="Bqn-wH-gHH"/>
+                <constraint firstAttribute="trailing" secondItem="Q7w-yq-Yxj" secondAttribute="trailing" constant="10" id="GyD-LL-rVW"/>
+                <constraint firstItem="Q7w-yq-Yxj" firstAttribute="leading" secondItem="9rA-1h-Vcw" secondAttribute="trailing" constant="2" id="Iy9-6z-fsd"/>
+                <constraint firstItem="zXL-le-ReD" firstAttribute="leading" secondItem="InY-Te-XEk" secondAttribute="leading" constant="15" id="jWD-Ig-fQa"/>
+                <constraint firstItem="Q7w-yq-Yxj" firstAttribute="top" secondItem="InY-Te-XEk" secondAttribute="top" constant="11" id="yEn-Rj-GF0"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="totalBonusValue" destination="zXL-le-ReD" id="Ojm-6B-LCx"/>
+                <outlet property="totalTradeTitle" destination="9rA-1h-Vcw" id="F84-o1-6e7"/>
+                <outlet property="totalTradeValue" destination="Q7w-yq-Yxj" id="blD-Ik-dwG"/>
+            </connections>
+            <point key="canvasLocation" x="-136.71875" y="152.9296875"/>
+        </view>
+    </objects>
+</document>

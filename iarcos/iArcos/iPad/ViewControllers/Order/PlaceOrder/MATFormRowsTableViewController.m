@@ -29,6 +29,7 @@
 @synthesize mySearchBar = _mySearchBar;
 @synthesize isPageMultipleLoaded = _isPageMultipleLoaded;
 @synthesize mATFormRowsTableCellGeneratorDelegate = _mATFormRowsTableCellGeneratorDelegate;
+@synthesize orderPadFooterViewDataManager = _orderPadFooterViewDataManager;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -45,6 +46,7 @@
         // Custom initialization        
         self.matFormRowsDataManager = [[[MATFormRowsDataManager alloc] init] autorelease];
         self.isPageMultipleLoaded = NO;
+        self.orderPadFooterViewDataManager = [[[OrderPadFooterViewDataManager alloc] init] autorelease];
     }
     return self;
 }
@@ -68,7 +70,7 @@
     if (self.endDate != nil) { self.endDate = nil; }
     self.mySearchBar = nil;
     self.mATFormRowsTableCellGeneratorDelegate = nil;
-    
+    self.orderPadFooterViewDataManager = nil;
     [super dealloc];
 }
 
@@ -224,6 +226,13 @@
     return myHeaderView;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showRunningTotalFlag]) return nil;
+    OrderPadFooterViewCell* orderPadFooterViewCell = [self.orderPadFooterViewDataManager generateTableFooterView];
+    [self.orderPadFooterViewDataManager configDataWithTableFooterView:orderPadFooterViewCell];
+    return orderPadFooterViewCell;
+}
+
 - (void)handleHeaderDoubleTapGesture:(id)sender {
     UITapGestureRecognizer* recognizer = (UITapGestureRecognizer*)sender;
     if (recognizer.state == UIGestureRecognizerStateEnded) {        
@@ -248,6 +257,13 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 44;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRunningTotalFlag]) {
+        return 44;
+    }
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -524,6 +540,9 @@
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
     self.mySearchBar.showsCancelButton = NO;
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRunningTotalFlag]) {
+        [self.tableView reloadData];
+    }
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
@@ -553,6 +572,14 @@
     self.matFormRowsDataManager.qtyBonDisplayList = [NSMutableArray arrayWithArray:self.matFormRowsDataManager.originalQtyBonDisplayList];
     [self.matFormRowsDataManager syncQtyBonDisplayList];
     [self.tableView reloadData];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRunningTotalFlag]) {
+        @try {
+            NSIndexPath* firstRowIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+            [self.tableView scrollToRowAtIndexPath:firstRowIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        } @catch (NSException *exception) {
+        } @finally {
+        }
+    }
 }
 
 #pragma mark UIPopoverControllerDelegate

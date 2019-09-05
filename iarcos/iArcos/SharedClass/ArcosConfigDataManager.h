@@ -41,6 +41,7 @@
 - (BOOL)enableCreateLocationByEmailFlag;
 - (BOOL)enableEditLocationByEmailFlag;
 - (BOOL)recordInStockRBFlag;
+- (BOOL)checkTotalOrderValueFlag;
 - (BOOL)allowDownloadByEmployeeFlag;
 - (BOOL)enableCreateContactByEmailFlag;
 - (BOOL)enableEditContactByEmailFlag;
@@ -76,6 +77,7 @@
 - (BOOL)showSingleTaskFlag;
 - (BOOL)useDiscountFromPriceFlag;
 - (BOOL)useDiscountByPriceGroupFlag;
+- (BOOL)showRunningTotalFlag;
 - (void)resetSystemCodes:(NSString*)aSystemCodes;
 - (void)persistentSystemCodes;
 

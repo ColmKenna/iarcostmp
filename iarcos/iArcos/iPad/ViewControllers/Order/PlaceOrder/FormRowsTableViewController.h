@@ -32,6 +32,8 @@
 #import "FormRowsSubDividerHeaderTableViewCell.h"
 #import "FormRowTableCellRrpGenerator.h"
 #import "FormRowTableCellNormalGenerator.h"
+#import "OrderPadFooterViewDataManager.h"
+
 
 @interface FormRowsTableViewController : OrderDetailViewController <SelectionPopoverDelegate,ModelViewDelegate,WidgetFactoryDelegate,UISearchBarDelegate, OrderProductTableCellDelegate,UIPopoverControllerDelegate>{
     id<FormRowsTableViewControllerDelegate> _actionDelegate;
@@ -86,6 +88,7 @@
     BOOL _isPredicativeSearchProduct;
     BOOL _isStandardOrderPadFlag;
     id<FormRowTableCellGeneratorDelegate> _formRowTableCellGeneratorDelegate;
+    OrderPadFooterViewDataManager* _orderPadFooterViewDataManager;
 }
 @property(nonatomic,assign) id<FormRowsTableViewControllerDelegate> actionDelegate;
 @property(nonatomic,retain) NSNumber* dividerIUR;
@@ -129,6 +132,7 @@
 @property (nonatomic, assign) BOOL isPredicativeSearchProduct;
 @property (nonatomic, assign) BOOL isStandardOrderPadFlag;
 @property (nonatomic, retain) id<FormRowTableCellGeneratorDelegate> formRowTableCellGeneratorDelegate;
+@property (nonatomic, retain) OrderPadFooterViewDataManager* orderPadFooterViewDataManager;
 
 -(void)sortGroups:(NSMutableDictionary*)aList;
 - (IBAction) EditTable:(id)sender;
