@@ -15,6 +15,7 @@
 -(void)restoreCurrentOrderLine;
 -(NSMutableDictionary*)orderLinesTotal;
 -(void)popToSavedOrderDetailViewController;
+- (void)configRightBarButtons;
 @end
 
 @implementation OrderProductViewController
@@ -47,6 +48,7 @@
 @synthesize locationIUR = _locationIUR;
 @synthesize arcosStockonHandUtils = _arcosStockonHandUtils;
 @synthesize vansOrderHeader = _vansOrderHeader;
+@synthesize discountButton = _discountButton;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -59,7 +61,7 @@
 
 - (void)dealloc
 {
-    self.discTitleLabel = nil;
+    self.descTitleLabel = nil;
     self.qtyTitleLabel = nil;
     self.valueTitleLabel = nil;
     self.discTitleLabel = nil;
@@ -87,6 +89,7 @@
     self.locationIUR = nil;
     self.arcosStockonHandUtils = nil;
     self.vansOrderHeader = nil;
+    self.discountButton = nil;
     
     [super dealloc];
 }
@@ -106,16 +109,16 @@
     [super viewDidLoad];
     //self.displayList=self.tableData;
     //edit button
-    if (self.isCellEditable) {
-        NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:2];
-        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(EditTable:)];
-        [rightButtonList addObject:addButton];
-        [addButton release];
-        UIBarButtonItem* addLineButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addLinePressed:)];
-        [rightButtonList addObject:addLineButton];
-        [addLineButton release];
-        self.navigationItem.rightBarButtonItems = rightButtonList;
-    }
+//    if (self.isCellEditable) {
+//        NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:2];
+//        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(EditTable:)];
+//        [rightButtonList addObject:addButton];
+//        [addButton release];
+//        UIBarButtonItem* addLineButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addLinePressed:)];
+//        [rightButtonList addObject:addLineButton];
+//        [addLineButton release];
+//        self.navigationItem.rightBarButtonItems = rightButtonList;
+//    }
     
     self.tableView.allowsSelection=NO;
     //minddle buttons
@@ -148,8 +151,8 @@
     self.factory=[WidgetFactory factory];
     self.factory.delegate=self;
     
-    self.inputPopover=[factory CreateOrderInputPadWidgetWithLocationIUR:self.locationIUR];
-    self.inputPopover.delegate = self;
+//    self.inputPopover=[factory CreateOrderInputPadWidgetWithLocationIUR:self.locationIUR];
+//    self.inputPopover.delegate = self;
     
     //calculate total
     [self orderLinesTotal];
@@ -164,9 +167,38 @@
     // e.g. self.myOutlet = nil;
 }
 
+- (void)configRightBarButtons {
+    if (self.isCellEditable) {
+        NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:2];
+        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(EditTable:)];
+        [rightButtonList addObject:addButton];
+        [addButton release];
+        UIBarButtonItem* addLineButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addLinePressed:)];
+        [rightButtonList addObject:addLineButton];
+        [addLineButton release];
+        self.discountButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"discount.png"] style:UIBarButtonItemStylePlain target:self action:@selector(discountButtonPressed)] autorelease];
+        NSNumber* allowDiscount = [SettingManager SettingForKeypath:@"CompanySetting.Order Processing" atIndex:1];
+        SettingManager* sm = [SettingManager setting];
+        NSMutableDictionary* presenterPwdDict = [sm getSettingForKeypath:@"CompanySetting.Connection" atIndex:8];
+        NSString* presenterPwd = [[presenterPwdDict objectForKey:@"Value"] uppercaseString];
+        NSRange aBDRange = [presenterPwd rangeOfString:@"[BD]"];
+        if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && [[ArcosConfigDataManager sharedArcosConfigDataManager] useDiscountByPriceGroupFlag]) {
+            [rightButtonList addObject:self.discountButton];
+        }
+        self.navigationItem.rightBarButtonItems = rightButtonList;
+    }
+}
+
+- (void)discountButtonPressed {
+    self.inputPopover = [self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourcePriceGroup];
+    self.inputPopover.delegate = self;
+    [self.inputPopover presentPopoverFromBarButtonItem:self.discountButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self configRightBarButtons];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -618,7 +650,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         UIViewController* parentView=self.parentViewController;
         CGRect aRect=CGRectMake(parentView.view.frame.size.width-10, parentView.view.frame.size.height, 1, 1);
         BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:self.formIUR];
-        
+        self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        self.inputPopover.delegate = self;
         OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
         oipvc.Data=aCell.data;
         oipvc.showSeparator = showSeparator;
@@ -701,7 +734,29 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 //    NSLog(@"input is done! with value %@",data);
     
     [self.inputPopover dismissPopoverAnimated:YES];
-    
+    if ([self.inputPopover.contentViewController isKindOfClass:[PickerWidgetViewController class]]) {
+        NSNumber* descrDetailIUR = [data objectForKey:@"DescrDetailIUR"];
+        NSMutableArray* productIURList = [NSMutableArray arrayWithCapacity:[self.displayList count]];
+        for (int i = 0; i < [self.displayList count]; i++) {
+            NSMutableDictionary* tmpCellData = [self.displayList objectAtIndex:i];
+            [productIURList addObject:[tmpCellData objectForKey:@"ProductIUR"]];
+        }
+        NSMutableDictionary* priceHashMap = [[ArcosCoreData sharedArcosCoreData] retrievePriceWithLocationIUR:descrDetailIUR productIURList:productIURList];
+        for (int j = 0; j < [self.displayList count]; j++) {
+            NSMutableDictionary* tmpCellData = [self.displayList objectAtIndex:j];
+            NSNumber* tmpProductIUR = [tmpCellData objectForKey:@"ProductIUR"];
+            NSDictionary* tmpPriceDict = [priceHashMap objectForKey:tmpProductIUR];
+            if (tmpPriceDict == nil) continue;
+            NSDecimalNumber* tmpDiscountPercent = [tmpPriceDict objectForKey:@"DiscountPercent"];
+            [tmpCellData setObject:[NSNumber numberWithFloat:[tmpDiscountPercent floatValue]] forKey:@"DiscountPercent"];
+            [tmpCellData setObject:[ProductFormRowConverter calculateLineValue:tmpCellData] forKey:@"LineValue"];
+            [[ArcosCoreData sharedArcosCoreData]updateOrderLine:tmpCellData];
+        }
+        NSMutableArray* orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:self.orderNumber withSortKey:@"OrderLine" locationIUR:self.locationIUR];
+        [self reloadTableDataWithData:orderLines];
+        [self orderLinesTotal];
+        return;
+    }
     NSMutableDictionary* orderLine= (NSMutableDictionary*)data;
 //    NSNumber* QTY=[orderLine objectForKey:@"Qty"];
     
@@ -713,9 +768,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         NSMutableArray* orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:self.orderNumber withSortKey:@"OrderLine" locationIUR:self.locationIUR];
         [self reloadTableDataWithData:orderLines];
 //        [self.tableView reloadData];
+        [self orderLinesTotal];
     }
     
-    [self orderLinesTotal];
 }
 - (void)deleteOrderLineFromCellDeleteButton:(NSMutableDictionary*)data {
 //    self.backupSelectedOrderLine = data;

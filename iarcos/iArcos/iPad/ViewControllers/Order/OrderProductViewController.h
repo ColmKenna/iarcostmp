@@ -62,6 +62,7 @@
     NSNumber* _locationIUR;
     ArcosStockonHandUtils* _arcosStockonHandUtils;
     NSMutableDictionary* _vansOrderHeader;
+    UIBarButtonItem* _discountButton;
 }
 
 @property (nonatomic,retain) IBOutlet UILabel* descTitleLabel;
@@ -97,6 +98,7 @@
 @property(nonatomic,retain) NSNumber* locationIUR;
 @property(nonatomic,retain) ArcosStockonHandUtils* arcosStockonHandUtils;
 @property(nonatomic,retain) NSMutableDictionary* vansOrderHeader;
+@property(nonatomic,retain) UIBarButtonItem* discountButton;
 
 - (IBAction) EditTable:(id)sender;
 

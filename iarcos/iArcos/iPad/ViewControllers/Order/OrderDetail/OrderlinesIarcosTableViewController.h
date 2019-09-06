@@ -31,6 +31,7 @@
     UINavigationController* _globalNavigationController;
     NSNumber* _locationIUR;
     NSMutableDictionary* _vansOrderHeader;
+    UIBarButtonItem* _discountButton;
 }
 
 @property(nonatomic, assign) BOOL isCellEditable;
@@ -46,6 +47,7 @@
 @property(nonatomic, retain) UINavigationController* globalNavigationController;
 @property(nonatomic, retain) NSNumber* locationIUR;
 @property(nonatomic, retain) NSMutableDictionary* vansOrderHeader;
+@property(nonatomic,retain) UIBarButtonItem* discountButton;
 
 - (void)resetTableDataWithData:(NSMutableArray*)theData;
 

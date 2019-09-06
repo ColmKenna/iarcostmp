@@ -122,7 +122,6 @@
     UIBarButtonItem* saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveOrder)];
     [rightButtonList addObject:saveButton];
     self.discountButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"discount.png"] style:UIBarButtonItemStylePlain target:self action:@selector(discountButtonPressed)] autorelease];
-    //    self.navigationItem.rightBarButtonItem = saveButton;
     NSNumber* allowDiscount = [SettingManager SettingForKeypath:@"CompanySetting.Order Processing" atIndex:1];
     SettingManager* sm = [SettingManager setting];
     NSMutableDictionary* presenterPwdDict = [sm getSettingForKeypath:@"CompanySetting.Connection" atIndex:8];
@@ -311,7 +310,7 @@
     NSNumber* orderNumberResult = [NSNumber numberWithInt:0];
     self.isCheckoutSuccessful = [[OrderSharedClass sharedOrderSharedClass] saveCurrentOrder:&orderNumberResult];
     if (!self.isCheckoutSuccessful) {
-        [ArcosUtils showDialogBox:@"Something is wrong with order saving!" title:@"Warning" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {            
+        [ArcosUtils showDialogBox:@"Unable to save order, please check the default settings" title:@"Warning" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
         }];
         return;
     }
@@ -590,6 +589,7 @@
             NSMutableDictionary* tmpCellData = [[OrderSharedClass sharedOrderSharedClass].currentOrderCart objectForKey:tmpCombinationKey];
             NSNumber* tmpProductIUR = [tmpCellData objectForKey:@"ProductIUR"];
             NSDictionary* tmpPriceDict = [priceHashMap objectForKey:tmpProductIUR];
+            if (tmpPriceDict == nil) continue;
             NSDecimalNumber* tmpDiscountPercent = [tmpPriceDict objectForKey:@"DiscountPercent"];
             [tmpCellData setObject:[NSNumber numberWithFloat:[tmpDiscountPercent floatValue]] forKey:@"DiscountPercent"];
             [tmpCellData setObject:[ProductFormRowConverter calculateLineValue:tmpCellData] forKey:@"LineValue"];
