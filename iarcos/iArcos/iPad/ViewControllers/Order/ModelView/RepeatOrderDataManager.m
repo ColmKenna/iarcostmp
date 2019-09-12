@@ -82,6 +82,7 @@
     }
     int lineNumber = 0;
     for (int i = 0; i < [orderLines count]; i++) {
+        lineNumber++;
         NSDictionary* auxOrderLineDict = [orderLines objectAtIndex:i];
         OrderLine* OL = [NSEntityDescription insertNewObjectForEntityForName:@"OrderLine" inManagedObjectContext:[ArcosCoreData sharedArcosCoreData].addManagedObjectContext];
         OL.OrderLine = [NSNumber numberWithInt:lineNumber];

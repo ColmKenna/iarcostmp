@@ -13,12 +13,14 @@
 @synthesize addressLabel = _addressLabel;
 @synthesize locationStatusButton = _locationStatusButton;
 @synthesize creditStatusButton = _creditStatusButton;
+@synthesize locationCodeLabel = _locationCodeLabel;
 
 - (void)dealloc {
     self.nameLabel = nil;
     self.addressLabel = nil;
     self.locationStatusButton = nil;
     self.creditStatusButton = nil;
+    self.locationCodeLabel = nil;
     
     [super dealloc];
 }

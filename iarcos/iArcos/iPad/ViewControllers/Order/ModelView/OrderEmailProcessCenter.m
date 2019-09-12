@@ -151,7 +151,11 @@
         if (![focString isEqualToString:@""]) {
             bonusString = [NSString stringWithFormat:@"%@/%@",bonusString,focString];
         }
-        [body appendString:@"<tr>"];
+        if ([[aDict objectForKey:@"StockAvailable"] intValue] == 0) {
+            [body appendString:@"<tr style='color:#FF0000;'>"];
+        } else {
+            [body appendString:@"<tr style='color:#000000;'>"];
+        }
         [body appendString:@"<td width='7%'>"];
         [body appendString:qtyString];
         [body appendString:@"</td>"];

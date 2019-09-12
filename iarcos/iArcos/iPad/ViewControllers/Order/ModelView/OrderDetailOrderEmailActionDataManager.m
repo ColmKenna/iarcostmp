@@ -186,15 +186,19 @@
         } else {
             
         }
-        [self.checkoutPDFRenderer drawText:qtyStr inRect:newQtyRect alignment:NSTextAlignmentLeft font:self.orderLineFont];
-        [self.checkoutPDFRenderer drawText:bonusStr inRect:newBonusRect alignment:NSTextAlignmentLeft font:self.orderLineFont];
-        [self.checkoutPDFRenderer drawText:[orderLineDict objectForKey:@"ProductCode"] inRect:newCodeRect alignment:NSTextAlignmentLeft font:self.orderLineFont];
-        [self.checkoutPDFRenderer drawText:discountStr inRect:newDiscRect alignment:NSTextAlignmentLeft font:self.orderLineFont];
-        [self.checkoutPDFRenderer drawText:[NSString stringWithFormat:@"%@ %@", details, [orderLineDict objectForKey:@"ProductSize"]] inRect:newDetailRect alignment:NSTextAlignmentLeft font:self.orderLineFont];
+        UIColor* textColor = [UIColor blackColor];
+        if ([[orderLineDict objectForKey:@"StockAvailable"] intValue] == 0) {
+            textColor = [UIColor redColor];
+        }
+        [self.checkoutPDFRenderer drawText:qtyStr inRect:newQtyRect alignment:NSTextAlignmentLeft font:self.orderLineFont textColor:textColor];
+        [self.checkoutPDFRenderer drawText:bonusStr inRect:newBonusRect alignment:NSTextAlignmentLeft font:self.orderLineFont textColor:textColor];
+        [self.checkoutPDFRenderer drawText:[orderLineDict objectForKey:@"ProductCode"] inRect:newCodeRect alignment:NSTextAlignmentLeft font:self.orderLineFont textColor:textColor];
+        [self.checkoutPDFRenderer drawText:discountStr inRect:newDiscRect alignment:NSTextAlignmentLeft font:self.orderLineFont textColor:textColor];
+        [self.checkoutPDFRenderer drawText:[NSString stringWithFormat:@"%@ %@", details, [orderLineDict objectForKey:@"ProductSize"]] inRect:newDetailRect alignment:NSTextAlignmentLeft font:self.orderLineFont textColor:textColor];
         if (!exclusiveValueFlag) {
-            [self.checkoutPDFRenderer drawText:lineValueStr inRect:newValueRect alignment:NSTextAlignmentRight font:self.orderLineFont];
+            [self.checkoutPDFRenderer drawText:lineValueStr inRect:newValueRect alignment:NSTextAlignmentRight font:self.orderLineFont textColor:textColor];
         } else {            
-            [self.checkoutPDFRenderer drawText:[NSString stringWithFormat:@"%@", [orderLineDict objectForKey:@"EAN"]] inRect:newValueRect alignment:NSTextAlignmentRight font:self.orderLineFont];
+            [self.checkoutPDFRenderer drawText:[NSString stringWithFormat:@"%@", [orderLineDict objectForKey:@"EAN"]] inRect:newValueRect alignment:NSTextAlignmentRight font:self.orderLineFont textColor:textColor];
         }
         
         if (flag) {

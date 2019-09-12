@@ -13,11 +13,13 @@
     UILabel* _addressLabel;
     UIButton* _locationStatusButton;
     UIButton* _creditStatusButton;
+    UILabel* _locationCodeLabel;
 }
 
 @property(nonatomic, retain) IBOutlet UILabel* nameLabel;
 @property(nonatomic, retain) IBOutlet UILabel* addressLabel;
 @property(nonatomic, retain) IBOutlet UIButton* locationStatusButton;
 @property(nonatomic, retain) IBOutlet UIButton* creditStatusButton;
+@property(nonatomic, retain) IBOutlet UILabel* locationCodeLabel;
 
 @end

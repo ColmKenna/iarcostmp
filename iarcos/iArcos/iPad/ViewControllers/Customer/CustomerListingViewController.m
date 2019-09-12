@@ -296,10 +296,16 @@
     NSMutableDictionary* aCust=[aSectionArray objectAtIndex:indexPath.row];
     
     //Customer Name            
+//    if ([self.showLocationCode boolValue]) {
+//        cell.nameLabel.text = [NSString stringWithFormat:@"%@ [%@]", [aCust objectForKey:@"Name"], [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[aCust objectForKey:@"LocationCode"]]]];
+//    } else {
+//        cell.nameLabel.text =[aCust objectForKey:@"Name"];
+//    }
+    cell.nameLabel.text =[aCust objectForKey:@"Name"];
     if ([self.showLocationCode boolValue]) {
-        cell.nameLabel.text = [NSString stringWithFormat:@"%@ [%@]", [aCust objectForKey:@"Name"], [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[aCust objectForKey:@"LocationCode"]]]];
+        cell.locationCodeLabel.text = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[aCust objectForKey:@"LocationCode"]]];
     } else {
-        cell.nameLabel.text =[aCust objectForKey:@"Name"];
+        cell.locationCodeLabel.text = @"";
     }
     //Address
     if ([aCust objectForKey:@"Address1"]==nil) {
