@@ -26,6 +26,7 @@
 - (void)drawText:(NSString*)aText inRect:(CGRect)aRect;
 - (void)drawText:(NSString*)aText inRect:(CGRect)aRect alignment:(NSTextAlignment)aTextAlignment;
 - (void)drawText:(NSString*)aText inRect:(CGRect)aRect alignment:(NSTextAlignment)aTextAlignment font:(UIFont*)aFont;
+- (void)drawText:(NSString*)aText inRect:(CGRect)aRect alignment:(NSTextAlignment)aTextAlignment font:(UIFont*)aFont textColor:(UIColor*)aColor;
 - (void)drawLineFromPoint:(CGPoint)aFromPoint toPoint:(CGPoint)aToPoint;
 - (CGRect)retrieveViewRectWithTag:(int)aTag;
 - (CGRect)retrieveNewViewRect:(CGRect)aRect index:(int)anIndex verticalSpace:(int)aSpace pageNum:(int)aPageNum;

@@ -169,6 +169,54 @@
     [attributedString release];
 }
 
+- (void)drawText:(NSString*)aText inRect:(CGRect)aRect alignment:(NSTextAlignment)aTextAlignment font:(UIFont*)aFont textColor:(UIColor*)aColor {
+    //     Prepare the text using a Core Text Framesetter
+    NSMutableParagraphStyle* paragraphStyle = [[NSMutableParagraphStyle alloc] init] ;
+    [paragraphStyle setAlignment:aTextAlignment];
+    
+    NSMutableAttributedString* attributedString = [[NSMutableAttributedString alloc] initWithString:aText];
+    if (aFont != nil) {
+        [attributedString addAttribute:NSFontAttributeName value:aFont range:NSMakeRange(0, [aText length])];
+    }
+    if (aColor != nil) {
+        [attributedString addAttribute:NSForegroundColorAttributeName value:aColor range:NSMakeRange(0, [aText length])];
+    }
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [aText length])];
+    [paragraphStyle release];
+    CFAttributedStringRef currentText = (CFAttributedStringRef)attributedString;
+    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString(currentText);
+    
+    CGMutablePathRef framePath = CGPathCreateMutable();
+    CGPathAddRect(framePath, NULL, aRect);
+    
+    // Get the frame that will do the rendering.
+    CFRange currentRange = CFRangeMake(0, 0);
+    CTFrameRef frameRef = CTFramesetterCreateFrame(framesetter, currentRange, framePath, NULL);
+    CGPathRelease(framePath);
+    
+    // Get the graphics context.
+    CGContextRef currentContext = UIGraphicsGetCurrentContext();
+    
+    // Put the text matrix into a known state. This ensures
+    // that no old scaling factors are left in place.
+    CGContextSetTextMatrix(currentContext, CGAffineTransformIdentity);
+    
+    // Core Text draws from the bottom-left corner up, so flip
+    // the current transform prior to drawing.
+    CGContextTranslateCTM(currentContext, 0, aRect.origin.y * 2);
+    CGContextScaleCTM(currentContext, 1.0, -1.0);
+    
+    // Draw the frame.
+    CTFrameDraw(frameRef, currentContext);
+    
+    CGContextScaleCTM(currentContext, 1.0, -1.0);
+    CGContextTranslateCTM(currentContext, 0, (-1) * aRect.origin.y * 2);
+    
+    CFRelease(frameRef);
+    CFRelease(framesetter);
+    [attributedString release];
+}
+
 - (void)drawLineFromPoint:(CGPoint)aFromPoint toPoint:(CGPoint)aToPoint {
     CGContextRef context = UIGraphicsGetCurrentContext();
     
