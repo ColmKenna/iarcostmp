@@ -392,4 +392,10 @@
     }
 }
 
+- (NSMutableDictionary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath {
+    NSString* mySectionTitle = [self.sectionTitleList objectAtIndex:anIndexPath.section];
+    NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:mySectionTitle];
+    return [tmpDisplayList objectAtIndex:anIndexPath.row];
+}
+
 @end

@@ -71,5 +71,6 @@
 - (NSMutableDictionary*)retrieveDataDictWithSelectorName:(NSString*)aSelectorName sectionTitle:(NSString*)aSectionTitle;
 - (int)retrieveSectionIndexWithSectionTitle:(NSString*)aSectionTitle;
 - (void)processFinishedWithOverallNumber:(int)anOverallNumber compositeIndexResult:(CompositeIndexResult*)aCompositeIndexResult;
+- (NSMutableDictionary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath;
 
 @end
