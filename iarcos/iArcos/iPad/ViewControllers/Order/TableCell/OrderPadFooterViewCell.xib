@@ -16,17 +16,17 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Bonus Value" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zXL-le-ReD">
-                    <rect key="frame" x="15" y="11" width="270" height="21"/>
+                    <rect key="frame" x="15" y="11" width="320" height="21"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="270" id="Kkl-zB-V5c"/>
+                        <constraint firstAttribute="width" constant="320" id="Kkl-zB-V5c"/>
                         <constraint firstAttribute="height" constant="21" id="OkU-RF-0T8"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Trade" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9rA-1h-Vcw">
-                    <rect key="frame" x="533" y="11" width="88" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Trade" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9rA-1h-Vcw">
+                    <rect key="frame" x="588" y="11" width="88" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="88" id="8ci-4f-net"/>
                         <constraint firstAttribute="height" constant="21" id="EJF-hq-Ud2"/>
@@ -35,11 +35,11 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Trade Value" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q7w-yq-Yxj">
-                    <rect key="frame" x="623" y="11" width="135" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99999.99" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q7w-yq-Yxj">
+                    <rect key="frame" x="678" y="11" width="80" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="MIN-Ad-P5S"/>
-                        <constraint firstAttribute="width" constant="135" id="Odh-v5-3fd"/>
+                        <constraint firstAttribute="width" constant="80" id="Odh-v5-3fd"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

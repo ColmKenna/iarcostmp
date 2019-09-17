@@ -14,12 +14,14 @@
     UILabel* _totalBonusValue;
     UILabel* _totalTradeTitle;
     UILabel* _totalTradeValue;
+//    UILabel* _percentageLabel;
 }
 
 //@property(nonatomic, retain) IBOutlet UILabel* totalBonusTitle;
 @property(nonatomic, retain) IBOutlet UILabel* totalBonusValue;
 @property(nonatomic, retain) IBOutlet UILabel* totalTradeTitle;
 @property(nonatomic, retain) IBOutlet UILabel* totalTradeValue;
+//@property(nonatomic, retain) IBOutlet UILabel* percentageLabel;
 
 @end
 

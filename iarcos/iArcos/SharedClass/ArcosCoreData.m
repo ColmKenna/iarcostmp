@@ -3901,6 +3901,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     Config.DefaultWholesalerIUR = [NSNumber numberWithInt:anObject.DefaultWholesalerIUR];
     Config.DefaultProductLevel = [NSNumber numberWithInt:anObject.DefaultProductLevel];
     Config.SMSTexting = [NSNumber numberWithInt:anObject.SMSTexting];
+    Config.BonusBlockedat = [NSNumber numberWithInt:anObject.BonusBlockedAt];
 //    NSLog(@"Write Config  record to coredata");
     
     [self saveContext:context];

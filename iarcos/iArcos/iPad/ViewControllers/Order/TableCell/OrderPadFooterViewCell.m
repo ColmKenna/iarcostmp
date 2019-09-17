@@ -13,12 +13,14 @@
 @synthesize totalBonusValue = _totalBonusValue;
 @synthesize totalTradeTitle = _totalTradeTitle;
 @synthesize totalTradeValue = _totalTradeValue;
+//@synthesize percentageLabel = _percentageLabel;
 
 - (void)dealloc {
 //    self.totalBonusTitle = nil;
     self.totalBonusValue = nil;
     self.totalTradeTitle = nil;
     self.totalTradeValue = nil;
+//    self.percentageLabel = nil;
     
     [super dealloc];
 }
