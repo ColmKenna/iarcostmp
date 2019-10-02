@@ -538,6 +538,7 @@
         }
         amwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
         self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:amwvc] autorelease];
+        self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
         [self presentViewController:self.globalNavigationController animated:YES completion:^{
             self.isBusy = NO;
         }];

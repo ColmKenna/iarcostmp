@@ -484,6 +484,7 @@
     ccdmvc.title = @"CALL DETAILS";
     
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:ccdmvc] autorelease];
+    self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
     [self.rootView setModalPresentationStyle:UIModalPresentationCurrentContext];
     [self.rootView presentViewController:self.globalNavigationController animated:YES completion:nil];
     [ccdmvc release];
@@ -499,6 +500,7 @@
 //    codmvc.title = @"CALL DETAILS";
     
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:codmvc] autorelease];
+    self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
     [self.rootView setModalPresentationStyle:UIModalPresentationCurrentContext];
     [self.rootView presentViewController:self.globalNavigationController animated:YES completion:nil];
     [codmvc release];
@@ -510,6 +512,7 @@
     cidmvc.title = @"INVOICE DETAILS";
     
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:cidmvc] autorelease];
+    self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
     [self.rootView setModalPresentationStyle:UIModalPresentationCurrentContext];
     [self.rootView presentViewController:self.globalNavigationController animated:YES completion:nil];
     [cidmvc release];
@@ -520,6 +523,7 @@
     mmtvc.animateDelegate = self;
     mmtvc.meetingIUR = iUR;
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:mmtvc] autorelease];
+    self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
     [self.rootView presentViewController:self.globalNavigationController animated:YES completion:nil];
     [mmtvc release];
 //    ReportMeetingWrapperViewController* rmwvc = [[ReportMeetingWrapperViewController alloc] initWithNibName:@"ReportMeetingWrapperViewController" bundle:nil];

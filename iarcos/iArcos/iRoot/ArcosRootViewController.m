@@ -123,6 +123,7 @@
     if ([configRecordQuantity intValue] == 0 && [appStatusManager getAppStatus].intValue == 0) {
         ActivateTemplateViewController* activateTemplateViewController = [[ActivateTemplateViewController alloc] init];
         activateTemplateViewController.presentDelegate = self;
+        activateTemplateViewController.modalPresentationStyle = UIModalPresentationFullScreen;
         [self presentViewController:activateTemplateViewController animated:NO completion:nil];
         [activateTemplateViewController release];
     } else if([configRecordQuantity intValue] != 0 && [appStatusManager getAppStatus].intValue == 0) {//existing

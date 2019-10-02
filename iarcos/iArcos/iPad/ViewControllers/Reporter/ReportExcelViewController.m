@@ -78,9 +78,8 @@
         NSString *HTMLData = @"<h1>The file is not found!</h1>";
         [myWebView  loadHTMLString:HTMLData baseURL:[NSURL URLWithString: [NSString stringWithFormat:@"file:/%@//",self.filePath]]];
     }
-    
-    
-
+    [[UINavigationBar appearanceWhenContainedInInstancesOfClasses:@[[QLPreviewController class]]] setTintColor:[UIColor blackColor]];
+    [[UINavigationBar appearanceWhenContainedInInstancesOfClasses:@[[QLPreviewController class]]] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, nil]];
 }
 
 - (void)viewDidUnload
