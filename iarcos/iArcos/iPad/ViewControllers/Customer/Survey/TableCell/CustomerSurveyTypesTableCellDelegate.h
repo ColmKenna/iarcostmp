@@ -19,4 +19,5 @@
 - (NSMutableDictionary*)retrieveRankingHashMap;
 - (void)refreshSurveyList;
 - (UITableView*)retrieveSurveyTableView;
+- (UIViewController*)retrieveParentViewController;
 @end

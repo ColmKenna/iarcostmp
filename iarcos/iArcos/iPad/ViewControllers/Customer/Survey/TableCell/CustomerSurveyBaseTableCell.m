@@ -16,6 +16,7 @@
 @synthesize locationIUR = _locationIUR;
 @synthesize locationName = _locationName;
 @synthesize indicatorButton = _indicatorButton;
+@synthesize narrative = _narrative;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -54,6 +55,7 @@
     if (self.locationIUR != nil) { self.locationIUR = nil; }
     if (self.locationName != nil) { self.locationName = nil; }
     self.indicatorButton = nil;
+    self.narrative = nil;
     
     [super dealloc];
 }
@@ -65,6 +67,19 @@
     } else {
         [self.indicatorButton setImage:nil forState:UIControlStateNormal];
     }
+}
+
+-(void)handleSingleTapGesture4Narrative:(id)sender {
+    [ArcosUtils showDialogBox:[self.cellData objectForKey:@"tooltip"] title:@"" delegate:nil target:[self.delegate retrieveParentViewController] tag:0 handler:nil];
+}
+
+- (void)configNarrativeSingleTapGesture {
+    for (UIGestureRecognizer* recognizer in self.narrative.gestureRecognizers) {
+        [self.narrative removeGestureRecognizer:recognizer];
+    }
+    UITapGestureRecognizer* singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture4Narrative:)];
+    [self.narrative addGestureRecognizer:singleTap2];
+    [singleTap2 release];
 }
 
 @end

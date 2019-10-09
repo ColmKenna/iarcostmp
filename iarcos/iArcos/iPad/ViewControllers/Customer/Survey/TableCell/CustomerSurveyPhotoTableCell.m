@@ -10,13 +10,13 @@
 #import "ArcosUtils.h"
 
 @implementation CustomerSurveyPhotoTableCell
-@synthesize narrative = _narrative;
+//@synthesize narrative = _narrative;
 @synthesize photoButton = _photoButton;
 @synthesize previewButton = _previewButton;
 @synthesize pressCount = _pressCount;
 
 - (void)dealloc {
-    self.narrative = nil;
+//    self.narrative = nil;
     self.photoButton = nil;
     self.previewButton = nil;
     
@@ -26,6 +26,7 @@
 -(void)configCellWithData:(NSMutableDictionary*)theData {
     self.cellData = theData;
     self.narrative.text = [theData objectForKey:@"Narrative"];
+    [self processIndicatorButton];
     NSString* myAnswer = [theData objectForKey:@"Answer"];
     if ([myAnswer isEqualToString:@""]) {
         self.previewButton.hidden = YES;
@@ -41,6 +42,14 @@
         }
         [self.previewButton setTitle:previewText forState:UIControlStateNormal];
     }
+    
+//    for (UIGestureRecognizer* recognizer in self.narrative.gestureRecognizers) {
+//        [self.narrative removeGestureRecognizer:recognizer];
+//    }
+//    UITapGestureRecognizer* singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture4Narrative:)];
+//    [self.narrative addGestureRecognizer:singleTap2];
+//    [singleTap2 release];
+    [self configNarrativeSingleTapGesture];
     [self configNarrativeWithLabel:self.narrative];
 }
 

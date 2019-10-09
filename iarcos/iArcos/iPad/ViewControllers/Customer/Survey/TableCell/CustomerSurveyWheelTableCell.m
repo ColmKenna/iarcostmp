@@ -9,7 +9,7 @@
 #import "CustomerSurveyWheelTableCell.h"
 
 @implementation CustomerSurveyWheelTableCell
-@synthesize narrative;
+//@synthesize narrative;
 @synthesize responseLimits;
 @synthesize factory;
 @synthesize thePopover = _thePopover;
@@ -44,15 +44,18 @@
     UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
     [self.responseLimits addGestureRecognizer:singleTap];
     [singleTap release];
-    
-    UITapGestureRecognizer* singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture4Narrative:)];
-    [self.narrative addGestureRecognizer:singleTap2];
-    [singleTap2 release];
+//    for (UIGestureRecognizer* recognizer in self.narrative.gestureRecognizers) {
+//        [self.narrative removeGestureRecognizer:recognizer];
+//    }
+//    UITapGestureRecognizer* singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture4Narrative:)];
+//    [self.narrative addGestureRecognizer:singleTap2];
+//    [singleTap2 release];
+    [self configNarrativeSingleTapGesture];
     [self configNarrativeWithLabel:self.narrative];
     self.narrative.frame = CGRectMake(self.narrative.frame.origin.x, self.narrative.frame.origin.y, self.narrative.frame.size.width, 42);
-    int questionType = [[cellData objectForKey:@"QuestionType"] intValue];
+    int questionType = [[self.cellData objectForKey:@"QuestionType"] intValue];
     if (questionType == 3) {
-        NSMutableAttributedString* attributedNarrativeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",[cellData objectForKey:@"Narrative"]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}];
+        NSMutableAttributedString* attributedNarrativeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",[self.cellData objectForKey:@"Narrative"]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}];
         CGRect rect = [attributedNarrativeString boundingRectWithSize:CGSizeMake([self.delegate retrieveSurveyTableView].frame.size.width - 25, CGFLOAT_MAX) options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) context:nil];
         [attributedNarrativeString release];
         if (rect.size.height < 21.0) {
@@ -126,7 +129,7 @@
 }
 
 -(void)dealloc {
-    if (self.narrative != nil) { self.narrative = nil; }
+//    if (self.narrative != nil) { self.narrative = nil; }
     if (self.responseLimits != nil) { self.responseLimits = nil; }
     if (self.factory != nil) { self.factory = nil; }
     self.thePopover = nil;
@@ -134,9 +137,9 @@
     [super dealloc];
 }
 
--(void)handleSingleTapGesture4Narrative:(id)sender {
-    [ArcosUtils showMsg:[self.cellData objectForKey:@"tooltip"] delegate:nil];
-}
+//-(void)handleSingleTapGesture4Narrative:(id)sender {
+//    [ArcosUtils showMsg:[self.cellData objectForKey:@"tooltip"] delegate:nil];
+//}
 
 #pragma mark UIPopoverControllerDelegate
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {

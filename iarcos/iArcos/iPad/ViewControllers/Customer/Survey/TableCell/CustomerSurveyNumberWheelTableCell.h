@@ -12,18 +12,18 @@
 #import "ArcosUtils.h"
 
 @interface CustomerSurveyNumberWheelTableCell : CustomerSurveyBaseTableCell<WidgetFactoryDelegate, UIPopoverControllerDelegate> {
-    IBOutlet UILabel* narrative;
+//    IBOutlet UILabel* narrative;
     IBOutlet UILabel* responseLimits;
     WidgetFactory* factory;
     UIPopoverController* _thePopover;
 }
 
-@property(nonatomic, retain) IBOutlet UILabel* narrative;
+//@property(nonatomic, retain) IBOutlet UILabel* narrative;
 @property(nonatomic, retain) IBOutlet UILabel* responseLimits;
 @property(nonatomic, retain) WidgetFactory* factory;
 @property(nonatomic, retain) UIPopoverController* thePopover;
 
 -(void)handleSingleTapGesture:(id)sender;
--(void)handleSingleTapGesture4Narrative:(id)sender;
+//-(void)handleSingleTapGesture4Narrative:(id)sender;
 
 @end

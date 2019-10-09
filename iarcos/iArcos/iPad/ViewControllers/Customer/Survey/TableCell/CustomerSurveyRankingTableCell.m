@@ -11,7 +11,7 @@
 #import "ArcosUtils.h"
 
 @implementation CustomerSurveyRankingTableCell
-@synthesize narrative = _narrative;
+//@synthesize narrative = _narrative;
 @synthesize responseSegmentedControl = _responseSegmentedControl;
 @synthesize segmentItemList = _segmentItemList;
 @synthesize previousSegmentIndex = _previousSegmentIndex;
@@ -22,7 +22,7 @@
 }
 
 - (void)dealloc {
-    self.narrative = nil;
+//    self.narrative = nil;
     self.responseSegmentedControl = nil;
     self.segmentItemList = nil;
     
@@ -38,6 +38,7 @@
 - (void)configCellWithData:(NSMutableDictionary*)theData {
     self.cellData = theData;
     self.narrative.text = [self.cellData objectForKey:@"Narrative"];
+    [self processIndicatorButton];
     NSMutableDictionary* auxRankingHashMap = [self.delegate retrieveRankingHashMap];
     NSMutableDictionary* contentRankingHashMap = [auxRankingHashMap objectForKey:[self.cellData objectForKey:@"sectionNo"]];
     NSString* responseLimits = [self.cellData objectForKey:@"ResponseLimits"];
@@ -70,6 +71,7 @@
             }            
         }
     }
+    [self configNarrativeSingleTapGesture];
     [self configNarrativeWithLabel:self.narrative];
 }
 

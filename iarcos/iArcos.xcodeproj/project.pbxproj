@@ -1001,6 +1001,7 @@
 		630FEA7E1E5EF243008B2110 /* PresenterEbookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 630FEA7C1E5EF243008B2110 /* PresenterEbookViewController.m */; };
 		630FEA7F1E5EF243008B2110 /* PresenterEbookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 630FEA7D1E5EF243008B2110 /* PresenterEbookViewController.xib */; };
 		63130CB32007D03300705226 /* RemoveOrderHeaderProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 63130CB22007D03300705226 /* RemoveOrderHeaderProcessor.m */; };
+		631331AC23476AED008A790B /* CustomerSurveyMainSummaryTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 631331AB23476AED008A790B /* CustomerSurveyMainSummaryTableCell.m */; };
 		6313E1221D11A083003A2204 /* DatePickerHourMinuteWidgetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6313E1201D11A083003A2204 /* DatePickerHourMinuteWidgetViewController.m */; };
 		6313E1231D11A083003A2204 /* DatePickerHourMinuteWidgetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6313E1211D11A083003A2204 /* DatePickerHourMinuteWidgetViewController.xib */; };
 		631477A22121D15A00DBF9A3 /* PriceChangeDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 631477A12121D15A00DBF9A3 /* PriceChangeDataManager.m */; };
@@ -3546,6 +3547,8 @@
 		63106701223910330026D10D /* MeetingPresentersTableViewCellDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingPresentersTableViewCellDelegate.h; sourceTree = "<group>"; };
 		63130CB12007D03300705226 /* RemoveOrderHeaderProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RemoveOrderHeaderProcessor.h; sourceTree = "<group>"; };
 		63130CB22007D03300705226 /* RemoveOrderHeaderProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RemoveOrderHeaderProcessor.m; sourceTree = "<group>"; };
+		631331AA23476AED008A790B /* CustomerSurveyMainSummaryTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerSurveyMainSummaryTableCell.h; sourceTree = "<group>"; };
+		631331AB23476AED008A790B /* CustomerSurveyMainSummaryTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerSurveyMainSummaryTableCell.m; sourceTree = "<group>"; };
 		6313E11F1D11A083003A2204 /* DatePickerHourMinuteWidgetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerHourMinuteWidgetViewController.h; sourceTree = "<group>"; };
 		6313E1201D11A083003A2204 /* DatePickerHourMinuteWidgetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerHourMinuteWidgetViewController.m; sourceTree = "<group>"; };
 		6313E1211D11A083003A2204 /* DatePickerHourMinuteWidgetViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerHourMinuteWidgetViewController.xib; sourceTree = "<group>"; };
@@ -6021,6 +6024,8 @@
 				63E53C7C1F051ADC0044DD94 /* CustomerSurveyDetailsResponseWheelTableCell.m */,
 				63FDA9981F053CA8000E33EF /* CustomerSurveyDetailsResponseTextBoxTableCell.h */,
 				63FDA9991F053CA8000E33EF /* CustomerSurveyDetailsResponseTextBoxTableCell.m */,
+				631331AA23476AED008A790B /* CustomerSurveyMainSummaryTableCell.h */,
+				631331AB23476AED008A790B /* CustomerSurveyMainSummaryTableCell.m */,
 			);
 			path = TableCell;
 			sourceTree = "<group>";
@@ -8409,6 +8414,8 @@
 					};
 					6304524219EFC79D00CDE68A = {
 						CreatedOnToolsVersion = 6.0.1;
+						DevelopmentTeam = Z39Z4X9J9E;
+						ProvisioningStyle = Manual;
 						TestTargetID = 6304522619EFC79D00CDE68A;
 					};
 				};
@@ -9718,6 +9725,7 @@
 				630B3DBE19F01CB9007B2442 /* NSMutableArray+Soap.m in Sources */,
 				6313E1221D11A083003A2204 /* DatePickerHourMinuteWidgetViewController.m in Sources */,
 				63A61A72223A9CD90023CC11 /* ArcosAttachmentWithFileContents.m in Sources */,
+				631331AC23476AED008A790B /* CustomerSurveyMainSummaryTableCell.m in Sources */,
 				630B3BAC19F01CB9007B2442 /* CustomerDetailsIURTableCell.m in Sources */,
 				630B345419F0127C007B2442 /* MemoLink.m in Sources */,
 				63DB141321B5767E00C6905E /* MeetingMainTemplateUpdateAction.m in Sources */,
@@ -10100,8 +10108,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = iArcos/iArcos.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: David Kilmartin (MMJ2297WA6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Kilmartin (MMJ2297WA6)";
+				CODE_SIGN_IDENTITY = "Apple Development: David Kilmartin (MMJ2297WA6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: David Kilmartin (MMJ2297WA6)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = Z39Z4X9J9E;
 				ENABLE_BITCODE = NO;
@@ -10128,6 +10136,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
+				MARKETING_VERSION = 5.9.2;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10142,7 +10151,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "6bf186ca-3030-49b7-b78a-3246afaeb9fc";
-				PROVISIONING_PROFILE_SPECIFIER = iArcosDevelopCenter;
+				PROVISIONING_PROFILE_SPECIFIER = iArcosDevelopmentCenter_Apple;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
@@ -10181,6 +10190,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
+				MARKETING_VERSION = 5.9.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -10194,7 +10204,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "b8e1e57a-016f-4a71-9609-ef2a4483e535";
-				PROVISIONING_PROFILE_SPECIFIER = iArcosOct2018ReleaseDistribution;
+				PROVISIONING_PROFILE_SPECIFIER = iArcosSep2019Release;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
@@ -10203,6 +10213,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = Z39Z4X9J9E;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -10210,7 +10224,10 @@
 				);
 				INFOPLIST_FILE = iArcosTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iArcos.app/iArcos";
 			};
 			name = Debug;
@@ -10219,10 +10236,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = Z39Z4X9J9E;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = iArcosTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iArcos.app/iArcos";
 			};
 			name = Release;
@@ -10302,6 +10324,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
+				MARKETING_VERSION = 5.9.2;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10316,7 +10339,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4a2d26cb-4c25-4fc4-a9fe-d2be993ec50d";
-				PROVISIONING_PROFILE_SPECIFIER = iArcos27May2019Distribution;
+				PROVISIONING_PROFILE_SPECIFIER = iArcos17Sep2019Distribution;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = AdHoc;
@@ -10325,10 +10348,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = Z39Z4X9J9E;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = iArcosTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iArcos.app/iArcos";
 			};
 			name = AdHoc;

@@ -10,9 +10,9 @@
 #import "CustomerSurveyBaseTableCell.h"
 
 @interface CustomerSurveySubHeaderTableCell : CustomerSurveyBaseTableCell {
-    UILabel* _narrative;
+//    UILabel* _narrative;
 }
 
-@property(nonatomic, retain) IBOutlet UILabel* narrative;
+//@property(nonatomic, retain) IBOutlet UILabel* narrative;
 
 @end

@@ -9,7 +9,7 @@
 #import "CustomerSurveySegmentedControlTableCell.h"
 
 @implementation CustomerSurveySegmentedControlTableCell
-@synthesize narrative = _narrative;
+//@synthesize narrative = _narrative;
 @synthesize responseSegmentedControl = _responseSegmentedControl;
 @synthesize segmentItemList = _segmentItemList;
 
@@ -19,7 +19,7 @@
 }
 
 - (void)dealloc {
-    self.narrative = nil;
+//    self.narrative = nil;
     self.responseSegmentedControl = nil;
     self.segmentItemList = nil;
     
@@ -35,6 +35,7 @@
 - (void)configCellWithData:(NSMutableDictionary*)theData {
     self.cellData = theData;
     self.narrative.text = [self.cellData objectForKey:@"Narrative"];
+    [self processIndicatorButton];
     NSString* responseLimits = [self.cellData objectForKey:@"ResponseLimits"];
     NSArray* responseLimitArray = [responseLimits componentsSeparatedByString:[GlobalSharedClass shared].fieldDelimiter];
     self.segmentItemList = [NSMutableArray arrayWithCapacity:[responseLimitArray count]];
@@ -57,6 +58,13 @@
     }
     
     [self.delegate inputFinishedWithData:[self.segmentItemList objectAtIndex:self.responseSegmentedControl.selectedSegmentIndex] forIndexpath:self.indexPath];
+//    for (UIGestureRecognizer* recognizer in self.narrative.gestureRecognizers) {
+//        [self.narrative removeGestureRecognizer:recognizer];
+//    }
+//    UITapGestureRecognizer* singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture4Narrative:)];
+//    [self.narrative addGestureRecognizer:singleTap2];
+//    [singleTap2 release];
+    [self configNarrativeSingleTapGesture];
     [self configNarrativeWithLabel:self.narrative];
 }
 

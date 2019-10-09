@@ -11,13 +11,13 @@
 #import "WidgetFactory.h"
 
 @interface CustomerSurveyContactTableCell : CustomerSurveyBaseTableCell<WidgetFactoryDelegate, UIPopoverControllerDelegate> {
-    UILabel* narrative;
+//    UILabel* narrative;
     IBOutlet UILabel* contactTitle;
     WidgetFactory* _factory;
     UIPopoverController* _thePopover;
 }
 
-@property(nonatomic, retain) IBOutlet UILabel* narrative;
+//@property(nonatomic, retain) IBOutlet UILabel* narrative;
 @property(nonatomic, retain) IBOutlet UILabel* contactTitle;
 @property(nonatomic, retain) WidgetFactory* factory;
 @property(nonatomic, retain) UIPopoverController* thePopover;

@@ -12,13 +12,13 @@
 #import "ArcosUtils.h"
 
 @interface CustomerSurveyTableMSTableCell : CustomerSurveyBaseTableCell <WidgetFactoryDelegate, UIPopoverControllerDelegate>{
-    UILabel* narrative;
+//    UILabel* narrative;
     UILabel* responseLimits;
     WidgetFactory* factory;
     UIPopoverController* _thePopover;
 }
 
-@property(nonatomic, retain) IBOutlet UILabel* narrative;
+//@property(nonatomic, retain) IBOutlet UILabel* narrative;
 @property(nonatomic, retain) IBOutlet UILabel* responseLimits;
 @property(nonatomic, retain) WidgetFactory* factory;
 @property(nonatomic, retain) UIPopoverController* thePopover;

@@ -17,6 +17,7 @@
 +(BOOL)checkAllowedFieldValue:(NSString*)aFieldValue;
 +(BOOL)checkAllowedFieldValueAndAssigned:(NSString*)aFieldValue;
 +(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text target:(UIViewController*)aTarget;
++(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text target:(UIViewController*)aTarget maxLength:(int)aMaxLength;
 +(BOOL)isSevenDigitNumberBeginWithFive:(NSString*)aField;
 +(BOOL)isEmail:(NSString*)aField;
 

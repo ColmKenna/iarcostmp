@@ -9,7 +9,7 @@
 #import "CustomerSurveyBooleanTableCell.h"
 
 @implementation CustomerSurveyBooleanTableCell
-@synthesize narrative;
+//@synthesize narrative;
 @synthesize responseSegmentedControl;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -45,11 +45,24 @@
     //set the default value
     NSString* returnValue = [self responseActualValueWithSelectedIndex:self.responseSegmentedControl.selectedSegmentIndex];
     [self.delegate inputFinishedWithData:returnValue forIndexpath:self.indexPath];
-    
-    UITapGestureRecognizer* singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture4Narrative:)];
-    [self.narrative addGestureRecognizer:singleTap2];
-    [singleTap2 release];
+//    for (UIGestureRecognizer* recognizer in self.narrative.gestureRecognizers) {
+//        [self.narrative removeGestureRecognizer:recognizer];
+//    }
+//    UITapGestureRecognizer* singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture4Narrative:)];
+//    [self.narrative addGestureRecognizer:singleTap2];
+//    [singleTap2 release];
+    [self configNarrativeSingleTapGesture];
     [self configNarrativeWithLabel:self.narrative];
+    int questionType = [[self.cellData objectForKey:@"QuestionType"] intValue];
+    if (questionType == 1) {
+        NSMutableAttributedString* attributedNarrativeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",[self.cellData objectForKey:@"Narrative"]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}];
+        CGRect rect = [attributedNarrativeString boundingRectWithSize:CGSizeMake([self.delegate retrieveSurveyTableView].frame.size.width - 25 - 206, CGFLOAT_MAX) options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) context:nil];
+        [attributedNarrativeString release];
+        if (rect.size.height < 21.0) {
+            rect.size.height = 21.0;
+        }
+        self.narrative.frame = CGRectMake(self.narrative.frame.origin.x, self.narrative.frame.origin.y, self.narrative.frame.size.width, rect.size.height);
+    }
 }
 
 -(IBAction)switchValueChange:(id)sender {
@@ -59,15 +72,15 @@
 }
 
 -(void)dealloc {
-    if (self.narrative != nil) { self.narrative = nil; }
+//    if (self.narrative != nil) { self.narrative = nil; }
     if (self.responseSegmentedControl != nil) { self.responseSegmentedControl = nil; }
     
     [super dealloc];
 }
 
--(void)handleSingleTapGesture4Narrative:(id)sender {
-    [ArcosUtils showMsg:[self.cellData objectForKey:@"tooltip"] delegate:nil];
-}
+//-(void)handleSingleTapGesture4Narrative:(id)sender {
+//    [ArcosUtils showMsg:[self.cellData objectForKey:@"tooltip"] delegate:nil];
+//}
 
 -(NSString*)responseActualValueWithSelectedIndex:(NSInteger)selectedIndex {
     NSString* returnValue = @"";

@@ -12,15 +12,15 @@
 #import "GlobalSharedClass.h"
 
 @interface CustomerSurveyBooleanTableCell : CustomerSurveyBaseTableCell {
-    IBOutlet UILabel* narrative;
+//    IBOutlet UILabel* narrative;
     IBOutlet UISegmentedControl* responseSegmentedControl;
 }
 
-@property(nonatomic, retain) IBOutlet UILabel* narrative;
+//@property(nonatomic, retain) IBOutlet UILabel* narrative;
 @property(nonatomic, retain) IBOutlet UISegmentedControl* responseSegmentedControl;
 
 -(IBAction)switchValueChange:(id)sender;
--(void)handleSingleTapGesture4Narrative:(id)sender;
+//-(void)handleSingleTapGesture4Narrative:(id)sender;
 -(NSString*)responseActualValueWithSelectedIndex:(NSInteger)selectedIndex;
 
 @end

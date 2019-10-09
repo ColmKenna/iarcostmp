@@ -9,7 +9,7 @@
 #import "CustomerSurveyTableMSTableCell.h"
 
 @implementation CustomerSurveyTableMSTableCell
-@synthesize narrative;
+//@synthesize narrative;
 @synthesize responseLimits;
 @synthesize factory;
 @synthesize thePopover = _thePopover;
@@ -39,10 +39,13 @@
     UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
     [self.responseLimits addGestureRecognizer:singleTap];
     [singleTap release];
-    
-    UITapGestureRecognizer* singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture4Narrative:)];
-    [self.narrative addGestureRecognizer:singleTap2];
-    [singleTap2 release];
+//    for (UIGestureRecognizer* recognizer in self.narrative.gestureRecognizers) {
+//        [self.narrative removeGestureRecognizer:recognizer];
+//    }
+//    UITapGestureRecognizer* singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture4Narrative:)];
+//    [self.narrative addGestureRecognizer:singleTap2];
+//    [singleTap2 release];
+    [self configNarrativeSingleTapGesture];
     [self configNarrativeWithLabel:self.narrative];
 }
 
@@ -86,7 +89,7 @@
 }
 
 -(void)dealloc {
-    if (self.narrative != nil) { self.narrative = nil; }
+//    if (self.narrative != nil) { self.narrative = nil; }
     if (self.responseLimits != nil) { self.responseLimits = nil; }
     if (self.factory != nil) { self.factory = nil; }
     self.thePopover = nil;
@@ -94,9 +97,9 @@
     [super dealloc];
 }
 
--(void)handleSingleTapGesture4Narrative:(id)sender {
-    [ArcosUtils showMsg:[self.cellData objectForKey:@"tooltip"] delegate:nil];
-}
+//-(void)handleSingleTapGesture4Narrative:(id)sender {
+//    [ArcosUtils showMsg:[self.cellData objectForKey:@"tooltip"] delegate:nil];
+//}
 
 -(void)dismissPopoverController {
     if (self.thePopover != nil) {

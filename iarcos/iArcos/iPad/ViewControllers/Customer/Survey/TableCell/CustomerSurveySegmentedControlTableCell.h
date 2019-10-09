@@ -12,12 +12,12 @@
 #import "ArcosUtils.h"
 
 @interface CustomerSurveySegmentedControlTableCell : CustomerSurveyBaseTableCell {
-    UILabel* _narrative;
+//    UILabel* _narrative;
     UISegmentedControl* _responseSegmentedControl;
     NSMutableArray* _segmentItemList;
 }
 
-@property(nonatomic, retain) IBOutlet UILabel* narrative;
+//@property(nonatomic, retain) IBOutlet UILabel* narrative;
 @property(nonatomic, retain) IBOutlet UISegmentedControl* responseSegmentedControl;
 @property(nonatomic, retain) NSMutableArray* segmentItemList;
 

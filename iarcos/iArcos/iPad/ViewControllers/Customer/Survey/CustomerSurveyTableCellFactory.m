@@ -31,6 +31,7 @@
 @synthesize surveySegmentedControlTextFieldTableCellId = _surveySegmentedControlTextFieldTableCellId;
 @synthesize surveyRankingTableCellId = _surveyRankingTableCellId;
 @synthesize surveySubHeaderTableCellId = _surveySubHeaderTableCellId;
+@synthesize surveyMainSummaryTableCellId = _surveyMainSummaryTableCellId;
 
 -(id)init {
     if(self = [super init]) {
@@ -50,6 +51,7 @@
         self.surveySegmentedControlTextFieldTableCellId = @"IdCustomerSurveySegmentedControlTextFieldTableCell";
         self.surveyRankingTableCellId = @"IdCustomerSurveyRankingTableCell";        
         self.surveySubHeaderTableCellId = @"IdCustomerSurveySubHeaderTableCell";
+        self.surveyMainSummaryTableCellId = @"IdCustomerSurveyMainSummaryTableCell";
     }
     return self;
 }
@@ -71,6 +73,7 @@
     self.surveySegmentedControlTextFieldTableCellId = nil;
     self.surveyRankingTableCellId = nil;
     self.surveySubHeaderTableCellId = nil;
+    self.surveyMainSummaryTableCellId = nil;
     
     [super dealloc];
 }
@@ -132,6 +135,9 @@
         case 16:
             cell = [self createCustomerSurveySubHeaderTableCell];
             break;
+        case 17:
+            cell = [self createCustomerSurveyMainSummaryTableCell];
+            break;
         default:
             cell = [self createCustomerSurveyContactTableCell];
             break;
@@ -185,6 +191,9 @@
 }
 -(CustomerSurveyBaseTableCell*)createCustomerSurveySubHeaderTableCell {
     return [self getCellWithIdentifier:self.surveySubHeaderTableCellId];
+}
+-(CustomerSurveyBaseTableCell*)createCustomerSurveyMainSummaryTableCell {
+    return [self getCellWithIdentifier:self.surveyMainSummaryTableCellId];
 }
 
 
@@ -253,6 +262,9 @@
             break;
         case 16:
             identifier = self.surveySubHeaderTableCellId;
+            break;
+        case 17:
+            identifier = self.surveyMainSummaryTableCellId;
             break;
         default:
             identifier = self.surveyContactTableCellId;

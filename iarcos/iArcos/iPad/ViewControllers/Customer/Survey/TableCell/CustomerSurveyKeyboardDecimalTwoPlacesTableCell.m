@@ -9,7 +9,7 @@
 #import "CustomerSurveyKeyboardDecimalTwoPlacesTableCell.h"
 
 @implementation CustomerSurveyKeyboardDecimalTwoPlacesTableCell
-@synthesize narrative;
+//@synthesize narrative;
 @synthesize responseLimits;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -29,7 +29,7 @@
 }
 
 - (void)dealloc {
-    if (self.narrative != nil) { self.narrative = nil; }
+//    if (self.narrative != nil) { self.narrative = nil; }
     if (self.responseLimits != nil) { self.responseLimits = nil; }        
     
     [super dealloc];
@@ -47,10 +47,13 @@
     } else {
         self.responseLimits.text = @"";
     }
-    
-    UITapGestureRecognizer* singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture4Narrative:)];
-    [self.narrative addGestureRecognizer:singleTap2];
-    [singleTap2 release];
+//    for (UIGestureRecognizer* recognizer in self.narrative.gestureRecognizers) {
+//        [self.narrative removeGestureRecognizer:recognizer];
+//    }
+//    UITapGestureRecognizer* singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture4Narrative:)];
+//    [self.narrative addGestureRecognizer:singleTap2];
+//    [singleTap2 release];
+    [self configNarrativeSingleTapGesture];
     [self configNarrativeWithLabel:self.narrative];
 }
 
@@ -73,9 +76,9 @@
     return ([string stringByTrimmingCharactersInSet:nonNumberSet].length > 0) || [string isEqualToString:@""] || [string isEqualToString:@"."];
 }
 
--(void)handleSingleTapGesture4Narrative:(id)sender {
-    [ArcosUtils showMsg:[self.cellData objectForKey:@"tooltip"] delegate:nil];
-}
+//-(void)handleSingleTapGesture4Narrative:(id)sender {
+//    [ArcosUtils showMsg:[self.cellData objectForKey:@"tooltip"] delegate:nil];
+//}
 
 
 @end

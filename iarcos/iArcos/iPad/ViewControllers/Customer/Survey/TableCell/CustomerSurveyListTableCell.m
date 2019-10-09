@@ -9,7 +9,7 @@
 #import "CustomerSurveyListTableCell.h"
 
 @implementation CustomerSurveyListTableCell
-@synthesize narrative;
+//@synthesize narrative;
 @synthesize surveyTitle;
 @synthesize factory = _factory;
 @synthesize thePopover = _thePopover;
@@ -38,9 +38,13 @@
 //    NSLog(@"surveyTitle is : %@", [theData objectForKey:@"Title"]);
 //    NSLog(@"surveyTitle %@", theData);
 //    self.surveyTitle = [theData objectForKey:@"Title"];
-    UITapGestureRecognizer* singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture4Narrative:)];
-    [self.narrative addGestureRecognizer:singleTap2];
-    [singleTap2 release];    
+//    for (UIGestureRecognizer* recognizer in self.narrative.gestureRecognizers) {
+//        [self.narrative removeGestureRecognizer:recognizer];
+//    }
+//    UITapGestureRecognizer* singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture4Narrative:)];
+//    [self.narrative addGestureRecognizer:singleTap2];
+//    [singleTap2 release];
+    [self configNarrativeSingleTapGesture];
 }
 
 -(void)handleSingleTapGesture:(id)sender {
@@ -81,9 +85,9 @@
 
 - (void)dealloc
 {
-    if (self.narrative != nil) {
-        self.narrative = nil;
-    }
+//    if (self.narrative != nil) {
+//        self.narrative = nil;
+//    }
     if (self.surveyTitle != nil) { self.surveyTitle = nil; }
     if (self.factory != nil) { self.factory = nil; }
     self.thePopover = nil;

@@ -96,6 +96,26 @@
     return memoResultFlag;
 }
 
++(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text target:(UIViewController*)aTarget maxLength:(int)aMaxLength {
+    NSUInteger oldLength = [textView.text length];
+    NSUInteger replacementLength = [text length];
+    NSUInteger rangeLength = range.length;
+    NSUInteger newLength = oldLength - rangeLength + replacementLength;
+    BOOL memoResultFlag = (newLength <= aMaxLength);
+    if (!memoResultFlag) {
+        NSUInteger currentLength = oldLength - rangeLength;
+        NSUInteger allowedAddedLength = 0;
+        if (aMaxLength > currentLength) {
+            allowedAddedLength = aMaxLength - currentLength;
+        }
+        textView.text = [textView.text stringByReplacingCharactersInRange:range withString:[text substringToIndex:allowedAddedLength]];
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Maximum text length of %d characters has been exceeded, data has been truncated", aMaxLength] title:@"" delegate:nil target:aTarget tag:0 handler:^(UIAlertAction *action) {
+            
+        }];
+    }
+    return memoResultFlag;
+}
+
 +(BOOL)isSevenDigitNumberBeginWithFive:(NSString*)aField {
     NSString* expression = @"^(5)([0-9]{6})$";
     NSError *error = nil;

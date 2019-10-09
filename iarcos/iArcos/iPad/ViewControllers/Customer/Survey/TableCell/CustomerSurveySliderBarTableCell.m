@@ -9,7 +9,7 @@
 #import "CustomerSurveySliderBarTableCell.h"
 
 @implementation CustomerSurveySliderBarTableCell
-@synthesize narrative;
+//@synthesize narrative;
 @synthesize sliderValue;
 @synthesize responseLimitSlider;
 @synthesize lowRangeValue;
@@ -32,7 +32,7 @@
 }
 
 - (void)dealloc {
-    if (self.narrative != nil) { self.narrative = nil; }
+//    if (self.narrative != nil) { self.narrative = nil; }
     if (self.sliderValue != nil) { self.sliderValue = nil; }
     if (self.responseLimitSlider != nil) { self.responseLimitSlider = nil; }    
     if (self.lowRangeValue != nil) { self.lowRangeValue = nil; }
@@ -76,10 +76,13 @@
     //set the default value
     NSString* returnValue = [ArcosUtils convertIntToString:(int)(self.responseLimitSlider.value+0.5)];
     [self.delegate inputFinishedWithData:returnValue forIndexpath:self.indexPath];
-    
-    UITapGestureRecognizer* singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture4Narrative:)];
-    [self.narrative addGestureRecognizer:singleTap2];
-    [singleTap2 release];
+//    for (UIGestureRecognizer* recognizer in self.narrative.gestureRecognizers) {
+//        [self.narrative removeGestureRecognizer:recognizer];
+//    }
+//    UITapGestureRecognizer* singleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture4Narrative:)];
+//    [self.narrative addGestureRecognizer:singleTap2];
+//    [singleTap2 release];
+    [self configNarrativeSingleTapGesture];
 }
 
 -(IBAction)sliderBarValueChange:(id)sender {
@@ -88,8 +91,8 @@
     [self.delegate inputFinishedWithData:[ArcosUtils convertIntToString:(int)(sliderBar.value+0.5)] forIndexpath:self.indexPath];
 }
 
--(void)handleSingleTapGesture4Narrative:(id)sender {
-    [ArcosUtils showMsg:[self.cellData objectForKey:@"tooltip"] delegate:nil];
-}
+//-(void)handleSingleTapGesture4Narrative:(id)sender {
+//    [ArcosUtils showMsg:[self.cellData objectForKey:@"tooltip"] delegate:nil];
+//}
 
 @end

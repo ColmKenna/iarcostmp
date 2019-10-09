@@ -9,7 +9,7 @@
 #import "CustomerSurveyContactTableCell.h"
 
 @implementation CustomerSurveyContactTableCell
-@synthesize narrative;
+//@synthesize narrative;
 @synthesize contactTitle;
 @synthesize factory = _factory;
 @synthesize thePopover = _thePopover;
@@ -93,7 +93,7 @@
 
 - (void)dealloc
 {
-    if (self.narrative != nil) { self.narrative = nil; }
+//    if (self.narrative != nil) { self.narrative = nil; }
     if (self.contactTitle != nil) { self.contactTitle = nil; }
     if (self.factory != nil) { self.factory = nil; }
     self.thePopover = nil;

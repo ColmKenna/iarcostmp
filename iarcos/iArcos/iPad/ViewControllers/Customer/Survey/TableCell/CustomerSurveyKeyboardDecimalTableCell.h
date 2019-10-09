@@ -13,13 +13,13 @@
 #import "GlobalSharedClass.h"
 
 @interface CustomerSurveyKeyboardDecimalTableCell : CustomerSurveyBaseTableCell <UITextFieldDelegate>{
-    IBOutlet UILabel* narrative;
+//    IBOutlet UILabel* narrative;
     IBOutlet UITextField* responseLimits;
 }
 
-@property(nonatomic, retain) IBOutlet UILabel* narrative;
+//@property(nonatomic, retain) IBOutlet UILabel* narrative;
 @property(nonatomic, retain) IBOutlet UITextField* responseLimits;
 
--(void)handleSingleTapGesture4Narrative:(id)sender;
+//-(void)handleSingleTapGesture4Narrative:(id)sender;
 
 @end

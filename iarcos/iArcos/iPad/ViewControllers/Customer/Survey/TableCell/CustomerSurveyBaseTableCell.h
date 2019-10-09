@@ -17,6 +17,7 @@
     NSNumber* _locationIUR;
     NSString* _locationName;
     UIButton* _indicatorButton;
+    UILabel* _narrative;
 }
 
 @property(nonatomic,assign) id<CustomerSurveyTypesTableCellDelegate> delegate;
@@ -25,9 +26,13 @@
 @property(nonatomic,retain) NSNumber* locationIUR;
 @property(nonatomic,retain) NSString* locationName;
 @property(nonatomic, retain) IBOutlet UIButton* indicatorButton;
+@property(nonatomic, retain) IBOutlet UILabel* narrative;
 
 -(void)configCellWithData:(NSMutableDictionary*)theData;
 - (void)configNarrativeWithLabel:(UILabel*)aLabel;
 - (void)processIndicatorButton;
+-(void)handleSingleTapGesture4Narrative:(id)sender;
+- (void)configNarrativeSingleTapGesture;
+
 
 @end

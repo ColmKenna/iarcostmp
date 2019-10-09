@@ -9,7 +9,7 @@
 #import "CustomerSurveySegmentedControlTextFieldTableCell.h"
 
 @implementation CustomerSurveySegmentedControlTextFieldTableCell
-@synthesize narrative = _narrative;
+//@synthesize narrative = _narrative;
 @synthesize responseSegmentedControl = _responseSegmentedControl;
 @synthesize responseTextField = _responseTextField;
 @synthesize segmentItemList = _segmentItemList;
@@ -20,7 +20,7 @@
 }
 
 - (void)dealloc {
-    self.narrative = nil;
+//    self.narrative = nil;
     self.responseSegmentedControl = nil;
     self.responseTextField = nil;
     self.segmentItemList = nil;
@@ -37,6 +37,7 @@
 - (void)configCellWithData:(NSMutableDictionary*)theData {
     self.cellData = theData;
     self.narrative.text = [self.cellData objectForKey:@"Narrative"];
+    [self processIndicatorButton];
     NSString* responseLimits = [self.cellData objectForKey:@"ResponseLimits"];
     NSArray* responseLimitArray = [responseLimits componentsSeparatedByString:[GlobalSharedClass shared].fieldDelimiter];
     self.segmentItemList = [NSMutableArray arrayWithCapacity:[responseLimitArray count]];
@@ -90,6 +91,7 @@
             }
         }
     }
+    [self configNarrativeSingleTapGesture];
 }
 
 - (IBAction)segmentedValueChange:(id)sender {    

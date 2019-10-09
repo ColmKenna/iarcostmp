@@ -11,13 +11,13 @@
 #import "ArcosBorderBackgroundUIButton.h"
 
 @interface CustomerSurveyPhotoTableCell : CustomerSurveyBaseTableCell {
-    UILabel* _narrative;
+//    UILabel* _narrative;
     ArcosBorderUIButton* _photoButton;
     ArcosBorderBackgroundUIButton* _previewButton;
     int _pressCount;
 }
 
-@property(nonatomic, retain) IBOutlet UILabel* narrative;
+//@property(nonatomic, retain) IBOutlet UILabel* narrative;
 @property(nonatomic, retain) IBOutlet ArcosBorderUIButton* photoButton;
 @property(nonatomic, retain) IBOutlet ArcosBorderBackgroundUIButton* previewButton;
 @property(nonatomic, assign) int pressCount;

@@ -9,7 +9,7 @@
 #import "CustomerSurveySubHeaderTableCell.h"
 
 @implementation CustomerSurveySubHeaderTableCell
-@synthesize narrative = _narrative;
+//@synthesize narrative = _narrative;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -17,7 +17,7 @@
 }
 
 - (void)dealloc {
-    self.narrative = nil;
+//    self.narrative = nil;
     
     [super dealloc];
 }

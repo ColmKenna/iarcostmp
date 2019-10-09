@@ -155,6 +155,16 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSMutableDictionary* cellData = [self.customerSurveyDataManager cellDataWithIndexPath:indexPath];
     int questionType = [[cellData objectForKey:@"QuestionType"] intValue];
+    if (questionType == 1) {
+        NSMutableAttributedString* attributedNarrativeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",[cellData objectForKey:@"Narrative"]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}];
+        CGRect rect = [attributedNarrativeString boundingRectWithSize:CGSizeMake(self.tableView.frame.size.width - 25 - 206, CGFLOAT_MAX) options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) context:nil];
+        [attributedNarrativeString release];
+        if (rect.size.height < 21.0) {
+            rect.size.height = 21.0;
+        }
+
+        return rect.size.height + 23.0;
+    }
     if (questionType == 3) {
         NSMutableAttributedString* attributedNarrativeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",[cellData objectForKey:@"Narrative"]] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}];
         CGRect rect = [attributedNarrativeString boundingRectWithSize:CGSizeMake(self.tableView.frame.size.width - 25, CGFLOAT_MAX) options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) context:nil];
@@ -170,6 +180,9 @@
     }
     if (questionType == 14) {
         return 70;
+    }
+    if (questionType == 17) {
+        return 140;
     }
     
     return 44;
@@ -295,6 +308,10 @@
 
 - (UITableView*)retrieveSurveyTableView {
     return self.tableView;
+}
+
+-(UIViewController*)retrieveParentViewController {
+    return self;
 }
 
 #pragma mark UIImagePickerControllerDelegate

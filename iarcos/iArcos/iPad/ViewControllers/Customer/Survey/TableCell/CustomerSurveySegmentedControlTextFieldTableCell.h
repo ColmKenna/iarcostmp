@@ -12,13 +12,13 @@
 #import "ArcosUtils.h"
 
 @interface CustomerSurveySegmentedControlTextFieldTableCell : CustomerSurveyBaseTableCell<UITextFieldDelegate> {
-    UILabel* _narrative;
+//    UILabel* _narrative;
     UISegmentedControl* _responseSegmentedControl;
     UITextField* _responseTextField;
     NSMutableArray* _segmentItemList;
 }
 
-@property(nonatomic, retain) IBOutlet UILabel* narrative;
+//@property(nonatomic, retain) IBOutlet UILabel* narrative;
 @property(nonatomic, retain) IBOutlet UISegmentedControl* responseSegmentedControl;
 @property(nonatomic, retain) IBOutlet UITextField* responseTextField;
 @property(nonatomic, retain) NSMutableArray* segmentItemList;
