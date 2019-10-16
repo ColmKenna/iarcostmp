@@ -602,23 +602,23 @@
     NSString* tableName = [self.utilitiesUpdateDetailDataManager.tableNameList objectAtIndex:theIndexpath.row];
     NSNumber* downloadMode = [data objectForKey:@"DownloadMode"];
     int downloadModeValue = [downloadMode intValue];
-    if ((downloadModeValue == 0 || downloadModeValue == 1) && [tableName isEqualToString:@"Order"]) {
+    if ((downloadModeValue == 0) && [tableName isEqualToString:@"Order"]) {
         UITableViewCell* orderTableViewCell = [self.tableView cellForRowAtIndexPath:theIndexpath];
 //        if (self.datePickerPopover == nil) {
         UtilitiesOrderDateRangePicker* UODRP = [[UtilitiesOrderDateRangePicker alloc]initWithNibName:@"UtilitiesOrderDateRangePicker" bundle:nil];
         UODRP.delegate = self;
         UODRP.orderStartDate = updateCenter.orderStartDate;
         UODRP.orderEndDate = updateCenter.orderEndDate;
-        if (downloadModeValue == 1) {
-            NSMutableDictionary* tmpCellData = [self.utilitiesUpdateDetailDataManager cellDataWithIndexPath:theIndexpath];
-            NSDate* tmpOrderStartDate = [NSDate date];
-            NSDate* tmpOrderEndDate = [NSDate date];
-            if ([[tmpCellData objectForKey:@"IsDownloaded"] boolValue]) {
-                tmpOrderStartDate = [tmpCellData objectForKey:@"DownloadDate"];
-            }
-            UODRP.orderStartDate = tmpOrderStartDate;
-            UODRP.orderEndDate = tmpOrderEndDate;
-        }
+//        if (downloadModeValue == 1) {
+//            NSMutableDictionary* tmpCellData = [self.utilitiesUpdateDetailDataManager cellDataWithIndexPath:theIndexpath];
+//            NSDate* tmpOrderStartDate = [NSDate date];
+//            NSDate* tmpOrderEndDate = [NSDate date];
+//            if ([[tmpCellData objectForKey:@"IsDownloaded"] boolValue]) {
+//                tmpOrderStartDate = [tmpCellData objectForKey:@"DownloadDate"];
+//            }
+//            UODRP.orderStartDate = tmpOrderStartDate;
+//            UODRP.orderEndDate = tmpOrderEndDate;
+//        }
         self.datePickerPopover = [[[UIPopoverController alloc]initWithContentViewController:UODRP] autorelease];
         [UODRP release];
         self.datePickerPopover.popoverContentSize = CGSizeMake(328, 500);
@@ -627,23 +627,23 @@
 //            [self.datePickerPopover presentPopoverFromRect:orderTableViewCell.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 //        }
     }
-    if ((downloadModeValue == 0 || downloadModeValue == 1) && [tableName isEqualToString:@"Call"]) {
+    if ((downloadModeValue == 0) && [tableName isEqualToString:@"Call"]) {
         UITableViewCell* callTableViewCell = [self.tableView cellForRowAtIndexPath:theIndexpath];
 //        if (self.callDatePickerPopover == nil) {
         UtilitiesCallDateRangePicker* UCDRP = [[UtilitiesCallDateRangePicker alloc]initWithNibName:@"UtilitiesCallDateRangePicker" bundle:nil];
         UCDRP.delegate = self;
         UCDRP.callStartDate = updateCenter.callStartDate;
         UCDRP.callEndDate = updateCenter.callEndDate;
-        if (downloadModeValue == 1) {
-            NSMutableDictionary* tmpCellData = [self.utilitiesUpdateDetailDataManager cellDataWithIndexPath:theIndexpath];
-            NSDate* tmpCallStartDate = [NSDate date];
-            NSDate* tmpCallEndDate = [NSDate date];
-            if ([[tmpCellData objectForKey:@"IsDownloaded"] boolValue]) {
-                tmpCallStartDate = [tmpCellData objectForKey:@"DownloadDate"];
-            }
-            UCDRP.callStartDate = tmpCallStartDate;
-            UCDRP.callEndDate = tmpCallEndDate;
-        }
+//        if (downloadModeValue == 1) {
+//            NSMutableDictionary* tmpCellData = [self.utilitiesUpdateDetailDataManager cellDataWithIndexPath:theIndexpath];
+//            NSDate* tmpCallStartDate = [NSDate date];
+//            NSDate* tmpCallEndDate = [NSDate date];
+//            if ([[tmpCellData objectForKey:@"IsDownloaded"] boolValue]) {
+//                tmpCallStartDate = [tmpCellData objectForKey:@"DownloadDate"];
+//            }
+//            UCDRP.callStartDate = tmpCallStartDate;
+//            UCDRP.callEndDate = tmpCallEndDate;
+//        }
         self.callDatePickerPopover = [[[UIPopoverController alloc]initWithContentViewController:UCDRP] autorelease];
         [UCDRP release];
         self.callDatePickerPopover.popoverContentSize = CGSizeMake(328, 500);
