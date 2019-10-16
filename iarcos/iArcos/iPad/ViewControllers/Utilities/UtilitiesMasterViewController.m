@@ -24,6 +24,13 @@
 @synthesize globalNavigationController = _globalNavigationController;
 @synthesize myRootViewController = _myRootViewController;
 @synthesize storeNewsDateDataManager = _storeNewsDateDataManager;
+@synthesize updateCenterTitle = _updateCenterTitle;
+@synthesize settingTitle = _settingTitle;
+@synthesize tablesTitle = _tablesTitle;
+@synthesize resourcesTitle = _resourcesTitle;
+@synthesize descriptionTitle = _descriptionTitle;
+@synthesize configurationTitle = _configurationTitle;
+@synthesize newsTitle = _newsTitle;
 
 - (void)dealloc
 {
@@ -38,6 +45,13 @@
     self.globalNavigationController = nil;
     self.myRootViewController = nil;
     self.storeNewsDateDataManager = nil;
+    self.updateCenterTitle = nil;
+    self.settingTitle = nil;
+    self.tablesTitle = nil;
+    self.resourcesTitle = nil;
+    self.descriptionTitle = nil;
+    self.configurationTitle = nil;
+    self.newsTitle = nil;
     
     [super dealloc];
 }
@@ -63,6 +77,13 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.updateCenterTitle = @"UpdateCenter";
+    self.settingTitle = @"Setting";
+    self.tablesTitle = @"Tables";
+    self.resourcesTitle = @"Resources";
+    self.descriptionTitle = @"Description";
+    self.configurationTitle = @"Configuration";
+    self.newsTitle = @"News";
 }
 
 - (void)viewDidUnload
@@ -88,16 +109,16 @@
         self.utilities = [NSMutableArray arrayWithCapacity:1];
         [self.utilities addObject:switchDict];
     } else {
-        NSMutableDictionary* updateCenterDict = [self createMasterCellDataWithFilename:@"UpdateCenter.png" title:@"UpdateCenter" subTitle:@""];
-        NSMutableDictionary* settingDict = [self createMasterCellDataWithFilename:@"Configuration.png" title:@"Setting" subTitle:@""];
-        NSMutableDictionary* tableDict = [self createMasterCellDataWithFilename:@"Table.png" title:@"Tables" subTitle:@""];
-        NSMutableDictionary* resourcesDict = [self createMasterCellDataWithFilename:@"Resources.png" title:@"Resources" subTitle:@""];
-        NSMutableDictionary* descDict = [self createMasterCellDataWithFilename:@"Description.png" title:@"Description" subTitle:@""];
-        NSMutableDictionary* memoryDict = [self createMasterCellDataWithFilename:@"Analysis.png" title:@"Memory" subTitle:@""];
-        NSMutableDictionary* configurationDict = [self createMasterCellDataWithFilename:@"Configuration.png" title:@"Configuration" subTitle:@""];
-        self.utilities=[NSMutableArray arrayWithObjects:updateCenterDict,settingDict,tableDict,resourcesDict,descDict,memoryDict,configurationDict, nil];
+        NSMutableDictionary* updateCenterDict = [self createMasterCellDataWithFilename:@"UpdateCenter.png" title:self.updateCenterTitle subTitle:@""];
+        NSMutableDictionary* settingDict = [self createMasterCellDataWithFilename:@"Configuration.png" title:self.settingTitle subTitle:@""];
+        NSMutableDictionary* tableDict = [self createMasterCellDataWithFilename:@"Table.png" title:self.tablesTitle subTitle:@""];
+        NSMutableDictionary* resourcesDict = [self createMasterCellDataWithFilename:@"Resources.png" title:self.resourcesTitle subTitle:@""];
+        NSMutableDictionary* descDict = [self createMasterCellDataWithFilename:@"Description.png" title:self.descriptionTitle subTitle:@""];
+//        NSMutableDictionary* memoryDict = [self createMasterCellDataWithFilename:@"Analysis.png" title:@"Memory" subTitle:@""];
+        NSMutableDictionary* configurationDict = [self createMasterCellDataWithFilename:@"Configuration.png" title:self.configurationTitle subTitle:@""];
+        self.utilities=[NSMutableArray arrayWithObjects:updateCenterDict,settingDict,tableDict,resourcesDict,descDict,configurationDict, nil];//,memoryDict
         if ([ArcosSystemCodesUtils myNewsOptionExistence]) {
-            NSMutableDictionary* myNewsDict = [self createMasterCellDataWithFilename:@"News.png" title:@"News" subTitle:@""];
+            NSMutableDictionary* myNewsDict = [self createMasterCellDataWithFilename:@"News.png" title:self.newsTitle subTitle:@""];
             [self.utilities addObject:myNewsDict];
         }
     }
@@ -253,7 +274,7 @@
         }
     }
     NSMutableDictionary* itemDict = [self.utilities objectAtIndex:indexPath.row];
-    if ([[itemDict objectForKey:@"Title"] isEqualToString:@"News"]) {
+    if ([[itemDict objectForKey:@"Title"] isEqualToString:self.newsTitle]) {
         [self.storeNewsDateDataManager saveStoreNewsDate];
         [self openNews:nil];
         return;
@@ -264,7 +285,7 @@
     
 //    UtilitiesDetailViewController* detailViewController;
 
-    if (indexPath.row==0) {        
+    if ([[itemDict objectForKey:@"Title"] isEqualToString:self.updateCenterTitle]) {
         if (self.updateDetailView==nil) {
             self.detailViewController=(UtilitiesDetailViewController*)[[[UtilitiesUpdateDetailViewController alloc]initWithNibName:@"UtilitiesUpdateDetailViewController" bundle:nil] autorelease];
             self.updateDetailView=self.detailViewController;
@@ -275,28 +296,30 @@
         detailViewController=(UtilitiesDetailViewController*)[[UtilitiesUpdateDetailViewController alloc]initWithNibName:@"UtilitiesUpdateDetailViewController" bundle:nil];
         self.updateDetailView=detailViewController;
          */
-    }else if (indexPath.row==1) {
+    }else if ([[itemDict objectForKey:@"Title"] isEqualToString:self.settingTitle]) {
         if (self.settingDetailView==nil) {
          self.detailViewController=(UtilitiesDetailViewController*)[[[UtilitiesSettingDetailViewController alloc]initWithNibName:@"UtilitiesSettingDetailViewController" bundle:nil] autorelease];
             self.settingDetailView=self.detailViewController;
         }else{
             self.detailViewController=self.settingDetailView;
         }
-    }else if (indexPath.row == 2){
+    }else if ([[itemDict objectForKey:@"Title"] isEqualToString:self.tablesTitle]){
         self.detailViewController = (UtilitiesDetailViewController*)[[[UtilitiesTablesDetailViewController alloc] initWithNibName:@"UtilitiesTablesDetailViewController" bundle:nil] autorelease];
         self.tablesDetailView = self.detailViewController;
-    }else if (indexPath.row == 3) {
+    }else if ([[itemDict objectForKey:@"Title"] isEqualToString:self.resourcesTitle]) {
         self.detailViewController = (UtilitiesDetailViewController*)[[[UtilitiesPresenterDetailViewController alloc]initWithNibName:@"UtilitiesPresenterDetailViewController" bundle:nil] autorelease];
         self.presenterDetailView = self.detailViewController;
-    }else if (indexPath.row == 4) {
+    }else if ([[itemDict objectForKey:@"Title"] isEqualToString:self.descriptionTitle]) {
         self.detailViewController = (UtilitiesDetailViewController*)[[[UtilitiesDescriptionViewController alloc]initWithNibName:@"UtilitiesDescriptionViewController" bundle:nil] autorelease];
         self.descriptionDetailView = self.detailViewController;
         self.detailViewController.navigationDelegate = self;
-    }else if (indexPath.row == 5) {
-        self.detailViewController = (UtilitiesDetailViewController*)[[[UtilitiesMemoryTableViewController alloc]initWithNibName:@"UtilitiesMemoryTableViewController" bundle:nil] autorelease];
-        self.memoryDetailView = self.detailViewController;
-        self.detailViewController.navigationDelegate = self;
-    }else if (indexPath.row == 6) {
+    }
+//    else if (indexPath.row == 5) {
+//        self.detailViewController = (UtilitiesDetailViewController*)[[[UtilitiesMemoryTableViewController alloc]initWithNibName:@"UtilitiesMemoryTableViewController" bundle:nil] autorelease];
+//        self.memoryDetailView = self.detailViewController;
+//        self.detailViewController.navigationDelegate = self;
+//    }
+    else if ([[itemDict objectForKey:@"Title"] isEqualToString:self.configurationTitle]) {
         self.detailViewController = (UtilitiesDetailViewController*)[[[UtilitiesConfigurationTableViewController alloc]initWithNibName:@"UtilitiesConfigurationTableViewController" bundle:nil] autorelease];
         self.configurationDetailView = self.detailViewController;
         self.detailViewController.navigationDelegate = self;

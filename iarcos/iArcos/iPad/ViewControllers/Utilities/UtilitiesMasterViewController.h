@@ -43,6 +43,13 @@
     UINavigationController* _globalNavigationController;
     UIViewController* _myRootViewController;
     StoreNewsDateDataManager* _storeNewsDateDataManager;
+    NSString* _updateCenterTitle;
+    NSString* _settingTitle;
+    NSString* _tablesTitle;
+    NSString* _resourcesTitle;
+    NSString* _descriptionTitle;
+    NSString* _configurationTitle;
+    NSString* _newsTitle;
 }
 
 @property(nonatomic,assign) id<ControllNavigationBarDelegate> navigationDelegate;
@@ -60,6 +67,13 @@
 @property(nonatomic,retain) UINavigationController* globalNavigationController;
 @property(nonatomic,retain) UIViewController* myRootViewController;
 @property(nonatomic,retain) StoreNewsDateDataManager* storeNewsDateDataManager;
+@property(nonatomic,retain) NSString* updateCenterTitle;
+@property(nonatomic,retain) NSString* settingTitle;
+@property(nonatomic,retain) NSString* tablesTitle;
+@property(nonatomic,retain) NSString* resourcesTitle;
+@property(nonatomic,retain) NSString* descriptionTitle;
+@property(nonatomic,retain) NSString* configurationTitle;
+@property(nonatomic,retain) NSString* newsTitle;
 
 - (NSMutableDictionary*)createMasterCellDataWithFilename:(NSString*) fileName title:(NSString*)title subTitle:(NSString*)subTitle;
 
