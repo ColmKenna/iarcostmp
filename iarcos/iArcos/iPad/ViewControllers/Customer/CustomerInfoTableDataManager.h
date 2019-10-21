@@ -62,6 +62,10 @@
     NSString* _photosImageLabel;
     NSString* _gdprLabel;
     NSString* _gdprImageLabel;
+    NSString* _infoSectionTitle;
+    NSString* _historySectionTitle;
+    NSString* _analysisSectionTitle;
+    NSString* _overviewSectionTitle;
 }
 
 @property(nonatomic, retain) NSNumber* locationIUR;
@@ -116,6 +120,10 @@
 @property(nonatomic, retain) NSString* photosImageLabel;
 @property(nonatomic, retain) NSString* gdprLabel;
 @property(nonatomic, retain) NSString* gdprImageLabel;
+@property(nonatomic, retain) NSString* infoSectionTitle;
+@property(nonatomic, retain) NSString* historySectionTitle;
+@property(nonatomic, retain) NSString* analysisSectionTitle;
+@property(nonatomic, retain) NSString* overviewSectionTitle;
 
 - (id)initWithLocationIUR:(NSNumber*)aLocationIUR;
 - (void)locationStatusProcessor:(NSNumber*)aLsiur;

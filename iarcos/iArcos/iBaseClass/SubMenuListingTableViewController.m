@@ -14,6 +14,7 @@
 - (void)deleteAllObjectsCreated;
 - (void)selectCurrentIndexPathRow:(NSIndexPath*)aCurrentIndexPath;
 - (void)fillDataByIndexPath:(NSIndexPath*)anIndexPath;
+- (void)fillDataByTitle:(NSString*)aTitle;
 - (void)addPhoto;
 - (void)addJourneyAppointment;
 - (NSIndexPath*)retrieveIndexPathWithTitle:(NSString*)aTitle;
@@ -73,6 +74,9 @@
 //        NSMutableDictionary* appointmentCellData = [self createItemCellData:self.appointmentTitle imageFile:@"appointment.png"]; , appointmentCellData
         
         self.displayList = [NSMutableArray arrayWithObjects:orderCellData, presenterCellData, callCellData, surveyCellData, mapCellData, photosCellData, nil];
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableCallOnlyFlag]) {
+            self.displayList = [NSMutableArray arrayWithObjects:presenterCellData, callCellData, surveyCellData, mapCellData, photosCellData, nil];
+        }
         self.CLController = [[[CoreLocationController alloc] init] autorelease];
         self.CLController.delegate = self;
     }
@@ -237,17 +241,17 @@
     if (myViewController == nil) {
         myViewController = [self pickCustomViewController:myTitle];
         [cellDict setObject:myViewController forKey:self.myCustomControllerTitle];
-        [self fillDataByIndexPath:anIndexPath];
+        [self fillDataByTitle:myTitle];
     }
     if ([myTitle isEqualToString:self.callTitle] && self.detailingTableViewController.detailingDataManager.isCallSaved) {
         myViewController = [self pickCustomViewController:myTitle];
         [cellDict setObject:myViewController forKey:self.myCustomControllerTitle];
-        [self fillDataByIndexPath:anIndexPath];
+        [self fillDataByTitle:myTitle];
     }
     if ([myTitle isEqualToString:self.surveyTitle] && self.customerSurveyViewController.customerSurveyDataManager.isSurveySaved) {
         myViewController = [self pickCustomViewController:myTitle];
         [cellDict setObject:myViewController forKey:self.myCustomControllerTitle];
-        [self fillDataByIndexPath:anIndexPath];
+        [self fillDataByTitle:myTitle];
     }
     
     [self.subMenuDelegate didSelectSubMenuListingRow:anIndexPath viewController:myViewController];
@@ -268,6 +272,34 @@
     
 }
 
+- (void)fillDataByTitle:(NSString *)aTitle {
+    NSString* currentSelectedLocationName = [[OrderSharedClass sharedOrderSharedClass] currentCustomerName];
+    if ([aTitle isEqualToString:self.orderTitle]) {
+        [GlobalSharedClass shared].currentSelectedOrderLocationIUR = [GlobalSharedClass shared].currentSelectedLocationIUR;
+    } else if ([aTitle isEqualToString:self.presenterTitle]) {
+        [GlobalSharedClass shared].currentSelectedPresenterLocationIUR = [GlobalSharedClass shared].currentSelectedLocationIUR;
+    } else if ([aTitle isEqualToString:self.callTitle]) {
+        [GlobalSharedClass shared].currentSelectedCallLocationIUR = [GlobalSharedClass shared].currentSelectedLocationIUR;
+//                    NSMutableDictionary* cellDict = [self.subMenuDelegate retrieveSelectedCustomerBaseCellData];
+//                    NSLog(@"cellDict LocationIUR: %@ %@", [cellDict objectForKey:@"LocationIUR"], cellDict);
+        NSMutableDictionary* orderHeader = [[OrderSharedClass sharedOrderSharedClass]getADefaultOrderHeader];
+        [orderHeader setObject:[GlobalSharedClass shared].currentSelectedLocationIUR forKey:@"LocationIUR"];
+        self.detailingTableViewController.orderHeader = orderHeader;
+        self.detailingTableViewController.isEditable = YES;
+        self.detailingTableViewController.locationIUR = [GlobalSharedClass shared].currentSelectedLocationIUR;
+        self.detailingTableViewController.locationName = currentSelectedLocationName;
+        self.detailingTableViewController.title = currentSelectedLocationName;
+        self.detailingTableViewController.locationDefaultContactIUR = [GlobalSharedClass shared].currentSelectedContactIUR;
+    } else if ([aTitle isEqualToString:self.surveyTitle]) {
+        [GlobalSharedClass shared].currentSelectedSurveyLocationIUR = [GlobalSharedClass shared].currentSelectedLocationIUR;
+//        NSMutableDictionary* cellDict = [self.subMenuDelegate retrieveSelectedCustomerBaseCellData];
+        self.customerSurveyViewController.locationIUR = [GlobalSharedClass shared].currentSelectedLocationIUR;
+        self.customerSurveyViewController.locationName = currentSelectedLocationName;
+        self.customerSurveyViewController.title = currentSelectedLocationName;
+    } else {
+        
+    }
+}
 - (void)fillDataByIndexPath:(NSIndexPath*)anIndexPath {
     NSString* currentSelectedLocationName = [[OrderSharedClass sharedOrderSharedClass] currentCustomerName];
     switch (anIndexPath.row) {

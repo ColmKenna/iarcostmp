@@ -63,6 +63,10 @@
 @synthesize photosImageLabel = _photosImageLabel;
 @synthesize gdprLabel = _gdprLabel;
 @synthesize gdprImageLabel = _gdprImageLabel;
+@synthesize infoSectionTitle = _infoSectionTitle;
+@synthesize historySectionTitle = _historySectionTitle;
+@synthesize analysisSectionTitle = _analysisSectionTitle;
+@synthesize overviewSectionTitle = _overviewSectionTitle;
 
 - (id)initWithLocationIUR:(NSNumber*)aLocationIUR {
     self = [super init];
@@ -74,6 +78,10 @@
         self.memosLabel = @"Memos";
         self.surveysLabel = @"Surveys";
         self.issuesLabel = @"Issues";
+        self.infoSectionTitle = @"Information";
+        self.historySectionTitle = @"History";
+        self.analysisSectionTitle = @"Analysis";
+        self.overviewSectionTitle = @"Overview";
         NSString* definedIssuesText = [ArcosUtils retrieveDefinedIssuesText];
         if (![definedIssuesText isEqualToString:@""]) {
             self.issuesLabel = definedIssuesText;
@@ -87,7 +95,10 @@
         self.photosImageLabel = @"Photo";
         self.gdprLabel = @"GDPR";
         self.gdprImageLabel = @"GDPR";
-        self.sectionTitleList = [NSMutableArray arrayWithObjects:@"Information",@"History",@"Analysis",@"Overview", nil];
+        self.sectionTitleList = [NSMutableArray arrayWithObjects:self.infoSectionTitle,self.historySectionTitle,self.analysisSectionTitle,self.overviewSectionTitle, nil];
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableCallOnlyFlag]) {
+            self.sectionTitleList = [NSMutableArray arrayWithObjects:self.infoSectionTitle,self.historySectionTitle,self.overviewSectionTitle, nil];
+        }
         NSString* finalContactLabel = self.contactsLabel;
         NSUInteger contactCount = [[ArcosCoreData sharedArcosCoreData] locationContactsWithLocationIUR:aLocationIUR];
         if (contactCount > 0) {
@@ -169,6 +180,10 @@
     self.photosImageLabel = nil;
     self.gdprLabel = nil;
     self.gdprImageLabel = nil;
+    self.infoSectionTitle = nil;
+    self.historySectionTitle = nil;
+    self.analysisSectionTitle = nil;
+    self.overviewSectionTitle = nil;
     
     [super dealloc];
 }

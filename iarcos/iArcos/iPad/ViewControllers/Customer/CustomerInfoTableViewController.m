@@ -177,7 +177,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if (section==0) {
+    NSString* auxSectionTitle = [self.customerInfoTableDataManager.sectionTitleList objectAtIndex:section];
+    if ([auxSectionTitle isEqualToString:self.customerInfoTableDataManager.infoSectionTitle]) {
 //        NSLog(@"number of row for the section %d",[aCustKeys count]);
         if (needShowDetail) {
             return [self.customerInfoTableDataManager.custKeyList count] + 1;
@@ -185,11 +186,11 @@
             return [self.customerInfoTableDataManager.headerItemList count] + 1;
         }
         
-    }else if (section==1){
+    }else if ([auxSectionTitle isEqualToString:self.customerInfoTableDataManager.historySectionTitle]){
         return [self.customerInfoTableDataManager.historyKeyList count];
-    }else if (section==2){
+    }else if ([auxSectionTitle isEqualToString:self.customerInfoTableDataManager.analysisSectionTitle]){
         return [self.customerInfoTableDataManager.analysisKeyList count];
-    }else{
+    }else {
         return [self.customerInfoTableDataManager.overviewKeyList count];
     }
 
@@ -222,7 +223,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {//info cell
+    NSString* auxSectionTitle = [self.customerInfoTableDataManager.sectionTitleList objectAtIndex:indexPath.section];
+    if ([auxSectionTitle isEqualToString:self.customerInfoTableDataManager.infoSectionTitle]) {//info cell
         self.detailButCell.selectionStyle=UITableViewCellSelectionStyleNone;
         if (indexPath.row == [self.customerInfoTableDataManager.headerItemList count] && !needShowDetail) {
             return self.detailButCell;
@@ -234,7 +236,7 @@
     
     NSString *CellIdentifier = @"cell";
     NSString* auxCustKey = [self.customerInfoTableDataManager.custKeyList objectAtIndex:indexPath.row];
-    if (indexPath.section==0) {
+    if ([auxSectionTitle isEqualToString:self.customerInfoTableDataManager.infoSectionTitle]) {
         CellIdentifier=@"CustomerInfoCell";
         if (needShowDetail) {
             if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showAccountBalancesFlag] && indexPath.row == self.customerInfoTableDataManager.buyingGroupIndex-1) {
@@ -267,7 +269,7 @@
 
     
     // Configure the cell...
-    if (indexPath.section==0) {//info cell
+    if ([auxSectionTitle isEqualToString:self.customerInfoTableDataManager.infoSectionTitle]) {//info cell
         //NSLog(@"customer is %@",self.aCustDict);
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showAccountBalancesFlag] && indexPath.row == self.customerInfoTableDataManager.buyingGroupIndex-1) {
             CustomerInfoButtonCell* aCell = (CustomerInfoButtonCell*)cell;
@@ -329,7 +331,7 @@
 
         return aCell;
         
-    }else if(indexPath.section==1){//local action cell
+    }else if([auxSectionTitle isEqualToString:self.customerInfoTableDataManager.historySectionTitle]){//local action cell
         CustomerOptionCell* aCell=(CustomerOptionCell*)cell;
         aCell.optionTitle.text=[self.customerInfoTableDataManager.historyKeyList objectAtIndex:indexPath.row];
         aCell.optionAddBut.hidden=YES;
@@ -345,7 +347,7 @@
         
         return aCell;
         
-    }else if(indexPath.section==2){//remote action cell
+    }else if([auxSectionTitle isEqualToString:self.customerInfoTableDataManager.analysisSectionTitle]){//remote action cell
         
         CustomerOptionCell* aCell=(CustomerOptionCell*)cell;
         aCell.optionAddBut.tag=indexPath.row+200;
@@ -377,7 +379,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==0) {//info cell
+    NSString* auxSectionTitle = [self.customerInfoTableDataManager.sectionTitleList objectAtIndex:indexPath.section];
+    if ([auxSectionTitle isEqualToString:self.customerInfoTableDataManager.infoSectionTitle]) {//info cell
         if (indexPath.row==[self.customerInfoTableDataManager.headerItemList count]&&!needShowDetail) {
             needShowDetail=!needShowDetail;
             [self refreshOptionDescriptionProcessor:self.aCustDict];
@@ -444,14 +447,14 @@
         }
     }
     //local actions cell
-    if (indexPath.section == 1){
+    if ([auxSectionTitle isEqualToString:self.customerInfoTableDataManager.historySectionTitle]){
         [self historyActionSelectedIndex:indexPath.row];
     }
     //analysis actions cell
-    if (indexPath.section == 2){
+    if ([auxSectionTitle isEqualToString:self.customerInfoTableDataManager.analysisSectionTitle]){
         [self analysisActionSelectedIndex:indexPath.row];
     }
-    if (indexPath.section == 3) {
+    if ([auxSectionTitle isEqualToString:self.customerInfoTableDataManager.overviewSectionTitle]) {
         [self overviewActionSelectedIndex:indexPath.row];
     }
 }

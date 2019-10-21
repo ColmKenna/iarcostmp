@@ -78,6 +78,7 @@
 - (BOOL)useDiscountFromPriceFlag;
 - (BOOL)useDiscountByPriceGroupFlag;
 - (BOOL)showRunningTotalFlag;
+- (BOOL)enableCallOnlyFlag;
 - (void)resetSystemCodes:(NSString*)aSystemCodes;
 - (void)persistentSystemCodes;
 
