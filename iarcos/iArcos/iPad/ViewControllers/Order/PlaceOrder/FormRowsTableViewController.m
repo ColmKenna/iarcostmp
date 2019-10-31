@@ -404,6 +404,7 @@
     NSMutableDictionary* cellData= [NSMutableDictionary dictionaryWithDictionary:aRow];
     cell.cellDelegate = self;
     [cell configCellWithData:cellData];
+    [cell configMatImageWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR productIUR:[cellData objectForKey:@"ProductIUR"]];
     
     [self.unsortedFormrows replaceObjectAtIndex:indexPath.row withObject:cellData];
     cell.description.text=[cellData objectForKey:@"Details"];

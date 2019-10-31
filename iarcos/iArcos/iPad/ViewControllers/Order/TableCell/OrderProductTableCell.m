@@ -155,6 +155,24 @@
     [singleTap2 release];
 }
 
+- (void)configMatImageWithLocationIUR:(NSNumber*)aLocationIUR productIUR:(NSNumber*)aProductIUR {
+    if ([ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag) return;
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] retrieveLocationProductMATDataLocallyFlag] && [[ArcosConfigDataManager sharedArcosConfigDataManager] showMATImageFlag]) {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"locationIUR = %@ and productIUR = %@", aLocationIUR, aProductIUR];
+        NSNumber* locationProductMatCount = [[ArcosCoreData sharedArcosCoreData] recordQtyWithEntityName:@"LocationProductMAT" predicate:predicate];
+        if ([locationProductMatCount intValue] > 0) {
+            NSNumber* imageIur = [NSNumber numberWithInt:150];
+            UIImage* anImage = nil;
+            anImage = [[ArcosCoreData sharedArcosCoreData] thumbWithIUR:imageIur];
+            if (anImage == nil) {
+                anImage = [UIImage imageNamed:@"iArcos_72.png"];
+            }
+            self.productImageView.image = anImage;
+            self.productImageView.alpha = 1.0;
+        }
+    }
+}
+
 - (void)drilldownTapGesture:(id)sender {
     if ([ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag) {
         [self.cellDelegate toggleShelfImageWithData:(NSMutableDictionary*)self.data];

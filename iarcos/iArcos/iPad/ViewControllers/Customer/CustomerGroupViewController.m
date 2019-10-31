@@ -45,6 +45,7 @@
 @synthesize auxJourneyIndexPath = _auxJourneyIndexPath;
 @synthesize tableCellFactory = _tableCellFactory;
 @synthesize accessTimesWidgetViewController = _accessTimesWidgetViewController;
+@synthesize outlookTypeText = _outlookTypeText;
 
 - (instancetype)initWithStyle:(UITableViewStyle)aStyle requestSource:(CustomerGroupRequestSource)aRequestSource {
     self.requestSource = aRequestSource;
@@ -76,6 +77,7 @@
             self.customerGroupDataManager = [[[CustomerGroupContactDataManager alloc] init] autorelease];
             self.groupType = [GlobalSharedClass shared].contactText;
         }
+        self.outlookTypeText = @"Outlook";
     }
     return self;
 }
@@ -107,6 +109,7 @@
     self.auxJourneyIndexPath = nil;
     self.tableCellFactory = nil;
     self.accessTimesWidgetViewController = nil;
+    self.outlookTypeText = nil;
     
     [super dealloc];
 }
@@ -125,7 +128,7 @@
 {
     [super viewDidLoad];
     if (self.requestSource == CustomerGroupRequestSourceMaster) {
-        NSArray* statusItems = [NSArray arrayWithObjects:self.listTypeText, self.journeyTypeText, nil];
+        NSArray* statusItems = [NSArray arrayWithObjects:self.listTypeText, self.journeyTypeText, nil];// self.outlookTypeText,
         self.segmentBut = [[[UISegmentedControl alloc] initWithItems:statusItems] autorelease];
         
         [self.segmentBut addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
@@ -328,6 +331,10 @@
                 [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] animated:NO scrollPosition:UITableViewScrollPositionMiddle];
                 [self.tableView.delegate tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
             }
+        }
+            break;
+        case 2: {
+            
         }
             break;
         default:

@@ -3,17 +3,17 @@
     {
       "orientation" : "portrait",
       "idiom" : "ipad",
+      "filename" : "ArcosPortrait.png",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
-      "filename" : "ArcosPortrait.png",
       "scale" : "1x"
     },
     {
       "orientation" : "landscape",
       "idiom" : "ipad",
+      "filename" : "ArcosLandscape.png",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
-      "filename" : "ArcosLandscape.png",
       "scale" : "1x"
     },
     {

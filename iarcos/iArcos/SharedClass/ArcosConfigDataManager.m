@@ -273,6 +273,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConfigDataManager);
     return [self retrieveConfigFlagByIndex:67];
 }
 
+- (BOOL)showMATImageFlag {
+    return [self retrieveConfigFlagByIndex:68];
+}
+
 - (void)resetSystemCodes:(NSString*)aSystemCodes {
     self.systemCodes = aSystemCodes;
 }

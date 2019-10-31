@@ -879,6 +879,14 @@
             [self.Data setObject:[NSNumber numberWithInt:-2] forKey:@"RRIUR"];
         }
     }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] retrieveLocationProductMATDataLocallyFlag] && [[ArcosConfigDataManager sharedArcosConfigDataManager] showMATImageFlag] &&
+        [[self.Data objectForKey:@"Qty"] intValue] > 0) {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"locationIUR = %@ and productIUR = %@", self.locationIUR, [self.Data objectForKey:@"ProductIUR"]];
+        NSNumber* locationProductMatCount = [[ArcosCoreData sharedArcosCoreData] recordQtyWithEntityName:@"LocationProductMAT" predicate:predicate];
+        if ([locationProductMatCount intValue] == 0) {
+            [self.Data setObject:[NSNumber numberWithInt:-3] forKey:@"RRIUR"];
+        }
+    }
     //clear all fields
     QTYField.text=@"0";
     BonusField.text=@"0";

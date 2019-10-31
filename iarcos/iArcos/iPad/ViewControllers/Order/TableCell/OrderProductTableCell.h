@@ -67,5 +67,6 @@
 -(void)setSelectStatus:(BOOL)select;
 -(void)configCellWithData:(NSMutableDictionary*)theData;
 - (void)configBackgroundColour:(BOOL)select;
+- (void)configMatImageWithLocationIUR:(NSNumber*)aLocationIUR productIUR:(NSNumber*)aProductIUR;
 
 @end

@@ -67,6 +67,7 @@ typedef enum {
     NSIndexPath* _auxJourneyIndexPath;
     CustomerGroupTableCellFactory* _tableCellFactory;
     AccessTimesWidgetViewController* _accessTimesWidgetViewController;
+    NSString* _outlookTypeText;
 }
 @property(nonatomic, assign) CustomerGroupRequestSource requestSource;
 @property(nonatomic, assign) id<GenericMasterTemplateDelegate> myMoveDelegate;
@@ -99,6 +100,7 @@ typedef enum {
 @property(nonatomic, retain) NSIndexPath* auxJourneyIndexPath;
 @property(nonatomic, retain) CustomerGroupTableCellFactory* tableCellFactory;
 @property(nonatomic, retain) AccessTimesWidgetViewController* accessTimesWidgetViewController;
+@property(nonatomic, retain) NSString* outlookTypeText;
 
 - (instancetype)initWithStyle:(UITableViewStyle)aStyle requestSource:(CustomerGroupRequestSource)aRequestSource;
 -(void)showDetailViewController:(CustomerBaseDetailViewController*)baseDetailViewController;

@@ -1354,6 +1354,7 @@
 		63A1FF0821A30C1C00666F0C /* MeetingExpenseDetailsTableCellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A1FF0721A30C1C00666F0C /* MeetingExpenseDetailsTableCellFactory.m */; };
 		63A31BA322944D810090E7B7 /* CustomerJourneyAppointmentDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A31BA222944D810090E7B7 /* CustomerJourneyAppointmentDataManager.m */; };
 		63A345DC1CE0CB5000A5E778 /* CustomerGroupDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A345DB1CE0CB5000A5E778 /* CustomerGroupDataManager.m */; };
+		63A5840A2355C674003E0164 /* LaunchScreen_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63A584092355C674003E0164 /* LaunchScreen_iPad.storyboard */; };
 		63A61A6D223A9CD90023CC11 /* ArcosMeetingWithDetailsDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A61A5F223A9CD50023CC11 /* ArcosMeetingWithDetailsDownload.m */; };
 		63A61A6E223A9CD90023CC11 /* ArcosAttachmentSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A61A60223A9CD60023CC11 /* ArcosAttachmentSummary.m */; };
 		63A61A6F223A9CD90023CC11 /* ArcosArrayOfAttachmentSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A61A65223A9CD70023CC11 /* ArcosArrayOfAttachmentSummary.m */; };
@@ -4201,6 +4202,7 @@
 		63A31BA222944D810090E7B7 /* CustomerJourneyAppointmentDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerJourneyAppointmentDataManager.m; sourceTree = "<group>"; };
 		63A345DA1CE0CB5000A5E778 /* CustomerGroupDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerGroupDataManager.h; sourceTree = "<group>"; };
 		63A345DB1CE0CB5000A5E778 /* CustomerGroupDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerGroupDataManager.m; sourceTree = "<group>"; };
+		63A584092355C674003E0164 /* LaunchScreen_iPad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen_iPad.storyboard; sourceTree = "<group>"; };
 		63A5FE641A1653190092FB3B /* CustomerIarcosSavedOrderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerIarcosSavedOrderDelegate.h; sourceTree = "<group>"; };
 		63A61A5F223A9CD50023CC11 /* ArcosMeetingWithDetailsDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArcosMeetingWithDetailsDownload.m; sourceTree = "<group>"; };
 		63A61A60223A9CD60023CC11 /* ArcosAttachmentSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArcosAttachmentSummary.m; sourceTree = "<group>"; };
@@ -4676,6 +4678,7 @@
 				6304523A19EFC79D00CDE68A /* Images.xcassets */,
 				6304523C19EFC79D00CDE68A /* LaunchScreen.xib */,
 				6304522A19EFC79D00CDE68A /* Supporting Files */,
+				63A584092355C674003E0164 /* LaunchScreen_iPad.storyboard */,
 			);
 			path = iArcos;
 			sourceTree = "<group>";
@@ -8514,6 +8517,7 @@
 				630B3C0119F01CB9007B2442 /* StockistParentTableViewController.xib in Resources */,
 				631705941FDEDA41004B8C8D /* planogram@2x.png in Resources */,
 				630B3E1719F01CB9007B2442 /* remote_actions.png in Resources */,
+				63A5840A2355C674003E0164 /* LaunchScreen_iPad.storyboard in Resources */,
 				630B3B5D19F01CB9007B2442 /* CustomerCallModalViewController.xib in Resources */,
 				63C19BB121A2D6950064726E /* MeetingExpenseDetailsViewController.xib in Resources */,
 				634A7DE11C1849D500EA0CFD /* DashboardPromotionTableViewCell.xib in Resources */,
@@ -10136,7 +10140,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 5.9.2;
+				MARKETING_VERSION = 5.9.5;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10163,8 +10167,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = iArcos/iArcos.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: David Kilmartin (Z39Z4X9J9E)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: David Kilmartin (Z39Z4X9J9E)";
+				CODE_SIGN_IDENTITY = "Apple Distribution: David Kilmartin (Z39Z4X9J9E)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: David Kilmartin (Z39Z4X9J9E)";
 				DEVELOPMENT_TEAM = Z39Z4X9J9E;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -10190,7 +10194,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 5.9.2;
+				MARKETING_VERSION = 5.9.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -10204,7 +10208,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "b8e1e57a-016f-4a71-9609-ef2a4483e535";
-				PROVISIONING_PROFILE_SPECIFIER = iArcosSep2019Release;
+				PROVISIONING_PROFILE_SPECIFIER = iArcosReleaseCenter_Apple;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
@@ -10297,8 +10301,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = iArcos/iArcos.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: David Kilmartin (Z39Z4X9J9E)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: David Kilmartin (Z39Z4X9J9E)";
+				CODE_SIGN_IDENTITY = "Apple Distribution: David Kilmartin (Z39Z4X9J9E)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: David Kilmartin (Z39Z4X9J9E)";
 				DEVELOPMENT_TEAM = Z39Z4X9J9E;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -10324,7 +10328,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 5.9.2;
+				MARKETING_VERSION = 5.9.5;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10339,7 +10343,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4a2d26cb-4c25-4fc4-a9fe-d2be993ec50d";
-				PROVISIONING_PROFILE_SPECIFIER = iArcos17Sep2019Distribution;
+				PROVISIONING_PROFILE_SPECIFIER = iArcosDistributionCenter_Apple;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = AdHoc;
