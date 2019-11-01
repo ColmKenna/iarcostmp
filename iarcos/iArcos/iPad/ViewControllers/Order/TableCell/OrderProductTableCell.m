@@ -160,7 +160,7 @@
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] retrieveLocationProductMATDataLocallyFlag] && [[ArcosConfigDataManager sharedArcosConfigDataManager] showMATImageFlag]) {
         NSPredicate* predicate = [NSPredicate predicateWithFormat:@"locationIUR = %@ and productIUR = %@", aLocationIUR, aProductIUR];
         NSNumber* locationProductMatCount = [[ArcosCoreData sharedArcosCoreData] recordQtyWithEntityName:@"LocationProductMAT" predicate:predicate];
-        if ([locationProductMatCount intValue] > 0) {
+        if ([locationProductMatCount intValue] == 0) {
             NSNumber* imageIur = [NSNumber numberWithInt:150];
             UIImage* anImage = nil;
             anImage = [[ArcosCoreData sharedArcosCoreData] thumbWithIUR:imageIur];

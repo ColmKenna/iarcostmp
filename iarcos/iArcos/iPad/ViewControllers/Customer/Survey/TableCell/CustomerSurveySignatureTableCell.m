@@ -53,6 +53,10 @@
     [self configNarrativeWithLabel:self.narrative];
 }
 
+- (void)touchBeganWithAction {
+    [self.delegate retrieveSurveyTableView].scrollEnabled = NO;
+}
+
 - (void)touchEndedWithData:(NSMutableArray *)aDataList {
     NSString* signatureString = @"";
     NSMutableArray* signatureList = [NSMutableArray arrayWithCapacity:[aDataList count]];
@@ -62,6 +66,7 @@
     }
     signatureString = [signatureList componentsJoinedByString:@";"];
     [self.delegate inputFinishedWithData:signatureString forIndexpath:self.indexPath];
+    [self.delegate retrieveSurveyTableView].scrollEnabled = YES;
 }
 
 @end

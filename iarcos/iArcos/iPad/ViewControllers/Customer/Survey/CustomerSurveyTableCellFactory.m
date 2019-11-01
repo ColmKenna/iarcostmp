@@ -275,6 +275,9 @@
         case 17:
             identifier = self.surveyMainSummaryTableCellId;
             break;
+        case 18:
+            identifier = self.surveySignatureTableCellId;
+            break;
         default:
             identifier = self.surveyContactTableCellId;
             break;

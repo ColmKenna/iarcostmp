@@ -106,6 +106,9 @@
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	self.previousPoint = [[touches anyObject] locationInView:self];
+    if (self.dataDelegate != nil) {
+        [self.dataDelegate touchBeganWithAction];
+    }
 }
 
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {

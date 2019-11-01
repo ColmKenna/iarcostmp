@@ -12,6 +12,7 @@
 @protocol DrawingAreaDelegate <NSObject>
 
 @optional
+- (void)touchBeganWithAction;
 - (void)touchEndedWithData:(NSMutableArray*)aDataList;
 
 @end
