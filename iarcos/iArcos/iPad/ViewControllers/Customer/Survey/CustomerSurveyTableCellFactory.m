@@ -32,6 +32,7 @@
 @synthesize surveyRankingTableCellId = _surveyRankingTableCellId;
 @synthesize surveySubHeaderTableCellId = _surveySubHeaderTableCellId;
 @synthesize surveyMainSummaryTableCellId = _surveyMainSummaryTableCellId;
+@synthesize surveySignatureTableCellId = _surveySignatureTableCellId;
 
 -(id)init {
     if(self = [super init]) {
@@ -52,6 +53,7 @@
         self.surveyRankingTableCellId = @"IdCustomerSurveyRankingTableCell";        
         self.surveySubHeaderTableCellId = @"IdCustomerSurveySubHeaderTableCell";
         self.surveyMainSummaryTableCellId = @"IdCustomerSurveyMainSummaryTableCell";
+        self.surveySignatureTableCellId = @"IdCustomerSurveySignatureTableCell";
     }
     return self;
 }
@@ -74,6 +76,7 @@
     self.surveyRankingTableCellId = nil;
     self.surveySubHeaderTableCellId = nil;
     self.surveyMainSummaryTableCellId = nil;
+    self.surveySignatureTableCellId = nil;
     
     [super dealloc];
 }
@@ -138,6 +141,9 @@
         case 17:
             cell = [self createCustomerSurveyMainSummaryTableCell];
             break;
+        case 18:
+            cell = [self createCustomerSurveySignatureTableCell];
+            break;
         default:
             cell = [self createCustomerSurveyContactTableCell];
             break;
@@ -194,6 +200,9 @@
 }
 -(CustomerSurveyBaseTableCell*)createCustomerSurveyMainSummaryTableCell {
     return [self getCellWithIdentifier:self.surveyMainSummaryTableCellId];
+}
+-(CustomerSurveyBaseTableCell*)createCustomerSurveySignatureTableCell {
+    return [self getCellWithIdentifier:self.surveySignatureTableCellId];
 }
 
 

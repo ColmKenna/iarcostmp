@@ -1368,6 +1368,7 @@
 		63A6D9311D70A22F00439CC5 /* NextCheckoutOrderInfoHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A6D9301D70A22F00439CC5 /* NextCheckoutOrderInfoHeaderView.m */; };
 		63A710CE2292EB1E007AB738 /* appointment.png in Resources */ = {isa = PBXBuildFile; fileRef = 63A710CD2292EB1C007AB738 /* appointment.png */; };
 		63A904B31EDF0BBA001F5035 /* CustomerSurveyRankingTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A904B21EDF0BBA001F5035 /* CustomerSurveyRankingTableCell.m */; };
+		63A90DD4236B3C71005E0362 /* CustomerSurveySignatureTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A90DD3236B3C71005E0362 /* CustomerSurveySignatureTableCell.m */; };
 		63A9E297231D582000D84D81 /* OrderPadFooterViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63A9E296231D582000D84D81 /* OrderPadFooterViewCell.xib */; };
 		63A9E29A231D5ED100D84D81 /* OrderPadFooterViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A9E299231D5ED100D84D81 /* OrderPadFooterViewCell.m */; };
 		63AAA5E01FB9BD680076CD78 /* ProductDetailPriceTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AAA5DF1FB9BD680076CD78 /* ProductDetailPriceTableCell.m */; };
@@ -4229,6 +4230,9 @@
 		63A7E2251CE226D600C2A84A /* CustomerGroupContactTableViewCellDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerGroupContactTableViewCellDelegate.h; sourceTree = "<group>"; };
 		63A904B11EDF0BBA001F5035 /* CustomerSurveyRankingTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerSurveyRankingTableCell.h; sourceTree = "<group>"; };
 		63A904B21EDF0BBA001F5035 /* CustomerSurveyRankingTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerSurveyRankingTableCell.m; sourceTree = "<group>"; };
+		63A90DD2236B3C71005E0362 /* CustomerSurveySignatureTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerSurveySignatureTableCell.h; sourceTree = "<group>"; };
+		63A90DD3236B3C71005E0362 /* CustomerSurveySignatureTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerSurveySignatureTableCell.m; sourceTree = "<group>"; };
+		63A90DD5236B3FCA005E0362 /* DrawingAreaDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DrawingAreaDelegate.h; sourceTree = "<group>"; };
 		63A9E296231D582000D84D81 /* OrderPadFooterViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderPadFooterViewCell.xib; sourceTree = "<group>"; };
 		63A9E298231D5ED100D84D81 /* OrderPadFooterViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderPadFooterViewCell.h; sourceTree = "<group>"; };
 		63A9E299231D5ED100D84D81 /* OrderPadFooterViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderPadFooterViewCell.m; sourceTree = "<group>"; };
@@ -5256,6 +5260,7 @@
 				6383A898222FFB0800112EC9 /* ArcosGrayBorderUIButton.m */,
 				63AC7B40228C1DAF000BD6B3 /* TopBorderUILabel.h */,
 				63AC7B41228C1DAF000BD6B3 /* TopBorderUILabel.m */,
+				63A90DD5236B3FCA005E0362 /* DrawingAreaDelegate.h */,
 			);
 			path = CommonClass;
 			sourceTree = "<group>";
@@ -6029,6 +6034,8 @@
 				63FDA9991F053CA8000E33EF /* CustomerSurveyDetailsResponseTextBoxTableCell.m */,
 				631331AA23476AED008A790B /* CustomerSurveyMainSummaryTableCell.h */,
 				631331AB23476AED008A790B /* CustomerSurveyMainSummaryTableCell.m */,
+				63A90DD2236B3C71005E0362 /* CustomerSurveySignatureTableCell.h */,
+				63A90DD3236B3C71005E0362 /* CustomerSurveySignatureTableCell.m */,
 			);
 			path = TableCell;
 			sourceTree = "<group>";
@@ -9764,6 +9771,7 @@
 				630B3B1F19F01CB9007B2442 /* PresenterBookletViewController.m in Sources */,
 				630B3CF819F01CB9007B2442 /* QueryOrderTaskWrapperViewController.m in Sources */,
 				63FE6DB91EF93ACB00360F68 /* CustomerSurveySummaryTableViewController.m in Sources */,
+				63A90DD4236B3C71005E0362 /* CustomerSurveySignatureTableCell.m in Sources */,
 				6383A899222FFB0800112EC9 /* ArcosGrayBorderUIButton.m in Sources */,
 				630B3B3519F01CB9007B2442 /* CustomerContactDetailViewController.m in Sources */,
 				632C5AF81A0A4AC0002D3945 /* SavedIarcosOrderDetailTableViewController.m in Sources */,

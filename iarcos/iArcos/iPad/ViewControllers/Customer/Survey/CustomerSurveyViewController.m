@@ -184,6 +184,9 @@
     if (questionType == 17) {
         return 140;
     }
+    if (questionType == 18) {
+        return 140;
+    }
     
     return 44;
 }

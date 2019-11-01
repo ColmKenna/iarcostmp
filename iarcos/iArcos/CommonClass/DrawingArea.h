@@ -12,6 +12,7 @@
  * ALL RIGHTS RESERVED 
  ***********************************************/
 #import "ArcosLineSegment.h"
+#import "DrawingAreaDelegate.h"
 
 @interface DrawingArea : UIView {
 	NSMutableArray* listOfLines;
@@ -19,6 +20,7 @@
 	CGImageRef signatureImage;
 	CGContextRef drawingAreaGraphicsContext;
 	BOOL clearRequest;
+    id<DrawingAreaDelegate> _dataDelegate;
 }
 
 @property (nonatomic, retain) NSMutableArray* listOfLines;
@@ -26,6 +28,7 @@
 @property (nonatomic, assign) CGImageRef signatureImage;
 @property (nonatomic, assign) CGContextRef drawingAreaGraphicsContext;
 @property (nonatomic, assign) BOOL clearRequest;
+@property (nonatomic, assign) id<DrawingAreaDelegate> dataDelegate;
 
 -(void)awakeFromNib;
 -(CGImageRef)getImage;

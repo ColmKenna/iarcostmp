@@ -28,6 +28,7 @@
     NSString* _surveyRankingTableCellId;
     NSString* _surveySubHeaderTableCellId;
     NSString* _surveyMainSummaryTableCellId;
+    NSString* _surveySignatureTableCellId;
 }
 
 @property(nonatomic, retain) NSString* surveyListTableCellId;
@@ -47,6 +48,7 @@
 @property(nonatomic, retain) NSString* surveyRankingTableCellId;
 @property(nonatomic, retain) NSString* surveySubHeaderTableCellId;
 @property(nonatomic, retain) NSString* surveyMainSummaryTableCellId;
+@property(nonatomic, retain) NSString* surveySignatureTableCellId;
 
 +(id)factory;
 -(CustomerSurveyBaseTableCell*)createCustomerSurveyBaseTableCellWithData:(NSMutableDictionary*)data;
@@ -67,6 +69,7 @@
 -(CustomerSurveyBaseTableCell*)createCustomerSurveyRankingTableCell;
 -(CustomerSurveyBaseTableCell*)createCustomerSurveySubHeaderTableCell;
 -(CustomerSurveyBaseTableCell*)createCustomerSurveyMainSummaryTableCell;
+-(CustomerSurveyBaseTableCell*)createCustomerSurveySignatureTableCell;
 -(NSString*)identifierWithData:(NSMutableDictionary*)data;
 
 @end

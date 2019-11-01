@@ -50,6 +50,7 @@
 @synthesize signatureImage;
 @synthesize drawingAreaGraphicsContext;
 @synthesize clearRequest;
+@synthesize dataDelegate = _dataDelegate;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -122,6 +123,9 @@
 	[self.listOfLines addObject:line];
 	[line release];
 	[self setNeedsDisplay];
+    if (self.dataDelegate != nil) {
+        [self.dataDelegate touchEndedWithData:self.listOfLines];
+    }
 }
 
 -(CGImageRef) getImage{
