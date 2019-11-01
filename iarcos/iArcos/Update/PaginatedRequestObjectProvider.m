@@ -132,19 +132,19 @@
     if ([downloadMode intValue] == 1 && [isDownloaded boolValue]) {//1:Partial
         NSDate* downloadDate = [dataDict objectForKey:@"DownloadDate"];
         if ([ownLocation boolValue]) {
-            fromStatement = [NSString stringWithFormat:@"from Price left outer join DescrDetail on Price.LocationIUR = DescrDetail.iur and Descrdetail.Descrtypecode = 'PG' INNER JOIN LocEmpLink ON Price.LocationIUR = LocEmpLink.LocationIUR WHERE (LocEmpLink.EmployeeIUR = %d) AND Price.DateLastModified >= convert(datetime, '%@', 103)", anEmpolyeeIUR, [ArcosUtils stringFromDate:downloadDate format:[GlobalSharedClass shared].dateFormat]];
-            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableUsePriceProductGroupFlag]) {
-                fromStatement = [NSString stringWithFormat:@"from Price left outer join DescrDetail on Price.LocationIUR = DescrDetail.iur and Descrdetail.Descrtypecode = 'PG' INNER JOIN Location ON Price.PGiur = Location.PGiur INNER JOIN LocEmpLink ON Location.IUR = LocEmpLink.LocationIUR WHERE (LocEmpLink.EmployeeIUR = %d) AND Price.DateLastModified >= convert(datetime, '%@', 103)", anEmpolyeeIUR, [ArcosUtils stringFromDate:downloadDate format:[GlobalSharedClass shared].dateFormat]];
-            }
+            fromStatement = [NSString stringWithFormat:@"from price left outer join Location on location.iur = price.locationiur left outer join locemplink on (location.iur = locemplink.LocationIUR or location.MasterLocationIUR = locemplink.LocationIUR) left outer join DescrDetail on Price.PGiur = DescrDetail.iur where ((LocEmpLink.EmployeeIUR = %d or location.MasterLocationIUR = locemplink.LocationIUR) or (Descrdetail.Descrtypecode = 'PG') ) and Price.DateLastModified >= convert(datetime, '%@' , 103)", anEmpolyeeIUR, [ArcosUtils stringFromDate:downloadDate format:[GlobalSharedClass shared].dateFormat]];
+//            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableUsePriceProductGroupFlag]) {
+//                fromStatement = [NSString stringWithFormat:@"from Price left outer join DescrDetail on Price.LocationIUR = DescrDetail.iur and Descrdetail.Descrtypecode = 'PG' INNER JOIN Location ON Price.PGiur = Location.PGiur INNER JOIN LocEmpLink ON Location.IUR = LocEmpLink.LocationIUR WHERE (LocEmpLink.EmployeeIUR = %d) AND Price.DateLastModified >= convert(datetime, '%@', 103)", anEmpolyeeIUR, [ArcosUtils stringFromDate:downloadDate format:[GlobalSharedClass shared].dateFormat]];
+//            }
         } else {
             fromStatement = [NSString stringWithFormat:@"from Price where Price.DateLastModified >= convert(datetime, '%@', 103)", [ArcosUtils stringFromDate:downloadDate format:[GlobalSharedClass shared].dateFormat]];
         }        
     } else {
         if ([ownLocation boolValue]) {
-            fromStatement = [NSString stringWithFormat:@"from Price left outer join DescrDetail on Price.LocationIUR = DescrDetail.iur and Descrdetail.Descrtypecode = 'PG' INNER JOIN LocEmpLink ON Price.LocationIUR = LocEmpLink.LocationIUR WHERE (LocEmpLink.EmployeeIUR = %d)", anEmpolyeeIUR];
-            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableUsePriceProductGroupFlag]) {
-                fromStatement = [NSString stringWithFormat:@"from Price left outer join DescrDetail on Price.LocationIUR = DescrDetail.iur and Descrdetail.Descrtypecode = 'PG' INNER JOIN Location ON Price.PGiur = Location.PGiur INNER JOIN LocEmpLink ON Location.IUR = LocEmpLink.LocationIUR WHERE (LocEmpLink.EmployeeIUR = %d)", anEmpolyeeIUR];
-            }
+            fromStatement = [NSString stringWithFormat:@"from price left outer join Location on location.iur = price.locationiur left outer join locemplink on (location.iur = locemplink.LocationIUR or location.MasterLocationIUR = locemplink.LocationIUR) left outer join DescrDetail on Price.PGiur = DescrDetail.iur where ((LocEmpLink.EmployeeIUR = %d or location.MasterLocationIUR = locemplink.LocationIUR) or (Descrdetail.Descrtypecode = 'PG') )", anEmpolyeeIUR];
+//            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableUsePriceProductGroupFlag]) {
+//                fromStatement = [NSString stringWithFormat:@"from Price left outer join DescrDetail on Price.LocationIUR = DescrDetail.iur and Descrdetail.Descrtypecode = 'PG' INNER JOIN Location ON Price.PGiur = Location.PGiur INNER JOIN LocEmpLink ON Location.IUR = LocEmpLink.LocationIUR WHERE (LocEmpLink.EmployeeIUR = %d)", anEmpolyeeIUR];
+//            }
         } else {
             fromStatement = @"from Price";
         }        
