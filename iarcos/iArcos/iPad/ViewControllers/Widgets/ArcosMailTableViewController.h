@@ -19,6 +19,9 @@
 #import "MBProgressHUD.h"
 #import "ArcosMailTableViewControllerDelegate.h"
 #import "ArcosStoreExcInfoDataManager.h"
+#import <MSAL/MSAL.h>
+#import "ArcosConstantsDataManager.h"
+#import "ArcosAttachmentContainer.h"
 
 @interface ArcosMailTableViewController : UITableViewController <ArcosMailTableViewCellDelegate>{
 //    id<CustomisePresentViewControllerDelegate> _myDelegate;

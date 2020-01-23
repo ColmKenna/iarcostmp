@@ -7,6 +7,7 @@
 //
 
 #import "ArcosMailTableViewController.h"
+#import "NSData+Base64.h"
 
 @interface ArcosMailTableViewController ()
 
@@ -53,7 +54,7 @@
     }
     UIBarButtonItem* closeButton = [[UIBarButtonItem alloc] initWithTitle:[GlobalSharedClass shared].cancelButtonText style:UIBarButtonItemStylePlain target:self action:@selector(closePressed:)];
     [self.navigationItem setLeftBarButtonItem:closeButton];
-    [closeButton release];    
+    [closeButton release];
     self.sendButton = [[[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStylePlain target:self action:@selector(sendPressed:)] autorelease];
     [self.sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:[UIFont labelFontSize]], NSFontAttributeName, nil] forState:UIControlStateNormal];
     [self.navigationItem setRightBarButtonItem:self.sendButton];
@@ -96,6 +97,158 @@
 - (void)sendPressed:(id)sender {
     [self.HUD show:YES];
     [self.view endEditing:YES];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+        if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {
+            [ArcosUtils showDialogBox:@"Email account not set up" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+                
+            }];
+            [self.HUD hide:YES];
+            return;
+        }
+        if ([self.arcosMailDataManager.displayList count] < 4) {
+            [self.HUD hide:YES];
+            return;
+        }
+        NSMutableDictionary* toCellDataDict = [self.arcosMailDataManager.displayList objectAtIndex:0];
+        NSMutableArray* toRecipientList = [toCellDataDict objectForKey:@"FieldData"];
+        NSMutableDictionary* ccCellDataDict = [self.arcosMailDataManager.displayList objectAtIndex:1];
+        NSMutableArray* ccRecipientList = [ccCellDataDict objectForKey:@"FieldData"];
+        if ([toRecipientList count] == 0 && [ccRecipientList count] == 0) {
+            [ArcosUtils showDialogBox:@"No recipient found" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+                
+            }];
+            [self.HUD hide:YES];
+            return;
+        }
+        BOOL invalidEmailAddressFlag = NO;
+        for (int i = 0; i < [toRecipientList count]; i++) {
+            NSString* auxToRecipient = [toRecipientList objectAtIndex:i];
+            if (![ArcosValidator isEmail:[ArcosUtils trim:auxToRecipient]]) {
+                invalidEmailAddressFlag = YES;
+                continue;
+            }
+        }
+        for (int i = 0; i < [ccRecipientList count]; i++) {
+            NSString* auxCcRecipient = [ccRecipientList objectAtIndex:i];
+            if (![ArcosValidator isEmail:[ArcosUtils trim:auxCcRecipient]]) {
+                invalidEmailAddressFlag = YES;
+                continue;
+            }
+        }
+        if (invalidEmailAddressFlag) {
+            [ArcosUtils showDialogBox:@"Invalid email account found" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+                
+            }];
+            [self.HUD hide:YES];
+            return;
+        }
+        __weak typeof(self) weakSelf = self;
+        NSURL* url = [NSURL URLWithString:[ArcosConstantsDataManager sharedArcosConstantsDataManager].kGraphURI];
+        NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:@"application/json, text/plain, */*" forHTTPHeaderField:@"Accept"];
+        
+        [request setValue:[NSString stringWithFormat:@"Bearer %@", [ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken] forHTTPHeaderField:@"Authorization"];
+        NSMutableDictionary* payloadDictionary = [[[NSMutableDictionary alloc] init] autorelease];
+        NSMutableDictionary* messageDict = [[[NSMutableDictionary alloc] init] autorelease];
+        NSMutableDictionary* subjectCellDataDict = [self.arcosMailDataManager.displayList objectAtIndex:2];
+        NSString* subjectText = [subjectCellDataDict objectForKey:@"FieldData"];
+        NSMutableDictionary* bodyCellDataDict = [self.arcosMailDataManager.displayList objectAtIndex:3];
+        NSMutableDictionary* bodyFieldDataDict = [bodyCellDataDict objectForKey:@"FieldData"];
+        NSString* bodyText = [bodyFieldDataDict objectForKey:@"Content"];
+        [payloadDictionary setObject:messageDict forKey:@"message"];
+        [messageDict setObject:subjectText forKey:@"subject"];
+        
+        NSMutableArray* resToRecipientList = [NSMutableArray array];
+        [messageDict setObject:resToRecipientList forKey:@"toRecipients"];
+        for (int i = 0; i < [toRecipientList count]; i++) {
+            NSString* auxToRecipient = [toRecipientList objectAtIndex:i];
+            NSMutableDictionary* toRecipientDict = [NSMutableDictionary dictionary];
+            NSMutableDictionary* emailAddressDict = [NSMutableDictionary dictionary];
+            [emailAddressDict setObject:auxToRecipient forKey:@"address"];
+            [toRecipientDict setObject:emailAddressDict forKey:@"emailAddress"];
+            [resToRecipientList addObject:toRecipientDict];
+        }
+        NSMutableArray* resCcRecipientList = [NSMutableArray array];
+        [messageDict setObject:resCcRecipientList forKey:@"ccRecipients"];
+        for (int i = 0; i < [ccRecipientList count]; i++) {
+            NSString* auxCcRecipient = [ccRecipientList objectAtIndex:i];
+            NSMutableDictionary* ccRecipientDict = [NSMutableDictionary dictionary];
+            NSMutableDictionary* emailAddressDict = [NSMutableDictionary dictionary];
+            [emailAddressDict setObject:auxCcRecipient forKey:@"address"];
+            [ccRecipientDict setObject:emailAddressDict forKey:@"emailAddress"];
+            [resCcRecipientList addObject:ccRecipientDict];
+        }
+        
+        NSMutableDictionary* bodyDict = [NSMutableDictionary dictionary];
+        [messageDict setObject:bodyDict forKey:@"body"];
+        if (self.arcosMailDataManager.isHTML) {
+            NSIndexPath* bodyIndexPath = [self.arcosMailDataManager retrieveIndexPathWithTitle:self.arcosMailDataManager.bodyTitleText];
+            ArcosMailBodyTableViewCell* arcosMailBodyTableViewCell = (ArcosMailBodyTableViewCell*) [self.tableView cellForRowAtIndexPath:bodyIndexPath];
+            [arcosMailBodyTableViewCell.myWebView stringByEvaluatingJavaScriptFromString:@"document.body.setAttribute('contentEditable','false')"];
+            NSString* currentHTML = [arcosMailBodyTableViewCell.myWebView stringByEvaluatingJavaScriptFromString:@"document.documentElement.outerHTML"];
+            [bodyDict setObject:@"html" forKey:@"contentType"];
+            [bodyDict setObject:[ArcosUtils convertNilToEmpty:currentHTML] forKey:@"content"];
+        } else {
+            [bodyDict setObject:@"text" forKey:@"contentType"];
+            [bodyDict setObject:[ArcosUtils convertNilToEmpty:bodyText] forKey:@"content"];
+        }
+        
+        if ([self.arcosMailDataManager.attachmentList count] > 0) {
+            NSMutableArray* attachmentList = [NSMutableArray array];
+            for (int i = 0; i < [self.arcosMailDataManager.attachmentList count]; i++) {
+                ArcosAttachmentContainer* arcosAttachmentContainer = [self.arcosMailDataManager.attachmentList objectAtIndex:i];
+                NSMutableDictionary* attachmentDict = [NSMutableDictionary dictionary];
+                
+                [attachmentDict setObject:@"#microsoft.graph.fileAttachment" forKey:@"@odata.type"];
+                [attachmentDict setObject:[ArcosUtils convertNilToEmpty:[arcosAttachmentContainer fileName]] forKey:@"name"];
+                [attachmentDict setObject:[ArcosUtils getMimeTypeWithFileName:[arcosAttachmentContainer fileName]] forKey:@"contentType"];
+                NSString* base64String = [arcosAttachmentContainer.fileData base64Encoding];
+                [attachmentDict setObject:[ArcosUtils convertNilToEmpty:base64String] forKey:@"contentBytes"];//@"SGVsbG8gV29ybGQh"
+                [attachmentList addObject:attachmentDict];
+            }
+            [messageDict setObject:attachmentList forKey:@"attachments"];
+        }
+        
+        NSData* payloadData = [NSJSONSerialization dataWithJSONObject:payloadDictionary options:NSJSONWritingPrettyPrinted error:nil];
+        
+        [request setHTTPBody:payloadData];
+        NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSURLSession* session = [NSURLSession sessionWithConfiguration:config];
+        NSURLSessionDataTask* downloadTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            if (error != nil) {
+                NSLog(@"error %@", error);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.HUD hide:YES];
+                    [ArcosUtils showDialogBox:[error description] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+                });
+            } else {
+                NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+                int statusCode = [ArcosUtils convertNSIntegerToInt:[httpResponse statusCode]];
+                NSLog(@"response status code: %d", statusCode);
+                if (statusCode != 202) {
+                    id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
+                    NSLog(@"test %@ -- %@", result, data);
+                    NSDictionary* resultDict = (NSDictionary*)result;
+                    NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
+                    NSString* errorMsg = [errorResultDict objectForKey:@"message"];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [weakSelf.HUD hide:YES];
+                        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+                    });
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [weakSelf.HUD hide:YES];
+                        [weakSelf cleanMailData];
+                        [weakSelf.mailDelegate arcosMailDidFinishWithResult:ArcosMailComposeResultSent error:nil];
+                    });
+                }
+            }
+        }];
+        [downloadTask resume];
+        return;
+    }
     NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:[SettingManager employeeIUR]];
     if (employeeDict == nil) {
         [ArcosUtils showDialogBox:@"Email account not set up" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
@@ -186,7 +339,7 @@
         [self.HUD hide:YES];
         return;
     }
-    [[builder header] setCc:ccList];    
+    [[builder header] setCc:ccList];
     [ccList release];
     [[builder header] setSubject:subjectText];
     if (self.arcosMailDataManager.isHTML) {
@@ -197,7 +350,7 @@
         [builder setHTMLBody:currentHTML];
     } else {
         [builder setTextBody:bodyText];
-    }    
+    }
     for (int i = 0; i < [self.arcosMailDataManager.attachmentList count]; i++) {        
         [builder addAttachment:[self.arcosMailDataManager.attachmentList objectAtIndex:i]];
     }    
@@ -236,7 +389,7 @@
             [weakSelf cleanMailData];
             [weakSelf.mailDelegate arcosMailDidFinishWithResult:ArcosMailComposeResultSent error:nil];
         }
-    }];
+    }];    
 }
 
 #pragma mark - Table view data source
