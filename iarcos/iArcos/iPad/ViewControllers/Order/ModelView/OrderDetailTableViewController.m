@@ -566,8 +566,13 @@
         amwvc.isHTML = YES;
         if (![fileName isEqualToString:@""]) {
             NSString* pdfFilePath = [[FileCommon documentsPath] stringByAppendingPathComponent:fileName];
-            NSData* data = [NSData dataWithContentsOfFile:pdfFilePath];
-            [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:data filename:fileName]];
+            NSData* data = [NSData dataWithContentsOfFile:pdfFilePath];            
+            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+                [amwvc.attachmentList addObject:[ArcosAttachmentContainer attachmentWithData:data fileName:fileName]];
+            } else {
+                [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:data filename:fileName]];
+            }
+            
             [FileCommon removeFileAtPath:pdfFilePath];
         }
         amwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];

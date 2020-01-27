@@ -135,7 +135,7 @@
 //        self.meetingMainTemplateViewController.actionType = @"";
         self.meetingNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.meetingMainTemplateViewController] autorelease];
         
-        NSMutableDictionary* dashboardCellData = [self createItemCellData:self.dashboardText imageFile:@"Dashboard.png" myCustomController:self.templateDashboardViewController];
+//        NSMutableDictionary* dashboardCellData = [self createItemCellData:self.dashboardText imageFile:@"Dashboard.png" myCustomController:self.templateDashboardViewController];
         NSMutableDictionary* locatorCellData = [self createItemCellData:@"Locator" imageFile:@"MapIcon.png" myCustomController:self.mapNavigationController];
         NSMutableDictionary* customerCellData = [self createItemCellData:[[GlobalSharedClass shared] customerText] imageFile:@"customer_info.png" myCustomController:self.locationArcosStackedViewController];
         NSMutableDictionary* contactCellData = [self createItemCellData:[[GlobalSharedClass shared] contactText] imageFile:@"CustomerIcon.png" myCustomController:self.contactArcosStackedViewController];
@@ -152,8 +152,8 @@
         
         
         //dashboardMainTemplateCellData,
-        //
-        self.displayList = [NSMutableArray arrayWithObjects:dashboardCellData, locatorCellData, customerCellData, contactCellData, reporterCellData, listingsCellData, weeklyCellData, utilitiesCellData, nil];
+        //dashboardCellData,
+        self.displayList = [NSMutableArray arrayWithObjects:locatorCellData, customerCellData, contactCellData, reporterCellData, listingsCellData, weeklyCellData, utilitiesCellData, nil];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTargetFlag]) {
             [self.displayList addObject:targetCellData];
         }

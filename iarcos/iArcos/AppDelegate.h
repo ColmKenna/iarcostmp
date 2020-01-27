@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import <MSAL/MSAL.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate> {
     UIWindow* _window;

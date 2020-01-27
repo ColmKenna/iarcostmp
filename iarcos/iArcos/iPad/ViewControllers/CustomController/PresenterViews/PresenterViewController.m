@@ -754,7 +754,12 @@
                     }
                     [msgBodyString appendString:@"\n"];
                     [msgBodyString appendString:fileName];
-                    [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:auxNSData filename:fileName]];
+                    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+                        [amwvc.attachmentList addObject:[ArcosAttachmentContainer attachmentWithData:auxNSData fileName:fileName]];
+                    } else {
+                        [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:auxNSData filename:fileName]];
+                    }                  
+                    
                 }
                     break;
                 default:

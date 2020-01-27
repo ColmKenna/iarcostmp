@@ -249,7 +249,12 @@
             NSString* auxFileName = [self.displayList objectAtIndex:i];
             NSData* auxNSData = [self retrieveNSDataWithFileName:auxFileName];
             if (auxNSData == nil) continue;
-            [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:auxNSData filename:auxFileName]];
+            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+                [amwvc.attachmentList addObject:[ArcosAttachmentContainer attachmentWithData:auxNSData fileName:auxFileName]];
+            } else {
+                [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:auxNSData filename:auxFileName]];
+            }           
+            
         }
         amwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
         self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:amwvc] autorelease];

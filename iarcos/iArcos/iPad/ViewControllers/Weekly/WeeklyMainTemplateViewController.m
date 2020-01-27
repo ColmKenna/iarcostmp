@@ -360,7 +360,12 @@
         for (int i = 0; i < [self.weeklyMainTemplateDataManager.attachmentFileNameList count]; i++) {
             NSData* tmpFileData = [self.weeklyMainTemplateDataManager.attachmentFileContentList objectAtIndex:i];
             NSString* tmpFileName = [self.weeklyMainTemplateDataManager.attachmentFileNameList objectAtIndex:i];
-            [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:tmpFileData filename:tmpFileName]];
+            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+                [amwvc.attachmentList addObject:[ArcosAttachmentContainer attachmentWithData:tmpFileData fileName:tmpFileName]];
+            } else {
+                [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:tmpFileData filename:tmpFileName]];
+            }
+            
         }
         amwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
         self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:amwvc] autorelease];

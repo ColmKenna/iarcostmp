@@ -380,7 +380,12 @@
         if ([FileCommon fileExistAtPath:filePath]) {
             NSData* data = [NSData dataWithContentsOfFile:filePath];
             if (data != nil) {
-                [dataList addObject:[MCOAttachment attachmentWithData:data filename:fileName]];
+                if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+                    [dataList addObject:[ArcosAttachmentContainer attachmentWithData:data fileName:fileName]];
+                } else {
+                    [dataList addObject:[MCOAttachment attachmentWithData:data filename:fileName]];
+                }
+                
             }            
         }
     }
@@ -426,8 +431,13 @@
 //        }
         if ([dataList count] > 0) {
             for (int i = 0; i < [dataList count]; i++) {
-                MCOAttachment* auxAttachment = [dataList objectAtIndex:i];
-                [self.mailController addAttachmentData:auxAttachment.data mimeType:@"image/png" fileName:auxAttachment.filename];
+                if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+                    ArcosAttachmentContainer* auxAttachmentContainer = [dataList objectAtIndex:i];
+                    [self.mailController addAttachmentData:auxAttachmentContainer.fileData mimeType:@"image/png" fileName:auxAttachmentContainer.fileName];
+                } else {
+                    MCOAttachment* auxAttachment = [dataList objectAtIndex:i];
+                    [self.mailController addAttachmentData:auxAttachment.data mimeType:@"image/png" fileName:auxAttachment.filename];
+                }
             }
         }
         [self.mailController setToRecipients:toRecipients];

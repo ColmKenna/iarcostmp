@@ -10,11 +10,16 @@
 #import "UtilitiesDetailViewController.h"
 #import "UtilitiesConfigurationTableCell.h"
 #import "UtilitiesConfigurationDataManager.h"
+#import "UtilitiesMailViewController.h"
 
-@interface UtilitiesConfigurationTableViewController : UtilitiesDetailViewController <GenericTextViewInputTableCellDelegate> {
+@interface UtilitiesConfigurationTableViewController : UtilitiesDetailViewController <GenericTextViewInputTableCellDelegate, CustomisePresentViewControllerDelegate> {
     UtilitiesConfigurationDataManager* _utilitiesConfigurationDataManager;
+    UINavigationController* _globalNavigationController;
+    UIViewController* _rootView;
 }
 
 @property(nonatomic, retain) UtilitiesConfigurationDataManager* utilitiesConfigurationDataManager;
+@property(nonatomic, retain) UINavigationController* globalNavigationController;
+@property (nonatomic, retain) UIViewController* rootView;
 
 @end

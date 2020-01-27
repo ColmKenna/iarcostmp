@@ -334,11 +334,17 @@
         if (![fileName isEqualToString:@""]) {
             NSString* pdfFilePath = [[FileCommon documentsPath] stringByAppendingPathComponent:fileName];
             NSData* data = [NSData dataWithContentsOfFile:pdfFilePath];
-            [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:data filename:fileName]];            
+            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+                [amwvc.attachmentList addObject:[ArcosAttachmentContainer attachmentWithData:data fileName:fileName]];
+            } else {
+                [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:data filename:fileName]];
+            }           
+            
             [FileCommon removeFileAtPath:pdfFilePath];
         }
         amwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
         self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:amwvc] autorelease];
+        self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
         CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.rootView];
         self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
         [self presentViewController:self.globalNavigationController animated:YES completion:^{

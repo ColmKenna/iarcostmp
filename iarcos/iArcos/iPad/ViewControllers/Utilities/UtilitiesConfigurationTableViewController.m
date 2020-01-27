@@ -14,6 +14,8 @@
 
 @implementation UtilitiesConfigurationTableViewController
 @synthesize utilitiesConfigurationDataManager = _utilitiesConfigurationDataManager;
+@synthesize globalNavigationController = _globalNavigationController;
+@synthesize rootView = _rootView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -23,12 +25,37 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.rootView = [ArcosUtils getRootView];
     self.title = @"Configuration";
     self.utilitiesConfigurationDataManager = [[[UtilitiesConfigurationDataManager alloc] init] autorelease];
     [self.utilitiesConfigurationDataManager retrieveDescrDetailIOData];
+    /*
+    NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:2];
+    
     UIBarButtonItem* saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(savePressed)];
-    [self.navigationItem setRightBarButtonItem:saveButton];
+    [rightButtonList addObject:saveButton];
     [saveButton release];
+    UIBarButtonItem* mailButton = [[UIBarButtonItem alloc] initWithTitle:@"Mail" style:UIBarButtonItemStylePlain target:self action:@selector(mailPressed)];
+    [rightButtonList addObject:mailButton];
+    [mailButton release];
+//    [self.navigationItem setRightBarButtonItem:saveButton];
+    [self.navigationItem setRightBarButtonItems:rightButtonList];
+    */
+    [self configButtonList];
+}
+
+- (void)configButtonList {
+    NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:2];
+        
+    UIBarButtonItem* saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(savePressed)];
+    [rightButtonList addObject:saveButton];
+    [saveButton release];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] && [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+        UIBarButtonItem* mailButton = [[UIBarButtonItem alloc] initWithTitle:@"Mail" style:UIBarButtonItemStylePlain target:self action:@selector(mailPressed)];
+        [rightButtonList addObject:mailButton];
+        [mailButton release];
+    }
+    [self.navigationItem setRightBarButtonItems:rightButtonList];
 }
 
 - (void)savePressed {
@@ -38,10 +65,48 @@
         return;
     }
     [self.utilitiesConfigurationDataManager saveChangedList];
+    [self configButtonList];
+}
+
+- (void)mailPressed {
+    UtilitiesMailViewController* umvc = [[UtilitiesMailViewController alloc] initWithNibName:@"UtilitiesMailViewController" bundle:nil];
+    umvc.presentDelegate = self;
+//    umvc.modalPresentationStyle = UIModalPresentationFormSheet;
+//    umvc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:umvc] autorelease];
+//    [[ArcosUtils getRootView] presentViewController:tmpNavigationController animated:YES completion:nil];
+//    [tmpNavigationController release];
+    [umvc release];
+    CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.rootView];
+    self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+    [self.rootView addChildViewController:self.globalNavigationController];
+    [self.rootView.view addSubview:self.globalNavigationController.view];
+    [self.globalNavigationController didMoveToParentViewController:self.rootView];
+    [UIView animateWithDuration:0.3f animations:^{
+        self.globalNavigationController.view.frame = parentNavigationRect;
+    } completion:^(BOOL finished){
+        
+    }];
+}
+
+#pragma mark CustomisePresentViewControllerDelegate
+- (void)didDismissCustomisePresentView {
+//    [[ArcosUtils getRootView] dismissViewControllerAnimated:YES completion:nil];
+    [UIView animateWithDuration:0.3f animations:^{
+        CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.rootView];
+        self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+    } completion:^(BOOL finished){
+        [self.globalNavigationController willMoveToParentViewController:nil];
+        [self.globalNavigationController.view removeFromSuperview];
+        [self.globalNavigationController removeFromParentViewController];
+        self.globalNavigationController = nil;
+    }];
 }
 
 - (void)dealloc {
     self.utilitiesConfigurationDataManager = nil;
+    self.globalNavigationController = nil;
+    self.rootView = nil;
     
     [super dealloc];
 }

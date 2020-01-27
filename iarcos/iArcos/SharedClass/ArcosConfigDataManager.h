@@ -80,6 +80,7 @@
 - (BOOL)showRunningTotalFlag;
 - (BOOL)enableCallOnlyFlag;
 - (BOOL)showMATImageFlag;
+- (BOOL)useOutlookFlag;
 - (void)resetSystemCodes:(NSString*)aSystemCodes;
 - (void)persistentSystemCodes;
 

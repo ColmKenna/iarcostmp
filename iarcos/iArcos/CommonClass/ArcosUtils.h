@@ -106,5 +106,6 @@
 + (UIImage*)screenshotFromView:(UIView*)aView;
 + (void)configDetailsColorWithLabel:(UILabel*)aLabel active:(NSNumber*)anActive stockAvailable:(NSNumber*)aStockAvailable bonusBy:(NSNumber*)aBonusBy;
 + (NSString*)retrieveDefinedIssuesText;
++ (NSString*)getMimeTypeWithFileName:(NSString*)aFileName;
 
 @end

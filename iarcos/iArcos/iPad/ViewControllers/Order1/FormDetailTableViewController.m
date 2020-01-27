@@ -533,7 +533,11 @@
         if ([FileCommon fileExistAtPath:self.filePath]) {
             NSData* data = [NSData dataWithContentsOfFile:self.filePath];
             if (data != nil) {
-                [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:data filename:fileName]];
+                if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+                    [amwvc.attachmentList addObject:[ArcosAttachmentContainer attachmentWithData:data fileName:fileName]];
+                } else {
+                    [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:data filename:fileName]];
+                }                
             }                        
         }
         amwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];

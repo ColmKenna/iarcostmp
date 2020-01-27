@@ -872,5 +872,31 @@
     return definedIssuesText;
 }
 
++ (NSString*)getMimeTypeWithFileName:(NSString*)aFileName {
+    NSString* mimeTypeString = @"application/octet-stream";
+    @try {
+        NSArray* fileComponents = [aFileName componentsSeparatedByString:@"."];
+        // Use the filename (index 0) and the extension (index 1) to get path
+        NSString* fileExtension = [[fileComponents objectAtIndex:1] lowercaseString];
+        if ([@"png" isEqualToString:fileExtension]) {
+            mimeTypeString = @"image/png";
+        } else if ([@"jpg" isEqualToString:fileExtension] || [@"jpeg" isEqualToString:fileExtension]) {
+            mimeTypeString = @"image/jpeg";
+        } else if ([@"pdf" isEqualToString:fileExtension]) {
+            mimeTypeString = @"application/pdf";
+        } else if ([@"mov" isEqualToString:fileExtension]) {
+            mimeTypeString = @"video/quicktime";
+        } else if ([@"mp4" isEqualToString:fileExtension]) {
+            mimeTypeString = @"video/mp4";
+        } else if ([@"ibooks" isEqualToString:fileExtension]) {
+            mimeTypeString = @"application/x-ibooks+zip";
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", [exception reason]);
+    }
+    return mimeTypeString;
+}
+
 
 @end

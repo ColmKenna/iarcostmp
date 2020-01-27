@@ -31,6 +31,7 @@
  VCIUR at 04/01/2019
  BonusDeal at 08/04/2019
  PriceDiscountPercent at 08/08/2019
+ SamplesAvailable at 25/01/2020
  */
 + (NSMutableDictionary*)createFormRowWithProduct:(NSMutableDictionary*) product {
     NSMutableDictionary* formRow = [NSMutableDictionary dictionary];
@@ -61,6 +62,7 @@
     [formRow setObject:[product objectForKey:@"UnitRRP"] forKey:@"UnitRRP"];
     [formRow setObject:[product objectForKey:@"VCIUR"] forKey:@"VCIUR"];
     [formRow setObject:[ArcosUtils convertNilToEmpty:[product objectForKey:@"BonusDeal"]] forKey:@"BonusDeal"];
+    [formRow setObject:[product objectForKey:@"SamplesAvailable"] forKey:@"SamplesAvailable"];
     
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
     [formRow setObject:[NSNumber numberWithInt:0]  forKey:@"Qty"];
@@ -144,6 +146,7 @@
     [formRow setObject:[anOrderLine objectForKey:@"UnitRRP"] forKey:@"UnitRRP"];
     [formRow setObject:[anOrderLine objectForKey:@"VCIUR"] forKey:@"VCIUR"];
     [formRow setObject:[ArcosUtils convertNilToEmpty:[anOrderLine objectForKey:@"BonusDeal"]] forKey:@"BonusDeal"];
+    [formRow setObject:[anOrderLine objectForKey:@"SamplesAvailable"] forKey:@"SamplesAvailable"];
     return formRow;
 }
 
@@ -178,6 +181,7 @@
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"UnitRRP"];
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"VCIUR"];
     [formRow setObject:@"" forKey:@"BonusDeal"];
+    [formRow setObject:[NSNumber numberWithInt:0] forKey:@"SamplesAvailable"];
     
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
     [formRow setObject:[NSNumber numberWithInt:0]  forKey:@"Qty"];
@@ -274,6 +278,7 @@
         [tempDict setObject:[aProduct objectForKey:@"VCIUR"] forKey:@"VCIUR"];
         [tempDict setObject:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"BonusDeal"]] forKey:@"BonusDeal"];
         [tempDict setObject:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"EAN"]] forKey:@"EAN"];
+        [tempDict setObject:[aProduct objectForKey:@"SamplesAvailable"] forKey:@"SamplesAvailable"];
     }else{
         [tempDict setObject:@"Product unassigned" forKey:@"Description"];
         //use for display the name on input pad
@@ -301,6 +306,7 @@
         [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"VCIUR"];
         [tempDict setObject:@"" forKey:@"BonusDeal"];
         [tempDict setObject:@"" forKey:@"EAN"];
+        [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"SamplesAvailable"];
     }
     return tempDict;
 }

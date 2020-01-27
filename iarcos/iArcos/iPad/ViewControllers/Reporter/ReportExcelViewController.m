@@ -132,8 +132,13 @@
         amwvc.mailDelegate = self;
         amwvc.subjectText = self.reporterFileManager.reportTitle;
         if ([FileCommon fileExistAtPath:self.reporterFileManager.localExcelFilePath]) {
-            NSData* data = [NSData dataWithContentsOfFile:self.reporterFileManager.localExcelFilePath];
-            [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:data filename:self.reporterFileManager.fileName]];            
+            NSData* data = [NSData dataWithContentsOfFile:self.reporterFileManager.localExcelFilePath];            
+            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+                [amwvc.attachmentList addObject:[ArcosAttachmentContainer attachmentWithData:data fileName:self.reporterFileManager.fileName]];
+            } else {
+                [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:data filename:self.reporterFileManager.fileName]];
+            }
+            
         }
         amwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
         self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:amwvc] autorelease];

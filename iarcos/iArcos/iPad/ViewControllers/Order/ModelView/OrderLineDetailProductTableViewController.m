@@ -132,6 +132,9 @@
     [super viewDidAppear:animated];
     if (self.isNotFirstLoaded) return;
     self.isNotFirstLoaded = YES;
+    if (self.orderLineDetailProductDataManager.standardOrderFormFlag) {
+        [self hideMySearchBar];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -520,7 +523,13 @@
 }
 
 - (void)hideMySearchBar {
-    [self.tableView setContentOffset:CGPointMake(0, 0 - self.tableView.contentInset.top + self.mySearchBar.bounds.size.height) animated:NO];
+    
+    float statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    if ([UIApplication sharedApplication].isStatusBarHidden) {
+        statusBarHeight = 0.0;
+    }
+    [self.tableView setContentOffset:CGPointMake(0, 0 - statusBarHeight - self.navigationController.navigationBar.frame.size.height + self.mySearchBar.bounds.size.height) animated:NO];
+//    [self.tableView setContentOffset:CGPointMake(0, 0 - self.tableView.contentInset.top + self.mySearchBar.bounds.size.height) animated:NO];
 }
 
 #pragma mark UIPopoverControllerDelegate

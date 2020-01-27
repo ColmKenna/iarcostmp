@@ -277,6 +277,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConfigDataManager);
     return [self retrieveConfigFlagByIndex:68];
 }
 
+- (BOOL)useOutlookFlag {
+    return [self retrieveConfigFlagByIndex:69];
+}
+
 - (void)resetSystemCodes:(NSString*)aSystemCodes {
     self.systemCodes = aSystemCodes;
 }
