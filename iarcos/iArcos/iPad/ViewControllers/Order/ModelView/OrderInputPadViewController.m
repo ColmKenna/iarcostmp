@@ -316,7 +316,7 @@
     self.currentTextField=self.QTYField;
     [self highlightSelectField];
     //check split pack field
-    if (self.showSeparator && [[self.Data objectForKey:@"SamplesAvailable"] intValue] == 1) {
+    if (self.showSeparator || [[self.Data objectForKey:@"SamplesAvailable"] intValue] == -1) {
         self.InStockField.hidden = NO;
         self.FOCField.hidden = NO;
     } else {
