@@ -346,7 +346,7 @@
         self.DiscountField.hidden=NO;
         self.BonusLabel.hidden=NO;
         self.BonusField.hidden=NO;
-        if (self.showSeparator && [[self.Data objectForKey:@"SamplesAvailable"] intValue] == 1) {
+        if (self.showSeparator || [[self.Data objectForKey:@"SamplesAvailable"] intValue] == -1) {
             self.InStockField.hidden = NO;
             self.FOCField.hidden = NO;
         } else {
