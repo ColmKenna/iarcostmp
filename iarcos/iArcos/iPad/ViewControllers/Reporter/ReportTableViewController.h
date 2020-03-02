@@ -20,8 +20,9 @@
 #import "ReportMeetingWrapperViewController.h"
 #import "ArcosMailWrapperViewController.h"
 #import "MeetingMainTemplateViewController.h"
+#import "ProductDetailViewController.h"
 
-@interface ReportTableViewController : UITableViewController<UIPopoverControllerDelegate,WidgetFactoryDelegate,ModelViewDelegate,SlideAcrossViewAnimationDelegate, CustomisePresentViewControllerDelegate,GetDataGenericDelegate,MFMailComposeViewControllerDelegate,ArcosMailTableViewControllerDelegate>{
+@interface ReportTableViewController : UITableViewController<UIPopoverControllerDelegate,WidgetFactoryDelegate,ModelViewDelegate,SlideAcrossViewAnimationDelegate, CustomisePresentViewControllerDelegate,GetDataGenericDelegate,MFMailComposeViewControllerDelegate,ArcosMailTableViewControllerDelegate,PresentViewControllerDelegate>{
     CXMLDocument* ReportDocument;
     NSMutableArray* DisplayList;
     NSMutableArray* MainData;

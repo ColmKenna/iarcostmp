@@ -668,7 +668,7 @@
 }
 
 - (void)processSelectEmailRecipientRow:(NSDictionary*)cellData dataList:(NSMutableArray*)aDataList{
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag]) {        
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {        
         [self smtpMailView:cellData dataList:aDataList];
         return;
     }

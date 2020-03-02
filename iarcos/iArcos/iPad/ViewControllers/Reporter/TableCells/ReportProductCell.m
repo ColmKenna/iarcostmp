@@ -7,6 +7,8 @@
 //
 
 #import "ReportProductCell.h"
+#import "ArcosUtils.h"
+#import "GlobalSharedClass.h"
 
 @implementation ReportProductCell
 @synthesize  code;
@@ -48,11 +50,13 @@
     self.code.text=[elementDict objectForKey:@"Code"];
     self.description.text=[elementDict objectForKey:@"Description"];
     self.catalog.text=[elementDict objectForKey:@"Catalog_x0020_Code"];
-    self.EAN.text=[elementDict objectForKey:@"EAN"];
-    self.active.text=[elementDict objectForKey:@"Active"];
+    self.EAN.text=[ArcosUtils trim:[elementDict objectForKey:@"EAN"]];
+    self.active.text=[elementDict objectForKey:@"Details"];
     
-    NSString* deliveryString=[elementDict objectForKey:@"LastOrderDate"];
-    self.lastorderdate.text=[deliveryString substringWithRange:NSMakeRange(0, 10)];
+    NSString* deliveryString=[elementDict objectForKey:@"StockDueDate"];
+    NSString* deliveryDateString = [NSString stringWithFormat:@"%@ 09:00:00", [deliveryString substringWithRange:NSMakeRange(0, 10)]];
+    NSDate* deliveryDate = [ArcosUtils dateFromString:deliveryDateString format:@"yyyy-MM-dd HH:mm:ss"];
+    self.lastorderdate.text=[ArcosUtils stringFromDate:deliveryDate format:[GlobalSharedClass shared].dateFormat];
     
 
 }

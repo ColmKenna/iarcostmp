@@ -322,6 +322,7 @@
     ccwmvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
 //    [self presentModalViewController:ccwmvc animated:YES];
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:ccwmvc] autorelease];
+    self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:self.globalNavigationController animated:YES completion:nil];
     [ccwmvc release];
 }
@@ -335,7 +336,7 @@
     
     anwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:anwvc] autorelease];
-    
+    self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:self.globalNavigationController animated:YES completion:nil];
     [anwvc release];
 }

@@ -350,7 +350,7 @@
     if (![self validatePresentationPopover]) return;
     NSString* subject = [NSString stringWithFormat:@"Weekly Report from %@ for Week Ending %@", self.weeklyMainTemplateDataManager.employeeName, [ArcosUtils stringFromDate:self.weeklyMainTemplateDataManager.currentWeekendDate format:[GlobalSharedClass shared].dateFormat]];
     NSString* body = [self.weeklyMainEmailProcessCenter buildEmailMessageWithDataManager:self.weeklyMainTemplateDataManager];    
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag]) {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
         ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
         //        amwvc.myDelegate = self;
         amwvc.mailDelegate = self;

@@ -18,6 +18,7 @@
 @synthesize displayList = _displayList;
 @synthesize locationIUR = _locationIUR;
 @synthesize fromLocationIUR = _fromLocationIUR;
+@synthesize wholesalerLocationCode = _wholesalerLocationCode;
 
 - (void)viewDidLoad
 {
@@ -38,13 +39,19 @@
     NSMutableDictionary* dataDict = [NSMutableDictionary dictionaryWithCapacity:1];
     [dataDict setObject:@"" forKey:@"fieldValue"];
     [self.displayList addObject:dataDict];
-    
+    self.wholesalerLocationCode = @"";
+    NSMutableArray* fromLocationList = [[ArcosCoreData sharedArcosCoreData] locationWithIURWithoutCheck:self.fromLocationIUR];
+    if ([fromLocationList count] > 0) {
+        NSDictionary* fromLocationDict = [fromLocationList objectAtIndex:0];
+        self.wholesalerLocationCode = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[fromLocationDict objectForKey:@"LocationCode"]]];
+    }
 }
 
 - (void)dealloc {
     self.displayList = nil;
     self.locationIUR = nil;
     self.fromLocationIUR = nil;
+    self.wholesalerLocationCode = nil;
     
     [super dealloc];
 }
@@ -76,7 +83,7 @@
         }];
         return;
     }
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] checkAccountNumberFlag]) {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] checkAccountNumberFlag] && ([self.wholesalerLocationCode isEqualToString:@"540"] || [self.wholesalerLocationCode isEqualToString:@"541"] || [self.wholesalerLocationCode isEqualToString:@"560"])) {
         if (![ArcosValidator isSevenDigitNumberBeginWithFive:fieldValue]) {
             [ArcosUtils showDialogBox:@"Account No. should be a seven digits number and begin with a five" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
                 

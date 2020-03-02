@@ -84,7 +84,7 @@
     NSString* email = [cellData objectForKey:@"Email"];
     NSMutableArray* toRecipients = [NSMutableArray arrayWithObjects:email, nil];    
     NSString* body = [self.customerSurveyDetailsDataManager buildEmailMessage];
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag]) {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
         ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
 //        amwvc.myDelegate = self;
         amwvc.mailDelegate = self;

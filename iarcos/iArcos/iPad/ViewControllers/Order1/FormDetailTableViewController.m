@@ -526,7 +526,7 @@
     NSString* fileName = @"Stocksheet.csv";
     self.filePath = [NSString stringWithFormat:@"%@/%@",[FileCommon documentsPath], fileName];
     [aMatContent writeToFile:self.filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag]) {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
         ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
         amwvc.mailDelegate = self;
         amwvc.subjectText = fileName;

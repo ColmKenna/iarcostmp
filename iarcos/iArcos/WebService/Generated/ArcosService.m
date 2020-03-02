@@ -112,7 +112,7 @@
         NSMutableDictionary* serviceLocation=[sm getSettingForKeypath:keypath atIndex:1];
         NSMutableDictionary* hostLocation=[sm getSettingForKeypath:keypath atIndex:2];
         NSMutableDictionary* databaseName=[sm getSettingForKeypath:keypath atIndex:3];
-        NSMutableDictionary* databaseUsername=[sm getSettingForKeypath:keypath atIndex:4];
+//        NSMutableDictionary* databaseUsername=[sm getSettingForKeypath:keypath atIndex:4];
         NSMutableDictionary* databasePassword=[sm getSettingForKeypath:keypath atIndex:5];
         //NSMutableDictionary* presenterURL=[sm getSettingForKeypath:keypath atIndex:5];
         //NSMutableDictionary* presenterUsername=[sm getSettingForKeypath:keypath atIndex:6];
@@ -128,11 +128,11 @@
         NSDictionary* headerValues=[NSDictionary dictionaryWithObjects:
                                     [NSArray arrayWithObjects:
                                      [hostLocation objectForKey:@"Value"],
-                                     [databaseUsername objectForKey:@"Value"],
+                                     @"",
                                      [databasePassword objectForKey:@"Value"],
                                      [databaseName objectForKey:@"Value"], nil]
                                                                forKeys:[NSArray arrayWithObjects:@"Server",@"UserName",@"Password",@"Company", nil]];
-        
+        //[databaseUsername objectForKey:@"Value"]
         self.headers=[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:headerValues, nil] forKeys:[NSArray arrayWithObjects:@"Authenticator", nil]];
         
         self.logging = NO;

@@ -39,7 +39,7 @@
         postMeetDetails = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetailsDownload.PostMeetingDetails];
         agendaDetails = [ArcosUtils convertNilToEmpty:anArcosMeetingWithDetailsDownload.AgendaDetails];
     }
-    [self.displayList addObject:[self createIURCellWithFieldName:@"Meeting" cellKey:self.meetingCellKeyDefinition.meetingMOKey fieldData:meetingDict descrTypeCode:@"MO"]];
+    [self.displayList addObject:[self createIURCellWithFieldName:@"Objective" cellKey:self.meetingCellKeyDefinition.meetingMOKey fieldData:meetingDict descrTypeCode:@"MO"]];
     [self.displayList addObject:[self createTextViewCellWithFieldName:@"Pre-Meet" cellKey:self.meetingCellKeyDefinition.preMeetingKey fieldData:preMeetDetails]];
     [self.displayList addObject:[self createTextViewCellWithFieldName:@"Post-Meet" cellKey:self.meetingCellKeyDefinition.postMeetingKey fieldData:postMeetDetails]];
     [self.displayList addObject:[self createTextViewCellWithFieldName:@"Agenda" cellKey:self.meetingCellKeyDefinition.agendaKey fieldData:agendaDetails]];

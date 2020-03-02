@@ -398,7 +398,7 @@
             CustomerInfoCell* aCell = (CustomerInfoCell*)[self.tableView cellForRowAtIndexPath:indexPath];
             if (aCell.infoValue.text != nil && ![aCell.infoValue.text isEqualToString:@""]) {
                 NSMutableArray* toRecipients = [NSMutableArray arrayWithObjects:aCell.infoValue.text, nil];
-                if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag]) {
+                if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
                     ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
 //                    amwvc.myDelegate = self;
                     amwvc.mailDelegate = self;
@@ -1143,7 +1143,7 @@
         NSMutableArray* toRecipients = [NSMutableArray arrayWithObjects:self.myArcosAdminEmail, nil];
         NSString* subject = [NSString stringWithFormat:@"Please Amend Location Details from %@", employeeName];
         NSString* body = [self.customerTypesDataManager buildEmailMessageBody];
-        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag]) {
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
             ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
 //            amwvc.myDelegate = self;
             amwvc.mailDelegate = self;

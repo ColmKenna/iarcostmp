@@ -50,7 +50,7 @@
     UIBarButtonItem* saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(savePressed)];
     [rightButtonList addObject:saveButton];
     [saveButton release];
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] && [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
         UIBarButtonItem* mailButton = [[UIBarButtonItem alloc] initWithTitle:@"Mail" style:UIBarButtonItemStylePlain target:self action:@selector(mailPressed)];
         [rightButtonList addObject:mailButton];
         [mailButton release];

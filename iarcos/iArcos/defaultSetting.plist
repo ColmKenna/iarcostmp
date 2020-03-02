@@ -40,7 +40,7 @@
 			</dict>
 			<dict>
 				<key>Label</key>
-				<string>SQL Username</string>
+				<string>MAT WHERE Clause</string>
 				<key>SettingType</key>
 				<integer>0</integer>
 				<key>Value</key>

@@ -19,6 +19,7 @@
     NSMutableArray* _displayList;
     NSNumber* _locationIUR;
     NSNumber* _fromLocationIUR;
+    NSString* _wholesalerLocationCode;
 }
 
 @property(nonatomic, assign) id<ModelViewDelegate> delegate;
@@ -26,6 +27,7 @@
 @property(nonatomic, retain) NSMutableArray* displayList;
 @property(nonatomic, retain) NSNumber* locationIUR;
 @property(nonatomic, retain) NSNumber* fromLocationIUR;
+@property(nonatomic, retain) NSString* wholesalerLocationCode;
 
 - (void)populateLocLocLink:(NSNumber*)aLocationIUR fromLocationIUR:(NSNumber*)aFromLocationIUR customerCode:(NSString*)aCustomerCode LocLocLink:(LocLocLink*)LocLocLink;
 

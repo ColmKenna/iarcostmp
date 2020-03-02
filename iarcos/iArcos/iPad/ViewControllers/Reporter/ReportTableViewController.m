@@ -543,6 +543,18 @@
 //
 //    }];
 }
+-(void)showProductDetail:(CXMLElement*)data {
+    NSNumber* iUR = [ArcosUtils convertStringToNumber:[self valueForTag:@"iur" withElement:data]];
+    ProductDetailViewController* pdvc = [[ProductDetailViewController alloc] initWithNibName:@"ProductDetailViewController" bundle:nil];
+    pdvc.presentViewDelegate = self;
+    pdvc.productIUR = iUR;
+    pdvc.locationIUR = [NSNumber numberWithInt:0];
+    pdvc.productDetailDataManager.formRowDict = nil;
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:pdvc] autorelease];
+    self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self.rootView presentViewController:self.globalNavigationController animated:YES completion:nil];
+    [pdvc release];
+}
 -(void)detailViewWithData:(CXMLElement*)data{
     if ([reportCode isEqualToString:@"2.00"]) {//location report
         [self showLocationDetail:data];
@@ -555,11 +567,18 @@
     }else if ([reportCode isEqualToString:@"2.13"]) {//invoices report
         [self showInvoiceDetail:data];
     }else if ([reportCode isEqualToString:@"2.04"]) {//product report
-        
+        [self showProductDetail:data];
     }else if ([reportCode isEqualToString:@"2.19"]) {//product report
         [self showMeetingDetail:data];
     }else{
     }
+}
+
+#pragma mark PresentViewControllerDelegate
+- (void)didDismissPresentView {
+    [self.rootView dismissViewControllerAnimated:YES completion:^ {
+        self.globalNavigationController = nil;
+    }];
 }
 
 #pragma mark CustomisePresentViewControllerDelegate
@@ -644,7 +663,7 @@
         NSMutableArray* toRecipients = [NSMutableArray arrayWithObjects:self.myArcosAdminEmail, nil];
         NSString* subject = [NSString stringWithFormat:@"Please Amend Location Details from %@", employeeName];
         NSString* body = [self.customerTypesDataManager buildEmailMessageBody];
-        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag]) {
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
             ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
             amwvc.mailDelegate = self;
             amwvc.toRecipients = toRecipients;
@@ -796,7 +815,7 @@
         subject = [NSString stringWithFormat:@"Please Create a new Contact for %@", employeeName];
     }
     NSString* body = [self.customerContactTypesDataManager buildEmailMessageBody];
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag]) {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
         ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
         amwvc.mailDelegate = self;
         amwvc.toRecipients = toRecipients;

@@ -203,7 +203,7 @@
     if ([ownLocation boolValue]) {
         NSMutableDictionary* empolyee = [sm getSettingForKeypath:@"PersonalSetting.Personal" atIndex:0];
         NSNumber* empolyeeIUR = [empolyee objectForKey:@"Value"];
-        NSString* ownLocationFilter = [NSString stringWithFormat:@" and LocEmpLink.EmployeeIUR = %d", [empolyeeIUR intValue]];
+        NSString* ownLocationFilter = [NSString stringWithFormat:@" and (iPadTaskView.EmployeeIUR = %d OR LocEmpLink.EmployeeIUR = %d)", [empolyeeIUR intValue], [empolyeeIUR intValue]];
         sqlString = [NSString stringWithFormat:@"%@ %@ %@ order by IPADTaskView.StartDate desc", self.ownLocationPrefixSqlString, suffixSqlString, ownLocationFilter];
     } else {
         sqlString = [NSString stringWithFormat:@"%@ %@ order by IPADTaskView.StartDate desc", self.prefixSqlString, suffixSqlString];
@@ -522,7 +522,7 @@
     @catch (NSException *exception) {
         [ArcosUtils showMsg:[exception reason] delegate:nil];
     }
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag]) {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
         ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
 //        amwvc.myDelegate = self;
         amwvc.mailDelegate = self;

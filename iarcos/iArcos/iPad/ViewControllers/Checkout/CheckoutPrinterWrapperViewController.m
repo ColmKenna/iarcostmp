@@ -322,7 +322,7 @@
     NSArray* auxCcRecipients = [self.orderDetailOrderEmailActionDataManager retrieveCcRecipients];
     NSMutableArray* ccRecipients = [NSMutableArray arrayWithArray:auxCcRecipients];
     NSString* fileName = [self.orderDetailOrderEmailActionDataManager retrieveFileName];
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag]) {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
         ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
 //        amwvc.myDelegate = self;
         amwvc.mailDelegate = self;
