@@ -175,17 +175,24 @@
         CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.myRootViewController];
         CGRect aRect = CGRectMake(parentNavigationRect.size.width-10, parentNavigationRect.size.height, 1, 1);
         BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:self.formIUR];
-        self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
-        self.inputPopover.delegate = self;
-        OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
-        oipvc.Data = [self.displayList objectAtIndex:swipedIndexPath.row];
-        oipvc.showSeparator = showSeparator;
-        oipvc.vansOrderHeader = self.vansOrderHeader;
-        ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
-        if (!arcosErrorResult.successFlag) {
-            [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
-            return;
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
+            self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
+            wvc.Data = [self.displayList objectAtIndex:swipedIndexPath.row];;
+        } else {
+            self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
+            oipvc.Data = [self.displayList objectAtIndex:swipedIndexPath.row];
+            oipvc.showSeparator = showSeparator;
+            oipvc.vansOrderHeader = self.vansOrderHeader;
+            ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
+            if (!arcosErrorResult.successFlag) {
+                [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
+                return;
+            }
         }
+        self.inputPopover.delegate = self;
+        
         
         [self.inputPopover presentPopoverFromRect:aRect inView:self.myRootViewController.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
     }

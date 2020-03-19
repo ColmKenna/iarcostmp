@@ -104,8 +104,8 @@
     self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.navigationController.view] autorelease];
     self.widgetFactory = [WidgetFactory factory];
     self.widgetFactory.delegate = self;
-    self.inputPopover = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
-    self.inputPopover.delegate = self;
+//    self.inputPopover = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+//    self.inputPopover.delegate = self;
     [self.navigationController setNavigationBarHidden:YES];
 //    self.startDate = [NSDate date];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] retrieveLocationProductMATDataLocallyFlag]) {
@@ -170,7 +170,7 @@
     //repositioning the popover when rotation finished
     if ([self.inputPopover isPopoverVisible]) {
         [self.inputPopover dismissPopoverAnimated:NO];
-        CGRect aRect = CGRectMake(self.rootView.view.bounds.size.width - 10, self.rootView.view.bounds.size.height, 1, 1);
+        CGRect aRect = CGRectMake(self.rootView.view.bounds.size.width - 10, self.rootView.view.bounds.size.height - 10, 1, 1);
         [self.inputPopover presentPopoverFromRect:aRect inView:self.rootView.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
     }
 }
@@ -438,17 +438,24 @@
         NSIndexPath* swipedIndexPath = [ArcosUtils indexPathWithRecognizer:reconizer tableview:self.tableView];
 //        aCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:swipedIndexPath];
         NSMutableDictionary* cellFormRowData = [self.matFormRowsDataManager.qtyBonDisplayList objectAtIndex:swipedIndexPath.row];
-        CGRect aRect = CGRectMake(self.rootView.view.bounds.size.width - 10, self.rootView.view.bounds.size.height, 1, 1);
+        CGRect aRect = CGRectMake(self.rootView.view.bounds.size.width - 10, self.rootView.view.bounds.size.height - 10, 1, 1);
         BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
-        
-        OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
-        oipvc.Data=cellFormRowData;
-        oipvc.showSeparator = showSeparator;
-        ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
-        if (!arcosErrorResult.successFlag) {
-            [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
-            return;
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
+            self.inputPopover = [self.widgetFactory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
+            wvc.Data = cellFormRowData;
+        } else {
+            self.inputPopover = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
+            oipvc.Data=cellFormRowData;
+            oipvc.showSeparator = showSeparator;
+            ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
+            if (!arcosErrorResult.successFlag) {
+                [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
+                return;
+            }
         }
+        self.inputPopover.delegate = self;
         [self.inputPopover presentPopoverFromRect:aRect inView:self.rootView.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
     }
 }

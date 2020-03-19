@@ -13,6 +13,7 @@
 @synthesize Data;
 @synthesize anyDataSource;
 @synthesize delegate;
+@synthesize locationIUR = _locationIUR;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,6 +28,7 @@
 {
     if (self.Data != nil) { self.Data = nil; }
 //    if (self.delegate != nil) { self.delegate = nil; }
+    self.locationIUR = nil;
     
     [super dealloc];
 }

@@ -194,13 +194,27 @@
 }
 
 -(UIPopoverController*)CreateOrderInputPadWidgetWithLocationIUR:(NSNumber*)aLocationIUR{
-    OrderInputPadViewController* wvc = [[[OrderInputPadViewController alloc]initWithNibName:@"OrderInputPadViewController" bundle:nil]autorelease];
+    WidgetViewController* wvc = [[[OrderInputPadViewController alloc]initWithNibName:@"OrderInputPadViewController" bundle:nil]autorelease];
     wvc.locationIUR = aLocationIUR;
     self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showMATWithQtyPopoverFlag]) {
         self.popoverController.popoverContentSize = wvc.view.frame.size;
     } else {
-        self.popoverController.popoverContentSize = [GlobalSharedClass shared].numberPadSize;
+//        self.popoverController.popoverContentSize = [GlobalSharedClass shared].numberPadSize;
+        self.popoverController.popoverContentSize = CGSizeMake(470.0, wvc.view.frame.size.height);
+    }
+    
+    wvc.delegate=self;
+    return self.popoverController;
+}
+-(UIPopoverController*)CreateOrderEntryInputWidgetWithLocationIUR:(NSNumber*)aLocationIUR {
+    WidgetViewController* wvc = [[[OrderEntryInputViewController alloc] initWithNibName:@"OrderEntryInputViewController" bundle:nil] autorelease];
+    wvc.locationIUR = aLocationIUR;
+    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showMATWithQtyPopoverFlag]) {
+        self.popoverController.popoverContentSize = wvc.view.frame.size;
+    } else {
+        self.popoverController.popoverContentSize = CGSizeMake(470.0, wvc.view.frame.size.height);
     }
     
     wvc.delegate=self;

@@ -16,6 +16,7 @@
 #import "ArcosConfigDataManager.h"
 #import "DatePickerHourMinuteWidgetViewController.h"
 #import "TableGenericMSWidgetViewController.h"
+#import "OrderEntryInputViewController.h"
 typedef enum {
     WidgetDataSourceDeliveryDate = 0,
     WidgetDataSourceOrderDate,
@@ -67,6 +68,7 @@ typedef enum {
 -(UIPopoverController*)CreateCategoryWidgetWithDataSource:(WidgetDataSource)dataSource;
 -(UIPopoverController*)CreateNumberWidgetWithType:(NumberWidgetType)type;
 -(UIPopoverController*)CreateOrderInputPadWidgetWithLocationIUR:(NSNumber*)aLocationIUR;
+-(UIPopoverController*)CreateOrderEntryInputWidgetWithLocationIUR:(NSNumber*)aLocationIUR;
 -(UIPopoverController*)CreateDetaillingInputPadWidgetWithProductName:(NSString*)aProductName WithQty:(NSNumber*)aQty;
 -(PickerWidgetViewController*)getSampleBatchesPickerWidget;
 

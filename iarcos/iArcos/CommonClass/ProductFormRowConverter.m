@@ -32,6 +32,8 @@
  BonusDeal at 08/04/2019
  PriceDiscountPercent at 08/08/2019
  SamplesAvailable at 25/01/2020
+ Testers at 13/03/2020
+ change restore as well
  */
 + (NSMutableDictionary*)createFormRowWithProduct:(NSMutableDictionary*) product {
     NSMutableDictionary* formRow = [NSMutableDictionary dictionary];
@@ -85,6 +87,7 @@
     }
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"InStock"];
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"FOC"];
+    [formRow setObject:[NSNumber numberWithInt:0] forKey:@"Testers"];
     [formRow setObject:[NSNumber numberWithBool:NO] forKey:@"IsSelected"];
     
     return formRow;
@@ -131,6 +134,7 @@
     [formRow setObject:[anOrderLine objectForKey:@"DiscountPercent"]  forKey:@"DiscountPercent"];
     [formRow setObject:[anOrderLine objectForKey:@"InStock"] forKey:@"InStock"];
     [formRow setObject:[anOrderLine objectForKey:@"FOC"] forKey:@"FOC"];
+    [formRow setObject:[anOrderLine objectForKey:@"Testers"] forKey:@"Testers"];
     //add OrderPadDetails ProductCode ProductSize BonusGiven BonusRequired SellBy 08/01/2015
     [formRow setObject:[anOrderLine objectForKey:@"OrderPadDetails"] forKey:@"OrderPadDetails"];
     [formRow setObject:[anOrderLine objectForKey:@"ProductCode"] forKey:@"ProductCode"];
@@ -189,6 +193,7 @@
     [formRow setObject:[NSNumber numberWithFloat:0]  forKey:@"DiscountPercent"];
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"InStock"];
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"FOC"];
+    [formRow setObject:[NSNumber numberWithInt:0] forKey:@"Testers"];
     [formRow setObject:[NSNumber numberWithBool:NO] forKey:@"IsSelected"];
     
     return formRow;
@@ -208,8 +213,13 @@
     NSNumber* bonus = [aFormRowDict objectForKey:@"Bonus"];
     NSNumber* inStock = [aFormRowDict objectForKey:@"InStock"];
     NSNumber* foc = [aFormRowDict objectForKey:@"FOC"];
-    if (([qty intValue] <= 0 || qty == nil) && ([bonus intValue] <= 0 || bonus==nil) 
+    NSNumber* testers = [aFormRowDict objectForKey:@"Testers"];
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag] && ([qty intValue] <= 0 || qty == nil) && ([bonus intValue] <= 0 || bonus==nil)
         && ([inStock intValue] <= 0 || inStock == nil) && ([foc intValue] <= 0 || foc == nil)){
+        return NO;
+    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag] && ([qty intValue] <= 0 || qty == nil) && ([bonus intValue] <= 0 || bonus==nil)
+        && ([inStock intValue] <= 0 || inStock == nil) && ([foc intValue] <= 0 || foc == nil) && ([testers intValue] <= 0 || testers == nil)){
         return NO;
     }
     return YES;
@@ -353,6 +363,7 @@
 //    [aFormRowDict setObject:[NSNumber numberWithFloat:0]  forKey:@"DiscountPercent"];
     [aFormRowDict setObject:[NSNumber numberWithInt:0] forKey:@"InStock"];
     [aFormRowDict setObject:[NSNumber numberWithInt:0] forKey:@"FOC"];
+    [aFormRowDict setObject:[NSNumber numberWithInt:0] forKey:@"Testers"];
     [aFormRowDict setObject:[NSNumber numberWithBool:NO] forKey:@"IsSelected"];
 }
 

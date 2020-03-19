@@ -96,8 +96,8 @@
     //input popover
     self.factory=[WidgetFactory factory];
     self.factory.delegate=self;
-    self.inputPopover=[self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
-    self.inputPopover.delegate = self;
+//    self.inputPopover=[self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+//    self.inputPopover.delegate = self;
     [ArcosUtils configEdgesForExtendedLayout:self];
     self.rootView = (ArcosRootViewController*)[ArcosUtils getRootView];
 }
@@ -360,15 +360,23 @@
         formRow=[[OrderSharedClass sharedOrderSharedClass]syncRowWithCurrentCart:formRow];
         //[[OrderSharedClass sharedOrderSharedClass]syncAllSelectionsWithRowData:formRow];
         BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
-        
-        OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
-        oipvc.Data=formRow;
-        oipvc.showSeparator = showSeparator;
-        ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
-        if (!arcosErrorResult.successFlag) {
-            [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
-            return;
-        }        
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
+            self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
+            wvc.Data = formRow;
+        } else {
+            self.inputPopover=[self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
+            oipvc.Data=formRow;
+            oipvc.showSeparator = showSeparator;
+            ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
+            if (!arcosErrorResult.successFlag) {
+                [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
+                return;
+            }
+        }
+        self.inputPopover.delegate = self;
+               
         [self.inputPopover presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
         
     } else {//product group
@@ -431,15 +439,22 @@
         formRow=[[OrderSharedClass sharedOrderSharedClass]syncRowWithCurrentCart:formRow];
         //[[OrderSharedClass sharedOrderSharedClass]syncAllSelectionsWithRowData:formRow];
         BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
-        
-        OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
-        oipvc.Data=formRow;
-        oipvc.showSeparator = showSeparator;
-        ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
-        if (!arcosErrorResult.successFlag) {
-            [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
-            return;
-        }        
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
+            self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
+            wvc.Data = formRow;
+        } else {
+            self.inputPopover=[self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
+            oipvc.Data=formRow;
+            oipvc.showSeparator = showSeparator;
+            ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
+            if (!arcosErrorResult.successFlag) {
+                [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
+                return;
+            }
+        }
+        self.inputPopover.delegate = self;
         [self.inputPopover presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
         
     } else {//product group

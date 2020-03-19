@@ -33,7 +33,8 @@
 #import "FormRowTableCellRrpGenerator.h"
 #import "FormRowTableCellNormalGenerator.h"
 #import "OrderPadFooterViewDataManager.h"
-
+#import "OrderInputPadPopoverGeneratorProcessor.h"
+#import "OrderEntryInputPopoverGeneratorProcessor.h"
 
 @interface FormRowsTableViewController : OrderDetailViewController <SelectionPopoverDelegate,ModelViewDelegate,WidgetFactoryDelegate,UISearchBarDelegate, OrderProductTableCellDelegate,UIPopoverControllerDelegate>{
     id<FormRowsTableViewControllerDelegate> _actionDelegate;
@@ -89,6 +90,7 @@
     BOOL _isStandardOrderPadFlag;
     id<FormRowTableCellGeneratorDelegate> _formRowTableCellGeneratorDelegate;
     OrderPadFooterViewDataManager* _orderPadFooterViewDataManager;
+    id<OrderPopoverGeneratorProcessorDelegate> _orderPopoverGeneratorProcessorDelegate;
 }
 @property(nonatomic,assign) id<FormRowsTableViewControllerDelegate> actionDelegate;
 @property(nonatomic,retain) NSNumber* dividerIUR;
@@ -133,6 +135,7 @@
 @property (nonatomic, assign) BOOL isStandardOrderPadFlag;
 @property (nonatomic, retain) id<FormRowTableCellGeneratorDelegate> formRowTableCellGeneratorDelegate;
 @property (nonatomic, retain) OrderPadFooterViewDataManager* orderPadFooterViewDataManager;
+@property (nonatomic, retain) id<OrderPopoverGeneratorProcessorDelegate> orderPopoverGeneratorProcessorDelegate;
 
 -(void)sortGroups:(NSMutableDictionary*)aList;
 - (IBAction) EditTable:(id)sender;

@@ -55,8 +55,8 @@
         self.branchLeafProductDataManager = [[[BranchLeafProductDataManager alloc] init] autorelease];
         self.factory = [WidgetFactory factory];
         self.factory.delegate = self;
-        self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
-        self.inputPopover.delegate = self;
+//        self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+//        self.inputPopover.delegate = self;
         self.rootView = (ArcosRootViewController*)[ArcosUtils getRootView];
         
     }
@@ -370,16 +370,24 @@
     NSString* aKey = [self.branchLeafProductDataManager.sortKeyList objectAtIndex:self.branchLeafProductDataManager.selectedIndexPath.section];
     NSMutableArray* aSectionArray = [self.branchLeafProductDataManager.productSectionDict objectForKey:aKey];
     NSMutableDictionary* productDetailDict = [aSectionArray objectAtIndex:self.branchLeafProductDataManager.selectedIndexPath.row];
-    OrderInputPadViewController* oipvc = (OrderInputPadViewController*) self.inputPopover.contentViewController;
-    oipvc.Data = productDetailDict;
-    oipvc.bonusDealResultDict = [oipvc interpretBonusDeal:[productDetailDict objectForKey:@"BonusDeal"]];
-    [self checkQtyByBonusDeal:productDetailDict orderInputPadViewController:oipvc numberBtn:aNumberBtn funcBtn:aFuncBtn];
-    oipvc.showSeparator = self.showSeparator;
-    ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
-    if (!arcosErrorResult.successFlag) {
-        [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
-        return;
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
+        self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
+        wvc.Data = productDetailDict;
+    } else {
+        self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        OrderInputPadViewController* oipvc = (OrderInputPadViewController*) self.inputPopover.contentViewController;
+        oipvc.Data = productDetailDict;
+        oipvc.bonusDealResultDict = [oipvc interpretBonusDeal:[productDetailDict objectForKey:@"BonusDeal"]];
+        [self checkQtyByBonusDeal:productDetailDict orderInputPadViewController:oipvc numberBtn:aNumberBtn funcBtn:aFuncBtn];
+        oipvc.showSeparator = self.showSeparator;
+        ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
+        if (!arcosErrorResult.successFlag) {
+            [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
+            return;
+        }
     }
+    self.inputPopover.delegate = self;
     NSNumber* unitsPerPack = [productDetailDict objectForKey:@"UnitsPerPack"];
     if ((aFuncBtn.tag == 2 || aFuncBtn.tag == 3) && aNumberBtn.tag >= [unitsPerPack intValue]) {//spqty or spbon btn
         [ArcosUtils showMsg:[NSString stringWithFormat:@"The value can not be greater or equal to %d.", [unitsPerPack intValue]] delegate:nil];
@@ -411,17 +419,26 @@
     }
     CGRect aRect = CGRectMake(self.rootView.view.bounds.size.width - 10, self.rootView.view.bounds.size.height - 10, 1, 1);
 //    BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
-    OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
+    
     NSString* aKey = [self.branchLeafProductDataManager.sortKeyList objectAtIndex:self.branchLeafProductDataManager.selectedIndexPath.section];
     NSMutableArray* aSectionArray = [self.branchLeafProductDataManager.productSectionDict objectForKey:aKey];
     NSMutableDictionary* productDetailDict = [aSectionArray objectAtIndex:self.branchLeafProductDataManager.selectedIndexPath.row];
-    oipvc.Data = productDetailDict;
-    oipvc.showSeparator = self.showSeparator;
-    ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
-    if (!arcosErrorResult.successFlag) {
-        [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
-        return;
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
+        self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
+        wvc.Data = productDetailDict;
+    } else {
+        self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
+        oipvc.Data = productDetailDict;
+        oipvc.showSeparator = self.showSeparator;
+        ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
+        if (!arcosErrorResult.successFlag) {
+            [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
+            return;
+        }
     }
+    self.inputPopover.delegate = self;
     [self.inputPopover presentPopoverFromRect:aRect inView:self.rootView.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
 }
 

@@ -1097,7 +1097,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 }
 - (NSMutableArray*)allOrderLinesWithOrderNumber:(NSNumber*)aNumber withSortKey:(NSString*)aKey locationIUR:(NSNumber*)aLocationIUR {
     NSArray* sortDescNames=[NSArray arrayWithObjects:aKey,nil];
-    NSArray* properties=[NSArray arrayWithObjects:@"UnitPrice", @"LineValue",@"Qty",@"DiscountPercent",@"Bonus",@"ProductIUR",@"OrderNumber",@"OrderLine",@"InStock",@"FOC",@"PPIUR",nil];
+    NSArray* properties=[NSArray arrayWithObjects:@"UnitPrice", @"LineValue",@"Qty",@"DiscountPercent",@"Bonus",@"ProductIUR",@"OrderNumber",@"OrderLine",@"InStock",@"FOC",@"PPIUR",@"Testers",nil];
     NSPredicate* predicate=[NSPredicate predicateWithFormat:@"OrderNumber=%d",[aNumber intValue]];
     
     NSMutableArray* auxObjectsArray=[self fetchRecordsWithEntity:@"OrderLine" withPropertiesToFetch:properties  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
@@ -1653,6 +1653,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         OL.FOC = [orderLine objectForKey:@"FOC"];
         OL.UnitPrice = [orderLine objectForKey:@"UnitPrice"];
         OL.PPIUR = [orderLine objectForKey:@"RRIUR"];
+        OL.Testers = [orderLine objectForKey:@"Testers"];
         [self saveContext:self.fetchManagedObjectContext];                
         if (isVanSalesEnabledFlag && [auxOrderTypeCode isEqualToString:[GlobalSharedClass shared].vansCode]) {
             ArcosStockonHandUtils* arcosStockonHandUtils = [[ArcosStockonHandUtils alloc] init];
@@ -1889,7 +1890,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     OL.InStock = [anOrderLine objectForKey:@"InStock"];
     OL.FOC = [anOrderLine objectForKey:@"FOC"];
     OL.PPIUR = [anOrderLine objectForKey:@"RRIUR"];
-    
+    OL.Testers = [anOrderLine objectForKey:@"Testers"];
     //line to order header
     OL.orderheader = anOrderHeader;
     return OL;
@@ -2930,7 +2931,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         OL.InStock = [orderLine objectForKey:@"InStock"];
         OL.FOC = [orderLine objectForKey:@"FOC"];
         OL.PPIUR = [orderLine objectForKey:@"RRIUR"];
-
+        OL.Testers = [orderLine objectForKey:@"Testers"];
         //line to order header
         OL.orderheader=OH;
         

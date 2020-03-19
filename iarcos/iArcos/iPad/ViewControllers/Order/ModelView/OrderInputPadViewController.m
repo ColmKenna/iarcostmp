@@ -37,7 +37,7 @@
 @synthesize InStockField;
 @synthesize FOCField;
 @synthesize showSeparator = _showSeparator;
-@synthesize locationIUR = _locationIUR;
+//@synthesize locationIUR = _locationIUR;
 @synthesize orderInputPadDataManager = _orderInputPadDataManager;
 @synthesize qtyHeader = _qtyHeader;
 @synthesize bonHeader = _bonHeader;
@@ -123,7 +123,7 @@
     if (self.DiscountLabel != nil) { self.DiscountLabel = nil; }
     if (self.InStockField != nil) { self.InStockField = nil; } 
     if (self.FOCField != nil) { self.FOCField = nil; }
-    self.locationIUR = nil;
+//    self.locationIUR = nil;
     self.orderInputPadDataManager = nil;
     self.qtyHeader = nil;
     self.bonHeader = nil;
@@ -395,6 +395,11 @@
             break;
     }
     
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enablePriceChangeFlag]) {
+        self.priceChangeButton.hidden = NO;
+    } else {
+        self.priceChangeButton.hidden = YES;
+    }
     //check the detailing
     if(self.isDetaillingType || [[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag]){
         self.BonusField.hidden=YES;
@@ -404,12 +409,9 @@
         self.FOCField.hidden = YES;
         self.instockRBLabel.hidden = YES;
         self.instockRBTextField.hidden = YES;
-    }
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enablePriceChangeFlag]) {
-        self.priceChangeButton.hidden = NO;
-    } else {
         self.priceChangeButton.hidden = YES;
     }
+    
     [self checkQtyByBonusDeal];
     [self resetTotalValue];
 }
@@ -501,6 +503,10 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField { 
     // Make a new view, or do what you want here
+    if (textField.tag == 1 && !self.BonusField.hidden && self.BonusField.enabled && [[ArcosConfigDataManager sharedArcosConfigDataManager] disableBonusBoxWithPriceRecordFlag] && ([[self.Data objectForKey:@"PriceFlag"] intValue] == 1 || [[self.Data objectForKey:@"PriceFlag"] intValue] == 2)) {
+        [ArcosUtils showDialogBox:@"Bonus Disabled on Discounted Prices" title:@"" delegate:nil target:self tag:0 handler:nil];
+        return NO;
+    }
     if (textField.tag == 7) return NO;
     if (textField.tag == 6 && self.DiscountField.hidden == YES) return NO;
     self.currentTextField = textField;

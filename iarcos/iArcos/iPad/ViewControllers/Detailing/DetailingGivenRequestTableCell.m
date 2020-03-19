@@ -111,7 +111,7 @@
     //do show the popover if there is no data
     if (self.thePopover!=nil) {
         self.thePopover.delegate=self;
-        [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
     }
     
     

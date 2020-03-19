@@ -560,16 +560,25 @@
     
     //popover the input pad
 //    self.thePopover = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
-    self.thePopover = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
-    self.thePopover.delegate = self;
-    OrderInputPadViewController* oipvc = (OrderInputPadViewController*) self.thePopover.contentViewController;
-    oipvc.Data = aCellDict;
-    oipvc.showSeparator = showSeparator;
-    ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
-    if (!arcosErrorResult.successFlag) {
-        [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
-        return;
+//    self.thePopover = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+//    self.thePopover.delegate = self;
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
+        self.thePopover = [self.widgetFactory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        WidgetViewController* wvc = (WidgetViewController*)self.thePopover.contentViewController;
+        wvc.Data = aCellDict;
+    } else {
+        self.thePopover = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        OrderInputPadViewController* oipvc = (OrderInputPadViewController*) self.thePopover.contentViewController;
+        oipvc.Data = aCellDict;
+        oipvc.showSeparator = showSeparator;
+        ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
+        if (!arcosErrorResult.successFlag) {
+            [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
+            return;
+        }
     }
+    
+    self.thePopover.delegate = self;
     [self.thePopover presentPopoverFromRect:aRect inView:self.myRootViewController.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
 }
 

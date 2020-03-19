@@ -45,7 +45,7 @@
     IBOutlet UITextField* InStockField;//Qty SplitPack UnitPerPack
     IBOutlet UITextField* FOCField;//Bonus SplitPack UnitPerPack 
     BOOL _showSeparator;
-    NSNumber* _locationIUR;
+//    NSNumber* _locationIUR;
     OrderInputPadDataManager* _orderInputPadDataManager;
     UILabel* _qtyHeader;
     UILabel* _bonHeader;
@@ -125,7 +125,7 @@
 @property(nonatomic,retain) IBOutlet UITextField* InStockField;
 @property(nonatomic,retain) IBOutlet UITextField* FOCField;
 @property(nonatomic,assign) BOOL showSeparator;
-@property(nonatomic,retain) NSNumber* locationIUR;
+//@property(nonatomic,retain) NSNumber* locationIUR;
 @property(nonatomic,retain) OrderInputPadDataManager* orderInputPadDataManager;
 @property(nonatomic,retain) IBOutlet UILabel* qtyHeader;
 @property(nonatomic,retain) IBOutlet UILabel* bonHeader;

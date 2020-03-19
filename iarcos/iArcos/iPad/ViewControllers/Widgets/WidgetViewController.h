@@ -22,11 +22,13 @@
     id Data;
     id <WidgetViewControllerDelegate> delegate;
     BOOL anyDataSource;
+    NSNumber* _locationIUR;
 }
 @property(nonatomic,retain)id Data;
 @property(nonatomic,assign)BOOL anyDataSource;
 
 @property(nonatomic,assign)id <WidgetViewControllerDelegate> delegate;
+@property(nonatomic,retain) NSNumber* locationIUR;
 
 -(IBAction)operationDone:(id)sender;
 

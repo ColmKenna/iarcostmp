@@ -57,6 +57,7 @@
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"DiscountPercent"] forKey:@"DiscountPercent"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"InStock"] forKey:@"InStock"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"FOC"] forKey:@"FOC"];
+        [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"Testers"] forKey:@"Testers"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"LineValue"] forKey:@"LineValue"];
         [tmpOrderRestoreDict setObject:[ArcosUtils convertNilToZero:[anOrderline objectForKey:@"PriceFlag"]] forKey:@"PriceFlag"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"UnitPrice"] forKey:@"UnitPrice"];
@@ -103,10 +104,13 @@
         NSString* tmpKey = [keyList objectAtIndex:i];
         NSNumber* tmpProductIUR = [ArcosUtils convertStringToNumber:tmpKey];
         NSMutableDictionary* tempDict = [dataDict objectForKey:tmpKey];
-        if ([[tempDict objectForKey:@"Qty"] intValue] == 0 && [[tempDict objectForKey:@"Bonus"] intValue] == 0 && [[tempDict objectForKey:@"InStock"] intValue] == 0 && [[tempDict objectForKey:@"FOC"] intValue] == 0) {
-            // && [[tempDict objectForKey:@"DiscountPercent"] intValue] == 0
+        if (![ProductFormRowConverter isSelectedWithFormRowDict:tempDict]) {
             continue;
         }
+//        if ([[tempDict objectForKey:@"Qty"] intValue] == 0 && [[tempDict objectForKey:@"Bonus"] intValue] == 0 && [[tempDict objectForKey:@"InStock"] intValue] == 0 && [[tempDict objectForKey:@"FOC"] intValue] == 0) {
+//            // && [[tempDict objectForKey:@"DiscountPercent"] intValue] == 0
+//            continue;
+//        }
         NSDictionary* aProduct = [productDictHashMap objectForKey:tmpProductIUR];
         NSString* combinationKey = @"";
         if (aProduct != nil) {
@@ -141,6 +145,7 @@
             [tempDict setObject:[aProduct objectForKey:@"UnitRRP"] forKey:@"UnitRRP"];
             [tempDict setObject:[aProduct objectForKey:@"VCIUR"] forKey:@"VCIUR"];
             [tempDict setObject:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"BonusDeal"]] forKey:@"BonusDeal"];
+            [tempDict setObject:[aProduct objectForKey:@"SamplesAvailable"] forKey:@"SamplesAvailable"];
         } else {
             NSString* description = @"Product unassigned";
             combinationKey = [NSString stringWithFormat:@"%@->%d", description, [tmpProductIUR intValue]];
@@ -170,6 +175,7 @@
             [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"UnitRRP"];
             [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"VCIUR"];
             [tempDict setObject:@"" forKey:@"BonusDeal"];
+            [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"SamplesAvailable"];
         }
         [tempDict setObject:[NSNumber numberWithBool:YES] forKey:@"IsSelected"];
         [finalOrderlineDict setObject:tempDict forKey:combinationKey];
