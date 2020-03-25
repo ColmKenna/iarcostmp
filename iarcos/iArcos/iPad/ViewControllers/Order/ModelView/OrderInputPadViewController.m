@@ -400,6 +400,11 @@
     } else {
         self.priceChangeButton.hidden = YES;
     }
+    if (!self.BonusField.hidden && self.BonusField.enabled && [[ArcosConfigDataManager sharedArcosConfigDataManager] disableBonusBoxWithPriceRecordFlag] && ([[self.Data objectForKey:@"PriceFlag"] intValue] == 1 || [[self.Data objectForKey:@"PriceFlag"] intValue] == 2)) {
+        self.BonusField.backgroundColor = [UIColor blackColor];
+    } else {
+        self.BonusField.backgroundColor = [UIColor whiteColor];
+    }
     //check the detailing
     if(self.isDetaillingType || [[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag]){
         self.BonusField.hidden=YES;
