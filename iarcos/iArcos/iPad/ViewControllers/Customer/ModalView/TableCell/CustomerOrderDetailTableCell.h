@@ -12,6 +12,9 @@
 @interface CustomerOrderDetailTableCell : UITableViewCell {
     IBOutlet UILabel* qty;
     IBOutlet UILabel* bon;
+    UILabel* _inStock;
+    UILabel* _foc;
+    UILabel* _testers;
     IBOutlet UILabel* discount;
     IBOutlet UILabel* description;
     IBOutlet UILabel* price;
@@ -20,6 +23,9 @@
 
 @property (nonatomic,retain) IBOutlet UILabel* qty;
 @property (nonatomic,retain) IBOutlet UILabel* bon;
+@property (nonatomic,retain) IBOutlet UILabel* inStock;
+@property (nonatomic,retain) IBOutlet UILabel* foc;
+@property (nonatomic,retain) IBOutlet UILabel* testers;
 @property (nonatomic,retain) IBOutlet UILabel* discount;
 @property (nonatomic,retain) IBOutlet UILabel* description;
 @property (nonatomic,retain) IBOutlet UILabel* price;

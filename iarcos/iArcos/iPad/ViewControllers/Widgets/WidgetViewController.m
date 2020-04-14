@@ -14,12 +14,14 @@
 @synthesize anyDataSource;
 @synthesize delegate;
 @synthesize locationIUR = _locationIUR;
+@synthesize isWidgetEditable = _isWidgetEditable;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.isWidgetEditable = YES;
     }
     return self;
 }

@@ -93,6 +93,8 @@
 
 - (IBAction)numberKeyTouched:(id)sender;
 - (IBAction)functionKeyTouched:(id)sender;
+- (void)highlightSelectTextField;
+- (NSNumber*)resetTotalValue;
 
 @end
 

@@ -13,6 +13,7 @@
 @end
 
 @implementation UtilitiesConfigurationTableViewController
+@synthesize saveDelegate = _saveDelegate;
 @synthesize utilitiesConfigurationDataManager = _utilitiesConfigurationDataManager;
 @synthesize globalNavigationController = _globalNavigationController;
 @synthesize rootView = _rootView;
@@ -50,11 +51,11 @@
     UIBarButtonItem* saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(savePressed)];
     [rightButtonList addObject:saveButton];
     [saveButton release];
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
-        UIBarButtonItem* mailButton = [[UIBarButtonItem alloc] initWithTitle:@"Mail" style:UIBarButtonItemStylePlain target:self action:@selector(mailPressed)];
-        [rightButtonList addObject:mailButton];
-        [mailButton release];
-    }
+//    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+//        UIBarButtonItem* mailButton = [[UIBarButtonItem alloc] initWithTitle:@"Mail" style:UIBarButtonItemStylePlain target:self action:@selector(mailPressed)];
+//        [rightButtonList addObject:mailButton];
+//        [mailButton release];
+//    }
     [self.navigationItem setRightBarButtonItems:rightButtonList];
 }
 
@@ -65,7 +66,8 @@
         return;
     }
     [self.utilitiesConfigurationDataManager saveChangedList];
-    [self configButtonList];
+//    [self configButtonList];
+    [self.saveDelegate didSaveButtonPressed];
 }
 
 - (void)mailPressed {

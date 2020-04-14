@@ -15,11 +15,16 @@
 		185352D124124AD30075F568 /* OrderEntryInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185352CF24124AD30075F568 /* OrderEntryInputViewController.xib */; };
 		1854304223B5C1FE00E766AD /* UtilitiesMailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1854304023B5C1FE00E766AD /* UtilitiesMailViewController.m */; };
 		1854304323B5C1FE00E766AD /* UtilitiesMailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1854304123B5C1FE00E766AD /* UtilitiesMailViewController.xib */; };
+		185BDC35243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 185BDC33243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.m */; };
+		185BDC36243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185BDC34243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.xib */; };
 		18962C52241DD57B00FD763F /* OrderEntryInputMatHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18962C51241DD57B00FD763F /* OrderEntryInputMatHeaderView.m */; };
+		18D03A49243C7320004D9035 /* office_365.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D03A47243C731F004D9035 /* office_365.png */; };
+		18D03A4A243C7320004D9035 /* office_365@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D03A48243C731F004D9035 /* office_365@2x.png */; };
 		18D296D023B741CE00047B5C /* ArcosConstantsDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D296CF23B741CE00047B5C /* ArcosConstantsDataManager.m */; };
 		18D6A2FF23BCD0F2001B55F3 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D6A2FE23BCD0F2001B55F3 /* MSAL.framework */; };
 		18D9B17A2418C82D0080DBA2 /* OrderInputPadPopoverGeneratorProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D9B1792418C82D0080DBA2 /* OrderInputPadPopoverGeneratorProcessor.m */; };
 		18D9B17D2418C8450080DBA2 /* OrderEntryInputPopoverGeneratorProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D9B17C2418C8450080DBA2 /* OrderEntryInputPopoverGeneratorProcessor.m */; };
+		18DD38B6243ACF9200FA899B /* CustomerOrderDetailsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DD38B5243ACF9200FA899B /* CustomerOrderDetailsHeaderView.m */; };
 		18E8400D23BC74DB0083C0F4 /* ArcosAttachmentContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E8400C23BC74DA0083C0F4 /* ArcosAttachmentContainer.m */; };
 		18EF209823D9C6EA00F68C78 /* libMailCore-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18EF209723D9C6E900F68C78 /* libMailCore-ios.a */; };
 		18FDE4A123B9FEBA000BD4AA /* UtilitiesSignOutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FDE49F23B9FEBA000BD4AA /* UtilitiesSignOutViewController.m */; };
@@ -1803,8 +1808,14 @@
 		1854303F23B5C1FE00E766AD /* UtilitiesMailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UtilitiesMailViewController.h; sourceTree = "<group>"; };
 		1854304023B5C1FE00E766AD /* UtilitiesMailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UtilitiesMailViewController.m; sourceTree = "<group>"; };
 		1854304123B5C1FE00E766AD /* UtilitiesMailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UtilitiesMailViewController.xib; sourceTree = "<group>"; };
+		185BDC32243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderEntryInputRightHandSideGridViewController.h; sourceTree = "<group>"; };
+		185BDC33243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderEntryInputRightHandSideGridViewController.m; sourceTree = "<group>"; };
+		185BDC34243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderEntryInputRightHandSideGridViewController.xib; sourceTree = "<group>"; };
 		18962C50241DD57B00FD763F /* OrderEntryInputMatHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderEntryInputMatHeaderView.h; sourceTree = "<group>"; };
 		18962C51241DD57B00FD763F /* OrderEntryInputMatHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderEntryInputMatHeaderView.m; sourceTree = "<group>"; };
+		18C2CE4A243496B900BCDDF8 /* UtilitiesConfigurationTableViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UtilitiesConfigurationTableViewControllerDelegate.h; sourceTree = "<group>"; };
+		18D03A47243C731F004D9035 /* office_365.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = office_365.png; sourceTree = "<group>"; };
+		18D03A48243C731F004D9035 /* office_365@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "office_365@2x.png"; sourceTree = "<group>"; };
 		18D296CE23B741CE00047B5C /* ArcosConstantsDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosConstantsDataManager.h; sourceTree = "<group>"; };
 		18D296CF23B741CE00047B5C /* ArcosConstantsDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosConstantsDataManager.m; sourceTree = "<group>"; };
 		18D6A2FE23BCD0F2001B55F3 /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = Carthage/Build/iOS/MSAL.framework; sourceTree = "<group>"; };
@@ -1813,6 +1824,8 @@
 		18D9B1792418C82D0080DBA2 /* OrderInputPadPopoverGeneratorProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderInputPadPopoverGeneratorProcessor.m; sourceTree = "<group>"; };
 		18D9B17B2418C8450080DBA2 /* OrderEntryInputPopoverGeneratorProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderEntryInputPopoverGeneratorProcessor.h; sourceTree = "<group>"; };
 		18D9B17C2418C8450080DBA2 /* OrderEntryInputPopoverGeneratorProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderEntryInputPopoverGeneratorProcessor.m; sourceTree = "<group>"; };
+		18DD38B4243ACF9200FA899B /* CustomerOrderDetailsHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerOrderDetailsHeaderView.h; sourceTree = "<group>"; };
+		18DD38B5243ACF9200FA899B /* CustomerOrderDetailsHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerOrderDetailsHeaderView.m; sourceTree = "<group>"; };
 		18E8400B23BC74DA0083C0F4 /* ArcosAttachmentContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosAttachmentContainer.h; sourceTree = "<group>"; };
 		18E8400C23BC74DA0083C0F4 /* ArcosAttachmentContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosAttachmentContainer.m; sourceTree = "<group>"; };
 		18EF209723D9C6E900F68C78 /* libMailCore-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libMailCore-ios.a"; path = "iArcos/MailAPI/lib/libMailCore-ios.a"; sourceTree = "<group>"; };
@@ -5845,6 +5858,8 @@
 				6300A42F2099D787005A7205 /* CustomerGDPRViewController.xib */,
 				6322C5A1209B1AA700BDE3AF /* CustomerGDPRDataManager.h */,
 				6322C5A2209B1AA700BDE3AF /* CustomerGDPRDataManager.m */,
+				18DD38B4243ACF9200FA899B /* CustomerOrderDetailsHeaderView.h */,
+				18DD38B5243ACF9200FA899B /* CustomerOrderDetailsHeaderView.m */,
 			);
 			path = ModalView;
 			sourceTree = "<group>";
@@ -6316,6 +6331,9 @@
 				18D9B17C2418C8450080DBA2 /* OrderEntryInputPopoverGeneratorProcessor.m */,
 				18962C50241DD57B00FD763F /* OrderEntryInputMatHeaderView.h */,
 				18962C51241DD57B00FD763F /* OrderEntryInputMatHeaderView.m */,
+				185BDC32243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.h */,
+				185BDC33243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.m */,
+				185BDC34243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.xib */,
 			);
 			path = ModelView;
 			sourceTree = "<group>";
@@ -7106,6 +7124,7 @@
 				18FDE49E23B9FEBA000BD4AA /* UtilitiesSignOutViewController.h */,
 				18FDE49F23B9FEBA000BD4AA /* UtilitiesSignOutViewController.m */,
 				18FDE4A023B9FEBA000BD4AA /* UtilitiesSignOutViewController.xib */,
+				18C2CE4A243496B900BCDDF8 /* UtilitiesConfigurationTableViewControllerDelegate.h */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -7639,6 +7658,8 @@
 		630B3A5419F01CB8007B2442 /* ShareImage */ = {
 			isa = PBXGroup;
 			children = (
+				18D03A47243C731F004D9035 /* office_365.png */,
+				18D03A48243C731F004D9035 /* office_365@2x.png */,
 				63ADF5DC22F03D95008856EF /* discount@2x.png */,
 				63A710CD2292EB1C007AB738 /* appointment.png */,
 				630D6899219AFF2100E85F8F /* email_all@2x.png */,
@@ -8580,6 +8601,7 @@
 				63ABC88E19F0252000DE2B1B /* UtilitiesArcosSplitViewController.xib in Resources */,
 				630B3D4E19F01CB9007B2442 /* UtilitiesOrderDateRangePicker.xib in Resources */,
 				630B3B6F19F01CB9007B2442 /* CustomerDetailsWrapperModalViewController.xib in Resources */,
+				185BDC36243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.xib in Resources */,
 				630B3C6A19F01CB9007B2442 /* ProductDetailViewController.xib in Resources */,
 				630B3D5019F01CB9007B2442 /* UtilitiesPresenterDetailViewController.xib in Resources */,
 				630B3D4419F01CB9007B2442 /* UtilitiesDescriptionDetailEditWrapperViewController.xib in Resources */,
@@ -8760,6 +8782,7 @@
 				630B3B5119F01CB9007B2442 /* CustomerSplitViewContorller.xib in Resources */,
 				631F010020AADDB9001BA762 /* DashboardPdfViewController.xib in Resources */,
 				630B3E0619F01CB9007B2442 /* Not Buy.png in Resources */,
+				18D03A49243C7320004D9035 /* office_365.png in Resources */,
 				18FDE4A223B9FEBA000BD4AA /* UtilitiesSignOutViewController.xib in Resources */,
 				63A0B95A1D93CBDC00F6EAC7 /* Arcos-Icon-2a-setting.png in Resources */,
 				630B3B8119F01CB9007B2442 /* CustomerPhotoDeleteActionViewController.xib in Resources */,
@@ -8973,6 +8996,7 @@
 				630B3C4819F01CB9007B2442 /* FormRowsTableViewController.xib in Resources */,
 				630B3CA119F01CB9007B2442 /* NewOrderViewController.xib in Resources */,
 				630B3B7D19F01CB9007B2442 /* CustomerOrderDetailsModalViewController.xib in Resources */,
+				18D03A4A243C7320004D9035 /* office_365@2x.png in Resources */,
 				630B3B1819F01CB9007B2442 /* WebPagingViewController.xib in Resources */,
 				630B3DF219F01CB9007B2442 /* cross.png in Resources */,
 				631F011220AAFCDC001BA762 /* DashboardGenericTableViewCell.xib in Resources */,
@@ -9787,6 +9811,7 @@
 				630B3B1919F01CB9007B2442 /* PresenterGridCell.m in Sources */,
 				630B3B6419F01CB9007B2442 /* CustomerContactLinkHeaderViewController.m in Sources */,
 				632C5AFF1A0A4B74002D3945 /* SavedIarcosOrderDetailTableCellFactory.m in Sources */,
+				18DD38B6243ACF9200FA899B /* CustomerOrderDetailsHeaderView.m in Sources */,
 				634E59CE20EF67E6004B7C82 /* ArcosDashBoardData.m in Sources */,
 				630B3DC019F01CB9007B2442 /* SoapArray.m in Sources */,
 				630B3BF519F01CB9007B2442 /* DetailingTableViewController.m in Sources */,
@@ -9872,6 +9897,7 @@
 				630B3B7C19F01CB9007B2442 /* CustomerOrderDetailsModalViewController.m in Sources */,
 				63E9B1661F4ECBF000915222 /* CheckoutPrinterWrapperDataManager.m in Sources */,
 				638076F0218CA0AD00591B28 /* MeetingIURTableViewCell.m in Sources */,
+				185BDC35243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.m in Sources */,
 				630B3B1F19F01CB9007B2442 /* PresenterBookletViewController.m in Sources */,
 				630B3CF819F01CB9007B2442 /* QueryOrderTaskWrapperViewController.m in Sources */,
 				63FE6DB91EF93ACB00360F68 /* CustomerSurveySummaryTableViewController.m in Sources */,
@@ -10258,7 +10284,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 6.2.5;
+				MARKETING_VERSION = 6.2.7;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10314,7 +10340,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 6.2.5;
+				MARKETING_VERSION = 6.2.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -10450,7 +10476,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 6.2.5;
+				MARKETING_VERSION = 6.2.7;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

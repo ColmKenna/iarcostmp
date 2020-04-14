@@ -422,7 +422,7 @@
         NSIndexPath* swipedIndexPath = [ArcosUtils indexPathWithRecognizer:reconizer tableview:self.tableView];
         aCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:swipedIndexPath];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
-            self.inputPopover = [self.widgetFactory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            self.inputPopover = [self.widgetFactory CreateOrderEntryInputWidgetWithLocationIUR:self.locationIUR];
             WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
             wvc.Data = aCell.data;
         } else {

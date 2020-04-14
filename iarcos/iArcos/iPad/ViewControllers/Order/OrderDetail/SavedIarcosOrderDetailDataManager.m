@@ -166,6 +166,7 @@
         [orderlineDict setObject:tmpProductIUR forKey:@"ProductIUR"];
         [orderlineDict setObject:[ArcosUtils convertStringToNumber:[subArcosGenericClass Field12]] forKey:@"InStock"];
         [orderlineDict setObject:[ArcosUtils convertStringToNumber:[subArcosGenericClass Field13]] forKey:@"FOC"];
+        [orderlineDict setObject:[ArcosUtils convertStringToNumber:[subArcosGenericClass Field17]] forKey:@"Testers"];
         NSDictionary* aProduct = [productDictHashMap objectForKey:tmpProductIUR];
         [orderlineList addObject:[ProductFormRowConverter createStandardOrderLine:orderlineDict product:aProduct]];
     }

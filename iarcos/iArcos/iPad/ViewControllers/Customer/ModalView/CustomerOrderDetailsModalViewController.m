@@ -35,6 +35,7 @@
 @synthesize value;
 
 @synthesize orderIUR;
+@synthesize orderEntryInputDataManager = _orderEntryInputDataManager;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -75,6 +76,7 @@
     if (self.instructions2 != nil) { self.instructions2 = nil; }
     if (self.memo != nil) { self.memo = nil; }
     if (self.value != nil) { self.value = nil; }
+    self.orderEntryInputDataManager = nil;
     
     [super dealloc];
 }
@@ -109,6 +111,7 @@
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+    self.orderEntryInputDataManager = [[[OrderEntryInputDataManager alloc] init] autorelease];
 }
 
 - (void)viewDidUnload
@@ -153,6 +156,23 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{   
     // custom view for header. will be adjusted to default or specified header height
+    [self.orderEntryInputDataManager retrieveColumnDescriptionInfo];
+    NSString* bonValue = [self.orderEntryInputDataManager.columnDescDataDict objectForKey:self.orderEntryInputDataManager.bonKey];
+    if (bonValue != nil) {
+        self.tableHeader.bonusLabel.text = bonValue;
+    }
+    NSString* instValue = [self.orderEntryInputDataManager.columnDescDataDict objectForKey:self.orderEntryInputDataManager.instKey];
+    if (instValue != nil) {
+        self.tableHeader.inStockLabel.text = instValue;
+    }
+    NSString* focValue = [self.orderEntryInputDataManager.columnDescDataDict objectForKey:self.orderEntryInputDataManager.focKey];
+    if (focValue != nil) {
+        self.tableHeader.focLabel.text = focValue;
+    }    
+    NSString* testValue = [self.orderEntryInputDataManager.columnDescDataDict objectForKey:self.orderEntryInputDataManager.testKey];
+    if (testValue != nil) {
+        self.tableHeader.testersLabel.text = testValue;
+    }
     return tableHeader;
     
 }
@@ -202,6 +222,9 @@
     ArcosGenericClass* cellData = [self.displayList objectAtIndex:indexPath.row];
     cell.qty.text = [ArcosUtils convertZeroToBlank:[cellData Field2]];
     cell.bon.text = [ArcosUtils convertZeroToBlank:[cellData Field3]];
+    cell.inStock.text = [ArcosUtils convertZeroToBlank:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[cellData Field12]]]];
+    cell.foc.text = [ArcosUtils convertZeroToBlank:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[cellData Field13]]]];
+    cell.testers.text = [ArcosUtils convertZeroToBlank:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[cellData Field17]]]];
     cell.discount.text = [ArcosUtils convertZeroToBlank: [ArcosUtils convertToFloatString: [cellData Field10]]]; 
     cell.description.text = [cellData Field5];
     cell.price.text = [NSString stringWithFormat:@"%.2f", [[cellData Field6] floatValue]];

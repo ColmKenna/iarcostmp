@@ -12,18 +12,29 @@
 #import "GlobalSharedClass.h"
 #import "UtilitiesSignOutViewController.h"
 #import "CustomisePresentViewControllerDelegate.h"
+//#import "UtilitiesDetailViewController.h"
+#import "ArcosBorderUIButton.h"
 
 @interface UtilitiesMailViewController : UIViewController <ModalPresentViewControllerDelegate>{
     id<CustomisePresentViewControllerDelegate> _presentDelegate;
     NSArray* _kScopes;
     MSALWebviewParameters* _webViewParameters;
-    UITextView* _myTextView;
+    ArcosBorderUIButton* _signInButton;
+    ArcosBorderUIButton* _signOutButton;
+//    UITextView* _myTextView;
+    UILabel* _myLabel;
 }
 
 @property(nonatomic, assign) id<CustomisePresentViewControllerDelegate> presentDelegate;
 @property(nonatomic, retain) NSArray* kScopes;
 @property(nonatomic, retain) MSALWebviewParameters* webViewParameters;
-@property(nonatomic, retain) IBOutlet UITextView* myTextView;
+@property(nonatomic, retain) IBOutlet ArcosBorderUIButton* signInButton;
+@property(nonatomic, retain) IBOutlet ArcosBorderUIButton* signOutButton;
+//@property(nonatomic, retain) IBOutlet UITextView* myTextView;
+@property(nonatomic, retain) IBOutlet UILabel* myLabel;
+
+- (IBAction)signOutPressed:(id)sender;
+- (IBAction)signInPressed:(id)sender;
 
 @end
 

@@ -21,8 +21,9 @@
 #import "StoreNewsDateDataManager.h"
 #import "UtilitiesMemoryTableViewController.h"
 #import "UtilitiesConfigurationTableViewController.h"
+#import "UtilitiesMailViewController.h"
 
-@interface UtilitiesMasterViewController : SplitViewCommonMasterViewController<UISplitViewControllerDelegate,UITableViewDataSource,UITableViewDelegate, ControllNavigationBarDelegate,PresentViewControllerDelegate,CustomisePresentViewControllerDelegate> {
+@interface UtilitiesMasterViewController : SplitViewCommonMasterViewController<UISplitViewControllerDelegate,UITableViewDataSource,UITableViewDelegate, ControllNavigationBarDelegate,PresentViewControllerDelegate,CustomisePresentViewControllerDelegate,UtilitiesConfigurationTableViewControllerDelegate> {
     id<ControllNavigationBarDelegate> _navigationDelegate;
     IBOutlet UITableView* theTableView;
     
@@ -37,7 +38,8 @@
     UtilitiesDetailViewController* presenterDetailView;
     UtilitiesDetailViewController* descriptionDetailView;
     UtilitiesDetailViewController* memoryDetailView;
-    UtilitiesDetailViewController* configurationDetailView;
+    UtilitiesConfigurationTableViewController* configurationDetailView;
+    UtilitiesDetailViewController* _emailDetailView;
     
     UtilitiesDetailViewController* _detailViewController;
     UINavigationController* _globalNavigationController;
@@ -50,6 +52,7 @@
     NSString* _descriptionTitle;
     NSString* _configurationTitle;
     NSString* _newsTitle;
+    NSString* _emailTitle;
 }
 
 @property(nonatomic,assign) id<ControllNavigationBarDelegate> navigationDelegate;
@@ -62,7 +65,8 @@
 @property(nonatomic,retain) UtilitiesDetailViewController* presenterDetailView;
 @property(nonatomic,retain) UtilitiesDetailViewController* descriptionDetailView;
 @property(nonatomic,retain) UtilitiesDetailViewController* memoryDetailView;
-@property(nonatomic,retain) UtilitiesDetailViewController* configurationDetailView;
+@property(nonatomic,retain) UtilitiesConfigurationTableViewController* configurationDetailView;
+@property(nonatomic,retain) UtilitiesDetailViewController* emailDetailView;
 @property(nonatomic,retain) UtilitiesDetailViewController* detailViewController;
 @property(nonatomic,retain) UINavigationController* globalNavigationController;
 @property(nonatomic,retain) UIViewController* myRootViewController;
@@ -74,7 +78,9 @@
 @property(nonatomic,retain) NSString* descriptionTitle;
 @property(nonatomic,retain) NSString* configurationTitle;
 @property(nonatomic,retain) NSString* newsTitle;
+@property(nonatomic,retain) NSString* emailTitle;
 
 - (NSMutableDictionary*)createMasterCellDataWithFilename:(NSString*) fileName title:(NSString*)title subTitle:(NSString*)subTitle;
+- (void)createTableList;
 
 @end

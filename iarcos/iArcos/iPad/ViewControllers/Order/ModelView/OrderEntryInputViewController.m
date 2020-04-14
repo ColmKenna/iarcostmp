@@ -9,8 +9,7 @@
 #import "OrderEntryInputViewController.h"
 
 @interface OrderEntryInputViewController ()
-- (void)highlightSelectTextField;
-- (NSNumber*)resetTotalValue;
+
 @end
 
 @implementation OrderEntryInputViewController
@@ -121,6 +120,11 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    if (self.isWidgetEditable) {
+        self.view.alpha = 1.0;
+    } else {
+        self.view.alpha = 0.5;
+    }
     [self.orderEntryInputDataManager retrieveColumnDescriptionInfo];
     NSString* bonValue = [self.orderEntryInputDataManager.columnDescDataDict objectForKey:self.orderEntryInputDataManager.bonKey];
     if (bonValue == nil) {
@@ -261,11 +265,13 @@
 }
 
 - (IBAction)numberKeyTouched:(id)sender {
+    if (!self.isWidgetEditable) return;
     UIButton* theButton = (UIButton*)sender;
     [self qtyBonusCheck:theButton.tag];
 }
 
 - (IBAction)functionKeyTouched:(id)sender {
+    if (!self.isWidgetEditable) return;
     UIButton* theButton = (UIButton*)sender;
 
     switch (theButton.tag) {

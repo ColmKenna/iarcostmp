@@ -11,11 +11,13 @@
 #import "CallGenericServices.h"
 #import "ArcosUtils.h"
 #import "SlideAcrossViewAnimationDelegate.h"
+#import "CustomerOrderDetailsHeaderView.h"
+#import "OrderEntryInputDataManager.h"
 
 @interface CustomerOrderDetailsModalViewController : UIViewController <UITableViewDelegate,UITableViewDataSource,GetDataGenericDelegate>{
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
     IBOutlet UITableView* orderDetailListView;
-    IBOutlet UIView* tableHeader;
+    IBOutlet CustomerOrderDetailsHeaderView* tableHeader;
     NSMutableArray* displayList;    
 //    UIActivityIndicatorView* activityIndicator;
     CallGenericServices* callGenericServices;
@@ -39,13 +41,12 @@
     IBOutlet UITextField* instructions2;
     IBOutlet UITextView* memo;
     IBOutlet UITextField* value;
-
-    
+    OrderEntryInputDataManager* _orderEntryInputDataManager;
 }
 
 @property (nonatomic, assign) id<SlideAcrossViewAnimationDelegate> animateDelegate;
 @property (nonatomic, retain) IBOutlet UITableView* orderDetailListView;
-@property (nonatomic, retain) IBOutlet UIView* tableHeader;
+@property (nonatomic, retain) IBOutlet CustomerOrderDetailsHeaderView* tableHeader;
 @property (nonatomic,retain)  NSMutableArray* displayList;
 @property (nonatomic,retain) IBOutlet UITextView* textView;
 @property (nonatomic,retain) IBOutlet UITextField* employee;
@@ -65,6 +66,7 @@
 @property (nonatomic,retain) IBOutlet UITextField* value;
 @property (nonatomic,retain) IBOutlet UITextView* memo;
 @property (nonatomic,retain) NSString* orderIUR;
+@property(nonatomic, retain) OrderEntryInputDataManager* orderEntryInputDataManager;
 
 
 -(IBAction)donePressed:(id)sender;

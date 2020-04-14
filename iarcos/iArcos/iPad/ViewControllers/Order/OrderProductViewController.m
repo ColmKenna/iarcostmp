@@ -629,7 +629,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 //}
 -(void)handleSingleTapGesture:(id)sender{
     NSLog(@"single tap");
-    if (!self.isCellEditable) {//not editable
+    if (!self.isCellEditable && ![[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {//not editable
         return;
     }
     UITapGestureRecognizer* reconizer=(UITapGestureRecognizer*)sender;
@@ -651,11 +651,12 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         CGRect aRect=CGRectMake(parentView.view.frame.size.width-10, parentView.view.frame.size.height - 10, 1, 1);
         BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:self.formIUR];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
-            self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:self.locationIUR];
             WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
             wvc.Data = aCell.data;
+            wvc.isWidgetEditable = self.isCellEditable;
         } else {
-            self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:self.locationIUR];
             OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
             oipvc.Data=aCell.data;
             oipvc.showSeparator = showSeparator;

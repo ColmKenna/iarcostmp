@@ -23,12 +23,14 @@
     id <WidgetViewControllerDelegate> delegate;
     BOOL anyDataSource;
     NSNumber* _locationIUR;
+    BOOL _isWidgetEditable;
 }
 @property(nonatomic,retain)id Data;
 @property(nonatomic,assign)BOOL anyDataSource;
 
 @property(nonatomic,assign)id <WidgetViewControllerDelegate> delegate;
 @property(nonatomic,retain) NSNumber* locationIUR;
+@property(nonatomic,assign) BOOL isWidgetEditable;
 
 -(IBAction)operationDone:(id)sender;
 

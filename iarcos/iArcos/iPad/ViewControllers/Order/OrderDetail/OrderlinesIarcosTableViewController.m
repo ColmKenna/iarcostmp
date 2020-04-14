@@ -164,7 +164,7 @@
 }
 
 -(void)handleSingleTapGesture:(id)sender{
-    if (!self.isCellEditable) {//not editable
+    if (!self.isCellEditable && ![[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {//not editable
         return;
     }
     UITapGestureRecognizer* reconizer=(UITapGestureRecognizer*)sender;
@@ -176,11 +176,12 @@
         CGRect aRect = CGRectMake(parentNavigationRect.size.width-10, parentNavigationRect.size.height, 1, 1);
         BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:self.formIUR];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
-            self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:self.locationIUR];
             WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
-            wvc.Data = [self.displayList objectAtIndex:swipedIndexPath.row];;
+            wvc.Data = [self.displayList objectAtIndex:swipedIndexPath.row];
+            wvc.isWidgetEditable = self.isCellEditable;
         } else {
-            self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:self.locationIUR];
             OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
             oipvc.Data = [self.displayList objectAtIndex:swipedIndexPath.row];
             oipvc.showSeparator = showSeparator;

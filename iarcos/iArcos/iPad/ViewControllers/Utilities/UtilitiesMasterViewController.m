@@ -20,6 +20,7 @@
 @synthesize descriptionDetailView;
 @synthesize memoryDetailView;
 @synthesize configurationDetailView;
+@synthesize emailDetailView = _emailDetailView;
 @synthesize detailViewController = _detailViewController;
 @synthesize globalNavigationController = _globalNavigationController;
 @synthesize myRootViewController = _myRootViewController;
@@ -31,6 +32,7 @@
 @synthesize descriptionTitle = _descriptionTitle;
 @synthesize configurationTitle = _configurationTitle;
 @synthesize newsTitle = _newsTitle;
+@synthesize emailTitle = _emailTitle;
 
 - (void)dealloc
 {
@@ -41,6 +43,7 @@
     if (self.descriptionDetailView != nil) { self.descriptionDetailView = nil; }
     self.memoryDetailView = nil;
     self.configurationDetailView = nil;
+    self.emailDetailView = nil;
     self.detailViewController = nil;
     self.globalNavigationController = nil;
     self.myRootViewController = nil;
@@ -52,6 +55,7 @@
     self.descriptionTitle = nil;
     self.configurationTitle = nil;
     self.newsTitle = nil;
+    self.emailTitle = nil;
     
     [super dealloc];
 }
@@ -84,6 +88,7 @@
     self.descriptionTitle = @"Description";
     self.configurationTitle = @"Configuration";
     self.newsTitle = @"News";
+    self.emailTitle = @"Email";
 }
 
 - (void)viewDidUnload
@@ -109,22 +114,30 @@
         self.utilities = [NSMutableArray arrayWithCapacity:1];
         [self.utilities addObject:switchDict];
     } else {
-        NSMutableDictionary* updateCenterDict = [self createMasterCellDataWithFilename:@"UpdateCenter.png" title:self.updateCenterTitle subTitle:@""];
-        NSMutableDictionary* settingDict = [self createMasterCellDataWithFilename:@"Configuration.png" title:self.settingTitle subTitle:@""];
-        NSMutableDictionary* tableDict = [self createMasterCellDataWithFilename:@"Table.png" title:self.tablesTitle subTitle:@""];
-        NSMutableDictionary* resourcesDict = [self createMasterCellDataWithFilename:@"Resources.png" title:self.resourcesTitle subTitle:@""];
-        NSMutableDictionary* descDict = [self createMasterCellDataWithFilename:@"Description.png" title:self.descriptionTitle subTitle:@""];
-//        NSMutableDictionary* memoryDict = [self createMasterCellDataWithFilename:@"Analysis.png" title:@"Memory" subTitle:@""];
-        NSMutableDictionary* configurationDict = [self createMasterCellDataWithFilename:@"Configuration.png" title:self.configurationTitle subTitle:@""];
-        self.utilities=[NSMutableArray arrayWithObjects:updateCenterDict,settingDict,tableDict,resourcesDict,descDict,configurationDict, nil];//,memoryDict
-        if ([ArcosSystemCodesUtils myNewsOptionExistence]) {
-            NSMutableDictionary* myNewsDict = [self createMasterCellDataWithFilename:@"News.png" title:self.newsTitle subTitle:@""];
-            [self.utilities addObject:myNewsDict];
-        }
+        [self createTableList];
     }
     [self.theTableView reloadData];
     if ([self.utilities count] > 1) {
         [self.theTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:currentSelectIndex inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+    }
+}
+
+- (void)createTableList {
+    NSMutableDictionary* updateCenterDict = [self createMasterCellDataWithFilename:@"UpdateCenter.png" title:self.updateCenterTitle subTitle:@""];
+    NSMutableDictionary* settingDict = [self createMasterCellDataWithFilename:@"Configuration.png" title:self.settingTitle subTitle:@""];
+    NSMutableDictionary* tableDict = [self createMasterCellDataWithFilename:@"Table.png" title:self.tablesTitle subTitle:@""];
+    NSMutableDictionary* resourcesDict = [self createMasterCellDataWithFilename:@"Resources.png" title:self.resourcesTitle subTitle:@""];
+    NSMutableDictionary* descDict = [self createMasterCellDataWithFilename:@"Description.png" title:self.descriptionTitle subTitle:@""];
+//        NSMutableDictionary* memoryDict = [self createMasterCellDataWithFilename:@"Analysis.png" title:@"Memory" subTitle:@""];
+    NSMutableDictionary* configurationDict = [self createMasterCellDataWithFilename:@"Configuration.png" title:self.configurationTitle subTitle:@""];
+    self.utilities=[NSMutableArray arrayWithObjects:updateCenterDict,settingDict,tableDict,resourcesDict,descDict,configurationDict, nil];//,memoryDict
+    if ([ArcosSystemCodesUtils myNewsOptionExistence]) {
+        NSMutableDictionary* myNewsDict = [self createMasterCellDataWithFilename:@"News.png" title:self.newsTitle subTitle:@""];
+        [self.utilities addObject:myNewsDict];
+    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+        NSMutableDictionary* myEmailDict = [self createMasterCellDataWithFilename:@"office_365.png" title:self.emailTitle subTitle:@""];
+        [self.utilities addObject:myEmailDict];
     }
 }
 
@@ -321,8 +334,18 @@
 //    }
     else if ([[itemDict objectForKey:@"Title"] isEqualToString:self.configurationTitle]) {
         self.detailViewController = (UtilitiesDetailViewController*)[[[UtilitiesConfigurationTableViewController alloc]initWithNibName:@"UtilitiesConfigurationTableViewController" bundle:nil] autorelease];
-        self.configurationDetailView = self.detailViewController;
+        self.configurationDetailView = (UtilitiesConfigurationTableViewController*)self.detailViewController;
         self.detailViewController.navigationDelegate = self;
+        self.configurationDetailView.saveDelegate = self;
+    }
+    else if ([[itemDict objectForKey:@"Title"] isEqualToString:self.emailTitle]) {
+        self.emailDetailView = (UtilitiesDetailViewController*)[[[UtilitiesMailViewController alloc] initWithNibName:@"UtilitiesMailViewController" bundle:nil] autorelease];
+        ArcosSplitViewController* arcosSplitViewController = (ArcosSplitViewController*)self.parentViewController.parentViewController.parentViewController;
+        UINavigationController* navDetailController=[arcosSplitViewController.rcsViewControllers objectAtIndex:1];
+        navDetailController.viewControllers=[NSMutableArray arrayWithObject:self.emailDetailView];
+        arcosSplitViewController.rcsViewControllers = [NSArray arrayWithObjects:[arcosSplitViewController.rcsViewControllers objectAtIndex:0], navDetailController, nil];
+        currentSelectIndex=indexPath.row;
+        return;
     }
     [self.detailViewController invalidateRootPopoverButtonItem:self.rootPopoverButtonItem];
     self.detailViewController.myBarButtonItem=self.rootPopoverButtonItem;
@@ -344,6 +367,13 @@
     //[detailViewController release];
     //[navDetailController release];
     currentSelectIndex=indexPath.row;
+}
+
+#pragma mark UtilitiesConfigurationTableViewControllerDelegate
+- (void)didSaveButtonPressed {
+    NSLog(@"didSaveButtonPressed");
+    [self createTableList];
+    [self.theTableView reloadData];
 }
 
 - (void)showNavigationBar {

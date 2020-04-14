@@ -12,6 +12,9 @@
 @implementation CustomerOrderDetailTableCell
 @synthesize qty;
 @synthesize bon;
+@synthesize inStock = _inStock;
+@synthesize foc = _foc;
+@synthesize testers = _testers;
 @synthesize discount;
 @synthesize description;
 @synthesize price;
@@ -37,6 +40,9 @@
 {
     if (self.qty != nil) { self.qty = nil; }
     if (self.bon != nil) { self.bon = nil; }
+    self.inStock = nil;
+    self.foc = nil;
+    self.testers = nil;
     if (self.discount != nil) { self.discount = nil; }    
     if (self.description != nil) { self.description = nil; }
     if (self.price != nil) { self.price = nil; }

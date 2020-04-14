@@ -177,7 +177,7 @@
                             [contentRankingHashMap setObject:tmpAnswer forKey:tmpAnswer];
                         }                        
                     }
-                    [anObject setObject:tmpAnswer forKey:@"Answer"];
+                    [anObject setObject:[ArcosUtils convertNilToEmpty:tmpAnswer] forKey:@"Answer"];
                     [anObject setObject:[responseDict objectForKey:@"IUR"] forKey:@"ResponseIUR"];
 //                    NSLog(@"anObject after %@",anObject);
                     if ([[anObject objectForKey:@"QuestionType"] intValue] == 12 && ![tmpAnswer isEqualToString:@""]) {
