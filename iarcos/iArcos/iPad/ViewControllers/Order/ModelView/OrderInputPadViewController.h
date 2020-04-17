@@ -35,11 +35,27 @@
     UITextField* _unitPriceField;
     IBOutlet UILabel* unitPrice;
     
+    UIButton* _sevenButton;
+    UIButton* _eightButton;
+    UIButton* _nineButton;
+    UIButton* _fourButton;
+    UIButton* _fiveButton;
+    UIButton* _sixButton;
+    UIButton* _oneButton;
+    UIButton* _twoButton;
+    UIButton* _threeButton;
+    UIButton* _zeroButton;
+//    UIButton* _dotButton;
+    UIButton* _deleteButton;
+    UIButton* _clearButton;
+    UIButton* _doneButton;
     IBOutlet UIButton* dotButton;
     
     //labels
+    UILabel* _qtyLabel;
     IBOutlet UILabel* BonusLabel;
     IBOutlet UILabel* DiscountLabel;
+    UILabel* _valueLabel;
     
     BOOL isDetaillingType;
     IBOutlet UITextField* InStockField;//Qty SplitPack UnitPerPack
@@ -107,6 +123,21 @@
 @property(nonatomic,retain) IBOutlet UITextField* QTYField;
 @property(nonatomic,retain) IBOutlet UITextField* BonusField;
 @property(nonatomic,retain) IBOutlet UITextField* DiscountField;
+
+@property(nonatomic, retain) IBOutlet UIButton* sevenButton;
+@property(nonatomic, retain) IBOutlet UIButton* eightButton;
+@property(nonatomic, retain) IBOutlet UIButton* nineButton;
+@property(nonatomic, retain) IBOutlet UIButton* fourButton;
+@property(nonatomic, retain) IBOutlet UIButton* fiveButton;
+@property(nonatomic, retain) IBOutlet UIButton* sixButton;
+@property(nonatomic, retain) IBOutlet UIButton* oneButton;
+@property(nonatomic, retain) IBOutlet UIButton* twoButton;
+@property(nonatomic, retain) IBOutlet UIButton* threeButton;
+@property(nonatomic, retain) IBOutlet UIButton* zeroButton;
+//@property(nonatomic, retain) IBOutlet UIButton* dotButton;
+@property(nonatomic, retain) IBOutlet UIButton* deleteButton;
+@property(nonatomic, retain) IBOutlet UIButton* clearButton;
+@property(nonatomic, retain) IBOutlet UIButton* doneButton;
 @property(nonatomic,retain) IBOutlet UIButton* dotButton;
 
 @property(nonatomic,retain)     IBOutlet UITextField* ValueField;
@@ -118,8 +149,10 @@
 @property(nonatomic,retain)    IBOutlet UILabel* unitPrice;
 
 //labels
+@property(nonatomic,retain) IBOutlet UILabel* qtyLabel;
 @property(nonatomic,retain) IBOutlet UILabel* BonusLabel;
 @property(nonatomic,retain) IBOutlet UILabel* DiscountLabel;
+@property(nonatomic,retain) IBOutlet UILabel* valueLabel;
 
 @property(nonatomic,assign)  BOOL isDetaillingType;
 @property(nonatomic,retain) IBOutlet UITextField* InStockField;

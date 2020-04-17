@@ -34,7 +34,13 @@
                 <outlet property="bonus25" destination="eyh-q8-Mk0" id="LA7-WK-uxL"/>
                 <outlet property="bonusDealContentInterpreter" destination="Txt-Xb-LfT" id="DiE-CK-Qtv"/>
                 <outlet property="bottomDivider" destination="oVv-IS-RUz" id="qfF-ox-NGM"/>
+                <outlet property="clearButton" destination="25" id="fLs-TA-DMP"/>
+                <outlet property="deleteButton" destination="24" id="Kdp-yk-wVu"/>
+                <outlet property="doneButton" destination="26" id="J02-zR-T79"/>
                 <outlet property="dotButton" destination="23" id="51"/>
+                <outlet property="eightButton" destination="14" id="H8X-UX-80X"/>
+                <outlet property="fiveButton" destination="17" id="ZB9-RT-dRT"/>
+                <outlet property="fourButton" destination="16" id="kN2-yo-Sg0"/>
                 <outlet property="instockRBLabel" destination="8Hf-iC-oTz" id="Jjo-6r-tKw"/>
                 <outlet property="instockRBTextField" destination="QTv-2Z-pZg" id="Vm3-jU-Z19"/>
                 <outlet property="leftDivider" destination="8bH-2L-Bdh" id="mNg-Bt-dJv"/>
@@ -51,6 +57,8 @@
                 <outlet property="mon23" destination="Or4-ra-bgQ" id="Hla-Gd-Fzk"/>
                 <outlet property="mon24" destination="az8-Rz-XoR" id="lKK-gl-Z9O"/>
                 <outlet property="mon25" destination="iKx-OO-A69" id="feV-ol-teC"/>
+                <outlet property="nineButton" destination="15" id="0Nz-1Q-DQJ"/>
+                <outlet property="oneButton" destination="19" id="MrB-it-YIp"/>
                 <outlet property="priceChangeButton" destination="eCO-jx-eFh" id="T5q-A2-Vh0"/>
                 <outlet property="productName" destination="56" id="57"/>
                 <outlet property="qty13" destination="Jsv-8H-aez" id="b3x-Ro-hvz"/>
@@ -67,10 +75,17 @@
                 <outlet property="qty24" destination="5q4-5p-geZ" id="kdq-6B-ZV3"/>
                 <outlet property="qty25" destination="ITH-9w-Bpp" id="6l1-3k-SqS"/>
                 <outlet property="qtyHeader" destination="Lka-4f-KX7" id="59h-OW-FCB"/>
+                <outlet property="qtyLabel" destination="5" id="3mS-6I-kfY"/>
                 <outlet property="sectionDivider" destination="Sav-9r-m7C" id="6tn-hA-WAL"/>
+                <outlet property="sevenButton" destination="11" id="kFs-Mv-m8t"/>
+                <outlet property="sixButton" destination="18" id="Vwl-jt-ayf"/>
+                <outlet property="threeButton" destination="21" id="iEn-A6-mpJ"/>
+                <outlet property="twoButton" destination="20" id="Z99-zg-N25"/>
                 <outlet property="unitPriceField" destination="twI-gu-Pkn" id="hsy-tr-XQA"/>
                 <outlet property="unitPriceTitleLabel" destination="59" id="fCt-2I-f1T"/>
+                <outlet property="valueLabel" destination="53" id="gES-eW-Jjy"/>
                 <outlet property="view" destination="4" id="27"/>
+                <outlet property="zeroButton" destination="22" id="rcC-b0-BIg"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

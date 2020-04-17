@@ -23,6 +23,21 @@
 @synthesize  QTYField;
 @synthesize  BonusField;
 @synthesize  DiscountField;
+
+@synthesize sevenButton = _sevenButton;
+@synthesize eightButton = _eightButton;
+@synthesize nineButton = _nineButton;
+@synthesize fourButton = _fourButton;
+@synthesize fiveButton = _fiveButton;
+@synthesize sixButton = _sixButton;
+@synthesize oneButton = _oneButton;
+@synthesize twoButton = _twoButton;
+@synthesize threeButton = _threeButton;
+@synthesize zeroButton = _zeroButton;
+//@synthesize dotButton = _dotButton;
+@synthesize deleteButton = _deleteButton;
+@synthesize clearButton = _clearButton;
+@synthesize doneButton = _doneButton;
 @synthesize  dotButton;
 @synthesize ValueField;
 @synthesize currentTextField = _currentTextField;
@@ -31,8 +46,10 @@
 @synthesize unitPriceTitleLabel = _unitPriceTitleLabel;
 @synthesize unitPriceField = _unitPriceField;
 @synthesize unitPrice;
+@synthesize qtyLabel = _qtyLabel;
 @synthesize BonusLabel;
 @synthesize DiscountLabel;
+@synthesize valueLabel = _valueLabel;
 @synthesize isDetaillingType;
 @synthesize InStockField;
 @synthesize FOCField;
@@ -118,9 +135,26 @@
     self.unitPriceTitleLabel = nil;
     self.unitPriceField = nil;
     if (self.unitPrice != nil) { self.unitPrice = nil; }
+    
+    self.sevenButton = nil;
+    self.eightButton = nil;
+    self.nineButton = nil;
+    self.fourButton = nil;
+    self.fiveButton = nil;
+    self.sixButton = nil;
+    self.oneButton = nil;
+    self.twoButton = nil;
+    self.threeButton = nil;
+    self.zeroButton = nil;
+//    self.dotButton = nil;
+    self.deleteButton = nil;
+    self.clearButton = nil;
+    self.doneButton = nil;
     if (self.dotButton != nil) { self.dotButton = nil; }
+    self.qtyLabel = nil;
     if (self.BonusLabel != nil) { self.BonusLabel = nil; }    
     if (self.DiscountLabel != nil) { self.DiscountLabel = nil; }
+    self.valueLabel = nil;
     if (self.InStockField != nil) { self.InStockField = nil; } 
     if (self.FOCField != nil) { self.FOCField = nil; }
 //    self.locationIUR = nil;
