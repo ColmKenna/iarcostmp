@@ -206,6 +206,9 @@
     self.bonus13 = nil;
     
     self.instockRBLabel = nil;
+    for (UIGestureRecognizer* recognizer in self.instockRBTextField.gestureRecognizers) {
+        [self.instockRBTextField removeGestureRecognizer:recognizer];
+    }
     self.instockRBTextField = nil;
     self.vansOrderHeader = nil;
     self.priceChangeButton = nil;
@@ -513,6 +516,14 @@
     [singleTap4 release];
     [singleTap5 release];
     */
+    UITapGestureRecognizer* doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapGesture:)];
+    doubleTap.numberOfTapsRequired = 2;
+    [self.instockRBTextField addGestureRecognizer:doubleTap];
+    [doubleTap release];
+}
+
+- (void)handleDoubleTapGesture:(id)sender {
+    self.instockRBTextField.text = @"-1";
 }
 
 - (void)viewDidUnload
@@ -592,6 +603,9 @@
     //current value is 0
     if ([firstChar isEqualToString:@"0"]) {
         qtyString=@"";
+    }
+    if ([firstChar isEqualToString:@"-"] && [qtyString isEqualToString:@"-0"]) {
+        qtyString=@"-";
     }
     
     //append the qty value
@@ -893,7 +907,7 @@
     
     //reset data
     if (([qty intValue]<=0 || qty ==nil) && ([bonus intValue]<=0 || bonus==nil) 
-        && ([inStock intValue] <= 0 || inStock == nil) && ([foc intValue] <= 0 || foc == nil)){
+        && ([inStock intValue] == 0 || inStock == nil) && ([foc intValue] <= 0 || foc == nil)){
         [self.Data setObject:[NSNumber numberWithInt:0]  forKey:@"Qty"];
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
 //        [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"DiscountPercent"];

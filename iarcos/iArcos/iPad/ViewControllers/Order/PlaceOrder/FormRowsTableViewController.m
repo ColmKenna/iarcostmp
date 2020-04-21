@@ -463,7 +463,7 @@
     NSNumber* inStock = [cellData objectForKey:@"InStock"];
     NSNumber* FOC = [cellData objectForKey:@"FOC"];    
     
-    if (([qty intValue]<=0 ||qty==nil) && ([inStock intValue]<=0 || inStock == nil) && ([bonus intValue]<=0 || bonus==nil) && ([FOC intValue]<=0 || FOC == nil)) {
+    if (([qty intValue]<=0 ||qty==nil) && ([inStock intValue]==0 || inStock == nil) && ([bonus intValue]<=0 || bonus==nil) && ([FOC intValue]<=0 || FOC == nil)) {
         cell.qty.text=@"";
         cell.value.text=@"";
 //        cell.discount.text=@"";
@@ -920,7 +920,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     NSNumber* inStock = [anOrderPadFormRow objectForKey:@"InStock"];
     NSNumber* FOC = [anOrderPadFormRow objectForKey:@"FOC"];
     
-    if (([qty intValue]<=0 ||qty==nil) && ([inStock intValue]<=0 || inStock == nil) && ([bonus intValue]<=0 || bonus==nil) && ([FOC intValue]<=0 || FOC == nil)) {
+    if (([qty intValue]<=0 ||qty==nil) && ([inStock intValue]==0 || inStock == nil) && ([bonus intValue]<=0 || bonus==nil) && ([FOC intValue]<=0 || FOC == nil)) {
         if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && !priceFlagBoolean) {
             [anOrderPadFormRow setObject:[ArcosUtils convertNilToZero:auxDefaultPercent] forKey:@"DiscountPercent"];
         } else if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && priceFlagBoolean) {
@@ -1179,7 +1179,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 //    self.inputPopover = [self.orderPopoverGeneratorProcessorDelegate createOrderPopoverWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR factory:self.factory];
 //    self.inputPopover.delegate = self;
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
-        self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].pxDbName]) {
+            self.inputPopover = [self.factory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        } else {
+            self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        }        
         WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
         wvc.Data = aCell.data;
     } else {

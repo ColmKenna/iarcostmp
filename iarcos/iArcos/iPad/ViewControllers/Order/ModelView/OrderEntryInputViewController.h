@@ -51,6 +51,7 @@
     UITableView* _matTableView;
     OrderInputPadDataManager* _orderInputPadDataManager;
     OrderEntryInputMatHeaderView* _orderEntryInputMatHeaderView;
+    UIColor* _myTableBorderColor;
 }
 
 @property(nonatomic, retain) IBOutlet UINavigationBar* myNavigationBar;
@@ -90,6 +91,7 @@
 @property(nonatomic, retain) IBOutlet UITableView* matTableView;
 @property(nonatomic, retain) OrderInputPadDataManager* orderInputPadDataManager;
 @property(nonatomic, retain) IBOutlet OrderEntryInputMatHeaderView* orderEntryInputMatHeaderView;
+@property(nonatomic, retain) UIColor* myTableBorderColor;
 
 - (IBAction)numberKeyTouched:(id)sender;
 - (IBAction)functionKeyTouched:(id)sender;

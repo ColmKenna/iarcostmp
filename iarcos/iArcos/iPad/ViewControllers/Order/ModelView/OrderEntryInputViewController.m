@@ -50,6 +50,7 @@
 @synthesize matTableView = _matTableView;
 @synthesize orderInputPadDataManager = _orderInputPadDataManager;
 @synthesize orderEntryInputMatHeaderView = _orderEntryInputMatHeaderView;
+@synthesize myTableBorderColor = _myTableBorderColor;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -64,8 +65,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.textFieldList = [NSArray arrayWithObjects:self.qtyTextField, self.bonusTextField, self.focTextField, self.inStockTextField, self.testersTextField, self.valueTextField, self.unitPriceTextField, nil];
-    UIColor* myColor = [UIColor colorWithRed:135.0/255.0f green:206.0/255.0f blue:250.0/255.0f alpha:1.0f];
-    [self.matTableView.layer setBorderColor:[myColor CGColor]];
+    self.myTableBorderColor = [UIColor colorWithRed:135.0/255.0f green:206.0/255.0f blue:250.0/255.0f alpha:1.0f];
+    [self.matTableView.layer setBorderColor:[self.myTableBorderColor CGColor]];
     [self.matTableView.layer setBorderWidth:1.0];
     if ([self.matTableView respondsToSelector:@selector(setSeparatorInset:)]) {
         [self.matTableView setSeparatorInset:UIEdgeInsetsZero];
@@ -74,7 +75,7 @@
     if ([self.matTableView respondsToSelector:@selector(setLayoutMargins:)]) {
         [self.matTableView setLayoutMargins:UIEdgeInsetsZero];
     }
-    [self.matTableView setSeparatorColor:myColor];
+    [self.matTableView setSeparatorColor:self.myTableBorderColor];
 }
 
 - (void)dealloc {
@@ -115,6 +116,7 @@
     self.matTableView = nil;
     self.orderInputPadDataManager = nil;
     self.orderEntryInputMatHeaderView = nil;
+    self.myTableBorderColor = nil;
     [super dealloc];
 }
 
@@ -357,7 +359,7 @@
     
 
     if (([qty intValue]<=0 || qty ==nil) && ([bonus intValue]<=0 || bonus==nil)
-        && ([inStock intValue] <= 0 || inStock == nil) && ([foc intValue] <= 0 || foc == nil) && ([testers intValue] <= 0 || testers == nil)) {
+        && ([inStock intValue] == 0 || inStock == nil) && ([foc intValue] <= 0 || foc == nil) && ([testers intValue] <= 0 || testers == nil)) {
         [self.Data setObject:[NSNumber numberWithInt:0]  forKey:@"Qty"];
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"LineValue"];

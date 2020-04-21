@@ -20,6 +20,7 @@
     NSString* _productCode;
     CallGenericServices* _callGenericServices;
     UIImage* _mediumImage;
+    BOOL _showMediumImageExclusively;
 }
 
 @property(nonatomic, retain) IBOutlet UIImageView* bigProductCodeImageView;
@@ -29,5 +30,6 @@
 @property(nonatomic, retain) NSString* productCode;
 @property(nonatomic, retain) CallGenericServices* callGenericServices;
 @property(nonatomic, retain) UIImage* mediumImage;
+@property(nonatomic, assign) BOOL showMediumImageExclusively;
 
 @end

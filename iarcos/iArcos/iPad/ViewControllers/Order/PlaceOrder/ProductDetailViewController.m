@@ -49,6 +49,9 @@
     if (self.callGenericServices != nil) { self.callGenericServices = nil; }
     if (self.productIUR != nil) { self.productIUR = nil; }
     self.locationIUR = nil;
+    for (UIGestureRecognizer* recognizer in self.productCodeImageView.gestureRecognizers) {
+        [self.productCodeImageView removeGestureRecognizer:recognizer];
+    }
     if (self.productCodeImageView != nil) { self.productCodeImageView = nil; }
     self.productCodeButtonView = nil;
     if (self.levelTableView != nil) { self.levelTableView = nil; }
@@ -91,6 +94,14 @@
     self.view.backgroundColor = [UIColor colorWithRed:211.0/255.0 green:215.0/255.0 blue:221.0/255.0 alpha:1.0];
     self.productCodeButtonView.layer.borderWidth = 1.0f;
     [self.productCodeButtonView.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
+    UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(drilldownTapGesture)];
+    [self.productCodeButtonView addGestureRecognizer:singleTap];
+    UITapGestureRecognizer* doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapGesture)];
+    doubleTap.numberOfTapsRequired = 2;
+    [self.productCodeButtonView addGestureRecognizer:doubleTap];
+    [singleTap requireGestureRecognizerToFail:doubleTap];
+    [doubleTap release];
+    [singleTap release];
 
     self.levelTableView.layer.cornerRadius = 10.0f;
     self.stockTableView.layer.cornerRadius = 10.0f;
@@ -138,6 +149,22 @@
         [self.navigationItem setLeftBarButtonItem:closeButton];
         [closeButton release];
     }
+}
+
+- (void)drilldownTapGesture {
+    ProductDetailImageViewController* pdivc = [[ProductDetailImageViewController alloc] initWithNibName:@"ProductDetailImageViewController" bundle:nil];
+    pdivc.showMediumImageExclusively = YES;
+    pdivc.productCode = self.productDetailDataManager.productCode;
+    pdivc.mediumImage = self.mediumImage;
+    [self.navigationController pushViewController:pdivc animated:YES];
+    [pdivc release];
+}
+
+- (void)handleDoubleTapGesture {
+    ProductDetailImageViewController* pdivc = [[ProductDetailImageViewController alloc] initWithNibName:@"ProductDetailImageViewController" bundle:nil];
+    pdivc.productCode = self.productDetailDataManager.productCode;
+    [self.navigationController pushViewController:pdivc animated:YES];
+    [pdivc release];
 }
 
 - (void)viewDidUnload

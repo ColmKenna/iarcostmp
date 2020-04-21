@@ -38,4 +38,5 @@
 +(NSNumber*)defaultOrderSentStatus;
 +(BOOL)restrictOrderForm;
 +(NSString*)arcosAdminEmail;
++(NSString*)databaseName;
 @end

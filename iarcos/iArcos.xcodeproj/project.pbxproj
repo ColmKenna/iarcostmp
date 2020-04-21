@@ -20,6 +20,10 @@
 		18962C52241DD57B00FD763F /* OrderEntryInputMatHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18962C51241DD57B00FD763F /* OrderEntryInputMatHeaderView.m */; };
 		18D03A49243C7320004D9035 /* office_365.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D03A47243C731F004D9035 /* office_365.png */; };
 		18D03A4A243C7320004D9035 /* office_365@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D03A48243C731F004D9035 /* office_365@2x.png */; };
+		18D0DD012446A3E00004BC45 /* OrderEntryInputRightHandSideHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D0DD002446A3E00004BC45 /* OrderEntryInputRightHandSideHeaderView.m */; };
+		18D0DD052446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D0DD032446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.m */; };
+		18D0DD062446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D0DD042446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.xib */; };
+		18D0DD092446AC0E0004BC45 /* OrderEntryInputRightHandSideGridDelegateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D0DD082446AC0E0004BC45 /* OrderEntryInputRightHandSideGridDelegateController.m */; };
 		18D296D023B741CE00047B5C /* ArcosConstantsDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D296CF23B741CE00047B5C /* ArcosConstantsDataManager.m */; };
 		18D6A2FF23BCD0F2001B55F3 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D6A2FE23BCD0F2001B55F3 /* MSAL.framework */; };
 		18D9B17A2418C82D0080DBA2 /* OrderInputPadPopoverGeneratorProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D9B1792418C82D0080DBA2 /* OrderInputPadPopoverGeneratorProcessor.m */; };
@@ -1816,6 +1820,14 @@
 		18C2CE4A243496B900BCDDF8 /* UtilitiesConfigurationTableViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UtilitiesConfigurationTableViewControllerDelegate.h; sourceTree = "<group>"; };
 		18D03A47243C731F004D9035 /* office_365.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = office_365.png; sourceTree = "<group>"; };
 		18D03A48243C731F004D9035 /* office_365@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "office_365@2x.png"; sourceTree = "<group>"; };
+		18D0DCFF2446A3E00004BC45 /* OrderEntryInputRightHandSideHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderEntryInputRightHandSideHeaderView.h; sourceTree = "<group>"; };
+		18D0DD002446A3E00004BC45 /* OrderEntryInputRightHandSideHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderEntryInputRightHandSideHeaderView.m; sourceTree = "<group>"; };
+		18D0DD022446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderEntryInputRightHandSideTableViewCell.h; sourceTree = "<group>"; };
+		18D0DD032446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderEntryInputRightHandSideTableViewCell.m; sourceTree = "<group>"; };
+		18D0DD042446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderEntryInputRightHandSideTableViewCell.xib; sourceTree = "<group>"; };
+		18D0DD072446AC0E0004BC45 /* OrderEntryInputRightHandSideGridDelegateController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderEntryInputRightHandSideGridDelegateController.h; sourceTree = "<group>"; };
+		18D0DD082446AC0E0004BC45 /* OrderEntryInputRightHandSideGridDelegateController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderEntryInputRightHandSideGridDelegateController.m; sourceTree = "<group>"; };
+		18D0DD0A2446AC280004BC45 /* OrderEntryInputRightHandSideGridDelegateControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderEntryInputRightHandSideGridDelegateControllerDelegate.h; sourceTree = "<group>"; };
 		18D296CE23B741CE00047B5C /* ArcosConstantsDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosConstantsDataManager.h; sourceTree = "<group>"; };
 		18D296CF23B741CE00047B5C /* ArcosConstantsDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosConstantsDataManager.m; sourceTree = "<group>"; };
 		18D6A2FE23BCD0F2001B55F3 /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = Carthage/Build/iOS/MSAL.framework; sourceTree = "<group>"; };
@@ -6334,6 +6346,11 @@
 				185BDC32243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.h */,
 				185BDC33243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.m */,
 				185BDC34243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.xib */,
+				18D0DCFF2446A3E00004BC45 /* OrderEntryInputRightHandSideHeaderView.h */,
+				18D0DD002446A3E00004BC45 /* OrderEntryInputRightHandSideHeaderView.m */,
+				18D0DD072446AC0E0004BC45 /* OrderEntryInputRightHandSideGridDelegateController.h */,
+				18D0DD082446AC0E0004BC45 /* OrderEntryInputRightHandSideGridDelegateController.m */,
+				18D0DD0A2446AC280004BC45 /* OrderEntryInputRightHandSideGridDelegateControllerDelegate.h */,
 			);
 			path = ModelView;
 			sourceTree = "<group>";
@@ -6627,6 +6644,9 @@
 				18459845241D04F70005C919 /* OrderEntryInputMatTableViewCell.h */,
 				18459846241D04F70005C919 /* OrderEntryInputMatTableViewCell.m */,
 				18459847241D04F70005C919 /* OrderEntryInputMatTableViewCell.xib */,
+				18D0DD022446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.h */,
+				18D0DD032446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.m */,
+				18D0DD042446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.xib */,
 			);
 			path = TableCell;
 			sourceTree = "<group>";
@@ -8760,6 +8780,7 @@
 				636BC5E0219EE455006B18BF /* MeetingCostingsViewController.xib in Resources */,
 				630B3B7219F01CB9007B2442 /* CustomerFlagModalViewController.xib in Resources */,
 				630B34FF19F0171A007B2442 /* SubMenuPlaceHolderTableViewController.xib in Resources */,
+				18D0DD062446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.xib in Resources */,
 				630B3E2719F01CB9007B2442 /* Utilities.png in Resources */,
 				630B3E1219F01CB9007B2442 /* PresenterIcon.png in Resources */,
 				630B3C9C19F01CB9007B2442 /* L5L3SearchFormRowsTableViewController.xib in Resources */,
@@ -9109,7 +9130,9 @@
 				639CAE741CFC7EE800D7246C /* GetRecordTypeGenericDecimalObject.m in Sources */,
 				6303EB63231D6B8500EC21A8 /* OrderPadFooterViewDataManager.m in Sources */,
 				630B3B2B19F01CB9007B2442 /* PresenterSlideViewItemController.m in Sources */,
+				18D0DD092446AC0E0004BC45 /* OrderEntryInputRightHandSideGridDelegateController.m in Sources */,
 				630B3C4E19F01CB9007B2442 /* ImageL5FormRowsTableViewController.m in Sources */,
+				18D0DD012446A3E00004BC45 /* OrderEntryInputRightHandSideHeaderView.m in Sources */,
 				630B3C0619F01CB9007B2442 /* OrderDetailCallEmailActionDataManager.m in Sources */,
 				638A42C02191FF0C006F993B /* MeetingMiscDataManager.m in Sources */,
 				6314EF341EDDC17300488950 /* CustomerSurveySegmentedControlTableCell.m in Sources */,
@@ -9229,6 +9252,7 @@
 				63E666891F4DDF100043F193 /* ArcosLineSegment.m in Sources */,
 				630B3D5119F01CB9007B2442 /* UtilitiesSettingDetailViewController.m in Sources */,
 				632BB2671A07DED2005491DD /* CustomerIarcosSavedOrderDataManager.m in Sources */,
+				18D0DD052446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.m in Sources */,
 				63243F2B1A1A3B2800AF7D2B /* TwoBigImageLevelCodeDataManager.m in Sources */,
 				630B3D9819F01CB9007B2442 /* ArcosConfig.m in Sources */,
 				630B3C9B19F01CB9007B2442 /* L5L3SearchFormRowsTableViewController.m in Sources */,
@@ -10284,7 +10308,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 6.2.7;
+				MARKETING_VERSION = 6.2.10;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10299,7 +10323,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "6bf186ca-3030-49b7-b78a-3246afaeb9fc";
-				PROVISIONING_PROFILE_SPECIFIER = iArcosDevelopmentCenter06022020_Apple;
+				PROVISIONING_PROFILE_SPECIFIER = iArcosDevelopmentCenter16042020_Apple;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
@@ -10340,7 +10364,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 6.2.7;
+				MARKETING_VERSION = 6.2.10;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -10476,7 +10500,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 6.2.7;
+				MARKETING_VERSION = 6.2.10;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10491,7 +10515,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4a2d26cb-4c25-4fc4-a9fe-d2be993ec50d";
-				PROVISIONING_PROFILE_SPECIFIER = iArcosDistributionCenter06022020_Apple;
+				PROVISIONING_PROFILE_SPECIFIER = iArcosDistributionCenter16042020_Apple;
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = AdHoc;

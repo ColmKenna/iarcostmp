@@ -252,8 +252,13 @@
 }
 +(NSString*)arcosAdminEmail {
     SettingManager* sm=[SettingManager setting];
-    NSMutableDictionary* sentOrderStatus=[sm getSettingForKeypath:@"CompanySetting.Connection" atIndex:7];
-    return [sentOrderStatus objectForKey:@"Value"];
+    NSMutableDictionary* arcosAdminEmailDict=[sm getSettingForKeypath:@"CompanySetting.Connection" atIndex:7];
+    return [arcosAdminEmailDict objectForKey:@"Value"];
+}
++(NSString*)databaseName {
+    SettingManager* sm=[SettingManager setting];
+    NSMutableDictionary* databaseNameDict=[sm getSettingForKeypath:@"CompanySetting.Connection" atIndex:3];
+    return [[databaseNameDict objectForKey:@"Value"] uppercaseString];
 }
 
 -(void)dealloc{    

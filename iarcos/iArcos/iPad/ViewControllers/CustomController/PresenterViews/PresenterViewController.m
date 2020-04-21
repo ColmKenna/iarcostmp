@@ -361,7 +361,12 @@
         //[[OrderSharedClass sharedOrderSharedClass]syncAllSelectionsWithRowData:formRow];
         BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
-            self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].pxDbName]) {
+                self.inputPopover = [self.factory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            } else {
+                self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            }
+            
             WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
             wvc.Data = formRow;
         } else {
@@ -440,7 +445,12 @@
         //[[OrderSharedClass sharedOrderSharedClass]syncAllSelectionsWithRowData:formRow];
         BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
-            self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].pxDbName]) {
+                self.inputPopover = [self.factory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            } else {
+                self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            }
+            
             WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
             wvc.Data = formRow;
         } else {

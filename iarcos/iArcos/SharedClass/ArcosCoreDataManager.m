@@ -31,7 +31,8 @@
     Product.UnitsPerPack = [ArcosUtils convertStringToNumber:anObject.Field12];
     
     Product.FOrDetailing = [NSNumber numberWithBool: [ArcosUtils convertStringToBool:anObject.Field13]];
-    Product.SamplesAvailable = [NSNumber numberWithBool: [ArcosUtils convertStringToBool:anObject.Field14]];
+    Product.SamplesAvailable = [ArcosUtils convertStringToNumber:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:anObject.Field14]]];
+    //[NSNumber numberWithBool: [ArcosUtils convertStringToBool:anObject.Field14]];
     Product.ForSampling = [NSNumber numberWithBool: [ArcosUtils convertStringToBool:anObject.Field15]];
     Product.Scoreprocedure = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field16]];
     @try {

@@ -113,6 +113,7 @@ static GlobalSharedClass* _shared = nil;
 @synthesize mailTimeout = _mailTimeout;
 @synthesize tildeDelimiter = _tildeDelimiter;
 @synthesize issuesText = _issuesText;
+@synthesize pxDbName = _pxDbName;
 
 +(GlobalSharedClass*)shared 
 {
@@ -232,6 +233,7 @@ static GlobalSharedClass* _shared = nil;
         self.mailTimeout = 150;
         self.tildeDelimiter = @"~";
         self.issuesText = @"Issues";
+        self.pxDbName = @"PX19";
 	}
     
 	return self;
@@ -566,6 +568,7 @@ CGFloat RadiansToDegrees(CGFloat radians)
     self.ieLocale = nil;
     self.tildeDelimiter = nil;
     self.issuesText = nil;
+    self.pxDbName = nil;
     
     [super dealloc];
 }

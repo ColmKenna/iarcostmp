@@ -371,7 +371,6 @@
 
 #pragma mark UtilitiesConfigurationTableViewControllerDelegate
 - (void)didSaveButtonPressed {
-    NSLog(@"didSaveButtonPressed");
     [self createTableList];
     [self.theTableView reloadData];
 }

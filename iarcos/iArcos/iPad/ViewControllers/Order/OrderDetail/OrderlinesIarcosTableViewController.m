@@ -176,7 +176,12 @@
         CGRect aRect = CGRectMake(parentNavigationRect.size.width-10, parentNavigationRect.size.height, 1, 1);
         BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:self.formIUR];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
-            self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:self.locationIUR];
+            if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].pxDbName]) {
+                self.inputPopover = [self.factory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:self.locationIUR];
+            } else {
+                self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:self.locationIUR];
+            }
+            
             WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
             wvc.Data = [self.displayList objectAtIndex:swipedIndexPath.row];
             wvc.isWidgetEditable = self.isCellEditable;

@@ -17,6 +17,7 @@
 #import "DatePickerHourMinuteWidgetViewController.h"
 #import "TableGenericMSWidgetViewController.h"
 #import "OrderEntryInputViewController.h"
+#import "OrderEntryInputRightHandSideGridViewController.h"
 typedef enum {
     WidgetDataSourceDeliveryDate = 0,
     WidgetDataSourceOrderDate,
@@ -69,6 +70,7 @@ typedef enum {
 -(UIPopoverController*)CreateNumberWidgetWithType:(NumberWidgetType)type;
 -(UIPopoverController*)CreateOrderInputPadWidgetWithLocationIUR:(NSNumber*)aLocationIUR;
 -(UIPopoverController*)CreateOrderEntryInputWidgetWithLocationIUR:(NSNumber*)aLocationIUR;
+-(UIPopoverController*)CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:(NSNumber*)aLocationIUR;
 -(UIPopoverController*)CreateDetaillingInputPadWidgetWithProductName:(NSString*)aProductName WithQty:(NSNumber*)aQty;
 -(PickerWidgetViewController*)getSampleBatchesPickerWidget;
 

@@ -563,7 +563,12 @@
 //    self.thePopover = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
 //    self.thePopover.delegate = self;
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
-        self.thePopover = [self.widgetFactory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].pxDbName]) {
+            self.thePopover = [self.widgetFactory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        } else {
+            self.thePopover = [self.widgetFactory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        }
+        
         WidgetViewController* wvc = (WidgetViewController*)self.thePopover.contentViewController;
         wvc.Data = aCellDict;
     } else {

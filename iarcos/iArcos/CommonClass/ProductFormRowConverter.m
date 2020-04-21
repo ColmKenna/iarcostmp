@@ -215,11 +215,11 @@
     NSNumber* foc = [aFormRowDict objectForKey:@"FOC"];
     NSNumber* testers = [aFormRowDict objectForKey:@"Testers"];
     if (![[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag] && ([qty intValue] <= 0 || qty == nil) && ([bonus intValue] <= 0 || bonus==nil)
-        && ([inStock intValue] <= 0 || inStock == nil) && ([foc intValue] <= 0 || foc == nil)){
+        && ([inStock intValue] == 0 || inStock == nil) && ([foc intValue] <= 0 || foc == nil)){
         return NO;
     }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag] && ([qty intValue] <= 0 || qty == nil) && ([bonus intValue] <= 0 || bonus==nil)
-        && ([inStock intValue] <= 0 || inStock == nil) && ([foc intValue] <= 0 || foc == nil) && ([testers intValue] <= 0 || testers == nil)){
+        && ([inStock intValue] == 0 || inStock == nil) && ([foc intValue] <= 0 || foc == nil) && ([testers intValue] <= 0 || testers == nil)){
         return NO;
     }
     return YES;

@@ -270,7 +270,7 @@
     NSNumber* inStock = [cellData objectForKey:@"InStock"];
     NSNumber* FOC = [cellData objectForKey:@"FOC"];    
     
-    if (([qty intValue]<=0 ||qty==nil) && ([inStock intValue]<=0 || inStock == nil) && ([bonus intValue]<=0 || bonus==nil) && ([FOC intValue]<=0 || FOC == nil)) {
+    if (([qty intValue]<=0 ||qty==nil) && ([inStock intValue]==0 || inStock == nil) && ([bonus intValue]<=0 || bonus==nil) && ([FOC intValue]<=0 || FOC == nil)) {
         cell.qty.text=@"";
         cell.value.text=@"";
         cell.discount.text=@"";
@@ -422,7 +422,12 @@
         NSIndexPath* swipedIndexPath = [ArcosUtils indexPathWithRecognizer:reconizer tableview:self.tableView];
         aCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:swipedIndexPath];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
-            self.inputPopover = [self.widgetFactory CreateOrderEntryInputWidgetWithLocationIUR:self.locationIUR];
+            if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].pxDbName]) {
+                self.inputPopover = [self.widgetFactory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:self.locationIUR];
+            } else {
+                self.inputPopover = [self.widgetFactory CreateOrderEntryInputWidgetWithLocationIUR:self.locationIUR];
+            }
+            
             WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
             wvc.Data = aCell.data;
         } else {

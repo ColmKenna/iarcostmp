@@ -16,12 +16,14 @@
 @synthesize productCode = _productCode;
 @synthesize callGenericServices = _callGenericServices;
 @synthesize mediumImage = _mediumImage;
+@synthesize showMediumImageExclusively = _showMediumImageExclusively;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.showMediumImageExclusively = NO;
     }
     return self;
 }
@@ -111,6 +113,10 @@
         [self.HUD hide:YES];
     }    
     */
+    if (self.showMediumImageExclusively) {
+        self.bigProductCodeImageView.image = self.mediumImage;
+        return;
+    }
     NSString* largeImageName = [NSString stringWithFormat:@"L-%@.png",self.productCode];
     self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.navigationController.view] autorelease];
     [self.callGenericServices genericGetFromResourcesWithFileName:largeImageName action:@selector(setGenericGetFromResourcesResult:) target:self];
@@ -152,7 +158,7 @@
         anImage = [[[UIImage alloc] initWithData:myNSData] autorelease];
         self.bigProductCodeImageView.image = anImage;
     } else {
-        self.bigProductCodeImageView.image = self.mediumImage;
+//        self.bigProductCodeImageView.image = self.mediumImage;
         NSString* errorMsg = [NSString stringWithFormat:@"%@ not found.", [NSString stringWithFormat:@"L-%@.png",self.productCode]];
         [ArcosUtils showMsg:errorMsg delegate:nil];
     }    

@@ -220,6 +220,20 @@
     wvc.delegate=self;
     return self.popoverController;
 }
+-(UIPopoverController*)CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:(NSNumber*)aLocationIUR {
+    WidgetViewController* wvc = [[[OrderEntryInputRightHandSideGridViewController alloc] initWithNibName:@"OrderEntryInputRightHandSideGridViewController" bundle:nil] autorelease];
+    wvc.locationIUR = aLocationIUR;
+    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showMATWithQtyPopoverFlag]) {
+        self.popoverController.popoverContentSize = wvc.view.frame.size;
+    } else {
+        self.popoverController.popoverContentSize = CGSizeMake(598.0, wvc.view.frame.size.height);
+    }
+    
+    wvc.delegate=self;
+    return self.popoverController;
+}
+
 -(UIPopoverController*)CreateDetaillingInputPadWidgetWithProductName:(NSString*)aProductName WithQty:(NSNumber*)aQty{
     OrderInputPadViewController* oipvc=[[[OrderInputPadViewController alloc]initWithNibName:@"OrderInputPadViewController" bundle:nil]autorelease];
     
