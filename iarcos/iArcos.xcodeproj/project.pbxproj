@@ -30,7 +30,6 @@
 		18D9B17D2418C8450080DBA2 /* OrderEntryInputPopoverGeneratorProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D9B17C2418C8450080DBA2 /* OrderEntryInputPopoverGeneratorProcessor.m */; };
 		18DD38B6243ACF9200FA899B /* CustomerOrderDetailsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DD38B5243ACF9200FA899B /* CustomerOrderDetailsHeaderView.m */; };
 		18E8400D23BC74DB0083C0F4 /* ArcosAttachmentContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E8400C23BC74DA0083C0F4 /* ArcosAttachmentContainer.m */; };
-		18EF209823D9C6EA00F68C78 /* libMailCore-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18EF209723D9C6E900F68C78 /* libMailCore-ios.a */; };
 		18FDE4A123B9FEBA000BD4AA /* UtilitiesSignOutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FDE49F23B9FEBA000BD4AA /* UtilitiesSignOutViewController.m */; };
 		18FDE4A223B9FEBA000BD4AA /* UtilitiesSignOutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18FDE4A023B9FEBA000BD4AA /* UtilitiesSignOutViewController.xib */; };
 		630010882080EB4400FC2623 /* DashboardMainTemplateBaseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 630010872080EB4400FC2623 /* DashboardMainTemplateBaseButton.m */; };
@@ -4646,7 +4645,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18EF209823D9C6EA00F68C78 /* libMailCore-ios.a in Frameworks */,
 				18D6A2FF23BCD0F2001B55F3 /* MSAL.framework in Frameworks */,
 				630C821C20F65A7D004E2FD0 /* AVKit.framework in Frameworks */,
 				63F3293F205053C200471B1D /* JavaScriptCore.framework in Frameworks */,
@@ -10308,7 +10306,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 6.2.10;
+				MARKETING_VERSION = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10364,7 +10362,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 6.2.10;
+				MARKETING_VERSION = 7.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -10500,7 +10498,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 6.2.10;
+				MARKETING_VERSION = 7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

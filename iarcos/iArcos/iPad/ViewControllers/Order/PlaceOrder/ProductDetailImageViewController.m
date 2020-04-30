@@ -58,7 +58,7 @@
 //    self.HUD.dimBackground = YES;
 //    self.HUD.labelText = @"Loading";
 //    [self.navigationController.view addSubview:self.HUD];
-    
+    [ArcosUtils configEdgesForExtendedLayout:self];
 }
 
 - (void)viewDidUnload

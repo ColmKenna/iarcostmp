@@ -121,11 +121,16 @@
     NSNumber* configRecordQuantity = [[ArcosCoreData sharedArcosCoreData] entityRecordQuantity:@"Config"];
     ActivateAppStatusManager* appStatusManager = [ActivateAppStatusManager appStatusInstance];
     if ([configRecordQuantity intValue] == 0 && [appStatusManager getAppStatus].intValue == 0) {
-        ActivateTemplateViewController* activateTemplateViewController = [[ActivateTemplateViewController alloc] init];
-        activateTemplateViewController.presentDelegate = self;
-        activateTemplateViewController.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self presentViewController:activateTemplateViewController animated:NO completion:nil];
-        [activateTemplateViewController release];
+//        ActivateTemplateViewController* activateTemplateViewController = [[ActivateTemplateViewController alloc] init];
+//        activateTemplateViewController.presentDelegate = self;
+//        activateTemplateViewController.modalPresentationStyle = UIModalPresentationFullScreen;
+//        [self presentViewController:activateTemplateViewController animated:NO completion:nil];
+//        [activateTemplateViewController release];
+        ActivateEnterpriseViewController* activateEnterpriseViewController = [[ActivateEnterpriseViewController alloc] init];
+        activateEnterpriseViewController.presentDelegate = self;
+        activateEnterpriseViewController.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self presentViewController:activateEnterpriseViewController animated:NO completion:nil];
+        [activateEnterpriseViewController release];
     } else if([configRecordQuantity intValue] != 0 && [appStatusManager getAppStatus].intValue == 0) {//existing
         [appStatusManager saveActivateAppStatus];
     }

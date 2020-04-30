@@ -488,7 +488,7 @@
 }
 
 - (void)layoutMySubviews {
-    self.templateUIView.frame = CGRectMake(0.0, self.templateScrollView.frame.size.height / 2.0 - self.templateUIView.frame.size.height / 2.0, self.templateUIView.frame.size.width, self.templateUIView.frame.size.height);
+//    self.templateUIView.frame = CGRectMake(0.0, self.templateScrollView.frame.size.height / 2.0 - self.templateUIView.frame.size.height / 2.0, self.templateUIView.frame.size.width, self.templateUIView.frame.size.height);
 }
 
 @end
