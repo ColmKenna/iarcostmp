@@ -437,8 +437,9 @@
     } else {
         self.priceChangeButton.hidden = YES;
     }
-    if (!self.BonusField.hidden && self.BonusField.enabled && [[ArcosConfigDataManager sharedArcosConfigDataManager] disableBonusBoxWithPriceRecordFlag] && ([[self.Data objectForKey:@"PriceFlag"] intValue] == 1 || [[self.Data objectForKey:@"PriceFlag"] intValue] == 2)) {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] disableBonusBoxWithPriceRecordFlag] && ([[self.Data objectForKey:@"PriceFlag"] intValue] == 1 || [[self.Data objectForKey:@"PriceFlag"] intValue] == 2)) {
         self.BonusField.backgroundColor = [UIColor blackColor];
+        self.BonusField.text=@"0";
     } else {
         self.BonusField.backgroundColor = [UIColor whiteColor];
     }
@@ -1089,6 +1090,9 @@
     return [[self.Data objectForKey:@"BonusGiven"] intValue] != 0 && [[self.Data objectForKey:@"BonusRequired"] intValue] != 0;
 }
 - (void)checkBonusWithGivenRequiredSellBy {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] disableBonusBoxWithPriceRecordFlag] && ([[self.Data objectForKey:@"PriceFlag"] intValue] == 1 || [[self.Data objectForKey:@"PriceFlag"] intValue] == 2)) {
+        return;
+    }
     if (![self isBonusGivenAndBonusRequiredExistent] || self.currentTextField.tag != 0) return;
     
     switch ([[self.Data objectForKey:@"SellBy"] intValue]) {
@@ -1114,6 +1118,9 @@
     }
 }
 - (void)checkFocusBonusWithGivenRequiredSellByMinimum {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] disableBonusBoxWithPriceRecordFlag] && ([[self.Data objectForKey:@"PriceFlag"] intValue] == 1 || [[self.Data objectForKey:@"PriceFlag"] intValue] == 2)) {
+        return;
+    }
     if (![self isBonusGivenAndBonusRequiredExistent] || self.currentTextField.tag != 1) return;
     switch ([[self.Data objectForKey:@"SellBy"] intValue]) {
         case 4: {

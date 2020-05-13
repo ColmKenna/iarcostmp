@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SynthesizeSingleton.h"
+//#import "SynthesizeSingleton.h"
 #import "ArcosCoreData.h"
 #import "PaginatedUpdateCenter.h"
 #import "PaginatedRequestObjectProvider.h"
@@ -55,7 +55,7 @@
     RemoveRecordUpdateCenter* _removeRecordUpdateCenter;
 }
 + (WebServiceSharedClass *)sharedWebServiceSharedClass;
--(id)init;
+//-(id)init;
 
 @property(nonatomic,retain)     ArcosService* service;
 @property(nonatomic,assign)     BOOL isLoadingFinished;
