@@ -337,8 +337,8 @@
     NSMutableDictionary* descrDetailDictHashMap = [NSMutableDictionary dictionaryWithCapacity:[descrDetailDictList count]];
     for (int i = 0; i < [descrDetailDictList count]; i++) {        
         NSDictionary* auxDescrDetailDict = [descrDetailDictList objectAtIndex:i];
-        NSNumber* auxCodeType = [auxDescrDetailDict objectForKey:@"CodeType"];
-        if ([auxCodeType intValue] == 0) continue;
+//        NSNumber* auxCodeType = [auxDescrDetailDict objectForKey:@"CodeType"];
+//        if ([auxCodeType intValue] == 0) continue;
         NSNumber* auxDescrDetailIUR = [auxDescrDetailDict objectForKey:@"DescrDetailIUR"];
         NSNumber* auxImageIUR = [auxDescrDetailDict objectForKey:@"ImageIUR"];
         [descrDetailDictHashMap setObject:auxImageIUR forKey:auxDescrDetailIUR];

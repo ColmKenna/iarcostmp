@@ -14,6 +14,7 @@
 - (void)selectCustomerGroupAccessTimesRecord:(UILabel*)aLabel indexPath:(NSIndexPath*)anIndexPath;
 - (void)selectCustomerGroupNotSeenRecord:(UILabel*)aLabel indexPath:(NSIndexPath*)anIndexPath;
 - (void)selectCustomerGroupBuyingGroupRecord:(UILabel*)aLabel indexPath:(NSIndexPath*)anIndexPath;
+- (void)wholesalerCodeInputFinishedWithData:(NSString*)aData indexPath:(NSIndexPath*)anIndexPath;
 
 
 @end

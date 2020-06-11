@@ -18,6 +18,7 @@
 @synthesize accessTimesTableCellId = _accessTimesTableCellId;
 @synthesize notSeenTableCellId = _notSeenTableCellId;
 @synthesize buyingGroupTableCellId = _buyingGroupTableCellId;
+@synthesize wholesalerCodeTableCellId = _wholesalerCodeTableCellId;
 
 - (instancetype)init {
     self = [super init];
@@ -26,6 +27,7 @@
         self.accessTimesTableCellId = @"IdCustomerGroupAccessTimesTableViewCell";
         self.notSeenTableCellId = @"IdCustomerGroupNotSeenTableViewCell";
         self.buyingGroupTableCellId = @"IdCustomerGroupBuyingGroupTableViewCell";
+        self.wholesalerCodeTableCellId = @"IdCustomerGroupWholesalerCodeTableViewCell";
     }
     return self;
 }
@@ -39,6 +41,7 @@
     self.accessTimesTableCellId = nil;
     self.notSeenTableCellId = nil;
     self.buyingGroupTableCellId = nil;
+    self.wholesalerCodeTableCellId = nil;
     
     [super dealloc];
 }
@@ -58,6 +61,9 @@
             break;
         case 3:
             identifier = self.buyingGroupTableCellId;
+            break;
+        case 4:
+            identifier = self.wholesalerCodeTableCellId;
             break;
             
         default:

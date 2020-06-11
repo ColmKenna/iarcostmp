@@ -14,12 +14,14 @@
     NSString* _accessTimesTableCellId;
     NSString* _notSeenTableCellId;
     NSString* _buyingGroupTableCellId;
+    NSString* _wholesalerCodeTableCellId;
 }
 
 @property(nonatomic, retain) NSString* contactTableCellId;
 @property(nonatomic, retain) NSString* accessTimesTableCellId;
 @property(nonatomic, retain) NSString* notSeenTableCellId;
 @property(nonatomic, retain) NSString* buyingGroupTableCellId;
+@property(nonatomic, retain) NSString* wholesalerCodeTableCellId;
 
 + (instancetype)factory;
 - (NSString*)identifierWithData:(NSMutableDictionary*)aData;

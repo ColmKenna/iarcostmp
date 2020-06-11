@@ -27,6 +27,8 @@
 @synthesize answeredNumber = _answeredNumber;
 @synthesize notSeenDateKey = _notSeenDateKey;
 @synthesize locationTypesTitle = _locationTypesTitle;
+@synthesize wholesalerCodeTitle = _wholesalerCodeTitle;
+@synthesize wholesalerCodeDescrTypeCode = _wholesalerCodeDescrTypeCode;
 
 - (instancetype)init {
     self = [super init];
@@ -42,6 +44,8 @@
         self.answeredNumber = 999;
         self.notSeenDateKey = @"notSeenDate";
         self.locationTypesTitle = @"Location Types";
+        self.wholesalerCodeTitle = @"Wholesaler Code";
+        self.wholesalerCodeDescrTypeCode = @"wholesalerCode";
     }
     return self;
 }
@@ -61,6 +65,8 @@
     self.notSeenDescrTypeCode = nil;
     self.notSeenDateKey = nil;
     self.locationTypesTitle = nil;
+    self.wholesalerCodeTitle = nil;
+    self.wholesalerCodeDescrTypeCode = nil;
     
     [super dealloc];
 }
@@ -137,7 +143,7 @@
 }
 
 /*
- * CellType 3:buying group 2:not seen 1:accessTimes 0:default type
+ * CellType 4:Wholesaler Code 3:buying group 2:not seen 1:accessTimes 0:default type
  */
 - (NSMutableDictionary*)createAccessTimesDict {
     NSMutableDictionary* resultAccessTimesDict = [NSMutableDictionary dictionaryWithCapacity:6];
@@ -204,6 +210,14 @@
     return myAnswerDict;
 }
 
+- (NSMutableDictionary*)processWholesalerCodeResult:(NSString*)aData {
+    NSMutableDictionary* myAnswerDict = [NSMutableDictionary dictionaryWithCapacity:2];
+    [myAnswerDict setObject:[NSNumber numberWithInt:self.answeredNumber] forKey:@"DescrDetailIUR"];
+    [myAnswerDict setObject:[ArcosUtils convertNilToEmpty:aData] forKey:@"Detail"];
+    
+    return myAnswerDict;
+}
+
 - (NSMutableDictionary*)retrieveCellDataWithDescrTypeCode:(NSString*)aDescrTypeCode {
     NSMutableDictionary* resultCellData = nil;
     for (int i = 0; i < [self.displayList count]; i++) {
@@ -245,6 +259,34 @@
     return aResultList;
 }
 
+- (void)filterWithWholesalerCodeCondition:(NSMutableDictionary*)aWholesalerCodeDict resultList:(NSMutableArray*)aResultList {
+    NSMutableDictionary* answerDict = [aWholesalerCodeDict objectForKey:@"Answer"];
+    if ([[answerDict objectForKey:@"DescrDetailIUR"] intValue] != self.answeredNumber) return;
+    if ([aResultList count] == 0) return;
+    NSString* auxWholesalerCode = [answerDict objectForKey:@"Detail"];
+    if ([auxWholesalerCode isEqualToString:@""]) return;
+    NSMutableArray* locationIURList = [NSMutableArray arrayWithCapacity:[aResultList count]];
+    for (int i = 0; i < [aResultList count]; i++) {
+        NSDictionary* auxLocationDict = [aResultList objectAtIndex:i];
+        [locationIURList addObject:[auxLocationDict objectForKey:@"LocationIUR"]];
+    }
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"LocationIUR in %@ and CustomerCode CONTAINS[c] %@", locationIURList, auxWholesalerCode];
+    NSMutableArray* objectList = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"LocLocLink" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
+    NSMutableDictionary* resultLocationIURHashMap = [NSMutableDictionary dictionaryWithCapacity:[objectList count]];
+    for (int i = 0; i < [objectList count]; i++) {
+        NSDictionary* auxLocLocLinkDict = [objectList objectAtIndex:i];
+        NSNumber* auxLocationIUR = [auxLocLocLinkDict objectForKey:@"LocationIUR"];
+        [resultLocationIURHashMap setObject:auxLocationIUR forKey:auxLocationIUR];
+    }
+    for (int i = [ArcosUtils convertNSUIntegerToUnsignedInt:[aResultList count]] - 1; i >= 0; i--) {
+        NSDictionary* auxEntityDict = [aResultList objectAtIndex:i];
+        NSNumber* auxLocationIUR = [auxEntityDict objectForKey:@"LocationIUR"];
+        if ([resultLocationIURHashMap objectForKey:auxLocationIUR] == nil) {
+            [aResultList removeObjectAtIndex:i];
+        }
+    }
+}
+
 - (NSMutableDictionary*)processBuyingGroupResult:(NSMutableDictionary*)aResultDict {
     NSMutableDictionary* auxAnswerDict = [NSMutableDictionary dictionaryWithDictionary:aResultDict];
     [auxAnswerDict setObject:[NSNumber numberWithInt:self.answeredNumber] forKey:@"DescrDetailIUR"];
@@ -261,6 +303,16 @@
     [resultLocationTypesDict setObject:@"LTiur" forKey:@"FieldName"];
     [resultLocationTypesDict setObject:[self createInitialAnswer] forKey:@"Answer"];
     return resultLocationTypesDict;
+}
+
+- (NSMutableDictionary*)createWholesalerCodeDict {
+    NSMutableDictionary* resultWholesalerCodeDict = [NSMutableDictionary dictionaryWithCapacity:5];
+    [resultWholesalerCodeDict setObject:[NSNumber numberWithInt:4] forKey:@"CellType"];
+    [resultWholesalerCodeDict setObject:self.wholesalerCodeTitle forKey:@"Title"];
+    [resultWholesalerCodeDict setObject:self.wholesalerCodeTitle forKey:@"Details"];
+    [resultWholesalerCodeDict setObject:self.wholesalerCodeDescrTypeCode forKey:@"DescrTypeCode"];
+    [resultWholesalerCodeDict setObject:[self createInitialAnswer] forKey:@"Answer"];
+    return resultWholesalerCodeDict;
 }
 
 @end

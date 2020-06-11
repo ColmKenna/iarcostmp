@@ -161,6 +161,7 @@
 }
 
 - (void)resetButtonPressed:(id)sender {
+    [self.view endEditing:YES];
     [self.customerGroupDataManager resetDataList];
     [self.tableView reloadData];
     [self applyButtonPressed:nil];
@@ -168,6 +169,7 @@
 }
 
 - (void)applyButtonPressed:(id)sender {
+    [self.view endEditing:YES];
     NSMutableArray* resultList = [self.customerGroupDataManager applyButtonPressed];
     [self showDetailViewController:self.auxDetailViewController];
     self.auxDetailViewController.title = @"";
@@ -473,6 +475,11 @@
     [tmpNavigationController release];
     tmpNavigationController = nil;
     [CCLHVC release];
+}
+- (void)wholesalerCodeInputFinishedWithData:(NSString*)aData indexPath:(NSIndexPath *)anIndexPath {
+    self.customerGroupDataManager.currentIndexPath = anIndexPath;
+    NSMutableDictionary* resultData = [self.customerGroupDataManager processWholesalerCodeResult:aData];
+    [self.customerGroupDataManager inputFinishedWithData:resultData indexPath:self.customerGroupDataManager.currentIndexPath];
 }
 #pragma mark CustomerSelectionListingDelegate
 - (void)didDismissSelectionPopover {

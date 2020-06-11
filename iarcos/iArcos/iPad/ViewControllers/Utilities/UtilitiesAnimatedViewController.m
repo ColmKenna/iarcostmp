@@ -808,7 +808,7 @@ static const CGFloat constantColorLookupTable[20][3] =
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     [self constructLineChart:self.weekLineChartView identifier:@"IdWeekLineChart" title:[NSString stringWithFormat:@"Year: %d", [ArcosUtils convertNSIntegerToInt:[ArcosUtils yearDayWithDate:[NSDate date]]]] dataManager:self.animatedDataManager target:self];
     
-    [self constructPieChart:self.monthPieChartView identifier:@"IdMonthPieChart" title:[NSString stringWithFormat:@"Month: %@", [self.animatedDataManager.monthMapDict objectForKey:[NSNumber numberWithInteger:[ArcosUtils monthDayWithDate:[NSDate date]]]]] dataManager:self.animatedDataManager target:self];
+    [self constructPieChart:self.monthPieChartView identifier:@"IdMonthPieChart" title:[NSString stringWithFormat:@"MAT Sales up to: %@", [self.animatedDataManager.monthMapDict objectForKey:[NSNumber numberWithInteger:[ArcosUtils monthDayWithDate:[NSDate date]]]]] dataManager:self.animatedDataManager target:self];
     
     [self constructTableChart:self.monthTableChartView title:[NSString stringWithFormat:@"Month: %@", [self.animatedDataManager.monthMapDict objectForKey:[NSNumber numberWithInteger:[ArcosUtils monthDayWithDate:[NSDate date]]]]] dataManager:self.animatedDataManager target:self];
     [self bringSubViewFrontTableChart:self.monthTableChartView scrollView:self.monthTableView];

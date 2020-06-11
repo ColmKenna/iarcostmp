@@ -299,34 +299,44 @@
     SettingManager* sm = [SettingManager setting];
     NSString* keypath = [NSString stringWithFormat:@"CompanySetting.%@",@"Download"];
     //own location only
+    NSMutableDictionary* ownLocationOnly=[sm getSettingForKeypath:keypath atIndex:0];
+    NSNumber* ownLocation = [ownLocationOnly objectForKey:@"Value"];
     NSMutableDictionary* ownContactOnly=[sm getSettingForKeypath:keypath atIndex:1];
     NSNumber* ownContact = [ownContactOnly objectForKey:@"Value"];
     NSMutableDictionary* empolyee=[sm getSettingForKeypath:@"PersonalSetting.Personal" atIndex:0];
     NSNumber* empolyeeIUR=[empolyee objectForKey:@"Value"];
     int anEmpolyeeIUR = 0;
-    if ([ownContact boolValue]) {
+    if ([ownContact boolValue] || [ownLocation boolValue]) {
         anEmpolyeeIUR = [empolyeeIUR intValue];
     }
     
-    NSString* selectStatement = @"SELECT IUR, SecondIUR, Forename, Surname, Email, Initial, InitialIUR, Memoiur, MobileNumber, PhoneNumber, CLiur, Active, COiur, CP01, CP02, CP03, CP04, CP05, CP06, CP07, CP08, CP09, CP10, AccessTimes, LinkedContactIUR";
+    NSString* selectStatement = @"SELECT Contact.IUR, Contact.SecondIUR, Contact.Forename, Contact.Surname, Contact.Email, Contact.Initial, Contact.InitialIUR, Contact.Memoiur, Contact.MobileNumber, Contact.PhoneNumber, Contact.CLiur, Contact.Active, Contact.COiur, Contact.CP01, Contact.CP02, Contact.CP03, Contact.CP04, Contact.CP05, Contact.CP06, Contact.CP07, Contact.CP08, Contact.CP09, Contact.CP10, Contact.AccessTimes, Contact.LinkedContactIUR";
     NSString* fromStatement = @"";
     
     if ([downloadMode intValue] == 1 && [isDownloaded boolValue]) {//1:Partial
         NSDate* downloadDate = [dataDict objectForKey:@"DownloadDate"];
         if ([ownContact boolValue]) {
-            fromStatement = [NSString stringWithFormat:@"FROM  Contact WHERE (IUR IN (SELECT Contact_2.IUR FROM   Contact AS Contact_2 INNER JOIN ConEmpLink AS ConEmpLink_1 ON Contact_2.IUR = ConEmpLink_1.ContactIUR WHERE ConEmpLink_1.EmployeeIUR = %d AND Contact_2.Active = 1)) and DateLastModified >= convert(datetime, '%@', 103)", anEmpolyeeIUR, [ArcosUtils stringFromDate:downloadDate format:[GlobalSharedClass shared].dateFormat]];
+            fromStatement = [NSString stringWithFormat:@"FROM  Contact WHERE (Contact.IUR IN (SELECT Contact_2.IUR FROM   Contact AS Contact_2 INNER JOIN ConEmpLink AS ConEmpLink_1 ON Contact_2.IUR = ConEmpLink_1.ContactIUR WHERE ConEmpLink_1.EmployeeIUR = %d AND Contact_2.Active = 1)) and Contact.DateLastModified >= convert(datetime, '%@', 103)", anEmpolyeeIUR, [ArcosUtils stringFromDate:downloadDate format:[GlobalSharedClass shared].dateFormat]];
         } else {
-            fromStatement = [NSString stringWithFormat:@"FROM  Contact WHERE Active = 1 and DateLastModified >= convert(datetime, '%@', 103)", [ArcosUtils stringFromDate:downloadDate format:[GlobalSharedClass shared].dateFormat]];
+            if ([ownLocation boolValue]) {
+                fromStatement = [NSString stringWithFormat:@"FROM ConLocLink INNER JOIN Contact ON ConLocLink.ContactIUR = Contact.IUR INNER JOIN LocEmpLink ON ConLocLink.LocationIUR = LocEmpLink.LocationIUR WHERE  LocEmpLink.EmployeeIUR = %d and Contact.Active = 1 and Contact.DateLastModified >= convert(datetime, '%@', 103)", anEmpolyeeIUR, [ArcosUtils stringFromDate:downloadDate format:[GlobalSharedClass shared].dateFormat]];
+            } else {
+                fromStatement = [NSString stringWithFormat:@"FROM  Contact WHERE Contact.Active = 1 and Contact.DateLastModified >= convert(datetime, '%@', 103)", [ArcosUtils stringFromDate:downloadDate format:[GlobalSharedClass shared].dateFormat]];
+            }
         }
     } else {
         if ([ownContact boolValue]) {
-            fromStatement = [NSString stringWithFormat:@"FROM  Contact WHERE (IUR IN (SELECT Contact_2.IUR FROM   Contact AS Contact_2 INNER JOIN ConEmpLink AS ConEmpLink_1 ON Contact_2.IUR = ConEmpLink_1.ContactIUR WHERE ConEmpLink_1.EmployeeIUR = %d AND Contact_2.Active = 1))", anEmpolyeeIUR];
+            fromStatement = [NSString stringWithFormat:@"FROM  Contact WHERE (Contact.IUR IN (SELECT Contact_2.IUR FROM   Contact AS Contact_2 INNER JOIN ConEmpLink AS ConEmpLink_1 ON Contact_2.IUR = ConEmpLink_1.ContactIUR WHERE ConEmpLink_1.EmployeeIUR = %d AND Contact_2.Active = 1))", anEmpolyeeIUR];
         } else {
-            fromStatement = @"FROM  Contact WHERE Active = 1";
+            if ([ownLocation boolValue]) {
+                fromStatement = [NSString stringWithFormat:@"FROM ConLocLink INNER JOIN Contact ON ConLocLink.ContactIUR = Contact.IUR INNER JOIN LocEmpLink ON ConLocLink.LocationIUR = LocEmpLink.LocationIUR WHERE  LocEmpLink.EmployeeIUR = %d and Contact.Active = 1", anEmpolyeeIUR];
+            } else {
+                fromStatement = @"FROM  Contact WHERE Contact.Active = 1";
+            }
         }    
     }
     
-    NSString* orderBy = @"ORDER BY IUR";
+    NSString* orderBy = @"ORDER BY Contact.IUR";
     self.contactPaginatedRequestField.selectStateMent = selectStatement;
     self.contactPaginatedRequestField.fromStatement = fromStatement;
     self.contactPaginatedRequestField.orderBy = orderBy;  

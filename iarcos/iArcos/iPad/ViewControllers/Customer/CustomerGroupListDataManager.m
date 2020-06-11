@@ -97,6 +97,7 @@
     NSMutableDictionary* tmpAccessTimesDict = [self createAccessTimesDict];
     NSMutableDictionary* tmpNotSeenDict = [self createNotSeenDict];
     NSMutableDictionary* tmpBuyingGroupDict = [self createBuyingGroupDict];
+    NSMutableDictionary* tmpWholesalerCodeDict = [self createWholesalerCodeDict];
     self.displayList = [NSMutableArray arrayWithCapacity:([locationProfileList count] + 7)];
     [self.displayList addObject:tmpMasterLocationDict];
     [self.displayList addObject:tmpLocationTypesDict];
@@ -106,6 +107,7 @@
     [self.displayList addObject:tmpAccessTimesDict];
     [self.displayList addObject:tmpBuyingGroupDict];
     [self.displayList addObject:tmpNotSeenDict];
+    [self.displayList addObject:tmpWholesalerCodeDict];
 }
 
 - (NSMutableArray*)applyButtonPressed {
@@ -116,6 +118,8 @@
     [self filterWithNotSeenCondition:notSeenDataDict resultList:resultList fieldName:@"LocationIUR"];
     NSMutableDictionary* buyingGroupDataDict = [self retrieveCellDataWithDescrTypeCode:self.buyingGroupDescrTypeCode];
     [self filterWithBuyingGroupCondition:buyingGroupDataDict resultList:resultList];
+    NSMutableDictionary* wholesalerCodeDataDict = [self retrieveCellDataWithDescrTypeCode:self.wholesalerCodeDescrTypeCode];
+    [self filterWithWholesalerCodeCondition:wholesalerCodeDataDict resultList:resultList];
     return resultList;
 }
 
@@ -133,6 +137,8 @@
     [aResultList filterUsingPredicate:predicate];
 }
 
+
+
 - (NSMutableArray*)retrieveLocationApplyPredicateList {
     NSMutableArray* predicateList = [NSMutableArray array];
     for (NSMutableDictionary* aLocationDataDict in self.displayList) {
@@ -147,6 +153,9 @@
                 continue;
             }
             if ([[aLocationDataDict objectForKey:@"DescrTypeCode"] isEqualToString:self.buyingGroupDescrTypeCode]) {
+                continue;
+            }
+            if ([[aLocationDataDict objectForKey:@"DescrTypeCode"] isEqualToString:self.wholesalerCodeDescrTypeCode]) {
                 continue;
             }
             if ([aDescrDetailIUR intValue] == -1 && [[aLocationDataDict objectForKey:@"DescrTypeCode"] isEqualToString:self.masterLocationDescrTypeCode]) {

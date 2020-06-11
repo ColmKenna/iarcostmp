@@ -17,6 +17,7 @@
 		1854304323B5C1FE00E766AD /* UtilitiesMailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1854304123B5C1FE00E766AD /* UtilitiesMailViewController.xib */; };
 		185BDC35243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 185BDC33243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.m */; };
 		185BDC36243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185BDC34243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.xib */; };
+		1864E7E3248A2F7A001E73DE /* CustomerGroupWholesalerCodeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864E7E2248A2F7A001E73DE /* CustomerGroupWholesalerCodeTableViewCell.m */; };
 		18962C52241DD57B00FD763F /* OrderEntryInputMatHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18962C51241DD57B00FD763F /* OrderEntryInputMatHeaderView.m */; };
 		18D03A49243C7320004D9035 /* office_365.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D03A47243C731F004D9035 /* office_365.png */; };
 		18D03A4A243C7320004D9035 /* office_365@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D03A48243C731F004D9035 /* office_365@2x.png */; };
@@ -1814,6 +1815,8 @@
 		185BDC32243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderEntryInputRightHandSideGridViewController.h; sourceTree = "<group>"; };
 		185BDC33243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderEntryInputRightHandSideGridViewController.m; sourceTree = "<group>"; };
 		185BDC34243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderEntryInputRightHandSideGridViewController.xib; sourceTree = "<group>"; };
+		1864E7E1248A2F7A001E73DE /* CustomerGroupWholesalerCodeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerGroupWholesalerCodeTableViewCell.h; sourceTree = "<group>"; };
+		1864E7E2248A2F7A001E73DE /* CustomerGroupWholesalerCodeTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerGroupWholesalerCodeTableViewCell.m; sourceTree = "<group>"; };
 		18962C50241DD57B00FD763F /* OrderEntryInputMatHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderEntryInputMatHeaderView.h; sourceTree = "<group>"; };
 		18962C51241DD57B00FD763F /* OrderEntryInputMatHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderEntryInputMatHeaderView.m; sourceTree = "<group>"; };
 		18C2CE4A243496B900BCDDF8 /* UtilitiesConfigurationTableViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UtilitiesConfigurationTableViewControllerDelegate.h; sourceTree = "<group>"; };
@@ -6165,6 +6168,8 @@
 				6349B7BC1FDAB33000C02C46 /* CustomerListingTableCell.m */,
 				63E8B0732069176B00070BCF /* CustomerGroupBuyingGroupTableViewCell.h */,
 				63E8B0742069176B00070BCF /* CustomerGroupBuyingGroupTableViewCell.m */,
+				1864E7E1248A2F7A001E73DE /* CustomerGroupWholesalerCodeTableViewCell.h */,
+				1864E7E2248A2F7A001E73DE /* CustomerGroupWholesalerCodeTableViewCell.m */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -9244,6 +9249,7 @@
 				18FDE4A123B9FEBA000BD4AA /* UtilitiesSignOutViewController.m in Sources */,
 				630B3D4519F01CB9007B2442 /* UtilitiesDescriptionDetailViewController.m in Sources */,
 				634A7DDC1C18357300EA0CFD /* DashboardPromotionHeaderView.m in Sources */,
+				1864E7E3248A2F7A001E73DE /* CustomerGroupWholesalerCodeTableViewCell.m in Sources */,
 				630B3C3A19F01CB9007B2442 /* LeafSmallTemplateViewController.m in Sources */,
 				63C73F431CAAE0DA00165383 /* MainPresenterDataManager.m in Sources */,
 				630B346919F0127C007B2442 /* SubReport.m in Sources */,
@@ -10306,7 +10312,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.1;
+				MARKETING_VERSION = 7.1.2;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10362,7 +10368,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.1;
+				MARKETING_VERSION = 7.1.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -10498,7 +10504,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.1;
+				MARKETING_VERSION = 7.1.2;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

@@ -181,7 +181,7 @@
 				<key>SettingType</key>
 				<integer>2</integer>
 				<key>Value</key>
-				<true/>
+				<false/>
 			</dict>
 			<dict>
 				<key>Label</key>

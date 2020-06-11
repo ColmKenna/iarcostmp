@@ -26,6 +26,8 @@
     int _answeredNumber;
     NSString* _notSeenDateKey;
     NSString* _locationTypesTitle;
+    NSString* _wholesalerCodeTitle;
+    NSString* _wholesalerCodeDescrTypeCode;
 }
 
 //@property(nonatomic, retain) NSMutableArray* contactDisplayList;
@@ -43,6 +45,8 @@
 @property(nonatomic, assign) int answeredNumber;
 @property(nonatomic, retain) NSString* notSeenDateKey;
 @property(nonatomic, retain) NSString* locationTypesTitle;
+@property(nonatomic, retain) NSString* wholesalerCodeTitle;
+@property(nonatomic, retain) NSString* wholesalerCodeDescrTypeCode;
 
 //- (void)createContactDataList;
 - (void)inputFinishedWithData:(id)aData indexPath:(NSIndexPath*)anIndexPath;
@@ -62,5 +66,8 @@
 - (NSMutableArray*)filterWithNotSeenCondition:(NSMutableDictionary*)aNotSeenDataDict resultList:(NSMutableArray*)aResultList fieldName:(NSString*)aFieldName;
 - (NSMutableDictionary*)processBuyingGroupResult:(NSMutableDictionary*)aResultDict;
 - (NSMutableDictionary*)createLocationTypesDict;
+- (NSMutableDictionary*)createWholesalerCodeDict;
+- (NSMutableDictionary*)processWholesalerCodeResult:(NSString*)aData;
+- (void)filterWithWholesalerCodeCondition:(NSMutableDictionary*)aWholesalerCodeDict resultList:(NSMutableArray*)aResultList;
 
 @end
