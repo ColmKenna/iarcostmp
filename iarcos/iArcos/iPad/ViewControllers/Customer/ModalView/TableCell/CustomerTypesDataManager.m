@@ -35,6 +35,7 @@
 @synthesize currentLinkIndexPathRow = _currentLinkIndexPathRow;
 @synthesize accessTimesSectionTitle = _accessTimesSectionTitle;
 @synthesize myCustDict = _myCustDict;
+@synthesize employeeIUR = _employeeIUR;
 
 -(id)init{
     self = [super init];
@@ -53,6 +54,7 @@
         self.seqFieldTypeList = [[[NSMutableArray alloc] init] autorelease];
         self.constantFieldTypeTranslateDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Profiles",@"IUR",@"Details",@"System.String",@"Settings",@"System.Boolean",self.linksAlias,self.linksAlias,self.accessTimesSectionTitle,self.accessTimesSectionTitle, nil];
         self.isTableViewEditable = NO;
+        self.employeeIUR = [SettingManager employeeIUR];
     }
     return self;
 }
@@ -78,6 +80,7 @@
     self.fromLocationIUR = nil;
     self.accessTimesSectionTitle = nil;
     self.myCustDict = nil;
+    self.employeeIUR = nil;
     
     [super dealloc];
 }

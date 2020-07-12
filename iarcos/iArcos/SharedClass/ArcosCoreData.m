@@ -2335,6 +2335,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     
     
     [self saveContext:self.fetchManagedObjectContext];
+    for (int i = 0; i < [orderHeaderBO.Lines count]; i++) {
+        ArcosOrderLineBO* arcosOrderLineBO = [orderHeaderBO.Lines objectAtIndex:i];
+        if ([arcosOrderLineBO.BatchRef containsString:[GlobalSharedClass shared].pxDbName]) {
+            NSPredicate* predicate = [NSPredicate predicateWithFormat:@"OrderNumber = %d and OrderLine = %d", arcosOrderLineBO.OrderNumber, arcosOrderLineBO.OrderLine];
+            NSMutableArray* auxObjectArray = [self fetchRecordsWithEntity:@"OrderLine" withPropertiesToFetch:nil  withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
+            if ([auxObjectArray count] > 0) {
+                OrderLine* auxOrderLine = [auxObjectArray objectAtIndex:0];
+                auxOrderLine.InStock = [NSNumber numberWithInt:arcosOrderLineBO.InStock];
+                auxOrderLine.FOC = [NSNumber numberWithInt:arcosOrderLineBO.FOC];
+                [self saveContext:self.fetchManagedObjectContext];
+            }
+        }
+    }
     return YES;
 }
 //- (BOOL)updateOrderLineForOrderHeaderBO:(ArcosOrderHeaderBO*)orderHeaderBO{
@@ -3975,6 +3988,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
             OL.NetRevenue = orderLine.NetRevenue;
             OL.DeliveryDate = orderLine.DeliveryDate;
             OL.TradeValue = orderLine.TradeValue;
+            OL.InStock = [NSNumber numberWithInt:orderLine.InStock];
+            OL.FOC = [NSNumber numberWithInt:orderLine.FOC];
             
             //line to order header
             OL.orderheader=OrderHeader;
@@ -4819,27 +4834,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 
 -(void)executeTransaction {
     if (1==1) {
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"IUR = 158386"];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Presenter" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
+//        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"IUR = 158386"];
+        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"LocationProductMAT" withPropertiesToFetch:nil withPredicate:nil withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
         if ([objectsArray count] > 0) {
-            for (Presenter* aPresenter in objectsArray) {
-                aPresenter.OrderLevel = [NSNumber numberWithInt:3];
-                aPresenter.L3code = @"Pamex";
+            for (LocationProductMAT* aLocationProductMAT in objectsArray) {
+                aLocationProductMAT.locationIUR = [NSNumber numberWithInt:161023];
                 [self saveContext:self.fetchManagedObjectContext];
             }
         }
     }
     if (1==1) {
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"LocationIUR = 161079"];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Location" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"locationIUR = 161023 and productIUR = 160421"];
+        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"LocationProductMAT" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
         if ([objectsArray count] > 0) {
-            for (Location* aLocation in objectsArray) {
-                aLocation.MasterLocationIUR = [NSNumber numberWithInt:161069];
-                aLocation.PGiur = [NSNumber numberWithInt:161080];
+            for (LocationProductMAT* aLocationProductMAT in objectsArray) {
+                aLocationProductMAT.inStock = [NSNumber numberWithInt:5];
                 [self saveContext:self.fetchManagedObjectContext];
             }
         }
     }
+    /*
     if (1==1) {
         NSManagedObjectContext* context = [self addManagedObjectContext];
         Price* price = [NSEntityDescription insertNewObjectForEntityForName:@"Price"
@@ -4928,7 +4942,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         
         [self saveContext:context];
     }
-    
+    */
 }
 
 #pragma mark core data initialize region

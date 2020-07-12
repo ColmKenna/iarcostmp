@@ -87,7 +87,7 @@
     for (NSMutableDictionary* tmpDescrDetailDict in self.displayList) {
         [self.originalDisplayList addObject:[NSMutableDictionary dictionaryWithDictionary:tmpDescrDetailDict]];
     }
-    [ArcosUtils showMsg:@"Configuration has been saved." delegate:nil];
+//    [ArcosUtils showMsg:@"Configuration has been saved." delegate:nil];
 }
 
 @end

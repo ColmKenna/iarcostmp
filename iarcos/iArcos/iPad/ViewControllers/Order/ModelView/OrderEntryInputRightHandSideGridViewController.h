@@ -10,17 +10,20 @@
 #import "OrderEntryInputViewController.h"
 #import "OrderEntryInputRightHandSideGridDelegateController.h"
 #import "OrderEntryInputRightHandSideHeaderView.h"
+#import "OrderEntryInputRightHandSideFooterView.h"
 
 
 @interface OrderEntryInputRightHandSideGridViewController : OrderEntryInputViewController <OrderEntryInputRightHandSideGridDelegateControllerDelegate> {
     OrderEntryInputRightHandSideHeaderView* _orderEntryInputRightHandSideHeaderView;
     UITableView* _rightHandSideGridView;
     OrderEntryInputRightHandSideGridDelegateController* _orderEntryInputRightHandSideGridDelegateController;
+    OrderEntryInputRightHandSideFooterView* _orderEntryInputRightHandSideFooterView;
 }
 
 @property(nonatomic, retain) IBOutlet OrderEntryInputRightHandSideHeaderView* orderEntryInputRightHandSideHeaderView;
 @property(nonatomic, retain) IBOutlet UITableView* rightHandSideGridView;
 @property(nonatomic, retain) OrderEntryInputRightHandSideGridDelegateController* orderEntryInputRightHandSideGridDelegateController;
+@property(nonatomic, retain) IBOutlet OrderEntryInputRightHandSideFooterView* orderEntryInputRightHandSideFooterView;
 
 @end
 

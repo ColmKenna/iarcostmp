@@ -18,7 +18,9 @@
 		185BDC35243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 185BDC33243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.m */; };
 		185BDC36243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185BDC34243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.xib */; };
 		1864E7E3248A2F7A001E73DE /* CustomerGroupWholesalerCodeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1864E7E2248A2F7A001E73DE /* CustomerGroupWholesalerCodeTableViewCell.m */; };
+		188C5D1924B2D60200C8E445 /* CustomerTyvLyTableViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 188C5D1824B2D60200C8E445 /* CustomerTyvLyTableViewHeader.m */; };
 		18962C52241DD57B00FD763F /* OrderEntryInputMatHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18962C51241DD57B00FD763F /* OrderEntryInputMatHeaderView.m */; };
+		18C9D4A424AEDB1200CFDC98 /* OrderEntryInputRightHandSideFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C9D4A324AEDB1200CFDC98 /* OrderEntryInputRightHandSideFooterView.m */; };
 		18D03A49243C7320004D9035 /* office_365.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D03A47243C731F004D9035 /* office_365.png */; };
 		18D03A4A243C7320004D9035 /* office_365@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D03A48243C731F004D9035 /* office_365@2x.png */; };
 		18D0DD012446A3E00004BC45 /* OrderEntryInputRightHandSideHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D0DD002446A3E00004BC45 /* OrderEntryInputRightHandSideHeaderView.m */; };
@@ -1817,9 +1819,13 @@
 		185BDC34243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderEntryInputRightHandSideGridViewController.xib; sourceTree = "<group>"; };
 		1864E7E1248A2F7A001E73DE /* CustomerGroupWholesalerCodeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerGroupWholesalerCodeTableViewCell.h; sourceTree = "<group>"; };
 		1864E7E2248A2F7A001E73DE /* CustomerGroupWholesalerCodeTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerGroupWholesalerCodeTableViewCell.m; sourceTree = "<group>"; };
+		188C5D1724B2D60200C8E445 /* CustomerTyvLyTableViewHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerTyvLyTableViewHeader.h; sourceTree = "<group>"; };
+		188C5D1824B2D60200C8E445 /* CustomerTyvLyTableViewHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerTyvLyTableViewHeader.m; sourceTree = "<group>"; };
 		18962C50241DD57B00FD763F /* OrderEntryInputMatHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderEntryInputMatHeaderView.h; sourceTree = "<group>"; };
 		18962C51241DD57B00FD763F /* OrderEntryInputMatHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderEntryInputMatHeaderView.m; sourceTree = "<group>"; };
 		18C2CE4A243496B900BCDDF8 /* UtilitiesConfigurationTableViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UtilitiesConfigurationTableViewControllerDelegate.h; sourceTree = "<group>"; };
+		18C9D4A224AEDB1100CFDC98 /* OrderEntryInputRightHandSideFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderEntryInputRightHandSideFooterView.h; sourceTree = "<group>"; };
+		18C9D4A324AEDB1200CFDC98 /* OrderEntryInputRightHandSideFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderEntryInputRightHandSideFooterView.m; sourceTree = "<group>"; };
 		18D03A47243C731F004D9035 /* office_365.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = office_365.png; sourceTree = "<group>"; };
 		18D03A48243C731F004D9035 /* office_365@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "office_365@2x.png"; sourceTree = "<group>"; };
 		18D0DCFF2446A3E00004BC45 /* OrderEntryInputRightHandSideHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderEntryInputRightHandSideHeaderView.h; sourceTree = "<group>"; };
@@ -5873,6 +5879,8 @@
 				6322C5A2209B1AA700BDE3AF /* CustomerGDPRDataManager.m */,
 				18DD38B4243ACF9200FA899B /* CustomerOrderDetailsHeaderView.h */,
 				18DD38B5243ACF9200FA899B /* CustomerOrderDetailsHeaderView.m */,
+				188C5D1724B2D60200C8E445 /* CustomerTyvLyTableViewHeader.h */,
+				188C5D1824B2D60200C8E445 /* CustomerTyvLyTableViewHeader.m */,
 			);
 			path = ModalView;
 			sourceTree = "<group>";
@@ -6354,6 +6362,8 @@
 				18D0DD072446AC0E0004BC45 /* OrderEntryInputRightHandSideGridDelegateController.h */,
 				18D0DD082446AC0E0004BC45 /* OrderEntryInputRightHandSideGridDelegateController.m */,
 				18D0DD0A2446AC280004BC45 /* OrderEntryInputRightHandSideGridDelegateControllerDelegate.h */,
+				18C9D4A224AEDB1100CFDC98 /* OrderEntryInputRightHandSideFooterView.h */,
+				18C9D4A324AEDB1200CFDC98 /* OrderEntryInputRightHandSideFooterView.m */,
 			);
 			path = ModelView;
 			sourceTree = "<group>";
@@ -9748,6 +9758,7 @@
 				630B3DCE19F01CB9007B2442 /* CXMLNode.m in Sources */,
 				630D6898219AD48100E85F8F /* MeetingCostingsDataManager.m in Sources */,
 				630B3B6019F01CB9007B2442 /* CustomerContactDataManager.m in Sources */,
+				18C9D4A424AEDB1200CFDC98 /* OrderEntryInputRightHandSideFooterView.m in Sources */,
 				630B3C8219F01CB9007B2442 /* OrderDetailTextFieldTableCell.m in Sources */,
 				630B3C9A19F01CB9007B2442 /* L5L3SearchDataManager.m in Sources */,
 				637D2146219B3BD10008B7CB /* EmailAllButtonAddressSelectDataManager.m in Sources */,
@@ -9832,6 +9843,7 @@
 				634612D82167C4C500F121BF /* ArcosArrayOfEmployeeTargets.m in Sources */,
 				630B3D9219F01CB9007B2442 /* ArcosArrayOfString.m in Sources */,
 				630B3D8919F01CB9007B2442 /* ArcosArrayOfMemoBO.m in Sources */,
+				188C5D1924B2D60200C8E445 /* CustomerTyvLyTableViewHeader.m in Sources */,
 				630B3D3319F01CB9007B2442 /* UtilitiesPresenterDetailTableCell.m in Sources */,
 				630B3B3C19F01CB9007B2442 /* CustomerInfoTableViewController.m in Sources */,
 				630B3DA819F01CB9007B2442 /* ArcosLevel5Spec.m in Sources */,
@@ -10312,7 +10324,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.2;
+				MARKETING_VERSION = 7.3;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10368,7 +10380,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.2;
+				MARKETING_VERSION = 7.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -10504,7 +10516,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.2;
+				MARKETING_VERSION = 7.3;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

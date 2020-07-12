@@ -248,6 +248,7 @@
 
 -(void)submitProcessCenter {
     callGenericServices.isNotRecursion = NO;
+    self.customerContactTypesDataManager.employeeIUR = [SettingManager employeeIUR];
     if (![self.actionType isEqualToString:@"edit"]) {
         [self.customerContactTypesDataManager prepareToCreateNewContact:self.changedDataArray];                
         arcosCreateRecordObject.FieldNames = self.customerContactTypesDataManager.createdFieldNameList;
@@ -255,7 +256,7 @@
         [arcosCreateRecordObject.FieldNames addObject:@"LocationIUR"];
         [arcosCreateRecordObject.FieldValues addObject:[self.locationIUR stringValue]];
         [arcosCreateRecordObject.FieldNames addObject:@"EmployeeIUR"];
-        [arcosCreateRecordObject.FieldValues addObject:[[SettingManager employeeIUR] stringValue]];
+        [arcosCreateRecordObject.FieldValues addObject:[self.customerContactTypesDataManager.employeeIUR stringValue]];
         [callGenericServices createRecord:@"Contact" fields:arcosCreateRecordObject];
     } else {//edit action
         if ([self.customerContactTypesDataManager.changedDataList count] == 0) {
@@ -670,7 +671,7 @@
     NSMutableDictionary* dataCell = [aChangedDataList objectAtIndex:rowPointer];
     self.changedFieldName = [self.customerContactTypesDataManager fieldNameWithIndex:[[dataCell objectForKey:@"originalIndex"] intValue] - 1];
     self.changedActualContent = [dataCell objectForKey:@"actualContent"];
-    [callGenericServices updateRecord:@"Contact" iur:[self.contactIUR intValue] fieldName:self.changedFieldName newContent:self.changedActualContent];
+    [callGenericServices updateRecord:[NSString stringWithFormat:@"Contact,%d",[self.customerContactTypesDataManager.employeeIUR intValue]] iur:[self.contactIUR intValue] fieldName:self.changedFieldName newContent:self.changedActualContent];
 }
 
 #pragma mark - check employee SecurityLevel

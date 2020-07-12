@@ -38,6 +38,7 @@
     NSInteger _currentLinkIndexPathRow;
     NSString* _accessTimesSectionTitle;
     NSMutableDictionary* _myCustDict;
+    NSNumber* _employeeIUR;
 }
 
 @property(nonatomic,retain) NSMutableDictionary* groupedDataDict;
@@ -63,6 +64,7 @@
 @property (nonatomic, assign) NSInteger currentLinkIndexPathRow;
 @property(nonatomic,retain) NSString* accessTimesSectionTitle;
 @property(nonatomic,retain) NSMutableDictionary* myCustDict;
+@property(nonatomic,retain) NSNumber* employeeIUR;
 
 -(void)processRawData:(ArcosGenericReturnObject*) result withNumOfFields:(int)numFields;
 -(NSMutableDictionary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath;

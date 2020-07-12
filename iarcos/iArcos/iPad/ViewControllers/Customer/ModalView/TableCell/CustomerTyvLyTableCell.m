@@ -14,6 +14,7 @@
 @synthesize productCode;
 @synthesize productSize;
 @synthesize details;
+@synthesize inStock = _inStock;
 @synthesize lYQty;
 @synthesize lYBonus;
 @synthesize lYValue;
@@ -48,6 +49,7 @@
     if (self.productCode != nil) { self.productCode = nil; }
     if (self.productSize != nil) { self.productSize = nil; }
     if (self.details != nil) { self.details = nil; }
+    self.inStock = nil;
     if (self.lYQty != nil) { self.lYQty = nil; }
     if (self.lYBonus != nil) { self.lYBonus = nil; }
     if (self.lYValue != nil) { self.lYValue = nil; }    

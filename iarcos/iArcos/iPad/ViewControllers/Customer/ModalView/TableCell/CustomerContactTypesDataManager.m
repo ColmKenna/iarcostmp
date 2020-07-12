@@ -37,6 +37,7 @@
 @synthesize currentLinkIndexPathRow = _currentLinkIndexPathRow;
 @synthesize accessTimesSectionTitle = _accessTimesSectionTitle;
 @synthesize myCustDict = _myCustDict;
+@synthesize employeeIUR = _employeeIUR;
 
 -(id)init{
     self = [super init];
@@ -60,6 +61,7 @@
         self.specialIURFieldNameList = [NSMutableArray arrayWithObjects:@"COiur", @"CLiur", nil];
         self.isTableViewEditable = NO;
         self.linksLocationList = [NSMutableArray array];
+        self.employeeIUR = [SettingManager employeeIUR];
     }
     return self;
 }
@@ -90,6 +92,7 @@
     if (self.linkLocationIUR != nil ) { self.linkLocationIUR = nil; }
     self.accessTimesSectionTitle = nil;
     self.myCustDict = nil;
+    self.employeeIUR = nil;
                 
     [super dealloc];
 }

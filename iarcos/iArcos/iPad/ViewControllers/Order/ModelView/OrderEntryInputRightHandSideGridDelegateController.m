@@ -17,6 +17,8 @@
 @synthesize myDelegate = _myDelegate;
 @synthesize orderLineDictList = _orderLineDictList;
 @synthesize cumulativeBal = _cumulativeBal;
+@synthesize totalInStock = _totalInStock;
+@synthesize totalFoc = _totalFoc;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -40,6 +42,14 @@
     return [self.myDelegate retrieveRightHandSideGridHeaderView];
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    OrderEntryInputRightHandSideFooterView* orderEntryInputRightHandSideFooterView = (OrderEntryInputRightHandSideFooterView*)[self.myDelegate retrieveRightHandSideGridFooterView];
+    orderEntryInputRightHandSideFooterView.totalInStock.text = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", self.totalInStock]];
+    orderEntryInputRightHandSideFooterView.totalFoc.text = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", self.totalFoc]];
+    
+    return orderEntryInputRightHandSideFooterView;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
@@ -53,6 +63,10 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 22.0f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 22.0f;
 }
 
@@ -126,6 +140,8 @@
 - (void)retrieveRightHandSideGridData {
     self.cumulativeBal = 0;
     self.orderLineDictList = [NSMutableArray array];
+    self.totalInStock = 0;
+    self.totalFoc = 0;
     NSNumber* auxLocationIUR = [self.myDelegate retrieveLocationIUR];
     id auxCellData = [self.myDelegate retrieveCellData];
     NSNumber* auxProductIUR = [auxCellData objectForKey:@"ProductIUR"];
@@ -138,8 +154,10 @@
             NSMutableDictionary* resOrderLineDict = [NSMutableDictionary dictionaryWithDictionary:tmpOrderLineDict];
             NSNumber* resFOC = [tmpOrderLineDict objectForKey:@"FOC"];
             NSNumber* resInStock = [tmpOrderLineDict objectForKey:@"InStock"];
-            self.cumulativeBal = self.cumulativeBal + [resFOC intValue] - [resInStock intValue];
-            [resOrderLineDict setObject:[NSNumber numberWithInt:self.cumulativeBal] forKey:@"Bal"];
+            self.totalInStock = self.totalInStock + [resInStock intValue];
+            self.totalFoc = self.totalFoc + [resFOC intValue];
+//            self.cumulativeBal = self.cumulativeBal + [resFOC intValue] - [resInStock intValue];
+//            [resOrderLineDict setObject:[NSNumber numberWithInt:self.cumulativeBal] forKey:@"Bal"];
             [self.orderLineDictList addObject:resOrderLineDict];
         }
     }

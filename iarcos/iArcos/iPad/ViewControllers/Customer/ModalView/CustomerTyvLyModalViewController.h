@@ -14,10 +14,12 @@
 #import "SlideAcrossViewAnimationDelegate.h"
 #import "ArcosConfigDataManager.h"
 #import "CustomerTyvLyDataManager.h"
+#import "CustomerTyvLyTableViewHeader.h"
 
 @interface CustomerTyvLyModalViewController : UITableViewController <GetDataGenericDelegate>{
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
-    IBOutlet UIView* tableHeader;
+    CustomerTyvLyTableViewHeader* _tableHeader;
+    CustomerTyvLyTableViewHeader* _inStockTableHeader;
     IBOutlet UIView* tableHeader2;    
     IBOutlet UITableView* tableListView;
 //    NSMutableArray* displayList;
@@ -31,7 +33,8 @@
 }
 
 @property (nonatomic, assign) id<SlideAcrossViewAnimationDelegate> animateDelegate;
-@property (nonatomic, retain) IBOutlet UIView* tableHeader;
+@property (nonatomic, retain) IBOutlet CustomerTyvLyTableViewHeader* tableHeader;
+@property (nonatomic, retain) IBOutlet CustomerTyvLyTableViewHeader* inStockTableHeader;
 @property (nonatomic, retain) IBOutlet UIView* tableHeader2;
 @property (nonatomic,retain)  IBOutlet UITableView* tableListView;
 //@property (nonatomic,retain)  NSMutableArray* displayList;

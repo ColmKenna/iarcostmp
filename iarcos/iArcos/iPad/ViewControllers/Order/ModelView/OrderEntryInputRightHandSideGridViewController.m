@@ -16,6 +16,7 @@
 @synthesize orderEntryInputRightHandSideHeaderView = _orderEntryInputRightHandSideHeaderView;
 @synthesize rightHandSideGridView = _rightHandSideGridView;
 @synthesize orderEntryInputRightHandSideGridDelegateController = _orderEntryInputRightHandSideGridDelegateController;
+@synthesize orderEntryInputRightHandSideFooterView = _orderEntryInputRightHandSideFooterView;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -40,11 +41,14 @@
     if ([self.rightHandSideGridView respondsToSelector:@selector(setLayoutMargins:)]) {
         [self.rightHandSideGridView setLayoutMargins:UIEdgeInsetsZero];
     }
+    
 }
 
 - (void)dealloc {
     self.rightHandSideGridView = nil;
     self.orderEntryInputRightHandSideGridDelegateController = nil;
+    self.orderEntryInputRightHandSideHeaderView = nil;
+    self.orderEntryInputRightHandSideFooterView = nil;
     
     [super dealloc];
 }
@@ -71,6 +75,10 @@
 
 - (id)retrieveCellData {
     return self.Data;
+}
+
+- (UIView*)retrieveRightHandSideGridFooterView {
+    return self.orderEntryInputRightHandSideFooterView;
 }
 
 @end

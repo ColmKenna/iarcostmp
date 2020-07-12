@@ -11,9 +11,11 @@
 
 @interface CustomerTyvLyDataManager : NSObject {
     NSMutableArray* _displayList;
+    NSString* _databaseName;
 }
 
 @property(nonatomic, retain) NSMutableArray* displayList;
+@property(nonatomic, retain) NSString* databaseName;
 
 - (void)processTyvLyWithLocationIUR:(NSNumber*)aLocationIUR;
 //- (void)addProductInfoToDictionary:(NSMutableDictionary*)aLocationProductMatDict productDict:(NSDictionary*)aProductDict;

@@ -1076,7 +1076,7 @@
             self.customerInfoTableDataManager.auxLinkedContactIUR = [data objectForKey:@"IUR"];
             self.customerInfoTableDataManager.auxContactFullName = [data objectForKey:@"Title"];
             self.customerInfoTableDataManager.auxLinkedContactCOiur = [data objectForKey:@"COiur"];
-            [self.callGenericServices updateRecord:@"Contact" iur:[[GlobalSharedClass shared].currentSelectedContactIUR intValue] fieldName:@"linkedContactIUR" newContent:[ArcosUtils convertNumberToIntString:self.customerInfoTableDataManager.auxLinkedContactIUR]];
+            [self.callGenericServices updateRecord:[NSString stringWithFormat:@"Contact,%d", [[SettingManager employeeIUR] intValue]] iur:[[GlobalSharedClass shared].currentSelectedContactIUR intValue] fieldName:@"linkedContactIUR" newContent:[ArcosUtils convertNumberToIntString:self.customerInfoTableDataManager.auxLinkedContactIUR]];
         }
             break;
             
@@ -1212,7 +1212,7 @@
     self.customerInfoTableDataManager.auxLinkedContactIUR = [aCellDict objectForKey:@"IUR"];
     self.customerInfoTableDataManager.auxContactFullName = [aCellDict objectForKey:@"Title"];
     self.customerInfoTableDataManager.auxLinkedContactCOiur = [aCellDict objectForKey:@"COiur"];
-    [self.callGenericServices updateRecord:@"Contact" iur:[[GlobalSharedClass shared].currentSelectedContactIUR intValue] fieldName:@"linkedContactIUR" newContent:[ArcosUtils convertNumberToIntString:self.customerInfoTableDataManager.auxLinkedContactIUR]];
+    [self.callGenericServices updateRecord:[NSString stringWithFormat:@"Contact,%d", [[SettingManager employeeIUR] intValue]] iur:[[GlobalSharedClass shared].currentSelectedContactIUR intValue] fieldName:@"linkedContactIUR" newContent:[ArcosUtils convertNumberToIntString:self.customerInfoTableDataManager.auxLinkedContactIUR]];
 }
 
 #pragma mark CustomerInfoAccessTimesCalendarTableViewControllerDelegate

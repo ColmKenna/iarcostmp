@@ -15,6 +15,8 @@
     UILabel* productSize;
     LeftBorderUILabel* details;
     
+    LeftBorderUILabel* _inStock;
+    
     LeftBorderUILabel* lYQty;
     LeftBorderUILabel* lYBonus;
     LeftBorderUILabel* lYValue;
@@ -36,6 +38,7 @@
 @property (nonatomic,retain) IBOutlet UILabel* productCode;
 @property (nonatomic,retain) IBOutlet UILabel* productSize;
 @property (nonatomic,retain) IBOutlet LeftBorderUILabel* details;
+@property (nonatomic,retain) IBOutlet LeftBorderUILabel* inStock;
 @property (nonatomic,retain) IBOutlet LeftBorderUILabel* lYQty;
 @property (nonatomic,retain) IBOutlet LeftBorderUILabel* lYBonus;
 @property (nonatomic,retain) IBOutlet LeftBorderUILabel* lYValue;

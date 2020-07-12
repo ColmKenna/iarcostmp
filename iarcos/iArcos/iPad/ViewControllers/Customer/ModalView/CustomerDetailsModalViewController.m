@@ -434,13 +434,14 @@
         return;
     }
     if (![self checkBeforeSubmit] ) return;
+    customerTypesDataManager.employeeIUR = [SettingManager employeeIUR];
     if ([self.actionType isEqualToString:@"create"]) {//create a new location
         NSLog(@"create a new location.");        
         [customerTypesDataManager prepareToCreateNewLocation:self.changedDataArray];
         arcosCreateRecordObject.FieldNames = customerTypesDataManager.createdFieldNameList;
         arcosCreateRecordObject.FieldValues = customerTypesDataManager.createdFieldValueList;
         [arcosCreateRecordObject.FieldNames addObject:@"EmployeeIUR"];
-        [arcosCreateRecordObject.FieldValues addObject:[[SettingManager employeeIUR] stringValue]];
+        [arcosCreateRecordObject.FieldValues addObject:[customerTypesDataManager.employeeIUR stringValue]];
         [callGenericServices createRecord:@"Location" fields:arcosCreateRecordObject];
     } else {// update an existed record
         callGenericServices.isNotRecursion = NO;
@@ -454,7 +455,7 @@
     self.changedFieldName = [customerTypesDataManager fieldNameWithIndex:[[dataCell objectForKey:@"originalIndex"] intValue] - 1];
     self.changedActualContent = [dataCell objectForKey:@"actualContent"];
 //    [activityIndicator startAnimating];
-    [callGenericServices updateRecord:@"Location" iur:[self.locationIUR intValue] fieldName:self.changedFieldName newContent:self.changedActualContent];
+    [callGenericServices updateRecord:[NSString stringWithFormat:@"Location,%d", [customerTypesDataManager.employeeIUR intValue]] iur:[self.locationIUR intValue] fieldName:self.changedFieldName newContent:self.changedActualContent];
 }  
 
 #pragma mark CustomerDetailsIURDelegate

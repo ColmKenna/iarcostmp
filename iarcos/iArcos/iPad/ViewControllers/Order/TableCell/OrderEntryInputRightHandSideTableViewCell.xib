@@ -24,21 +24,14 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="InStock" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="CIy-lc-BGY" customClass="LeftBlueSeparatorUILabel">
-                        <rect key="frame" x="70" y="0.0" width="36" height="21"/>
+                        <rect key="frame" x="70" y="0.0" width="54" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="Futura-CondensedMedium" family="Futura" pointSize="15"/>
                         <color key="textColor" red="0.1176470588" green="0.56470588239999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="FOC" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="Nzv-Og-WG9" customClass="LeftBlueSeparatorUILabel">
-                        <rect key="frame" x="106" y="0.0" width="36" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="Futura-CondensedMedium" family="Futura" pointSize="15"/>
-                        <color key="textColor" red="0.1176470588" green="0.56470588239999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bal" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="7EV-Ar-mp6" customClass="LeftBlueSeparatorUILabel">
-                        <rect key="frame" x="142" y="0.0" width="36" height="21"/>
+                        <rect key="frame" x="124" y="0.0" width="54" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="Futura-CondensedMedium" family="Futura" pointSize="15"/>
                         <color key="textColor" red="0.1176470588" green="0.56470588239999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -54,7 +47,6 @@
                 </subviews>
             </tableViewCellContentView>
             <connections>
-                <outlet property="balance" destination="7EV-Ar-mp6" id="vWY-ZN-dPb"/>
                 <outlet property="cellSeparator" destination="9Bk-s2-ZYM" id="Ytr-cU-nno"/>
                 <outlet property="foc" destination="Nzv-Og-WG9" id="O5P-Sr-Ogb"/>
                 <outlet property="inStock" destination="CIy-lc-BGY" id="hJQ-xn-6Fp"/>

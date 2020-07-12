@@ -14,6 +14,7 @@
 - (UIView*)retrieveRightHandSideGridHeaderView;
 - (NSNumber*)retrieveLocationIUR;
 - (id)retrieveCellData;
+- (UIView*)retrieveRightHandSideGridFooterView;
 
 @end
 

@@ -10,7 +10,8 @@
 
 @implementation CustomerTyvLyModalViewController
 @synthesize animateDelegate = _animateDelegate;
-@synthesize tableHeader;
+@synthesize tableHeader = _tableHeader;
+@synthesize inStockTableHeader = _inStockTableHeader;
 @synthesize tableHeader2;
 @synthesize tableListView;
 //@synthesize displayList;
@@ -39,6 +40,7 @@
 - (void)dealloc
 {
     self.tableHeader = nil;
+    self.inStockTableHeader = nil;
     self.tableHeader2 = nil;    
     self.tableListView = nil;
 //    self.displayList = nil;    
@@ -117,11 +119,14 @@
 
 #pragma mark - Table view data source
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{   
-    // custom view for header. will be adjusted to default or specified header height    
-    if (self.columnQty == 15) {
-        return tableHeader;
+    // custom view for header. will be adjusted to default or specified header height
+    if ([self.customerTyvLyDataManager.databaseName isEqualToString:[GlobalSharedClass shared].pxDbName] && [[ArcosConfigDataManager sharedArcosConfigDataManager] retrieveLocationProductMATDataLocallyFlag]) {
+        return self.inStockTableHeader;
     }
-    return tableHeader;
+    if (self.columnQty == 15) {
+        return self.tableHeader;
+    }
+    return self.tableHeader;
 }
 
 
@@ -265,6 +270,9 @@
 #pragma mark - initiate the correct cell
 - (UITableViewCell *)initColumn15TableViewCell:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *CellIdentifier = @"IdLabelCustomerTyvLyTableCell";
+    if ([self.customerTyvLyDataManager.databaseName isEqualToString:[GlobalSharedClass shared].pxDbName] && [[ArcosConfigDataManager sharedArcosConfigDataManager] retrieveLocationProductMATDataLocallyFlag]) {
+        CellIdentifier = @"IdInStockLabelCustomerTyvLyTableCell";
+    }
     
     CustomerTyvLyTableCell *cell=(CustomerTyvLyTableCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if(cell == nil) {
@@ -290,6 +298,8 @@
     } else {
         cell.productCode.text = @"";
     }
+    
+    cell.inStock.text = [ArcosUtils convertZeroToBlank:[ArcosUtils convertToIntString:[cellData Field19]]];
 //    if ([cell.orderPadDetails.text isEqualToString:@""]) {
 //        cell.productCode.text = @"";
 //        cell.productSize.text = @"";

@@ -15,9 +15,19 @@
 
 @implementation CustomerTyvLyDataManager
 @synthesize displayList = _displayList;
+@synthesize databaseName = _databaseName;
+
+- (instancetype)init {
+    self = [super init];
+    if (self != nil) {
+        self.databaseName = [SettingManager databaseName];
+    }
+    return self;
+}
 
 - (void)dealloc {
     self.displayList = nil;
+    self.databaseName = nil;
     
     [super dealloc];
 }
@@ -96,6 +106,7 @@
             qtyPercentage = ((tyTDQtyValue * 1.0 / lyTDQtyValue) - 1.0) * 100.0;
         }
         arcosGenericClass.Field15 = [NSString stringWithFormat:@"%d", (int)qtyPercentage];
+        arcosGenericClass.Field19 = [NSString stringWithFormat:@"%d", [[auxLocationProductMatDict objectForKey:@"inStock"] intValue]];
         
         [self.displayList addObject:arcosGenericClass];
     }

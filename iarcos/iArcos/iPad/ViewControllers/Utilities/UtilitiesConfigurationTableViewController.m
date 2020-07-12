@@ -65,9 +65,36 @@
         [ArcosUtils showMsg:@"There is no change." delegate:nil];
         return;
     }
-    [self.utilitiesConfigurationDataManager saveChangedList];
-//    [self configButtonList];
-    [self.saveDelegate didSaveButtonPressed];
+    __weak typeof(self) weakSelf = self;
+    UIAlertController* tmpDialogBox = [UIAlertController alertControllerWithTitle:@"" message:@"Please Enter Manager Password!\n" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
+        UITextField* myTextField = [tmpDialogBox.textFields objectAtIndex:0];
+        [weakSelf processTextFieldPassword:myTextField.text];
+    }];
+    UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){}];
+    
+    [tmpDialogBox addAction:cancelAction];
+    [tmpDialogBox addAction:okAction];
+    [tmpDialogBox addTextFieldWithConfigurationHandler:^(UITextField* textField) {
+        textField.secureTextEntry = true;
+    }];
+    [weakSelf presentViewController:tmpDialogBox animated:YES completion:nil];
+    
+}
+
+- (void)processTextFieldPassword:(NSString*)aTextFieldPassword {
+    NSString* passcode = [[GlobalSharedClass shared] currentPasscode];
+    if (aTextFieldPassword != nil && [aTextFieldPassword caseInsensitiveCompare:passcode] == NSOrderedSame) {
+        [self.utilitiesConfigurationDataManager saveChangedList];
+        [ArcosUtils showDialogBox:@"Configuration has been saved." title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+            
+        }];
+        [self.saveDelegate didSaveButtonPressed];
+    } else {
+        [ArcosUtils showDialogBox:@"The password you entered is incorrect." title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+            
+        }];
+    }
 }
 
 - (void)mailPressed {

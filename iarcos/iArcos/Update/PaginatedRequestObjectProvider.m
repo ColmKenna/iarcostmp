@@ -351,12 +351,14 @@
     SettingManager* sm = [SettingManager setting];
     NSString* keypath = [NSString stringWithFormat:@"CompanySetting.%@",@"Download"];
     //own location only
+    NSMutableDictionary* ownLocationOnly=[sm getSettingForKeypath:keypath atIndex:0];
+    NSNumber* ownLocation = [ownLocationOnly objectForKey:@"Value"];
     NSMutableDictionary* ownContactOnly=[sm getSettingForKeypath:keypath atIndex:1];
     NSNumber* ownContact = [ownContactOnly objectForKey:@"Value"];
     NSMutableDictionary* empolyee=[sm getSettingForKeypath:@"PersonalSetting.Personal" atIndex:0];
     NSNumber* empolyeeIUR=[empolyee objectForKey:@"Value"];
     int anEmpolyeeIUR = 0;
-    if ([ownContact boolValue]) {
+    if ([ownContact boolValue] || [ownLocation boolValue]) {
         anEmpolyeeIUR = [empolyeeIUR intValue];
     }
     
@@ -369,13 +371,23 @@
             fromStatement = [NSString stringWithFormat:@"FROM  ConLocLink WHERE (IUR IN (SELECT ConLocLink_2.IUR FROM   ConLocLink AS ConLocLink_2 INNER JOIN ConEmpLink AS ConEmpLink_1 ON ConLocLink_2.ContactIUR = ConEmpLink_1.ContactIUR INNER JOIN Contact AS Contact_1 ON ConLocLink_2.ContactIUR = Contact_1.IUR  WHERE ConEmpLink_1.EmployeeIUR = %d and Contact_1.Active = 1 and Contact_1.DateLastModified >= convert(datetime, '%@', 103))) ", anEmpolyeeIUR, [ArcosUtils stringFromDate:downloadDate format:[GlobalSharedClass shared].dateFormat]];
         } else {
 //            fromStatement = [NSString stringWithFormat:@"FROM ConLocLink INNER JOIN Contact AS Contact_1 ON ConLocLink.ContactIUR = Contact_1.IUR where Contact_1.DateLastModified >= convert(datetime, '%@', 103)", [ArcosUtils stringFromDate:downloadDate format:[GlobalSharedClass shared].dateFormat]];
-            fromStatement = [NSString stringWithFormat:@"FROM ConLocLink WHERE (IUR IN (SELECT ConLocLink_2.IUR FROM   ConLocLink AS ConLocLink_2 INNER JOIN Contact AS Contact_1 ON ConLocLink_2.ContactIUR = Contact_1.IUR  WHERE Contact_1.Active = 1 and  Contact_1.DateLastModified >= convert(datetime, '%@', 103))) ", [ArcosUtils stringFromDate:downloadDate format:[GlobalSharedClass shared].dateFormat]];
+            if ([ownLocation boolValue]) {
+                fromStatement = [NSString stringWithFormat:@"FROM ConLocLink WHERE (IUR IN (SELECT ConLocLink_2.IUR FROM   ConLocLink AS ConLocLink_2 INNER JOIN Contact AS Contact_1 ON ConLocLink_2.ContactIUR = Contact_1.IUR INNER JOIN LocEmpLink ON ConLocLink_2.LocationIUR = LocEmpLink.LocationIUR WHERE LocEmpLink.EmployeeIUR = %d and Contact_1.Active = 1 and  Contact_1.DateLastModified >= convert(datetime, '%@', 103))) ", anEmpolyeeIUR, [ArcosUtils stringFromDate:downloadDate format:[GlobalSharedClass shared].dateFormat]];
+            } else {
+                fromStatement = [NSString stringWithFormat:@"FROM ConLocLink WHERE (IUR IN (SELECT ConLocLink_2.IUR FROM   ConLocLink AS ConLocLink_2 INNER JOIN Contact AS Contact_1 ON ConLocLink_2.ContactIUR = Contact_1.IUR  WHERE Contact_1.Active = 1 and  Contact_1.DateLastModified >= convert(datetime, '%@', 103))) ", [ArcosUtils stringFromDate:downloadDate format:[GlobalSharedClass shared].dateFormat]];
+            }
+            
         }
     } else {
         if ([ownContact boolValue]) {
             fromStatement = [NSString stringWithFormat:@"FROM ConLocLink WHERE (IUR IN (SELECT ConLocLink_2.IUR FROM   ConLocLink AS ConLocLink_2 INNER JOIN ConEmpLink AS ConEmpLink_1 ON ConLocLink_2.ContactIUR = ConEmpLink_1.ContactIUR INNER JOIN Contact AS Contact_1 ON ConLocLink_2.ContactIUR = Contact_1.IUR WHERE ConEmpLink_1.EmployeeIUR = %d and Contact_1.Active = 1))", anEmpolyeeIUR];
         } else {
-            fromStatement = @"FROM ConLocLink WHERE (IUR IN (SELECT ConLocLink_2.IUR FROM   ConLocLink AS ConLocLink_2 INNER JOIN Contact AS Contact_1 ON ConLocLink_2.ContactIUR = Contact_1.IUR WHERE Contact_1.Active = 1))";
+            if ([ownLocation boolValue]) {
+                fromStatement = [NSString stringWithFormat:@"FROM ConLocLink WHERE (IUR IN (SELECT ConLocLink_2.IUR FROM   ConLocLink AS ConLocLink_2 INNER JOIN Contact AS Contact_1 ON ConLocLink_2.ContactIUR = Contact_1.IUR INNER JOIN LocEmpLink ON ConLocLink_2.LocationIUR = LocEmpLink.LocationIUR WHERE  LocEmpLink.EmployeeIUR = %d and Contact_1.Active = 1))", anEmpolyeeIUR];
+            } else {
+                fromStatement = @"FROM ConLocLink WHERE (IUR IN (SELECT ConLocLink_2.IUR FROM   ConLocLink AS ConLocLink_2 INNER JOIN Contact AS Contact_1 ON ConLocLink_2.ContactIUR = Contact_1.IUR WHERE Contact_1.Active = 1))";
+            }
+            
         }
     }
     
