@@ -114,6 +114,7 @@ static GlobalSharedClass* _shared = nil;
 @synthesize tildeDelimiter = _tildeDelimiter;
 @synthesize issuesText = _issuesText;
 @synthesize pxDbName = _pxDbName;
+@synthesize startRecordingDate = _startRecordingDate;
 
 +(GlobalSharedClass*)shared 
 {
@@ -569,6 +570,7 @@ CGFloat RadiansToDegrees(CGFloat radians)
     self.tildeDelimiter = nil;
     self.issuesText = nil;
     self.pxDbName = nil;
+    self.startRecordingDate = nil;
     
     [super dealloc];
 }

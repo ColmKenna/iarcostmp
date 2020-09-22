@@ -128,6 +128,7 @@ typedef enum {
     NSString* _tildeDelimiter;
     NSString* _issuesText;
     NSString* _pxDbName;
+    NSDate* _startRecordingDate;
 }
 
 +(GlobalSharedClass*)shared;
@@ -233,6 +234,7 @@ typedef enum {
 @property (nonatomic,retain) NSString* tildeDelimiter;
 @property (nonatomic,retain) NSString* issuesText;
 @property (nonatomic,retain) NSString* pxDbName;
+@property (nonatomic,retain) NSDate* startRecordingDate;
 
 //usful functions
 - (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber;

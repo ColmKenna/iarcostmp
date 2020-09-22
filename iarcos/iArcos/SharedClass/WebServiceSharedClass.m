@@ -345,12 +345,18 @@
     }
     self.isLoadingFinished=NO;
 }
--(void)loadOrderToDB:(NSDate*)aStartDate endDate:(NSDate*)aEndDate {
+-(void)loadOrderToDB:(NSMutableDictionary*)aDataDict {
+    NSDate* aStartDate = [aDataDict objectForKey:@"StartDate"];
+    NSDate* aEndDate = [aDataDict objectForKey:@"EndDate"];
+    NSNumber* aDownloadMode = [aDataDict objectForKey:@"DownloadMode"];
     SettingManager* sm=[SettingManager setting];
     NSMutableDictionary* empolyee=[sm getSettingForKeypath:@"PersonalSetting.Personal" atIndex:0];
     NSNumber* empolyeeIUR=[empolyee objectForKey:@"Value"];
     int anIUR=0;
     anIUR=[empolyeeIUR intValue];
+    if ([aDownloadMode intValue] == 1) {
+//        anIUR = anIUR * -1;
+    }
     //start and end date
     /**
     NSString* dateString=@"2011-10-01";

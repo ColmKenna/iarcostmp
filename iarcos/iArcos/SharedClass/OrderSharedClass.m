@@ -601,6 +601,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OrderSharedClass);
     
     //temp order dictionary
     NSMutableDictionary* order=[NSMutableDictionary dictionary];
+    NSTimeInterval duration = [[NSDate date] timeIntervalSinceDate:[GlobalSharedClass shared].startRecordingDate];
+    [order setObject:[NSNumber numberWithInt:(int)duration] forKey:@"CallCost"];
     [order setObject:[GlobalSharedClass shared].currentSelectedLocationIUR forKey:@"LocationIUR"];
     NSNumber* auxEmployeeIUR = [NSNumber numberWithInt:0];
     NSDictionary* auxEmployeeDict = [self.currentOrderHeader objectForKey:@"employee"];
@@ -666,6 +668,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OrderSharedClass);
     
     //temp order dictionary
     NSMutableDictionary* order=[NSMutableDictionary dictionary];
+    NSTimeInterval duration = [[NSDate date] timeIntervalSinceDate:[GlobalSharedClass shared].startRecordingDate];
+    [order setObject:[NSNumber numberWithInt:(int)duration] forKey:@"CallCost"];
     NSNumber* anIUR=[orderHeader objectForKey:@"LocationIUR"];
     
     [order setObject:anIUR forKey:@"LocationIUR"];

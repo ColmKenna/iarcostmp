@@ -176,15 +176,23 @@
                 NSIndexPath* orderSelectorIndexPath = [self.serviceClass.paginatedRequestObjectProvider.utilitiesUpdateDetailDataManager getIndexPathWithSelectorName:[GlobalSharedClass shared].orderHeaderSelectorName];
                 NSMutableDictionary* auxOrderDataDict = [self.serviceClass.paginatedRequestObjectProvider.utilitiesUpdateDetailDataManager.dataTablesDisplayList objectAtIndex:orderSelectorIndexPath.section];
                 NSNumber* orderDownloadMode = [auxOrderDataDict objectForKey:@"DownloadMode"];
+                NSMutableDictionary* paramDataDict = [NSMutableDictionary dictionaryWithCapacity:3];
+                [paramDataDict setObject:orderDownloadMode forKey:@"DownloadMode"];
                 if ([orderDownloadMode intValue] == 1) {//partial
                     NSDate* partialOrderStartDate = [NSDate date];
                     NSDate* partialOrderEndDate = [NSDate date];
                     if ([[auxOrderDataDict objectForKey:@"IsDownloaded"] boolValue]) {
                         partialOrderStartDate = [auxOrderDataDict objectForKey:@"DownloadDate"];
                     }
-                    [self.serviceClass performSelector:aSelector withObject:[ArcosUtils beginOfDay:partialOrderStartDate] withObject:[ArcosUtils endOfDay:partialOrderEndDate]];
+                    [paramDataDict setObject:[ArcosUtils beginOfDay:partialOrderStartDate] forKey:@"StartDate"];
+                    [paramDataDict setObject:[ArcosUtils endOfDay:partialOrderEndDate] forKey:@"EndDate"];
+//                    [self.serviceClass performSelector:aSelector withObject:[ArcosUtils beginOfDay:partialOrderStartDate] withObject:[ArcosUtils endOfDay:partialOrderEndDate]];
+                    [self.serviceClass performSelector:aSelector withObject:paramDataDict];
                 } else {
-                    [self.serviceClass performSelector:aSelector withObject:[ArcosUtils beginOfDay:self.orderStartDate] withObject:[ArcosUtils endOfDay:self.orderEndDate]];
+                    [paramDataDict setObject:[ArcosUtils beginOfDay:self.orderStartDate] forKey:@"StartDate"];
+                    [paramDataDict setObject:[ArcosUtils endOfDay:self.orderEndDate] forKey:@"EndDate"];
+//                    [self.serviceClass performSelector:aSelector withObject:[ArcosUtils beginOfDay:self.orderStartDate] withObject:[ArcosUtils endOfDay:self.orderEndDate]];
+                    [self.serviceClass performSelector:aSelector withObject:paramDataDict];
                 }
             } else if([self.currentSelectorName isEqualToString:[GlobalSharedClass shared].callOrderHeaderSelectorName]) {
                 NSIndexPath* callSelectorIndexPath = [self.serviceClass.paginatedRequestObjectProvider.utilitiesUpdateDetailDataManager getIndexPathWithSelectorName:[GlobalSharedClass shared].callOrderHeaderSelectorName];

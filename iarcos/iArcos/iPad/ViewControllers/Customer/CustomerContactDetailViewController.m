@@ -609,6 +609,7 @@
 
 #pragma mark CheckLocationIURTemplateDelegate
 - (void)succeedToCheckSameLocationIUR:(NSIndexPath*)indexPath {
+    [GlobalSharedClass shared].startRecordingDate = [NSDate date];
     NSMutableDictionary* aCust = [self getCustomerWithIndexPath:indexPath];
     self.currentIndexPath = indexPath;
     CustomerInfoTableViewController* CITVC=[[CustomerInfoTableViewController alloc]initWithNibName:@"CustomerInfoTableViewController" bundle:nil];

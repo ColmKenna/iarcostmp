@@ -100,7 +100,8 @@
 -(void)loadEmployeeToDB;
 -(void)loadConfigToDB;
 //-(void)loadOrderToDB;
--(void)loadOrderToDB:(NSDate*)aStartDate endDate:(NSDate*)aEndDate;
+//-(void)loadOrderToDB:(NSDate*)aStartDate endDate:(NSDate*)aEndDate;
+-(void)loadOrderToDB:(NSMutableDictionary*)aDataDict;
 -(void)loadCallToDB:(NSDate*)aStartDate endDate:(NSDate*)aEndDate;
 -(void)loadResponseToDB:(NSDate*)aStartDate endDate:(NSDate*)aEndDate;
 -(void)loadSurveyToDB;

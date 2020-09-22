@@ -2920,6 +2920,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     OH.ExchangeRate=[NSDecimalNumber decimalNumberWithString:@"1.0"];
     NSMutableArray* invoiceRefList = [orderHeader objectForKey:@"invoiceRef"];
     OH.InvoiseRef= [invoiceRefList componentsJoinedByString:@"|"];
+    NSNumber* callCost = [anOrder objectForKey:@"CallCost"];
+    if (callCost != nil) {
+        OH.CallCost = [NSDecimalNumber decimalNumberWithString:[callCost stringValue]];
+    }
     
 
     
