@@ -69,6 +69,7 @@
     self.navigationController.navigationBarHidden = YES;
     self.largeSmallImageFormRowsDataManager = [[[LargeSmallImageFormRowsDataManager alloc] init] autorelease];
     self.slideUpViewHeight = 177.0f;
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (void)viewDidUnload

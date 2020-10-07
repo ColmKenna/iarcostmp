@@ -760,14 +760,16 @@
     }
 }
 +(void)processRotationEvent:(UIView*)aView tabBarHeight:(float)aHeight navigationController:(UINavigationController*)aNavigationController {
-    UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    UIViewController* myArcosRootViewController = [self getRootView];
+//    UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
     float diff = [UIApplication sharedApplication].statusBarFrame.size.height + aNavigationController.navigationBar.frame.size.height + aHeight;
     float mainMasterWidth = [GlobalSharedClass shared].mainMasterWidth;
-    if (UIInterfaceOrientationIsLandscape(currentOrientation)) {
-        aView.frame = CGRectMake(0, 0, 1024-mainMasterWidth, 768 - diff);
-    }else{
-        aView.frame = CGRectMake(0, 0, 768-mainMasterWidth, 1024 - diff);
-    }
+//    if (UIInterfaceOrientationIsLandscape(currentOrientation)) {
+//        aView.frame = CGRectMake(0, 0, 1024-mainMasterWidth, 768 - diff);
+//    }else{
+//        aView.frame = CGRectMake(0, 0, 768-mainMasterWidth, 1024 - diff);
+//    }
+    aView.frame = CGRectMake(0, 0, myArcosRootViewController.view.bounds.size.width-mainMasterWidth, myArcosRootViewController.view.bounds.size.height - diff);
 }
 +(CGRect)fromRect4ActionSheet:(UIView*)aView {
     return CGRectMake(aView.center.x, aView.center.y, 1.0, 1.0);

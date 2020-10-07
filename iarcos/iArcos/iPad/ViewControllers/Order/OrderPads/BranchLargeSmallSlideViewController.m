@@ -42,6 +42,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
     }
     return self;
 }
@@ -74,6 +75,7 @@
     self.branchLargeSmallDataManager.formType = self.formType;
 //    NSLog(@"self.branchLargeSmallDataManager.formType: %@", self.branchLargeSmallDataManager.formType);
     self.slideUpViewHeight = 116.0f;
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (void)viewDidUnload

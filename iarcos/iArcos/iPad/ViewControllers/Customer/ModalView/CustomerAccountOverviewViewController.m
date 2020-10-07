@@ -93,7 +93,7 @@
     self.emailButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(emailButtonPressed:)] autorelease];
     self.navigationItem.rightBarButtonItem = self.emailButton;
     self.displayList = [NSMutableArray array];  
-    
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (void)displayFileOnCanvas {

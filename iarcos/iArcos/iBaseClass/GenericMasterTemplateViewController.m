@@ -101,7 +101,10 @@
         diff = 1.0f;
     }
 //    float masterWidth = 320.0;
-    float masterWidth = (1024 - [GlobalSharedClass shared].mainMasterWidth) / 2;
+    UIViewController* myArcosRootViewController = [ArcosUtils getRootView];
+    float landscapeWidth = 0.0;
+    landscapeWidth = (myArcosRootViewController.view.bounds.size.width > myArcosRootViewController.view.bounds.size.height) ? myArcosRootViewController.view.bounds.size.width : myArcosRootViewController.view.bounds.size.height;
+    float masterWidth = (landscapeWidth - [GlobalSharedClass shared].mainMasterWidth) / 2;
     self.masterViewController.view.frame = CGRectMake(0, 0, masterWidth-diff, viewBounds.size.height);
     self.splitDividerUILabel.frame = CGRectMake(masterWidth-diff, 0, self.dividerWidth, viewBounds.size.height);
 }

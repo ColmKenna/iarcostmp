@@ -77,6 +77,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.#d3d7dd
+    self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor colorWithRed:211.0/255.0 green:215.0/255.0 blue:221.0/255.0 alpha:1.0];
     UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backPressed:)];
     [self.navigationItem setLeftBarButtonItem:backButton];

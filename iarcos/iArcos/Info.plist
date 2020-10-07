@@ -57,6 +57,8 @@
 	<array>
 		<string>external-accessory</string>
 	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen_iPad</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIMainStoryboardFile~ipad</key>

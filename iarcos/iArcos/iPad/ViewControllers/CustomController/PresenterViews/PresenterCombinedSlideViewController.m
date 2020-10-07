@@ -51,6 +51,7 @@
     [super viewDidLoad];
     
     // Set up some colorful content views
+    self.automaticallyAdjustsScrollViewInsets = NO;
     self.arcosRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
     self.viewItemControllerList = [NSMutableArray array];
     //assign current file

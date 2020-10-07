@@ -182,12 +182,29 @@ static const CGFloat constantColorLookupTable[20][3] =
     self.monthPieImageView.isInMiniMode = YES;
     self.monthTableImageView.isInMiniMode = YES;
     self.yearBarImageView.isInMiniMode = YES;
-    globalZoomInCGAffineTransform = CGAffineTransformMakeScale(0.10,0.10);
+    
+//    globalZoomInCGAffineTransform = CGAffineTransformMakeScale(0.10,0.10);
 //    NSLog(@"begin globalZoomInCGAffineTransform: %@", NSStringFromCGAffineTransform(globalZoomInCGAffineTransform));
     globalZoomOutCGAffineTransform = CGAffineTransformMakeScale(1.0, 1.0);    
     
-    landscapeBigViewSize = CGRectMake(10.0f, 10.0f, 904.0f, 684.0f);
-    landscapeSmallViewSize = CGRectMake(914.0f, 10.0f, 110.0f, 684.0f);
+    UIViewController* myArcosRootViewController = [ArcosUtils getRootView];
+    float landscapeWidth = 0.0;
+    float landscapeHeight = 0.0;
+    float portraitWidth = 0.0;
+    float portraitHeight = 0.0;
+    landscapeWidth = (myArcosRootViewController.view.bounds.size.width > myArcosRootViewController.view.bounds.size.height) ? myArcosRootViewController.view.bounds.size.width : myArcosRootViewController.view.bounds.size.height;
+    landscapeHeight = (myArcosRootViewController.view.bounds.size.width > myArcosRootViewController.view.bounds.size.height) ? myArcosRootViewController.view.bounds.size.height : myArcosRootViewController.view.bounds.size.width;
+    portraitWidth = landscapeHeight;
+    portraitHeight = landscapeWidth;
+    float headerDiff = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height;
+    float landscapeBigViewWidth = landscapeWidth - 120.0f;
+    float landscapeBigViewHeight = landscapeHeight - headerDiff - 20.0f;
+    landscapeBigViewSize = CGRectMake(10.0f, 10.0f, landscapeBigViewWidth, landscapeBigViewHeight);
+    landscapeSmallViewSize = CGRectMake(landscapeBigViewWidth + 10.0f, 10.0f, 110.0f, landscapeBigViewHeight);
+    float zoomInRate = 90.4 / landscapeBigViewWidth;
+    globalZoomInCGAffineTransform = CGAffineTransformMakeScale(zoomInRate, zoomInRate);
+//    landscapeBigViewSize = CGRectMake(10.0f, 10.0f, 904.0f, 684.0f);
+//    landscapeSmallViewSize = CGRectMake(914.0f, 10.0f, 110.0f, 684.0f);
     globalLandscapeBigViewCenter = [self getCenterFromRect:landscapeBigViewSize];
     globalLandscapeSmallViewCenter = [self getCenterFromRect:landscapeSmallViewSize];
 //    NSLog(@"globalLandscapeSmallViewCenter is: %@ ", NSStringFromCGPoint(globalLandscapeSmallViewCenter));
@@ -199,9 +216,12 @@ static const CGFloat constantColorLookupTable[20][3] =
     [self.landscapeSeqPosList addObject:[NSValue valueWithCGRect:landscapeSecondViewSize]];
     [self.landscapeSeqPosList addObject:[NSValue valueWithCGRect:landscapeThirdViewSize]];
     
-    
-    portraitBigViewSize = CGRectMake(10.0f, 10.0f, 748.0f, 850.0f);
-    portraitSmallViewSize = CGRectMake(10.0f, 860.0f, 748.0f, 100.0f);
+    float portraitBigViewWidth = portraitWidth - 20.0f;
+    float portraitBigViewHeight = portraitHeight - headerDiff - 100.0f - 10.0f;
+    portraitBigViewSize = CGRectMake(10.0f, 10.0f, portraitBigViewWidth, portraitBigViewHeight);
+    portraitSmallViewSize = CGRectMake(10.0f, portraitBigViewHeight + 10.0f, portraitBigViewWidth, 100.0f);
+//    portraitBigViewSize = CGRectMake(10.0f, 10.0f, 748.0f, 850.0f);
+//    portraitSmallViewSize = CGRectMake(10.0f, 860.0f, 748.0f, 100.0f);
     globalPortraitBigViewCenter = [self getCenterFromRect:portraitBigViewSize];
     globalPortraitSmallViewCenter = [self getCenterFromRect:portraitSmallViewSize];
     portraitFirstViewSize = CGRectMake(74.0f, 20.0f, 120.0f, 120.0f);

@@ -69,6 +69,7 @@
     self.navigationController.navigationBarHidden = YES;
     self.largeSmallL3SearchFormRowDataManager = [[[LargeSmallL3SearchFormRowDataManager alloc] init] autorelease];
     self.slideUpViewHeight = 177.0f;
+    self.automaticallyAdjustsScrollViewInsets = NO;
             
 }
 

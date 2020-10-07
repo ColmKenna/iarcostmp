@@ -495,7 +495,33 @@
 }
 */
 - (void)resetDisplayLayout:(UIInterfaceOrientation)orientation {
+    UIViewController* myArcosRootViewController = [ArcosUtils getRootView];
+    
+    float diff = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height;
+    
     if ((orientation == UIInterfaceOrientationLandscapeLeft) || (orientation == UIInterfaceOrientationLandscapeRight)) {
+        float viewWidth = (myArcosRootViewController.view.bounds.size.width - 10 * 4) / 3;
+        float viewHeight = (myArcosRootViewController.view.bounds.size.height - diff - 10 * 3) / 2;
+        float templateViewWidth = myArcosRootViewController.view.bounds.size.width;
+        float templateViewHeight = (myArcosRootViewController.view.bounds.size.height - diff) / 2;
+        self.allChartView.frame = CGRectMake(0.0f, 0.0f, templateViewWidth, templateViewHeight);
+        self.weekLineChartView.frame = CGRectMake(10.0f, 10.0f, viewWidth, viewHeight);
+        self.monthPieChartView.frame = CGRectMake(viewWidth + 10.0f * 2, 10.0f, viewWidth, viewHeight);
+        self.yearBarChartView.frame = CGRectMake(viewWidth * 2 + 10.0f * 3, 10.0f, viewWidth, viewHeight);
+        
+        self.allTableView.frame = CGRectMake(0.0f, templateViewHeight, templateViewWidth, templateViewHeight);
+//        self.weekTableChartView.frame = CGRectMake(10.0f, 350.0f, 330.0f, 330.0f);
+        self.weekTableChartView.frame = CGRectMake(10.0f, 5.0f, viewWidth, viewHeight);
+        self.weekTableScrollView.frame = CGRectMake(60.0f, 60.0f, viewWidth - 120.0f, viewHeight - 120.0f);
+//        self.monthTableChartView.frame = CGRectMake(347.0f, 350.0f, 330.0f, 330.0f);
+        self.monthTableChartView.frame = CGRectMake(viewWidth + 10.0f * 2, 5.0f, viewWidth, viewHeight);
+        self.monthTableScrollView.frame = CGRectMake(60.0f, 60.0f, viewWidth - 120.0f, viewHeight - 120.0f);
+//        self.yearTableChartView.frame = CGRectMake(684.0f, 350.0f, 330.0f, 330.0f);
+        self.yearTableChartView.frame = CGRectMake(viewWidth * 2 + 10.0f * 3, 5.0f, viewWidth, viewHeight);
+        self.yearTableScrollView.frame = CGRectMake(60.0f, 60.0f, viewWidth - 120.0f, viewHeight - 120.0f);
+        CPTPieChart* tmpMonthPieChart = (CPTPieChart*)[self.monthPieChartView.hostedGraph plotAtIndex:0];
+        tmpMonthPieChart.pieRadius = 120.0f;
+        /*
         self.allChartView.frame = CGRectMake(0.0f, 0.0f, 1024.0f, 340.0f);
         self.weekLineChartView.frame = CGRectMake(10.0f, 10.0f, 330.0f, 330.0f);
         self.monthPieChartView.frame = CGRectMake(347.0f, 10.0f, 330.0f, 330.0f);
@@ -514,7 +540,31 @@
         CPTPieChart* tmpMonthPieChart = (CPTPieChart*)[self.monthPieChartView.hostedGraph plotAtIndex:0];
         tmpMonthPieChart.pieRadius = 120.0f;
 //        self.monthPieChart.pieRadius = 120.0f;
+         */
     } else {
+        float viewWidth = (myArcosRootViewController.view.bounds.size.width - 10 * 3) - 310;
+        float viewHeight = (myArcosRootViewController.view.bounds.size.height - diff - 10 * 4) / 3;
+        float templateViewWidth = myArcosRootViewController.view.bounds.size.width - 330;
+        float templateViewHeight = (myArcosRootViewController.view.bounds.size.height - diff) / 2;
+        
+        self.allChartView.frame = CGRectMake(0.0f, 0.0f, templateViewWidth, templateViewHeight);
+        self.weekLineChartView.frame = CGRectMake(10.0f, 10.0f, viewWidth, viewHeight);
+        self.monthPieChartView.frame = CGRectMake(10.0f, viewHeight + 10 * 2, viewWidth, viewHeight);
+        self.yearBarChartView.frame = CGRectMake(10.0f, viewHeight * 2 + 10 * 3, viewWidth, viewHeight);
+        
+        self.allTableView.frame = CGRectMake(templateViewWidth + 10.0f, 0.0f, 320.0f, templateViewHeight);
+//        self.weekTableChartView.frame = CGRectMake(448.0f, 10.0f, 310.0f, 310.0f);
+        self.weekTableChartView.frame = CGRectMake(0.0f, 10.0f, 310.0f, viewHeight);
+        self.weekTableScrollView.frame = CGRectMake(50.0f, 50.0f, 210.0f, 210.0f);
+//        self.monthTableChartView.frame = CGRectMake(448.0f, 330.0f, 310.0f, 310.0f);
+        self.monthTableChartView.frame = CGRectMake(0.0f, viewHeight + 10 * 2, 310.0f, viewHeight);
+        self.monthTableScrollView.frame = CGRectMake(50.0f, 50.0f, 210.0f, 210.0f);
+//        self.yearTableChartView.frame = CGRectMake(448.0f, 650.0f, 310.0f, 310.0f);
+        self.yearTableChartView.frame = CGRectMake(0.0f, viewHeight * 2 + 10 * 3, 310.0f, viewHeight);
+        self.yearTableScrollView.frame = CGRectMake(50.0f, 50.0f, 210.0f, 210.0f);
+        CPTPieChart* tmpMonthPieChart = (CPTPieChart*)[self.monthPieChartView.hostedGraph plotAtIndex:0];
+        tmpMonthPieChart.pieRadius = 120.0f;
+        /*
         self.allChartView.frame = CGRectMake(0.0f, 0.0f, 440.0f, 1024.0f);
         self.weekLineChartView.frame = CGRectMake(10.0f, 10.0f, 430.0f, 310.0f);
         self.monthPieChartView.frame = CGRectMake(10.0f, 330.0f, 430.0f, 310.0f);
@@ -532,6 +582,7 @@
         self.yearTableScrollView.frame = CGRectMake(50.0f, 50.0f, 210.0f, 210.0f);
         CPTPieChart* tmpMonthPieChart = (CPTPieChart*)[self.monthPieChartView.hostedGraph plotAtIndex:0];
         tmpMonthPieChart.pieRadius = 120.0f;
+         */
 //        self.monthPieChart.pieRadius = 120.0f;        
     }
     [self makeScrollViewScrollable:self.weekTableScrollView];

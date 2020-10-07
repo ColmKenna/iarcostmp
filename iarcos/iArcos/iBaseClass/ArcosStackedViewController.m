@@ -84,12 +84,17 @@
     self = [super initWithNibName:@"ArcosStackedViewController" bundle:nil];
     if (self) {
         // Custom initialization
-        self.subViewWidth = (1024 - [GlobalSharedClass shared].mainMasterWidth) / 2;
+        UIViewController* myArcosRootViewController = [ArcosUtils getRootView];
+        float landscapeWidth = 0.0;
+        float landscapeHeight = 0.0;
+        landscapeWidth = (myArcosRootViewController.view.bounds.size.width > myArcosRootViewController.view.bounds.size.height) ? myArcosRootViewController.view.bounds.size.width : myArcosRootViewController.view.bounds.size.height;
+        landscapeHeight = (myArcosRootViewController.view.bounds.size.width > myArcosRootViewController.view.bounds.size.height) ? myArcosRootViewController.view.bounds.size.height : myArcosRootViewController.view.bounds.size.width;
+        self.subViewWidth = (landscapeWidth - [GlobalSharedClass shared].mainMasterWidth) / 2;
         self.dividerWidth = 1.0f;
         self.rcsViewControllers = [NSMutableArray array];
         self.dividerList = [NSMutableArray array];
         self.intersectFlag = NO;
-        self.intersection = self.subViewWidth - (768 - [GlobalSharedClass shared].mainMasterWidth - self.subViewWidth);
+        self.intersection = self.subViewWidth - (landscapeHeight - [GlobalSharedClass shared].mainMasterWidth - self.subViewWidth);
         self.topVisibleNavigationController = rootNavigationController;
         [_rcsViewControllers addObject:rootNavigationController];
         StackedSplitDividerUILabel* myDividerLabel = [[StackedSplitDividerUILabel alloc] init];

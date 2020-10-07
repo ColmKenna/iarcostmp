@@ -86,6 +86,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.automaticallyAdjustsScrollViewInsets = NO;
     UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(closePressed:)];
     NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:2];
     UIBarButtonItem* emailButton = [[UIBarButtonItem alloc] initWithTitle:@"Email" style:UIBarButtonItemStylePlain target:self action:@selector(emailAttachment:)];
@@ -136,10 +137,12 @@
 {
 //    NSLog(@"customiseScrollView.frame.size.width: %f %f", customiseScrollView.frame.size.width, self.view.frame.size.height);
     [super viewWillAppear:animated];
+    float landscapeWidth = 0.0;
+    landscapeWidth = (self.rootView.view.bounds.size.width > self.rootView.view.bounds.size.height) ? self.rootView.view.bounds.size.width : self.rootView.view.bounds.size.height;
     float totalCellWidth = self.cellWidth * [self.attrNameList count];
     float customiseWidth = self.customiseScrollView.frame.size.width > totalCellWidth ? self.customiseScrollView.frame.size.width : totalCellWidth;
-    if (customiseWidth < 1024) {
-        customiseWidth = 1024;
+    if (customiseWidth < landscapeWidth) {
+        customiseWidth = landscapeWidth;
     }
     self.customiseScrollView.contentSize = CGSizeMake(customiseWidth, self.view.frame.size.height);
     
@@ -175,8 +178,8 @@
         [headerLabel release];
     }
     
-    self.customiseScrollView.pagingEnabled = YES; 
-
+    self.customiseScrollView.pagingEnabled = YES;
+    self.customiseScrollView.directionalLockEnabled = NO;
 //    NSLog(@"self.customiseScrollView.contentInset %f, %f, %f, %f", self.customiseScrollView.scrollIndicatorInsets.top,self.customiseScrollView.scrollIndicatorInsets.left,self.customiseScrollView.scrollIndicatorInsets.bottom,self.customiseScrollView.scrollIndicatorInsets.right);
 //    self.customiseScrollView.bounds = CGRectMake(0, 0, self.cellWidth, self.customiseScrollView.frame.size.height);
 //    self.customiseScrollView.clipsToBounds = NO;
