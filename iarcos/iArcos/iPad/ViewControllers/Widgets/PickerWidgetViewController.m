@@ -271,6 +271,7 @@
     UILabel *retval = (id)view;
     if (!retval) {
         retval= [[[UILabel alloc] initWithFrame:CGRectMake(5.0f, 0.0f, [pickerView rowSizeForComponent:component].width-10, [pickerView rowSizeForComponent:component].height)] autorelease];
+        retval.textAlignment = NSTextAlignmentCenter;
         retval.adjustsFontSizeToFitWidth=YES;
     }
     if (self.dynamicWidthFlag) {
