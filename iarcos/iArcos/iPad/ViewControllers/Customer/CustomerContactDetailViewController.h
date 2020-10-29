@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CustomerBaseDetailViewController.h"
 #import "CustomerInfoTableViewController.h"
+#import "CustomerContactDetailTableCell.h"
 
 @interface CustomerContactDetailViewController : CustomerBaseDetailViewController <UISearchBarDelegate, GenericRefreshParentContentDelegate, CheckLocationIURTemplateDelegate>{
     NSMutableArray* myCustomers;

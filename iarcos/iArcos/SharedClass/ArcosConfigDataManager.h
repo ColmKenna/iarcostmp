@@ -83,6 +83,7 @@
 - (BOOL)useOutlookFlag;
 - (BOOL)disableBonusBoxWithPriceRecordFlag;
 - (BOOL)enableAlternateOrderEntryPopoverFlag;
+- (BOOL)showPreviousMemoInCallEntryFlag;
 - (void)resetSystemCodes:(NSString*)aSystemCodes;
 - (void)persistentSystemCodes;
 

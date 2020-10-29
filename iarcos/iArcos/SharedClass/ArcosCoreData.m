@@ -3925,103 +3925,112 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     [self saveContext:context];
 }
 -(void)loadOrderWithSoapOB:(ArcosOrderHeaderBO*)anObject{
- 
-    //create order header
-    NSManagedObjectContext *context = [self addManagedObjectContext];
-    OrderHeader *OrderHeader = [NSEntityDescription
-                                insertNewObjectForEntityForName:@"OrderHeader" 
-                                inManagedObjectContext:context];
-    
-    OrderHeader.OrderHeaderIUR  =   [NSNumber numberWithInt:anObject.IUR];
-    OrderHeader.OrderNumber     =   [NSNumber numberWithInt:anObject.OrderNumber];
-    OrderHeader.CallIUR     =   [NSNumber numberWithInt:anObject.CallIUR];
-    OrderHeader.OTiur   =   [NSNumber numberWithInt:anObject.OTIUR];
-    OrderHeader.PromotionIUR    =   [NSNumber numberWithInt:anObject.PromotionIUR];
-    //OrderHeader.DocketIUR   =   [NSNumber numberWithInt:anObject.DocketIUR];
-    OrderHeader.DocketIUR   =   [NSNumber numberWithInt:-1];
-    OrderHeader.OrderDate   =   [ArcosUtils addHours:1 date:anObject.OrderDate];
-    OrderHeader.EnteredDate =   anObject.EnteredDate;
-    OrderHeader.CallDuration    =   [NSNumber numberWithDouble:anObject.CallDuration];
-    OrderHeader.DeliveryDate    =   [ArcosUtils addHours:1 date:anObject.DeliveryDate];
-    OrderHeader.OSiur   =   [NSNumber numberWithInt:anObject.OSIUR];
-    OrderHeader.LocationIUR =   [NSNumber numberWithInt:anObject.LocationIUR];
-    OrderHeader.ContactIUR  =   [NSNumber numberWithInt:anObject.ContactIUR];
-    OrderHeader.LocationCode    =   anObject.LocationCode;
-    OrderHeader.MemoIUR =   [NSNumber numberWithInt:anObject.MemoIUR];
-    OrderHeader.FormIUR =   [NSNumber numberWithInt:anObject.FormIUR];
-    OrderHeader.EmployeeIUR =   [NSNumber numberWithInt:anObject.EmployeeIUR];
-    OrderHeader.TotalGoods  =   anObject.TotalGoods;
-    OrderHeader.TotalVat    =   anObject.TotalVAT;
-    OrderHeader.TotalQty    =   [NSNumber numberWithInt:anObject.TotalQTY];
-    OrderHeader.TotalBonus  =   [NSNumber numberWithInt:anObject.TotalBonus];
-    OrderHeader.ExchangeRate    =   anObject.ExchangeRate;
-    OrderHeader.TotalBonusValue =   anObject.TotalBonusValue;
-    OrderHeader.TotalFOC    =   [NSNumber numberWithInt:anObject.TotalFOC];
-    OrderHeader.CallCost    =   anObject.CallCost;
-    OrderHeader.DSiur   =   [NSNumber numberWithInt:anObject.DSIUR];
-    OrderHeader.InvoiseRef  =   anObject.InvoiceRef;
-    OrderHeader.WholesaleIUR=[NSNumber numberWithInt: anObject.WholesaleIUR];
-    OrderHeader.CustomerRef = anObject.CustomerRef;
-    OrderHeader.Latitude = anObject.Latitude;
-    OrderHeader.Longitude = anObject.Longitude;
-    
-//    NSLog(@"Write OrderHeader  record to coredata");
-    
-    //add order lines
-    if ([anObject.Lines count]>0) {//has order lines
-        NSMutableSet* orderLinesSet=[NSMutableSet set];
-//        NSLog(@"%d order lines back",[anObject.Lines count]);
-        int linenumber=0;
-        for (ArcosOrderLineBO* orderLine in anObject.Lines) {
-            linenumber++;
-//            NSLog(@"order line save is %@",orderLine);
-            //convert order line dictionary to object
-            OrderLine* OL=[NSEntityDescription insertNewObjectForEntityForName:@"OrderLine" inManagedObjectContext:self.addManagedObjectContext];
-            OL.OrderLine=[NSNumber numberWithInt:orderLine.OrderLine];
-            OL.LocationIUR=OrderHeader.LocationIUR;
-            OL.OrderNumber=OrderHeader.OrderNumber;
-            OL.ProductIUR=[NSNumber numberWithInt:orderLine.ProductIUR];
-            OL.OrderDate=OrderHeader.OrderDate;
-            OL.UnitPrice=orderLine.UnitPrice ;
-            OL.Bonus=[NSNumber numberWithInt:orderLine.Bonus];
-            OL.Qty=[NSNumber numberWithInt:orderLine.Qty];
-            OL.LineValue=orderLine.LineValue;
-            OL.DiscountPercent=orderLine.DiscountPercent;
-            OL.RebatePercent = orderLine.RebatePercent;
-            OL.Points = [NSNumber numberWithInt:orderLine.Points];
-            OL.NetRevenue = orderLine.NetRevenue;
-            OL.DeliveryDate = orderLine.DeliveryDate;
-            OL.TradeValue = orderLine.TradeValue;
-            OL.InStock = [NSNumber numberWithInt:orderLine.InStock];
-            OL.FOC = [NSNumber numberWithInt:orderLine.FOC];
-            
-            //line to order header
-            OL.orderheader=OrderHeader;
-            
-            //add to the set
-            [orderLinesSet addObject:OL];
-        }
-        OrderHeader.NumberOflines=[NSNumber numberWithInt:linenumber];
-        [OrderHeader addOrderlines:orderLinesSet];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"OrderNumber = %d", anObject.OrderNumber];
+    NSMutableArray* objectArray = [self fetchRecordsWithEntity:@"OrderHeader" withPropertiesToFetch:nil
+                                                  withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
+    if ([objectArray count] > 0) {
+        OrderHeader* OrderHeader = [objectArray objectAtIndex:0];
+        [self.arcosCoreDataManager populateOrderWithSoapOB:anObject orderHeader:OrderHeader];
+        [self saveContext:self.fetchManagedObjectContext];
+    } else {
+        //create order header
+        NSManagedObjectContext *context = [self addManagedObjectContext];
+        OrderHeader *OrderHeader = [NSEntityDescription
+                                    insertNewObjectForEntityForName:@"OrderHeader"
+                                    inManagedObjectContext:context];
         
-    }
-    //add memo    
-    ArcosMemoBO* memoBO=anObject.Memo;
-    if (memoBO != nil && memoBO.Details != nil && ![@"" isEqualToString:memoBO.Details]) {
-        Memo* MO=[NSEntityDescription insertNewObjectForEntityForName:@"Memo" inManagedObjectContext:context];
-        MO.Details=memoBO.Details;
-        MO.MTIUR=[NSNumber numberWithInt: memoBO.MTiur];
-        MO.EmployeeIUR=[NSNumber numberWithInt: memoBO.Employeeiur];
-        MO.DateEntered=memoBO.DateEntered;
-        MO.Subject=memoBO.Subject;
-        MO.LocationIUR=[NSNumber numberWithInt: memoBO.Locationiur];
-        MO.ContactIUR=[NSNumber numberWithInt: memoBO.Contactiur];
-        //link to order header
-        MO.orderheader=OrderHeader;
-        OrderHeader.memo=MO;
+        OrderHeader.OrderHeaderIUR  =   [NSNumber numberWithInt:anObject.IUR];
+        OrderHeader.OrderNumber     =   [NSNumber numberWithInt:anObject.OrderNumber];
+        OrderHeader.CallIUR     =   [NSNumber numberWithInt:anObject.CallIUR];
+        OrderHeader.OTiur   =   [NSNumber numberWithInt:anObject.OTIUR];
+        OrderHeader.PromotionIUR    =   [NSNumber numberWithInt:anObject.PromotionIUR];
+        //OrderHeader.DocketIUR   =   [NSNumber numberWithInt:anObject.DocketIUR];
+        OrderHeader.DocketIUR   =   [NSNumber numberWithInt:-1];
+        OrderHeader.OrderDate   =   [ArcosUtils addHours:1 date:anObject.OrderDate];
+        OrderHeader.EnteredDate =   anObject.EnteredDate;
+        OrderHeader.CallDuration    =   [NSNumber numberWithDouble:anObject.CallDuration];
+        OrderHeader.DeliveryDate    =   [ArcosUtils addHours:1 date:anObject.DeliveryDate];
+        OrderHeader.OSiur   =   [NSNumber numberWithInt:anObject.OSIUR];
+        OrderHeader.LocationIUR =   [NSNumber numberWithInt:anObject.LocationIUR];
+        OrderHeader.ContactIUR  =   [NSNumber numberWithInt:anObject.ContactIUR];
+        OrderHeader.LocationCode    =   anObject.LocationCode;
+        OrderHeader.MemoIUR =   [NSNumber numberWithInt:anObject.MemoIUR];
+        OrderHeader.FormIUR =   [NSNumber numberWithInt:anObject.FormIUR];
+        OrderHeader.EmployeeIUR =   [NSNumber numberWithInt:anObject.EmployeeIUR];
+        OrderHeader.TotalGoods  =   anObject.TotalGoods;
+        OrderHeader.TotalVat    =   anObject.TotalVAT;
+        OrderHeader.TotalQty    =   [NSNumber numberWithInt:anObject.TotalQTY];
+        OrderHeader.TotalBonus  =   [NSNumber numberWithInt:anObject.TotalBonus];
+        OrderHeader.ExchangeRate    =   anObject.ExchangeRate;
+        OrderHeader.TotalBonusValue =   anObject.TotalBonusValue;
+        OrderHeader.TotalFOC    =   [NSNumber numberWithInt:anObject.TotalFOC];
+        OrderHeader.CallCost    =   anObject.CallCost;
+        OrderHeader.DSiur   =   [NSNumber numberWithInt:anObject.DSIUR];
+        OrderHeader.InvoiseRef  =   anObject.InvoiceRef;
+        OrderHeader.WholesaleIUR=[NSNumber numberWithInt: anObject.WholesaleIUR];
+        OrderHeader.CustomerRef = anObject.CustomerRef;
+        OrderHeader.Latitude = anObject.Latitude;
+        OrderHeader.Longitude = anObject.Longitude;
+        
+    //    NSLog(@"Write OrderHeader  record to coredata");
+        
+        //add order lines
+        if ([anObject.Lines count]>0) {//has order lines
+            NSMutableSet* orderLinesSet=[NSMutableSet set];
+    //        NSLog(@"%d order lines back",[anObject.Lines count]);
+            int linenumber=0;
+            for (ArcosOrderLineBO* orderLine in anObject.Lines) {
+                linenumber++;
+    //            NSLog(@"order line save is %@",orderLine);
+                //convert order line dictionary to object
+                OrderLine* OL=[NSEntityDescription insertNewObjectForEntityForName:@"OrderLine" inManagedObjectContext:self.addManagedObjectContext];
+                OL.OrderLine=[NSNumber numberWithInt:orderLine.OrderLine];
+                OL.LocationIUR=OrderHeader.LocationIUR;
+                OL.OrderNumber=OrderHeader.OrderNumber;
+                OL.ProductIUR=[NSNumber numberWithInt:orderLine.ProductIUR];
+                OL.OrderDate=OrderHeader.OrderDate;
+                OL.UnitPrice=orderLine.UnitPrice ;
+                OL.Bonus=[NSNumber numberWithInt:orderLine.Bonus];
+                OL.Qty=[NSNumber numberWithInt:orderLine.Qty];
+                OL.LineValue=orderLine.LineValue;
+                OL.DiscountPercent=orderLine.DiscountPercent;
+                OL.RebatePercent = orderLine.RebatePercent;
+                OL.Points = [NSNumber numberWithInt:orderLine.Points];
+                OL.NetRevenue = orderLine.NetRevenue;
+                OL.DeliveryDate = orderLine.DeliveryDate;
+                OL.TradeValue = orderLine.TradeValue;
+                OL.InStock = [NSNumber numberWithInt:orderLine.InStock];
+                OL.FOC = [NSNumber numberWithInt:orderLine.FOC];
+                
+                //line to order header
+                OL.orderheader=OrderHeader;
+                
+                //add to the set
+                [orderLinesSet addObject:OL];
+            }
+            OrderHeader.NumberOflines=[NSNumber numberWithInt:linenumber];
+            [OrderHeader addOrderlines:orderLinesSet];
+            
+        }
+        //add memo
+        ArcosMemoBO* memoBO=anObject.Memo;
+        if (memoBO != nil && memoBO.Details != nil && ![@"" isEqualToString:memoBO.Details]) {
+            Memo* MO=[NSEntityDescription insertNewObjectForEntityForName:@"Memo" inManagedObjectContext:context];
+            MO.Details=memoBO.Details;
+            MO.MTIUR=[NSNumber numberWithInt: memoBO.MTiur];
+            MO.EmployeeIUR=[NSNumber numberWithInt: memoBO.Employeeiur];
+            MO.DateEntered=memoBO.DateEntered;
+            MO.Subject=memoBO.Subject;
+            MO.LocationIUR=[NSNumber numberWithInt: memoBO.Locationiur];
+            MO.ContactIUR=[NSNumber numberWithInt: memoBO.Contactiur];
+            //link to order header
+            MO.orderheader=OrderHeader;
+            OrderHeader.memo=MO;
+        }
+        
+        [self saveContext:context];
     }
     
-    [self saveContext:context];
 }
 
 -(void)loadCallWithSoapOB:(ArcosCallBO*)anObject {
@@ -4370,7 +4379,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 }
 
 - (NSMutableArray*)contactLocationWithPredicate:(NSPredicate*)aPredicate {
-    NSArray* properties = [NSArray arrayWithObjects:@"Forename",@"Surname",@"IUR",nil];
+    NSArray* properties = [NSArray arrayWithObjects:@"Forename",@"Surname",@"IUR",@"cP09",@"cP10",nil];
     NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Contact" withPropertiesToFetch:properties  withPredicate:aPredicate withSortDescNames:nil withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
     NSMutableArray* contactLocationObjectsArray = [NSMutableArray arrayWithCapacity:[objectsArray count]];
     if ([objectsArray count] > 0) {
@@ -4418,6 +4427,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
                     [contactLocationDict setObject:name forKey:@"SortKey"];
                     [contactLocationDict setObject:[contactDict objectForKey:@"IUR"] forKey:@"ContactIUR"];
                     [contactLocationDict setObject:surname forKey:@"Surname"];
+                    [contactLocationDict setObject:[ArcosUtils convertNilToZero:[contactDict objectForKey:@"cP09"]] forKey:@"cP09"];
+                    [contactLocationDict setObject:[ArcosUtils convertNilToZero:[contactDict objectForKey:@"cP10"]] forKey:@"cP10"];
                     [contactLocationObjectsArray addObject:contactLocationDict];
                 }
             }

@@ -355,7 +355,7 @@
     int anIUR=0;
     anIUR=[empolyeeIUR intValue];
     if ([aDownloadMode intValue] == 1) {
-//        anIUR = anIUR * -1;
+        anIUR = anIUR * -1;
     }
     //start and end date
     /**

@@ -543,6 +543,27 @@
     anLocLocLink.LinkType = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:4]];
 }
 
+- (void)populateOrderWithSoapOB:(ArcosOrderHeaderBO*)anObject orderHeader:(OrderHeader*)OrderHeader {
+    OrderHeader.OSiur = [NSNumber numberWithInt:anObject.OSIUR];
+    NSMutableDictionary* orderlineMap = [NSMutableDictionary dictionaryWithCapacity:[OrderHeader.orderlines count]];
+    for (OrderLine* tmpOrderLine in OrderHeader.orderlines) {
+        NSString* tmpKey = [NSString stringWithFormat:@"%@->%@", tmpOrderLine.OrderNumber, tmpOrderLine.OrderLine];
+        [orderlineMap setObject:tmpOrderLine forKey:tmpKey];
+    }
+    
+    for (ArcosOrderLineBO* tmpArcosOrderLine in anObject.Lines) {
+        NSString* tmpArcosKey = [NSString stringWithFormat:@"%d->%d", tmpArcosOrderLine.OrderNumber, tmpArcosOrderLine.OrderLine];
+        OrderLine* auxOrderLine = [orderlineMap objectForKey:tmpArcosKey];
+        if (auxOrderLine != nil) {
+            auxOrderLine.Bonus = [NSNumber numberWithInt:tmpArcosOrderLine.Bonus];
+            auxOrderLine.FOC = [NSNumber numberWithInt:tmpArcosOrderLine.FOC];
+            auxOrderLine.InStock = [NSNumber numberWithInt:tmpArcosOrderLine.InStock];
+            auxOrderLine.Qty = [NSNumber numberWithInt:tmpArcosOrderLine.Qty];
+            auxOrderLine.Testers = [NSNumber numberWithInt:tmpArcosOrderLine.Testers];
+        }
+    }
+}
+
 - (NSMutableDictionary*)createOrderLineWithManagedOrderLine:(OrderLine*)anOrderLine {
     NSMutableDictionary* orderLineDict = [NSMutableDictionary dictionaryWithCapacity:2];
     [orderLineDict setObject:[NSNumber numberWithInt:[anOrderLine.ProductIUR intValue]] forKey:@"ProductIUR"];

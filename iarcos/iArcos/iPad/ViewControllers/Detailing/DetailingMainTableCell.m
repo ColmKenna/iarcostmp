@@ -36,6 +36,8 @@
 @synthesize thirdFieldList = _thirdFieldList;
 @synthesize fourthFieldList = _fourthFieldList;
 
+@synthesize previousMemo = _previousMemo;
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -53,7 +55,7 @@
 }
 
 -(void)configCellWithData:(NSMutableDictionary*)theData{
-    self.secondFieldList = [NSMutableArray arrayWithObjects:self.OrderDate, self.CallType, self.Contact, self.Memo, nil];
+    self.secondFieldList = [NSMutableArray arrayWithObjects:self.OrderDate, self.CallType, self.Contact, self.Memo,self.previousMemo, nil];
     self.thirdFieldList = [NSMutableArray arrayWithObjects:self.dueDateTitle, self.taskTypeTitle, self.employeeTitle, self.detailsTitle, nil];
     self.fourthFieldList = [NSMutableArray arrayWithObjects:self.dueDateContent, self.taskTypeContent, self.employeeContent, self.detailsContent, nil];
     self.cellData=theData;
@@ -61,12 +63,21 @@
     self.Memo.layer.borderWidth=0.5f;
     self.Memo.layer.borderColor=[[UIColor greenColor]CGColor];
     [self.Memo.layer setCornerRadius:5.0f];
+    
+    self.previousMemo.layer.borderWidth=0.5f;
+    self.previousMemo.layer.borderColor=[[UIColor blackColor]CGColor];
+    [self.previousMemo.layer setCornerRadius:5.0f];
     if (![[ArcosConfigDataManager sharedArcosConfigDataManager] disableMemoFlag]) {
         self.memoTitle.hidden = NO;
         self.Memo.hidden = NO;
     } else {
         self.memoTitle.hidden = YES;
         self.Memo.hidden = YES;
+    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPreviousMemoInCallEntryFlag]) {
+        self.previousMemo.hidden = NO;
+    } else {
+        self.previousMemo.hidden = YES;
     }
     self.detailsContent.layer.borderWidth = 0.5f;
     self.detailsContent.layer.borderColor = [[UIColor greenColor]CGColor];
@@ -86,9 +97,11 @@
             NSMutableDictionary* theCalltype=[aData objectForKey:@"CallType"];
             self.CallType.text=[theCalltype objectForKey:@"Detail"];
         }
+//        NSLog(@"contact %@", [aData objectForKey:@"Contact"]);
         if ([aData objectForKey:@"Contact"]!=nil) {
             NSMutableDictionary* theContact=[aData objectForKey:@"Contact"];
             self.Contact.text=[theContact objectForKey:@"Title"];
+            [self processPreviousMemoWithContactDict:theContact];
         }
         if ([aData objectForKey:@"Memo"]!=nil) {
             NSString* theMemo=[aData objectForKey:@"Memo"];
@@ -141,6 +154,7 @@
     for (UIGestureRecognizer* recognizer in self.employeeContent.gestureRecognizers) {
         [self.employeeContent removeGestureRecognizer:recognizer];
     }
+    
     //add taps action
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
     [self.CallType addGestureRecognizer:singleTap];
@@ -167,6 +181,12 @@
     [singleTap4 release];
     [singleTap5 release];
     
+    
+    UITapGestureRecognizer* doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapGesture:)];
+    [self.previousMemo addGestureRecognizer:doubleTap];
+    doubleTap.numberOfTapsRequired = 2;
+    [doubleTap release];
+    
     //check is editable
     if (!self.isEditable) {
         [self disableEditing];
@@ -176,6 +196,15 @@
 -(void)disableEditing{
     self.Memo.editable=NO;
 }
+
+- (void)handleDoubleTapGesture:(id)sender {
+    if ([self.previousMemo.textColor isEqual:[UIColor blackColor]]) {
+        self.previousMemo.textColor = [UIColor whiteColor];
+    } else {
+        self.previousMemo.textColor = [UIColor blackColor];
+    }
+}
+
 -(void)handleSingleTapGesture:(id)sender{
     if (!self.isEditable) {//if it not editable then return
         return;
@@ -310,6 +339,7 @@
         self.Contact.text=aContact;
         [MData setObject:data forKey:@"Contact"];
         [GlobalSharedClass shared].currentSelectedContactIUR = [data objectForKey:@"IUR"];
+        [self processPreviousMemoWithContactDict:data];
     }
     if (currentLabelIndex==2) {
         NSString* myDateFormat = [GlobalSharedClass shared].dateFormat;
@@ -351,6 +381,14 @@
 -(IBAction)memoInput:(id)sender{
     
 }
+
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
+    if (textView.tag == 2) {
+        return NO;
+    }
+    return YES;
+}
+
 - (void)textViewDidEndEditing:(UITextView *)textView{
     
     //[self.cellData setObject:textView.text forKey:@"memo"];
@@ -425,6 +463,10 @@
     self.secondFieldList = nil;
     self.thirdFieldList = nil;
     self.fourthFieldList = nil;
+    for (UIGestureRecognizer* recognizer in self.previousMemo.gestureRecognizers) {
+        [self.previousMemo removeGestureRecognizer:recognizer];
+    }
+    self.previousMemo = nil;
     
     [super dealloc];
 }
@@ -468,6 +510,47 @@
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
     self.thePopover = nil;
     self.factory.popoverController = nil;
+}
+
+- (OrderHeader*)retrieveLastCallWithContactIUR:(NSNumber*)aContactIUR {
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"ContactIUR = %d and NumberOflines = 0", [aContactIUR intValue]];
+    NSArray* sortDescNames = [NSArray arrayWithObjects:@"OrderDate", nil];
+    NSMutableArray* objectArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"OrderHeader" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSManagedObjectResultType needDistinct:NO ascending:[NSNumber numberWithBool:NO]];
+    if ([objectArray count] > 0) {
+        return [objectArray objectAtIndex:0];
+    }
+    return nil;
+}
+
+- (OrderHeader*)retrieveLastCallWithLocationIUR:(NSNumber*)aLocationIUR {
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"LocationIUR = %d and NumberOflines = 0", [aLocationIUR intValue]];
+    NSArray* sortDescNames = [NSArray arrayWithObjects:@"OrderDate", nil];
+    NSMutableArray* objectArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"OrderHeader" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSManagedObjectResultType needDistinct:NO ascending:[NSNumber numberWithBool:NO]];
+    if ([objectArray count] > 0) {
+        return [objectArray objectAtIndex:0];
+    }
+    return nil;
+}
+
+- (void)processPreviousMemoWithContactDict:(NSMutableDictionary*)aContactDict {
+    self.previousMemo.text = @"";
+    NSNumber* auxContactIUR = [aContactDict objectForKey:@"IUR"];
+    if ([auxContactIUR intValue] != 0) {
+        OrderHeader* auxOrderHeader = [self retrieveLastCallWithContactIUR:auxContactIUR];
+        if (auxOrderHeader != nil) {
+            self.previousMemo.text = [NSString stringWithFormat:@"%@ %@\n\n%@", [ArcosUtils stringFromDate:auxOrderHeader.OrderDate format:[GlobalSharedClass shared].dateFormat], [aContactDict objectForKey:@"Title"], [ArcosUtils convertNilToEmpty:auxOrderHeader.memo.Details]];
+        }
+    } else {
+        OrderHeader* auxOrderHeader = [self retrieveLastCallWithLocationIUR:self.locationIUR];
+        if (auxOrderHeader != nil) {
+            NSString* auxContactFullName = @"";
+            NSMutableDictionary* tmpContactDict = [[ArcosCoreData sharedArcosCoreData] compositeContactWithIUR:auxOrderHeader.ContactIUR];
+            if (tmpContactDict != nil) {
+                auxContactFullName = [tmpContactDict objectForKey:@"Title"];
+            }
+            self.previousMemo.text = [NSString stringWithFormat:@"%@ %@\n\n%@", [ArcosUtils stringFromDate:auxOrderHeader.OrderDate format:[GlobalSharedClass shared].dateFormat], auxContactFullName, [ArcosUtils convertNilToEmpty:auxOrderHeader.memo.Details]];
+        }
+    }
 }
 
 @end

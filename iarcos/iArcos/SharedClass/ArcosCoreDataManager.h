@@ -24,6 +24,9 @@
 #import "LocationProductMAT.h"
 #import "OrderLine.h"
 #import "Promotion.h"
+#import "ArcosOrderHeaderBO.h"
+#import "OrderHeader.h"
+#import "ArcosOrderLineBO.h"
 
 @interface ArcosCoreDataManager : NSObject
 
@@ -44,6 +47,7 @@
 -(void)populateResponseWithSoapOB:(ArcosResponseBO*)anObject response:(Response*)aResponse;
 -(void)populateLocLocLinkWithSoapOB:(ArcosGenericReturnObjectWithImage*)anObject locLocLink:(LocLocLink*)aLocLocLink;
 -(void)populateLocLocLinkWithFieldList:(NSArray*)aFieldList locLocLink:(LocLocLink*)anLocLocLink;
+- (void)populateOrderWithSoapOB:(ArcosOrderHeaderBO*)anObject orderHeader:(OrderHeader*)OrderHeader;
 - (NSMutableDictionary*)createOrderLineWithManagedOrderLine:(OrderLine*)anOrderLine;
 - (NSMutableArray*)processPriceProductList:(NSMutableArray*)aProductList priceHashMap:(NSMutableDictionary*)aPriceHashMap bonusDealHashMap:(NSMutableDictionary*)aBonusDealHashMap;
 - (NSMutableArray*)processMasterPriceProductList:(NSMutableArray*)aProductList masterPriceHashMap:(NSMutableDictionary*)aMasterPriceHashMap masterBonusDealHashMap:(NSMutableDictionary*)aMasterBonusDealHashMap;

@@ -43,6 +43,8 @@
     NSMutableArray* _secondFieldList;
     NSMutableArray* _thirdFieldList;
     NSMutableArray* _fourthFieldList;
+    
+    UITextView* _previousMemo;
 }
 @property(nonatomic,retain) IBOutlet UILabel* OrderDate;
 @property(nonatomic,retain) IBOutlet UILabel* CallType;
@@ -70,6 +72,7 @@
 @property(nonatomic,retain) NSMutableArray* secondFieldList;
 @property(nonatomic,retain) NSMutableArray* thirdFieldList;
 @property(nonatomic,retain) NSMutableArray* fourthFieldList;
+@property(nonatomic,retain) IBOutlet UITextView* previousMemo;
 
 -(IBAction)memoInput:(id)sender;
 

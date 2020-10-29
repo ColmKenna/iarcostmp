@@ -145,11 +145,24 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+//    static NSString *CellIdentifier = @"Cell";
+//
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    if (cell == nil) {
+//        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+//    }
+    static NSString *CellIdentifier = @"IdCustomerContactDetailTableCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+    CustomerContactDetailTableCell* cell = (CustomerContactDetailTableCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if(cell == nil) {
+        
+        NSArray* nibContents = [[NSBundle mainBundle] loadNibNamed:@"CustomerContactDetailTableCell" owner:self options:nil];
+        
+        for (id nibItem in nibContents) {
+            if ([nibItem isKindOfClass:[CustomerContactDetailTableCell class]] && [[(CustomerContactDetailTableCell *)nibItem reuseIdentifier] isEqualToString: CellIdentifier]) {
+                cell = (CustomerContactDetailTableCell *) nibItem;
+            }
+        }
     }
     
     // Configure the cell...
@@ -159,7 +172,7 @@
 //    NSLog(@"contact dict: %@", aCust);
     //Customer Name
     
-    cell.textLabel.text =[aCust objectForKey:@"Name"];
+    cell.nameLabel.text =[aCust objectForKey:@"Name"];
     //Address
     if ([aCust objectForKey:@"Address1"]==nil) {
         [aCust setObject:@"" forKey:@"Address1"];
@@ -176,12 +189,41 @@
     if ([aCust objectForKey:@"Address5"]==nil) {
         [aCust setObject:@"" forKey:@"Address5"];
     }
-    cell.detailTextLabel.text=[NSString stringWithFormat:@"%@ %@ %@ %@ %@ %@",[aCust objectForKey:@"LocationName"] ,[aCust objectForKey:@"Address1"],[aCust objectForKey:@"Address2"],[aCust objectForKey:@"Address3"],[aCust objectForKey:@"Address4"],[aCust objectForKey:@"Address5"]];
+    cell.addressLabel.text=[NSString stringWithFormat:@"%@ %@ %@ %@ %@ %@",[aCust objectForKey:@"LocationName"] ,[aCust objectForKey:@"Address1"],[aCust objectForKey:@"Address2"],[aCust objectForKey:@"Address3"],[aCust objectForKey:@"Address4"],[aCust objectForKey:@"Address5"]];
     
     //Image
     //NSNumber* anIUR=[aCust objectForKey:@"ImageIUR"];
     //UIImage* anImage=[[ArcosCoreData sharedArcosCoreData]thumbWithIUR:anIUR];
     //cell.imageView.image=anImage;
+    [cell.cP09Button setImage:nil forState:UIControlStateNormal];
+    [cell.cP10Button setImage:nil forState:UIControlStateNormal];
+    NSNumber* cP09IUR = [aCust objectForKey:@"cP09"];
+    NSNumber* cP10IUR = [aCust objectForKey:@"cP10"];
+    NSMutableArray* descrDetailIURList = [NSMutableArray arrayWithObjects:cP09IUR, cP10IUR, nil];
+    NSMutableArray* descrDetailDictList = [[ArcosCoreData sharedArcosCoreData] descriptionWithIURList:descrDetailIURList];
+    NSMutableDictionary* descrDetailDictHashMap = [NSMutableDictionary dictionaryWithCapacity:[descrDetailDictList count]];
+    for (int i = 0; i < [descrDetailDictList count]; i++) {
+        NSDictionary* auxDescrDetailDict = [descrDetailDictList objectAtIndex:i];
+//        NSNumber* auxCodeType = [auxDescrDetailDict objectForKey:@"CodeType"];
+//        if ([auxCodeType intValue] == 0) continue;
+        NSNumber* auxDescrDetailIUR = [auxDescrDetailDict objectForKey:@"DescrDetailIUR"];
+        NSNumber* auxImageIUR = [auxDescrDetailDict objectForKey:@"ImageIUR"];
+        [descrDetailDictHashMap setObject:auxImageIUR forKey:auxDescrDetailIUR];
+    }
+    NSNumber* cP09ImageIUR = [descrDetailDictHashMap objectForKey:cP09IUR];
+    if ([cP09ImageIUR intValue] != 0) {
+        UIImage* cP09Image = [[ArcosCoreData sharedArcosCoreData] thumbWithIUR:cP09ImageIUR];
+        if (cP09Image != nil) {
+            [cell.cP09Button setImage:cP09Image forState:UIControlStateNormal];
+        }
+    }
+    NSNumber* cP10ImageIUR = [descrDetailDictHashMap objectForKey:cP10IUR];
+    if ([cP10ImageIUR intValue] != 0) {
+        UIImage* cP10Image = [[ArcosCoreData sharedArcosCoreData] thumbWithIUR:cP10ImageIUR];
+        if (cP10Image != nil) {
+            [cell.cP10Button setImage:cP10Image forState:UIControlStateNormal];
+        }
+    }
     
     
     return cell;
