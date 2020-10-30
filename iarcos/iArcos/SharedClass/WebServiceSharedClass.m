@@ -1575,13 +1575,13 @@
             for (ArcosOrderHeaderBO* anObject in objects) {
 //                NSLog(@"employee Object %@",anObject);
                 //[[ArcosCoreData sharedArcosCoreData]loadOrderHeaderWithSoapOB:anObject];
-                NSNumber* numberOfOrder = [[ArcosCoreData sharedArcosCoreData] orderWithOrderNumber:anObject.OrderNumber];
+//                NSNumber* numberOfOrder = [[ArcosCoreData sharedArcosCoreData] orderWithOrderNumber:anObject.OrderNumber];
 //                NSLog(@"number of order is %@", numberOfOrder);
-                if ([numberOfOrder intValue] == 0) {
-//                    NSLog(@"inner branch order number is: %d", anObject.OrderNumber);
-                    [[ArcosCoreData sharedArcosCoreData]loadOrderWithSoapOB:anObject];
-                }               
-                
+//                if ([numberOfOrder intValue] == 0) {
+////                    NSLog(@"inner branch order number is: %d", anObject.OrderNumber);
+//                    
+//                }               
+                [[ArcosCoreData sharedArcosCoreData]loadOrderWithSoapOB:anObject];
                 currentObjectIndex++;
                 [self.delegate LoadingData:currentObjectIndex];
                 //NSLog(@"loading data---%d",currentObjectIndex);
