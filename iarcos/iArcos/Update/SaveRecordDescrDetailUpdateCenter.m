@@ -19,7 +19,7 @@
     if (self != nil) {
         self.recordList = aRecordList;
         
-        self.expectedFieldCount = 15;
+        self.expectedFieldCount = 16;
         [self retrieveExistingDescrDetailDict:aRecordList];
     }
     return self;

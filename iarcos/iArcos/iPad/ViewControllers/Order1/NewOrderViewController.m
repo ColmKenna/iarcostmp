@@ -42,6 +42,7 @@
 @synthesize isOrderSaved = _isOrderSaved;
 @synthesize custNameHeaderLabel = _custNameHeaderLabel;
 @synthesize custAddrHeaderLabel = _custAddrHeaderLabel;
+@synthesize myNewOrderDataManager = _myNewOrderDataManager;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -77,6 +78,7 @@
     self.myRootViewController = nil;
     self.custNameHeaderLabel = nil;
     self.custAddrHeaderLabel = nil;
+    self.myNewOrderDataManager = nil;
     
     [super dealloc];
 }
@@ -106,7 +108,8 @@
     
     self.orderPadsPopover = [[[UIPopoverController alloc]initWithContentViewController:self.orderPadsNavigationController] autorelease];
     self.orderPadsPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
-    self.myRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];    
+    self.myRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
+    self.myNewOrderDataManager = [[[NewOrderDataManager alloc] init] autorelease];
 }
 
 - (void)viewDidUnload
@@ -187,6 +190,11 @@
         }
     }    
     [rightButtonList addObject:self.orderPadsBarButton];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
+        UIBarButtonItem* loadButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"load.png"] style:UIBarButtonItemStylePlain target:self action:@selector(loadButtonPressed)];
+        [rightButtonList addObject:loadButton];
+        [loadButton release];
+    }
     self.navigationItem.rightBarButtonItems = rightButtonList;
     
     [checkoutButton release];
@@ -196,6 +204,33 @@
     FormPlanogramViewController* fpvc = [[FormPlanogramViewController alloc] initWithNibName:@"FormPlanogramViewController" bundle:nil];
     [self.navigationController pushViewController:fpvc animated:YES];
     [fpvc release];
+}
+
+- (void)loadButtonPressed {
+    if ([self.globalNavigationController.viewControllers count] > 0) {
+        UIViewController* tmpUIViewController = [self.globalNavigationController.viewControllers objectAtIndex:0];
+        if ([tmpUIViewController isKindOfClass:[FormRowsTableViewController class]]) {
+            if ([GlobalSharedClass shared].currentSelectedLocationIUR == nil) return;
+            FormRowsTableViewController* auxFormRowsTableViewController = (FormRowsTableViewController*)tmpUIViewController;
+            NSMutableArray* locationProductMatList = [self.myNewOrderDataManager retrieveLocationProductMATWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            NSMutableDictionary* productIURMap = [NSMutableDictionary dictionaryWithCapacity:[locationProductMatList count]];
+            for (NSDictionary* auxLocationProductMat in locationProductMatList) {
+                NSNumber* auxInStock = [auxLocationProductMat objectForKey:@"inStock"];
+                if ([auxInStock intValue] != 0) {
+                    [productIURMap setObject:[auxLocationProductMat objectForKey:@"inStock"] forKey:[auxLocationProductMat objectForKey:@"productIUR"]];
+                }
+            }
+            for (NSMutableDictionary* auxUnsortedFormrows in auxFormRowsTableViewController.unsortedFormrows) {
+                NSNumber* auxProductIUR = [auxUnsortedFormrows objectForKey:@"ProductIUR"];
+                NSNumber* auxInStock = [productIURMap objectForKey:auxProductIUR];
+                if (auxInStock != nil) {
+                    [auxUnsortedFormrows setObject:auxInStock forKey:@"InStock"];
+                    [auxFormRowsTableViewController saveOrderToTheCart:auxUnsortedFormrows];
+                    [auxFormRowsTableViewController reloadTableViewData];
+                }
+            }
+        }
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated

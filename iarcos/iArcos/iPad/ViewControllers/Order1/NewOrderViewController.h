@@ -30,6 +30,7 @@
 #import "CheckoutPrinterWrapperViewController.h"
 #import "FormPlanogramViewController.h"
 #import "StandardOrderPadMatTableViewController.h"
+#import "NewOrderDataManager.h"
 
 @interface NewOrderViewController : UIViewController<FormDetailDelegate, FormRowDividerDelegate, OrderFormNavigationControllerBackButtonDelegate, BranchLeafProductNavigationTitleDelegate, CustomisePresentViewControllerDelegate,ModalPresentViewControllerDelegate> {
     UINavigationBar* _tableNavigationBar;
@@ -56,6 +57,7 @@
     BOOL _isOrderSaved;
     UILabel* _custNameHeaderLabel;
     UILabel* _custAddrHeaderLabel;
+    NewOrderDataManager* _myNewOrderDataManager;
 }
 
 @property(nonatomic, retain) IBOutlet UINavigationBar* tableNavigationBar;
@@ -82,6 +84,7 @@
 @property(nonatomic, assign) BOOL isOrderSaved;
 @property(nonatomic, retain) UILabel* custNameHeaderLabel;
 @property(nonatomic, retain) UILabel* custAddrHeaderLabel;
+@property(nonatomic, retain) NewOrderDataManager* myNewOrderDataManager;
 
 -(void)orderPadsPressed:(id)sender;
 -(void)createBlankOrderPad;

@@ -54,7 +54,7 @@
     NSNumber* downloadMode = [dataDict objectForKey:@"DownloadMode"];
     NSNumber* isDownloaded = [dataDict objectForKey:@"IsDownloaded"];
     self.descrDetailsPaginatedRequestField = [[[PaginatedRequestObject alloc] init] autorelease];
-    NSString* selectStatement = @"Select Iur,DescrTypeCode,Details,DescrDetailCode,ImageIUR,ForDetailing,ProfileOrder,Active,ParentCode,DetailingFiles,CodeType,Tooltip,Toggle1,Dec1";
+    NSString* selectStatement = @"Select Iur,DescrTypeCode,Details,DescrDetailCode,ImageIUR,ForDetailing,ProfileOrder,Active,ParentCode,DetailingFiles,CodeType,Tooltip,Toggle1,Dec1,Nominal";
     NSString* fromStatement = [NSString stringWithFormat:@"from DescrDetail %@", fullEmployeeSqlStatement];
     if ([downloadMode intValue] == 1 && [isDownloaded boolValue]) {
         NSDate* downloadDate = [dataDict objectForKey:@"DownloadDate"];

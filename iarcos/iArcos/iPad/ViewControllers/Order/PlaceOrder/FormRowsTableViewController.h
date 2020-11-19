@@ -164,5 +164,6 @@
 - (void)scrollBehindSearchSection;
 - (void)fillTheUnsortListWithData;
 - (void)processDefaultQtyPercentProcessor:(NSMutableDictionary*)anOrderPadFormRow;
+-(void)saveOrderToTheCart:(NSMutableDictionary*)data;
 
 @end

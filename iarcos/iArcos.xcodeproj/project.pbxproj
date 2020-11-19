@@ -1572,8 +1572,10 @@
 		63FF1A99215BAA2700C64C41 /* FormRowTableCellRrpGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF1A98215BAA2700C64C41 /* FormRowTableCellRrpGenerator.m */; };
 		63FF1A9C215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF1A9B215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m */; };
 		63FF7FFC1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF7FFB1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m */; };
+		792B2626255E2155002326BA /* load@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 792B2625255E2155002326BA /* load@2x.png */; };
 		795EF38F2534543400F8C5ED /* CustomerContactDetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 795EF38D2534543400F8C5ED /* CustomerContactDetailTableCell.m */; };
 		795EF3902534543400F8C5ED /* CustomerContactDetailTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */; };
+		799BE71D25628172002274CC /* NewOrderDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 799BE71C25628172002274CC /* NewOrderDataManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -4649,9 +4651,12 @@
 		63FF1A9B215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormRowTableCellNormalGenerator.m; sourceTree = "<group>"; };
 		63FF7FFA1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NextCheckoutDeliveryInstructions1TableViewCell.h; sourceTree = "<group>"; };
 		63FF7FFB1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NextCheckoutDeliveryInstructions1TableViewCell.m; sourceTree = "<group>"; };
+		792B2625255E2155002326BA /* load@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "load@2x.png"; sourceTree = "<group>"; };
 		795EF38C2534543400F8C5ED /* CustomerContactDetailTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerContactDetailTableCell.h; sourceTree = "<group>"; };
 		795EF38D2534543400F8C5ED /* CustomerContactDetailTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerContactDetailTableCell.m; sourceTree = "<group>"; };
 		795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomerContactDetailTableCell.xib; sourceTree = "<group>"; };
+		799BE71B25628172002274CC /* NewOrderDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewOrderDataManager.h; sourceTree = "<group>"; };
+		799BE71C25628172002274CC /* NewOrderDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewOrderDataManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -6726,6 +6731,8 @@
 				631705951FDEE5FA004B8C8D /* FormPlanogramViewController.h */,
 				631705961FDEE5FA004B8C8D /* FormPlanogramViewController.m */,
 				631705971FDEE5FA004B8C8D /* FormPlanogramViewController.xib */,
+				799BE71B25628172002274CC /* NewOrderDataManager.h */,
+				799BE71C25628172002274CC /* NewOrderDataManager.m */,
 			);
 			path = Order1;
 			sourceTree = "<group>";
@@ -7699,6 +7706,7 @@
 		630B3A5419F01CB8007B2442 /* ShareImage */ = {
 			isa = PBXGroup;
 			children = (
+				792B2625255E2155002326BA /* load@2x.png */,
 				18D03A47243C731F004D9035 /* office_365.png */,
 				18D03A48243C731F004D9035 /* office_365@2x.png */,
 				63ADF5DC22F03D95008856EF /* discount@2x.png */,
@@ -8835,6 +8843,7 @@
 				63A00B231D6F4B5F000078A9 /* NextCheckoutTableViewCells.xib in Resources */,
 				6304523919EFC79D00CDE68A /* Main.storyboard in Resources */,
 				63D8CC4E1A0BA145008AFE49 /* Orderlines.png in Resources */,
+				792B2626255E2155002326BA /* load@2x.png in Resources */,
 				630B3C5719F01CB9007B2442 /* LargeImageSlideViewItemController.xib in Resources */,
 				630B3E1A19F01CB9007B2442 /* Response.png in Resources */,
 				630B3C1619F01CB9007B2442 /* OrderHeaderTotalSetTargetViewController.xib in Resources */,
@@ -9480,6 +9489,7 @@
 				632BC7F81EFBC86400610764 /* CustomerSurveyDetailsResponseTableCell.m in Sources */,
 				630B3B3719F01CB9007B2442 /* CustomerDetailViewController.m in Sources */,
 				630B3DBA19F01CB9007B2442 /* ArcosSurveyBO.m in Sources */,
+				799BE71D25628172002274CC /* NewOrderDataManager.m in Sources */,
 				639EA04421CAA7420046D7BA /* OrderDetailLocationLabelTableCell.m in Sources */,
 				630B346419F0127C007B2442 /* Response.m in Sources */,
 				630B3B3219F01CB9007B2442 /* SplitViewCommonMasterViewController.m in Sources */,
@@ -10334,7 +10344,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.5.6;
+				MARKETING_VERSION = 7.5.7;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10389,7 +10399,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.5.6;
+				MARKETING_VERSION = 7.5.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -10524,7 +10534,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.5.6;
+				MARKETING_VERSION = 7.5.7;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

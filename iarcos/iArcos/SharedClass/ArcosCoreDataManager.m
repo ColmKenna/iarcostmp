@@ -273,6 +273,7 @@
     float dec1FloatValue = [[ArcosUtils convertStringToFloatNumber:anObject.Field14] floatValue];
     int dec1IntValue = (int)(dec1FloatValue * 100);
     DescrDetail.Dec1 = [NSNumber numberWithInt:dec1IntValue];
+    DescrDetail.Nominal = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field15]];
     return DescrDetail;
 }
 
@@ -293,6 +294,7 @@
     float dec1FloatValue = [[ArcosUtils convertStringToFloatNumber:[aFieldList objectAtIndex:13]] floatValue];
     int dec1IntValue = (int)(dec1FloatValue * 100);
     DescrDetail.Dec1 = [NSNumber numberWithInt:dec1IntValue];
+    DescrDetail.Nominal = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[aFieldList objectAtIndex:14]]];
     return DescrDetail;
 }
 
