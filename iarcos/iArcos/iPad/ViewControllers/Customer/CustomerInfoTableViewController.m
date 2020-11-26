@@ -248,6 +248,9 @@
             if ([auxCustKey isEqualToString:self.customerInfoTableDataManager.accessTimesLabel]) {
                 CellIdentifier = @"IdCustomerInfoAccessTimesTableViewCell";
             }
+            if ([auxCustKey isEqualToString:self.customerInfoTableDataManager.startTimeLabel]) {
+                CellIdentifier = @"IdCustomerInfoStartTimeTableViewCell";
+            }
         }
     }else{
         CellIdentifier=@"CustomerOptionCell";
@@ -300,6 +303,12 @@
             //[self.customerInfoTableDataManager retrieveAccessTimesInfoValue:self.aCustDict];
             [auxAccessTimesCell configCellWithData:self.aCustDict];
             return auxAccessTimesCell;
+        }
+        if ([auxCustKey isEqualToString:self.customerInfoTableDataManager.startTimeLabel]) {
+            CustomerInfoStartTimeTableViewCell* auxStartTimeCell = (CustomerInfoStartTimeTableViewCell*)cell;
+            auxStartTimeCell.infoTitle.text = auxCustKey;            
+            [auxStartTimeCell configCellWithoutData];
+            return auxStartTimeCell;
         }
         
         CustomerInfoCell* aCell=(CustomerInfoCell*)cell;

@@ -293,6 +293,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConfigDataManager);
     return [self retrieveConfigFlagByIndex:72];
 }
 
+- (BOOL)showStartTimeAtHomePageFlag {
+    return [self retrieveConfigFlagByIndex:73];
+}
+
 - (void)resetSystemCodes:(NSString*)aSystemCodes {
     self.systemCodes = aSystemCodes;
 }

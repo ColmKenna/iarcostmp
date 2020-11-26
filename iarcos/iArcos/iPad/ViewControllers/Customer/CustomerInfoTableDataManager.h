@@ -66,6 +66,7 @@
     NSString* _historySectionTitle;
     NSString* _analysisSectionTitle;
     NSString* _overviewSectionTitle;
+    NSString* _startTimeLabel;
 }
 
 @property(nonatomic, retain) NSNumber* locationIUR;
@@ -124,6 +125,7 @@
 @property(nonatomic, retain) NSString* historySectionTitle;
 @property(nonatomic, retain) NSString* analysisSectionTitle;
 @property(nonatomic, retain) NSString* overviewSectionTitle;
+@property(nonatomic, retain) NSString* startTimeLabel;
 
 - (id)initWithLocationIUR:(NSNumber*)aLocationIUR;
 - (void)locationStatusProcessor:(NSNumber*)aLsiur;
@@ -131,6 +133,7 @@
 - (void)processAccountOverviewRecord;
 - (void)processGDPRRecord;
 - (int)retrieveIndexByLabel:(NSString*)aLabel;
+- (int)retrieveMoreFooterIndexByLabel:(NSString*)aLabel;
 - (void)createCustKeysOnStartUp;
 - (void)createCustKeysOnProcessing:(NSMutableDictionary*)aCustomerDict;
 - (void)processLocationProfileWithDict:(NSDictionary*)aDict;

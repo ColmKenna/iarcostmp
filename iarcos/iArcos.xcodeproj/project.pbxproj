@@ -1576,6 +1576,7 @@
 		795EF38F2534543400F8C5ED /* CustomerContactDetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 795EF38D2534543400F8C5ED /* CustomerContactDetailTableCell.m */; };
 		795EF3902534543400F8C5ED /* CustomerContactDetailTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */; };
 		799BE71D25628172002274CC /* NewOrderDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 799BE71C25628172002274CC /* NewOrderDataManager.m */; };
+		79E2EFF1256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E2EFF0256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -4657,6 +4658,8 @@
 		795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomerContactDetailTableCell.xib; sourceTree = "<group>"; };
 		799BE71B25628172002274CC /* NewOrderDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewOrderDataManager.h; sourceTree = "<group>"; };
 		799BE71C25628172002274CC /* NewOrderDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewOrderDataManager.m; sourceTree = "<group>"; };
+		79E2EFEF256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerInfoStartTimeTableViewCell.h; sourceTree = "<group>"; };
+		79E2EFF0256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerInfoStartTimeTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -6191,6 +6194,8 @@
 				795EF38C2534543400F8C5ED /* CustomerContactDetailTableCell.h */,
 				795EF38D2534543400F8C5ED /* CustomerContactDetailTableCell.m */,
 				795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */,
+				79E2EFEF256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.h */,
+				79E2EFF0256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.m */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -9824,6 +9829,7 @@
 				630B3BF819F01CB9007B2442 /* MapPopoverViewController.m in Sources */,
 				630B3BD719F01CB9007B2442 /* CustomerSurveyKeyboardDecimalTwoPlacesTableCell.m in Sources */,
 				630B3BFC19F01CB9007B2442 /* OrderDateRangePicker.m in Sources */,
+				79E2EFF1256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.m in Sources */,
 				6388DDA61C17208000B10AB5 /* DashboardJourneyHeaderView.m in Sources */,
 				630B3C7719F01CB9007B2442 /* ImageFormRowsTableCell.m in Sources */,
 				630B3BC919F01CB9007B2442 /* EmailRecipientTableCell.m in Sources */,
@@ -10344,7 +10350,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.5.7;
+				MARKETING_VERSION = 7.5.8;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10399,7 +10405,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.5.7;
+				MARKETING_VERSION = 7.5.8;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -10534,7 +10540,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.5.7;
+				MARKETING_VERSION = 7.5.8;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

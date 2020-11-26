@@ -84,6 +84,7 @@
 - (BOOL)disableBonusBoxWithPriceRecordFlag;
 - (BOOL)enableAlternateOrderEntryPopoverFlag;
 - (BOOL)showPreviousMemoInCallEntryFlag;
+- (BOOL)showStartTimeAtHomePageFlag;
 - (void)resetSystemCodes:(NSString*)aSystemCodes;
 - (void)persistentSystemCodes;
 

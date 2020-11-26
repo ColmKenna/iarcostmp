@@ -67,6 +67,7 @@
 @synthesize historySectionTitle = _historySectionTitle;
 @synthesize analysisSectionTitle = _analysisSectionTitle;
 @synthesize overviewSectionTitle = _overviewSectionTitle;
+@synthesize startTimeLabel = _startTimeLabel;
 
 - (id)initWithLocationIUR:(NSNumber*)aLocationIUR {
     self = [super init];
@@ -118,10 +119,18 @@
         self.faxNumberLabel = @"Fax Number";
         self.creditStatusLabel = @"Credit Status";
         self.accessTimesLabel = @"Access Times";
+        self.startTimeLabel = @"Start Time";
         self.faxNumberIndex = 0;
         self.creditStatusIndex = 0;
         self.headerItemList = [NSMutableArray arrayWithObjects:@"Address", @"Address2", @"Address3", @"Address4", @"Address5", @"Phone Number", @"Email", self.lastCallLabel, nil];
+        
         self.moreFooterItemList = [NSMutableArray arrayWithObjects:self.faxNumberLabel, self.creditStatusLabel, @"Location Type", @"Location Status", @"Location Code", @"Member Of", self.accessTimesLabel, self.buyingGroupLabel, nil];
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showStartTimeAtHomePageFlag]) {
+            int auxAccessTimesIndex = [self retrieveMoreFooterIndexByLabel:self.accessTimesLabel];
+            if (auxAccessTimesIndex != -1) {
+                [self.moreFooterItemList insertObject:self.startTimeLabel atIndex:auxAccessTimesIndex + 1];
+            }
+        }
 //        self.weekdayHashtable = [NSMutableDictionary dictionaryWithCapacity:7];
 //        [self.weekdayHashtable setObject:@"Sunday" forKey:[NSNumber numberWithInt:0]];
 //        [self.weekdayHashtable setObject:@"Monday" forKey:[NSNumber numberWithInt:1]];
@@ -184,6 +193,7 @@
     self.historySectionTitle = nil;
     self.analysisSectionTitle = nil;
     self.overviewSectionTitle = nil;
+    self.startTimeLabel = nil;
     
     [super dealloc];
 }
@@ -261,6 +271,17 @@
     int tmpIndex = 0;
     for (int i = 0; i < [self.custKeyList count]; i++) {
         if ([aLabel isEqualToString:[self.custKeyList objectAtIndex:i]]) {
+            tmpIndex = i;
+            break;
+        }
+    }
+    return tmpIndex;
+}
+
+- (int)retrieveMoreFooterIndexByLabel:(NSString*)aLabel {
+    int tmpIndex = -1;
+    for (int i = 0; i < [self.moreFooterItemList count]; i++) {
+        if ([aLabel isEqualToString:[self.moreFooterItemList objectAtIndex:i]]) {
             tmpIndex = i;
             break;
         }
