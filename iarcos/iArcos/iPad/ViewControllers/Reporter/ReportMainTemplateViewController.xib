@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="ipad10_2" orientation="portrait" layout="fullscreen" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ReportMainTemplateViewController">
+            <connections>
+                <outlet property="mySegmentedControl" destination="al3-un-EHm" id="sJL-x8-Ek1"/>
+                <outlet property="templateView" destination="V61-tl-Xii" id="oQc-xJ-JkM"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="810" height="1080"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="al3-un-EHm">
+                    <rect key="frame" x="3" y="3" width="360" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="360" id="Ip9-n9-SfI"/>
+                        <constraint firstAttribute="height" constant="44" id="c1M-eq-3jQ"/>
+                    </constraints>
+                    <segments>
+                        <segment title="Listing"/>
+                        <segment title="Sub Table"/>
+                        <segment title="Graph"/>
+                    </segments>
+                </segmentedControl>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V61-tl-Xii">
+                    <rect key="frame" x="3" y="46" width="804" height="1031"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="V61-tl-Xii" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="3" id="AYf-iK-Y10"/>
+                <constraint firstAttribute="trailing" secondItem="V61-tl-Xii" secondAttribute="trailing" constant="3" id="EVl-hN-Xlr"/>
+                <constraint firstItem="al3-un-EHm" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="3" id="NM4-xN-uj1"/>
+                <constraint firstItem="al3-un-EHm" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="3" id="UpF-V8-4eN"/>
+                <constraint firstAttribute="bottom" secondItem="V61-tl-Xii" secondAttribute="bottom" constant="3" id="j2k-3W-Bbw"/>
+                <constraint firstItem="V61-tl-Xii" firstAttribute="top" secondItem="al3-un-EHm" secondAttribute="bottom" constant="-1" id="v1e-8L-JuU"/>
+            </constraints>
+            <point key="canvasLocation" x="138" y="119"/>
+        </view>
+    </objects>
+</document>
