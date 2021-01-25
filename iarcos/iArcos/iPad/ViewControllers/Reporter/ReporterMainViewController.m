@@ -33,6 +33,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        self.reporterMainDataManager = [[[ReporterMainDataManager alloc] init] autorelease];
     }
     return self;
 }
@@ -104,7 +105,7 @@
     
     self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.navigationController.view] autorelease];
     self.callGenericServices.delegate = self;
-    self.title = @"Reporter";
+//    self.title = @"Reporter";
     
     self.selectedReportCode=@"";
     self.reportTitle=@"";
@@ -116,7 +117,7 @@
     [FileCommon removeAllFileUnderFolder:@"reporter"];
     self.reporterFileManager = [[[ReporterFileManager alloc] init] autorelease];
     self.reporterFileManager.fileDelegate = self;
-    self.reporterMainDataManager = [[[ReporterMainDataManager alloc] init] autorelease];
+//    self.reporterMainDataManager = [[[ReporterMainDataManager alloc] init] autorelease];
 }
 
 - (void)viewDidUnload
@@ -144,8 +145,9 @@
 {
     [super viewDidAppear:animated];
     if (!isReportSet) {
-        NSString* sqlStatement = [NSString stringWithFormat:@"select Active,Toggle1,EmployeeIUR,ImageIUR,CurrentOption,Subject,Details,DescrTypeCode,ProfileOrder,PrintSequence,iur,StartDate,EndDate from iPadSavedFilters where (employeeiur = %@ or toggle1 = 1) order by Subject", [SettingManager employeeIUR]];
-        [self.callGenericServices getData: sqlStatement];  
+//        NSString* sqlStatement = [NSString stringWithFormat:@"select Active,Toggle1,EmployeeIUR,ImageIUR,CurrentOption,Subject,Details,DescrTypeCode,ProfileOrder,PrintSequence,iur,StartDate,EndDate from iPadSavedFilters where (employeeiur = %@ or toggle1 = 1) order by Subject", [SettingManager employeeIUR]];
+//        [self.callGenericServices getData: sqlStatement];
+//        [self.callGenericServices genericReporterOptionsWithAction:@selector(resultBackFromReporterOptions:) target:self];
     }
     if (self.HUD != nil) {
         self.HUD.frame = self.navigationController.view.bounds;
@@ -169,6 +171,7 @@
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [self.navigationController.view setNeedsLayout];
 }
 
@@ -215,6 +218,7 @@
     //fill the data for cell
     ArcosGenericClass* aReporter = [self.reporterMainDataManager.displayList objectAtIndex:indexPath.row];
     NSMutableDictionary* aDateDict = [self.reporterMainDataManager.dateDictDisplayList objectAtIndex:indexPath.row];
+    cell.reporterHolder = aReporter;
     [cell configCellWithData:aDateDict];
     cell.locationList = self.reporterMainDataManager.locationList;
     cell.indexPath = indexPath;
@@ -223,6 +227,8 @@
     cell.endDateLabel.text = [ArcosUtils stringFromDate:[aDateDict objectForKey:@"EndDate"] format:[GlobalSharedClass shared].dateFormat];
     cell.locationTitleLabel.text = [NSString stringWithFormat:@"%@:",[aDateDict objectForKey:@"TableName"]];
     cell.locationLabel.text = [aDateDict objectForKey:@"SelectedIURName"];
+    
+    cell.sortByValueLabel.text = [aDateDict objectForKey:@"SortBy"];
     UIImage* bgImage = [UIImage imageNamed:@"presenterTableCell_stretchable.png"];    
     cell.bgImageView.image = [bgImage resizableImageWithCapInsets:UIEdgeInsetsMake(0, 30, 0, 30)];//[bgImage stretchableImageWithLeftCapWidth:30 topCapHeight:0];
     
@@ -312,7 +318,11 @@
     self.reportTitle = [NSString stringWithFormat:@"%@", aReporter.Field6];
     self.reporterFileManager.reportTitle = [NSString stringWithFormat:@"%@", aReporter.Field6];
     NSMutableDictionary* tmpDateDict = [self.reporterMainDataManager.dateDictDisplayList objectAtIndex:indexPath.row];
-    [self doParseReport:reportIUR startDate:[tmpDateDict objectForKey:@"StartDate"] endDate:[tmpDateDict objectForKey:@"EndDate"] tableName:[tmpDateDict objectForKey:@"TableName"] selectedIUR:[tmpDateDict objectForKey:@"SelectedIUR"]];
+    NSString* tableNameValue = [tmpDateDict objectForKey:@"TableName"];
+    if (![[ArcosUtils trim:[ArcosUtils convertNilToEmpty:aReporter.Field15]] isEqualToString:@""]) {
+        tableNameValue = [NSString stringWithFormat:@"%@,%@", [tmpDateDict objectForKey:@"TableName"], [tmpDateDict objectForKey:@"SortBy"]];
+    }
+    [self doParseReport:reportIUR startDate:[tmpDateDict objectForKey:@"StartDate"] endDate:[tmpDateDict objectForKey:@"EndDate"] tableName:tableNameValue selectedIUR:[tmpDateDict objectForKey:@"SelectedIUR"]];
 //    NSLog(@"TableName SelectedIUR %@ %@ %@ %@", [tmpDateDict objectForKey:@"TableName"], [tmpDateDict objectForKey:@"SelectedIUR"], [tmpDateDict objectForKey:@"StartDate"], [tmpDateDict objectForKey:@"EndDate"]);
 }
 
@@ -353,7 +363,24 @@
     }
 }
 
+
+
 #pragma mark - GetDataGenericDelegate
+- (void)resultBackFromReporterOptions:(ArcosGenericReturnObject*)result {
+    result = [self.callGenericServices handleResultErrorProcess:result];
+    if (result == nil) {
+        return;
+    }
+    if (result.ErrorModel.Code > 0) {
+        [self.reporterMainDataManager processRawData:result.ArrayOfData];
+        [self.tableView reloadData];
+        isReportSet=YES;
+    } else if(result.ErrorModel.Code <= 0) {
+        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        
+    }
+}
+
 -(void)setGetDataResult:(ArcosGenericReturnObject*) result {
 //    NSLog(@"set result happens in customer order");
     if (result == nil) {
@@ -386,13 +413,25 @@
     int cellTag=[RCF viewTagWithCode:self.selectedReportCode];
     
     if (cellTag!=88) {//if the report is not the default one
-        ReportTableViewController* table=[[ReportTableViewController alloc]initWithNibName:@"ReportTableViewController" bundle:nil];
-        table.ReportDocument=doc;
-        table.reportCode=self.selectedReportCode;
-        table.title=self.reportTitle;
         
-        [self.navigationController pushViewController:table animated:YES];
-        [table release];
+//        ReportTableViewController* table=[[ReportTableViewController alloc]initWithNibName:@"ReportTableViewController" bundle:nil];
+//        table.ReportDocument=doc;
+//        table.reportCode=self.selectedReportCode;
+//        table.title=self.reportTitle;
+//
+//        [self.navigationController pushViewController:table animated:YES];
+//        [table release];
+         
+        ReportMainTemplateViewController* reportMainTemplateViewController = [[ReportMainTemplateViewController alloc] initWithNibName:@"ReportMainTemplateViewController" bundle:nil];
+        reportMainTemplateViewController.reportTableViewController.ReportDocument = doc;
+        reportMainTemplateViewController.reportTableViewController.reportCode = self.selectedReportCode;
+        reportMainTemplateViewController.title = self.reportTitle;
+        
+        [reportMainTemplateViewController.reporterXmlSubTableViewController.reporterXmlSubDataManager processRawData:doc];
+        [reportMainTemplateViewController.reporterXmlGraphViewController.reporterXmlGraphDataManager processRawData:doc];
+        
+        [self.navigationController pushViewController:reportMainTemplateViewController animated:nil];
+        [reportMainTemplateViewController release];
     }
     self.reportManager.ReportDocument = nil;
     [self.HUD hide:YES];

@@ -462,6 +462,12 @@
 	- (SoapRequest*) GetData: (id) target action: (SEL) action stateMent: (NSString*) stateMent;
 	-(SoapRequest*)GetDataWithProgress:(SoapRequestProgressBlock)progressBlock stateMent: (NSString*) stateMent completion:(SoapRequestCompletionBlock)completionBlock;
 
+	// Returns ArcosGenericReturnObject*
+	/*  */
+	- (SoapRequest*) ReporterOptions: (id <SoapDelegate>) handler;
+	- (SoapRequest*) ReporterOptions: (id) target action: (SEL) action;
+	-(SoapRequest*)ReporterOptionsWithProgress:(SoapRequestProgressBlock)progressBlock completion:(SoapRequestCompletionBlock)completionBlock;
+
 	// Returns ArcosGenericClass*
 	/*  */
 	- (SoapRequest*) GenerateDataAsCsv: (id <SoapDelegate>) handler stateMent: (NSString*) stateMent;
@@ -696,6 +702,12 @@
 	- (SoapRequest*) UploadFileNew: (id) target action: (SEL) action contents: (NSData*) contents _fileName: (NSString*) _fileName _description: (NSString*) _description tableIUR: (NSString*) tableIUR tableName: (NSString*) tableName employeeiur: (int) employeeiur Locationiur: (int) Locationiur DateAttached: (NSDate*) DateAttached;
 	-(SoapRequest*)UploadFileNewWithProgress:(SoapRequestProgressBlock)progressBlock contents: (NSData*) contents _fileName: (NSString*) _fileName _description: (NSString*) _description tableIUR: (NSString*) tableIUR tableName: (NSString*) tableName employeeiur: (int) employeeiur Locationiur: (int) Locationiur DateAttached: (NSDate*) DateAttached completion:(SoapRequestCompletionBlock)completionBlock;
 
+	// Returns int
+	/*  */
+	- (SoapRequest*) UploadFileToAttachment: (id <SoapDelegate>) handler contents: (NSData*) contents _fileName: (NSString*) _fileName attachmentiur: (int) attachmentiur;
+	- (SoapRequest*) UploadFileToAttachment: (id) target action: (SEL) action contents: (NSData*) contents _fileName: (NSString*) _fileName attachmentiur: (int) attachmentiur;
+	-(SoapRequest*)UploadFileToAttachmentWithProgress:(SoapRequestProgressBlock)progressBlock contents: (NSData*) contents _fileName: (NSString*) _fileName attachmentiur: (int) attachmentiur completion:(SoapRequestCompletionBlock)completionBlock;
+
 	// Returns NSMutableArray*
 	/*  */
 	- (SoapRequest*) Get_Resource_Filenames: (id <SoapDelegate>) handler LocationIUR: (int) LocationIUR LocationCode: (NSString*) LocationCode;
@@ -761,6 +773,18 @@
 	- (SoapRequest*) CheckMissing: (id <SoapDelegate>) handler _incompleteObject: (ArcosIncompleteObject*) _incompleteObject;
 	- (SoapRequest*) CheckMissing: (id) target action: (SEL) action _incompleteObject: (ArcosIncompleteObject*) _incompleteObject;
 	-(SoapRequest*)CheckMissingWithProgress:(SoapRequestProgressBlock)progressBlock _incompleteObject: (ArcosIncompleteObject*) _incompleteObject completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns ArcosDashBoardData*
+	/*  */
+	- (SoapRequest*) Checkdll: (id <SoapDelegate>) handler;
+	- (SoapRequest*) Checkdll: (id) target action: (SEL) action;
+	-(SoapRequest*)CheckdllWithProgress:(SoapRequestProgressBlock)progressBlock completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns NSString*
+	/*  */
+	- (SoapRequest*) CheckExt: (id <SoapDelegate>) handler;
+	- (SoapRequest*) CheckExt: (id) target action: (SEL) action;
+	-(SoapRequest*)CheckExtWithProgress:(SoapRequestProgressBlock)progressBlock completion:(SoapRequestCompletionBlock)completionBlock;
 
 		
 	+ (ArcosService*) service;

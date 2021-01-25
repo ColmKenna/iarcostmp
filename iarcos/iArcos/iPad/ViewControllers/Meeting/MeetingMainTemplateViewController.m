@@ -187,8 +187,7 @@
 }
 
 - (void)dealloc {
-    self.mySegmentedControl = nil;
-    self.templateView = nil;
+    self.mySegmentedControl = nil;    
     self.meetingDetailsTableViewController = nil;
     self.meetingMiscTableViewController = nil;
     self.meetingObjectivesTableViewController = nil;
@@ -213,6 +212,7 @@
     self.arcosRootViewController = nil;
     self.meetingPresentersTableViewController = nil;
     self.meetingPhotoUploadProcessMachine = nil;
+    self.templateView = nil;
     
     [super dealloc];
 }

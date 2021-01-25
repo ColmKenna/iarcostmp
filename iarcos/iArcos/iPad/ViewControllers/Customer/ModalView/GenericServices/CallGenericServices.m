@@ -413,6 +413,13 @@
     [self.arcosService GetAttachment:aTarget action:anAction iur:anIUR];
 }
 
+- (void)genericReporterOptionsWithAction:(SEL)anAction target:(id)aTarget {
+    if (![self startCallService]) {
+        return;
+    }
+    [self.arcosService ReporterOptions:aTarget action:anAction];
+}
+
 -(void)dealloc{
 //    if (self.delegate != nil) { self.delegate = nil; }
     [self.HUD removeFromSuperview];

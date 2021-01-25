@@ -24,6 +24,7 @@
 #import "WeeklyMainTemplateViewController.h"
 #import "TargetTableViewController.h"
 #import "MeetingMainTemplateViewController.h"
+#import "ReporterGroupMainTableViewController.h"
 
 @interface CustomerMasterDataManager : NSObject {
     NSMutableArray* _displayList;
@@ -34,6 +35,7 @@
     ArcosStackedViewController* _contactArcosStackedViewController;
     SavedOrderSplitViewController* _savedOrderSplitViewController;
     ReporterMainViewController* _reporterMainViewController;
+    ReporterGroupMainTableViewController* _reporterGroupMainTableViewController;
     UINavigationController* _reporterNavigationController;
     CustomerWeeklyMainWrapperModalViewController* _customerWeeklyMainWrapperModalViewController;
     CustomerWeeklyMainModalViewController* _customerWeeklyMainModalViewController;
@@ -66,6 +68,7 @@
 @property(nonatomic, retain) ArcosStackedViewController* contactArcosStackedViewController;
 @property(nonatomic, retain) SavedOrderSplitViewController* savedOrderSplitViewController;
 @property(nonatomic, retain) ReporterMainViewController* reporterMainViewController;
+@property(nonatomic, retain) ReporterGroupMainTableViewController* reporterGroupMainTableViewController;
 @property(nonatomic, retain) UINavigationController* reporterNavigationController;
 @property(nonatomic, retain) CustomerWeeklyMainWrapperModalViewController* customerWeeklyMainWrapperModalViewController;
 @property(nonatomic, retain) CustomerWeeklyMainModalViewController* customerWeeklyMainModalViewController;

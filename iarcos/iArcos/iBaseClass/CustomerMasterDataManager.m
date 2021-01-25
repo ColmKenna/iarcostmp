@@ -21,6 +21,7 @@
 @synthesize contactArcosStackedViewController = _contactArcosStackedViewController;
 @synthesize savedOrderSplitViewController = _savedOrderSplitViewController;
 @synthesize reporterMainViewController = _reporterMainViewController;
+@synthesize reporterGroupMainTableViewController = _reporterGroupMainTableViewController;
 @synthesize reporterNavigationController = _reporterNavigationController;
 @synthesize customerWeeklyMainWrapperModalViewController = _customerWeeklyMainWrapperModalViewController;
 @synthesize customerWeeklyMainModalViewController = _customerWeeklyMainModalViewController;
@@ -119,7 +120,8 @@
         self.mapNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.mapViewController] autorelease];
         self.savedOrderSplitViewController = [[[SavedOrderSplitViewController alloc] initWithNibName:@"ArcosSplitViewController" bundle:nil] autorelease];
         self.reporterMainViewController = [[[ReporterMainViewController alloc] initWithNibName:@"ReporterMainViewController" bundle:nil] autorelease];
-        self.reporterNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.reporterMainViewController] autorelease];
+        self.reporterGroupMainTableViewController = [[[ReporterGroupMainTableViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+        self.reporterNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.reporterGroupMainTableViewController] autorelease];
 
 //        self.customerWeeklyMainModalViewController = [[[CustomerWeeklyMainModalViewController alloc]initWithNibName:@"CustomerWeeklyMainModalViewController" bundle:nil] autorelease];
 //        self.customerWeeklyMainNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.customerWeeklyMainModalViewController] autorelease];
@@ -174,6 +176,7 @@
     self.contactArcosStackedViewController = nil;
     self.savedOrderSplitViewController = nil;
     self.reporterMainViewController = nil;
+    self.reporterGroupMainTableViewController = nil;
     self.reporterNavigationController = nil;
     self.customerWeeklyMainWrapperModalViewController = nil;
     self.dashboardText = nil;

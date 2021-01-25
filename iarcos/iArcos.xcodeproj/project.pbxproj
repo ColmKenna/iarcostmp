@@ -1572,10 +1572,24 @@
 		63FF1A99215BAA2700C64C41 /* FormRowTableCellRrpGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF1A98215BAA2700C64C41 /* FormRowTableCellRrpGenerator.m */; };
 		63FF1A9C215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF1A9B215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m */; };
 		63FF7FFC1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF7FFB1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m */; };
+		7905C70B25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7905C70A25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m */; };
 		792B2626255E2155002326BA /* load@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 792B2625255E2155002326BA /* load@2x.png */; };
+		793D000325A2C65200DCDA5B /* ReportMainTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 793D000125A2C65200DCDA5B /* ReportMainTemplateViewController.m */; };
+		793D000425A2C65200DCDA5B /* ReportMainTemplateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 793D000225A2C65200DCDA5B /* ReportMainTemplateViewController.xib */; };
 		795EF38F2534543400F8C5ED /* CustomerContactDetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 795EF38D2534543400F8C5ED /* CustomerContactDetailTableCell.m */; };
 		795EF3902534543400F8C5ED /* CustomerContactDetailTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */; };
 		799BE71D25628172002274CC /* NewOrderDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 799BE71C25628172002274CC /* NewOrderDataManager.m */; };
+		79B7227A25B52A03007709BF /* ReporterGroupMainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B7227825B52A03007709BF /* ReporterGroupMainTableViewController.m */; };
+		79B7227B25B52A03007709BF /* ReporterGroupMainTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79B7227925B52A03007709BF /* ReporterGroupMainTableViewController.xib */; };
+		79B7228025B52A22007709BF /* ReporterGroupMainDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B7227F25B52A22007709BF /* ReporterGroupMainDataManager.m */; };
+		79C2A59725B95DB8002AAC61 /* ReporterXmlSubTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C2A59525B95DB8002AAC61 /* ReporterXmlSubTableViewController.m */; };
+		79C2A59825B95DB8002AAC61 /* ReporterXmlSubTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79C2A59625B95DB8002AAC61 /* ReporterXmlSubTableViewController.xib */; };
+		79C2A59E25B95DF5002AAC61 /* ReporterXmlGraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C2A59C25B95DF5002AAC61 /* ReporterXmlGraphViewController.m */; };
+		79C2A59F25B95DF5002AAC61 /* ReporterXmlGraphViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79C2A59D25B95DF5002AAC61 /* ReporterXmlGraphViewController.xib */; };
+		79C2A5A425B97318002AAC61 /* ReporterXmlSubDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C2A5A325B97318002AAC61 /* ReporterXmlSubDataManager.m */; };
+		79C2A5A925B97611002AAC61 /* ReporterXmlSubTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C2A5A825B97611002AAC61 /* ReporterXmlSubTableHeaderView.m */; };
+		79C2A5AF25B97879002AAC61 /* ReporterXmlSubTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C2A5AD25B97879002AAC61 /* ReporterXmlSubTableViewCell.m */; };
+		79C2A5B025B97879002AAC61 /* ReporterXmlSubTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79C2A5AE25B97879002AAC61 /* ReporterXmlSubTableViewCell.xib */; };
 		79E2EFF1256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E2EFF0256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.m */; };
 /* End PBXBuildFile section */
 
@@ -4652,12 +4666,35 @@
 		63FF1A9B215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormRowTableCellNormalGenerator.m; sourceTree = "<group>"; };
 		63FF7FFA1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NextCheckoutDeliveryInstructions1TableViewCell.h; sourceTree = "<group>"; };
 		63FF7FFB1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NextCheckoutDeliveryInstructions1TableViewCell.m; sourceTree = "<group>"; };
+		7905C70925BE70EB00FFBF77 /* ReporterXmlGraphDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlGraphDataManager.h; sourceTree = "<group>"; };
+		7905C70A25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterXmlGraphDataManager.m; sourceTree = "<group>"; };
 		792B2625255E2155002326BA /* load@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "load@2x.png"; sourceTree = "<group>"; };
+		793D000025A2C65200DCDA5B /* ReportMainTemplateViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportMainTemplateViewController.h; sourceTree = "<group>"; };
+		793D000125A2C65200DCDA5B /* ReportMainTemplateViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReportMainTemplateViewController.m; sourceTree = "<group>"; };
+		793D000225A2C65200DCDA5B /* ReportMainTemplateViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportMainTemplateViewController.xib; sourceTree = "<group>"; };
 		795EF38C2534543400F8C5ED /* CustomerContactDetailTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerContactDetailTableCell.h; sourceTree = "<group>"; };
 		795EF38D2534543400F8C5ED /* CustomerContactDetailTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerContactDetailTableCell.m; sourceTree = "<group>"; };
 		795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomerContactDetailTableCell.xib; sourceTree = "<group>"; };
 		799BE71B25628172002274CC /* NewOrderDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewOrderDataManager.h; sourceTree = "<group>"; };
 		799BE71C25628172002274CC /* NewOrderDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewOrderDataManager.m; sourceTree = "<group>"; };
+		79B7227725B52A03007709BF /* ReporterGroupMainTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterGroupMainTableViewController.h; sourceTree = "<group>"; };
+		79B7227825B52A03007709BF /* ReporterGroupMainTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterGroupMainTableViewController.m; sourceTree = "<group>"; };
+		79B7227925B52A03007709BF /* ReporterGroupMainTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReporterGroupMainTableViewController.xib; sourceTree = "<group>"; };
+		79B7227E25B52A22007709BF /* ReporterGroupMainDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterGroupMainDataManager.h; sourceTree = "<group>"; };
+		79B7227F25B52A22007709BF /* ReporterGroupMainDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterGroupMainDataManager.m; sourceTree = "<group>"; };
+		79C2A59425B95DB8002AAC61 /* ReporterXmlSubTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlSubTableViewController.h; sourceTree = "<group>"; };
+		79C2A59525B95DB8002AAC61 /* ReporterXmlSubTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterXmlSubTableViewController.m; sourceTree = "<group>"; };
+		79C2A59625B95DB8002AAC61 /* ReporterXmlSubTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReporterXmlSubTableViewController.xib; sourceTree = "<group>"; };
+		79C2A59B25B95DF5002AAC61 /* ReporterXmlGraphViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlGraphViewController.h; sourceTree = "<group>"; };
+		79C2A59C25B95DF5002AAC61 /* ReporterXmlGraphViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterXmlGraphViewController.m; sourceTree = "<group>"; };
+		79C2A59D25B95DF5002AAC61 /* ReporterXmlGraphViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReporterXmlGraphViewController.xib; sourceTree = "<group>"; };
+		79C2A5A225B97318002AAC61 /* ReporterXmlSubDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlSubDataManager.h; sourceTree = "<group>"; };
+		79C2A5A325B97318002AAC61 /* ReporterXmlSubDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterXmlSubDataManager.m; sourceTree = "<group>"; };
+		79C2A5A725B97611002AAC61 /* ReporterXmlSubTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlSubTableHeaderView.h; sourceTree = "<group>"; };
+		79C2A5A825B97611002AAC61 /* ReporterXmlSubTableHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterXmlSubTableHeaderView.m; sourceTree = "<group>"; };
+		79C2A5AC25B97879002AAC61 /* ReporterXmlSubTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlSubTableViewCell.h; sourceTree = "<group>"; };
+		79C2A5AD25B97879002AAC61 /* ReporterXmlSubTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterXmlSubTableViewCell.m; sourceTree = "<group>"; };
+		79C2A5AE25B97879002AAC61 /* ReporterXmlSubTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReporterXmlSubTableViewCell.xib; sourceTree = "<group>"; };
 		79E2EFEF256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerInfoStartTimeTableViewCell.h; sourceTree = "<group>"; };
 		79E2EFF0256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerInfoStartTimeTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -6896,6 +6933,26 @@
 				639CAE701CFC7ECC00D7246C /* GetRecordTypeGenericIntObject.m */,
 				639CAE721CFC7EE800D7246C /* GetRecordTypeGenericDecimalObject.h */,
 				639CAE731CFC7EE800D7246C /* GetRecordTypeGenericDecimalObject.m */,
+				793D000025A2C65200DCDA5B /* ReportMainTemplateViewController.h */,
+				793D000125A2C65200DCDA5B /* ReportMainTemplateViewController.m */,
+				793D000225A2C65200DCDA5B /* ReportMainTemplateViewController.xib */,
+				79B7227725B52A03007709BF /* ReporterGroupMainTableViewController.h */,
+				79B7227825B52A03007709BF /* ReporterGroupMainTableViewController.m */,
+				79B7227925B52A03007709BF /* ReporterGroupMainTableViewController.xib */,
+				79B7227E25B52A22007709BF /* ReporterGroupMainDataManager.h */,
+				79B7227F25B52A22007709BF /* ReporterGroupMainDataManager.m */,
+				79C2A59425B95DB8002AAC61 /* ReporterXmlSubTableViewController.h */,
+				79C2A59525B95DB8002AAC61 /* ReporterXmlSubTableViewController.m */,
+				79C2A59625B95DB8002AAC61 /* ReporterXmlSubTableViewController.xib */,
+				79C2A59B25B95DF5002AAC61 /* ReporterXmlGraphViewController.h */,
+				79C2A59C25B95DF5002AAC61 /* ReporterXmlGraphViewController.m */,
+				79C2A59D25B95DF5002AAC61 /* ReporterXmlGraphViewController.xib */,
+				79C2A5A225B97318002AAC61 /* ReporterXmlSubDataManager.h */,
+				79C2A5A325B97318002AAC61 /* ReporterXmlSubDataManager.m */,
+				79C2A5A725B97611002AAC61 /* ReporterXmlSubTableHeaderView.h */,
+				79C2A5A825B97611002AAC61 /* ReporterXmlSubTableHeaderView.m */,
+				7905C70925BE70EB00FFBF77 /* ReporterXmlGraphDataManager.h */,
+				7905C70A25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m */,
 			);
 			path = Reporter;
 			sourceTree = "<group>";
@@ -6946,6 +7003,9 @@
 				63A12B7D1CEF32D200CF963D /* GetRecordGenericDecimalTableViewCell.h */,
 				63A12B7E1CEF32D200CF963D /* GetRecordGenericDecimalTableViewCell.m */,
 				63AF287B1CF34D4C008D926A /* GetRecordGenericTypeTableCellDelegate.h */,
+				79C2A5AC25B97879002AAC61 /* ReporterXmlSubTableViewCell.h */,
+				79C2A5AD25B97879002AAC61 /* ReporterXmlSubTableViewCell.m */,
+				79C2A5AE25B97879002AAC61 /* ReporterXmlSubTableViewCell.xib */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -8647,6 +8707,7 @@
 				630B3D4819F01CB9007B2442 /* UtilitiesDescriptionViewController.xib in Resources */,
 				63305EA41ECB1A2900B443E2 /* DashboardVanStocksTableViewCell.xib in Resources */,
 				630B3DDE19F01CB9007B2442 /* bayer_72.png in Resources */,
+				79B7227B25B52A03007709BF /* ReporterGroupMainTableViewController.xib in Resources */,
 				630B3C5219F01CB9007B2442 /* LargeImageFormRowsSlideViewController.xib in Resources */,
 				630B3CF719F01CB9007B2442 /* QueryOrderTaskTableViewController.xib in Resources */,
 				6300A4312099D787005A7205 /* CustomerGDPRViewController.xib in Resources */,
@@ -8695,6 +8756,7 @@
 				630B3DEE19F01CB9007B2442 /* Closed.png in Resources */,
 				630B3C7A19F01CB9007B2442 /* MATFormRowsTableCell.xib in Resources */,
 				638F64671C18786600854E48 /* DashboardStockoutTableViewCell.xib in Resources */,
+				79C2A59825B95DB8002AAC61 /* ReporterXmlSubTableViewController.xib in Resources */,
 				630B3B7F19F01CB9007B2442 /* CustomerOrderModalViewController.xib in Resources */,
 				632C0D2022329A8A0097B0FA /* MeetingAttendeesOthersItemTableViewCell.xib in Resources */,
 				630B3E1319F01CB9007B2442 /* Product.png in Resources */,
@@ -8905,6 +8967,7 @@
 				63A1330821A86C26000128F5 /* MeetingExpenseTableViewCells.xib in Resources */,
 				630B3BE419F01CB9007B2442 /* CustomerJourneyStartDateTableCell.xib in Resources */,
 				630B3B7919F01CB9007B2442 /* CustomerMemoModalViewController.xib in Resources */,
+				79C2A59F25B95DF5002AAC61 /* ReporterXmlGraphViewController.xib in Resources */,
 				63A9E297231D582000D84D81 /* OrderPadFooterViewCell.xib in Resources */,
 				630B3CDC19F01CB9007B2442 /* ActivateEnterpriseViewController.xib in Resources */,
 				630B3BC619F01CB9007B2442 /* CustomerTyvLyTableCell.xib in Resources */,
@@ -9008,6 +9071,7 @@
 				639F88FD1CECB3C200151AF2 /* ReportMeetingWrapperViewController.xib in Resources */,
 				630B3CAB19F01CB9007B2442 /* FileGroupViewController.xib in Resources */,
 				630B3BC419F01CB9007B2442 /* CustomerTypeTableCells.xib in Resources */,
+				793D000425A2C65200DCDA5B /* ReportMainTemplateViewController.xib in Resources */,
 				63812C801A111BDD004BCFB3 /* OrderlinesIarcosTableViewCell.xib in Resources */,
 				63C2D51F219438BB00C57ECC /* MeetingObjectivesTableViewController.xib in Resources */,
 				638A34041C11FFFA00EE519D /* Footer3.png in Resources */,
@@ -9064,6 +9128,7 @@
 				63EE6F302137FB59008869F9 /* TargetTableViewCell.xib in Resources */,
 				63C38BD621F788D300A6E4E6 /* MeetingAttendeesEmployeesHeaderViewController.xib in Resources */,
 				630B3CB619F01CB9007B2442 /* NewPresenterViewController.xib in Resources */,
+				79C2A5B025B97879002AAC61 /* ReporterXmlSubTableViewCell.xib in Resources */,
 				631477B02121D24F00DBF9A3 /* PriceChangeTableCells.xib in Resources */,
 				630B3B1C19F01CB9007B2442 /* PresenterGridListViewController.xib in Resources */,
 				630B352319F01C81007B2442 /* Dublin.gpx in Resources */,
@@ -9143,6 +9208,7 @@
 				63E53C7D1F051ADC0044DD94 /* CustomerSurveyDetailsResponseWheelTableCell.m in Sources */,
 				630B3D3919F01CB9007B2442 /* UIImageViewWithControlFlag.m in Sources */,
 				630B3B1419F01CB8007B2442 /* SelecteableTableViewController.m in Sources */,
+				79C2A59725B95DB8002AAC61 /* ReporterXmlSubTableViewController.m in Sources */,
 				63A1FF0221A30AD900666F0C /* MeetingExpenseDetailsTextTableViewCell.m in Sources */,
 				630B3BEA19F01CB9007B2442 /* GenericPlainTableCell.m in Sources */,
 				63155664223BAB0C00DEF591 /* MeetingAttachmentsTableViewCell.m in Sources */,
@@ -9464,6 +9530,7 @@
 				630B3D8519F01CB9007B2442 /* ArcosArrayOfJourneyBO.m in Sources */,
 				630B3C1119F01CB9007B2442 /* OrderHeaderTotalGraphDataManager.m in Sources */,
 				630B3C3419F01CB9007B2442 /* LargeSmallFormDetailSlideViewController.m in Sources */,
+				79C2A5A925B97611002AAC61 /* ReporterXmlSubTableHeaderView.m in Sources */,
 				630B3D4219F01CB9007B2442 /* UtilitiesDescriptionDetailEditViewDataManager.m in Sources */,
 				63AC39411CE0AC2000459286 /* CustomerGroupContactTableViewCell.m in Sources */,
 				634C8F701CAD2E7F00D23BB3 /* LeftRightInsetUILabel.m in Sources */,
@@ -9502,6 +9569,7 @@
 				630B3B3919F01CB9007B2442 /* CustomerGroupViewController.m in Sources */,
 				630B3CAC19F01CB9007B2442 /* FilePresentViewController.m in Sources */,
 				638076F4218CA14A00591B28 /* MeetingDetailsTableViewController.m in Sources */,
+				793D000325A2C65200DCDA5B /* ReportMainTemplateViewController.m in Sources */,
 				630B3CF419F01CB9007B2442 /* QueryOrderTaskDataManager.m in Sources */,
 				630B3B0B19F01CB8007B2442 /* AccountNumberTableCell.m in Sources */,
 				630B3D8019F01CB9007B2442 /* ArcosArrayOfGenericClass.m in Sources */,
@@ -9522,6 +9590,7 @@
 				63A12B7C1CEF329F00CF963D /* GetRecordGenericIntTableViewCell.m in Sources */,
 				633D3C21208F5489001E7906 /* ThousandsLabelProvider.m in Sources */,
 				630B3C6219F01CB9007B2442 /* ProductDetailDataManager.m in Sources */,
+				79C2A5AF25B97879002AAC61 /* ReporterXmlSubTableViewCell.m in Sources */,
 				63EE6F2E2137FB20008869F9 /* TargetTableViewCell.m in Sources */,
 				630B3E2E19F01CB9007B2442 /* SBJsonBase.m in Sources */,
 				630B344919F0127C007B2442 /* Journey.m in Sources */,
@@ -9664,6 +9733,7 @@
 				630B3C6319F01CB9007B2442 /* ProductDetailImageViewController.m in Sources */,
 				630B3D5F19F01CB9007B2442 /* NumberInputPadViewController.m in Sources */,
 				6385A4EC1B29E42500106722 /* ScanApiHelper.mm in Sources */,
+				79C2A59E25B95DF5002AAC61 /* ReporterXmlGraphViewController.m in Sources */,
 				630B3DC419F01CB9007B2442 /* SoapLiteral.m in Sources */,
 				639CAE651CFC7E4800D7246C /* GetRecordTypeGenericIURObject.m in Sources */,
 				630B34FE19F0171A007B2442 /* CustomerMasterDataManager.m in Sources */,
@@ -9778,6 +9848,7 @@
 				6357A2BD21AD56FA000130CB /* MeetingBudgetBaseTableViewCell.m in Sources */,
 				630B3C8E19F01CB9007B2442 /* SelectedableTableCell.m in Sources */,
 				632C0D1E22329A300097B0FA /* MeetingAttendeesOthersItemTableViewCell.m in Sources */,
+				79B7228025B52A22007709BF /* ReporterGroupMainDataManager.m in Sources */,
 				63A69488222EC38500A2F56B /* MeetingAttendeesTableViewCell.m in Sources */,
 				63F73A911FC86E0C00091A32 /* ProductPredictiveSearchDataManager.m in Sources */,
 				630B3DCE19F01CB9007B2442 /* CXMLNode.m in Sources */,
@@ -9792,12 +9863,14 @@
 				630B344319F0127C007B2442 /* FormDetail.m in Sources */,
 				630B3DBF19F01CB9007B2442 /* Soap.m in Sources */,
 				638A42BC2191FCEB006F993B /* MeetingMiscTableViewController.m in Sources */,
+				79B7227A25B52A03007709BF /* ReporterGroupMainTableViewController.m in Sources */,
 				630B3C7D19F01CB9007B2442 /* OrderDetailDateHourMinTableCell.m in Sources */,
 				630B3DC619F01CB9007B2442 /* SoapObject.m in Sources */,
 				63F08559207D178E0073A65B /* ChartTestViewController.m in Sources */,
 				630B3BF719F01CB9007B2442 /* AddressAnnotation.m in Sources */,
 				630B3C3C19F01CB9007B2442 /* LeafSmallTemplateViewItemController.m in Sources */,
 				630B3D6519F01CB9007B2442 /* TableMSWidgetViewController.m in Sources */,
+				79C2A5A425B97318002AAC61 /* ReporterXmlSubDataManager.m in Sources */,
 				63CBF591218C766E0098340A /* MeetingBaseTableViewCell.m in Sources */,
 				630B3D3119F01CB9007B2442 /* UtilitiesMasterTableCell.m in Sources */,
 				630B3D7F19F01CB9007B2442 /* ArcosArrayOfFormRowBO.m in Sources */,
@@ -9990,6 +10063,7 @@
 				63AD47BF21FA12F800325F62 /* MeetingAttendeesEmployeesTableViewCell.m in Sources */,
 				630B3BC519F01CB9007B2442 /* CustomerTyvLyTableCell.m in Sources */,
 				630B3D4D19F01CB9007B2442 /* UtilitiesOrderDateRangePicker.m in Sources */,
+				7905C70B25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m in Sources */,
 				63E44F2F1EC607DE0074456F /* DashboardVanStocksDataManager.m in Sources */,
 				63A1330621A86C02000128F5 /* MeetingExpenseTableViewHeader.m in Sources */,
 				634A7DDF1C1849AE00EA0CFD /* DashboardPromotionTableViewCell.m in Sources */,
@@ -10350,7 +10424,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.5.8;
+				MARKETING_VERSION = 7.5.12;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10405,7 +10479,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.5.8;
+				MARKETING_VERSION = 7.5.12;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -10540,7 +10614,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.5.8;
+				MARKETING_VERSION = 7.5.12;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

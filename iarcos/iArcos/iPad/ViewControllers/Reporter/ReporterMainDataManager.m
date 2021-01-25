@@ -39,12 +39,15 @@
         NSDate* tmpStartDate = [ArcosUtils convertNilDateToDate:[ArcosUtils dateFromString:aReporter.Field12 format:[GlobalSharedClass shared].dateFormat]];
         
         NSDate* tmpEndDate = [ArcosUtils convertNilDateToDate:[ArcosUtils dateFromString:aReporter.Field13 format:[GlobalSharedClass shared].dateFormat]];
-        NSMutableDictionary* tmpDateDict = [NSMutableDictionary dictionaryWithCapacity:2];
+        NSMutableDictionary* tmpDateDict = [NSMutableDictionary dictionaryWithCapacity:6];
         [tmpDateDict setObject:tmpStartDate forKey:@"StartDate"];
         [tmpDateDict setObject:tmpEndDate forKey:@"EndDate"];
         [tmpDateDict setObject:@"Location" forKey:@"TableName"];
         [tmpDateDict setObject:[NSNumber numberWithInt:0] forKey:@"SelectedIUR"];
         [tmpDateDict setObject:@"All" forKey:@"SelectedIURName"];
+        if (![[ArcosUtils trim:[ArcosUtils convertNilToEmpty:aReporter.Field15]] isEqualToString:@""]) {
+            [tmpDateDict setObject:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:aReporter.Field16]] forKey:@"SortBy"];
+        }
         [self.dateDictDisplayList addObject:tmpDateDict];
     }
     

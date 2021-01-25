@@ -2015,6 +2015,33 @@
 		return _request;
 	}
 
+	// Returns ArcosGenericReturnObject*
+	/*  */
+	- (SoapRequest*) ReporterOptions: (id <SoapDelegate>) handler
+	{
+		return [self ReporterOptions: handler action: nil];
+	}
+
+	- (SoapRequest*) ReporterOptions: (id) _target action: (SEL) _action
+		{
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		NSString* _envelope = [Soap createEnvelope: @"ReporterOptions" forNamespace: self.namespace withParameters: _params withHeaders: self.headers];
+		SoapRequest* _request = [SoapRequest create: _target action: _action service: self soapAction: @"http://www.strataarcos.com/ReporterOptions" postData: _envelope deserializeTo: [[ArcosGenericReturnObject alloc] autorelease]];
+		[_request send];
+		return _request;
+	}
+
+	-(SoapRequest*)ReporterOptionsWithProgress:(SoapRequestProgressBlock)progressBlock completion:(SoapRequestCompletionBlock)completionBlock {
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		NSString* _envelope = [Soap createEnvelope:@"ReporterOptions" forNamespace:self.namespace withParameters:_params withHeaders:self.headers];
+		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/ReporterOptions" postData:_envelope deserializeTo:[[ArcosGenericReturnObject alloc] autorelease] completionBlock:completionBlock];
+		_request.progressBlock = progressBlock;
+		[_request send];
+		return _request;
+	}
+
 	// Returns ArcosGenericClass*
 	/*  */
 	- (SoapRequest*) GenerateDataAsCsv: (id <SoapDelegate>) handler stateMent: (NSString*) stateMent
@@ -3336,6 +3363,39 @@
 		return _request;
 	}
 
+	// Returns int
+	/*  */
+	- (SoapRequest*) UploadFileToAttachment: (id <SoapDelegate>) handler contents: (NSData*) contents _fileName: (NSString*) _fileName attachmentiur: (int) attachmentiur
+	{
+		return [self UploadFileToAttachment: handler action: nil contents: contents _fileName: _fileName attachmentiur: attachmentiur];
+	}
+
+	- (SoapRequest*) UploadFileToAttachment: (id) _target action: (SEL) _action contents: (NSData*) contents _fileName: (NSString*) _fileName attachmentiur: (int) attachmentiur
+		{
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		[_params addObject: [[[SoapParameter alloc] initWithValue: contents forName: @"contents"] autorelease]];
+		[_params addObject: [[[SoapParameter alloc] initWithValue: _fileName forName: @"_fileName"] autorelease]];
+		[_params addObject: [[[SoapParameter alloc] initWithValue: [NSNumber numberWithInt: attachmentiur] forName: @"attachmentiur"] autorelease]];
+		NSString* _envelope = [Soap createEnvelope: @"UploadFileToAttachment" forNamespace: self.namespace withParameters: _params withHeaders: self.headers];
+		SoapRequest* _request = [SoapRequest create: _target action: _action service: self soapAction: @"http://www.strataarcos.com/UploadFileToAttachment" postData: _envelope deserializeTo: @"int"];
+		[_request send];
+		return _request;
+	}
+
+	-(SoapRequest*)UploadFileToAttachmentWithProgress:(SoapRequestProgressBlock)progressBlock contents: (NSData*) contents _fileName: (NSString*) _fileName attachmentiur: (int) attachmentiur completion:(SoapRequestCompletionBlock)completionBlock {
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		[_params addObject: [[[SoapParameter alloc] initWithValue: contents forName: @"contents"] autorelease]];
+		[_params addObject: [[[SoapParameter alloc] initWithValue: _fileName forName: @"_fileName"] autorelease]];
+		[_params addObject: [[[SoapParameter alloc] initWithValue: [NSNumber numberWithInt: attachmentiur] forName: @"attachmentiur"] autorelease]];
+		NSString* _envelope = [Soap createEnvelope:@"UploadFileToAttachment" forNamespace:self.namespace withParameters:_params withHeaders:self.headers];
+		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/UploadFileToAttachment" postData:_envelope deserializeTo:@"int" completionBlock:completionBlock];
+		_request.progressBlock = progressBlock;
+		[_request send];
+		return _request;
+	}
+
 	// Returns NSMutableArray*
 	/*  */
 	- (SoapRequest*) Get_Resource_Filenames: (id <SoapDelegate>) handler LocationIUR: (int) LocationIUR LocationCode: (NSString*) LocationCode
@@ -3664,6 +3724,60 @@
 		[_params addObject: [[[SoapParameter alloc] initWithValue: _incompleteObject forName: @"_incompleteObject"] autorelease]];
 		NSString* _envelope = [Soap createEnvelope:@"CheckMissing" forNamespace:self.namespace withParameters:_params withHeaders:self.headers];
 		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/CheckMissing" postData:_envelope deserializeTo:[[ArcosGenericClass alloc] autorelease] completionBlock:completionBlock];
+		_request.progressBlock = progressBlock;
+		[_request send];
+		return _request;
+	}
+
+	// Returns ArcosDashBoardData*
+	/*  */
+	- (SoapRequest*) Checkdll: (id <SoapDelegate>) handler
+	{
+		return [self Checkdll: handler action: nil];
+	}
+
+	- (SoapRequest*) Checkdll: (id) _target action: (SEL) _action
+		{
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		NSString* _envelope = [Soap createEnvelope: @"Checkdll" forNamespace: self.namespace withParameters: _params withHeaders: self.headers];
+		SoapRequest* _request = [SoapRequest create: _target action: _action service: self soapAction: @"http://www.strataarcos.com/Checkdll" postData: _envelope deserializeTo: [[ArcosDashBoardData alloc] autorelease]];
+		[_request send];
+		return _request;
+	}
+
+	-(SoapRequest*)CheckdllWithProgress:(SoapRequestProgressBlock)progressBlock completion:(SoapRequestCompletionBlock)completionBlock {
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		NSString* _envelope = [Soap createEnvelope:@"Checkdll" forNamespace:self.namespace withParameters:_params withHeaders:self.headers];
+		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/Checkdll" postData:_envelope deserializeTo:[[ArcosDashBoardData alloc] autorelease] completionBlock:completionBlock];
+		_request.progressBlock = progressBlock;
+		[_request send];
+		return _request;
+	}
+
+	// Returns NSString*
+	/*  */
+	- (SoapRequest*) CheckExt: (id <SoapDelegate>) handler
+	{
+		return [self CheckExt: handler action: nil];
+	}
+
+	- (SoapRequest*) CheckExt: (id) _target action: (SEL) _action
+		{
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		NSString* _envelope = [Soap createEnvelope: @"CheckExt" forNamespace: self.namespace withParameters: _params withHeaders: self.headers];
+		SoapRequest* _request = [SoapRequest create: _target action: _action service: self soapAction: @"http://www.strataarcos.com/CheckExt" postData: _envelope deserializeTo: @"NSString"];
+		[_request send];
+		return _request;
+	}
+
+	-(SoapRequest*)CheckExtWithProgress:(SoapRequestProgressBlock)progressBlock completion:(SoapRequestCompletionBlock)completionBlock {
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		NSString* _envelope = [Soap createEnvelope:@"CheckExt" forNamespace:self.namespace withParameters:_params withHeaders:self.headers];
+		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/CheckExt" postData:_envelope deserializeTo:@"NSString" completionBlock:completionBlock];
 		_request.progressBlock = progressBlock;
 		[_request send];
 		return _request;

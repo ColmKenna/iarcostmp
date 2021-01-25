@@ -19,8 +19,12 @@
             <rect key="frame" x="0.0" y="0.0" width="810" height="1080"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V61-tl-Xii">
+                    <rect key="frame" x="3" y="3" width="804" height="1031"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="al3-un-EHm">
-                    <rect key="frame" x="3" y="3" width="360" height="45"/>
+                    <rect key="frame" x="3" y="1033" width="360" height="45"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="360" id="Ip9-n9-SfI"/>
                         <constraint firstAttribute="height" constant="44" id="c1M-eq-3jQ"/>
@@ -31,19 +35,15 @@
                         <segment title="Graph"/>
                     </segments>
                 </segmentedControl>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V61-tl-Xii">
-                    <rect key="frame" x="3" y="46" width="804" height="1031"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="V61-tl-Xii" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="3" id="AYf-iK-Y10"/>
                 <constraint firstAttribute="trailing" secondItem="V61-tl-Xii" secondAttribute="trailing" constant="3" id="EVl-hN-Xlr"/>
-                <constraint firstItem="al3-un-EHm" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="3" id="NM4-xN-uj1"/>
+                <constraint firstItem="al3-un-EHm" firstAttribute="top" secondItem="V61-tl-Xii" secondAttribute="bottom" constant="-1" id="KS5-X1-I5h"/>
+                <constraint firstAttribute="bottom" secondItem="al3-un-EHm" secondAttribute="bottom" constant="3" id="Tey-9B-fiL"/>
                 <constraint firstItem="al3-un-EHm" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="3" id="UpF-V8-4eN"/>
-                <constraint firstAttribute="bottom" secondItem="V61-tl-Xii" secondAttribute="bottom" constant="3" id="j2k-3W-Bbw"/>
-                <constraint firstItem="V61-tl-Xii" firstAttribute="top" secondItem="al3-un-EHm" secondAttribute="bottom" constant="-1" id="v1e-8L-JuU"/>
+                <constraint firstItem="V61-tl-Xii" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="3" id="w9U-cS-pFQ"/>
             </constraints>
             <point key="canvasLocation" x="138" y="119"/>
         </view>

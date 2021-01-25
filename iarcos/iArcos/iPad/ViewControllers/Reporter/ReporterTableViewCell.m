@@ -34,6 +34,10 @@
 @synthesize locationLabel = _locationLabel;
 @synthesize locationPopover = _locationPopover;
 @synthesize locationList = _locationList;
+@synthesize sortByTitleLabel = _sortByTitleLabel;
+@synthesize sortByValueLabel = _sortByValueLabel;
+@synthesize reporterHolder = _reporterHolder;
+@synthesize widgetFactory = _widgetFactory;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -77,12 +81,29 @@
     if (self.locationLabel != nil) { self.locationLabel = nil; }
     if (self.locationPopover != nil) { self.locationPopover = nil; }
     if (self.locationList != nil) { self.locationList = nil; }
+    self.sortByTitleLabel = nil;
+    self.sortByValueLabel = nil;
+    self.reporterHolder = nil;
+    self.widgetFactory = nil;
     
     [super dealloc];
 }
 
 -(void)configCellWithData:(NSMutableDictionary*)aDateDict {
     self.dateDict = aDateDict;
+    if (![[ArcosUtils trim:[ArcosUtils convertNilToEmpty:self.reporterHolder.Field15]] isEqualToString:@""]) {
+        self.sortByTitleLabel.text = @"Sort By:";
+        self.sortByValueLabel.text = [aDateDict objectForKey:@"SortBy"];
+        for (UIGestureRecognizer* recognizer in self.sortByValueLabel.gestureRecognizers) {
+            [self.sortByValueLabel removeGestureRecognizer:recognizer];
+        }
+        UITapGestureRecognizer* sortBySingleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSortBySingleTapGesture:)];
+        [self.sortByValueLabel addGestureRecognizer:sortBySingleTap];
+        [sortBySingleTap release];
+    } else {
+        self.sortByTitleLabel.text = @"";
+        self.sortByValueLabel.text = @"";
+    }
     if (!self.isEventSet) {        
         UITapGestureRecognizer* startDateSingleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
         [self.startDateLabel addGestureRecognizer:startDateSingleTap];
@@ -101,6 +122,39 @@
     if (self.locationPopover != nil && ![self.locationPopover isPopoverVisible]) {
         self.locationPopover = nil;
     }
+}
+
+- (void)handleSortBySingleTapGesture:(id)sender {
+    if (self.thePopover != nil) {
+        self.thePopover = nil;
+    }
+    NSArray* sortByArray = [[ArcosUtils trim:[ArcosUtils convertNilToEmpty:self.reporterHolder.Field15]] componentsSeparatedByString:@"|"];
+    NSMutableArray* pickerData = [NSMutableArray arrayWithCapacity:[sortByArray count]];
+    for (int i = 0; i < [sortByArray count]; i++) {
+        NSMutableDictionary* sortByDict = [NSMutableDictionary dictionaryWithCapacity:1];
+        NSString* auxTitle = [sortByArray objectAtIndex:i];
+        [sortByDict setObject:auxTitle forKey:@"Title"];
+        [pickerData addObject:sortByDict];
+    }
+    if (self.widgetFactory == nil) {
+        self.widgetFactory = [WidgetFactory factory];
+        self.widgetFactory.delegate = self;
+    }
+    self.thePopover = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:pickerData title:@"Sort By"];
+    if (self.thePopover != nil) {
+        self.thePopover.delegate = self;
+        [self.thePopover presentPopoverFromRect:self.sortByValueLabel.bounds inView:self.sortByValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
+}
+
+-(void)operationDone:(id)data {
+    if (self.thePopover != nil) {
+        [self.thePopover dismissPopoverAnimated:YES];
+    }
+    self.sortByValueLabel.text = [data objectForKey:@"Title"];
+    [self.dateDict setObject:[data objectForKey:@"Title"] forKey:@"SortBy"];
+    self.thePopover = nil;
+    self.widgetFactory.popoverController = nil;
 }
 
 -(void)handleSingleTapGesture:(id)sender {

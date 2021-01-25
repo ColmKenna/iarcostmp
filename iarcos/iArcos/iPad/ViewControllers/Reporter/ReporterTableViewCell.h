@@ -11,6 +11,7 @@
 #import "ArcosUtils.h"
 #import "GlobalSharedClass.h"
 #import "CustomerSelectionListingTableViewController.h"
+#import "WidgetFactory.h"
 
 @protocol ReporterTableViewCellDelegate<NSObject>
 
@@ -18,7 +19,7 @@
 - (void)didSelectCustomerSelectionListingRecord:(NSMutableDictionary*)aCustDict indexPath:(NSIndexPath*)anIndexPath;
 @end
 
-@interface ReporterTableViewCell : UITableViewCell<TwoDatePickerWidgetDelegate, CustomerSelectionListingDelegate,UIPopoverControllerDelegate> {
+@interface ReporterTableViewCell : UITableViewCell<TwoDatePickerWidgetDelegate, CustomerSelectionListingDelegate,UIPopoverControllerDelegate,WidgetFactoryDelegate> {
     UIButton* _mainButton;
     UIImageView* _subBgImage;
     UIImageView* _dividerImage;
@@ -44,6 +45,10 @@
     UILabel* _locationLabel;
     UIPopoverController* _locationPopover;
     NSMutableArray* _locationList;
+    UILabel* _sortByTitleLabel;
+    UILabel* _sortByValueLabel;
+    ArcosGenericClass* _reporterHolder;
+    WidgetFactory* _widgetFactory;
 }
 
 @property(nonatomic,retain) IBOutlet UIButton* mainButton;
@@ -71,6 +76,10 @@
 @property(nonatomic, retain) IBOutlet UILabel* locationLabel;
 @property(nonatomic, retain) UIPopoverController* locationPopover;
 @property(nonatomic, retain) NSMutableArray* locationList;
+@property(nonatomic, retain) IBOutlet UILabel* sortByTitleLabel;
+@property(nonatomic, retain) IBOutlet UILabel* sortByValueLabel;
+@property(nonatomic, retain) ArcosGenericClass* reporterHolder;
+@property(nonatomic, retain) WidgetFactory* widgetFactory;
 
 -(void)configCellWithData:(NSMutableDictionary*)aDateDict;
 

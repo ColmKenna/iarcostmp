@@ -22,6 +22,7 @@
 #import "ReporterMainDataManager.h"
 #import "ReporterTrackGraphViewController.h"
 #import "ArcosSystemCodesUtils.h"
+#import "ReportMainTemplateViewController.h"
 
 @interface ReporterMainViewController : UITableViewController <GetDataGenericDelegate,ReportManagerDelegate, ReporterFileDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate, ArcosQLPreviewControllerDelegate, ReporterTableViewCellDelegate> {
     IBOutlet UITableView* reportListView;    
