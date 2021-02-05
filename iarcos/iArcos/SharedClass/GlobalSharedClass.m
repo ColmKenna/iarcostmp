@@ -115,6 +115,8 @@ static GlobalSharedClass* _shared = nil;
 @synthesize issuesText = _issuesText;
 @synthesize pxDbName = _pxDbName;
 @synthesize startRecordingDate = _startRecordingDate;
+@synthesize blockedLevel = _blockedLevel;
+@synthesize mandatoryLevel = _mandatoryLevel;
 
 +(GlobalSharedClass*)shared 
 {
@@ -235,6 +237,8 @@ static GlobalSharedClass* _shared = nil;
         self.tildeDelimiter = @"~";
         self.issuesText = @"Issues";
         self.pxDbName = @"PX19";
+        self.blockedLevel = 90;
+        self.mandatoryLevel = 80;
 	}
     
 	return self;

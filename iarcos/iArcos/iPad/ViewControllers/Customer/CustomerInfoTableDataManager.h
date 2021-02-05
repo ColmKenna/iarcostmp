@@ -40,6 +40,8 @@
     int _linkedToIndex;
     NSString* _faxNumberLabel;
     NSString* _creditStatusLabel;
+    NSString* _locationTypeLabel;
+    NSString* _locationStatusLabel;
     NSString* _accessTimesLabel;
     int _lastCallIndex;
     int _faxNumberIndex;
@@ -99,6 +101,8 @@
 @property(nonatomic, assign) int linkedToIndex;
 @property(nonatomic, retain) NSString* faxNumberLabel;
 @property(nonatomic, retain) NSString* creditStatusLabel;
+@property(nonatomic, retain) NSString* locationTypeLabel;
+@property(nonatomic, retain) NSString* locationStatusLabel;
 @property(nonatomic, retain) NSString* accessTimesLabel;
 @property(nonatomic, assign) int lastCallIndex;
 @property(nonatomic, assign) int faxNumberIndex;

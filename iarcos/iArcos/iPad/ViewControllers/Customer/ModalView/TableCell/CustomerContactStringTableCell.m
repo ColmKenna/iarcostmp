@@ -46,6 +46,7 @@
 
 -(void)configCellWithData:(NSMutableDictionary*)theData{
     self.cellData = theData;
+    self.redAsterixLabel.hidden = YES;
     NSString* tmpFieldDesc = [theData objectForKey:@"fieldDesc"];
     self.fieldDesc.text = tmpFieldDesc;
     self.contentString.text = [theData objectForKey:@"contentString"];
@@ -55,6 +56,7 @@
     } else {
         [self.contentString setAutocapitalizationType:UITextAutocapitalizationTypeNone];
     }
+    /*
     if (self.employeeSecurityLevel >= [securityLevel intValue]) {
         self.contentString.enabled = YES;
         if ([self.fieldDesc.text isEqualToString:@"IUR"]) {
@@ -67,6 +69,15 @@
         self.contentString.textColor = [UIColor blueColor];
     } else {
         self.contentString.textColor = [UIColor blackColor];
+    }
+     */
+    self.contentString.enabled = YES;
+    self.contentString.textColor = [UIColor blueColor];
+    if ([securityLevel intValue] == [GlobalSharedClass shared].blockedLevel || [[theData objectForKey:@"fieldDesc"] isEqualToString:@"IUR"]) {
+        self.contentString.enabled = NO;
+        self.contentString.textColor = [UIColor lightGrayColor];
+    } else if ([securityLevel intValue] == [GlobalSharedClass shared].mandatoryLevel) {
+        [self configRedAsterix];
     }
 }
 

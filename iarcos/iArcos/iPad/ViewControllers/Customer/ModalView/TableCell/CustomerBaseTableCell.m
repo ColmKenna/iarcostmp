@@ -13,6 +13,7 @@
 @synthesize cellData;
 @synthesize indexPath;
 @synthesize employeeSecurityLevel = _employeeSecurityLevel;
+@synthesize redAsterixLabel = _redAsterixLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -41,11 +42,22 @@
     if (self.indexPath != nil) {
         self.indexPath = nil;
     }
+    self.redAsterixLabel = nil;
     [super dealloc];
 }
 
 -(void)configCellWithData:(NSMutableDictionary*)theData{
     
+}
+
+- (void)configRedAsterix {
+//    NSMutableAttributedString* attributedFieldDescString = [[NSMutableAttributedString alloc] initWithString:[self.cellData objectForKey:@"fieldDesc"] attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}];
+//    NSAttributedString* attributedRedAsterixString = [[NSAttributedString alloc] initWithString:@"*" attributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0], NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}];
+//    [attributedFieldDescString appendAttributedString:attributedRedAsterixString];
+//    aFieldDesc.attributedText = attributedFieldDescString;
+//    [attributedRedAsterixString release];
+//    [attributedFieldDescString release];
+    self.redAsterixLabel.hidden = NO;
 }
 
 @end

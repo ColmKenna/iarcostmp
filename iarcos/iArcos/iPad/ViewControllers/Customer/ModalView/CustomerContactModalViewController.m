@@ -242,8 +242,28 @@
             return;
         }
     }
+    if (![self checkBeforeSubmit]) return;
 //    self.submitButton.enabled = NO;
     [self submitProcessCenter];
+}
+
+- (BOOL)checkBeforeSubmit {
+    for (int i = 0; i < [self.customerContactTypesDataManager.seqFieldTypeList count]; i++) {
+        NSString* groupName = [self.customerContactTypesDataManager.seqFieldTypeList objectAtIndex:i];
+        NSMutableArray* tmpDisplayList = [self.customerContactTypesDataManager.groupedDataDict objectForKey:groupName];
+        for (int j = 0; j < [tmpDisplayList count]; j++) {
+            NSMutableDictionary* dataCell = [tmpDisplayList objectAtIndex:j];
+            NSString* securityLevel = [dataCell objectForKey:@"securityLevel"];
+            if ([securityLevel intValue] == [GlobalSharedClass shared].mandatoryLevel) {
+                NSString* actualContent = [ArcosUtils trim:[ArcosUtils convertToString:[dataCell objectForKey:@"actualContent"]]];
+                if (actualContent == nil || [actualContent isEqualToString:@""] || ([groupName isEqualToString:@"IUR"] && [actualContent isEqualToString:@"0"])) {
+                    [ArcosUtils showDialogBox:@"Please fill in all mandatory fields" title:[GlobalSharedClass shared].errorTitle delegate:nil target:self tag:0 handler:nil];
+                    return NO;
+                }
+            }
+        }
+    }
+    return YES;
 }
 
 -(void)submitProcessCenter {
@@ -622,7 +642,7 @@
     if (result == nil) {
         [callGenericServices.HUD hide:YES];
         return;
-    }    
+    }
     if (result.ErrorModel.Code >= 0 && [result.ArrayOfData count] > 0) {
         self.contactGenericReturnObject = result;
         self.contactGenericClass = [result.ArrayOfData objectAtIndex:0];
@@ -633,6 +653,7 @@
             return;
         }
         NSString* flagSqlStatement = [NSString stringWithFormat:@"select IUR,DescrDetailIUR,ContactIUR,LocationIUR,TeamIUR,EmployeeIUR from Flag where ContactIUR = %@", self.contactIUR];
+//        NSString* flagSqlStatement = [NSString stringWithFormat:@"select IUR,DescrDetailIUR,ContactIUR,LocationIUR,TeamIUR,EmployeeIUR from Flag where IUR IN (select distinct Flag.IUR from Flag inner join DescrDetail on Flag.DescrDetailIUR = DescrDetail.IUR where DescrDetail.Active = 1) and ContactIUR = %@", self.contactIUR];
         [callGenericServices genericGetData:flagSqlStatement action:@selector(setFlagGenericGetDataResult:) target:self];
     } else if(result.ErrorModel.Code < 0 || [result.ArrayOfData count] == 0) {
         NSString* titleMsg = (result.ErrorModel.Code == 0) ? @"" : [GlobalSharedClass shared].errorTitle;

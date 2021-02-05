@@ -7,7 +7,6 @@
 //
 
 #import "ReporterGroupMainTableViewController.h"
-
 @interface ReporterGroupMainTableViewController ()
 
 @end
@@ -104,7 +103,15 @@
         UILabel* tmpLabel = [cell.labelList objectAtIndex:i];
         tmpLabel.text = [subsetDisplayList objectAtIndex:i];
         
-        UIImage* anImage = anImage = [UIImage imageNamed:@"Resources.png"];
+        NSNumber* imageIur = [self.reporterGroupMainDataManager.groupImageIURHashMap objectForKey:[subsetDisplayList objectAtIndex:i]];
+        UIImage* anImage = nil;
+        if ([imageIur intValue] > 0) {
+            anImage= [[ArcosCoreData sharedArcosCoreData]thumbWithIUR:imageIur];
+        }
+        
+        if (anImage == nil) {
+            anImage = [UIImage imageNamed:@"Resources.png"];
+        }
         
         UIButton* tmpBtn = [cell.btnList objectAtIndex:i];
         tmpBtn.enabled = YES;

@@ -12,6 +12,7 @@
 @synthesize originalDisplayList = _originalDisplayList;
 @synthesize numberOfBtn = _numberOfBtn;
 @synthesize displayList = _displayList;
+@synthesize groupImageIURHashMap = _groupImageIURHashMap;
 
 - (id)init{
     self = [super init];
@@ -26,6 +27,7 @@
 - (void)dealloc {
     self.originalDisplayList = nil;
     self.displayList = nil;
+    self.groupImageIURHashMap = nil;
     
     [super dealloc];
 }
@@ -33,12 +35,17 @@
 - (void)processRawData:(NSMutableArray*)aDisplayList {
     self.originalDisplayList = aDisplayList;
     NSMutableDictionary* groupDetailHashMap = [NSMutableDictionary dictionaryWithCapacity:[aDisplayList count]];
+    self.groupImageIURHashMap = [NSMutableDictionary dictionaryWithCapacity:[aDisplayList count]];
     for (int i = 0; i < [aDisplayList count]; i++) {
         ArcosGenericClass* aReporter = [aDisplayList objectAtIndex:i];
         NSString* groupDetail = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:aReporter.Field14]];
         [groupDetailHashMap setObject:groupDetail forKey:groupDetail];
+        NSNumber* groupImageIUR = [ArcosUtils convertStringToNumber:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:aReporter.Field17]]];
+        
+        [self.groupImageIURHashMap setObject:groupImageIUR forKey:groupDetail];
     }
     NSArray* tmpDisplayList = [[groupDetailHashMap allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    
     self.displayList = [self processSubsetArrayData:tmpDisplayList];
 }
 

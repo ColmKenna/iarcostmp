@@ -91,6 +91,10 @@
         [ArcosUtils showDialogBox:@"Location information not available on this iPad." title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
         return;
     }
+    self.customerInfoTableDataManager = [[[CustomerInfoTableDataManager alloc] initWithLocationIUR:self.custIUR] autorelease];
+    [self.customerInfoTableDataManager createCustKeysOnStartUp];
+    
+    self.customerInfoTableDataManager.csIUR = [location objectForKey:@"CSiur"];
     [self resetContentWithDict:location compulsoryRefresh:NO];
     
     //animations
@@ -102,10 +106,7 @@
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(editPressed:)];
     [self.navigationItem setRightBarButtonItem:editButton];
     [editButton release];
-    self.customerInfoTableDataManager = [[[CustomerInfoTableDataManager alloc] initWithLocationIUR:self.custIUR] autorelease];
-    [self.customerInfoTableDataManager createCustKeysOnStartUp];
     
-    self.customerInfoTableDataManager.csIUR = [location objectForKey:@"CSiur"];
 //    NSString* status=@"UnAssigned";//[statusDict objectForKey:@"Details"];
 //    
 //    [self createCustKeysWithStatus:status];
@@ -553,12 +554,12 @@
         aDict = [descDictHashMap objectForKey:CSiurNumber];
         NSString* detail=[aDict objectForKey:@"Detail"];
         if (detail!=nil) {
-            [self.aCustDict setObject:detail forKey:@"Credit Status"];
+            [self.aCustDict setObject:detail forKey:self.customerInfoTableDataManager.creditStatusLabel];
         }else{
-            [self.aCustDict setObject:@"UnAssigned" forKey:@"Credit Status"];
+            [self.aCustDict setObject:@"UnAssigned" forKey:self.customerInfoTableDataManager.creditStatusLabel];
         }
     }else{
-        [self.aCustDict setObject:@"UnAssigned" forKey:@"Credit Status"];
+        [self.aCustDict setObject:@"UnAssigned" forKey:self.customerInfoTableDataManager.creditStatusLabel];
     }
     
     
@@ -566,14 +567,14 @@
         aDict = [descDictHashMap objectForKey:LTiurNumber];
         NSString* detail=[aDict objectForKey:@"Detail"];
         if (detail!=nil) {
-            [self.aCustDict setObject:detail forKey:@"Location Type"];
+            [self.aCustDict setObject:detail forKey:self.customerInfoTableDataManager.locationTypeLabel];
             
         }else{
-            [self.aCustDict setObject:@"UnAssigned" forKey:@"Location Type"];
+            [self.aCustDict setObject:@"UnAssigned" forKey:self.customerInfoTableDataManager.locationTypeLabel];
             
         }
     }else{
-        [self.aCustDict setObject:@"UnAssigned" forKey:@"Location Type"];
+        [self.aCustDict setObject:@"UnAssigned" forKey:self.customerInfoTableDataManager.locationTypeLabel];
     }
     
     
@@ -581,14 +582,14 @@
         aDict = [descDictHashMap objectForKey:lsiurNumber];
         NSString* detail=[aDict objectForKey:@"Detail"];
         if (detail!=nil) {
-            [self.aCustDict setObject:detail forKey:@"Location Status"];
+            [self.aCustDict setObject:detail forKey:self.customerInfoTableDataManager.locationStatusLabel];
             
         }else{
-            [self.aCustDict setObject:@"UnAssigned" forKey:@"Location Status"];
+            [self.aCustDict setObject:@"UnAssigned" forKey:self.customerInfoTableDataManager.locationStatusLabel];
             
         }
     }else{
-        [self.aCustDict setObject:@"UnAssigned" forKey:@"Location Status"];
+        [self.aCustDict setObject:@"UnAssigned" forKey:self.customerInfoTableDataManager.locationStatusLabel];
     }
     
     

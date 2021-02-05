@@ -41,6 +41,8 @@
 @synthesize linkedToIndex = _linkedToIndex;
 @synthesize faxNumberLabel = _faxNumberLabel;
 @synthesize creditStatusLabel = _creditStatusLabel;
+@synthesize locationTypeLabel = _locationTypeLabel;
+@synthesize locationStatusLabel = _locationStatusLabel;
 @synthesize accessTimesLabel = _accessTimesLabel;
 @synthesize lastCallIndex = _lastCallIndex;
 @synthesize faxNumberIndex = _faxNumberIndex;
@@ -118,13 +120,42 @@
         self.linkedToLabel = @"Linked To";
         self.faxNumberLabel = @"Fax Number";
         self.creditStatusLabel = @"Credit Status";
+        self.locationTypeLabel = @"Location Type";
+        self.locationStatusLabel = @"Location Status";
         self.accessTimesLabel = @"Access Times";
         self.startTimeLabel = @"Start Time";
         self.faxNumberIndex = 0;
         self.creditStatusIndex = 0;
         self.headerItemList = [NSMutableArray arrayWithObjects:@"Address", @"Address2", @"Address3", @"Address4", @"Address5", @"Phone Number", @"Email", self.lastCallLabel, nil];
         
-        self.moreFooterItemList = [NSMutableArray arrayWithObjects:self.faxNumberLabel, self.creditStatusLabel, @"Location Type", @"Location Status", @"Location Code", @"Member Of", self.accessTimesLabel, self.buyingGroupLabel, nil];
+        NSDictionary* csDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"CS"];
+        if (csDict != nil) {
+            NSString* csDetails = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[csDict objectForKey:@"Details"]]];
+            if (![csDetails isEqualToString:@""]) {
+                self.creditStatusLabel = csDetails;
+            }
+        }
+        
+        NSDictionary* ltDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"LT"];
+        if (ltDict != nil) {
+            if (ltDict != nil) {
+                NSString* ltDetails = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[ltDict objectForKey:@"Details"]]];
+                if (![ltDetails isEqualToString:@""]) {
+                    self.locationTypeLabel = ltDetails;
+                }
+            }
+        }
+        
+        NSDictionary* lsDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"LS"];
+        if (lsDict != nil) {
+            NSString* lsDetails = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[lsDict objectForKey:@"Details"]]];
+            if (![lsDetails isEqualToString:@""]) {
+                self.locationStatusLabel = lsDetails;
+            }
+        }      
+        
+        
+        self.moreFooterItemList = [NSMutableArray arrayWithObjects:self.faxNumberLabel, self.creditStatusLabel, self.locationTypeLabel, self.locationStatusLabel, @"Location Code", @"Member Of", self.accessTimesLabel, self.buyingGroupLabel, nil];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showStartTimeAtHomePageFlag]) {
             int auxAccessTimesIndex = [self retrieveMoreFooterIndexByLabel:self.accessTimesLabel];
             if (auxAccessTimesIndex != -1) {
@@ -171,6 +202,8 @@
     self.linkedToLabel = nil;
     self.faxNumberLabel = nil;
     self.creditStatusLabel = nil;
+    self.locationTypeLabel = nil;
+    self.locationStatusLabel = nil;
     self.accessTimesLabel = nil;
     self.custKeyList = nil;
     self.linkedContactDictList = nil;

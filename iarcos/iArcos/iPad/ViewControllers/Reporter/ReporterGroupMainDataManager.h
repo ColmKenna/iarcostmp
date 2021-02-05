@@ -15,11 +15,13 @@
     NSMutableArray* _originalDisplayList;
     int _numberOfBtn;
     NSMutableArray* _displayList;
+    NSMutableDictionary* _groupImageIURHashMap;
 }
 
 @property(nonatomic, retain) NSMutableArray* originalDisplayList;
 @property(nonatomic, assign) int numberOfBtn;
 @property(nonatomic, retain) NSMutableArray* displayList;
+@property(nonatomic, retain) NSMutableDictionary* groupImageIURHashMap;
 
 - (void)processRawData:(NSMutableArray*)aDisplayList;
 - (NSMutableArray*)retrieveReporterListWithGroupDetail:(NSString*)aGroupDetail;

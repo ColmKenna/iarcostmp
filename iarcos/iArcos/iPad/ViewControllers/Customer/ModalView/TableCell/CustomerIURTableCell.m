@@ -48,6 +48,7 @@
 
 -(void)configCellWithData:(NSMutableDictionary*)theData{
     self.cellData = theData;
+    self.redAsterixLabel.hidden = YES;
     self.fieldDesc.text = [theData objectForKey:@"fieldDesc"];
     self.contentString.text = [theData objectForKey:@"contentString"];    
 //    self.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
@@ -57,13 +58,24 @@
     [self.contentString addGestureRecognizer:singleTap];
     [singleTap release];
     */
+    
     NSString* securityLevel = [theData objectForKey:@"securityLevel"];
+    /*
     if (self.employeeSecurityLevel >= [securityLevel intValue]) {
         self.contentString.enabled = YES;
         self.contentString.textColor = [UIColor blueColor];
     } else {
         self.contentString.enabled = NO;
         self.contentString.textColor = [UIColor blackColor];
+    }
+     */
+    self.contentString.enabled = YES;
+    self.contentString.textColor = [UIColor blueColor];
+    if ([securityLevel intValue] == [GlobalSharedClass shared].blockedLevel) {
+        self.contentString.enabled = NO;
+        self.contentString.textColor = [UIColor lightGrayColor];
+    } else if ([securityLevel intValue] == [GlobalSharedClass shared].mandatoryLevel) {
+        [self configRedAsterix];
     }
 //    if ([self.fieldDesc.text isEqualToString:@"Master Location"]) {
 //        self.contentString.enabled = NO;

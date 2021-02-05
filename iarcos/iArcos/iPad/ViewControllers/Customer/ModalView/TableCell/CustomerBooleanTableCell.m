@@ -31,14 +31,23 @@
 
 -(void)configCellWithData:(NSMutableDictionary*)theData{
     self.cellData = theData;
+    self.redAsterixLabel.hidden = YES;
     self.fieldDesc.text = [theData objectForKey:@"fieldDesc"];
 //    self.contentString.on = [[theData objectForKey:@"contentString"] boolValue];    
     self.contentString.on = [[theData objectForKey:@"contentString"] isEqualToString:@"1"] ? YES : NO;
     NSString* securityLevel = [theData objectForKey:@"securityLevel"];
+    /*
     if (self.employeeSecurityLevel >= [securityLevel intValue]) {
         self.contentString.enabled = YES;
     } else {
         self.contentString.enabled = NO;
+    }
+     */
+    self.contentString.enabled = YES;
+    if ([securityLevel intValue] == [GlobalSharedClass shared].blockedLevel) {
+        self.contentString.enabled = NO;
+    } else if ([securityLevel intValue] == [GlobalSharedClass shared].mandatoryLevel) {
+        [self configRedAsterix];
     }
 }
 

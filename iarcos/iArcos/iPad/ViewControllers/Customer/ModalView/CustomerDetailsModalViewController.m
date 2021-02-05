@@ -481,7 +481,7 @@
     NSLog(@"set result happens in customer details");
     if (result == nil) {
         return;
-    }    
+    }
     if (result.ErrorModel.Code >= 0 && [result.ArrayOfData count] > 0) {     
         [customerTypesDataManager processRawData:result withNumOfFields:47];
 //        NSLog(@"customerTypesDataManager.groupedDataDict %@", customerTypesDataManager.groupedDataDict);
@@ -677,10 +677,24 @@
             NSString* contentString = [ArcosUtils trim:[cellData objectForKey:@"contentString"]];
             NSLog(@"contentString is %@", contentString);
             if (contentString == nil || [contentString isEqualToString:@""]) {
-                [ArcosUtils showDialogBox:@"Please enter a location name." title:[GlobalSharedClass shared].errorTitle delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
-                    
-                }];
+                [ArcosUtils showDialogBox:@"Please enter a location name." title:[GlobalSharedClass shared].errorTitle delegate:nil target:self tag:0 handler:nil];
                 return NO;
+            }
+        }
+    }
+    
+    for (int i = 0; i < [customerTypesDataManager.seqFieldTypeList count]; i++) {
+        NSString* groupName = [customerTypesDataManager.seqFieldTypeList objectAtIndex:i];
+        NSMutableArray* tmpDisplayList = [customerTypesDataManager.groupedDataDict objectForKey:groupName];
+        for (int j = 0; j < [tmpDisplayList count]; j++) {
+            NSMutableDictionary* dataCell = [tmpDisplayList objectAtIndex:j];
+            NSString* securityLevel = [dataCell objectForKey:@"securityLevel"];
+            if ([securityLevel intValue] == [GlobalSharedClass shared].mandatoryLevel) {
+                NSString* actualContent = [ArcosUtils trim:[ArcosUtils convertToString:[dataCell objectForKey:@"actualContent"]]];
+                if (actualContent == nil || [actualContent isEqualToString:@""] || ([groupName isEqualToString:@"IUR"] && [actualContent isEqualToString:@"0"])) {
+                    [ArcosUtils showDialogBox:@"Please fill in all mandatory fields" title:[GlobalSharedClass shared].errorTitle delegate:nil target:self tag:0 handler:nil];
+                    return NO;
+                }
             }
         }
     }

@@ -129,6 +129,8 @@ typedef enum {
     NSString* _issuesText;
     NSString* _pxDbName;
     NSDate* _startRecordingDate;
+    int _blockedLevel;
+    int _mandatoryLevel;
 }
 
 +(GlobalSharedClass*)shared;
@@ -235,6 +237,8 @@ typedef enum {
 @property (nonatomic,retain) NSString* issuesText;
 @property (nonatomic,retain) NSString* pxDbName;
 @property (nonatomic,retain) NSDate* startRecordingDate;
+@property (nonatomic,assign) int blockedLevel;
+@property (nonatomic,assign) int mandatoryLevel;
 
 //usful functions
 - (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber;

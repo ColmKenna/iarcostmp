@@ -46,11 +46,14 @@
 
 -(void)configCellWithData:(NSMutableDictionary*)theData{
     self.cellData = theData;
+    self.redAsterixLabel.hidden = YES;
     self.fieldDesc.text = [theData objectForKey:@"fieldDesc"];
+    
     self.contentString.text = [theData objectForKey:@"contentString"];
     
     NSString* securityLevel = [theData objectForKey:@"securityLevel"];
 //    NSLog(@"location securityLevel: %@ %d employeeSecurityLevel: %d", securityLevel, [securityLevel intValue], self.employeeSecurityLevel);
+    /*
     if (self.employeeSecurityLevel >= [securityLevel intValue]) {
         self.contentString.enabled = YES;
         if ([self.fieldDesc.text isEqualToString:@"Location Code"]) {
@@ -65,6 +68,16 @@
     } else {
         self.contentString.textColor = [UIColor blackColor];
     }
+     */
+    self.contentString.enabled = YES;
+    self.contentString.textColor = [UIColor blueColor];
+    if ([securityLevel intValue] == [GlobalSharedClass shared].blockedLevel || [[theData objectForKey:@"fieldDesc"] isEqualToString:@"Location Code"]) {
+        self.contentString.enabled = NO;
+        self.contentString.textColor = [UIColor lightGrayColor];
+    } else if ([securityLevel intValue] == [GlobalSharedClass shared].mandatoryLevel) {
+        [self configRedAsterix];
+    }
+     
 }
 
 @end
