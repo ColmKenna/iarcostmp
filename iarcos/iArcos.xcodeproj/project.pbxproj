@@ -1578,6 +1578,7 @@
 		793D000425A2C65200DCDA5B /* ReportMainTemplateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 793D000225A2C65200DCDA5B /* ReportMainTemplateViewController.xib */; };
 		795EF38F2534543400F8C5ED /* CustomerContactDetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 795EF38D2534543400F8C5ED /* CustomerContactDetailTableCell.m */; };
 		795EF3902534543400F8C5ED /* CustomerContactDetailTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */; };
+		799A268725CE71FC006F620C /* ReporterXmlSubTableFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 799A268625CE71FC006F620C /* ReporterXmlSubTableFooterView.m */; };
 		799BE71D25628172002274CC /* NewOrderDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 799BE71C25628172002274CC /* NewOrderDataManager.m */; };
 		79B7227A25B52A03007709BF /* ReporterGroupMainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B7227825B52A03007709BF /* ReporterGroupMainTableViewController.m */; };
 		79B7227B25B52A03007709BF /* ReporterGroupMainTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79B7227925B52A03007709BF /* ReporterGroupMainTableViewController.xib */; };
@@ -4675,6 +4676,9 @@
 		795EF38C2534543400F8C5ED /* CustomerContactDetailTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerContactDetailTableCell.h; sourceTree = "<group>"; };
 		795EF38D2534543400F8C5ED /* CustomerContactDetailTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerContactDetailTableCell.m; sourceTree = "<group>"; };
 		795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomerContactDetailTableCell.xib; sourceTree = "<group>"; };
+		799A268525CE71FC006F620C /* ReporterXmlSubTableFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlSubTableFooterView.h; sourceTree = "<group>"; };
+		799A268625CE71FC006F620C /* ReporterXmlSubTableFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterXmlSubTableFooterView.m; sourceTree = "<group>"; };
+		799A268A25CE8432006F620C /* ReporterXmlSubTableDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlSubTableDelegate.h; sourceTree = "<group>"; };
 		799BE71B25628172002274CC /* NewOrderDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewOrderDataManager.h; sourceTree = "<group>"; };
 		799BE71C25628172002274CC /* NewOrderDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewOrderDataManager.m; sourceTree = "<group>"; };
 		79B7227725B52A03007709BF /* ReporterGroupMainTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterGroupMainTableViewController.h; sourceTree = "<group>"; };
@@ -6953,6 +6957,9 @@
 				79C2A5A825B97611002AAC61 /* ReporterXmlSubTableHeaderView.m */,
 				7905C70925BE70EB00FFBF77 /* ReporterXmlGraphDataManager.h */,
 				7905C70A25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m */,
+				799A268525CE71FC006F620C /* ReporterXmlSubTableFooterView.h */,
+				799A268625CE71FC006F620C /* ReporterXmlSubTableFooterView.m */,
+				799A268A25CE8432006F620C /* ReporterXmlSubTableDelegate.h */,
 			);
 			path = Reporter;
 			sourceTree = "<group>";
@@ -9769,6 +9776,7 @@
 				63D861A41EFD310A00733513 /* CustomerSurveyDetailsSubHeaderTableCell.m in Sources */,
 				63A1330021A86828000128F5 /* MeetingExpenseTableViewController.m in Sources */,
 				630B3C2F19F01CB9007B2442 /* BranchLeafProductGridDataManager.m in Sources */,
+				799A268725CE71FC006F620C /* ReporterXmlSubTableFooterView.m in Sources */,
 				632F7BE01A656B6000995D50 /* CustomerInfoAccountBalanceDetailTableViewCell.m in Sources */,
 				630B3D8219F01CB9007B2442 /* ArcosArrayOfGenericReturnObjectWithImage.m in Sources */,
 				630B3B2519F01CB9007B2442 /* PresenterMoviePlayerController.m in Sources */,
@@ -10424,7 +10432,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.5.22;
+				MARKETING_VERSION = 7.5.24;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10479,7 +10487,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.5.22;
+				MARKETING_VERSION = 7.5.24;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -10614,7 +10622,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.5.22;
+				MARKETING_VERSION = 7.5.24;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

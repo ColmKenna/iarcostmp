@@ -30,6 +30,7 @@
         self.reportTableViewController = [[[ReportTableViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
         self.reportNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.reportTableViewController] autorelease];
         self.reporterXmlSubTableViewController = [[[ReporterXmlSubTableViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+        self.reporterXmlSubTableViewController.subTableDelegate = self;
         self.reporterXmlGraphViewController = [[[ReporterXmlGraphViewController alloc] initWithNibName:@"ReporterXmlGraphViewController" bundle:nil] autorelease];
     }
     return self;
@@ -91,6 +92,9 @@
     switch (self.mySegmentedControl.selectedSegmentIndex) {
         case 0: {
             self.reportNavigationController.view.hidden = NO;
+            if (!self.reporterXmlSubTableViewController.reporterXmlSubDataManager.subTableRowPressed) {
+                [self.reportTableViewController sortWithLinkIUR:self.reportTableViewController.nullStr];
+            }
         }
             break;
             
@@ -110,5 +114,18 @@
             break;
     }
 }
+
+#pragma mark ReporterXmlSubTableDelegate
+- (void)subTableFooterPressed {
+    self.mySegmentedControl.selectedSegmentIndex = 0;
+    [self segmentedAction];
+}
+
+- (void)subTableRowPressedWithLinkIUR:(NSString *)aLinkIUR {
+    self.mySegmentedControl.selectedSegmentIndex = 0;
+    [self.reportTableViewController sortWithLinkIUR:aLinkIUR];
+    [self segmentedAction];
+}
+
 
 @end

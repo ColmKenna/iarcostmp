@@ -38,6 +38,7 @@
 @synthesize contactGenericReturnObject = _contactGenericReturnObject;
 @synthesize emailActionType = _emailActionType;
 @synthesize emailContactIUR = _emailContactIUR;
+@synthesize nullStr = _nullStr;
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -57,6 +58,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     //add save button to the navigation bar
+    self.nullStr = @"null";
     UIBarButtonItem *optionButton = [[UIBarButtonItem alloc] 
                                      initWithTitle: @"Option"
                                      style:UIBarButtonItemStylePlain
@@ -113,7 +115,7 @@
     
     
     //sub table
-    NSMutableDictionary* allOption = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"All",@"Details",@"null",@"LinkIUR",@"All",@"Title",@"SubTable",@"PopoverCellType", nil];
+    NSMutableDictionary* allOption = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"All",@"Details",self.nullStr,@"LinkIUR",@"All",@"Title",@"SubTable",@"PopoverCellType", nil];
     [self.optionList addObject:allOption];
         
     self.Options=[[[self.ReportDocument  nodesForXPath:@"//Sub" error:nil]mutableCopy] autorelease];
@@ -141,7 +143,7 @@
     
     self.rootView = [ArcosUtils getRootView];
 
-
+    self.navigationController.navigationBar.hidden = YES;
 }
 
 - (void)viewDidUnload
@@ -317,7 +319,7 @@
     }else if ([[data objectForKey:@"PopoverCellType"]isEqualToString:@"SubTable"]) {
         NSString* link=[data objectForKey:@"LinkIUR"];
         
-        if ([link isEqualToString:@"null"]) {
+        if ([link isEqualToString:self.nullStr]) {
             self.DisplayList=self.MainData;
         }else{
             self.DisplayList=[self recordWithLink:link];
@@ -326,6 +328,15 @@
     
     
     
+    [self.tableView reloadData];
+}
+
+- (void)sortWithLinkIUR:(NSString*)aLinkIUR {
+    if ([aLinkIUR isEqualToString:self.nullStr]) {
+        self.DisplayList = self.MainData;
+    }else{
+        self.DisplayList = [self recordWithLink:aLinkIUR];
+    }
     [self.tableView reloadData];
 }
 
@@ -644,6 +655,7 @@
     self.customerContactTypesDataManager = nil;
     self.emailActionType = nil;
     self.emailContactIUR = nil;
+    self.nullStr = nil;
     [super dealloc];
 }
 

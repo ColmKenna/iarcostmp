@@ -12,7 +12,7 @@
 #import "ReporterXmlSubTableViewController.h"
 #import "ReporterXmlGraphViewController.h"
 
-@interface ReportMainTemplateViewController : UIViewController {
+@interface ReportMainTemplateViewController : UIViewController <ReporterXmlSubTableDelegate>{
     UISegmentedControl* _mySegmentedControl;
     UIView* _templateView;
     ReportTableViewController* _reportTableViewController;

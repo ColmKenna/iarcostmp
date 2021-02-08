@@ -9,6 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ReporterXmlSubTableViewController">
             <connections>
+                <outlet property="reporterXmlSubTableFooterView" destination="UcI-wl-1vC" id="8kX-LV-m1V"/>
                 <outlet property="reporterXmlSubTableHeaderView" destination="X8M-hj-WbP" id="2bG-hd-1oB"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -64,6 +65,49 @@
                 <outlet property="descriptionLabel" destination="Crh-iw-YCH" id="HLR-ly-tsb"/>
                 <outlet property="qtyLabel" destination="0I4-Pb-nDL" id="Sus-mT-860"/>
                 <outlet property="valueLabel" destination="seE-Kq-dvq" id="f1Y-wb-6xL"/>
+            </connections>
+            <point key="canvasLocation" x="138" y="-265"/>
+        </view>
+        <view contentMode="scaleToFill" id="UcI-wl-1vC" customClass="ReporterXmlSubTableFooterView">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Counts" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="dDv-IJ-E31">
+                    <rect key="frame" x="15" y="11" width="60" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="TOTAL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="zJT-QW-3jl">
+                    <rect key="frame" x="85" y="11" width="513" height="21"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Qtys" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="nUc-kP-lwS">
+                    <rect key="frame" x="608" y="11" width="60" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Values" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="GFj-wU-K2h">
+                    <rect key="frame" x="678" y="11" width="80" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.33333334329999997" green="0.33333334329999997" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="countSumLabel" destination="dDv-IJ-E31" id="Xkj-gc-hkt"/>
+                <outlet property="qtySumLabel" destination="nUc-kP-lwS" id="aeZ-Lq-iYJ"/>
+                <outlet property="totalLabel" destination="zJT-QW-3jl" id="Flr-yD-dsy"/>
+                <outlet property="valueSumLabel" destination="GFj-wU-K2h" id="FtI-Oe-vcA"/>
             </connections>
             <point key="canvasLocation" x="138" y="-265"/>
         </view>

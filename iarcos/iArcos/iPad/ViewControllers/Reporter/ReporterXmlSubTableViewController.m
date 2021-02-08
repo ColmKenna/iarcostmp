@@ -13,8 +13,10 @@
 @end
 
 @implementation ReporterXmlSubTableViewController
+@synthesize subTableDelegate = _subTableDelegate;
 @synthesize reporterXmlSubTableHeaderView = _reporterXmlSubTableHeaderView;
 @synthesize reporterXmlSubDataManager = _reporterXmlSubDataManager;
+@synthesize reporterXmlSubTableFooterView = _reporterXmlSubTableFooterView;
 
 - (instancetype)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
@@ -38,6 +40,7 @@
 - (void)dealloc {
     self.reporterXmlSubTableHeaderView = nil;
     self.reporterXmlSubDataManager = nil;
+    self.reporterXmlSubTableFooterView = nil;
     
     [super dealloc];
 }
@@ -53,7 +56,38 @@
     return self.reporterXmlSubTableHeaderView;    
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    for (UIGestureRecognizer* recognizer in self.reporterXmlSubTableFooterView.gestureRecognizers) {
+        [self.reporterXmlSubTableFooterView removeGestureRecognizer:recognizer];
+    }
+    UITapGestureRecognizer* footerSingleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleFooterSingleTapGesture:)];
+    [self.reporterXmlSubTableFooterView addGestureRecognizer:footerSingleTap];
+    [footerSingleTap release];
+    self.reporterXmlSubTableFooterView.countSumLabel.text = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", self.reporterXmlSubDataManager.countSum]];
+    self.reporterXmlSubTableFooterView.qtySumLabel.text = [NSString stringWithFormat:@"%d", self.reporterXmlSubDataManager.qtySum];
+    self.reporterXmlSubTableFooterView.valueSumLabel.text = [NSString stringWithFormat:@"%.2f", self.reporterXmlSubDataManager.valueSum];
+    if (!self.reporterXmlSubDataManager.qtyShowFlag) {
+        self.reporterXmlSubTableFooterView.qtySumLabel.hidden = YES;
+    }
+    if (!self.reporterXmlSubDataManager.valueShowFlag) {
+        self.reporterXmlSubTableFooterView.valueSumLabel.hidden = YES;
+    }
+    return self.reporterXmlSubTableFooterView;
+}
+
+- (void)handleFooterSingleTapGesture:(id)sender {
+    UITapGestureRecognizer* auxRecognizer = (UITapGestureRecognizer*)sender;
+    if (auxRecognizer.state == UIGestureRecognizerStateEnded) {
+        [self.subTableDelegate subTableFooterPressed];
+    }
+    
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 44;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 44;
 }
 
@@ -96,6 +130,8 @@
     return cell;
 }
 
+
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -130,21 +166,16 @@
 }
 */
 
-/*
+
 #pragma mark - Table view delegate
 
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here, for example:
-    // Create the next view controller.
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:<#@"Nib name"#> bundle:nil];
-    
-    // Pass the selected object to the new view controller.
-    
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    NSMutableDictionary* cellData = [self.reporterXmlSubDataManager.displayList objectAtIndex:indexPath.row];
+    self.reporterXmlSubDataManager.subTableRowPressed = YES;
+    [self.subTableDelegate subTableRowPressedWithLinkIUR:[cellData objectForKey:@"LinkIUR"]];
+    self.reporterXmlSubDataManager.subTableRowPressed = NO;
 }
-*/
 
 /*
 #pragma mark - Navigation

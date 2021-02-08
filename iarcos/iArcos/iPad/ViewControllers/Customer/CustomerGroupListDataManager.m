@@ -36,6 +36,20 @@
         self.creditStatusDescrTypeCode = @"CS";
         self.locationStatusTitle = @"Location Status";
         self.creditStatusTitle = @"Credit Status";
+        NSDictionary* lsDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"LS"];
+        if (lsDict != nil) {
+            NSString* lsDetails = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[lsDict objectForKey:@"Details"]]];
+            if (![lsDetails isEqualToString:@""]) {
+                self.locationStatusTitle = lsDetails;
+            }
+        }
+        NSDictionary* csDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"CS"];
+        if (csDict != nil) {
+            NSString* csDetails = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[csDict objectForKey:@"Details"]]];
+            if (![csDetails isEqualToString:@""]) {
+                self.creditStatusTitle = csDetails;
+            }
+        }
     }
     return self;
 }

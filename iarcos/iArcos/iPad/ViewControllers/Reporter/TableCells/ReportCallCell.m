@@ -7,6 +7,7 @@
 //
 
 #import "ReportCallCell.h"
+#import "ArcosUtils.h"
 
 @implementation ReportCallCell
 @synthesize name;
@@ -48,7 +49,7 @@
     self.name.text=[elementDict objectForKey:@"Name"];
     self.address.text=[elementDict objectForKey:@"Address"];
     self.type.text=[elementDict objectForKey:@"Type"];
-    self.value.text=[elementDict objectForKey:@"Value"];
+    self.value.text=[ArcosUtils convertToFloatString:[elementDict objectForKey:@"Value"]];
     
     NSString* callDateString=[elementDict objectForKey:@"Date"];
     

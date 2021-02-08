@@ -44,6 +44,13 @@
         self.answeredNumber = 999;
         self.notSeenDateKey = @"notSeenDate";
         self.locationTypesTitle = @"Location Types";
+        NSDictionary* ltDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"LT"];
+        if (ltDict != nil) {
+            NSString* ltDetails = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[ltDict objectForKey:@"Details"]]];
+            if (![ltDetails isEqualToString:@""]) {
+                self.locationTypesTitle = ltDetails;
+            }
+        }
         self.wholesalerCodeTitle = @"Wholesaler Code";
         self.wholesalerCodeDescrTypeCode = @"wholesalerCode";
     }

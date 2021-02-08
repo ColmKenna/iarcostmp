@@ -101,7 +101,16 @@
     barPlotSpace.allowsUserInteraction = YES;
     barPlotSpace.delegate = self;
     barPlotSpace.xRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithFloat:150.0f]];
-    barPlotSpace.yRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithFloat:10.0]];
+    int yAxisNum = 10;
+    if ([self.reporterXmlGraphDataManager.displayList count] <= yAxisNum) {
+        yAxisNum = [ArcosUtils convertNSUIntegerToUnsignedInt:[self.reporterXmlGraphDataManager.displayList count]];
+        barPlotSpace.allowsUserInteraction = NO;
+    }
+    if ([self.reporterXmlGraphDataManager.displayList count] == 0) {
+        yAxisNum = 10;
+        barPlotSpace.allowsUserInteraction = NO;
+    }
+    barPlotSpace.yRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithInt:yAxisNum]];
     [graph addPlotSpace:barPlotSpace];
     
     //Add title

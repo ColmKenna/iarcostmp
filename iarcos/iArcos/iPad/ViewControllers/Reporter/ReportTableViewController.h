@@ -50,6 +50,7 @@
     ArcosGenericReturnObject* _contactGenericReturnObject;
     NSString* _emailActionType;
     NSNumber* _emailContactIUR;
+    NSString* _nullStr;
 }
 @property(nonatomic,retain) CXMLDocument* ReportDocument;
 @property(nonatomic,retain) NSMutableArray* DisplayList;
@@ -74,4 +75,8 @@
 @property (nonatomic, retain) ArcosGenericReturnObject* contactGenericReturnObject;
 @property (nonatomic, retain) NSString* emailActionType;
 @property (nonatomic, retain) NSNumber* emailContactIUR;
+@property (nonatomic, retain) NSString* nullStr;
+
+- (void)sortWithLinkIUR:(NSString*)aLinkIUR;
+
 @end

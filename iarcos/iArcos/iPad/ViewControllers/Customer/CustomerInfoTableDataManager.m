@@ -138,11 +138,9 @@
         
         NSDictionary* ltDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"LT"];
         if (ltDict != nil) {
-            if (ltDict != nil) {
-                NSString* ltDetails = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[ltDict objectForKey:@"Details"]]];
-                if (![ltDetails isEqualToString:@""]) {
-                    self.locationTypeLabel = ltDetails;
-                }
+            NSString* ltDetails = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[ltDict objectForKey:@"Details"]]];
+            if (![ltDetails isEqualToString:@""]) {
+                self.locationTypeLabel = ltDetails;
             }
         }
         

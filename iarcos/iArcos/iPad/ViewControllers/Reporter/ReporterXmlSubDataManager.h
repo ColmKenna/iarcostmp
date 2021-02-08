@@ -16,12 +16,20 @@
     CXMLDocument* _reportDocument;
     BOOL _qtyShowFlag;
     BOOL _valueShowFlag;
+    int _countSum;
+    int _qtySum;
+    float _valueSum;
+    BOOL _subTableRowPressed;
 }
 
 @property(nonatomic, retain) NSMutableArray* displayList;
 @property(nonatomic, retain) CXMLDocument* reportDocument;
 @property(nonatomic, assign) BOOL qtyShowFlag;
 @property(nonatomic, assign) BOOL valueShowFlag;
+@property(nonatomic, assign) int countSum;
+@property(nonatomic, assign) int qtySum;
+@property(nonatomic, assign) float valueSum;
+@property(nonatomic, assign) BOOL subTableRowPressed;
 
 - (void)processRawData:(CXMLDocument*)aReportDocument;
 
