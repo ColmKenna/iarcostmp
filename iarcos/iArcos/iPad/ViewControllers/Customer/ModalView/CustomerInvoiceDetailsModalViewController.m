@@ -7,6 +7,7 @@
 //
 
 #import "CustomerInvoiceDetailsModalViewController.h"
+#import "CustomerOrderDetailsModalViewController.h"
 
 
 @implementation CustomerInvoiceDetailsModalViewController
@@ -15,6 +16,9 @@
 @synthesize tableHeader;
 @synthesize displayList;
 @synthesize IUR;
+@synthesize orderHeaderIUR = _orderHeaderIUR;
+@synthesize orderNumber = _orderNumber;
+@synthesize globalNavigationController = _globalNavigationController;
 
 @synthesize textView;
 @synthesize employee;
@@ -32,7 +36,7 @@
 @synthesize goods;
 @synthesize vat;
 @synthesize total;
-
+@synthesize screenLoadedFlag = _screenLoadedFlag;
 
 
 
@@ -51,6 +55,9 @@
     if(self.tableHeader != nil) { self.tableHeader = nil; }    
     if (self.displayList != nil) { self.displayList = nil; }
     if (self.IUR != nil) { self.IUR = nil; }
+    self.orderHeaderIUR = nil;
+    self.orderNumber = nil;
+    self.globalNavigationController = nil;
     if (callGenericServices != nil) {
         [callGenericServices release];
         callGenericServices = nil;
@@ -114,8 +121,10 @@
     
     callGenericServices = [[CallGenericServices alloc] initWithView:self.navigationController.view];
     callGenericServices.delegate = self;
-    [callGenericServices getRecord:@"Invoice" iur:[self.IUR intValue]];    
+        
     [ArcosUtils configEdgesForExtendedLayout:self];
+    self.orderNumber = @"";
+    self.orderHeaderIUR = @"";
 }
 
 - (void)viewDidUnload
@@ -142,6 +151,13 @@
     if (self.goods != nil) { self.goods = nil; } 
     if (self.vat != nil) { self.vat = nil; } 
     if (self.total != nil) { self.total = nil; }            
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (self.screenLoadedFlag) return;
+    self.screenLoadedFlag = YES;
+    [callGenericServices getRecord:@"Invoice" iur:[self.IUR intValue]];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -302,6 +318,13 @@
         self.date.text = [ArcosUtils convertDatetimeToDate:[replyResult Field17]];
         self.ref.text = [replyResult Field24];
         self.order.text = [replyResult Field16];
+        self.orderNumber = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[ArcosUtils convertToString:[replyResult Field16]]]];
+        self.orderHeaderIUR = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[ArcosUtils convertToString:[replyResult Field25]]]];
+        if (![self.orderNumber isEqualToString:@""]) {
+            self.order.textColor = [UIColor blueColor];
+        } else {
+            self.order.textColor = [UIColor blackColor];
+        }
         
         self.comment1.text = [replyResult Field19];
         self.comment2.text = [replyResult Field20];
@@ -317,6 +340,30 @@
         
     }
 //    [activityIndicator stopAnimating];    
+}
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    if (![self.orderNumber isEqualToString:@""]) {
+        CustomerOrderDetailsModalViewController* codmvc=[[CustomerOrderDetailsModalViewController alloc]initWithNibName:@"CustomerOrderDetailsModalViewController" bundle:nil];
+        codmvc.title = @"ORDER DETAILS";
+        codmvc.animateDelegate = self;
+        codmvc.orderIUR = self.orderHeaderIUR;
+        
+        self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:codmvc] autorelease];
+        self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self setModalPresentationStyle:UIModalPresentationCurrentContext];
+        [self presentViewController:self.globalNavigationController animated:YES completion:nil];
+        [codmvc release];
+    }
+    return NO;
+}
+
+#pragma mark - SlideAcrossViewAnimationDelegate
+- (void)dismissSlideAcrossViewAnimation {
+    [self dismissViewControllerAnimated:YES completion:^ {
+        self.globalNavigationController = nil;
+    }];
 }
 
 @end

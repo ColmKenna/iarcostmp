@@ -321,6 +321,9 @@
 //        cpwvc.myDelegate = self;
         cpwvc.modalDelegate = self;
         cpwvc.orderHeader = auxOrderHeader;
+        if ([cpwvc respondsToSelector:@selector(isModalInPresentation)]) {
+            cpwvc.modalInPresentation = YES;
+        }
         cpwvc.modalPresentationStyle = UIModalPresentationFormSheet;
         cpwvc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         [self presentViewController:cpwvc animated:YES completion:^{

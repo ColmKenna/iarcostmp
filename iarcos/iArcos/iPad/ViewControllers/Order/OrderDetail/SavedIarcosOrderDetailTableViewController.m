@@ -212,7 +212,7 @@
         if ([sectionTitle isEqualToString:self.savedIarcosOrderDetailDataManager.savedIarcosOrderDetailBaseDataManager.contactSectionTitle]) {
             NSMutableArray* auxDisplayList = [self.savedIarcosOrderDetailDataManager.groupedDataDict objectForKey:sectionTitle];
             if (!self.savedIarcosOrderDetailDataManager.isContactDetailsShowed) {
-                self.contactDetailsTableViewCell.controlLabel.text = @"Contact Details";
+                self.contactDetailsTableViewCell.controlLabel.text = @"Details";
                 return self.contactDetailsTableViewCell;
             } else if(self.savedIarcosOrderDetailDataManager.isContactDetailsShowed && indexPath.row == [auxDisplayList count]) {
                 self.contactDetailsTableViewCell.controlLabel.text = @"Hide";
@@ -318,12 +318,27 @@
 //    cpwvc.myDelegate = self;
     cpwvc.modalDelegate = self;
     cpwvc.orderHeader = self.savedIarcosOrderDetailDataManager.orderHeader;
+    if ([cpwvc respondsToSelector:@selector(isModalInPresentation)]) {
+        cpwvc.modalInPresentation = YES;
+    }
     cpwvc.modalPresentationStyle = UIModalPresentationFormSheet;
     cpwvc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentViewController:cpwvc animated:YES completion:^{
         
     }];
     [cpwvc release];
+}
+- (void)showInvoiceDetailViewController {
+    CustomerInvoiceDetailsModalViewController* cidmvc=[[CustomerInvoiceDetailsModalViewController alloc]initWithNibName:@"CustomerInvoiceDetailsModalViewController" bundle:nil];
+    cidmvc.animateDelegate = self;
+    cidmvc.IUR = [self.savedIarcosOrderDetailDataManager.orderHeader objectForKey:@"InvoiceHeaderIUR"];
+    cidmvc.title = @"INVOICE DETAILS";
+    
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:cidmvc] autorelease];
+    self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self setModalPresentationStyle:UIModalPresentationCurrentContext];
+    [self presentViewController:self.globalNavigationController animated:YES completion:nil];
+    [cidmvc release];
 }
 #pragma mark ModalPresentViewControllerDelegate
 - (void)didDismissModalPresentViewController {
@@ -810,6 +825,13 @@
         [self yesActionPressedProcessor];
     } else {//no action
     }    
+}
+
+#pragma mark - SlideAcrossViewAnimationDelegate
+-(void)dismissSlideAcrossViewAnimation {
+    [self dismissViewControllerAnimated:YES completion:^ {
+        self.globalNavigationController = nil;
+    }];
 }
 
 @end

@@ -24,7 +24,7 @@
 #import "MeetingPhotoUploadProcessMachine.h"
 #import "ArcosErrorModel.h"
 
-@interface MeetingMainTemplateViewController : UIViewController <MeetingAttachmentsTableViewControllerDelegate, MeetingPhotoUploadProcessMachineDelegate>{
+@interface MeetingMainTemplateViewController : UIViewController <MeetingAttachmentsTableViewControllerDelegate, MeetingPhotoUploadProcessMachineDelegate, MeetingDetailsTableViewControllerDelegate>{
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
     UISegmentedControl* _mySegmentedControl;
     UIView* _templateView;

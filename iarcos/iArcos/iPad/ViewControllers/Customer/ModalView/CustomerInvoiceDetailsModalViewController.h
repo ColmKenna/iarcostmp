@@ -12,12 +12,15 @@
 #import "CallGenericServices.h"
 #import "SlideAcrossViewAnimationDelegate.h"
 
-@interface CustomerInvoiceDetailsModalViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,GetDataGenericDelegate> {
+@interface CustomerInvoiceDetailsModalViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,GetDataGenericDelegate,UITextFieldDelegate,SlideAcrossViewAnimationDelegate> {
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
     IBOutlet UITableView* invoiceDetailListView;
     IBOutlet UIView* tableHeader;
     NSMutableArray* displayList;
     NSString* IUR;
+    NSString* _orderHeaderIUR;
+    NSString* _orderNumber;
+    UINavigationController* _globalNavigationController;
     
 //    UIActivityIndicatorView* activityIndicator;
     CallGenericServices* callGenericServices;
@@ -38,7 +41,7 @@
     IBOutlet UITextField* goods;
     IBOutlet UITextField* vat;
     IBOutlet UITextField* total;
-
+    BOOL _screenLoadedFlag;
 }
 
 @property (nonatomic, assign) id<SlideAcrossViewAnimationDelegate> animateDelegate;
@@ -46,6 +49,9 @@
 @property (nonatomic, retain) IBOutlet UIView* tableHeader;
 @property (nonatomic,retain)  NSMutableArray* displayList;
 @property (nonatomic,retain) NSString* IUR;
+@property (nonatomic,retain) NSString* orderHeaderIUR;
+@property (nonatomic,retain) NSString* orderNumber;
+@property (nonatomic,retain) UINavigationController* globalNavigationController;
 
 @property (nonatomic,retain) IBOutlet UITextView* textView;
 @property (nonatomic,retain) IBOutlet UITextField* employee;
@@ -63,6 +69,7 @@
 @property (nonatomic,retain) IBOutlet UITextField* goods;
 @property (nonatomic,retain) IBOutlet UITextField* vat;
 @property (nonatomic,retain) IBOutlet UITextField* total;
+@property (nonatomic,assign) BOOL screenLoadedFlag;
 
 -(IBAction)donePressed:(id)sender;
 

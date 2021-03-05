@@ -38,7 +38,7 @@
 
 /*
  *DataStructure Specification
- *CellType nsnumber 1:DateCell 2:readLabelCell 3:writeLabelCell 4:textFieldCell 5:TextViewCell 6:DrillDownCell 7:numberTextFieldCell 8:DateHourMinCell 9:Print 11:DeliveryInstructions1
+ *CellType nsnumber 1:DateCell 2:readLabelCell 3:writeLabelCell 4:textFieldCell 5:TextViewCell 6:DrillDownCell 7:numberTextFieldCell 8:DateHourMinCell 9:Print 11:DeliveryInstructions1 15:Location 16:InvoiceRef 17:OrderNumber
  *CellKey nsstring key from orderheader
  *FieldNameLabel nsstring fieldName displayed
  *FieldData id NSDate or NSString or NSMutableDictionary

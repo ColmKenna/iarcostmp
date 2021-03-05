@@ -7,6 +7,7 @@
 //
 
 #import "OrderDetailDeliveryInstructions1TextFieldTableCell.h"
+#import "ArcosConfigDataManager.h"
 
 @implementation OrderDetailDeliveryInstructions1TextFieldTableCell
 @synthesize fieldNameLabel = _fieldNameLabel;
@@ -40,6 +41,10 @@
     } else {
         self.fieldValueTextField.textColor = [UIColor blueColor];
         self.fieldValueTextField.enabled = YES;
+        if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showDeliveryInstructionsFlag]) {
+            self.fieldValueTextField.textColor = [UIColor blackColor];
+            self.fieldValueTextField.enabled = NO;
+        }
     }
 }
 

@@ -71,11 +71,14 @@
      */
     self.contentString.enabled = YES;
     self.contentString.textColor = [UIColor blueColor];
+    self.contentString.backgroundColor = [UIColor clearColor];
     if ([securityLevel intValue] == [GlobalSharedClass shared].blockedLevel) {
         self.contentString.enabled = NO;
         self.contentString.textColor = [UIColor lightGrayColor];
     } else if ([securityLevel intValue] == [GlobalSharedClass shared].mandatoryLevel) {
         [self configRedAsterix];
+    } else if ([securityLevel intValue] == [GlobalSharedClass shared].remindLevel) {
+        self.contentString.backgroundColor = [UIColor yellowColor];
     }
 //    if ([self.fieldDesc.text isEqualToString:@"Master Location"]) {
 //        self.contentString.enabled = NO;

@@ -14,7 +14,7 @@
 #import "CustomerOrderDetailsHeaderView.h"
 #import "OrderEntryInputDataManager.h"
 
-@interface CustomerOrderDetailsModalViewController : UIViewController <UITableViewDelegate,UITableViewDataSource,GetDataGenericDelegate>{
+@interface CustomerOrderDetailsModalViewController : UIViewController <UITableViewDelegate,UITableViewDataSource,GetDataGenericDelegate,UITextFieldDelegate,SlideAcrossViewAnimationDelegate>{
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
     IBOutlet UITableView* orderDetailListView;
     IBOutlet CustomerOrderDetailsHeaderView* tableHeader;
@@ -42,6 +42,10 @@
     IBOutlet UITextView* memo;
     IBOutlet UITextField* value;
     OrderEntryInputDataManager* _orderEntryInputDataManager;
+    NSString* _invoiceRef;
+    NSString* _invoiceHeaderIUR;
+    BOOL _screenLoadedFlag;
+    UINavigationController* _globalNavigationController;
 }
 
 @property (nonatomic, assign) id<SlideAcrossViewAnimationDelegate> animateDelegate;
@@ -67,7 +71,10 @@
 @property (nonatomic,retain) IBOutlet UITextView* memo;
 @property (nonatomic,retain) NSString* orderIUR;
 @property(nonatomic, retain) OrderEntryInputDataManager* orderEntryInputDataManager;
-
+@property(nonatomic, retain) NSString* invoiceRef;
+@property(nonatomic, retain) NSString* invoiceHeaderIUR;
+@property(nonatomic, assign) BOOL screenLoadedFlag;
+@property (nonatomic,retain) UINavigationController* globalNavigationController;
 
 -(IBAction)donePressed:(id)sender;
 

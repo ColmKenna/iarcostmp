@@ -102,7 +102,8 @@
 //-(void)loadOrderToDB;
 //-(void)loadOrderToDB:(NSDate*)aStartDate endDate:(NSDate*)aEndDate;
 -(void)loadOrderToDB:(NSMutableDictionary*)aDataDict;
--(void)loadCallToDB:(NSDate*)aStartDate endDate:(NSDate*)aEndDate;
+//-(void)loadCallToDB:(NSDate*)aStartDate endDate:(NSDate*)aEndDate;
+-(void)loadCallToDB:(NSMutableDictionary*)aDataDict;
 -(void)loadResponseToDB:(NSDate*)aStartDate endDate:(NSDate*)aEndDate;
 -(void)loadSurveyToDB;
 -(void)loadJourneyToDB;

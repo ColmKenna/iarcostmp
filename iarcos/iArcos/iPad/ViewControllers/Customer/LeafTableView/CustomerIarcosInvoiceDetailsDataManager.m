@@ -15,11 +15,15 @@
 @synthesize groupedDataDict = _groupedDataDict;
 @synthesize invoiceDetailsTitle = _invoiceDetailsTitle;
 @synthesize orderlineDictList = _orderlineDictList;
+@synthesize orderHeaderIUR = _orderHeaderIUR;
+@synthesize orderNumber = _orderNumber;
 
 - (id)init {
     self = [super init];
     if (self != nil) {
         self.invoiceDetailsTitle = @"Invoice Details";
+        self.orderNumber = @"";
+        self.orderHeaderIUR = @"";
     }
     return self;
 }
@@ -31,12 +35,16 @@
     self.groupedDataDict = nil;
     self.invoiceDetailsTitle = nil;
     self.orderlineDictList = nil;
+    self.orderHeaderIUR = nil;
+    self.orderNumber = nil;
     
     [super dealloc];
 }
 
 - (void)loadInvoiceDetailsData:(ArcosGenericClass*)aReplyResult {
     self.replyResult = aReplyResult;
+    self.orderNumber = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[ArcosUtils convertToString:[aReplyResult Field16]]]];
+    self.orderHeaderIUR = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[ArcosUtils convertToString:[aReplyResult Field25]]]];
     self.sectionTitleList = [NSMutableArray array];
     self.groupedDataDict = [NSMutableDictionary dictionary];
     [self createInvoiceDetailsSectionData];
@@ -53,7 +61,7 @@
     [invoiceDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Delivery By" fieldNameLabel:@"Delivery By" fieldData:[ArcosUtils convertNilToEmpty:[self.replyResult Field14]]]];
     [invoiceDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Status" fieldNameLabel:@"Status" fieldData:[ArcosUtils convertNilToEmpty:[self.replyResult Field15]]]];
     [invoiceDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Cus.Ref." fieldNameLabel:@"Cus.Ref." fieldData:[ArcosUtils convertNilToEmpty:[self.replyResult Field24]]]];
-    [invoiceDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Order No." fieldNameLabel:@"Order No." fieldData:[ArcosUtils convertNilToEmpty:[self.replyResult Field16]]]];
+    [invoiceDetailDisplayList addObject:[self createOrderNumberCellDataWithFieldNameLabel:@"Order No." fieldData:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[self.replyResult Field16]]]]];
     [invoiceDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Employee" fieldNameLabel:@"Employee" fieldData:[ArcosUtils convertNilToEmpty:[self.replyResult Field10]]]];
     [invoiceDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Value" fieldNameLabel:@"Value" fieldData:[ArcosUtils convertToFloatString:[ArcosUtils convertNilToEmpty:[self.replyResult Field21]]]]];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
@@ -90,6 +98,14 @@
     [cellData setObject:[NSNumber numberWithInt:6] forKey:@"CellType"];
     [cellData setObject:aFieldNameLabel forKey:@"FieldNameLabel"];
     [cellData setObject:anOrderHeaderType forKey:@"OrderHeaderType"];
+    return cellData;
+}
+
+- (NSMutableDictionary*)createOrderNumberCellDataWithFieldNameLabel:(NSString*)aFieldNameLabel fieldData:(NSString*)aFieldData {
+    NSMutableDictionary* cellData = [NSMutableDictionary dictionaryWithCapacity:3];
+    [cellData setObject:[NSNumber numberWithInt:17] forKey:@"CellType"];
+    [cellData setObject:aFieldNameLabel forKey:@"FieldNameLabel"];
+    [cellData setObject:aFieldData forKey:@"FieldData"];
     return cellData;
 }
 

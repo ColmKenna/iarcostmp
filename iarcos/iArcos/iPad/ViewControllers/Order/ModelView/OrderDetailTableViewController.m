@@ -416,6 +416,9 @@
     CheckoutPrinterWrapperViewController* cpwvc = [[CheckoutPrinterWrapperViewController alloc] initWithNibName:@"CheckoutPrinterWrapperViewController" bundle:nil];
     cpwvc.modalDelegate = self;
     cpwvc.orderHeader = self.orderDetailDataManager.orderHeader;
+    if ([cpwvc respondsToSelector:@selector(isModalInPresentation)]) {
+        cpwvc.modalInPresentation = YES;
+    }
     cpwvc.modalPresentationStyle = UIModalPresentationFormSheet;
     cpwvc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentViewController:cpwvc animated:YES completion:^{

@@ -69,6 +69,7 @@
     [self.templateView.layer setBorderColor:[myColor CGColor]];
     
     self.meetingDetailsTableViewController = [[[MeetingDetailsTableViewController alloc] initWithNibName:@"MeetingDetailsTableViewController" bundle:nil] autorelease];
+    self.meetingDetailsTableViewController.actionDelegate = self;
     self.meetingMiscTableViewController = [[[MeetingMiscTableViewController alloc] initWithNibName:@"MeetingMiscTableViewController" bundle:nil] autorelease];
     self.meetingObjectivesTableViewController = [[[MeetingObjectivesTableViewController alloc] initWithNibName:@"MeetingObjectivesTableViewController" bundle:nil] autorelease];
     self.meetingAttendeesTableViewController = [[[MeetingAttendeesTableViewController alloc] initWithNibName:@"MeetingAttendeesTableViewController" bundle:nil] autorelease];
@@ -180,6 +181,7 @@
     }
     //    arcosMeetingBO.IUR = [self.meetingIUR intValue];
     arcosMeetingWithDetailsDownload.IUR = [self.meetingIUR intValue];
+    arcosMeetingWithDetailsDownload.LocationIUR = [self.meetingLocationIUR intValue];
     [self.callGenericServices genericUpdateMeetingByMeetingBO:arcosMeetingWithDetailsDownload action:@selector(resultBackFromUpdateMeeting:) target:self];
     //    NSLog(@"abc: %@", self.meetingDetailsTableViewController.meetingDetailsDataManager.headOfficeDataObjectDict);
     //    NSLog(@"ac: %@", self.meetingMiscTableViewController.meetingMiscDataManager.headOfficeDataObjectDict);
@@ -408,6 +410,11 @@
         [self.meetingPhotoUploadProcessMachine stopTask];
     }
     self.isPhotoUploadingFinished = YES;
+}
+
+#pragma mark MeetingDetailsTableViewControllerDelegate
+- (void)updateMeetingMainTemplateLocationIUR:(NSNumber *)aLocationIUR {
+    self.meetingLocationIUR = aLocationIUR;
 }
 
 

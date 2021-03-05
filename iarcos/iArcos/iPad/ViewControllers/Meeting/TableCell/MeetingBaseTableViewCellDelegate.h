@@ -17,6 +17,7 @@
 - (UIViewController*)retrieveMeetingMainViewController;
 - (void)meetingAttendeeEmployeeSelectFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath;
 - (void)meetingAttendeeContactSelectFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath;
+- (void)updateMeetingLocationIUR:(NSNumber*)aLocationIUR;
 
 @end
 

@@ -353,6 +353,9 @@
     cpwvc.modalDelegate = self;
     cpwvc.orderHeader = [OrderSharedClass sharedOrderSharedClass].currentOrderHeader;
     cpwvc.isOrderPadPrinterType = YES;
+    if ([cpwvc respondsToSelector:@selector(isModalInPresentation)]) {
+        cpwvc.modalInPresentation = YES;
+    }
     cpwvc.modalPresentationStyle = UIModalPresentationFormSheet;
     cpwvc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentViewController:cpwvc animated:YES completion:^{

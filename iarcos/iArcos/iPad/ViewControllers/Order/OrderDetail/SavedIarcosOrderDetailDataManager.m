@@ -112,7 +112,8 @@
     [self.orderHeader setObject:[ArcosUtils convertNilToEmpty:[arcosGenericClass Field28]] forKey:@"memo"];
     [self.orderHeader setObject:[SettingManager employeeIUR] forKey:@"EmployeeIUR"];
     [self.orderHeader setObject:[ArcosUtils convertStringToFloatNumber:[arcosGenericClass Field27]] forKey:@"TotalGoods"];
-    [self.orderHeader setObject:[ArcosUtils convertNilToEmpty:[arcosGenericClass Field17]] forKey:@"invoiceRef"];
+    [self.orderHeader setObject:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[arcosGenericClass Field24]]] forKey:@"invoiceRef"];
+    [self.orderHeader setObject:[ArcosUtils convertStringToNumber:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[arcosGenericClass Field33]]]] forKey:@"InvoiceHeaderIUR"];
     NSNumber* formIUR = [ArcosUtils convertStringToNumber:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:arcosGenericClass.Field11]]];
     [self.orderHeader setObject:formIUR forKey:@"FormIUR"];
     NSDictionary* auxFormTypeDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:formIUR];    
@@ -133,6 +134,7 @@
     [self.orderHeader setObject:[NSMutableDictionary dictionaryWithObject:callTypeIUR forKey:@"DescrDetailIUR"] forKey:@"callType"];
     NSNumber* wholesalerIUR = [ArcosUtils convertStringToNumber:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:arcosGenericClass.Field21]]];
     [self.orderHeader setObject:[ArcosUtils convertNilToEmpty:arcosGenericClass.Field25] forKey:@"DeliveryInstructions1"];
+    [self.orderHeader setObject:[ArcosUtils convertNilToEmpty:arcosGenericClass.Field26] forKey:@"DeliveryInstructions2"];
     NSMutableDictionary* wholesalerDict = [[[ArcosCoreData sharedArcosCoreData] locationWithIUR: wholesalerIUR] objectAtIndex:0];
     if (wholesalerDict == nil) {
         wholesalerDict = [NSMutableDictionary dictionaryWithCapacity:1];

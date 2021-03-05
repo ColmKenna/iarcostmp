@@ -13,6 +13,7 @@
 @end
 
 @implementation MeetingDetailsTableViewController
+@synthesize actionDelegate = _actionDelegate;
 @synthesize meetingDetailsDataManager = _meetingDetailsDataManager;
 @synthesize tableCellFactory = _tableCellFactory;
 
@@ -93,6 +94,9 @@
     [self.tableView reloadData];
 }
 
+- (void)updateMeetingLocationIUR:(NSNumber *)aLocationIUR {
+    [self.actionDelegate updateMeetingMainTemplateLocationIUR:aLocationIUR];
+}
 
 
 @end

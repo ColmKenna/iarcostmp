@@ -7,7 +7,7 @@
 //
 
 #import "CustomerOrderDetailsModalViewController.h"
-
+#import "CustomerInvoiceDetailsModalViewController.h"
 
 @implementation CustomerOrderDetailsModalViewController
 @synthesize animateDelegate = _animateDelegate;
@@ -36,7 +36,10 @@
 
 @synthesize orderIUR;
 @synthesize orderEntryInputDataManager = _orderEntryInputDataManager;
-
+@synthesize invoiceRef = _invoiceRef;
+@synthesize invoiceHeaderIUR = _invoiceHeaderIUR;
+@synthesize screenLoadedFlag = _screenLoadedFlag;
+@synthesize globalNavigationController = _globalNavigationController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -77,6 +80,9 @@
     if (self.memo != nil) { self.memo = nil; }
     if (self.value != nil) { self.value = nil; }
     self.orderEntryInputDataManager = nil;
+    self.invoiceRef = nil;
+    self.invoiceHeaderIUR = nil;
+    self.globalNavigationController = nil;
     
     [super dealloc];
 }
@@ -107,11 +113,13 @@
     
     callGenericServices = [[CallGenericServices alloc] initWithView:self.navigationController.view];
     callGenericServices.delegate = self;
-    [callGenericServices getRecord:@"Order" iur:[self.orderIUR intValue]];    
+        
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     self.orderEntryInputDataManager = [[[OrderEntryInputDataManager alloc] init] autorelease];
+    self.invoiceRef = @"";
+    self.invoiceHeaderIUR = @"";
 }
 
 - (void)viewDidUnload
@@ -139,6 +147,13 @@
     if (self.instructions2 != nil) { self.instructions2 = nil; }
     if (self.memo != nil) { self.memo = nil; }
     if (self.value != nil) { self.value = nil; }        
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (self.screenLoadedFlag) return;
+    self.screenLoadedFlag = YES;
+    [callGenericServices getRecord:@"Order" iur:[self.orderIUR intValue]];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -319,13 +334,26 @@
         
         self.delivery.text = [ArcosUtils convertDatetimeToDate:[replyResult Field20]];
         self.deliveryBy.text = [replyResult Field22];
-        self.deliveryStatus.text = [replyResult Field24];
+//        self.deliveryStatus.text = [replyResult Field24];
+        self.invoiceRef = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[ArcosUtils convertToString:[replyResult Field24]]]];
+        self.deliveryStatus.text = self.invoiceRef;
+        self.invoiceHeaderIUR = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[ArcosUtils convertToString:[replyResult Field33]]]];
+        if (![self.invoiceRef isEqualToString:@""]) {
+            self.deliveryStatus.textColor = [UIColor blueColor];
+        } else {
+            self.deliveryStatus.textColor = [UIColor blackColor];
+        }
+        
         self.instructions.text = [replyResult Field25];
 //        self.instructions2.text = [replyResult Field26];
         if ([[ArcosUtils convertNilToEmpty:[replyResult Field26]] isEqualToString:@""]) {
-            self.memo.text = [replyResult Field28];
+            self.memo.text = [ArcosUtils convertNilToEmpty:[replyResult Field28]];
         } else {
-            self.memo.text = [NSString stringWithFormat:@"%@ | %@", [replyResult Field26], [replyResult Field28]];
+            if ([[ArcosUtils convertNilToEmpty:[replyResult Field28]] isEqualToString:@""]) {
+                self.memo.text = [NSString stringWithFormat:@"%@", [replyResult Field26]];
+            } else {
+                self.memo.text = [NSString stringWithFormat:@"%@ | %@", [replyResult Field26], [replyResult Field28]];
+            }
         }        
         self.value.text = [NSString stringWithFormat:@"%.2f", [[replyResult Field27] floatValue]];
         self.displayList = replyResult.SubObjects;
@@ -337,5 +365,28 @@
 //    [activityIndicator stopAnimating];    
 }
 
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    if (![self.invoiceRef isEqualToString:@""]) {
+        CustomerInvoiceDetailsModalViewController* cidmvc=[[CustomerInvoiceDetailsModalViewController alloc]initWithNibName:@"CustomerInvoiceDetailsModalViewController" bundle:nil];
+        cidmvc.animateDelegate = self;
+        cidmvc.IUR = self.invoiceHeaderIUR;
+        cidmvc.title = @"INVOICE DETAILS";
+        
+        self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:cidmvc] autorelease];
+        self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self setModalPresentationStyle:UIModalPresentationCurrentContext];
+        [self presentViewController:self.globalNavigationController animated:YES completion:nil];
+        [cidmvc release];
+    }
+    return NO;
+}
+
+#pragma mark - SlideAcrossViewAnimationDelegate
+- (void)dismissSlideAcrossViewAnimation {
+    [self dismissViewControllerAnimated:YES completion:^ {
+        self.globalNavigationController = nil;
+    }];
+}
 
 @end

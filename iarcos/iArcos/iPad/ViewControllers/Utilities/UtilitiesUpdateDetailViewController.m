@@ -750,7 +750,7 @@
                 break;
             case 195:
                 if (downloadModeValue == 0 || downloadModeValue == 1) {                    
-                    [updateCenter pushSelector: @selector(loadCallToDB:endDate:) withName:[GlobalSharedClass shared].callOrderHeaderSelectorName];                
+                    [updateCenter pushSelector: @selector(loadCallToDB:) withName:[GlobalSharedClass shared].callOrderHeaderSelectorName];                
                 }
                 break;    
             case 200:

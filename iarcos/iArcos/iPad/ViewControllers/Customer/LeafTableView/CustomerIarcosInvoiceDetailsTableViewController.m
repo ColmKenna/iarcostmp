@@ -8,6 +8,7 @@
 
 #import "CustomerIarcosInvoiceDetailsTableViewController.h"
 #import "ArcosStackedViewController.h"
+#import "CustomerOrderDetailsModalViewController.h"
 
 @interface CustomerIarcosInvoiceDetailsTableViewController ()
 
@@ -19,6 +20,8 @@
 @synthesize callGenericServices = _callGenericServices;
 @synthesize invoiceDetailsCellFactory = _invoiceDetailsCellFactory;
 @synthesize locationIUR = _locationIUR;
+@synthesize screenLoadedFlag = _screenLoadedFlag;
+@synthesize globalNavigationController = _globalNavigationController;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -42,7 +45,6 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.navigationController.view] autorelease];
     self.callGenericServices.delegate = self;
-    [self.callGenericServices getRecord:@"Invoice" iur:[self.customerIarcosInvoiceDetailsDataManager.invoiceIUR intValue]];
 }
 
 - (void)dealloc {
@@ -52,8 +54,16 @@
     self.callGenericServices = nil;
     self.invoiceDetailsCellFactory = nil;
     self.locationIUR = nil;
+    self.globalNavigationController = nil;
     
     [super dealloc];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (self.screenLoadedFlag) return;
+    self.screenLoadedFlag = YES;
+    [self.callGenericServices getRecord:@"Invoice" iur:[self.customerIarcosInvoiceDetailsDataManager.invoiceIUR intValue]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -159,5 +169,25 @@
     [tmpNavigationController release];
 }
 
+- (void)showOrderDetailViewController {
+    if ([self.customerIarcosInvoiceDetailsDataManager.orderNumber isEqualToString:@""]) return;
+    CustomerOrderDetailsModalViewController* codmvc=[[CustomerOrderDetailsModalViewController alloc]initWithNibName:@"CustomerOrderDetailsModalViewController" bundle:nil];
+    codmvc.title = @"ORDER DETAILS";
+    codmvc.animateDelegate = self;
+    codmvc.orderIUR = self.customerIarcosInvoiceDetailsDataManager.orderHeaderIUR;
+    
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:codmvc] autorelease];
+    self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self setModalPresentationStyle:UIModalPresentationCurrentContext];
+    [self presentViewController:self.globalNavigationController animated:YES completion:nil];
+    [codmvc release];
+}
+
+#pragma mark - SlideAcrossViewAnimationDelegate
+- (void)dismissSlideAcrossViewAnimation {
+    [self dismissViewControllerAnimated:YES completion:^ {
+        self.globalNavigationController = nil;
+    }];
+}
 
 @end

@@ -20,5 +20,7 @@
 -(void)showPrintViewControllerDelegate;
 - (void)locationInputFinishedWithData:(id)data forIndexpath:(NSIndexPath*)theIndexpath;
 - (NSMutableDictionary*)retrieveParentOrderHeader;
+- (void)showInvoiceDetailViewController;
+- (void)showOrderDetailViewController;
 
 @end

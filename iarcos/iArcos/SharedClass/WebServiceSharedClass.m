@@ -374,10 +374,21 @@
     self.isLoadingFinished=NO;
 }
 
--(void)loadCallToDB:(NSDate*)aStartDate endDate:(NSDate*)aEndDate {    
-    int employeeIur = [[SettingManager employeeIUR] intValue]; 
+-(void)loadCallToDB:(NSMutableDictionary*)aDataDict {
+    NSDate* aStartDate = [aDataDict objectForKey:@"StartDate"];
+    NSDate* aEndDate = [aDataDict objectForKey:@"EndDate"];
+    NSNumber* aDownloadMode = [aDataDict objectForKey:@"DownloadMode"];
+    SettingManager* sm=[SettingManager setting];
+    NSMutableDictionary* empolyee=[sm getSettingForKeypath:@"PersonalSetting.Personal" atIndex:0];
+    NSNumber* empolyeeIUR=[empolyee objectForKey:@"Value"];
+    int anIUR=0;
+    anIUR=[empolyeeIUR intValue];
+    if ([aDownloadMode intValue] == 1) {
+        anIUR = anIUR * -1;
+    }
+//    int employeeIur = [[SettingManager employeeIUR] intValue];
     if (self.isLoadingFinished){
-        [self.service GetAllCallsBetweenDates:self action:@selector(callBackFromService:) employeeiur:employeeIur startDate:aStartDate endDate:aEndDate];
+        [self.service GetAllCallsBetweenDates:self action:@selector(callBackFromService:) employeeiur:anIUR startDate:aStartDate endDate:aEndDate];
         [self.delegate StartGettingData];
     }
     self.isLoadingFinished = NO;

@@ -58,6 +58,10 @@
     [callTypeDict setObject:[self.orderHeader objectForKey:@"callTypeText"] forKey:self.titleKey];
     [contactDisplayList addObject:[self createWriteCellDataWithCellKey:@"callType" fieldNameLabel:@"Call Type" writeType:[NSNumber numberWithInt:6] fieldData:callTypeDict]];
     [contactDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"EmployeeIUR" fieldNameLabel:@"Employee" fieldData:[self employeeName:[self.orderHeader objectForKey:@"EmployeeIUR"]]]];
+    NSString* invoiceRefStr = [self.orderHeader objectForKey:@"invoiceRef"];
+    if (![invoiceRefStr isEqualToString:@""]) {
+        [contactDisplayList addObject:[self createInvoiceRefCellDataWithCellKey:@"invoiceRef" fieldNameLabel:@"Invoice" fieldData:invoiceRefStr]];
+    }
     
     [self.groupedDataDict setObject:contactDisplayList forKey:sectionTitle];
 }
@@ -67,9 +71,11 @@
     NSMutableArray* orderDetailDisplayList = [NSMutableArray arrayWithCapacity:6];
     [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"OrderNumber" fieldNameLabel:@"Number" fieldData:[ArcosUtils convertNumberToIntString:[self.orderHeader objectForKey:@"OrderNumber"]]]];
     [orderDetailDisplayList addObject:[self createDateLabelCellDataWithCellKey:@"deliveryDate" fieldNameLabel:@"Delivery" writeType:[NSNumber numberWithInt:0]]];
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showDeliveryInstructionsFlag]) {
-        [orderDetailDisplayList addObject:[self createDeliveryInstructions1TextFieldCellDataWithCellKey:@"DeliveryInstructions1" fieldNameLabel:@"Instructions" fieldData:[self.orderHeader objectForKey:@"DeliveryInstructions1"]]];
-    }
+//    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showDeliveryInstructionsFlag]) {
+//
+//    }
+    [orderDetailDisplayList addObject:[self createDeliveryInstructions1TextFieldCellDataWithCellKey:@"DeliveryInstructions1" fieldNameLabel:@"Instructions" fieldData:[self.orderHeader objectForKey:@"DeliveryInstructions1"]]];
+    [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"DeliveryInstructions2" fieldNameLabel:@"" fieldData:[self.orderHeader objectForKey:@"DeliveryInstructions2"]]];
     NSMutableDictionary* wholesalerDict = [NSMutableDictionary dictionaryWithDictionary:[self.orderHeader objectForKey:@"wholesaler"]];
     [wholesalerDict setObject:[self.orderHeader objectForKey:@"wholesalerText"] forKey:self.titleKey];
     [orderDetailDisplayList addObject:[self createWriteCellDataWithCellKey:@"wholesaler" fieldNameLabel:@"Wholesaler" writeType:[NSNumber numberWithInt:4] fieldData:wholesalerDict]];
@@ -120,6 +126,10 @@
     [contactDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"orderDate" fieldNameLabel:@"Date" fieldData:[self.orderHeader objectForKey:@"orderDateText"]]];
     [contactDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"callType" fieldNameLabel:@"Call Type" fieldData:[self.orderHeader objectForKey:@"callTypeText"]]];
     [contactDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Employee" fieldNameLabel:@"Employee" fieldData:[self.orderHeader objectForKey:@"Employee"]]];
+    NSString* invoiceRefStr = [self.orderHeader objectForKey:@"invoiceRef"];
+    if (![invoiceRefStr isEqualToString:@""]) {
+        [contactDisplayList addObject:[self createInvoiceRefCellDataWithCellKey:@"invoiceRef" fieldNameLabel:@"Invoice" fieldData:invoiceRefStr]];
+    }
     
     [self.groupedDataDict setObject:contactDisplayList forKey:sectionTitle];
 }
@@ -273,6 +283,15 @@
 - (NSMutableDictionary*)createFormTypeCellDataWithCellKey:(NSString*)aCellKey fieldNameLabel:(NSString*)aFieldNameLabel fieldData:(NSMutableDictionary*)aFieldData {
     NSMutableDictionary* cellData = [NSMutableDictionary dictionaryWithCapacity:4];
     [cellData setObject:[NSNumber numberWithInt:12] forKey:@"CellType"];
+    [cellData setObject:aCellKey forKey:@"CellKey"];
+    [cellData setObject:aFieldNameLabel forKey:@"FieldNameLabel"];
+    [cellData setObject:aFieldData forKey:@"FieldData"];
+    return cellData;
+}
+
+- (NSMutableDictionary*)createInvoiceRefCellDataWithCellKey:(NSString*)aCellKey fieldNameLabel:(NSString*)aFieldNameLabel fieldData:(NSString*)aFieldData {
+    NSMutableDictionary* cellData = [NSMutableDictionary dictionaryWithCapacity:4];
+    [cellData setObject:[NSNumber numberWithInt:16] forKey:@"CellType"];
     [cellData setObject:aCellKey forKey:@"CellKey"];
     [cellData setObject:aFieldNameLabel forKey:@"FieldNameLabel"];
     [cellData setObject:aFieldData forKey:@"FieldData"];

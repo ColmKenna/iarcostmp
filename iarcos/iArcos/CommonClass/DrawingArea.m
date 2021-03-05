@@ -155,4 +155,11 @@
     [self setNeedsDisplay];
 }
 
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+        return NO;
+    }
+    return YES;
+}
+
 @end

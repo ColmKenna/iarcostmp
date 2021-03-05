@@ -351,6 +351,7 @@
     Location.CUiur = [ArcosUtils convertStringToNumber:anObject.Field42];
     Location.DialupNumber = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field43]];
     Location.Address5            =    [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field44]];
+    Location.Competitor3 = [ArcosUtils convertStringToNumber:anObject.Field45];
     
     return Location;
 }
@@ -408,6 +409,7 @@
     Location.CUiur                =    [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:41]];
     Location.DialupNumber = [ArcosUtils convertToString:[aFieldList objectAtIndex:42]];
     Location.Address5            =    [ArcosUtils convertToString:[aFieldList objectAtIndex:43]];
+    Location.Competitor3         =    [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:44]];
     
     return Location;
 }
@@ -547,6 +549,13 @@
 
 - (void)populateOrderWithSoapOB:(ArcosOrderHeaderBO*)anObject orderHeader:(OrderHeader*)OrderHeader {
     OrderHeader.OSiur = [NSNumber numberWithInt:anObject.OSIUR];
+    OrderHeader.InvoiseRef = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.InvoiceRef]];
+    if (OrderHeader.DeliveryInstructions1 == nil || [[ArcosUtils trim:OrderHeader.DeliveryInstructions1] isEqualToString:@""]) {
+        OrderHeader.DeliveryInstructions1 = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.DeliveryInstructions1]];
+    }
+    if (OrderHeader.DeliveryInstructions2 == nil || [[ArcosUtils trim:OrderHeader.DeliveryInstructions2] isEqualToString:@""]) {
+        OrderHeader.DeliveryInstructions2 = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.DeliveryInstructions2]];
+    }
     NSMutableDictionary* orderlineMap = [NSMutableDictionary dictionaryWithCapacity:[OrderHeader.orderlines count]];
     for (OrderLine* tmpOrderLine in OrderHeader.orderlines) {
         NSString* tmpKey = [NSString stringWithFormat:@"%@->%@", tmpOrderLine.OrderNumber, tmpOrderLine.OrderLine];

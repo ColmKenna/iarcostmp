@@ -21,6 +21,7 @@
     NSString* _iArcosPrintTableCellId;
     NSString* _deliveryInstructions1TableCellId;
     NSString* _formTypeLabelTableCellId;
+    NSString* _invoiceRefTableCellId;
 }
 
 @property(nonatomic, retain) NSString* dateTableCellId;
@@ -34,6 +35,7 @@
 @property(nonatomic, retain) NSString* iArcosPrintTableCellId;
 @property(nonatomic, retain) NSString* deliveryInstructions1TableCellId;
 @property(nonatomic, retain) NSString* formTypeLabelTableCellId;
+@property(nonatomic, retain) NSString* invoiceRefTableCellId;
 
 +(id)factory;
 - (OrderDetailBaseTableCell*)createOrderDetailBaseTableCellWithData:(NSMutableDictionary*)aData;
@@ -48,6 +50,7 @@
 -(OrderDetailBaseTableCell*)createOrderDetailIArcosPrintTableCell;
 -(OrderDetailBaseTableCell*)createOrderDetailDeliveryInstructions1TableCell;
 - (OrderDetailBaseTableCell*)createOrderDetailFormTypeLabelTableCell;
+- (OrderDetailBaseTableCell*)createOrderDetailInvoiceRefTableCell;
 -(NSString*)identifierWithData:(NSMutableDictionary*)aData;
 
 @end

@@ -20,8 +20,9 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "CheckoutPrinterWrapperViewController.h"
 #import "RepeatOrderDataManager.h"
+#import "CustomerInvoiceDetailsModalViewController.h"
 
-@interface SavedIarcosOrderDetailTableViewController : UITableViewController<OrderDetailTypesTableCellDelegate,EmailRecipientDelegate,MFMailComposeViewControllerDelegate,GetDataGenericDelegate, CustomisePresentViewControllerDelegate, WidgetFactoryDelegate, UIPopoverControllerDelegate, ModalPresentViewControllerDelegate, ArcosMailTableViewControllerDelegate> {
+@interface SavedIarcosOrderDetailTableViewController : UITableViewController<OrderDetailTypesTableCellDelegate,EmailRecipientDelegate,MFMailComposeViewControllerDelegate,GetDataGenericDelegate, CustomisePresentViewControllerDelegate, WidgetFactoryDelegate, UIPopoverControllerDelegate, ModalPresentViewControllerDelegate, ArcosMailTableViewControllerDelegate, SlideAcrossViewAnimationDelegate> {
     UIBarButtonItem* _actionBarButton;
     UIBarButtonItem* _emailButton;
     UIBarButtonItem* _saveButton;

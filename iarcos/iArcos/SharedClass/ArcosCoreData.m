@@ -3966,11 +3966,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         OrderHeader.TotalFOC    =   [NSNumber numberWithInt:anObject.TotalFOC];
         OrderHeader.CallCost    =   anObject.CallCost;
         OrderHeader.DSiur   =   [NSNumber numberWithInt:anObject.DSIUR];
-        OrderHeader.InvoiseRef  =   anObject.InvoiceRef;
+        OrderHeader.InvoiseRef  =   [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.InvoiceRef]];
         OrderHeader.WholesaleIUR=[NSNumber numberWithInt: anObject.WholesaleIUR];
         OrderHeader.CustomerRef = anObject.CustomerRef;
         OrderHeader.Latitude = anObject.Latitude;
         OrderHeader.Longitude = anObject.Longitude;
+        OrderHeader.DeliveryInstructions1 = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.DeliveryInstructions1]];
+        OrderHeader.DeliveryInstructions2 = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.DeliveryInstructions2]];
         
     //    NSLog(@"Write OrderHeader  record to coredata");
         

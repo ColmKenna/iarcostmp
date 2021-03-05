@@ -117,6 +117,7 @@ static GlobalSharedClass* _shared = nil;
 @synthesize startRecordingDate = _startRecordingDate;
 @synthesize blockedLevel = _blockedLevel;
 @synthesize mandatoryLevel = _mandatoryLevel;
+@synthesize remindLevel = _remindLevel;
 
 +(GlobalSharedClass*)shared 
 {
@@ -239,6 +240,7 @@ static GlobalSharedClass* _shared = nil;
         self.pxDbName = @"PX19";
         self.blockedLevel = 90;
         self.mandatoryLevel = 80;
+        self.remindLevel = 70;
 	}
     
 	return self;

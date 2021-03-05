@@ -62,12 +62,14 @@
     //    NSLog(@"aCustDict %@", aCustDict);
     self.fieldValueTextField.text = [NSString stringWithFormat:@"%@ - %@",[ArcosUtils convertNilToEmpty:[aCustDict objectForKey:@"Name"]], [ArcosUtils convertNilToEmpty:[aCustDict objectForKey:@"Address1"]]];
     [self.actionDelegate meetingBaseInputFinishedWithData:self.fieldValueTextField.text atIndexPath:self.myIndexPath];
+    [self.actionDelegate updateMeetingLocationIUR:[aCustDict objectForKey:@"LocationIUR"]];
     [[self.actionDelegate retrieveMeetingMainViewController] dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark UITextFieldDelegate
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     [self.actionDelegate meetingBaseInputFinishedWithData:textField.text atIndexPath:self.myIndexPath];
+    [self.actionDelegate updateMeetingLocationIUR:[NSNumber numberWithInt:0]];
 }
 
 

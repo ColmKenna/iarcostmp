@@ -131,6 +131,7 @@ typedef enum {
     NSDate* _startRecordingDate;
     int _blockedLevel;
     int _mandatoryLevel;
+    int _remindLevel;
 }
 
 +(GlobalSharedClass*)shared;
@@ -239,6 +240,7 @@ typedef enum {
 @property (nonatomic,retain) NSDate* startRecordingDate;
 @property (nonatomic,assign) int blockedLevel;
 @property (nonatomic,assign) int mandatoryLevel;
+@property (nonatomic,assign) int remindLevel;
 
 //usful functions
 - (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber;

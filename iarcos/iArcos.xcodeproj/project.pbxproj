@@ -1574,10 +1574,12 @@
 		63FF7FFC1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF7FFB1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m */; };
 		7905C70B25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7905C70A25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m */; };
 		792B2626255E2155002326BA /* load@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 792B2625255E2155002326BA /* load@2x.png */; };
+		793099C225F0C430000818E2 /* OrderDetailOrderNumberTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 793099C125F0C430000818E2 /* OrderDetailOrderNumberTableCell.m */; };
 		793D000325A2C65200DCDA5B /* ReportMainTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 793D000125A2C65200DCDA5B /* ReportMainTemplateViewController.m */; };
 		793D000425A2C65200DCDA5B /* ReportMainTemplateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 793D000225A2C65200DCDA5B /* ReportMainTemplateViewController.xib */; };
 		795EF38F2534543400F8C5ED /* CustomerContactDetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 795EF38D2534543400F8C5ED /* CustomerContactDetailTableCell.m */; };
 		795EF3902534543400F8C5ED /* CustomerContactDetailTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */; };
+		7966A11D25EF5EB400DCF41D /* OrderDetailInvoiceRefTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7966A11C25EF5EB400DCF41D /* OrderDetailInvoiceRefTableCell.m */; };
 		799A268725CE71FC006F620C /* ReporterXmlSubTableFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 799A268625CE71FC006F620C /* ReporterXmlSubTableFooterView.m */; };
 		799BE71D25628172002274CC /* NewOrderDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 799BE71C25628172002274CC /* NewOrderDataManager.m */; };
 		79B7227A25B52A03007709BF /* ReporterGroupMainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B7227825B52A03007709BF /* ReporterGroupMainTableViewController.m */; };
@@ -4670,12 +4672,16 @@
 		7905C70925BE70EB00FFBF77 /* ReporterXmlGraphDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlGraphDataManager.h; sourceTree = "<group>"; };
 		7905C70A25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterXmlGraphDataManager.m; sourceTree = "<group>"; };
 		792B2625255E2155002326BA /* load@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "load@2x.png"; sourceTree = "<group>"; };
+		793099C025F0C430000818E2 /* OrderDetailOrderNumberTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderDetailOrderNumberTableCell.h; sourceTree = "<group>"; };
+		793099C125F0C430000818E2 /* OrderDetailOrderNumberTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderDetailOrderNumberTableCell.m; sourceTree = "<group>"; };
 		793D000025A2C65200DCDA5B /* ReportMainTemplateViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportMainTemplateViewController.h; sourceTree = "<group>"; };
 		793D000125A2C65200DCDA5B /* ReportMainTemplateViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReportMainTemplateViewController.m; sourceTree = "<group>"; };
 		793D000225A2C65200DCDA5B /* ReportMainTemplateViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportMainTemplateViewController.xib; sourceTree = "<group>"; };
 		795EF38C2534543400F8C5ED /* CustomerContactDetailTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerContactDetailTableCell.h; sourceTree = "<group>"; };
 		795EF38D2534543400F8C5ED /* CustomerContactDetailTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerContactDetailTableCell.m; sourceTree = "<group>"; };
 		795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomerContactDetailTableCell.xib; sourceTree = "<group>"; };
+		7966A11B25EF5EB400DCF41D /* OrderDetailInvoiceRefTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderDetailInvoiceRefTableCell.h; sourceTree = "<group>"; };
+		7966A11C25EF5EB400DCF41D /* OrderDetailInvoiceRefTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderDetailInvoiceRefTableCell.m; sourceTree = "<group>"; };
 		799A268525CE71FC006F620C /* ReporterXmlSubTableFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlSubTableFooterView.h; sourceTree = "<group>"; };
 		799A268625CE71FC006F620C /* ReporterXmlSubTableFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterXmlSubTableFooterView.m; sourceTree = "<group>"; };
 		799A268A25CE8432006F620C /* ReporterXmlSubTableDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlSubTableDelegate.h; sourceTree = "<group>"; };
@@ -4686,6 +4692,7 @@
 		79B7227925B52A03007709BF /* ReporterGroupMainTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReporterGroupMainTableViewController.xib; sourceTree = "<group>"; };
 		79B7227E25B52A22007709BF /* ReporterGroupMainDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterGroupMainDataManager.h; sourceTree = "<group>"; };
 		79B7227F25B52A22007709BF /* ReporterGroupMainDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterGroupMainDataManager.m; sourceTree = "<group>"; };
+		79B83C9225E915030030FFCA /* MeetingDetailsTableViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingDetailsTableViewControllerDelegate.h; sourceTree = "<group>"; };
 		79C2A59425B95DB8002AAC61 /* ReporterXmlSubTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlSubTableViewController.h; sourceTree = "<group>"; };
 		79C2A59525B95DB8002AAC61 /* ReporterXmlSubTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterXmlSubTableViewController.m; sourceTree = "<group>"; };
 		79C2A59625B95DB8002AAC61 /* ReporterXmlSubTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReporterXmlSubTableViewController.xib; sourceTree = "<group>"; };
@@ -6719,6 +6726,10 @@
 				18D0DD022446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.h */,
 				18D0DD032446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.m */,
 				18D0DD042446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.xib */,
+				7966A11B25EF5EB400DCF41D /* OrderDetailInvoiceRefTableCell.h */,
+				7966A11C25EF5EB400DCF41D /* OrderDetailInvoiceRefTableCell.m */,
+				793099C025F0C430000818E2 /* OrderDetailOrderNumberTableCell.h */,
+				793099C125F0C430000818E2 /* OrderDetailOrderNumberTableCell.m */,
 			);
 			path = TableCell;
 			sourceTree = "<group>";
@@ -8338,6 +8349,7 @@
 				635C2461224E42CA00761A94 /* MeetingPhotoUploadProcessMachine.h */,
 				635C2462224E42CA00761A94 /* MeetingPhotoUploadProcessMachine.m */,
 				635C2464224E434900761A94 /* MeetingPhotoUploadProcessMachineDelegate.h */,
+				79B83C9225E915030030FFCA /* MeetingDetailsTableViewControllerDelegate.h */,
 			);
 			path = Meeting;
 			sourceTree = "<group>";
@@ -9621,6 +9633,7 @@
 				630B345E19F0127C007B2442 /* Question.m in Sources */,
 				630B3C7319F01CB9007B2442 /* BranchLeafProductGridListTableViewCell.m in Sources */,
 				632BC7FE1EFBCB8700610764 /* CustomerSurveyDetailsTableCellFactory.m in Sources */,
+				7966A11D25EF5EB400DCF41D /* OrderDetailInvoiceRefTableCell.m in Sources */,
 				63BF8D4A1B1372A300A30D52 /* CustomerTyvLyDataManager.m in Sources */,
 				630B3C5119F01CB9007B2442 /* LargeImageFormRowsSlideViewController.m in Sources */,
 				630B3DB519F01CB9007B2442 /* ArcosRequestItemBO.m in Sources */,
@@ -10227,6 +10240,7 @@
 				630B3DA919F01CB9007B2442 /* ArcosLocalConfigBO.m in Sources */,
 				630B3C7C19F01CB9007B2442 /* OrderDetailContactControlTableCell.m in Sources */,
 				63AF0F461D9EBEE500BBD20C /* CustomerDetailsContactAccessTimesTableViewCell.m in Sources */,
+				793099C225F0C430000818E2 /* OrderDetailOrderNumberTableCell.m in Sources */,
 				630B3CBF19F01CB9007B2442 /* ReporterTableViewCell.m in Sources */,
 				63B2F13A1EEEEEC3004E6F1A /* CheckoutPrinterOrderLineHeaderView.m in Sources */,
 				630B3D2F19F01CB9007B2442 /* UtilitiesDescriptionTableCell.m in Sources */,
@@ -10432,7 +10446,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.5.24;
+				MARKETING_VERSION = 8.0.2;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10487,7 +10501,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.5.24;
+				MARKETING_VERSION = 8.0.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -10622,7 +10636,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 7.5.24;
+				MARKETING_VERSION = 8.0.2;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

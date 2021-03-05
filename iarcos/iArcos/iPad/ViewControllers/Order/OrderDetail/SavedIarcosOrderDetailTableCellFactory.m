@@ -25,6 +25,7 @@
 @synthesize iArcosPrintTableCellId = _iArcosPrintTableCellId;
 @synthesize deliveryInstructions1TableCellId = _deliveryInstructions1TableCellId;
 @synthesize formTypeLabelTableCellId = _formTypeLabelTableCellId;
+@synthesize invoiceRefTableCellId = _invoiceRefTableCellId;
 
 -(id)init {
     if(self = [super init]) {
@@ -39,6 +40,7 @@
         self.iArcosPrintTableCellId = @"IdOrderDetailIArcosPrintTableCell";
         self.deliveryInstructions1TableCellId = @"IdOrderDetailDeliveryInstructions1TextFieldTableCell";
         self.formTypeLabelTableCellId = @"IdOrderDetailFormTypeLabelTableCell";
+        self.invoiceRefTableCellId = @"IdOrderDetailInvoiceRefTableCell";
     }
     return self;
 }
@@ -55,6 +57,7 @@
     self.iArcosPrintTableCellId = nil;
     self.deliveryInstructions1TableCellId = nil;
     self.formTypeLabelTableCellId = nil;
+    self.invoiceRefTableCellId = nil;
     
     [super dealloc];
 }
@@ -100,6 +103,9 @@
         case 12:
             cell = [self createOrderDetailFormTypeLabelTableCell];
             break;
+        case 16:
+            cell = [self createOrderDetailInvoiceRefTableCell];
+            break;
         default:
             cell = [self createOrderDetailReadLabelTableCell];
             break;
@@ -138,6 +144,9 @@
 }
 - (OrderDetailBaseTableCell*)createOrderDetailFormTypeLabelTableCell {
     return [self getCellWithIdentifier:self.formTypeLabelTableCellId];
+}
+- (OrderDetailBaseTableCell*)createOrderDetailInvoiceRefTableCell {
+    return [self getCellWithIdentifier:self.invoiceRefTableCellId];
 }
 
 -(UITableViewCell*)getCellWithIdentifier:(NSString*)idendifier {
@@ -189,6 +198,9 @@
             break;
         case 12:
             identifier = self.formTypeLabelTableCellId;
+            break;
+        case 16:
+            identifier = self.invoiceRefTableCellId;
             break;
             
         default:
