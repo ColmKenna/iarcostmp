@@ -475,6 +475,10 @@
 -(void)inputFinishedWithData:(id)contentString actualData:(id)actualData forIndexpath:(NSIndexPath *)theIndexpath {
     [self updateValue:contentString actualContent:actualData withIndexPath:theIndexpath];
 }
+
+- (NSString*)retrieveDescrDetailCodeWithDescrTypeCode:(NSString*)aDescrTypeCode {
+    return [customerTypesDataManager retrieveDescrDetailCodeWithDescrTypeCode:aDescrTypeCode];
+}
  
 #pragma mark - GetDataGenericDelegate
 -(void)setGetRecordResult:(ArcosGenericReturnObject*) result {
@@ -502,10 +506,8 @@
         [[ArcosCoreData sharedArcosCoreData] updateLocationWithFieldName:self.changedFieldName withActualContent:self.changedActualContent withLocationIUR:self.locationIUR];
         rowPointer++;        
         if (rowPointer == [self.changedDataArray count]) {
-            callGenericServices.isNotRecursion = YES;
-            [callGenericServices.HUD hide:YES];
-//            [ArcosUtils showMsg:@"The location has been edited." delegate:self];  
-            [self endOnSaveAction];
+            NSString* sqlStatement = [NSString stringWithFormat:@"Select csiur,lsiur from location where iur = %@", self.locationIUR];
+            [callGenericServices getData:sqlStatement];
         }
         [self submitChangedDataList:self.changedDataArray];
     } else if(result.ErrorModel.Code <= 0) {
@@ -514,6 +516,30 @@
         [ArcosUtils showDialogBox:result.ErrorModel.Message title:titleMsg delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
             
         }];
+    }
+//    [activityIndicator stopAnimating];
+}
+
+-(void)setGetDataResult:(ArcosGenericReturnObject*) result {
+    if (result == nil) {
+        [callGenericServices.HUD hide:YES];
+        return;
+    }
+    if (result.ErrorModel.Code > 0) {
+        @try {
+            ArcosGenericClass* arcosGenericClass = [result.ArrayOfData objectAtIndex:0];
+            [[ArcosCoreData sharedArcosCoreData] updateLocationWithFieldName:@"CSiur" withActualContent:[ArcosUtils convertStringToNumber:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:arcosGenericClass.Field1]]] withLocationIUR:self.locationIUR];
+            [[ArcosCoreData sharedArcosCoreData] updateLocationWithFieldName:@"lsiur" withActualContent:[ArcosUtils convertStringToNumber:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:arcosGenericClass.Field2]]] withLocationIUR:self.locationIUR];
+            callGenericServices.isNotRecursion = YES;
+            [callGenericServices.HUD hide:YES];
+            [self endOnSaveAction];
+        } @catch (NSException *exception) {
+            [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:self tag:0 handler:nil];
+        }
+    } else if(result.ErrorModel.Code <= 0) {
+        [callGenericServices.HUD hide:YES];
+        NSString* titleMsg = (result.ErrorModel.Code == 0) ? @"" : [GlobalSharedClass shared].errorTitle;
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:titleMsg delegate:nil target:self tag:0 handler:nil];
     }
 //    [activityIndicator stopAnimating];
 }

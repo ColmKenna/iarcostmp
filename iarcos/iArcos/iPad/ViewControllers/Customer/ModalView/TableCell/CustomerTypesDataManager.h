@@ -79,5 +79,6 @@
 -(BOOL)isLocationExistent:(NSMutableDictionary*)aCustDict;
 -(BOOL)deleteLocLocLinkWithIUR:(NSNumber*)anIUR;
 - (NSString*)buildEmailMessageBody;
+- (NSString*)retrieveDescrDetailCodeWithDescrTypeCode:(NSString*)aDescrTypeCode;
 
 @end

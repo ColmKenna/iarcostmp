@@ -432,13 +432,16 @@
     cell.price.text=[NSString stringWithFormat:@"%1.2f",[[cellData objectForKey:@"UnitPrice"]floatValue]];
     NSNumber* priceFlag = [cellData objectForKey:@"PriceFlag"];
     if ([priceFlag intValue] == 1) {
-        cell.price.font = [UIFont boldSystemFontOfSize:17.0];
+//        cell.price.font = [UIFont boldSystemFontOfSize:17.0];
+        cell.price.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
         cell.price.textColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0];
     } else if([priceFlag intValue] == 2) {
-        cell.price.font = [UIFont boldSystemFontOfSize:17.0];
+//        cell.price.font = [UIFont boldSystemFontOfSize:17.0];
+        cell.price.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
         cell.price.textColor = [UIColor colorWithRed:0.0 green:128.0/255.0 blue:1.0 alpha:1.0];
     } else {
-        cell.price.font = [UIFont systemFontOfSize:17.0];
+//        cell.price.font = [UIFont systemFontOfSize:17.0];
+        cell.price.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
         cell.price.textColor = [UIColor blackColor];
     }
     cell.orderPadDetails.text = [cellData objectForKey:@"OrderPadDetails"];

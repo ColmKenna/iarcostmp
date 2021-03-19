@@ -217,6 +217,7 @@ typedef enum {
 - (void)updateDescrDetailWithFieldName:(NSString*)aFieldName fieldValue:(id)aFieldValue descrTypeCode:(NSString*)aDescrTypeCode descrDetailIUR:(NSNumber*)aDescrDetailIUR;
 - (void)createDescrDetailWithFieldNameList:(NSMutableArray*)aFieldNameList fieldValueList:(NSMutableArray*)aFieldValueList descrTypeCode:(NSString*)aDescrTypeCode;
 - (NSMutableArray*)descrDetailWithDescrCodeType:(NSString *)aDescrCodeType parentCode:(NSString*)aParentCode;
+- (NSMutableArray*)descrDetailWithDescrCodeType:(NSString *)aDescrCodeType parentCode:(NSString*)aParentCode checkActive:(BOOL)aCheckFlag;
 - (NSMutableArray*)descrDetailWithL5CodeList:(NSArray*)aL5CodeList descrTypeCode:(NSString*)aDescrTypeCode active:(int)anActive;
 - (NSMutableArray*)descrDetailWithDescrDetailIUR:(NSNumber*)aDescrDetailIUR;
 - (NSNumber*)countDescrDetailWithDescrCodeType:(NSString *)aDescrCodeType parentCode:(NSString*)aParentCode;

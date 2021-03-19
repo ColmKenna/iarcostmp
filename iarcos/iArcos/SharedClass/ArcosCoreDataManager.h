@@ -55,6 +55,9 @@
 - (NSMutableArray*)processCUiurWithProductList:(NSMutableArray*)aProductList;
 - (NSMutableArray*)processBonusDealProductList:(NSMutableArray*)aProductList bonusDealHashMap:(NSMutableDictionary*)aBonusDealHashMap;
 - (NSMutableArray*)processMasterBonusDealProductList:(NSMutableArray*)aProductList masterBonusDealHashMap:(NSMutableDictionary*)aMasterBonusDealHashMap;
+- (NSPredicate*)descrDetailWithDescrCodeType:(NSString *)aDescrCodeType parentCode:(NSString*)aParentCode;
+- (NSPredicate*)descrDetailWithDescrCodeType:(NSString *)aDescrCodeType parentCode:(NSString*)aParentCode checkActive:(BOOL)aCheckFlag;
+- (NSMutableArray*)convertDescrDetailDictList:(NSMutableArray*)aDescrDetailDictList;
 
 
 @end

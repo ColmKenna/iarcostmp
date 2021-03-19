@@ -567,7 +567,7 @@
     [pdvc release];
 }
 -(void)detailViewWithData:(CXMLElement*)data{
-    if ([reportCode isEqualToString:@"2.00"]) {//location report
+    if ([reportCode hasPrefix:@"2.00"]) {//location report
         [self showLocationDetail:data];
     }else if ([reportCode isEqualToString:@"2.01"]) {//contact report
         [self showContactDetail:data];

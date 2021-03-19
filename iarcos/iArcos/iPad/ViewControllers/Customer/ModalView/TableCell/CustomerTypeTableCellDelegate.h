@@ -13,5 +13,6 @@
 -(void)inputFinishedWithData:(id)contentString actualData:(id)actualData forIndexpath:(NSIndexPath*)theIndexpath;
 @optional
 -(NSString*)getFieldNameWithIndexPath:(NSIndexPath*)theIndexpath;
+- (NSString*)retrieveDescrDetailCodeWithDescrTypeCode:(NSString*)aDescrTypeCode;
 
 @end

@@ -314,4 +314,26 @@
     return body;
 }
 
+- (NSString*)retrieveDescrDetailCodeWithDescrTypeCode:(NSString*)aDescrTypeCode {
+    NSString* resDescrDetailCode = nil;
+    for (int i = 0; i < [self.seqFieldTypeList count]; i++) {
+        NSString* groupName = [self.seqFieldTypeList objectAtIndex:i];
+        NSMutableArray* tmpDisplayList = [self.groupedDataDict objectForKey:groupName];
+        for (int j = 0; j < [tmpDisplayList count]; j++) {
+            NSMutableDictionary* dataCell = [tmpDisplayList objectAtIndex:j];
+            if ([aDescrTypeCode isEqualToString:[dataCell objectForKey:@"descrTypeCode"]]) {
+                 NSNumber* auxDescrDetailIUR = [ArcosUtils convertStringToNumber:[ArcosUtils convertToString:[dataCell objectForKey:@"actualContent"]]];
+                if ([auxDescrDetailIUR intValue] != 0) {
+                    NSDictionary* auxDescrDetailDict = [[ArcosCoreData sharedArcosCoreData] descriptionWithIUR:auxDescrDetailIUR];
+                    if (auxDescrDetailDict != nil) {
+                        resDescrDetailCode = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[auxDescrDetailDict objectForKey:@"DescrDetailCode"]]];
+                    }
+                }
+            }
+        }
+    }
+        
+    return resDescrDetailCode;
+}
+
 @end

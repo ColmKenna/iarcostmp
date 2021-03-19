@@ -821,6 +821,17 @@
     [groupViewController.segmentBut sendActionsForControlEvents:UIControlEventValueChanged]; 
     groupViewController.segmentBut.selectedSegmentIndex = UISegmentedControlNoSegment;
     */
+    NSString* auxKey = [sortKeys objectAtIndex:self.currentIndexPath.section+1];
+    NSMutableArray* auxSectionArray = [self.customerSections objectForKey:auxKey];
+    NSMutableDictionary* auxCust = [auxSectionArray objectAtIndex:self.currentIndexPath.row];
+    NSNumber* auxLocationIUR = [auxCust objectForKey:@"LocationIUR"];
+    NSMutableArray* auxLocationDictList = [[ArcosCoreData sharedArcosCoreData] locationWithIURWithoutCheck:auxLocationIUR];
+    if ([auxLocationDictList count] > 0) {
+        NSDictionary* tmpLocationDict = [auxLocationDictList objectAtIndex:0];
+        [auxCust setObject:[ArcosUtils convertNilToZero:[tmpLocationDict objectForKey:@"CSiur"]] forKey:@"CSiur"];
+        [auxCust setObject:[ArcosUtils convertNilToZero:[tmpLocationDict objectForKey:@"lsiur"]] forKey:@"lsiur"];
+    }
+    [self.tableView reloadData];
 }
 
 - (void)openNews:(id)sender {

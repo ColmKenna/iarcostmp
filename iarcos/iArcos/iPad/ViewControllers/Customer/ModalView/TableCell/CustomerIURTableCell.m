@@ -141,8 +141,26 @@
     NSString* descrTypeCode = [self.cellData objectForKey:@"descrTypeCode"];
     NSMutableArray* dataList = nil;
     NSString* navigationBarTitle = nil;
-    
-    dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode];  
+    if ([descrTypeCode isEqualToString:@"CC"]) {
+        NSString* rcDescrDetailCode = [self.delegate retrieveDescrDetailCodeWithDescrTypeCode:@"RC"];
+//        NSLog(@"tees %@", rcDescrDetailCode);
+        if (rcDescrDetailCode != nil) {
+            dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode parentCode:rcDescrDetailCode checkActive:NO];
+        } else {
+            dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode];
+        }
+    } else if ([descrTypeCode isEqualToString:@"TC"]) {
+        NSString* ccDescrDetailCode = [self.delegate retrieveDescrDetailCodeWithDescrTypeCode:@"CC"];
+//        NSLog(@"test %@", ccDescrDetailCode);
+        if (ccDescrDetailCode != nil) {
+            dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode parentCode:ccDescrDetailCode checkActive:NO];
+        } else {
+            dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode];
+        }
+    } else {
+        dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode];
+    }
+      
     navigationBarTitle = [[[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:descrTypeCode] objectForKey:@"Details"];
     [self processDescrSelectionCenter:navigationBarTitle dataList:dataList];    
 }

@@ -25,7 +25,7 @@
 -(NSString*)cellIdentifierWithReportCode:(NSString*)code{
     NSString* identifier=@"";
     
-    if ([code isEqualToString:@"2.00"]) {//location report
+    if ([code hasPrefix:@"2.00"]) {//location report
         return @"ReportLocationCell";
         
     }else if ([code isEqualToString:@"2.01"]) {//contact report
@@ -54,7 +54,7 @@
 }
 
 -(int)viewTagWithCode:(NSString*)code{
-    if ([code isEqualToString:@"2.00"]) {//location report
+    if ([code hasPrefix:@"2.00"]) {//location report
         return 0;
         
     }else if ([code isEqualToString:@"2.01"]) {//contact report

@@ -452,18 +452,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     
     [descrList insertObject:[self.arcosDescriptionTrManager createUnAssignedDescrDetailDict] atIndex:0];
     
-    NSMutableArray* newObjectsArray = [NSMutableArray array];
-    
-    for (NSDictionary* aDict in descrList) {
-        NSMutableDictionary* myDict=[NSMutableDictionary dictionaryWithDictionary:aDict];
-        if ([aDict objectForKey:@"Detail"]==nil) {
-            [myDict setObject:@"Not Defined" forKey:@"Title"];
-        } else{
-            [myDict setObject:[ArcosUtils trim:[aDict objectForKey:@"Detail"]] forKey:@"Title"];
-        }
-        [newObjectsArray addObject:myDict];
-    }
-    return newObjectsArray;
+    return [self.arcosCoreDataManager convertDescrDetailDictList:descrList];
 }
 
 - (NSMutableArray*)descrDetailWithL5CodeList:(NSArray*)aL5CodeList descrTypeCode:(NSString*)aDescrTypeCode active:(int)anActive {
@@ -554,17 +543,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 }
 
 - (NSMutableArray*)descrDetailWithDescrCodeType:(NSString *)aDescrCodeType parentCode:(NSString*)aParentCode {
-    NSPredicate* predicate = nil;
-    if (aParentCode != nil) {
-        predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode = %@ and ParentCode = %@ and Active = 1", aDescrCodeType, aParentCode];
-    } else {
-        predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode = %@ and Active = 1", aDescrCodeType];
-    }
+    NSPredicate* predicate = [self.arcosCoreDataManager descrDetailWithDescrCodeType:aDescrCodeType parentCode:aParentCode];
     NSArray* sortDescNames = [NSArray arrayWithObjects:@"Detail",nil];
     NSArray* properties = [NSArray arrayWithObjects:@"DescrDetailIUR",@"ImageIUR", @"Detail", @"DescrDetailCode", nil];
     return [self fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:properties  
                           withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType 
                            needDistinct:NO ascending:nil];
+}
+
+- (NSMutableArray*)descrDetailWithDescrCodeType:(NSString *)aDescrCodeType parentCode:(NSString*)aParentCode checkActive:(BOOL)aCheckFlag {
+    NSPredicate* predicate = [self.arcosCoreDataManager descrDetailWithDescrCodeType:aDescrCodeType parentCode:aParentCode checkActive:aCheckFlag];
+    NSArray* sortDescNames = [NSArray arrayWithObjects:@"Detail",nil];
+    NSArray* properties = [NSArray arrayWithObjects:@"DescrDetailIUR",@"ImageIUR", @"Detail", @"DescrDetailCode", nil];
+    NSMutableArray* descrList = [self fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:properties
+                          withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType
+                           needDistinct:NO ascending:nil];
+    [descrList insertObject:[self.arcosDescriptionTrManager createUnAssignedDescrDetailDict] atIndex:0];
+    
+    return [self.arcosCoreDataManager convertDescrDetailDictList:descrList];
 }
 
 //descrtype

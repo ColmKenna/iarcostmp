@@ -674,4 +674,45 @@
     return nil;
 }
 
+- (NSPredicate*)descrDetailWithDescrCodeType:(NSString *)aDescrCodeType parentCode:(NSString*)aParentCode {
+    NSPredicate* predicate = nil;
+    if (aParentCode != nil) {
+        predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode = %@ and ParentCode = %@ and Active = 1", aDescrCodeType, aParentCode];
+    } else {
+        predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode = %@ and Active = 1", aDescrCodeType];
+    }
+    return predicate;
+}
+
+- (NSPredicate*)descrDetailWithDescrCodeType:(NSString *)aDescrCodeType parentCode:(NSString*)aParentCode checkActive:(BOOL)aCheckFlag {
+    NSPredicate* predicate = nil;
+    if (aParentCode != nil) {
+        predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode = %@ and ParentCode = %@ and Active = 1", aDescrCodeType, aParentCode];
+        if (!aCheckFlag) {
+            predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode = %@ and ParentCode = %@", aDescrCodeType, aParentCode];
+        }
+    } else {
+        predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode = %@ and Active = 1", aDescrCodeType];
+        if (!aCheckFlag) {
+            predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode = %@", aDescrCodeType];
+        }
+    }
+    return predicate;
+}
+
+- (NSMutableArray*)convertDescrDetailDictList:(NSMutableArray*)aDescrDetailDictList {
+    NSMutableArray* newObjectsArray = [NSMutableArray array];
+    
+    for (NSDictionary* aDict in aDescrDetailDictList) {
+        NSMutableDictionary* myDict=[NSMutableDictionary dictionaryWithDictionary:aDict];
+        if ([aDict objectForKey:@"Detail"]==nil) {
+            [myDict setObject:@"Not Defined" forKey:@"Title"];
+        } else{
+            [myDict setObject:[ArcosUtils trim:[aDict objectForKey:@"Detail"]] forKey:@"Title"];
+        }
+        [newObjectsArray addObject:myDict];
+    }
+    return newObjectsArray;
+}
+
 @end

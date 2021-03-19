@@ -228,6 +228,11 @@
      [detailViewController release];
      */
     NSMutableDictionary* cellData = [self.displayList objectAtIndex:indexPath.row];
+    if ([cellData objectForKey:@"Active"] != nil &&
+        [[cellData objectForKey:@"Active"] intValue] == 0) {
+        [ArcosUtils showDialogBox:@"You cannot assign In-Active Items" title:@"" delegate:nil target:self tag:0 handler:nil];
+        return;
+    }
     [self.delegate operationDone:cellData];
 }
 
