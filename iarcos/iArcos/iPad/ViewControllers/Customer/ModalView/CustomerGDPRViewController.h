@@ -18,9 +18,11 @@
 #import "CallGenericServices.h"
 #import "ArcosCoreData.h"
 #import "CustomerContactWrapperModalViewController.h"
+#import "GenericRefreshParentContentDelegate.h"
 
 @interface CustomerGDPRViewController : UIViewController <WidgetFactoryDelegate, UIPopoverControllerDelegate, CustomerGDPRTableCellDelegate, GenericRefreshParentContentDelegate, CustomisePresentViewControllerDelegate, CustomerInfoAccessTimesCalendarTableViewControllerDelegate> {
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
+    id<GenericRefreshParentContentDelegate> _refreshDelegate;
     UILabel* _locationNameLabel;
     UILabel* _locationAddress;
     UILabel* _dateTitleLabel;
@@ -45,6 +47,7 @@
 }
 
 @property(nonatomic, assign) id<SlideAcrossViewAnimationDelegate> animateDelegate;
+@property(nonatomic, assign) id<GenericRefreshParentContentDelegate> refreshDelegate;
 @property(nonatomic, retain) IBOutlet UILabel* locationNameLabel;
 @property(nonatomic, retain) IBOutlet UILabel* locationAddress;
 @property(nonatomic, retain) IBOutlet UILabel* dateTitleLabel;

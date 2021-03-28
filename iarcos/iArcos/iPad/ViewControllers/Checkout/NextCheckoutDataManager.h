@@ -18,4 +18,6 @@
 //@property(nonatomic,retain) NSMutableDictionary* orderLines;
 //@property(nonatomic,retain) NSMutableDictionary* orderHeader;
 
+- (NSMutableArray*)descrDetailAllFieldsWithDescrTypeCode:(NSString*)aDescrTypeCode hasDescrDetailCode:(NSString*)aDescrDetailCode;
+
 @end

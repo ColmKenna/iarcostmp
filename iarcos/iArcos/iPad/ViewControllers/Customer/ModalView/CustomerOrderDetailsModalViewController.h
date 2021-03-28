@@ -46,6 +46,20 @@
     NSString* _invoiceHeaderIUR;
     BOOL _screenLoadedFlag;
     UINavigationController* _globalNavigationController;
+    
+    UILabel* _employeeLabel;
+    UILabel* _typeLabel;
+    UILabel* _formLabel;
+    UILabel* _statusLabel;
+    UILabel* _numberLabel;
+    UILabel* _dateLabel;
+    UILabel* _refLabel;
+    UILabel* _deliveryLabel;
+    UILabel* _deliveryByLabel;
+    UILabel* _invoiceLabel;
+    UILabel* _instructionsLabel;
+    UILabel* _memoLabel;
+    UILabel* _valueLabel;
 }
 
 @property (nonatomic, assign) id<SlideAcrossViewAnimationDelegate> animateDelegate;
@@ -75,6 +89,20 @@
 @property(nonatomic, retain) NSString* invoiceHeaderIUR;
 @property(nonatomic, assign) BOOL screenLoadedFlag;
 @property (nonatomic,retain) UINavigationController* globalNavigationController;
+
+@property (nonatomic,retain) IBOutlet UILabel* employeeLabel;
+@property (nonatomic,retain) IBOutlet UILabel* typeLabel;
+@property (nonatomic,retain) IBOutlet UILabel* formLabel;
+@property (nonatomic,retain) IBOutlet UILabel* statusLabel;
+@property (nonatomic,retain) IBOutlet UILabel* numberLabel;
+@property (nonatomic,retain) IBOutlet UILabel* dateLabel;
+@property (nonatomic,retain) IBOutlet UILabel* refLabel;
+@property (nonatomic,retain) IBOutlet UILabel* deliveryLabel;
+@property (nonatomic,retain) IBOutlet UILabel* deliveryByLabel;
+@property (nonatomic,retain) IBOutlet UILabel* invoiceLabel;
+@property (nonatomic,retain) IBOutlet UILabel* instructionsLabel;
+@property (nonatomic,retain) IBOutlet UILabel* memoLabel;
+@property (nonatomic,retain) IBOutlet UILabel* valueLabel;
 
 -(IBAction)donePressed:(id)sender;
 

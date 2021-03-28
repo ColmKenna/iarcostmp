@@ -14,6 +14,7 @@
 
 @implementation CustomerGDPRViewController
 @synthesize animateDelegate = _animateDelegate;
+@synthesize refreshDelegate = _refreshDelegate;
 @synthesize locationNameLabel = _locationNameLabel;
 @synthesize locationAddress = _locationAddress;
 @synthesize dateTitleLabel = _dateTitleLabel;
@@ -124,6 +125,7 @@
 }
 
 - (void)savePressed:(id)sender {
+    self.customerGDPRDataManager.tooltip = @"";
     self.customerGDPRDataManager.orderHeader = [[OrderSharedClass sharedOrderSharedClass] getADefaultOrderHeader];
     self.customerGDPRDataManager.callTranList = [[[ArcosArrayOfCallTran alloc] init] autorelease];
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode='CT' and DescrDetailCode = 'GDPR'"];
@@ -158,8 +160,9 @@
     NSNumber* selectedIUR = [self.customerGDPRDataManager tickSelectedIUR];
     switch ([selectedIUR intValue]) {
         case 10: {
-            NSPredicate* predicateCONSENT = [NSPredicate predicateWithFormat:@"DescrTypeCode='SC' and DescrDetailCode = 'CONSENT'"];
-            NSMutableArray* objectListCONSENT = [[ArcosCoreData sharedArcosCoreData] descrDetailWithPredicate:predicateCONSENT sortByArray:sortArray];
+//            NSPredicate* predicateCONSENT = [NSPredicate predicateWithFormat:@"DescrTypeCode='SC' and DescrDetailCode = 'CONSENT'"];
+//            NSMutableArray* objectListCONSENT = [[ArcosCoreData sharedArcosCoreData] descrDetailWithPredicate:predicateCONSENT sortByArray:sortArray];
+            NSMutableArray* objectListCONSENT = [[ArcosCoreData sharedArcosCoreData] descrDetailAllFieldsWithDescrTypeCode:@"SC" descrDetailCode:@"CONSENT"];
             if ([objectListCONSENT count] <= 0) {
                 [ArcosUtils showDialogBox:self.customerGDPRDataManager.configErrorMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
                     
@@ -167,12 +170,15 @@
                 return;
             }
             NSDictionary* descrDetailDictCONSENT = [objectListCONSENT objectAtIndex:0];
+//            NSLog(@"aax %@", descrDetailDictCONSENT);
             self.customerGDPRDataManager.score = [descrDetailDictCONSENT objectForKey:@"DescrDetailIUR"];
+            self.customerGDPRDataManager.tooltip = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[descrDetailDictCONSENT objectForKey:@"Tooltip"]]];
         }            
             break;
         case 20: {
-            NSPredicate* predicateWITHDRAWN = [NSPredicate predicateWithFormat:@"DescrTypeCode='SC' and DescrDetailCode = 'WITHDRAWN'"];
-            NSMutableArray* objectListWITHDRAWN = [[ArcosCoreData sharedArcosCoreData] descrDetailWithPredicate:predicateWITHDRAWN sortByArray:sortArray];
+//            NSPredicate* predicateWITHDRAWN = [NSPredicate predicateWithFormat:@"DescrTypeCode='SC' and DescrDetailCode = 'WITHDRAWN'"];
+//            NSMutableArray* objectListWITHDRAWN = [[ArcosCoreData sharedArcosCoreData] descrDetailWithPredicate:predicateWITHDRAWN sortByArray:sortArray];
+            NSMutableArray* objectListWITHDRAWN = [[ArcosCoreData sharedArcosCoreData] descrDetailAllFieldsWithDescrTypeCode:@"SC" descrDetailCode:@"WITHDRAWN"];
             if ([objectListWITHDRAWN count] <= 0) {
                 [ArcosUtils showDialogBox:self.customerGDPRDataManager.configErrorMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
                     
@@ -181,6 +187,7 @@
             }
             NSDictionary* descrDetailDictWITHDRAWN = [objectListWITHDRAWN objectAtIndex:0];
             self.customerGDPRDataManager.score = [descrDetailDictWITHDRAWN objectForKey:@"DescrDetailIUR"];
+            self.customerGDPRDataManager.tooltip = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[descrDetailDictWITHDRAWN objectForKey:@"Tooltip"]]];
         }
             break;
         default:
@@ -253,6 +260,25 @@
     [order setObject:orderNumber forKey:@"OrderNumber"];
     BOOL isSuccess = [[ArcosCoreData sharedArcosCoreData] saveOrder:order];
     if (isSuccess) {
+        @try {
+            if (![self.customerGDPRDataManager.tooltip isEqualToString:@""]) {
+                if ([self.customerGDPRDataManager.tooltip hasPrefix:@"CSIUR="]) {
+                    NSString* csIUR = [self.customerGDPRDataManager.tooltip substringFromIndex:6];
+                    if ([ArcosValidator isInteger:csIUR]) {
+                        [[ArcosCoreData sharedArcosCoreData] updateLocationWithFieldName:@"CSiur" withActualContent:[ArcosUtils convertStringToNumber:csIUR] withLocationIUR:self.customerGDPRDataManager.locationIUR];
+                        [self.refreshDelegate refreshParentContentByEdit];
+                    }
+                } else if ([self.customerGDPRDataManager.tooltip hasPrefix:@"LSIUR="]) {
+                    NSString* lsIUR = [self.customerGDPRDataManager.tooltip substringFromIndex:6];
+                    if ([ArcosValidator isInteger:lsIUR]) {
+                        [[ArcosCoreData sharedArcosCoreData] updateLocationWithFieldName:@"lsiur" withActualContent:[ArcosUtils convertStringToNumber:lsIUR] withLocationIUR:self.customerGDPRDataManager.locationIUR];
+                        [self.refreshDelegate refreshParentContentByEdit];
+                    }
+                }
+            }
+        } @catch (NSException *exception) {
+            [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:self tag:0 handler:nil];
+        }
         [ArcosUtils showDialogBox:@"GDPR Status saved" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
             [self.animateDelegate dismissSlideAcrossViewAnimation];
         }];

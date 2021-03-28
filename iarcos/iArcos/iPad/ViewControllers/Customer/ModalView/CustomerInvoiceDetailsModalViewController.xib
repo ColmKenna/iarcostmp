@@ -10,22 +10,35 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CustomerInvoiceDetailsModalViewController">
             <connections>
                 <outlet property="carriage" destination="31" id="109"/>
+                <outlet property="carriageLabel" destination="30" id="Exn-Ak-3LQ"/>
                 <outlet property="comment1" destination="28" id="107"/>
                 <outlet property="comment2" destination="93" id="108"/>
+                <outlet property="commentLabel" destination="27" id="Ar9-J7-7Jd"/>
                 <outlet property="date" destination="69" id="104"/>
+                <outlet property="dateLabel" destination="68" id="drX-Qs-qXD"/>
                 <outlet property="deliveryBy" destination="90" id="102"/>
+                <outlet property="deliveryByLabel" destination="89" id="Sst-MB-iLJ"/>
                 <outlet property="employee" destination="11" id="99"/>
+                <outlet property="employeeLabel" destination="7" id="TKI-dX-euy"/>
                 <outlet property="goods" destination="33" id="110"/>
+                <outlet property="goodsLabel" destination="32" id="azy-8S-sua"/>
                 <outlet property="invoiceDetailListView" destination="26" id="113"/>
                 <outlet property="number" destination="22" id="103"/>
+                <outlet property="numberLabel" destination="18" id="wla-y6-orx"/>
                 <outlet property="order" destination="92" id="106"/>
+                <outlet property="orderLabel" destination="91" id="Y7y-Lt-FOq"/>
                 <outlet property="ref" destination="88" id="105"/>
+                <outlet property="refLabel" destination="87" id="4bQ-ij-PCp"/>
                 <outlet property="status" destination="86" id="101"/>
+                <outlet property="statusLabel" destination="85" id="aOZ-c4-Doo"/>
                 <outlet property="tableHeader" destination="38" id="42"/>
                 <outlet property="textView" destination="6" id="98"/>
                 <outlet property="total" destination="97" id="112"/>
+                <outlet property="totalLabel" destination="96" id="VCv-6Y-o0U"/>
                 <outlet property="type" destination="67" id="100"/>
+                <outlet property="typeLabel" destination="66" id="vTT-Fs-TU1"/>
                 <outlet property="vat" destination="95" id="111"/>
+                <outlet property="vatLabel" destination="94" id="0d8-xa-uvl"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
         </placeholder>

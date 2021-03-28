@@ -19,6 +19,7 @@
 @synthesize callTranList = _callTranList;
 @synthesize detailIUR = _detailIUR;
 @synthesize score = _score;
+@synthesize tooltip = _tooltip;
 
 - (instancetype)init {
     self = [super init];
@@ -39,6 +40,7 @@
     self.callTranList = nil;
     self.detailIUR = nil;
     self.score = nil;
+    self.tooltip = nil;
     
     [super dealloc];
 }

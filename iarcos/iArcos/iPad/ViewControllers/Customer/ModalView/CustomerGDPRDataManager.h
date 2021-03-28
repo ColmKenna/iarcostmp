@@ -20,6 +20,7 @@
     ArcosArrayOfCallTran* _callTranList;
     NSNumber* _detailIUR;
     NSNumber* _score;
+    NSString* _tooltip;
 }
 
 @property(nonatomic, retain) NSMutableArray* displayList;
@@ -32,6 +33,7 @@
 @property(nonatomic, retain) ArcosArrayOfCallTran* callTranList;
 @property(nonatomic, retain) NSNumber* detailIUR;
 @property(nonatomic, retain) NSNumber* score;
+@property(nonatomic, retain) NSString* tooltip;
 
 - (BOOL)enableSignatureAmendment;
 - (BOOL)tickSelectedCondition;

@@ -11,21 +11,34 @@
             <connections>
                 <outlet property="contact" destination="77" id="109"/>
                 <outlet property="date" destination="69" id="107"/>
+                <outlet property="dateLabel" destination="68" id="KFC-2Q-4EM"/>
                 <outlet property="delivery" destination="26" id="110"/>
                 <outlet property="deliveryBy" destination="81" id="111"/>
+                <outlet property="deliveryByLabel" destination="80" id="3zd-hi-xRK"/>
+                <outlet property="deliveryLabel" destination="23" id="NbB-gk-XOm"/>
                 <outlet property="deliveryStatus" destination="85" id="112"/>
                 <outlet property="employee" destination="63" id="102"/>
+                <outlet property="employeeLabel" destination="62" id="JV4-fr-2cr"/>
                 <outlet property="form" destination="71" id="104"/>
+                <outlet property="formLabel" destination="70" id="ZTO-jp-7bI"/>
                 <outlet property="instructions" destination="31" id="113"/>
+                <outlet property="instructionsLabel" destination="30" id="gpL-Wg-q33"/>
+                <outlet property="invoiceLabel" destination="84" id="YoF-hC-IRz"/>
                 <outlet property="memo" destination="120" id="121"/>
+                <outlet property="memoLabel" destination="119" id="6XC-oe-PjH"/>
                 <outlet property="number" destination="65" id="106"/>
+                <outlet property="numberLabel" destination="64" id="HGA-MA-RIr"/>
                 <outlet property="orderDetailListView" destination="22" id="45"/>
                 <outlet property="ref" destination="73" id="108"/>
+                <outlet property="refLabel" destination="72" id="HyH-J8-mmA"/>
                 <outlet property="status" destination="75" id="105"/>
+                <outlet property="statusLabel" destination="74" id="NJG-SI-87E"/>
                 <outlet property="tableHeader" destination="35" id="42"/>
                 <outlet property="textView" destination="61" id="101"/>
                 <outlet property="type" destination="67" id="103"/>
+                <outlet property="typeLabel" destination="66" id="cQU-Tj-Enx"/>
                 <outlet property="value" destination="33" id="114"/>
+                <outlet property="valueLabel" destination="32" id="1N6-Gu-r1U"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
         </placeholder>

@@ -38,7 +38,19 @@
 @synthesize total;
 @synthesize screenLoadedFlag = _screenLoadedFlag;
 
-
+@synthesize employeeLabel = _employeeLabel;
+@synthesize typeLabel = _typeLabel;
+@synthesize statusLabel = _statusLabel;
+@synthesize deliveryByLabel = _deliveryByLabel;
+@synthesize numberLabel = _numberLabel;
+@synthesize dateLabel = _dateLabel;
+@synthesize refLabel = _refLabel;
+@synthesize orderLabel = _orderLabel;
+@synthesize commentLabel = _commentLabel;
+@synthesize carriageLabel = _carriageLabel;
+@synthesize goodsLabel = _goodsLabel;
+@synthesize vatLabel = _vatLabel;
+@synthesize totalLabel = _totalLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -79,6 +91,21 @@
     if (self.goods != nil) { self.goods = nil; } 
     if (self.vat != nil) { self.vat = nil; } 
     if (self.total != nil) { self.total = nil; }
+    
+    self.employeeLabel = nil;
+    self.typeLabel = nil;
+    self.statusLabel = nil;
+    self.deliveryByLabel = nil;
+    self.numberLabel = nil;
+    self.dateLabel = nil;
+    self.refLabel = nil;
+    self.orderLabel = nil;
+    self.commentLabel = nil;
+    self.carriageLabel = nil;
+    self.goodsLabel = nil;
+    self.vatLabel = nil;
+    self.totalLabel = nil;
+    
     [super dealloc];
 }
 
@@ -318,8 +345,8 @@
         self.date.text = [ArcosUtils convertDatetimeToDate:[replyResult Field17]];
         self.ref.text = [replyResult Field24];
         self.order.text = [replyResult Field16];
-        self.orderNumber = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[ArcosUtils convertToString:[replyResult Field16]]]];
-        self.orderHeaderIUR = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[ArcosUtils convertToString:[replyResult Field25]]]];
+        self.orderNumber = [ArcosUtils trim:[ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[replyResult Field16]]]];
+        self.orderHeaderIUR = [ArcosUtils trim:[ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[replyResult Field25]]]];
         if (![self.orderNumber isEqualToString:@""]) {
             self.order.textColor = [UIColor blueColor];
         } else {

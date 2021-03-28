@@ -26,7 +26,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="10" height="44"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="999.91" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="xHk-fQ-Vtk" customClass="LeftBorderUILabel">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="999.91" textAlignment="right" lineBreakMode="tailTruncation" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="xHk-fQ-Vtk" customClass="LeftBorderUILabel">
                         <rect key="frame" x="456" y="0.0" width="78" height="44"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>

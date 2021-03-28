@@ -1026,6 +1026,7 @@
         CustomerGDPRViewController* cgvc = [[CustomerGDPRViewController alloc] initWithNibName:@"CustomerGDPRViewController" bundle:nil];
         cgvc.rootView = self.rootView;
         cgvc.animateDelegate = self;
+        cgvc.refreshDelegate = self;
         cgvc.customerGDPRDataManager.locationIUR = [self.aCustDict objectForKey:@"LocationIUR"];
         cgvc.customerGDPRDataManager.locationName = [self.aCustDict objectForKey:@"Name"];
         cgvc.customerGDPRDataManager.locationAddress = [ArcosUtils trim:[NSString stringWithFormat:@"%@ %@ %@ %@ %@", [ArcosUtils convertNilToEmpty:[self.aCustDict objectForKey:@"Address1"]], [ArcosUtils convertNilToEmpty:[self.aCustDict objectForKey:@"Address2"]], [ArcosUtils convertNilToEmpty:[self.aCustDict objectForKey:@"Address3"]], [ArcosUtils convertNilToEmpty:[self.aCustDict objectForKey:@"Address4"]], [ArcosUtils convertNilToEmpty:[self.aCustDict objectForKey:@"Address5"]]]];

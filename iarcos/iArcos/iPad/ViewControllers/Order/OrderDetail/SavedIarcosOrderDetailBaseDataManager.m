@@ -59,7 +59,7 @@
     [contactDisplayList addObject:[self createWriteCellDataWithCellKey:@"callType" fieldNameLabel:@"Call Type" writeType:[NSNumber numberWithInt:6] fieldData:callTypeDict]];
     [contactDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"EmployeeIUR" fieldNameLabel:@"Employee" fieldData:[self employeeName:[self.orderHeader objectForKey:@"EmployeeIUR"]]]];
     NSString* invoiceRefStr = [self.orderHeader objectForKey:@"invoiceRef"];
-    if (![invoiceRefStr isEqualToString:@""]) {
+    if (![invoiceRefStr isEqualToString:@""] && ![invoiceRefStr containsString:@"|"]) {
         [contactDisplayList addObject:[self createInvoiceRefCellDataWithCellKey:@"invoiceRef" fieldNameLabel:@"Invoice" fieldData:invoiceRefStr]];
     }
     
@@ -73,8 +73,8 @@
     [orderDetailDisplayList addObject:[self createDateLabelCellDataWithCellKey:@"deliveryDate" fieldNameLabel:@"Delivery" writeType:[NSNumber numberWithInt:0]]];
 //    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showDeliveryInstructionsFlag]) {
 //
-//    }
-    [orderDetailDisplayList addObject:[self createDeliveryInstructions1TextFieldCellDataWithCellKey:@"DeliveryInstructions1" fieldNameLabel:@"Instructions" fieldData:[self.orderHeader objectForKey:@"DeliveryInstructions1"]]];
+//    }Instructions
+    [orderDetailDisplayList addObject:[self createDeliveryInstructions1TextFieldCellDataWithCellKey:@"DeliveryInstructions1" fieldNameLabel:@"Comments" fieldData:[self.orderHeader objectForKey:@"DeliveryInstructions1"]]];
     [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"DeliveryInstructions2" fieldNameLabel:@"" fieldData:[self.orderHeader objectForKey:@"DeliveryInstructions2"]]];
     NSMutableDictionary* wholesalerDict = [NSMutableDictionary dictionaryWithDictionary:[self.orderHeader objectForKey:@"wholesaler"]];
     [wholesalerDict setObject:[self.orderHeader objectForKey:@"wholesalerText"] forKey:self.titleKey];
@@ -127,7 +127,7 @@
     [contactDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"callType" fieldNameLabel:@"Call Type" fieldData:[self.orderHeader objectForKey:@"callTypeText"]]];
     [contactDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Employee" fieldNameLabel:@"Employee" fieldData:[self.orderHeader objectForKey:@"Employee"]]];
     NSString* invoiceRefStr = [self.orderHeader objectForKey:@"invoiceRef"];
-    if (![invoiceRefStr isEqualToString:@""]) {
+    if (invoiceRefStr != nil && ![invoiceRefStr isEqualToString:@""]) {
         [contactDisplayList addObject:[self createInvoiceRefCellDataWithCellKey:@"invoiceRef" fieldNameLabel:@"Invoice" fieldData:invoiceRefStr]];
     }
     
@@ -139,9 +139,11 @@
     NSMutableArray* orderDetailDisplayList = [NSMutableArray arrayWithCapacity:6];
     [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"OrderNumber" fieldNameLabel:@"Number" fieldData:[ArcosUtils convertNumberToIntString:[self.orderHeader objectForKey:@"OrderNumber"]]]];
     [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"deliveryDate" fieldNameLabel:@"Delivery" fieldData:[self.orderHeader objectForKey:@"deliveryDateText"]]];
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showDeliveryInstructionsFlag]) {
-        [orderDetailDisplayList addObject:[self createDeliveryInstructions1TextFieldCellDataWithCellKey:@"DeliveryInstructions1" fieldNameLabel:@"Instructions" fieldData:[self.orderHeader objectForKey:@"DeliveryInstructions1"]]];
-    }
+//    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showDeliveryInstructionsFlag]) {
+//        [orderDetailDisplayList addObject:[self createDeliveryInstructions1TextFieldCellDataWithCellKey:@"DeliveryInstructions1" fieldNameLabel:@"Instructions" fieldData:[self.orderHeader objectForKey:@"DeliveryInstructions1"]]];
+//    }
+    [orderDetailDisplayList addObject:[self createDeliveryInstructions1TextFieldCellDataWithCellKey:@"DeliveryInstructions1" fieldNameLabel:@"Comments" fieldData:[self.orderHeader objectForKey:@"DeliveryInstructions1"]]];
+    [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"DeliveryInstructions2" fieldNameLabel:@"" fieldData:[self.orderHeader objectForKey:@"DeliveryInstructions2"]]];
     [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"wholesaler" fieldNameLabel:@"Wholesaler" fieldData:[self.orderHeader objectForKey:@"wholesalerText"]]];
     NSMutableDictionary* formTypeDict = [self.orderHeader objectForKey:@"formType"];
     if (formTypeDict != nil) {

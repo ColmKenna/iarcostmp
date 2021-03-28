@@ -41,6 +41,20 @@
 @synthesize screenLoadedFlag = _screenLoadedFlag;
 @synthesize globalNavigationController = _globalNavigationController;
 
+@synthesize employeeLabel = _employeeLabel;
+@synthesize typeLabel = _typeLabel;
+@synthesize formLabel = _formLabel;
+@synthesize statusLabel = _statusLabel;
+@synthesize numberLabel = _numberLabel;
+@synthesize dateLabel = _dateLabel;
+@synthesize refLabel = _refLabel;
+@synthesize deliveryLabel = _deliveryLabel;
+@synthesize deliveryByLabel = _deliveryByLabel;
+@synthesize invoiceLabel = _invoiceLabel;
+@synthesize instructionsLabel = _instructionsLabel;
+@synthesize memoLabel = _memoLabel;
+@synthesize valueLabel = _valueLabel;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -83,6 +97,20 @@
     self.invoiceRef = nil;
     self.invoiceHeaderIUR = nil;
     self.globalNavigationController = nil;
+    
+    self.employeeLabel = nil;
+    self.typeLabel = nil;
+    self.formLabel = nil;
+    self.statusLabel = nil;
+    self.numberLabel = nil;
+    self.dateLabel = nil;
+    self.refLabel = nil;
+    self.deliveryLabel = nil;
+    self.deliveryByLabel = nil;
+    self.invoiceLabel = nil;
+    self.instructionsLabel = nil;
+    self.memoLabel = nil;
+    self.valueLabel = nil;
     
     [super dealloc];
 }
@@ -335,9 +363,9 @@
         self.delivery.text = [ArcosUtils convertDatetimeToDate:[replyResult Field20]];
         self.deliveryBy.text = [replyResult Field22];
 //        self.deliveryStatus.text = [replyResult Field24];
-        self.invoiceRef = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[ArcosUtils convertToString:[replyResult Field24]]]];
+        self.invoiceRef = [ArcosUtils trim:[ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[replyResult Field24]]]];
         self.deliveryStatus.text = self.invoiceRef;
-        self.invoiceHeaderIUR = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[ArcosUtils convertToString:[replyResult Field33]]]];
+        self.invoiceHeaderIUR = [ArcosUtils trim:[ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[replyResult Field33]]]];
         if (![self.invoiceRef isEqualToString:@""]) {
             self.deliveryStatus.textColor = [UIColor blueColor];
         } else {

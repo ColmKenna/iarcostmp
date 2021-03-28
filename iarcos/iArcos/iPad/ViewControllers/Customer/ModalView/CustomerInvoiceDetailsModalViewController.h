@@ -42,6 +42,20 @@
     IBOutlet UITextField* vat;
     IBOutlet UITextField* total;
     BOOL _screenLoadedFlag;
+    
+    UILabel* _employeeLabel;
+    UILabel* _typeLabel;
+    UILabel* _statusLabel;
+    UILabel* _deliveryByLabel;
+    UILabel* _numberLabel;
+    UILabel* _dateLabel;
+    UILabel* _refLabel;
+    UILabel* _orderLabel;
+    UILabel* _commentLabel;
+    UILabel* _carriageLabel;
+    UILabel* _goodsLabel;
+    UILabel* _vatLabel;
+    UILabel* _totalLabel;
 }
 
 @property (nonatomic, assign) id<SlideAcrossViewAnimationDelegate> animateDelegate;
@@ -70,6 +84,20 @@
 @property (nonatomic,retain) IBOutlet UITextField* vat;
 @property (nonatomic,retain) IBOutlet UITextField* total;
 @property (nonatomic,assign) BOOL screenLoadedFlag;
+
+@property (nonatomic,retain) IBOutlet UILabel* employeeLabel;
+@property (nonatomic,retain) IBOutlet UILabel* typeLabel;
+@property (nonatomic,retain) IBOutlet UILabel* statusLabel;
+@property (nonatomic,retain) IBOutlet UILabel* deliveryByLabel;
+@property (nonatomic,retain) IBOutlet UILabel* numberLabel;
+@property (nonatomic,retain) IBOutlet UILabel* dateLabel;
+@property (nonatomic,retain) IBOutlet UILabel* refLabel;
+@property (nonatomic,retain) IBOutlet UILabel* orderLabel;
+@property (nonatomic,retain) IBOutlet UILabel* commentLabel;
+@property (nonatomic,retain) IBOutlet UILabel* carriageLabel;
+@property (nonatomic,retain) IBOutlet UILabel* goodsLabel;
+@property (nonatomic,retain) IBOutlet UILabel* vatLabel;
+@property (nonatomic,retain) IBOutlet UILabel* totalLabel;
 
 -(IBAction)donePressed:(id)sender;
 

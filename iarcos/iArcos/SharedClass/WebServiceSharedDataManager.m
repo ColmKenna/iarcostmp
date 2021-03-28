@@ -80,6 +80,12 @@
         UINavigationController* locationNavigationController = (UINavigationController*)myArcosStackedViewController.myMasterViewController.masterViewController;
         CustomerGroupViewController* locationCustomerGroupViewController = (CustomerGroupViewController*)[locationNavigationController.viewControllers objectAtIndex:0];
         [locationCustomerGroupViewController resetButtonPressed:nil];
+        NSArray* tmpControllerList = myArcosStackedViewController.rcsViewControllers;
+        if ([tmpControllerList count] < 1) return;
+        UINavigationController* auxCustomerListingNavigationController = (UINavigationController*)[tmpControllerList objectAtIndex:0];
+        CustomerListingViewController* auxCustomerListingViewController = [auxCustomerListingNavigationController.viewControllers objectAtIndex:0];
+        NSIndexPath* myLocationIndexPath = [auxCustomerListingViewController getCustomerIndexWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        [auxCustomerListingViewController selectLocationWithIndexPath:myLocationIndexPath];
     } @catch (NSException *exception) {
         [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:self.myRootViewController tag:0 handler:^(UIAlertAction *action) {
             

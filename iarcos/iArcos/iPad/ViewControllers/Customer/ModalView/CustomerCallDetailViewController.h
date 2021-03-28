@@ -12,7 +12,7 @@
 #import "CallGenericServices.h"
 #import "SlideAcrossViewAnimationDelegate.h"
 
-@interface CustomerCallDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,GetDataGenericDelegate> {
+@interface CustomerCallDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,GetDataGenericDelegate,UITextFieldDelegate,SlideAcrossViewAnimationDelegate> {
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
     IBOutlet UITableView* callDetailListView;
     IBOutlet UIView* tableHeader;
@@ -29,6 +29,18 @@
     IBOutlet UITextField* date;    
     
     IBOutlet UITextView* memo;
+    
+    UILabel* _orderLabel;
+    UITextField* _orderTextField;
+    NSString* _orderHeaderIUR;
+    NSString* _orderNumber;
+    BOOL _screenLoadedFlag;
+    UINavigationController* _globalNavigationController;
+    
+    UILabel* _employeeLabel;
+    UILabel* _typeLabel;
+    UILabel* _contactLabel;
+    UILabel* _dateLabel;
 }
 
 @property (nonatomic, assign) id<SlideAcrossViewAnimationDelegate> animateDelegate;
@@ -45,6 +57,16 @@
 
 @property (nonatomic, retain) IBOutlet UITextView* memo;
 
+@property (nonatomic, retain) IBOutlet UILabel* orderLabel;
+@property (nonatomic, retain) IBOutlet UITextField* orderTextField;
+@property (nonatomic,retain) NSString* orderHeaderIUR;
+@property (nonatomic,retain) NSString* orderNumber;
+@property (nonatomic,assign) BOOL screenLoadedFlag;
+@property (nonatomic,retain) UINavigationController* globalNavigationController;
+@property (nonatomic, retain) IBOutlet UILabel* employeeLabel;
+@property (nonatomic, retain) IBOutlet UILabel* typeLabel;
+@property (nonatomic, retain) IBOutlet UILabel* contactLabel;
+@property (nonatomic, retain) IBOutlet UILabel* dateLabel;
 
 
 -(IBAction)donePressed:(id)sender;

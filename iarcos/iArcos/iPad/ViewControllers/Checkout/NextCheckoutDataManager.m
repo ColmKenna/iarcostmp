@@ -7,6 +7,7 @@
 //
 
 #import "NextCheckoutDataManager.h"
+#import "ArcosCoreData.h"
 
 @implementation NextCheckoutDataManager
 @synthesize sortedOrderKeys = _sortedOrderKeys;
@@ -27,6 +28,12 @@
 //    self.orderHeader = nil;
     
     [super dealloc];
+}
+
+- (NSMutableArray*)descrDetailAllFieldsWithDescrTypeCode:(NSString*)aDescrTypeCode hasDescrDetailCode:(NSString*)aDescrDetailCode {
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode = %@ and DescrDetailCode ENDSWITH[cd] %@", aDescrTypeCode, aDescrDetailCode];
+    NSArray* sortDescNames = [NSArray arrayWithObjects:@"DescrDetailCode",nil];
+    return  [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
 }
 
 @end

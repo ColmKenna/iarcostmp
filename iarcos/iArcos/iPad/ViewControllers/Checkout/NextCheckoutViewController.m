@@ -235,6 +235,27 @@
             }];
             return;
         }
+        NSNumber* wholesalerIUR = [[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"wholesaler"] objectForKey:@"LocationIUR"];
+        NSString* wholesalerLocationCode = @"";
+        NSMutableArray* fromLocationList = [[ArcosCoreData sharedArcosCoreData] locationWithIURWithoutCheck:wholesalerIUR];
+        if ([fromLocationList count] > 0) {
+            NSDictionary* fromLocationDict = [fromLocationList objectAtIndex:0];
+            wholesalerLocationCode = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[fromLocationDict objectForKey:@"LocationCode"]]];
+        }
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] checkAccountNumberFlag] && ([wholesalerLocationCode isEqualToString:@"540"] || [wholesalerLocationCode isEqualToString:@"541"] || [wholesalerLocationCode isEqualToString:@"560"])) {
+            NSMutableDictionary* acctNoDict = [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"acctNo"];
+            NSString* acctNoContent = [ArcosUtils trim:[acctNoDict objectForKey:@"acctNo"]];            
+            if (![ArcosValidator isSevenDigitNumberBeginWithFive:acctNoContent]) {
+                NSString* acctNoMsg = @"";
+                NSMutableArray* descrDetailDictList = [self.nextCheckoutDataManager descrDetailAllFieldsWithDescrTypeCode:@"IO" hasDescrDetailCode:@"39"];
+                if ([descrDetailDictList count] > 0) {
+                    NSDictionary* descrDetailDict = [descrDetailDictList objectAtIndex:0];
+                    acctNoMsg = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[descrDetailDict objectForKey:@"Tooltip"]]];
+                }
+                [ArcosUtils showDialogBox:acctNoMsg title:@"" delegate:nil target:self tag:0 handler:nil];
+                return;
+            }
+        }
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] forceEnterCusRefOnCheckoutFlag] && [[ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"custRef"]] isEqualToString:@""]) {
             [ArcosUtils showDialogBox:@"Please enter a customer reference" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
             return;

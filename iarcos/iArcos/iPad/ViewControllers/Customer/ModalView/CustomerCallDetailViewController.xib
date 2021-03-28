@@ -11,12 +11,18 @@
             <connections>
                 <outlet property="callDetailListView" destination="21" id="38"/>
                 <outlet property="contact" destination="15" id="40"/>
+                <outlet property="contactLabel" destination="14" id="3mi-ar-Dzl"/>
                 <outlet property="date" destination="9" id="39"/>
+                <outlet property="dateLabel" destination="8" id="M4s-Ge-4Rr"/>
                 <outlet property="employee" destination="7" id="42"/>
+                <outlet property="employeeLabel" destination="6" id="6DT-Po-Cvm"/>
                 <outlet property="memo" destination="22" id="37"/>
+                <outlet property="orderLabel" destination="uYS-jg-gxU" id="5B3-0Y-HsO"/>
+                <outlet property="orderTextField" destination="nDL-Fu-1QD" id="YjC-Ou-nGe"/>
                 <outlet property="tableHeader" destination="27" id="30"/>
                 <outlet property="textView" destination="5" id="36"/>
                 <outlet property="type" destination="11" id="41"/>
+                <outlet property="typeLabel" destination="10" id="C7g-a7-Hq8"/>
                 <outlet property="view" destination="2" id="3"/>
             </connections>
         </placeholder>
@@ -104,6 +110,24 @@
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
+                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Order:" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="uYS-jg-gxU">
+                    <rect key="frame" x="424" y="142" width="81" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" systemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nDL-Fu-1QD">
+                    <rect key="frame" x="533" y="137" width="471" height="31"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="UIy-7o-rF5"/>
+                    </connections>
+                </textField>
             </subviews>
             <color key="backgroundColor" red="0.28384419690000001" green="0.57171331969999994" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>

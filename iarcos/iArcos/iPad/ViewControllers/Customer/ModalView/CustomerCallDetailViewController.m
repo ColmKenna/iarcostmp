@@ -7,6 +7,7 @@
 //
 
 #import "CustomerCallDetailViewController.h"
+#import "CustomerOrderDetailsModalViewController.h"
 
 
 @implementation CustomerCallDetailViewController
@@ -23,6 +24,16 @@
 @synthesize date;    
 
 @synthesize memo;
+@synthesize orderLabel = _orderLabel;
+@synthesize orderTextField = _orderTextField;
+@synthesize orderHeaderIUR = _orderHeaderIUR;
+@synthesize orderNumber = _orderNumber;
+@synthesize screenLoadedFlag = _screenLoadedFlag;
+@synthesize globalNavigationController = _globalNavigationController;
+@synthesize employeeLabel = _employeeLabel;
+@synthesize typeLabel = _typeLabel;
+@synthesize contactLabel = _contactLabel;
+@synthesize dateLabel = _dateLabel;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -53,6 +64,16 @@
     if (self.date != nil) { self.date = nil; }  
     
     if (self.memo != nil) { self.memo = nil; }
+    self.orderLabel = nil;
+    self.orderTextField = nil;
+    self.orderHeaderIUR = nil;
+    self.orderNumber = nil;
+    self.globalNavigationController = nil;
+    
+    self.employeeLabel = nil;
+    self.typeLabel = nil;
+    self.contactLabel = nil;
+    self.dateLabel = nil;
     
     [super dealloc];
 }
@@ -81,8 +102,10 @@
     
     callGenericServices = [[CallGenericServices alloc] initWithView:self.navigationController.view];
     callGenericServices.delegate = self;
-    [callGenericServices getRecord:@"Call" iur:[self.IUR intValue]];    
+        
     [ArcosUtils configEdgesForExtendedLayout:self];
+    self.orderNumber = @"";
+    self.orderHeaderIUR = @"";
 }
 
 - (void)viewDidUnload
@@ -100,6 +123,13 @@
     if (self.date != nil) { self.date = nil; }  
     
     if (self.memo != nil) { self.memo = nil; }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (self.screenLoadedFlag) return;
+    self.screenLoadedFlag = YES;
+    [callGenericServices getRecord:@"Call" iur:[self.IUR intValue]];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -261,6 +291,18 @@
         self.date.text = [replyResult Field2];
 
         self.memo.text = [replyResult Field11];
+        self.orderTextField.text = [replyResult Field15];
+        self.orderNumber = [ArcosUtils trim:[ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[replyResult Field15]]]];
+        self.orderHeaderIUR = [ArcosUtils trim:[ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[replyResult Field16]]]];
+        if (![self.orderNumber isEqualToString:@""] && ![self.orderNumber isEqualToString:@"0"]) {
+            self.orderLabel.hidden = NO;
+            self.orderTextField.hidden = NO;
+            self.orderTextField.textColor = [UIColor blueColor];
+        } else {
+            self.orderLabel.hidden = YES;
+            self.orderTextField.hidden = YES;
+            self.orderTextField.textColor = [UIColor blackColor];
+        }
         
         self.displayList = replyResult.SubObjects;
         [self.callDetailListView reloadData];
@@ -270,6 +312,30 @@
         
     }
 //    [activityIndicator stopAnimating];    
+}
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    if (![self.orderNumber isEqualToString:@""]) {
+        CustomerOrderDetailsModalViewController* codmvc=[[CustomerOrderDetailsModalViewController alloc]initWithNibName:@"CustomerOrderDetailsModalViewController" bundle:nil];
+        codmvc.title = @"ORDER DETAILS";
+        codmvc.animateDelegate = self;
+        codmvc.orderIUR = self.orderHeaderIUR;
+
+        self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:codmvc] autorelease];
+        self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self setModalPresentationStyle:UIModalPresentationCurrentContext];
+        [self presentViewController:self.globalNavigationController animated:YES completion:nil];
+        [codmvc release];
+    }
+    return NO;
+}
+
+#pragma mark - SlideAcrossViewAnimationDelegate
+- (void)dismissSlideAcrossViewAnimation {
+    [self dismissViewControllerAnimated:YES completion:^ {
+        self.globalNavigationController = nil;
+    }];
 }
 
 @end
