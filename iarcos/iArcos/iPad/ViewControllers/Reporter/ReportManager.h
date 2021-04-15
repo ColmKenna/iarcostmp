@@ -40,8 +40,8 @@
 +(id)Manager;
 
 -(void)ReportDocumentWithName:(NSString*)name;
--(void)runXMLReportWithIUR:(NSNumber*)rIUR withEmployeeIUR:(NSNumber*)eIUR withStartDate:(NSDate*)sDate withEndDate:(NSDate*)eDate tableName:(NSString*)aTableName selectedIUR:(NSNumber*)aSelectedIUR;
--(void)runExcelReportWithIUR:(NSNumber*)rIUR withEmployeeIUR:(NSNumber*)eIUR withStartDate:(NSDate*)sDate withEndDate:(NSDate*)eDate tableName:(NSString*)aTableName selectedIUR:(NSNumber*)aSelectedIUR;
+-(void)runXMLReportWithIUR:(NSNumber*)rIUR withEmployeeIUR:(NSNumber*)eIUR withStartDate:(NSDate*)sDate withEndDate:(NSDate*)eDate tableName:(NSString*)aTableName selectedIUR:(NSNumber*)aSelectedIUR extraParams:(NSString*)anExtraParams;
+-(void)runExcelReportWithIUR:(NSNumber*)rIUR withEmployeeIUR:(NSNumber*)eIUR withStartDate:(NSDate*)sDate withEndDate:(NSDate*)eDate tableName:(NSString*)aTableName selectedIUR:(NSNumber*)aSelectedIUR extraParams:(NSString*)anExtraParams;
 -(ArcosLevel5Spec*)createLevel5Spec:(NSNumber*)rIUR withEmployeeIUR:(NSNumber*)eIUR withStartDate:(NSDate*)sDate withEndDate:(NSDate*)eDate;
 -(NSString*)createReportFilePath:(NSString*)fileName;
 -(NSString*)createPdfReportFileName:(NSString*)fileName;

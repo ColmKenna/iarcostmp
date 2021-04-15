@@ -66,7 +66,7 @@
 @property (nonatomic,retain) NSDate* endCalculateDate;
 @property (nonatomic,retain) ReporterMainDataManager* reporterMainDataManager;
 
-- (void) doParseReport:(NSNumber*)reportIUR startDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate tableName:(NSString*)aTableName selectedIUR:(NSNumber*)aSelectedIUR;
+- (void) doParseReport:(NSNumber*)reportIUR startDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate tableName:(NSString*)aTableName selectedIUR:(NSNumber*)aSelectedIUR extraParams:(NSString*)anExtraParams;
 - (void)drillDownToExcelView;
 
 @end

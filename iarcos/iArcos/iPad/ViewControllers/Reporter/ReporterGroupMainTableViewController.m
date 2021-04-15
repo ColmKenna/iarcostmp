@@ -102,6 +102,7 @@
     for (int i = 0; i < [subsetDisplayList count]; i++) {
         UILabel* tmpLabel = [cell.labelList objectAtIndex:i];
         tmpLabel.text = [subsetDisplayList objectAtIndex:i];
+        tmpLabel.textColor = [UIColor blueColor];
         
         NSNumber* imageIur = [self.reporterGroupMainDataManager.groupImageIURHashMap objectForKey:[subsetDisplayList objectAtIndex:i]];
         UIImage* anImage = nil;
@@ -127,6 +128,7 @@
     NSMutableArray* subsetDisplayList = [self.reporterGroupMainDataManager.displayList objectAtIndex:anIndexPath.row];
     NSString* auxGroupDetail = [subsetDisplayList objectAtIndex:aView.tag];
     ReporterMainViewController* reporterMainViewController = [[ReporterMainViewController alloc] initWithStyle:UITableViewStylePlain];
+    reporterMainViewController.title = auxGroupDetail;
     NSMutableArray* reporterList = [self.reporterGroupMainDataManager retrieveReporterListWithGroupDetail:auxGroupDetail];
     [reporterMainViewController.reporterMainDataManager processRawData:reporterList];
     [self.navigationController pushViewController:reporterMainViewController animated:YES];

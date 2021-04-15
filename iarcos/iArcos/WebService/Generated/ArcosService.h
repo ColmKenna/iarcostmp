@@ -138,6 +138,12 @@
 	- (SoapRequest*) RunSavedSql: (id) target action: (SEL) action descrDetailiur: (int) descrDetailiur;
 	-(SoapRequest*)RunSavedSqlWithProgress:(SoapRequestProgressBlock)progressBlock descrDetailiur: (int) descrDetailiur completion:(SoapRequestCompletionBlock)completionBlock;
 
+	// Returns NSString*
+	/*  */
+	- (SoapRequest*) RunSavedSqlToCSVFile: (id <SoapDelegate>) handler descrDetailiur: (int) descrDetailiur;
+	- (SoapRequest*) RunSavedSqlToCSVFile: (id) target action: (SEL) action descrDetailiur: (int) descrDetailiur;
+	-(SoapRequest*)RunSavedSqlToCSVFileWithProgress:(SoapRequestProgressBlock)progressBlock descrDetailiur: (int) descrDetailiur completion:(SoapRequestCompletionBlock)completionBlock;
+
 	// Returns NSMutableArray*
 	/*  */
 	- (SoapRequest*) RunGenericQuery: (id <SoapDelegate>) handler code: (NSString*) code;
@@ -530,9 +536,9 @@
 
 	// Returns NSString*
 	/*  */
-	- (SoapRequest*) RunReport: (id <SoapDelegate>) handler ReportIUR: (int) ReportIUR startDate: (NSDate*) startDate endDate: (NSDate*) endDate EmployeeIUR: (int) EmployeeIUR tablename: (NSString*) tablename tableiur: (int) tableiur;
-	- (SoapRequest*) RunReport: (id) target action: (SEL) action ReportIUR: (int) ReportIUR startDate: (NSDate*) startDate endDate: (NSDate*) endDate EmployeeIUR: (int) EmployeeIUR tablename: (NSString*) tablename tableiur: (int) tableiur;
-	-(SoapRequest*)RunReportWithProgress:(SoapRequestProgressBlock)progressBlock ReportIUR: (int) ReportIUR startDate: (NSDate*) startDate endDate: (NSDate*) endDate EmployeeIUR: (int) EmployeeIUR tablename: (NSString*) tablename tableiur: (int) tableiur completion:(SoapRequestCompletionBlock)completionBlock;
+	- (SoapRequest*) RunReport: (id <SoapDelegate>) handler ReportIUR: (int) ReportIUR startDate: (NSDate*) startDate endDate: (NSDate*) endDate EmployeeIUR: (int) EmployeeIUR tablename: (NSString*) tablename tableiur: (int) tableiur extraParams: (NSString*) extraParams;
+	- (SoapRequest*) RunReport: (id) target action: (SEL) action ReportIUR: (int) ReportIUR startDate: (NSDate*) startDate endDate: (NSDate*) endDate EmployeeIUR: (int) EmployeeIUR tablename: (NSString*) tablename tableiur: (int) tableiur extraParams: (NSString*) extraParams;
+	-(SoapRequest*)RunReportWithProgress:(SoapRequestProgressBlock)progressBlock ReportIUR: (int) ReportIUR startDate: (NSDate*) startDate endDate: (NSDate*) endDate EmployeeIUR: (int) EmployeeIUR tablename: (NSString*) tablename tableiur: (int) tableiur extraParams: (NSString*) extraParams completion:(SoapRequestCompletionBlock)completionBlock;
 
 	// Returns NSString*
 	/*  */
@@ -620,9 +626,9 @@
 
 	// Returns NSString*
 	/*  */
-	- (SoapRequest*) RunLevel5: (id <SoapDelegate>) handler spec: (ArcosLevel5Spec*) spec tablename: (NSString*) tablename iur: (int) iur;
-	- (SoapRequest*) RunLevel5: (id) target action: (SEL) action spec: (ArcosLevel5Spec*) spec tablename: (NSString*) tablename iur: (int) iur;
-	-(SoapRequest*)RunLevel5WithProgress:(SoapRequestProgressBlock)progressBlock spec: (ArcosLevel5Spec*) spec tablename: (NSString*) tablename iur: (int) iur completion:(SoapRequestCompletionBlock)completionBlock;
+	- (SoapRequest*) RunLevel5: (id <SoapDelegate>) handler spec: (ArcosLevel5Spec*) spec tablename: (NSString*) tablename iur: (int) iur extraFilters: (NSString*) extraFilters;
+	- (SoapRequest*) RunLevel5: (id) target action: (SEL) action spec: (ArcosLevel5Spec*) spec tablename: (NSString*) tablename iur: (int) iur extraFilters: (NSString*) extraFilters;
+	-(SoapRequest*)RunLevel5WithProgress:(SoapRequestProgressBlock)progressBlock spec: (ArcosLevel5Spec*) spec tablename: (NSString*) tablename iur: (int) iur extraFilters: (NSString*) extraFilters completion:(SoapRequestCompletionBlock)completionBlock;
 
 	// Returns NSMutableArray*
 	/*  */
@@ -782,9 +788,9 @@
 
 	// Returns NSString*
 	/*  */
-	- (SoapRequest*) CheckExt: (id <SoapDelegate>) handler;
-	- (SoapRequest*) CheckExt: (id) target action: (SEL) action;
-	-(SoapRequest*)CheckExtWithProgress:(SoapRequestProgressBlock)progressBlock completion:(SoapRequestCompletionBlock)completionBlock;
+	- (SoapRequest*) CheckExt: (id <SoapDelegate>) handler s: (NSString*) s d: (NSString*) d;
+	- (SoapRequest*) CheckExt: (id) target action: (SEL) action s: (NSString*) s d: (NSString*) d;
+	-(SoapRequest*)CheckExtWithProgress:(SoapRequestProgressBlock)progressBlock s: (NSString*) s d: (NSString*) d completion:(SoapRequestCompletionBlock)completionBlock;
 
 		
 	+ (ArcosService*) service;

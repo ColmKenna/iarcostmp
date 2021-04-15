@@ -116,19 +116,19 @@
 }
 
 #pragma mark service call
--(void)runXMLReportWithIUR:(NSNumber*)rIUR withEmployeeIUR:(NSNumber*)eIUR withStartDate:(NSDate*)sDate withEndDate:(NSDate*)eDate tableName:(NSString*)aTableName selectedIUR:(NSNumber*)aSelectedIUR{    
+-(void)runXMLReportWithIUR:(NSNumber*)rIUR withEmployeeIUR:(NSNumber*)eIUR withStartDate:(NSDate*)sDate withEndDate:(NSDate*)eDate tableName:(NSString*)aTableName selectedIUR:(NSNumber*)aSelectedIUR extraParams:(NSString*)anExtraParams {
     ArcosService* service=[ArcosService serviceWithUsername:@"u1103395_Support" andPassword:@"Strata411325"];
 //    ArcosLevel5Spec* arcosLevel5Spec = [self createLevel5Spec:rIUR withEmployeeIUR:eIUR withStartDate:sDate withEndDate:eDate];
 //    [service RunLevel5:self action:@selector(reportXMLBack:) spec:arcosLevel5Spec];
     NSLog(@"XMLReport: %@ %@", aTableName, aSelectedIUR);
-    [service RunReport:self action:@selector(reportXMLBack:) ReportIUR:[rIUR intValue] startDate:sDate endDate:eDate EmployeeIUR:[eIUR intValue] tablename:aTableName tableiur:[aSelectedIUR intValue]];
+    [service RunReport:self action:@selector(reportXMLBack:) ReportIUR:[rIUR intValue] startDate:sDate endDate:eDate EmployeeIUR:[eIUR intValue] tablename:aTableName tableiur:[aSelectedIUR intValue] extraParams:anExtraParams];
 }
 
--(void)runExcelReportWithIUR:(NSNumber*)rIUR withEmployeeIUR:(NSNumber*)eIUR withStartDate:(NSDate*)sDate withEndDate:(NSDate*)eDate tableName:(NSString*)aTableName selectedIUR:(NSNumber*)aSelectedIUR{
+-(void)runExcelReportWithIUR:(NSNumber*)rIUR withEmployeeIUR:(NSNumber*)eIUR withStartDate:(NSDate*)sDate withEndDate:(NSDate*)eDate tableName:(NSString*)aTableName selectedIUR:(NSNumber*)aSelectedIUR extraParams:(NSString*)anExtraParams {
     ArcosService* service=[ArcosService serviceWithUsername:@"u1103395_Support" andPassword:@"Strata411325"];
     ArcosLevel5Spec* arcosLevel5Spec = [self createLevel5Spec:rIUR withEmployeeIUR:eIUR withStartDate:sDate withEndDate:eDate];
     NSLog(@"ExcelReport: %@ %@", aTableName, aSelectedIUR);
-    [service RunLevel5:self action:@selector(reportExcelBack:) spec:arcosLevel5Spec tablename:aTableName iur:[aSelectedIUR intValue]];
+    [service RunLevel5:self action:@selector(reportExcelBack:) spec:arcosLevel5Spec tablename:aTableName iur:[aSelectedIUR intValue] extraFilters:anExtraParams];
 //    [service RunReport:self action:@selector(reportExcelBack:) ReportIUR:[rIUR intValue] startDate:sDate endDate:eDate EmpoloyeeIUR:[eIUR intValue]];
 }
 

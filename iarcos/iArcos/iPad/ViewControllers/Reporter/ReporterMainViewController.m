@@ -322,11 +322,19 @@
     if (![[ArcosUtils trim:[ArcosUtils convertNilToEmpty:aReporter.Field15]] isEqualToString:@""]) {
         tableNameValue = [NSString stringWithFormat:@"%@,%@", [tmpDateDict objectForKey:@"TableName"], [tmpDateDict objectForKey:@"SortBy"]];
     }
-    [self doParseReport:reportIUR startDate:[tmpDateDict objectForKey:@"StartDate"] endDate:[tmpDateDict objectForKey:@"EndDate"] tableName:tableNameValue selectedIUR:[tmpDateDict objectForKey:@"SelectedIUR"]];
+    NSString* testExtraParams = @"";
+    NSString* productsContent = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:aReporter.Field18]];
+    if ([productsContent isEqualToString:@""] || [productsContent isEqualToString:@"0"]) {
+        testExtraParams = @"";
+    } else {
+        testExtraParams = [NSString stringWithFormat:@"{\"products\":\"%@\"}", productsContent];
+    }
+    
+    [self doParseReport:reportIUR startDate:[tmpDateDict objectForKey:@"StartDate"] endDate:[tmpDateDict objectForKey:@"EndDate"] tableName:tableNameValue selectedIUR:[tmpDateDict objectForKey:@"SelectedIUR"]  extraParams:testExtraParams];
 //    NSLog(@"TableName SelectedIUR %@ %@ %@ %@", [tmpDateDict objectForKey:@"TableName"], [tmpDateDict objectForKey:@"SelectedIUR"], [tmpDateDict objectForKey:@"StartDate"], [tmpDateDict objectForKey:@"EndDate"]);
 }
 
-- (void) doParseReport:(NSNumber*)reportIUR startDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate tableName:(NSString*)aTableName selectedIUR:(NSNumber*)aSelectedIUR{
+- (void) doParseReport:(NSNumber*)reportIUR startDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate tableName:(NSString*)aTableName selectedIUR:(NSNumber*)aSelectedIUR extraParams:(NSString*)anExtraParams {
     //spining
     if (self.HUD == nil) {
         self.HUD = [[[MBProgressHUD alloc] initWithView:self.navigationController.view] autorelease];
@@ -346,7 +354,7 @@
     [GlobalSharedClass shared].serviceTimeoutInterval=[GlobalSharedClass shared].reporterServiceTimeoutInterval;
     if ([[self.selectedReportCode substringToIndex:1]isEqualToString:@"2"]) {
         [self.HUD show:YES];        
-        [self.reportManager runXMLReportWithIUR:reportIUR withEmployeeIUR:[SettingManager employeeIUR] withStartDate:aStartDate withEndDate:anEndDate tableName:aTableName selectedIUR:aSelectedIUR];
+        [self.reportManager runXMLReportWithIUR:reportIUR withEmployeeIUR:[SettingManager employeeIUR] withStartDate:aStartDate withEndDate:anEndDate tableName:aTableName selectedIUR:aSelectedIUR extraParams:anExtraParams];
     } else if ([self.selectedReportCode isEqualToString:@"3.03"]) {
         ReporterTrackGraphViewController* RTGVC = [[ReporterTrackGraphViewController alloc] initWithNibName:@"ReporterTrackGraphViewController" bundle:nil];
         RTGVC.title = self.reportTitle;
@@ -359,7 +367,7 @@
         [RTGVC release];      
     } else {        
         [self.HUD show:YES];
-        [self.reportManager runExcelReportWithIUR:reportIUR withEmployeeIUR:[SettingManager employeeIUR] withStartDate:aStartDate withEndDate:anEndDate tableName:aTableName selectedIUR:aSelectedIUR];
+        [self.reportManager runExcelReportWithIUR:reportIUR withEmployeeIUR:[SettingManager employeeIUR] withStartDate:aStartDate withEndDate:anEndDate tableName:aTableName selectedIUR:aSelectedIUR extraParams:anExtraParams];
     }
 }
 
@@ -553,6 +561,14 @@
 #pragma mark CustomerSelectionListingDelegate
 - (void)didSelectCustomerSelectionListingRecord:(NSMutableDictionary*)aCustDict indexPath:(NSIndexPath *)anIndexPath {
     [self.reporterMainDataManager didSelectCustomerSelectionListingRecord:aCustDict indexPath:anIndexPath];
+}
+
+- (UIViewController*)retrieveReporterTableViewController {
+    return self;
+}
+
+- (void)reloadReporterTableView {
+    [self.tableView reloadData];
 }
 
 - (void)wsrExcelBackFromService:(id)result {

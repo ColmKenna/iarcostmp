@@ -20,8 +20,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConstantsDataManager);
 - (instancetype)init {
     self = [super init];
     if (self != nil) {
-        self.kClientID = @"6aa698d7-5fd4-42f4-8702-cd04b9d9c52e";
-//        self.kClientID = @"f5ce4bd1-52cb-40ec-a9ac-29821646bd77";
+//        self.kClientID = @"6aa698d7-5fd4-42f4-8702-cd04b9d9c52e";
+        self.kClientID = @"e06cc226-c91e-4273-8fdb-c2b335d6334e";
         self.kAuthority = @"https://login.microsoftonline.com/common";
         self.kGraphURI = @"https://graph.microsoft.com/v1.0/me/sendMail";
         self.accessToken = @"";
