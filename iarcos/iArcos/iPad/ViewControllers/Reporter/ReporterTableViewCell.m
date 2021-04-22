@@ -177,7 +177,11 @@
         self.productTitleLabel.text = @"";
         self.productValueLabel.text = @"";
     }
-    
+    if (![self.productValueLabel.text isEqualToString:@""]) {
+        self.title.text = [NSString stringWithFormat:@"%@ - %@", [self.reporterHolder Field6], self.productValueLabel.text];
+    } else {
+        self.title.text = [self.reporterHolder Field6];
+    }
     if (self.thePopover != nil && ![self.thePopover isPopoverVisible]) {
         self.thePopover = nil;
     }

@@ -233,7 +233,7 @@
     cell.bgImageView.image = [bgImage resizableImageWithCapInsets:UIEdgeInsetsMake(0, 30, 0, 30)];//[bgImage stretchableImageWithLeftCapWidth:30 topCapHeight:0];
     
     //NSLog(@"presenter title is %@  name is %@",[aPresentProduct objectForKey:@"Title"],[aPresentProduct objectForKey:@"Name"]);
-    cell.title.text = [aReporter Field6];
+//    cell.title.text = [aReporter Field6];
     cell.myDescription.text = [aReporter Field7];
     cell.extraDesc.text = [aReporter Field5];
     
@@ -312,11 +312,18 @@
 //    [RVC release];
     
 //    [callGenericServices.HUD show:YES];
+    ReporterTableViewCell* auxCell = (ReporterTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
      ArcosGenericClass* aReporter = [self.reporterMainDataManager.displayList objectAtIndex:indexPath.row];
     NSNumber* reportIUR=[NSNumber numberWithInt: [aReporter.Field11 intValue]];
     self.selectedReportCode = [NSString stringWithFormat:@"%@", aReporter.Field5] ;
-    self.reportTitle = [NSString stringWithFormat:@"%@", aReporter.Field6];
-    self.reporterFileManager.reportTitle = [NSString stringWithFormat:@"%@", aReporter.Field6];
+    NSString* auxTitle = @"";
+    if ([auxCell.productValueLabel.text isEqualToString:@""]) {
+        auxTitle = [NSString stringWithFormat:@"%@", aReporter.Field6];
+    } else {
+        auxTitle = [NSString stringWithFormat:@"%@ - %@", aReporter.Field6, auxCell.productValueLabel.text];
+    }
+    self.reportTitle = [NSString stringWithFormat:@"%@", auxTitle];
+    self.reporterFileManager.reportTitle = [NSString stringWithFormat:@"%@", auxTitle];
     NSMutableDictionary* tmpDateDict = [self.reporterMainDataManager.dateDictDisplayList objectAtIndex:indexPath.row];
     NSString* tableNameValue = [tmpDateDict objectForKey:@"TableName"];
     if (![[ArcosUtils trim:[ArcosUtils convertNilToEmpty:aReporter.Field15]] isEqualToString:@""]) {
@@ -438,7 +445,7 @@
         [reportMainTemplateViewController.reporterXmlSubTableViewController.reporterXmlSubDataManager processRawData:doc];
         [reportMainTemplateViewController.reporterXmlGraphViewController.reporterXmlGraphDataManager processRawData:doc];
         
-        [self.navigationController pushViewController:reportMainTemplateViewController animated:nil];
+        [self.navigationController pushViewController:reportMainTemplateViewController animated:YES];
         [reportMainTemplateViewController release];
     }
     self.reportManager.ReportDocument = nil;
