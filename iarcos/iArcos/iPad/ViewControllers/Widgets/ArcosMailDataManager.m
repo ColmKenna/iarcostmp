@@ -19,6 +19,14 @@
 @synthesize attachmentList = _attachmentList;
 @synthesize arcosMailDataUtils = _arcosMailDataUtils;
 @synthesize bodyTitleText = _bodyTitleText;
+@synthesize largeAttachmentFlag = _largeAttachmentFlag;
+@synthesize minLargeAttachmentSize = _minLargeAttachmentSize;
+@synthesize messageId = _messageId;
+@synthesize largeFileSize = _largeFileSize;
+@synthesize uploadURL = _uploadURL;
+@synthesize startIndex = _startIndex;
+@synthesize endIndex = _endIndex;
+@synthesize fileChunkSize = _fileChunkSize;
 
 - (instancetype)init {
     if(self = [super init]) {
@@ -30,6 +38,13 @@
         self.toRecipients = [NSMutableArray array];
         self.ccRecipients = [NSMutableArray array];
         self.attachmentList = [NSMutableArray array];
+        self.minLargeAttachmentSize = 3 * 1024 * 1024 - 10000;
+        self.messageId = @"";
+        self.largeFileSize = [NSNumber numberWithInt:0];
+        self.uploadURL = @"";
+        self.startIndex = 0;
+        self.endIndex = 0;
+        self.fileChunkSize = 2 * 1024 * 1024;
     }
     return self;
 }
@@ -44,6 +59,9 @@
     self.attachmentList = nil;
     self.arcosMailDataUtils = nil;
     self.bodyTitleText = nil;
+    self.messageId = nil;
+    self.largeFileSize = nil;
+    self.uploadURL = nil;
     
     [super dealloc];
 }

@@ -361,7 +361,9 @@
         self.total.text = [NSString stringWithFormat:@"%.2f", [[replyResult Field21] floatValue] + [[replyResult Field22] floatValue]];        
         self.displayList = replyResult.SubObjects;
         [self.invoiceDetailListView reloadData];
-
+        if ([[replyResult Field21] floatValue] + [[replyResult Field22] floatValue] < 0) {
+            self.view.backgroundColor = [UIColor redColor];
+        }
     } else if(result.ErrorModel.Code <= 0) {
         [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:self];
         

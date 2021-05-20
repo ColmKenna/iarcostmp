@@ -22,7 +22,15 @@
     NSMutableArray* _ccRecipients;
     NSMutableArray* _attachmentList;
     ArcosMailDataUtils* _arcosMailDataUtils;
-    NSString* _bodyTitleText;
+    NSString* _bodyTitleText;    
+    BOOL _largeAttachmentFlag;
+    int _minLargeAttachmentSize;
+    NSString* _messageId;
+    NSNumber* _largeFileSize;
+    NSString* _uploadURL;
+    int _startIndex;
+    int _endIndex;
+    int _fileChunkSize;
 }
 
 @property(nonatomic, retain) NSMutableArray* displayList;
@@ -35,6 +43,14 @@
 @property(nonatomic,retain) NSMutableArray* attachmentList;
 @property(nonatomic,retain) ArcosMailDataUtils* arcosMailDataUtils;
 @property(nonatomic,retain) NSString* bodyTitleText;
+@property(nonatomic,assign) BOOL largeAttachmentFlag;
+@property(nonatomic,assign) int minLargeAttachmentSize;
+@property(nonatomic,retain) NSString* messageId;
+@property(nonatomic,retain) NSNumber* largeFileSize;
+@property(nonatomic,retain) NSString* uploadURL;
+@property(nonatomic,assign) int startIndex;
+@property(nonatomic,assign) int endIndex;
+@property(nonatomic,assign) int fileChunkSize;
 
 - (void)createBasicData;
 - (NSDictionary*)retrieveDescrDetailWithDescrTypeCode:(NSString*)aDescrTypeCode descrDetailCode:(NSString*)aDescrDetailCode;

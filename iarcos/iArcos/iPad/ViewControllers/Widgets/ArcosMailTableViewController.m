@@ -143,21 +143,36 @@
             return;
         }
         __weak typeof(self) weakSelf = self;
+        NSMutableDictionary* payloadDictionary = [[[NSMutableDictionary alloc] init] autorelease];
+        NSMutableDictionary* messageDict = [[[NSMutableDictionary alloc] init] autorelease];
+        self.arcosMailDataManager.largeAttachmentFlag = NO;
+        
+        if ([self.arcosMailDataManager.attachmentList count] == 1) {
+            ArcosAttachmentContainer* arcosAttachmentContainer = [self.arcosMailDataManager.attachmentList objectAtIndex:0];
+            int attachmentSize = [ArcosUtils convertNSUIntegerToUnsignedInt:arcosAttachmentContainer.fileData.length];
+            if (attachmentSize >= self.arcosMailDataManager.minLargeAttachmentSize) {
+                self.arcosMailDataManager.largeAttachmentFlag = YES;
+            }
+        }
+        
         NSURL* url = [NSURL URLWithString:[ArcosConstantsDataManager sharedArcosConstantsDataManager].kGraphURI];
+        if (self.arcosMailDataManager.largeAttachmentFlag) {
+            url = [NSURL URLWithString:[ArcosConstantsDataManager sharedArcosConstantsDataManager].kGraphMessageURI];
+        }
+        
         NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
         [request setHTTPMethod:@"POST"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request setValue:@"application/json, text/plain, */*" forHTTPHeaderField:@"Accept"];
         
         [request setValue:[NSString stringWithFormat:@"Bearer %@", [ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken] forHTTPHeaderField:@"Authorization"];
-        NSMutableDictionary* payloadDictionary = [[[NSMutableDictionary alloc] init] autorelease];
-        NSMutableDictionary* messageDict = [[[NSMutableDictionary alloc] init] autorelease];
+        
         NSMutableDictionary* subjectCellDataDict = [self.arcosMailDataManager.displayList objectAtIndex:2];
         NSString* subjectText = [subjectCellDataDict objectForKey:@"FieldData"];
         NSMutableDictionary* bodyCellDataDict = [self.arcosMailDataManager.displayList objectAtIndex:3];
         NSMutableDictionary* bodyFieldDataDict = [bodyCellDataDict objectForKey:@"FieldData"];
         NSString* bodyText = [bodyFieldDataDict objectForKey:@"Content"];
-        [payloadDictionary setObject:messageDict forKey:@"message"];
+        
         [messageDict setObject:subjectText forKey:@"subject"];
         
         NSMutableArray* resToRecipientList = [NSMutableArray array];
@@ -195,6 +210,10 @@
             [bodyDict setObject:[ArcosUtils convertNilToEmpty:bodyText] forKey:@"content"];
         }
         
+        if (self.arcosMailDataManager.largeAttachmentFlag) {
+            [self createMessageWithData:messageDict request:request];
+            return;
+        }
         if ([self.arcosMailDataManager.attachmentList count] > 0) {
             NSMutableArray* attachmentList = [NSMutableArray array];
             for (int i = 0; i < [self.arcosMailDataManager.attachmentList count]; i++) {
@@ -210,7 +229,7 @@
             }
             [messageDict setObject:attachmentList forKey:@"attachments"];
         }
-        
+        [payloadDictionary setObject:messageDict forKey:@"message"];
         NSData* payloadData = [NSJSONSerialization dataWithJSONObject:payloadDictionary options:NSJSONWritingPrettyPrinted error:nil];
         
         [request setHTTPBody:payloadData];
@@ -444,5 +463,216 @@
     }
 }
 
+- (void)createMessageWithData:(NSMutableDictionary*)aMessageDict request:(NSMutableURLRequest*)aRequest {
+    self.HUD.mode = MBProgressHUDModeDeterminateHorizontalBar;
+    self.HUD.progress = 0.0;
+    __weak typeof(self) weakSelf = self;
+    NSData* payloadData = [NSJSONSerialization dataWithJSONObject:aMessageDict options:NSJSONWritingPrettyPrinted error:nil];
+    [aRequest setHTTPBody:payloadData];
+    NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:config];
+    NSURLSessionDataTask* downloadTask = [session dataTaskWithRequest:aRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            NSLog(@"createMsg error %@", error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.HUD hide:YES];
+                [ArcosUtils showDialogBox:[error description] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+            });
+        } else {
+            NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+            int statusCode = [ArcosUtils convertNSIntegerToInt:[httpResponse statusCode]];
+            NSLog(@"createMsg response status code: %d", statusCode);
+            if (statusCode != 201) {
+                id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
+                NSLog(@"createMsg error %@ -- %@", result, data);
+                NSDictionary* resultDict = (NSDictionary*)result;
+                NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
+                NSString* errorMsg = [errorResultDict objectForKey:@"message"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.HUD hide:YES];
+                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+                });
+            } else {
+                id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
+                NSLog(@"createMsg res %@ -- %@", result, data);
+                NSDictionary* resultDict = (NSDictionary*)result;
+                self.arcosMailDataManager.messageId = [resultDict objectForKey:@"id"];
+                [self attachLargeFile];
+            }
+        }
+    }];
+    [downloadTask resume];
+}
+
+- (void)attachLargeFile {
+    __weak typeof(self) weakSelf = self;
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.microsoft.com/v1.0/me/messages/%@/attachments/createUploadSession", self.arcosMailDataManager.messageId]];
+    NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:@"application/json, text/plain, */*" forHTTPHeaderField:@"Accept"];
+    
+    [request setValue:[NSString stringWithFormat:@"Bearer %@", [ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken] forHTTPHeaderField:@"Authorization"];
+    NSMutableDictionary* payloadDictionary = [[[NSMutableDictionary alloc] init] autorelease];
+    NSMutableDictionary* attachmentItemDict = [NSMutableDictionary dictionary];
+    ArcosAttachmentContainer* arcosAttachmentContainer = [self.arcosMailDataManager.attachmentList objectAtIndex:0];
+    
+    self.arcosMailDataManager.largeFileSize = [NSNumber numberWithInt:[ArcosUtils convertNSUIntegerToUnsignedInt:arcosAttachmentContainer.fileData.length]];
+    
+    [attachmentItemDict setObject:@"file" forKey:@"attachmentType"];
+    [attachmentItemDict setObject:arcosAttachmentContainer.fileName forKey:@"name"];
+    [attachmentItemDict setObject:self.arcosMailDataManager.largeFileSize forKey:@"size"];
+    [payloadDictionary setObject:attachmentItemDict forKey:@"AttachmentItem"];
+    NSLog(@"cc %@", payloadDictionary);
+    NSData* payloadData = [NSJSONSerialization dataWithJSONObject:payloadDictionary options:NSJSONWritingPrettyPrinted error:nil];
+    
+    [request setHTTPBody:payloadData];
+    NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:config];
+    NSURLSessionDataTask* downloadTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            NSLog(@"attachLF error %@", error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.HUD hide:YES];
+                [ArcosUtils showDialogBox:[error description] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+            });
+        } else {
+            NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+            int statusCode = [ArcosUtils convertNSIntegerToInt:[httpResponse statusCode]];
+            NSLog(@"attachLF response status code: %d", statusCode);
+            if (statusCode != 201) {
+                id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
+                NSLog(@"attachLF error %@ -- %@", result, data);
+                NSDictionary* resultDict = (NSDictionary*)result;
+                NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
+                NSString* errorMsg = [errorResultDict objectForKey:@"message"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.HUD hide:YES];
+                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+                });
+            } else {
+                id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
+                NSLog(@"attachLF res  %@ -- %@", result, data);
+                NSDictionary* resultDict = (NSDictionary*)result;
+                self.arcosMailDataManager.uploadURL = [NSString stringWithFormat:@"%@", [resultDict objectForKey:@"uploadUrl"]];
+                NSLog(@"attachLF url: %@", self.arcosMailDataManager.uploadURL);
+                self.arcosMailDataManager.startIndex = 0;
+                [self uploadLargeFile];
+            }
+        }
+    }];
+    [downloadTask resume];
+}
+
+- (void)uploadLargeFile {
+    __weak typeof(self) weakSelf = self;
+    int rangeLength = self.arcosMailDataManager.fileChunkSize;
+    self.arcosMailDataManager.endIndex = self.arcosMailDataManager.startIndex + self.arcosMailDataManager.fileChunkSize - 1;
+    if (self.arcosMailDataManager.endIndex >= [self.arcosMailDataManager.largeFileSize intValue] - 1) {
+        self.arcosMailDataManager.endIndex = [self.arcosMailDataManager.largeFileSize intValue] - 1;
+        rangeLength = self.arcosMailDataManager.endIndex - self.arcosMailDataManager.startIndex + 1;
+    }
+    NSLog(@"range: %d %d %d", self.arcosMailDataManager.startIndex, self.arcosMailDataManager.endIndex, [self.arcosMailDataManager.largeFileSize intValue]);
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", self.arcosMailDataManager.uploadURL]];
+    NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
+    [request setHTTPMethod:@"PUT"];
+    [request setValue:@"application/octet-stream" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:@"application/json, text/plain, */*" forHTTPHeaderField:@"Accept"];
+    [request setValue:[NSString stringWithFormat:@"%d", self.arcosMailDataManager.fileChunkSize] forHTTPHeaderField:@"Content-Length"];
+    [request setValue:[NSString stringWithFormat:@"bytes %d-%d/%d", self.arcosMailDataManager.startIndex, self.arcosMailDataManager.endIndex, [self.arcosMailDataManager.largeFileSize intValue]] forHTTPHeaderField:@"Content-Range"];
+    ArcosAttachmentContainer* arcosAttachmentContainer = [self.arcosMailDataManager.attachmentList objectAtIndex:0];
+        
+    NSRange partOfFileRange = NSMakeRange(self.arcosMailDataManager.startIndex, rangeLength);
+    NSData* partOfFileData = [arcosAttachmentContainer.fileData subdataWithRange:partOfFileRange];
+    [request setHTTPBody:partOfFileData];
+    NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:config];
+    NSURLSessionDataTask* downloadTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            NSLog(@"uploadLF error %@", error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.HUD hide:YES];
+                [ArcosUtils showDialogBox:[error description] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+            });
+        } else {
+            NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+            int statusCode = [ArcosUtils convertNSIntegerToInt:[httpResponse statusCode]];
+            NSLog(@"uploadLF response status code: %d", statusCode);
+            if (statusCode == 200 || statusCode == 201) {
+                id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
+                NSLog(@"uploadLF res %@ -- %@", result, data);
+                self.arcosMailDataManager.startIndex = self.arcosMailDataManager.endIndex + 1;
+                float progressValue = self.arcosMailDataManager.startIndex * 1.0 / [self.arcosMailDataManager.largeFileSize intValue];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    weakSelf.HUD.progress = progressValue;
+                });
+                if (statusCode == 201) {
+                    [self sendMessage];
+                    return;
+                }
+                [self uploadLargeFile];
+                
+            } else {//special condition
+                id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
+                NSLog(@"uploadLF error %@ -- %@", result, data);
+                NSDictionary* resultDict = (NSDictionary*)result;
+                NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
+                NSString* errorMsg = [errorResultDict objectForKey:@"message"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.HUD hide:YES];
+                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+                });
+            }
+        }
+    }];
+    [downloadTask resume];
+}
+
+- (void)sendMessage {
+    __weak typeof(self) weakSelf = self;
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.microsoft.com/v1.0/me/messages/%@/send", self.arcosMailDataManager.messageId]];
+    NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"0" forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/json, text/plain, */*" forHTTPHeaderField:@"Accept"];
+    
+    [request setValue:[NSString stringWithFormat:@"Bearer %@", [ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken] forHTTPHeaderField:@"Authorization"];
+
+    NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:config];
+    NSURLSessionDataTask* downloadTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            NSLog(@"sendMsg error %@", error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.HUD hide:YES];
+                [ArcosUtils showDialogBox:[error description] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+            });
+        } else {
+            NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+            int statusCode = [ArcosUtils convertNSIntegerToInt:[httpResponse statusCode]];
+            NSLog(@"sendMsg response status code: %d", statusCode);
+            if (statusCode != 202) {
+                id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
+                NSLog(@"sendMsg test %@ -- %@", result, data);
+                NSDictionary* resultDict = (NSDictionary*)result;
+                NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
+                NSString* errorMsg = [errorResultDict objectForKey:@"message"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.HUD hide:YES];
+                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+                });
+            } else {
+                id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
+                NSLog(@"sendMsg res %@ -- %@", result, data);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.HUD hide:YES];
+                    [weakSelf cleanMailData];
+                    [weakSelf.mailDelegate arcosMailDidFinishWithResult:ArcosMailComposeResultSent error:nil];
+                });
+            }
+        }
+    }];
+    [downloadTask resume];
+}
 
 @end
