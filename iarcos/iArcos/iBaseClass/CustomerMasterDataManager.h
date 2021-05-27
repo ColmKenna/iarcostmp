@@ -25,6 +25,7 @@
 #import "TargetTableViewController.h"
 #import "MeetingMainTemplateViewController.h"
 #import "ReporterGroupMainTableViewController.h"
+#import "DashboardServerViewController.h"
 
 @interface CustomerMasterDataManager : NSObject {
     NSMutableArray* _displayList;
@@ -50,6 +51,8 @@
     TemplateDashboardViewController* _templateDashboardViewController;
     DashboardMainTemplateTableViewController* _dashboardMainTemplateTableViewController;
     UINavigationController* _dashboardMainTemplateNavigationController;
+    DashboardServerViewController* _dashboardServerViewController;
+    UINavigationController* _dashboardServerNavigationController;
     WeeklyMainTemplateViewController* _weeklyMainTemplateViewController;
     UINavigationController* _weeklyMainTemplateNavigationController;
     TargetTableViewController* _targetTableViewController;
@@ -83,6 +86,8 @@
 @property(nonatomic, retain) TemplateDashboardViewController* templateDashboardViewController;
 @property(nonatomic, retain) DashboardMainTemplateTableViewController*  dashboardMainTemplateTableViewController;
 @property(nonatomic, retain) UINavigationController* dashboardMainTemplateNavigationController;
+@property(nonatomic, retain) DashboardServerViewController* dashboardServerViewController;
+@property(nonatomic, retain) UINavigationController* dashboardServerNavigationController;
 @property(nonatomic, retain) WeeklyMainTemplateViewController* weeklyMainTemplateViewController;
 @property(nonatomic, retain) UINavigationController* weeklyMainTemplateNavigationController;
 @property(nonatomic, retain) TargetTableViewController* targetTableViewController;

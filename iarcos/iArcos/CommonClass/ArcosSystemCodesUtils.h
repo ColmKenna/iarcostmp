@@ -23,5 +23,6 @@
 + (BOOL)optionExistenceWithCode:(NSString*)aCode;
 + (NSNumber*)retrieveNumberInOptionWithCode:(NSString*)aCode;
 + (NSString*)retrieveDescrTypeCodeWithCode:(NSString*)aCode;
++ (BOOL)allDashOptionExistence;
 
 @end

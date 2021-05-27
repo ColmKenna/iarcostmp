@@ -494,7 +494,7 @@
                 });
             } else {
                 id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
-                NSLog(@"createMsg res %@ -- %@", result, data);
+//                NSLog(@"createMsg res %@ -- %@", result, data);
                 NSDictionary* resultDict = (NSDictionary*)result;
                 self.arcosMailDataManager.messageId = [resultDict objectForKey:@"id"];
                 [self attachLargeFile];
@@ -523,7 +523,7 @@
     [attachmentItemDict setObject:arcosAttachmentContainer.fileName forKey:@"name"];
     [attachmentItemDict setObject:self.arcosMailDataManager.largeFileSize forKey:@"size"];
     [payloadDictionary setObject:attachmentItemDict forKey:@"AttachmentItem"];
-    NSLog(@"cc %@", payloadDictionary);
+//    NSLog(@"cc %@", payloadDictionary);
     NSData* payloadData = [NSJSONSerialization dataWithJSONObject:payloadDictionary options:NSJSONWritingPrettyPrinted error:nil];
     
     [request setHTTPBody:payloadData];
@@ -552,10 +552,10 @@
                 });
             } else {
                 id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
-                NSLog(@"attachLF res  %@ -- %@", result, data);
+//                NSLog(@"attachLF res  %@ -- %@", result, data);
                 NSDictionary* resultDict = (NSDictionary*)result;
                 self.arcosMailDataManager.uploadURL = [NSString stringWithFormat:@"%@", [resultDict objectForKey:@"uploadUrl"]];
-                NSLog(@"attachLF url: %@", self.arcosMailDataManager.uploadURL);
+//                NSLog(@"attachLF url: %@", self.arcosMailDataManager.uploadURL);
                 self.arcosMailDataManager.startIndex = 0;
                 [self uploadLargeFile];
             }
@@ -572,7 +572,7 @@
         self.arcosMailDataManager.endIndex = [self.arcosMailDataManager.largeFileSize intValue] - 1;
         rangeLength = self.arcosMailDataManager.endIndex - self.arcosMailDataManager.startIndex + 1;
     }
-    NSLog(@"range: %d %d %d", self.arcosMailDataManager.startIndex, self.arcosMailDataManager.endIndex, [self.arcosMailDataManager.largeFileSize intValue]);
+//    NSLog(@"range: %d %d %d", self.arcosMailDataManager.startIndex, self.arcosMailDataManager.endIndex, [self.arcosMailDataManager.largeFileSize intValue]);
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", self.arcosMailDataManager.uploadURL]];
     NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
     [request setHTTPMethod:@"PUT"];
@@ -599,8 +599,8 @@
             int statusCode = [ArcosUtils convertNSIntegerToInt:[httpResponse statusCode]];
             NSLog(@"uploadLF response status code: %d", statusCode);
             if (statusCode == 200 || statusCode == 201) {
-                id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
-                NSLog(@"uploadLF res %@ -- %@", result, data);
+//                id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
+//                NSLog(@"uploadLF res %@ -- %@", result, data);
                 self.arcosMailDataManager.startIndex = self.arcosMailDataManager.endIndex + 1;
                 float progressValue = self.arcosMailDataManager.startIndex * 1.0 / [self.arcosMailDataManager.largeFileSize intValue];
                 dispatch_async(dispatch_get_main_queue(), ^{

@@ -298,6 +298,9 @@
 +(NSString*)meetingPath {
     return [[self documentsPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@", @"meeting"]];
 }
++(NSString*)dashboardPath {
+    return [[self documentsPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@", @"dashboard"]];
+}
 
 +(BOOL)settingFileExist{
     if ([self fileExistAtPath:[self settingFilePath]]) {

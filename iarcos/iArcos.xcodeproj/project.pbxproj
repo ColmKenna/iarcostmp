@@ -1598,6 +1598,9 @@
 		79C2A5A925B97611002AAC61 /* ReporterXmlSubTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C2A5A825B97611002AAC61 /* ReporterXmlSubTableHeaderView.m */; };
 		79C2A5AF25B97879002AAC61 /* ReporterXmlSubTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C2A5AD25B97879002AAC61 /* ReporterXmlSubTableViewCell.m */; };
 		79C2A5B025B97879002AAC61 /* ReporterXmlSubTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79C2A5AE25B97879002AAC61 /* ReporterXmlSubTableViewCell.xib */; };
+		79CA7D11265B470800EC4B1A /* DashboardServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79CA7D0F265B470800EC4B1A /* DashboardServerViewController.m */; };
+		79CA7D12265B470800EC4B1A /* DashboardServerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79CA7D10265B470800EC4B1A /* DashboardServerViewController.xib */; };
+		79CA7D17265B481D00EC4B1A /* DashboardServerDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 79CA7D16265B481D00EC4B1A /* DashboardServerDataManager.m */; };
 		79E2EFF1256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E2EFF0256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.m */; };
 /* End PBXBuildFile section */
 
@@ -4719,6 +4722,11 @@
 		79C2A5AC25B97879002AAC61 /* ReporterXmlSubTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlSubTableViewCell.h; sourceTree = "<group>"; };
 		79C2A5AD25B97879002AAC61 /* ReporterXmlSubTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterXmlSubTableViewCell.m; sourceTree = "<group>"; };
 		79C2A5AE25B97879002AAC61 /* ReporterXmlSubTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReporterXmlSubTableViewCell.xib; sourceTree = "<group>"; };
+		79CA7D0E265B470800EC4B1A /* DashboardServerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DashboardServerViewController.h; sourceTree = "<group>"; };
+		79CA7D0F265B470800EC4B1A /* DashboardServerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DashboardServerViewController.m; sourceTree = "<group>"; };
+		79CA7D10265B470800EC4B1A /* DashboardServerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DashboardServerViewController.xib; sourceTree = "<group>"; };
+		79CA7D15265B481D00EC4B1A /* DashboardServerDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DashboardServerDataManager.h; sourceTree = "<group>"; };
+		79CA7D16265B481D00EC4B1A /* DashboardServerDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DashboardServerDataManager.m; sourceTree = "<group>"; };
 		79E2EFEF256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerInfoStartTimeTableViewCell.h; sourceTree = "<group>"; };
 		79E2EFF0256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerInfoStartTimeTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -8560,6 +8568,11 @@
 				631F010820AAEF14001BA762 /* DashboardGenericTableViewController.xib */,
 				631F010B20AAFC88001BA762 /* DashboardGenericDataManager.h */,
 				631F010C20AAFC88001BA762 /* DashboardGenericDataManager.m */,
+				79CA7D0E265B470800EC4B1A /* DashboardServerViewController.h */,
+				79CA7D0F265B470800EC4B1A /* DashboardServerViewController.m */,
+				79CA7D10265B470800EC4B1A /* DashboardServerViewController.xib */,
+				79CA7D15265B481D00EC4B1A /* DashboardServerDataManager.h */,
+				79CA7D16265B481D00EC4B1A /* DashboardServerDataManager.m */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -8786,6 +8799,7 @@
 				638A34051C11FFFA00EE519D /* Header3.png in Resources */,
 				630B3B6719F01CB9007B2442 /* CustomerContactModalViewController.xib in Resources */,
 				630B3BE619F01CB9007B2442 /* CustomerNewsTaskTableCell.xib in Resources */,
+				79CA7D12265B470800EC4B1A /* DashboardServerViewController.xib in Resources */,
 				630B3D4619F01CB9007B2442 /* UtilitiesDescriptionDetailViewController.xib in Resources */,
 				630B3B9C19F01CB9007B2442 /* CustomerCallDetailTableCell.xib in Resources */,
 				630B3D2619F01CB9007B2442 /* GenericUITableDetailTableCell.xib in Resources */,
@@ -9287,6 +9301,7 @@
 				630B3B0E19F01CB8007B2442 /* GalleryView.m in Sources */,
 				630B3DBC19F01CB9007B2442 /* Soap+Prefix.m in Sources */,
 				630B3C9719F01CB9007B2442 /* L3SearchDataManager.m in Sources */,
+				79CA7D11265B470800EC4B1A /* DashboardServerViewController.m in Sources */,
 				633FFE421CBBB9E0009B00FC /* PhotoFileInfoProvider.m in Sources */,
 				630B3B6A19F01CB9007B2442 /* CustomerDetailsIURModalViewController.m in Sources */,
 				63D5707721C91FFC00FF37D5 /* OrderDetailFormTypeLabelTableCell.m in Sources */,
@@ -9857,6 +9872,7 @@
 				630B3B9919F01CB9007B2442 /* CustomerBaseTableCell.m in Sources */,
 				630B3B9019F01CB9007B2442 /* EmailRecipientDataManager.m in Sources */,
 				630B3BF319F01CB9007B2442 /* DetailingTableCellFactory.m in Sources */,
+				79CA7D17265B481D00EC4B1A /* DashboardServerDataManager.m in Sources */,
 				63A61A70223A9CD90023CC11 /* ArcosMeetingWithDetailsDownloadBase.m in Sources */,
 				18459848241D04F70005C919 /* OrderEntryInputMatTableViewCell.m in Sources */,
 				630EB9221CB6B7620026FC2B /* UploadWebServiceProcessor.m in Sources */,
@@ -10472,7 +10488,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 9.0.7;
+				MARKETING_VERSION = 9.0.8;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10527,7 +10543,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 9.0.7;
+				MARKETING_VERSION = 9.0.8;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -10662,7 +10678,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 9.0.7;
+				MARKETING_VERSION = 9.0.8;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

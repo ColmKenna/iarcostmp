@@ -56,6 +56,7 @@
 +(NSString*)surveyPath;
 +(NSString*)overviewPath;
 +(NSString*)meetingPath;
++(NSString*)dashboardPath;
 +(BOOL)settingFileExist;
 +(NSString*)documentsPath;
 +(BOOL)updateCenterPlistExist;

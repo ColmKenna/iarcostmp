@@ -36,6 +36,8 @@
 @synthesize templateDashboardViewController = _templateDashboardViewController;
 @synthesize dashboardMainTemplateTableViewController = _dashboardMainTemplateTableViewController;
 @synthesize dashboardMainTemplateNavigationController = _dashboardMainTemplateNavigationController;
+@synthesize dashboardServerViewController = _dashboardServerViewController;
+@synthesize dashboardServerNavigationController = _dashboardServerNavigationController;
 @synthesize weeklyMainTemplateViewController = _weeklyMainTemplateViewController;
 @synthesize weeklyMainTemplateNavigationController = _weeklyMainTemplateNavigationController;
 @synthesize targetTableViewController = _targetTableViewController;
@@ -130,6 +132,8 @@
         
 //        self.dashboardMainTemplateTableViewController = [[[DashboardMainTemplateTableViewController alloc] initWithNibName:@"DashboardMainTemplateTableViewController" bundle:nil] autorelease];
 //        self.dashboardMainTemplateNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.dashboardMainTemplateTableViewController] autorelease];
+        self.dashboardServerViewController = [[[DashboardServerViewController alloc] initWithNibName:@"DashboardServerViewController" bundle:nil] autorelease];
+        self.dashboardServerNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.dashboardServerViewController] autorelease];
         self.targetTableViewController = [[[TargetTableViewController alloc] initWithNibName:@"TargetTableViewController" bundle:nil] autorelease];
         self.targetNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.targetTableViewController] autorelease];
         self.meetingMainTemplateViewController = [[[MeetingMainTemplateViewController alloc] initWithNibName:@"MeetingMainTemplateViewController" bundle:nil] autorelease];
@@ -138,6 +142,7 @@
         self.meetingNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.meetingMainTemplateViewController] autorelease];
         
 //        NSMutableDictionary* dashboardCellData = [self createItemCellData:self.dashboardText imageFile:@"Dashboard.png" myCustomController:self.templateDashboardViewController];
+        NSMutableDictionary* dashboardCellData = [self createItemCellData:self.dashboardText imageFile:@"Dashboard.png" myCustomController:self.dashboardServerNavigationController];
         NSMutableDictionary* locatorCellData = [self createItemCellData:@"Locator" imageFile:@"MapIcon.png" myCustomController:self.mapNavigationController];
         NSMutableDictionary* customerCellData = [self createItemCellData:[[GlobalSharedClass shared] customerText] imageFile:@"customer_info.png" myCustomController:self.locationArcosStackedViewController];
         NSMutableDictionary* contactCellData = [self createItemCellData:[[GlobalSharedClass shared] contactText] imageFile:@"CustomerIcon.png" myCustomController:self.contactArcosStackedViewController];
@@ -155,7 +160,7 @@
         
         //dashboardMainTemplateCellData,
         //dashboardCellData,
-        self.displayList = [NSMutableArray arrayWithObjects:locatorCellData, customerCellData, contactCellData, reporterCellData, listingsCellData, weeklyCellData, utilitiesCellData, nil];
+        self.displayList = [NSMutableArray arrayWithObjects:dashboardCellData, locatorCellData, customerCellData, contactCellData, reporterCellData, listingsCellData, weeklyCellData, utilitiesCellData, nil];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTargetFlag]) {
             [self.displayList addObject:targetCellData];
         }
@@ -188,6 +193,8 @@
     self.templateDashboardViewController = nil;
     self.dashboardMainTemplateTableViewController = nil;
     self.dashboardMainTemplateNavigationController = nil;
+    self.dashboardServerViewController = nil;
+    self.dashboardServerNavigationController = nil;
     self.weeklyMainTemplateViewController = nil;
     self.weeklyMainTemplateNavigationController = nil;
     self.targetTableViewController = nil;

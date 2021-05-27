@@ -122,4 +122,8 @@
     return subString;
 }
 
++ (BOOL)allDashOptionExistence {
+    return [self optionExistenceWithCode:@"[ALLDASH]"];
+}
+
 @end
