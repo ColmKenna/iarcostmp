@@ -18,6 +18,10 @@
     NSString* _currentFileName;
     NSMutableArray* _displayFileList;
     int _currentPage;
+    NSMutableArray* _employeeDictList;
+    NSMutableArray* _displayEmployeeNameList;
+    NSMutableDictionary* _currentEmployeeDict;
+    NSString* _dashboardTitle;
 }
 
 @property(nonatomic, assign) BOOL resourceLoadingFinishedFlag;
@@ -25,7 +29,11 @@
 @property(nonatomic, retain) NSString* dashboardFolderName;
 @property(nonatomic, retain) NSString* currentFileName;
 @property(nonatomic, retain) NSMutableArray* displayFileList;
-@property (nonatomic, assign) int currentPage;
+@property(nonatomic, assign) int currentPage;
+@property(nonatomic, retain) NSMutableArray* employeeDictList;
+@property(nonatomic, retain) NSMutableArray* displayEmployeeNameList;
+@property(nonatomic, retain) NSMutableDictionary* currentEmployeeDict;
+@property(nonatomic, retain) NSString* dashboardTitle;
 
 
 - (void)createDashboardFileList;

@@ -47,8 +47,7 @@
         // Fallback on earlier versions
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-     
-    self.title = @"Dashboard";
+    self.title = [NSString stringWithFormat:@"%@",self.dashboardServerDataManager.dashboardTitle];
 }
 
 - (void)dealloc {
@@ -76,13 +75,15 @@
     if (self.HUD != nil) {
         self.HUD.frame = self.navigationController.view.bounds;
     }
+    self.title = [NSString stringWithFormat:@"%@",self.dashboardServerDataManager.dashboardTitle];
     [FileCommon removeAllFileUnderFolder:self.dashboardServerDataManager.dashboardFolderName];
     self.dashboardServerDataManager.displayFileList = [NSMutableArray array];
+    self.dashboardServerDataManager.displayEmployeeNameList = [NSMutableArray array];
     self.dashboardServerDataManager.resourceLoadingFinishedFlag = YES;
     self.dashboardServerDataManager.currentPage = 0;
     self.myScrollView.contentOffset = CGPointZero;
     [self.dashboardServerDataManager createDashboardFileList];
-    if ([self.dashboardServerDataManager.dashboardFileList count] == 0) {
+    if ([self.dashboardServerDataManager.dashboardFileList count] == 0 || [self.dashboardServerDataManager.employeeDictList count] == 0) {
         return;
     }
     [self.HUD show:YES];
@@ -110,10 +111,14 @@
         self.resourcesTimer = nil;
         [self displayFileOnCanvas];
         [self alignSubviews];
+//        NSLog(@"testa %@ %@", self.dashboardServerDataManager.displayEmployeeNameList, self.dashboardServerDataManager.displayFileList);
     } else {
         self.dashboardServerDataManager.resourceLoadingFinishedFlag = NO;
         self.dashboardServerDataManager.currentFileName = [NSString stringWithFormat:@"%@", [self.dashboardServerDataManager.dashboardFileList lastObject]];
         [self.dashboardServerDataManager.dashboardFileList removeLastObject];
+        self.dashboardServerDataManager.currentEmployeeDict = [NSMutableDictionary dictionaryWithDictionary:[self.dashboardServerDataManager.employeeDictList lastObject]];
+//        NSLog(@"test_0 %@", self.dashboardServerDataManager.currentEmployeeDict);
+        [self.dashboardServerDataManager.employeeDictList removeLastObject];
         [self.arcosService GetFromResources:self action:@selector(backFromGetFromResources:) FileNAme:self.dashboardServerDataManager.currentFileName];
     }
 }
@@ -135,6 +140,8 @@
             BOOL saveFileFlag = [myNSData writeToFile:filePath atomically:YES];
             if (saveFileFlag) {
                 [self.dashboardServerDataManager.displayFileList addObject:[NSString stringWithFormat:@"%@", self.dashboardServerDataManager.currentFileName]];
+//                NSLog(@"test_1 %@", self.dashboardServerDataManager.currentEmployeeDict);
+                [self.dashboardServerDataManager.displayEmployeeNameList addObject:[NSString stringWithFormat:@"%@", [self.dashboardServerDataManager.currentEmployeeDict objectForKey:@"Title"]]];
             }
         }
         @catch (NSException *exception) {
@@ -155,6 +162,7 @@
         [gwvivc didMoveToParentViewController:self];
         [gwvivc release];
     }
+    [self showTitle];
 }
 
 - (void)alignSubviews {
@@ -192,10 +200,27 @@
 // At the end of scroll animation, reset the boolean used when scrolls originate from the UIPageControl
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     self.dashboardServerDataManager.currentPage = self.myScrollView.contentOffset.x / self.myScrollView.bounds.size.width;
+    [self showTitle];
 }
 
 - (int)retrieveStatusBarHeight {
     return [UIApplication sharedApplication].statusBarFrame.size.height < [UIApplication sharedApplication].statusBarFrame.size.width ? [UIApplication sharedApplication].statusBarFrame.size.height : [UIApplication sharedApplication].statusBarFrame.size.width;
+}
+
+- (void)showTitle {
+    if ([self.dashboardServerDataManager.displayFileList count] <= 1) {
+        self.title = [NSString stringWithFormat:@"%@",self.dashboardServerDataManager.dashboardTitle];
+    }
+    int myLength = [ArcosUtils convertNSUIntegerToUnsignedInt:[self.dashboardServerDataManager.displayFileList count]] - 1;
+    if ([self.dashboardServerDataManager.displayFileList count] > 1) {
+        if (self.dashboardServerDataManager.currentPage == 0) {
+            self.title = [NSString stringWithFormat:@"%@ >", [self.dashboardServerDataManager.displayEmployeeNameList objectAtIndex:self.dashboardServerDataManager.currentPage]];
+        } else if (self.dashboardServerDataManager.currentPage == myLength) {
+            self.title = [NSString stringWithFormat:@"< %@", [self.dashboardServerDataManager.displayEmployeeNameList objectAtIndex:self.dashboardServerDataManager.currentPage]];
+        } else {
+            self.title = [NSString stringWithFormat:@"< %@ >", [self.dashboardServerDataManager.displayEmployeeNameList objectAtIndex:self.dashboardServerDataManager.currentPage]];
+        }
+    }
 }
 
 @end
