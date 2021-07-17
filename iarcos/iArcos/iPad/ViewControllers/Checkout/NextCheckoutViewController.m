@@ -580,7 +580,7 @@
 
 - (void)showNumberPadPopoverWithData:(NSMutableDictionary*)aCellDict {
     CGRect aRect = CGRectMake(self.myRootViewController.view.bounds.size.width - 10, self.myRootViewController.view.bounds.size.height - 10, 1, 1);
-    BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
+//    BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
     
     //popover the input pad
 //    self.thePopover = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
@@ -599,7 +599,8 @@
         self.thePopover = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
         OrderInputPadViewController* oipvc = (OrderInputPadViewController*) self.thePopover.contentViewController;
         oipvc.Data = aCellDict;
-        oipvc.showSeparator = showSeparator;
+//        oipvc.showSeparator = showSeparator;
+        oipvc.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
         ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
         if (!arcosErrorResult.successFlag) {
             [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];

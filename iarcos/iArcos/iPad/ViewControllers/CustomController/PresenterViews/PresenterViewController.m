@@ -359,7 +359,7 @@
         //sync the row with current cart
         formRow=[[OrderSharedClass sharedOrderSharedClass]syncRowWithCurrentCart:formRow];
         //[[OrderSharedClass sharedOrderSharedClass]syncAllSelectionsWithRowData:formRow];
-        BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
+//        BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
             if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].pxDbName]) {
                 self.inputPopover = [self.factory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
@@ -373,7 +373,8 @@
             self.inputPopover=[self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
             OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
             oipvc.Data=formRow;
-            oipvc.showSeparator = showSeparator;
+//            oipvc.showSeparator = showSeparator;
+            oipvc.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
             ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
             if (!arcosErrorResult.successFlag) {
                 [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
@@ -443,7 +444,7 @@
         //sync the row with current cart
         formRow=[[OrderSharedClass sharedOrderSharedClass]syncRowWithCurrentCart:formRow];
         //[[OrderSharedClass sharedOrderSharedClass]syncAllSelectionsWithRowData:formRow];
-        BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
+//        BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
             if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].pxDbName]) {
                 self.inputPopover = [self.factory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
@@ -457,7 +458,8 @@
             self.inputPopover=[self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
             OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
             oipvc.Data=formRow;
-            oipvc.showSeparator = showSeparator;
+//            oipvc.showSeparator = showSeparator;
+            oipvc.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
             ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
             if (!arcosErrorResult.successFlag) {
                 [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];

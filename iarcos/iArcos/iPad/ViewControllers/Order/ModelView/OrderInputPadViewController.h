@@ -119,6 +119,7 @@
     NSNumber* _originalDiscountPercent;
     BottomBorderUILabel* _bottomDivider;
     UILabel* _bonusDealContentInterpreter;
+    NSDictionary* _relatedFormDetailDict;
 }
 @property(nonatomic,retain) IBOutlet UITextField* QTYField;
 @property(nonatomic,retain) IBOutlet UITextField* BonusField;
@@ -215,6 +216,7 @@
 @property(nonatomic,retain) NSNumber* originalDiscountPercent;
 @property(nonatomic,retain) IBOutlet BottomBorderUILabel* bottomDivider;
 @property(nonatomic,retain) IBOutlet UILabel* bonusDealContentInterpreter;
+@property(nonatomic,retain) NSDictionary* relatedFormDetailDict;
 
 -(IBAction)textFieldTouched:(id)sender;
 -(IBAction)numberKeyTouched:(id)sender;

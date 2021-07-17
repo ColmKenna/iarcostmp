@@ -342,7 +342,7 @@
         NSIndexPath* swipedIndexPath = [ArcosUtils indexPathWithRecognizer:reconizer tableview:self.tableView];
         NSMutableDictionary* cellFormRowData = [self.formRowsTableViewController.unsortedFormrows objectAtIndex:swipedIndexPath.row];
         CGRect aRect = CGRectMake(self.formRowsTableViewController.rootView.view.bounds.size.width - 10, self.formRowsTableViewController.rootView.view.bounds.size.height - 10, 1, 1);
-        BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
+//        BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
             if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].pxDbName]) {
                 self.inputPopover = [self.factory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
@@ -356,7 +356,8 @@
             self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];            
             OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
             oipvc.Data=cellFormRowData;
-            oipvc.showSeparator = showSeparator;
+//            oipvc.showSeparator = showSeparator;
+            oipvc.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
             ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
             if (!arcosErrorResult.successFlag) {
                 [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];

@@ -174,7 +174,7 @@
         //present the input popover
         CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.myRootViewController];
         CGRect aRect = CGRectMake(parentNavigationRect.size.width-10, parentNavigationRect.size.height, 1, 1);
-        BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:self.formIUR];
+//        BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:self.formIUR];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
             if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].pxDbName]) {
                 self.inputPopover = [self.factory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:self.locationIUR];
@@ -189,7 +189,8 @@
             self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:self.locationIUR];
             OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
             oipvc.Data = [self.displayList objectAtIndex:swipedIndexPath.row];
-            oipvc.showSeparator = showSeparator;
+//            oipvc.showSeparator = showSeparator;
+            oipvc.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:self.formIUR];
             oipvc.vansOrderHeader = self.vansOrderHeader;
             ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
             if (!arcosErrorResult.successFlag) {

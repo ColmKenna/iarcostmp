@@ -96,11 +96,11 @@
 //    self.showSeparator = [ProductFormRowConverter showSeparatorWithFormType:@"104"];
     if ([self.orderLineDetailProductDataManager checkFormIURStandardFlag]) {
         self.formRowSearchDelegate = [[[FormRowCurrentListSearchDataManager alloc] initWithTarget:self] autorelease];
-        self.showSeparator = [self.orderLineDetailProductDataManager showSeparatorWithFormIUR:self.orderLineDetailProductDataManager.formIUR];
+//        self.showSeparator = [self.orderLineDetailProductDataManager showSeparatorWithFormIUR:self.orderLineDetailProductDataManager.formIUR];
         [self.orderLineDetailProductDataManager retrieveStandardFormDataList:self.locationIUR];
     } else {
         self.formRowSearchDelegate = [[[ProductSearchDataManager alloc] initWithTarget:self] autorelease];
-        self.showSeparator = [ProductFormRowConverter showSeparatorWithFormType:@"104"];
+//        self.showSeparator = [ProductFormRowConverter showSeparatorWithFormType:@"104"];
     }
 }
 
@@ -434,7 +434,12 @@
             self.inputPopover = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:self.locationIUR];
             OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
             oipvc.Data=aCell.data;
-            oipvc.showSeparator = self.showSeparator;
+//            oipvc.showSeparator = self.showSeparator;
+            if (self.orderLineDetailProductDataManager.standardOrderFormFlag) {
+                oipvc.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:self.orderLineDetailProductDataManager.formIUR];
+            } else {
+                oipvc.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormType:@"104"];
+            }
             oipvc.vansOrderHeader = self.vansOrderHeader;
             ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
             if (!arcosErrorResult.successFlag) {

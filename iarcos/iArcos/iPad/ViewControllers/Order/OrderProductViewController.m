@@ -649,7 +649,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         //present the input popover
         UIViewController* parentView=self.parentViewController;
         CGRect aRect=CGRectMake(parentView.view.frame.size.width-10, parentView.view.frame.size.height - 10, 1, 1);
-        BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:self.formIUR];
+//        BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:self.formIUR];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
             if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].pxDbName]) {
                 self.inputPopover = [self.factory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:self.locationIUR];
@@ -664,7 +664,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
             self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:self.locationIUR];
             OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
             oipvc.Data=aCell.data;
-            oipvc.showSeparator = showSeparator;
+//            oipvc.showSeparator = showSeparator;
+            oipvc.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:self.formIUR];
             oipvc.vansOrderHeader = self.vansOrderHeader;
             ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
             if (!arcosErrorResult.successFlag) {

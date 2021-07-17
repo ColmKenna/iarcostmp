@@ -111,6 +111,7 @@
 @synthesize originalDiscountPercent = _originalDiscountPercent;
 @synthesize bottomDivider = _bottomDivider;
 @synthesize bonusDealContentInterpreter = _bonusDealContentInterpreter;
+@synthesize relatedFormDetailDict = _relatedFormDetailDict;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -217,6 +218,7 @@
     self.originalDiscountPercent = nil;
     self.bottomDivider = nil;
     self.bonusDealContentInterpreter = nil;
+    self.relatedFormDetailDict = nil;
     
     [super dealloc];
 }
@@ -237,6 +239,10 @@
 //    NSNumber* qtyNumber=[self.Data objectForKey:@"Qty"];
 //    NSNumber* inStockNumber = [self.Data objectForKey:@"InStock"]; 
 //    if (([qtyNumber intValue]>0 && qtyNumber !=nil) || ([inStockNumber intValue]>0 && inStockNumber != nil)) {
+    self.showSeparator = NO;
+    if (self.relatedFormDetailDict != nil) {
+        self.showSeparator = [[self.relatedFormDetailDict objectForKey:@"ShowSeperators"] boolValue];
+    }
     self.originalDiscountPercent = [NSNumber numberWithFloat:[[self.Data objectForKey:@"DiscountPercent"] floatValue]];
     self.bonusDealResultDict = [self interpretBonusDeal:[self.Data objectForKey:@"BonusDeal"]];
     if ([[self.bonusDealResultDict objectForKey:@"OkFlag"] boolValue]) {
@@ -453,6 +459,13 @@
         self.instockRBLabel.hidden = YES;
         self.instockRBTextField.hidden = YES;
         self.priceChangeButton.hidden = YES;
+    }
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.relatedFormDetailDict objectForKey:@"Details"]];
+    if ([orderFormDetails containsString:@"[NB]"]) {
+        [self enableBonusFocWithFlag:NO];
+    }
+    if ([orderFormDetails containsString:@"[ND]"]) {
+        self.DiscountField.enabled = NO;
     }
     
     [self checkQtyByBonusDeal];
@@ -877,9 +890,13 @@
 
 -(void)submitInput{
     NSMutableDictionary* values=[NSMutableDictionary dictionary];
-    
+    BOOL orderFormRestrictedFlag = NO;
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.relatedFormDetailDict objectForKey:@"Details"]];
+    if ([orderFormDetails containsString:@"RESTRICTED"]) {
+        orderFormRestrictedFlag = YES;
+    }
     NSNumber* qty=[NSNumber numberWithInt:[QTYField.text intValue]];
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] checkMultiplesOfUnitsPerPackFlag]) {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] checkMultiplesOfUnitsPerPackFlag] || orderFormRestrictedFlag) {
         int unitsPerPackInteger = [[self.Data objectForKey:@"UnitsPerPack"] intValue];
         if (unitsPerPackInteger > 1) {
             int qtyInteger = [qty intValue];

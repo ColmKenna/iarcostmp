@@ -385,7 +385,8 @@
         oipvc.Data = productDetailDict;
         oipvc.bonusDealResultDict = [oipvc interpretBonusDeal:[productDetailDict objectForKey:@"BonusDeal"]];
         [self checkQtyByBonusDeal:productDetailDict orderInputPadViewController:oipvc numberBtn:aNumberBtn funcBtn:aFuncBtn];
-        oipvc.showSeparator = self.showSeparator;
+//        oipvc.showSeparator = self.showSeparator;
+        oipvc.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
         ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
         if (!arcosErrorResult.successFlag) {
             [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
@@ -441,7 +442,8 @@
         self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
         OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
         oipvc.Data = productDetailDict;
-        oipvc.showSeparator = self.showSeparator;
+//        oipvc.showSeparator = self.showSeparator;
+        oipvc.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
         ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
         if (!arcosErrorResult.successFlag) {
             [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
