@@ -132,6 +132,7 @@ typedef enum {
     int _blockedLevel;
     int _mandatoryLevel;
     int _remindLevel;
+    NSString* _myDbName;
 }
 
 +(GlobalSharedClass*)shared;
@@ -241,6 +242,7 @@ typedef enum {
 @property (nonatomic,assign) int blockedLevel;
 @property (nonatomic,assign) int mandatoryLevel;
 @property (nonatomic,assign) int remindLevel;
+@property (nonatomic,retain) NSString* myDbName;
 
 //usful functions
 - (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber;

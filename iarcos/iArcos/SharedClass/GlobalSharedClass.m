@@ -118,6 +118,7 @@ static GlobalSharedClass* _shared = nil;
 @synthesize blockedLevel = _blockedLevel;
 @synthesize mandatoryLevel = _mandatoryLevel;
 @synthesize remindLevel = _remindLevel;
+@synthesize myDbName = _myDbName;
 
 +(GlobalSharedClass*)shared 
 {
@@ -241,6 +242,7 @@ static GlobalSharedClass* _shared = nil;
         self.blockedLevel = 90;
         self.mandatoryLevel = 80;
         self.remindLevel = 70;
+        self.myDbName = @"MY10";
 	}
     
 	return self;
@@ -577,6 +579,7 @@ CGFloat RadiansToDegrees(CGFloat radians)
     self.issuesText = nil;
     self.pxDbName = nil;
     self.startRecordingDate = nil;
+    self.myDbName = nil;
     
     [super dealloc];
 }
