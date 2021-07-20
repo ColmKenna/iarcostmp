@@ -10,7 +10,11 @@
 #import "ArcosCoreData.h"
 #import "OrderSharedClass.h"
 
-@interface FormRowsTableDataManager : NSObject
+@interface FormRowsTableDataManager : NSObject {
+    NSDictionary* _currentFormDetailDict;
+}
+
+@property(nonatomic, retain) NSDictionary* currentFormDetailDict;
 
 - (NSMutableArray*)retrieveTableViewDataSourceWithSearchText:(NSString*)aSearchText;
 - (NSMutableArray*)retrievePredicativeTableViewDataSource;

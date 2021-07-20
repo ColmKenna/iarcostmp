@@ -9,6 +9,13 @@
 #import "FormRowsTableDataManager.h"
 
 @implementation FormRowsTableDataManager
+@synthesize currentFormDetailDict = _currentFormDetailDict;
+
+- (void)dealloc {
+    self.currentFormDetailDict = nil;
+    
+    [super dealloc];
+}
 
 - (NSMutableArray*)retrieveTableViewDataSourceWithSearchText:(NSString*)aSearchText {
     NSMutableArray* tmpDisplayList = [NSMutableArray array];

@@ -85,6 +85,7 @@
     Product.POSFiles = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field35]];
     Product.RadioFiles = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field36]];
     Product.VCIUR = [ArcosUtils convertStringToNumber:anObject.Field37];
+    Product.ProductColour = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field38]];
     
     return Product;
 }
@@ -162,6 +163,7 @@
     Product.POSFiles = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[aFieldList objectAtIndex:34]]];
     Product.RadioFiles = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[aFieldList objectAtIndex:35]]];
     Product.VCIUR = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:36]];
+    Product.ProductColour = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[aFieldList objectAtIndex:37]]];
     
     return Product;
 }

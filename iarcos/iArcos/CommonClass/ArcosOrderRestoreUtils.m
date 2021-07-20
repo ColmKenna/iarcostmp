@@ -62,6 +62,7 @@
         [tmpOrderRestoreDict setObject:[ArcosUtils convertNilToZero:[anOrderline objectForKey:@"PriceFlag"]] forKey:@"PriceFlag"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"UnitPrice"] forKey:@"UnitPrice"];
         [tmpOrderRestoreDict setObject:[ArcosUtils convertNilToZero:[anOrderline objectForKey:@"RRIUR"]] forKey:@"RRIUR"];
+        [tmpOrderRestoreDict setObject:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[anOrderline objectForKey:@"ProductColour"]]] forKey:@"ProductColour"];
         
         [dataDict setObject:tmpOrderRestoreDict forKey:productIURSTR];
         [self saveOrderRestorePlist];

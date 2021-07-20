@@ -1582,8 +1582,10 @@
 		795EF38F2534543400F8C5ED /* CustomerContactDetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 795EF38D2534543400F8C5ED /* CustomerContactDetailTableCell.m */; };
 		795EF3902534543400F8C5ED /* CustomerContactDetailTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */; };
 		7966A11D25EF5EB400DCF41D /* OrderDetailInvoiceRefTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7966A11C25EF5EB400DCF41D /* OrderDetailInvoiceRefTableCell.m */; };
+		798697D126A67D8100EE8E29 /* FormRowTableCellMyGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 798697D026A67D8100EE8E29 /* FormRowTableCellMyGenerator.m */; };
 		799A268725CE71FC006F620C /* ReporterXmlSubTableFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 799A268625CE71FC006F620C /* ReporterXmlSubTableFooterView.m */; };
 		799BE71D25628172002274CC /* NewOrderDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 799BE71C25628172002274CC /* NewOrderDataManager.m */; };
+		79A799A726A560BE006A49B8 /* ArcosMyResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A799A626A560BE006A49B8 /* ArcosMyResult.m */; };
 		79B7227A25B52A03007709BF /* ReporterGroupMainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B7227825B52A03007709BF /* ReporterGroupMainTableViewController.m */; };
 		79B7227B25B52A03007709BF /* ReporterGroupMainTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79B7227925B52A03007709BF /* ReporterGroupMainTableViewController.xib */; };
 		79B7228025B52A22007709BF /* ReporterGroupMainDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B7227F25B52A22007709BF /* ReporterGroupMainDataManager.m */; };
@@ -4693,11 +4695,15 @@
 		795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomerContactDetailTableCell.xib; sourceTree = "<group>"; };
 		7966A11B25EF5EB400DCF41D /* OrderDetailInvoiceRefTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderDetailInvoiceRefTableCell.h; sourceTree = "<group>"; };
 		7966A11C25EF5EB400DCF41D /* OrderDetailInvoiceRefTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderDetailInvoiceRefTableCell.m; sourceTree = "<group>"; };
+		798697CF26A67D8100EE8E29 /* FormRowTableCellMyGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormRowTableCellMyGenerator.h; sourceTree = "<group>"; };
+		798697D026A67D8100EE8E29 /* FormRowTableCellMyGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormRowTableCellMyGenerator.m; sourceTree = "<group>"; };
 		799A268525CE71FC006F620C /* ReporterXmlSubTableFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlSubTableFooterView.h; sourceTree = "<group>"; };
 		799A268625CE71FC006F620C /* ReporterXmlSubTableFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterXmlSubTableFooterView.m; sourceTree = "<group>"; };
 		799A268A25CE8432006F620C /* ReporterXmlSubTableDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlSubTableDelegate.h; sourceTree = "<group>"; };
 		799BE71B25628172002274CC /* NewOrderDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewOrderDataManager.h; sourceTree = "<group>"; };
 		799BE71C25628172002274CC /* NewOrderDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewOrderDataManager.m; sourceTree = "<group>"; };
+		79A799A526A560BE006A49B8 /* ArcosMyResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosMyResult.h; sourceTree = "<group>"; };
+		79A799A626A560BE006A49B8 /* ArcosMyResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosMyResult.m; sourceTree = "<group>"; };
 		79B7227725B52A03007709BF /* ReporterGroupMainTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterGroupMainTableViewController.h; sourceTree = "<group>"; };
 		79B7227825B52A03007709BF /* ReporterGroupMainTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterGroupMainTableViewController.m; sourceTree = "<group>"; };
 		79B7227925B52A03007709BF /* ReporterGroupMainTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReporterGroupMainTableViewController.xib; sourceTree = "<group>"; };
@@ -6616,6 +6622,10 @@
 				630F0EF62174E39A000BDA94 /* ProductDetailDesignViewController.xib */,
 				6303EB61231D6B8500EC21A8 /* OrderPadFooterViewDataManager.h */,
 				6303EB62231D6B8500EC21A8 /* OrderPadFooterViewDataManager.m */,
+				79A799A526A560BE006A49B8 /* ArcosMyResult.h */,
+				79A799A626A560BE006A49B8 /* ArcosMyResult.m */,
+				798697CF26A67D8100EE8E29 /* FormRowTableCellMyGenerator.h */,
+				798697D026A67D8100EE8E29 /* FormRowTableCellMyGenerator.m */,
 			);
 			path = PlaceOrder;
 			sourceTree = "<group>";
@@ -9368,6 +9378,7 @@
 				63420D6D1B0F321B00344379 /* ArcosDateRangeProcessor.m in Sources */,
 				63A12B681CEF308900CF963D /* GetRecordGenericTableCellFactory.m in Sources */,
 				630B3BD319F01CB9007B2442 /* CustomerSurveyBaseTableCell.m in Sources */,
+				798697D126A67D8100EE8E29 /* FormRowTableCellMyGenerator.m in Sources */,
 				631821D81C1065F600196B29 /* TemplateDashboardViewController.m in Sources */,
 				632ED1711A0B8C1800AA45A2 /* SavedIarcosOrderDetailControlTableViewCell.m in Sources */,
 				630B3BD419F01CB9007B2442 /* CustomerSurveyBooleanTableCell.m in Sources */,
@@ -9756,6 +9767,7 @@
 				630B34FA19F0171A007B2442 /* CustomerMasterTabBarItemTableCell.m in Sources */,
 				639CAE711CFC7ECC00D7246C /* GetRecordTypeGenericIntObject.m in Sources */,
 				63FF1A99215BAA2700C64C41 /* FormRowTableCellRrpGenerator.m in Sources */,
+				79A799A726A560BE006A49B8 /* ArcosMyResult.m in Sources */,
 				630B3DBB19F01CB9007B2442 /* ArcosWholeSalerBO.m in Sources */,
 				63FF1A9C215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m in Sources */,
 				630B344D19F0127C007B2442 /* LocEmpLink.m in Sources */,
@@ -10488,7 +10500,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 9.1.3;
+				MARKETING_VERSION = 9.1.5;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10543,7 +10555,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 9.1.3;
+				MARKETING_VERSION = 9.1.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -10678,7 +10690,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 9.1.3;
+				MARKETING_VERSION = 9.1.5;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

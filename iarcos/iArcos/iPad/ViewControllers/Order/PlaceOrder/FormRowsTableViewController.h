@@ -35,6 +35,8 @@
 #import "OrderPadFooterViewDataManager.h"
 #import "OrderInputPadPopoverGeneratorProcessor.h"
 #import "OrderEntryInputPopoverGeneratorProcessor.h"
+#import "FormRowTableCellMyGenerator.h"
+#import "ArcosMyResult.h"
 
 @interface FormRowsTableViewController : OrderDetailViewController <SelectionPopoverDelegate,ModelViewDelegate,WidgetFactoryDelegate,UISearchBarDelegate, OrderProductTableCellDelegate,UIPopoverControllerDelegate>{
     id<FormRowsTableViewControllerDelegate> _actionDelegate;

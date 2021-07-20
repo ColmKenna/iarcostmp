@@ -82,7 +82,7 @@
     NSString* keypath = [NSString stringWithFormat:@"CompanySetting.%@",@"Download"];
     NSMutableDictionary* activeOnly = [sm getSettingForKeypath:keypath atIndex:3];
     NSNumber* active = [activeOnly objectForKey:@"Value"];
-    NSString* selectStatement = @"Select IUR,ProductCode,Description,L1Code,L2Code,L3Code,L4Code,L5Code,UnitTradePrice,Active,Productsize,UnitsPerPack,ForDetailing,SamplesAvailable,ForSampling,ScoreProcedure,BonusBy,StockAvailable,OrderPadDetails,ImageIUR,BonusGiven,BonusRequired,SellBy,BonusMinimum,EAN,FlagIUR,MinimumUnitPrice,PackEAN,UnitRRP,UnitManufacturerPrice,UnitRevenueAmount,AdvertFiles,DetailingFiles,PackFiles,POSFiles,RadioFiles,VCIUR";
+    NSString* selectStatement = @"Select IUR,ProductCode,Description,L1Code,L2Code,L3Code,L4Code,L5Code,UnitTradePrice,Active,Productsize,UnitsPerPack,ForDetailing,SamplesAvailable,ForSampling,ScoreProcedure,BonusBy,StockAvailable,OrderPadDetails,ImageIUR,BonusGiven,BonusRequired,SellBy,BonusMinimum,EAN,FlagIUR,MinimumUnitPrice,PackEAN,UnitRRP,UnitManufacturerPrice,UnitRevenueAmount,AdvertFiles,DetailingFiles,PackFiles,POSFiles,RadioFiles,VCIUR,ProductColour";
     NSString* fromStatement = nil;
     if ([downloadMode intValue] == 1 && [isDownloaded boolValue]) {//1:Partial
         NSDate* downloadDate = [dataDict objectForKey:@"DownloadDate"];

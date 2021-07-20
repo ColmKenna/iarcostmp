@@ -17,6 +17,7 @@
 #import "ArcosErrorResult.h"
 #import "PriceChangeTableViewController.h"
 #import "TopBorderUILabel.h"
+#import "ArcosMyResult.h"
 @protocol OrderInputPadViewControllerDelegate 
 
 @optional
@@ -120,6 +121,7 @@
     BottomBorderUILabel* _bottomDivider;
     UILabel* _bonusDealContentInterpreter;
     NSDictionary* _relatedFormDetailDict;
+    ArcosMyResult* _arcosMyResult;
 }
 @property(nonatomic,retain) IBOutlet UITextField* QTYField;
 @property(nonatomic,retain) IBOutlet UITextField* BonusField;
@@ -217,6 +219,7 @@
 @property(nonatomic,retain) IBOutlet BottomBorderUILabel* bottomDivider;
 @property(nonatomic,retain) IBOutlet UILabel* bonusDealContentInterpreter;
 @property(nonatomic,retain) NSDictionary* relatedFormDetailDict;
+@property(nonatomic,retain) ArcosMyResult* arcosMyResult;
 
 -(IBAction)textFieldTouched:(id)sender;
 -(IBAction)numberKeyTouched:(id)sender;

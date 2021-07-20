@@ -69,6 +69,10 @@
     NSString* _analysisSectionTitle;
     NSString* _overviewSectionTitle;
     NSString* _startTimeLabel;
+    NSString* _phoneNumberLabel;
+    NSString* _emailLabel;
+    NSMutableArray* _headerTailItemList;
+    NSString* _priceGroupsLabel;
 }
 
 @property(nonatomic, retain) NSNumber* locationIUR;
@@ -130,6 +134,10 @@
 @property(nonatomic, retain) NSString* analysisSectionTitle;
 @property(nonatomic, retain) NSString* overviewSectionTitle;
 @property(nonatomic, retain) NSString* startTimeLabel;
+@property(nonatomic, retain) NSString* phoneNumberLabel;
+@property(nonatomic, retain) NSString* emailLabel;
+@property(nonatomic, retain) NSMutableArray* headerTailItemList;
+@property(nonatomic, retain) NSString* priceGroupsLabel;
 
 - (id)initWithLocationIUR:(NSNumber*)aLocationIUR;
 - (void)locationStatusProcessor:(NSNumber*)aLsiur;

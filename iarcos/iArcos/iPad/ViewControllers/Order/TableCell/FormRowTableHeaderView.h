@@ -16,6 +16,8 @@
     UILabel* _bonusLabel;
     UILabel* _discountLabel;
     UILabel* _valueLabel;
+    UILabel* _uniLabel;
+    UILabel* _udLabel;
 }
 
 @property(nonatomic, retain) IBOutlet UILabel* descLabel;
@@ -25,5 +27,7 @@
 @property(nonatomic, retain) IBOutlet UILabel* bonusLabel;
 @property(nonatomic, retain) IBOutlet UILabel* discountLabel;
 @property(nonatomic, retain) IBOutlet UILabel* valueLabel;
+@property(nonatomic, retain) IBOutlet UILabel* uniLabel;
+@property(nonatomic, retain) IBOutlet UILabel* udLabel;
 
 @end

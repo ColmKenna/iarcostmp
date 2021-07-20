@@ -70,10 +70,17 @@
 @synthesize analysisSectionTitle = _analysisSectionTitle;
 @synthesize overviewSectionTitle = _overviewSectionTitle;
 @synthesize startTimeLabel = _startTimeLabel;
+@synthesize phoneNumberLabel = _phoneNumberLabel;
+@synthesize emailLabel = _emailLabel;
+@synthesize headerTailItemList = _headerTailItemList;
+@synthesize priceGroupsLabel = _priceGroupsLabel;
 
 - (id)initWithLocationIUR:(NSNumber*)aLocationIUR {
     self = [super init];
     if (self != nil) {
+        self.phoneNumberLabel = @"Phone Number";
+        self.emailLabel = @"Email";
+        self.priceGroupsLabel = @"Price Group";
         self.extraBuyingGroupItemQty = 0;
         self.locationIUR = aLocationIUR;
         self.orderCallLabel = @"Orders / Calls";
@@ -126,7 +133,21 @@
         self.startTimeLabel = @"Start Time";
         self.faxNumberIndex = 0;
         self.creditStatusIndex = 0;
-        self.headerItemList = [NSMutableArray arrayWithObjects:@"Address", @"Address2", @"Address3", @"Address4", @"Address5", @"Phone Number", @"Email", self.lastCallLabel, nil];
+        
+        self.headerTailItemList = [NSMutableArray arrayWithObjects:self.phoneNumberLabel, self.emailLabel, self.lastCallLabel, nil];
+        self.headerItemList = [NSMutableArray arrayWithObjects:@"Address", @"Address2", @"Address3", @"Address4", @"Address5", nil];
+        if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].myDbName]) {
+            NSDictionary* pgDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"PG"];
+            if (pgDict != nil) {
+                NSString* pgDetails = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[pgDict objectForKey:@"Details"]]];
+                if (![pgDetails isEqualToString:@""]) {
+                    self.priceGroupsLabel = pgDetails;
+                }
+            }
+            [self.headerItemList addObject:self.priceGroupsLabel];
+        }
+        
+        [self.headerItemList addObjectsFromArray:self.headerTailItemList];
         
         NSDictionary* csDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"CS"];
         if (csDict != nil) {
@@ -225,6 +246,10 @@
     self.analysisSectionTitle = nil;
     self.overviewSectionTitle = nil;
     self.startTimeLabel = nil;
+    self.phoneNumberLabel = nil;
+    self.emailLabel = nil;
+    self.headerTailItemList = nil;
+    self.priceGroupsLabel = nil;
     
     [super dealloc];
 }

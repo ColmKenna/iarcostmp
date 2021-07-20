@@ -325,12 +325,12 @@
 
         }
         aCell.infoValue.text=[self.aCustDict objectForKey:[self.customerInfoTableDataManager.custKeyList objectAtIndex:indexPath.row]];
-        if (indexPath.row == 6 && aCell.infoValue.text != nil && ![aCell.infoValue.text isEqualToString:@""]) {
+        if (aCell.infoTitle.text != nil && [aCell.infoTitle.text isEqualToString:self.customerInfoTableDataManager.emailLabel] && indexPath.row <= [self.customerInfoTableDataManager.headerItemList count] && aCell.infoValue.text != nil && ![aCell.infoValue.text isEqualToString:@""]) {
             NSDictionary* underlineAttribute = @{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)};
             aCell.infoValue.attributedText = [[[NSAttributedString alloc] initWithString:[self.aCustDict objectForKey:[self.customerInfoTableDataManager.custKeyList objectAtIndex:indexPath.row]] attributes:underlineAttribute] autorelease];
             aCell.infoValue.textColor = [UIColor blueColor];
             aCell.accessoryType = UITableViewCellAccessoryNone;
-        } else if (indexPath.row == 7 && aCell.infoValue.text != nil && ![aCell.infoValue.text isEqualToString:@""]) {
+        } else if (aCell.infoTitle.text != nil && [aCell.infoTitle.text isEqualToString:self.customerInfoTableDataManager.lastCallLabel] && indexPath.row <= [self.customerInfoTableDataManager.headerItemList count] && aCell.infoValue.text != nil && ![aCell.infoValue.text isEqualToString:@""]) {
             aCell.infoValue.textColor = [UIColor blackColor];
             aCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else {
@@ -404,39 +404,37 @@
         }
         
         //email checking
-        if (indexPath.row == 6) {
-            CustomerInfoCell* aCell = (CustomerInfoCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-            if (aCell.infoValue.text != nil && ![aCell.infoValue.text isEqualToString:@""]) {
-                NSMutableArray* toRecipients = [NSMutableArray arrayWithObjects:aCell.infoValue.text, nil];
-                if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
-                    ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
+        CustomerInfoCell* aCell = (CustomerInfoCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+        if (aCell.infoTitle.text != nil && [aCell.infoTitle.text isEqualToString:self.customerInfoTableDataManager.emailLabel] && aCell.infoValue.text != nil && ![aCell.infoValue.text isEqualToString:@""]) {
+            NSMutableArray* toRecipients = [NSMutableArray arrayWithObjects:aCell.infoValue.text, nil];
+            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+                ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
 //                    amwvc.myDelegate = self;
-                    amwvc.mailDelegate = self;
-                    amwvc.toRecipients = toRecipients;
-                    amwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
-                    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:amwvc] autorelease];
-                    CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.rootView];
-                    self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
-                    [self.rootView addChildViewController:self.globalNavigationController];
-                    [self.rootView.view addSubview:self.globalNavigationController.view];
-                    [self.globalNavigationController didMoveToParentViewController:self.rootView];
-                    [amwvc release];
-                    [UIView animateWithDuration:0.3f animations:^{
-                        self.globalNavigationController.view.frame = parentNavigationRect;
-                    } completion:^(BOOL finished){
-                        
-                    }];
-                    return;
-                }
-                if (![ArcosEmailValidator checkCanSendMailStatus:self]) return;
-                self.mailController = [[[MFMailComposeViewController alloc] init]autorelease]; 
-                self.mailController.mailComposeDelegate = self;
-                
-                [self.mailController setToRecipients:toRecipients];
-                [self.rootView presentViewController:self.mailController animated:YES completion:nil];
-            }            
+                amwvc.mailDelegate = self;
+                amwvc.toRecipients = toRecipients;
+                amwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
+                self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:amwvc] autorelease];
+                CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.rootView];
+                self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+                [self.rootView addChildViewController:self.globalNavigationController];
+                [self.rootView.view addSubview:self.globalNavigationController.view];
+                [self.globalNavigationController didMoveToParentViewController:self.rootView];
+                [amwvc release];
+                [UIView animateWithDuration:0.3f animations:^{
+                    self.globalNavigationController.view.frame = parentNavigationRect;
+                } completion:^(BOOL finished){
+                    
+                }];
+                return;
+            }
+            if (![ArcosEmailValidator checkCanSendMailStatus:self]) return;
+            self.mailController = [[[MFMailComposeViewController alloc] init]autorelease];
+            self.mailController.mailComposeDelegate = self;
+            
+            [self.mailController setToRecipients:toRecipients];
+            [self.rootView presentViewController:self.mailController animated:YES completion:nil];
         }
-        if (indexPath.row == 7 && [self.aCustDict objectForKey:@"LastOrderNumber"] != nil) {//last call
+        if (aCell.infoTitle.text != nil && [aCell.infoTitle.text isEqualToString:self.customerInfoTableDataManager.lastCallLabel] && [self.aCustDict objectForKey:@"LastOrderNumber"] != nil) {//last call
             NSMutableArray* tmpObjectList = [[ArcosCoreData sharedArcosCoreData] lastOrderWithOrderNumber:[self.aCustDict objectForKey:@"LastOrderNumber"]];
             if ([tmpObjectList count] > 0) {
                 NSDictionary* tmpDict = [tmpObjectList objectAtIndex:0];
@@ -517,7 +515,7 @@
     if (aFlag) {
         [self refreshOptionDescriptionProcessor:dict];
     } else {
-        if (needShowDetail) {
+        if (needShowDetail || [[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].myDbName]) {
             [self refreshOptionDescriptionProcessor:dict];
         }
     }
@@ -541,6 +539,10 @@
 //    if (LP01Number != nil) {
 //        [iurList addObject:LP01Number];
 //    }
+    NSNumber* pgiurNumber = [dict objectForKey:@"PGiur"];
+    if (pgiurNumber != nil) {
+        [iurList addObject:pgiurNumber];
+    }
     
     NSMutableArray* descDictList = [[ArcosCoreData sharedArcosCoreData] descriptionWithIURList:iurList];
     NSMutableDictionary* descDictHashMap = [NSMutableDictionary dictionaryWithCapacity:[descDictList count]];
@@ -590,6 +592,18 @@
         }
     }else{
         [self.aCustDict setObject:@"UnAssigned" forKey:self.customerInfoTableDataManager.locationStatusLabel];
+    }
+    
+    if (pgiurNumber != nil) {
+        aDict = [descDictHashMap objectForKey:pgiurNumber];
+        NSString* detail = [aDict objectForKey:@"Detail"];
+        if (detail != nil) {
+            [self.aCustDict setObject:detail forKey:self.customerInfoTableDataManager.priceGroupsLabel];
+        } else {
+            [self.aCustDict setObject:@"UnAssigned" forKey:self.customerInfoTableDataManager.priceGroupsLabel];
+        }
+    } else {
+        [self.aCustDict setObject:@"UnAssigned" forKey:self.customerInfoTableDataManager.priceGroupsLabel];
     }
     
     

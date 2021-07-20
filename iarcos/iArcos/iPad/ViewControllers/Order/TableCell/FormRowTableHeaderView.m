@@ -16,6 +16,8 @@
 @synthesize bonusLabel = _bonusLabel;
 @synthesize discountLabel = _discountLabel;
 @synthesize valueLabel = _valueLabel;
+@synthesize uniLabel = _uniLabel;
+@synthesize udLabel = _udLabel;
 
 - (void)dealloc {
     self.descLabel = nil;
@@ -25,6 +27,8 @@
     self.bonusLabel = nil;
     self.discountLabel = nil;
     self.valueLabel = nil;
+    self.uniLabel = nil;
+    self.udLabel = nil;
     
     [super dealloc];
 }

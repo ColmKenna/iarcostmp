@@ -33,6 +33,7 @@
  PriceDiscountPercent at 08/08/2019
  SamplesAvailable at 25/01/2020
  Testers at 13/03/2020
+ ProductColour at 18/07/2021
  change restore as well
  */
 + (NSMutableDictionary*)createFormRowWithProduct:(NSMutableDictionary*) product {
@@ -51,6 +52,7 @@
     [formRow setObject:[ArcosUtils convertNilToEmpty:[product objectForKey:@"OrderPadDetails"]] forKey:@"OrderPadDetails"];
     [formRow setObject:[ArcosUtils convertNilToEmpty:[ArcosUtils trim:[product objectForKey:@"ProductCode"]]] forKey:@"ProductCode"];
     [formRow setObject:[ArcosUtils convertNilToEmpty:[product objectForKey:@"Productsize"]] forKey:@"ProductSize"];
+    [formRow setObject:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[product objectForKey:@"ProductColour"]]] forKey:@"ProductColour"];
     [formRow setObject:[product objectForKey:@"ImageIUR"] forKey:@"ImageIUR"];
     //add BonusGiven BonusRequired SellBy at 07/01/2015
     [formRow setObject:[product objectForKey:@"BonusGiven"] forKey:@"BonusGiven"];
@@ -139,6 +141,8 @@
     [formRow setObject:[anOrderLine objectForKey:@"OrderPadDetails"] forKey:@"OrderPadDetails"];
     [formRow setObject:[anOrderLine objectForKey:@"ProductCode"] forKey:@"ProductCode"];
     [formRow setObject:[anOrderLine objectForKey:@"ProductSize"]  forKey:@"ProductSize"];
+    [formRow setObject:[anOrderLine objectForKey:@"ProductColour"]  forKey:@"ProductColour"];
+    
     [formRow setObject:[anOrderLine objectForKey:@"BonusGiven"]  forKey:@"BonusGiven"];
     [formRow setObject:[anOrderLine objectForKey:@"BonusRequired"] forKey:@"BonusRequired"];
     [formRow setObject:[anOrderLine objectForKey:@"SellBy"] forKey:@"SellBy"];
@@ -172,6 +176,7 @@
     [formRow setObject:blankString forKey:@"OrderPadDetails"];
     [formRow setObject:blankString forKey:@"ProductCode"];
     [formRow setObject:blankString forKey:@"ProductSize"];
+    [formRow setObject:blankString forKey:@"ProductColour"];
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"ImageIUR"];
     //add BonusGiven BonusRequired SellBy at 07/01/2015
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"BonusGiven"];
@@ -261,9 +266,10 @@
 + (NSMutableDictionary*)createStandardOrderLine:(NSMutableDictionary*)tempDict product:(NSDictionary*)aProduct {
     if (aProduct!=nil) {        
         [tempDict setObject:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"Description"]] forKey:@"Description"];
-        [tempDict setObject:[ArcosUtils convertNilToEmpty:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"OrderPadDetails"]]] forKey:@"OrderPadDetails"];
-        [tempDict setObject:[ArcosUtils convertNilToEmpty:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"ProductCode"]]] forKey:@"ProductCode"];
-        [tempDict setObject:[ArcosUtils convertNilToEmpty:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"Productsize"]]] forKey:@"ProductSize"];
+        [tempDict setObject:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"OrderPadDetails"]] forKey:@"OrderPadDetails"];
+        [tempDict setObject:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"ProductCode"]]] forKey:@"ProductCode"];
+        [tempDict setObject:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"Productsize"]] forKey:@"ProductSize"];
+        [tempDict setObject:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"ProductColour"]]] forKey:@"ProductColour"];
         [tempDict setObject:[ArcosUtils convertNilToEmpty:[aProduct objectForKey:@"Description"]] forKey:@"Details"];
         [tempDict setObject:[aProduct objectForKey:@"UnitsPerPack"] forKey:@"UnitsPerPack"];
         [tempDict setObject:[aProduct objectForKey:@"Bonusby"] forKey:@"Bonusby"];
@@ -296,6 +302,7 @@
         [tempDict setObject:@"" forKey:@"OrderPadDetails"];
         [tempDict setObject:@"" forKey:@"ProductCode"];
         [tempDict setObject:@"" forKey:@"ProductSize"];
+        [tempDict setObject:@"" forKey:@"ProductColour"];
         //            NSLog(@"aProduct.UnitsPerPack not: %@",aProduct.UnitsPerPack);
         [tempDict setObject:[NSNumber numberWithInt:0] forKey:@"UnitsPerPack"];
         //            NSLog(@"product not found for order line %@",aProduct.Description);

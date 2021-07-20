@@ -29,6 +29,8 @@
 @synthesize productSize;
 @synthesize cellDelegate = _cellDelegate;
 @synthesize cellData = _cellData;
+@synthesize uniLabel = _uniLabel;
+@synthesize udLabel = _udLabel;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -102,6 +104,8 @@
     if (self.productCode != nil) { self.productCode = nil; }
     if (self.productSize != nil) { self.productSize = nil; }
     if (self.cellData != nil) { self.cellData = nil; }
+    self.uniLabel = nil;
+    self.udLabel = nil;
             
     [super dealloc];
 }

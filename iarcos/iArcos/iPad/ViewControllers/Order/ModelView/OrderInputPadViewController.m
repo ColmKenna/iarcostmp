@@ -112,6 +112,7 @@
 @synthesize bottomDivider = _bottomDivider;
 @synthesize bonusDealContentInterpreter = _bonusDealContentInterpreter;
 @synthesize relatedFormDetailDict = _relatedFormDetailDict;
+@synthesize arcosMyResult = _arcosMyResult;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -219,6 +220,7 @@
     self.bottomDivider = nil;
     self.bonusDealContentInterpreter = nil;
     self.relatedFormDetailDict = nil;
+    self.arcosMyResult = nil;
     
     [super dealloc];
 }
@@ -340,6 +342,15 @@
     }
     self.DiscountField.text=[[[self.Data objectForKey:@"DiscountPercent"]stringValue]stringByAppendingString:@"%"];
     self.bar.topItem.title=[self.Data objectForKey:@"Details"];
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.relatedFormDetailDict objectForKey:@"Details"]];
+    if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].myDbName] && [orderFormDetails containsString:@"[NB]"]) {
+        if ([self.QTYField.text isEqualToString:@"0"]) {
+            self.DiscountField.text=@"0%";
+        }
+        self.arcosMyResult = [[[ArcosMyResult alloc] init] autorelease];
+        [self.arcosMyResult processRawData:[self.Data objectForKey:@"ProductColour"]];
+        self.bar.topItem.title = [NSString stringWithFormat:@"%@ [%@:%@]", [self.Data objectForKey:@"Details"], [NSString stringWithFormat:@"%d", self.arcosMyResult.uni], [NSString stringWithFormat:@"%d", self.arcosMyResult.ud]];
+    }
     self.productName.text=[self.Data objectForKey:@"Details"];
     self.unitPriceField.text=[NSString stringWithFormat:@"%1.2f",[[self.Data objectForKey:@"UnitPrice"]floatValue]];
     if ([[self.Data objectForKey:@"PriceFlag"] intValue] == 1) {
@@ -460,12 +471,12 @@
         self.instockRBTextField.hidden = YES;
         self.priceChangeButton.hidden = YES;
     }
-    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.relatedFormDetailDict objectForKey:@"Details"]];
+//    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.relatedFormDetailDict objectForKey:@"Details"]];
     if ([orderFormDetails containsString:@"[NB]"]) {
-        [self enableBonusFocWithFlag:NO];
+        [self showBonusFocWithFlag:NO];
     }
     if ([orderFormDetails containsString:@"[ND]"]) {
-        self.DiscountField.enabled = NO;
+        [self showDiscountWithFlag:NO];
     }
     
     [self checkQtyByBonusDeal];
@@ -918,6 +929,13 @@
     if ([ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag) {
         inStock = [NSNumber numberWithInt:[self.instockRBTextField.text intValue]];
     }
+    if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].myDbName] && [orderFormDetails containsString:@"[NB]"]) {
+        int maxDisc = self.arcosMyResult.uni > self.arcosMyResult.ud ? self.arcosMyResult.uni : self.arcosMyResult.ud;
+        if ([discount floatValue] > maxDisc) {
+            [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Discount cannot exceed %d%%", maxDisc] title:@"" delegate:nil target:self tag:0 handler:nil];
+            return;
+        }
+    }
     
     //[self.delegate orderInputDone:values];
     
@@ -1161,6 +1179,15 @@
 - (void)enableBonusFocWithFlag:(BOOL)aFlag {
     self.BonusField.enabled = aFlag;
     self.FOCField.enabled = aFlag;
+}
+- (void)showBonusFocWithFlag:(BOOL)aFlag {
+    self.BonusLabel.hidden = !aFlag;
+    self.BonusField.hidden = !aFlag;
+    self.FOCField.hidden = !aFlag;
+}
+- (void)showDiscountWithFlag:(BOOL)aFlag {
+    self.DiscountLabel.hidden = !aFlag;
+    self.DiscountField.hidden = !aFlag;
 }
 - (void)showBonusFocusCheckMinimumMsg:(int)aBonusValue {
     [ArcosUtils showMsg:[NSString stringWithFormat:@"Bonus is restricted to %d for %d\n Minimum order qty of %d\nBonus allowed %d", [[self.Data objectForKey:@"BonusGiven"] intValue], [[self.Data objectForKey:@"BonusRequired"] intValue], [[self.Data objectForKey:@"BonusMinimum"] intValue], aBonusValue] delegate:nil];

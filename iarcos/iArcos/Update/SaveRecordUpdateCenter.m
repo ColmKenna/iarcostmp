@@ -28,7 +28,7 @@
     self = [super initWithRecordList:aRecordList batchedNumber:aBatchedNumber batchedSize:aBatchedSize];
     if (self != nil) {
         self.recordList = aRecordList;
-        self.expectedFieldCount = 38;
+        self.expectedFieldCount = 39;
     }
     return self;
 }

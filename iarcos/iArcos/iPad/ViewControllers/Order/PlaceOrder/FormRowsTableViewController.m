@@ -195,8 +195,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.formRowsTableDataManager.currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.formRowsTableDataManager.currentFormDetailDict objectForKey:@"Details"]];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag]) {
         self.formRowTableCellGeneratorDelegate = [[[FormRowTableCellRrpGenerator alloc] init] autorelease];
+    } else if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].myDbName] && [orderFormDetails containsString:@"[NB]"]) {
+        self.formRowTableCellGeneratorDelegate = [[[FormRowTableCellMyGenerator alloc] init] autorelease];
     } else {
         self.formRowTableCellGeneratorDelegate = [[[FormRowTableCellNormalGenerator alloc] init] autorelease];
     }
@@ -491,6 +495,11 @@
     }else{
         cell.discount.text=@"";
     }
+    ArcosMyResult* arcosMyResult = [[ArcosMyResult alloc] init];
+    [arcosMyResult processRawData:[cellData objectForKey:@"ProductColour"]];
+    cell.uniLabel.text = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", arcosMyResult.uni]];
+    cell.udLabel.text = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", arcosMyResult.ud]];
+    [arcosMyResult release];
 //    [cell setSelectStatus:[[cellData objectForKey:@"IsSelected"]boolValue]];
     [cell configBackgroundColour:[[cellData objectForKey:@"IsSelected"]boolValue]];
     
@@ -1194,7 +1203,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
         oipvc.Data=aCell.data;
 //        oipvc.showSeparator = showSeparator;
-        oipvc.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
+        oipvc.relatedFormDetailDict = self.formRowsTableDataManager.currentFormDetailDict;
+//        [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
         ArcosErrorResult* arcosErrorResult = [oipvc productCheckProcedure];
         if (!arcosErrorResult.successFlag) {
             [ArcosUtils showDialogBox:arcosErrorResult.errorDesc title:@"" delegate:nil target:self tag:0 handler:nil];
