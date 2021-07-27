@@ -220,6 +220,15 @@
 
 - (void)inputFinishedWithTitleKey:(NSString *)aTitleKey data:(id)aData {
     [self.orderHeader setObject:aData forKey:aTitleKey];
+    if ([aTitleKey isEqualToString:@"wholesalerText"]) {
+        NSMutableDictionary* acctNoDict = [NSMutableDictionary dictionaryWithCapacity:2];
+        [acctNoDict setObject:@"" forKey:@"acctNo"];
+        [acctNoDict setObject:@"" forKey:@"Title"];
+        [self.orderHeader setObject:acctNoDict forKey:@"acctNo"];
+        [self.orderHeader setObject:@"Touch to pick an account no." forKey:@"acctNoText"];
+        [self createBasicDataWithOrderHeader:self.orderHeader];
+        [self.tableView reloadData];
+    }
 }
 
 - (void)inputFinishedWithData:(id)data forIndexPath:(NSIndexPath *)anIndexPath index:(NSNumber *)anIndex {

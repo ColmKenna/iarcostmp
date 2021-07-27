@@ -237,15 +237,19 @@
         }
         NSNumber* wholesalerIUR = [[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"wholesaler"] objectForKey:@"LocationIUR"];
         NSString* wholesalerLocationCode = @"";
+        NSString* wholesalerLocationName = @"";
+        NSNumber* wholesalerCompetitor3 = [NSNumber numberWithInt:0];
         NSMutableArray* fromLocationList = [[ArcosCoreData sharedArcosCoreData] locationWithIURWithoutCheck:wholesalerIUR];
         if ([fromLocationList count] > 0) {
             NSDictionary* fromLocationDict = [fromLocationList objectAtIndex:0];
             wholesalerLocationCode = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[fromLocationDict objectForKey:@"LocationCode"]]];
+            wholesalerLocationName = [[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[fromLocationDict objectForKey:@"Name"]]] lowercaseString];
+            wholesalerCompetitor3 = [ArcosUtils convertNilToZero:[fromLocationDict objectForKey:@"Competitor3"]];
         }
-        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] checkAccountNumberFlag] && ([wholesalerLocationCode isEqualToString:@"540"] || [wholesalerLocationCode isEqualToString:@"541"] || [wholesalerLocationCode isEqualToString:@"560"])) {
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] checkAccountNumberFlag] && [wholesalerCompetitor3 intValue] == 1) {
             NSMutableDictionary* acctNoDict = [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"acctNo"];
             NSString* acctNoContent = [ArcosUtils trim:[acctNoDict objectForKey:@"acctNo"]];            
-            if (![ArcosValidator isSevenDigitNumberBeginWithFive:acctNoContent]) {
+            if ([acctNoContent isEqualToString:@""]) {
                 NSString* acctNoMsg = @"";
                 NSMutableArray* descrDetailDictList = [self.nextCheckoutDataManager descrDetailAllFieldsWithDescrTypeCode:@"IO" hasDescrDetailCode:@"39"];
                 if ([descrDetailDictList count] > 0) {

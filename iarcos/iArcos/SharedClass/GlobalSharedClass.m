@@ -119,6 +119,7 @@ static GlobalSharedClass* _shared = nil;
 @synthesize mandatoryLevel = _mandatoryLevel;
 @synthesize remindLevel = _remindLevel;
 @synthesize myDbName = _myDbName;
+@synthesize acctNoCompany = _acctNoCompany;
 
 +(GlobalSharedClass*)shared 
 {
@@ -243,6 +244,7 @@ static GlobalSharedClass* _shared = nil;
         self.mandatoryLevel = 80;
         self.remindLevel = 70;
         self.myDbName = @"MY10";
+        self.acctNoCompany = @"uniphar";
 	}
     
 	return self;
@@ -580,6 +582,7 @@ CGFloat RadiansToDegrees(CGFloat radians)
     self.pxDbName = nil;
     self.startRecordingDate = nil;
     self.myDbName = nil;
+    self.acctNoCompany = nil;
     
     [super dealloc];
 }

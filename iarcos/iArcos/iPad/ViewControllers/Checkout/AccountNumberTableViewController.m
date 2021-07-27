@@ -19,6 +19,7 @@
 @synthesize locationIUR = _locationIUR;
 @synthesize fromLocationIUR = _fromLocationIUR;
 @synthesize wholesalerLocationCode = _wholesalerLocationCode;
+@synthesize wholesalerLocationName = _wholesalerLocationName;
 
 - (void)viewDidLoad
 {
@@ -40,10 +41,12 @@
     [dataDict setObject:@"" forKey:@"fieldValue"];
     [self.displayList addObject:dataDict];
     self.wholesalerLocationCode = @"";
+    self.wholesalerLocationName = @"";
     NSMutableArray* fromLocationList = [[ArcosCoreData sharedArcosCoreData] locationWithIURWithoutCheck:self.fromLocationIUR];
     if ([fromLocationList count] > 0) {
         NSDictionary* fromLocationDict = [fromLocationList objectAtIndex:0];
         self.wholesalerLocationCode = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[fromLocationDict objectForKey:@"LocationCode"]]];
+        self.wholesalerLocationName = [[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[fromLocationDict objectForKey:@"Name"]]] lowercaseString];
     }
 }
 
@@ -52,6 +55,7 @@
     self.locationIUR = nil;
     self.fromLocationIUR = nil;
     self.wholesalerLocationCode = nil;
+    self.wholesalerLocationName = nil;
     
     [super dealloc];
 }
@@ -83,7 +87,7 @@
         }];
         return;
     }
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] checkAccountNumberFlag] && ([self.wholesalerLocationCode isEqualToString:@"540"] || [self.wholesalerLocationCode isEqualToString:@"541"] || [self.wholesalerLocationCode isEqualToString:@"560"])) {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] checkAccountNumberFlag] && ([self.wholesalerLocationCode isEqualToString:@"540"] || [self.wholesalerLocationCode isEqualToString:@"541"] || [self.wholesalerLocationCode isEqualToString:@"560"] || [self.wholesalerLocationName containsString:[GlobalSharedClass shared].acctNoCompany])) {
         if (![ArcosValidator isSevenDigitNumberBeginWithFive:fieldValue]) {
             [ArcosUtils showDialogBox:@"Account No. should be a seven digits number and begin with a five" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
                 
