@@ -11,12 +11,14 @@
 #import "ArcosValidator.h"
 
 @interface ArcosMyResult : NSObject {
-    int _uni;
-    int _ud;
+//    int _uni;
+//    int _ud;
+    NSNumber* _max;
 }
 
-@property(nonatomic, assign) int uni;
-@property(nonatomic, assign) int ud;
+//@property(nonatomic, assign) int uni;
+//@property(nonatomic, assign) int ud;
+@property(nonatomic, retain) NSNumber* max;
 
 - (void)processRawData:(NSString*)aProductColour;
 

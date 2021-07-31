@@ -29,8 +29,9 @@
 @synthesize productSize;
 @synthesize cellDelegate = _cellDelegate;
 @synthesize cellData = _cellData;
-@synthesize uniLabel = _uniLabel;
-@synthesize udLabel = _udLabel;
+//@synthesize uniLabel = _uniLabel;
+//@synthesize udLabel = _udLabel;
+@synthesize maxLabel = _maxLabel;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -104,8 +105,9 @@
     if (self.productCode != nil) { self.productCode = nil; }
     if (self.productSize != nil) { self.productSize = nil; }
     if (self.cellData != nil) { self.cellData = nil; }
-    self.uniLabel = nil;
-    self.udLabel = nil;
+//    self.uniLabel = nil;
+//    self.udLabel = nil;
+    self.maxLabel = nil;
             
     [super dealloc];
 }

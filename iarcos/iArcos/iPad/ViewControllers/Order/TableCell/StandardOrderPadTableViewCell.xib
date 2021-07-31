@@ -281,15 +281,8 @@
                         <color key="textColor" systemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WdB-87-Pot" customClass="LeftBorderUILabel">
-                        <rect key="frame" x="391" y="0.0" width="32" height="44"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
-                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="88" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RHx-Z0-q2j" customClass="LeftBorderUILabel">
-                        <rect key="frame" x="423" y="0.0" width="32" height="44"/>
+                        <rect key="frame" x="391" y="0.0" width="64" height="44"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                         <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -325,6 +318,7 @@
                 <outlet property="bonus" destination="qZf-0E-fMx" id="OyJ-cb-JbT"/>
                 <outlet property="description" destination="d61-fN-iaI" id="dT9-pl-8c0"/>
                 <outlet property="discount" destination="vS2-UZ-buw" id="wpe-df-Fw7"/>
+                <outlet property="maxLabel" destination="RHx-Z0-q2j" id="4m2-DQ-5JI"/>
                 <outlet property="orderPadDetails" destination="BWd-HT-sDo" id="yiO-9Q-d3V"/>
                 <outlet property="price" destination="Ohl-pu-I9O" id="fXh-6r-gZF"/>
                 <outlet property="productCode" destination="h12-Eb-KB1" id="Seu-CJ-lSp"/>
@@ -332,8 +326,6 @@
                 <outlet property="productSize" destination="c2m-lC-JPN" id="9cr-dp-Fve"/>
                 <outlet property="qty" destination="L6L-I4-lfu" id="UFu-NA-tq3"/>
                 <outlet property="selectIndicator" destination="gQ1-H8-gNw" id="on0-Sg-6D2"/>
-                <outlet property="udLabel" destination="RHx-Z0-q2j" id="qNt-nL-rKi"/>
-                <outlet property="uniLabel" destination="WdB-87-Pot" id="fqT-tb-yz0"/>
                 <outlet property="value" destination="5Fo-fI-uc3" id="9XV-hU-3Oh"/>
             </connections>
             <point key="canvasLocation" x="74" y="292"/>
@@ -349,15 +341,8 @@
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="UNI" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DjR-uI-ME7" customClass="LeftBorderUILabel">
-                    <rect key="frame" x="391" y="0.0" width="32" height="44"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
-                    <fontDescription key="fontDescription" name="Futura-CondensedMedium" family="Futura" pointSize="17"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="UD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5GZ-gK-I6W" customClass="LeftBorderUILabel">
-                    <rect key="frame" x="423" y="0.0" width="32" height="44"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="MAX" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5GZ-gK-I6W" customClass="LeftBorderUILabel">
+                    <rect key="frame" x="391" y="0.0" width="64" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                     <fontDescription key="fontDescription" name="Futura-CondensedMedium" family="Futura" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -406,10 +391,9 @@
                 <outlet property="bonusLabel" destination="dvx-91-IbY" id="2JK-9q-0OZ"/>
                 <outlet property="descLabel" destination="wMZ-ql-zxJ" id="WNn-On-bF4"/>
                 <outlet property="discountLabel" destination="wzN-3X-J7N" id="A9o-0E-YNj"/>
+                <outlet property="maxLabel" destination="5GZ-gK-I6W" id="0vy-LW-gIC"/>
                 <outlet property="priceLabel" destination="2DB-W4-Xia" id="e5g-KD-rPQ"/>
                 <outlet property="qtyLabel" destination="kbf-qL-sh8" id="nkj-ks-rwk"/>
-                <outlet property="udLabel" destination="5GZ-gK-I6W" id="1TV-gm-CeF"/>
-                <outlet property="uniLabel" destination="DjR-uI-ME7" id="Ybz-7f-3Mi"/>
                 <outlet property="valueLabel" destination="YDw-RX-4sq" id="3cA-Jt-qQ6"/>
             </connections>
             <point key="canvasLocation" x="74" y="390"/>

@@ -37,8 +37,9 @@
     UILabel* productSize;
     id<OrderProductTableCellDelegate> _cellDelegate;
     NSMutableDictionary* _cellData;
-    UILabel* _uniLabel;
-    UILabel* _udLabel;
+//    UILabel* _uniLabel;
+//    UILabel* _udLabel;
+    UILabel* _maxLabel;
 }
 
 @property (nonatomic,retain) IBOutlet UIImageView* productImageView;
@@ -58,8 +59,9 @@
 @property (nonatomic,retain) IBOutlet UILabel* productSize;
 @property (nonatomic,assign) id<OrderProductTableCellDelegate> cellDelegate;
 @property (nonatomic,retain) NSMutableDictionary* cellData;
-@property (nonatomic,retain) IBOutlet UILabel* uniLabel;
-@property (nonatomic,retain) IBOutlet UILabel* udLabel;
+//@property (nonatomic,retain) IBOutlet UILabel* uniLabel;
+//@property (nonatomic,retain) IBOutlet UILabel* udLabel;
+@property (nonatomic,retain) IBOutlet UILabel* maxLabel;
 
 -(void)needEditButton:(BOOL)need;
 

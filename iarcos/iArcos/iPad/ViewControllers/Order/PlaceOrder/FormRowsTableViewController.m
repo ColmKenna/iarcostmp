@@ -497,8 +497,8 @@
     }
     ArcosMyResult* arcosMyResult = [[ArcosMyResult alloc] init];
     [arcosMyResult processRawData:[cellData objectForKey:@"ProductColour"]];
-    cell.uniLabel.text = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", arcosMyResult.uni]];
-    cell.udLabel.text = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", arcosMyResult.ud]];
+//    cell.uniLabel.text = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", arcosMyResult.uni]];
+    cell.maxLabel.text = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%.2f", [arcosMyResult.max floatValue]]];
     [arcosMyResult release];
 //    [cell setSelectStatus:[[cellData objectForKey:@"IsSelected"]boolValue]];
     [cell configBackgroundColour:[[cellData objectForKey:@"IsSelected"]boolValue]];

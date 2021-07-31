@@ -349,7 +349,7 @@
         }
         self.arcosMyResult = [[[ArcosMyResult alloc] init] autorelease];
         [self.arcosMyResult processRawData:[self.Data objectForKey:@"ProductColour"]];
-        self.bar.topItem.title = [NSString stringWithFormat:@"%@ [%@:%@]", [self.Data objectForKey:@"Details"], [NSString stringWithFormat:@"%d", self.arcosMyResult.uni], [NSString stringWithFormat:@"%d", self.arcosMyResult.ud]];
+        self.bar.topItem.title = [NSString stringWithFormat:@"%@ [Max:%@]", [self.Data objectForKey:@"Details"], [NSString stringWithFormat:@"%.2f", [self.arcosMyResult.max floatValue]]];
     }
     self.productName.text=[self.Data objectForKey:@"Details"];
     self.unitPriceField.text=[NSString stringWithFormat:@"%1.2f",[[self.Data objectForKey:@"UnitPrice"]floatValue]];
@@ -930,9 +930,10 @@
         inStock = [NSNumber numberWithInt:[self.instockRBTextField.text intValue]];
     }
     if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].myDbName] && [orderFormDetails containsString:@"[NB]"]) {
-        int maxDisc = self.arcosMyResult.uni > self.arcosMyResult.ud ? self.arcosMyResult.uni : self.arcosMyResult.ud;
-        if ([discount floatValue] > maxDisc) {
-            [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Discount cannot exceed %d%%", maxDisc] title:@"" delegate:nil target:self tag:0 handler:nil];
+//        float maxDisc = self.arcosMyResult.max;
+//        self.arcosMyResult.uni > self.arcosMyResult.ud ? self.arcosMyResult.uni : self.arcosMyResult.ud;
+        if ([discount compare:self.arcosMyResult.max] == NSOrderedDescending) {
+            [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Discount cannot exceed %.2f%%", [self.arcosMyResult.max floatValue]] title:@"" delegate:nil target:self tag:0 handler:nil];
             return;
         }
     }

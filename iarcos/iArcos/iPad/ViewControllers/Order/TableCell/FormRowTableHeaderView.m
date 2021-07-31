@@ -16,8 +16,9 @@
 @synthesize bonusLabel = _bonusLabel;
 @synthesize discountLabel = _discountLabel;
 @synthesize valueLabel = _valueLabel;
-@synthesize uniLabel = _uniLabel;
-@synthesize udLabel = _udLabel;
+//@synthesize uniLabel = _uniLabel;
+//@synthesize udLabel = _udLabel;
+@synthesize maxLabel = _maxLabel;
 
 - (void)dealloc {
     self.descLabel = nil;
@@ -27,8 +28,9 @@
     self.bonusLabel = nil;
     self.discountLabel = nil;
     self.valueLabel = nil;
-    self.uniLabel = nil;
-    self.udLabel = nil;
+//    self.uniLabel = nil;
+//    self.udLabel = nil;
+    self.maxLabel = nil;
     
     [super dealloc];
 }
