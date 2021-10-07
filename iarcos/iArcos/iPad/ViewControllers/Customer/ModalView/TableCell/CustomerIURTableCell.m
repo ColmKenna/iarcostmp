@@ -74,7 +74,12 @@
     self.contentString.backgroundColor = [UIColor clearColor];
     if ([securityLevel intValue] == [GlobalSharedClass shared].blockedLevel) {
         self.contentString.enabled = NO;
-        self.contentString.textColor = [UIColor lightGrayColor];
+        if ([[self.delegate retrieveParentActionType] isEqualToString:@"create"]) {
+            self.contentString.backgroundColor = [UIColor lightGrayColor];
+        } else {
+            self.contentString.textColor = [UIColor lightGrayColor];
+        }
+        
     } else if ([securityLevel intValue] == [GlobalSharedClass shared].mandatoryLevel) {
         [self configRedAsterix];
     } else if ([securityLevel intValue] == [GlobalSharedClass shared].remindLevel) {

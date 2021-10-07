@@ -18,11 +18,27 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 //    NSLog(@"%@", [self applicationDocumentsDirectory]);
-    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.0 green:150.0/255.0 blue:214.0/255.0 alpha:1.0]];
-    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil]];
-    [[UITableViewHeaderFooterView appearance] setTintColor:[UIColor colorWithRed:0.0 green:132.0/255.0 blue:254.0/255.0 alpha:1.0]];
+    if (@available(iOS 15.0, *)) {
+        UINavigationBarAppearance* customNavigationBarAppearance = [[UINavigationBarAppearance alloc] init];
+        [customNavigationBarAppearance configureWithOpaqueBackground];
+        [customNavigationBarAppearance setBackgroundColor:[UIColor colorWithRed:0.0 green:150.0/255.0 blue:214.0/255.0 alpha:1.0]];
+        [customNavigationBarAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil]];
+        [UINavigationBar appearance].standardAppearance = customNavigationBarAppearance;
+        [UINavigationBar appearance].scrollEdgeAppearance = customNavigationBarAppearance;
+        [customNavigationBarAppearance release];
+        
+        [[UITableViewHeaderFooterView appearance] setTintColor:[UIColor colorWithRed:0.0 green:132.0/255.0 blue:254.0/255.0 alpha:1.0]];
+        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [[UITableView appearance] setSectionHeaderTopPadding:0.0];
+    } else {
+        // Fallback on earlier versions
+        [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.0 green:150.0/255.0 blue:214.0/255.0 alpha:1.0]];
+        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil]];
+        [[UITableViewHeaderFooterView appearance] setTintColor:[UIColor colorWithRed:0.0 green:132.0/255.0 blue:254.0/255.0 alpha:1.0]];
+    }
 //    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTintColor:[UIColor whiteColor]];
     [self.window makeKeyAndVisible];
     return YES;

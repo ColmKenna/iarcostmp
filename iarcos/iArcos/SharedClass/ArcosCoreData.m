@@ -3238,7 +3238,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     for (NSDictionary* aDict in objectsArray) {
         NSMutableDictionary* newDict=[NSMutableDictionary dictionaryWithDictionary:aDict];
         [newDict setObject:[aDict objectForKey:@"IUR"] forKey:@"DescrDetailIUR"];
-        [newDict setObject:[aDict objectForKey:@"Details"] forKey:@"Detail"];
+        [newDict setObject:[ArcosUtils convertNilToEmpty:[aDict objectForKey:@"Details"]] forKey:@"Detail"];
         
         if ([aDict objectForKey:@"Details"]==nil) {
             [newDict setObject:@"Not Defined" forKey:@"Title"];
@@ -3672,7 +3672,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
                                 insertNewObjectForEntityForName:@"FormDetail" 
                                 inManagedObjectContext:context];
     FormDetail.IUR  =   [NSNumber numberWithInt:anObject.iur];
-    FormDetail.Details  =   anObject.Details;
+    FormDetail.Details  =   [ArcosUtils convertNilToEmpty:anObject.Details];
     FormDetail.FormType  =   anObject.Type;
     FormDetail.DefaultDeliveryDate  =   anObject.DefaultDeliveryDate;
     FormDetail.Active=[NSNumber numberWithBool: anObject.Active];

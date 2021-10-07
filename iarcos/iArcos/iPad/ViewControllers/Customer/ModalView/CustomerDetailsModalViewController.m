@@ -479,6 +479,10 @@
 - (NSString*)retrieveDescrDetailCodeWithDescrTypeCode:(NSString*)aDescrTypeCode {
     return [customerTypesDataManager retrieveDescrDetailCodeWithDescrTypeCode:aDescrTypeCode];
 }
+
+- (NSString*)retrieveParentActionType {
+    return self.actionType;
+}
  
 #pragma mark - GetDataGenericDelegate
 -(void)setGetRecordResult:(ArcosGenericReturnObject*) result {

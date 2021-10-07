@@ -24,6 +24,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self != nil) {
         self.formRowsTableViewController = [[[FormRowsTableViewController alloc] initWithNibName:@"FormRowsTableViewController" bundle:nil] autorelease];
+        self.formRowsTableViewController.isStandardOrderPadFlag = YES;
         self.formRowsTableViewController.actionDelegate = self;
         self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.formRowsTableViewController] autorelease];
         self.layoutDict = @{@"AuxFormRows" : self.globalNavigationController.view};

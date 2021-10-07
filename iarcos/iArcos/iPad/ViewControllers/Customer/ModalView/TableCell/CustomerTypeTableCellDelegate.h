@@ -14,5 +14,6 @@
 @optional
 -(NSString*)getFieldNameWithIndexPath:(NSIndexPath*)theIndexpath;
 - (NSString*)retrieveDescrDetailCodeWithDescrTypeCode:(NSString*)aDescrTypeCode;
+- (NSString*)retrieveParentActionType;
 
 @end

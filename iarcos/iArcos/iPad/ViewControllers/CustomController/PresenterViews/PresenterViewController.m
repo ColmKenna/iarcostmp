@@ -397,6 +397,10 @@
             for (int i = 0; i < [auxFormRowList count]; i++) {
                 NSMutableDictionary* auxFormRow = [auxFormRowList objectAtIndex:i];
                 NSNumber* auxProductIUR = [auxFormRow objectForKey:@"ProductIUR"];
+                if ([auxProductIUR intValue] == 0 || [auxProductIUR intValue] == -1) {
+                    [unsortFormRows addObject:auxFormRow];
+                    continue;
+                }
                 BOOL isProductInCurrentForm = [self isProductInFormRowWithFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR productIUR:auxProductIUR];
                 if (isProductInCurrentForm) {
                     [unsortFormRows addObject:auxFormRow];
@@ -498,7 +502,8 @@
 }
 
 - (NSMutableArray*)retrieveFormRowList:(NSNumber*)aSequenceDivider {//[NSNumber numberWithInt:-1]
-    NSMutableArray* auxUnsortFormRows = [[ArcosCoreData sharedArcosCoreData] formRowWithDividerIURSortByNatureOrder:aSequenceDivider withFormIUR:[self.currentFile objectForKey:@"FormIUR"] locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+//    NSMutableArray* auxUnsortFormRows = [[ArcosCoreData sharedArcosCoreData] formRowWithDividerIURSortByNatureOrder:aSequenceDivider withFormIUR:[self.currentFile objectForKey:@"FormIUR"] locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+    NSMutableArray* auxUnsortFormRows = [[ArcosCoreData sharedArcosCoreData] dividerFormRowsWithDividerIUR:aSequenceDivider formIUR:[self.currentFile objectForKey:@"FormIUR"] locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
     for (int i = 0; i < [auxUnsortFormRows count]; i++) {
         NSMutableDictionary* formRow = [auxUnsortFormRows objectAtIndex:i];
         formRow = [[OrderSharedClass sharedOrderSharedClass]syncRowWithCurrentCart:formRow];

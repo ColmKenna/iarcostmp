@@ -155,6 +155,14 @@
         [checkoutButton release];
         [self.navigationController.navigationBar setBarTintColor:[UIColor greenColor]];
         self.tableView.tableHeaderView = nil;
+        if (@available(iOS 15.0, *)) {
+            UINavigationBarAppearance* customNavigationBarAppearance = [[UINavigationBarAppearance alloc] init];
+            [customNavigationBarAppearance configureWithOpaqueBackground];
+            [customNavigationBarAppearance setBackgroundColor:[UIColor greenColor]];
+            self.navigationController.navigationBar.standardAppearance = customNavigationBarAppearance;
+            self.navigationController.navigationBar.scrollEdgeAppearance = customNavigationBarAppearance;
+            [customNavigationBarAppearance release];            
+        }
     } else {
 //        NSLog(@"setNavigationBarHidden");
         self.navigationController.navigationBarHidden = YES;
