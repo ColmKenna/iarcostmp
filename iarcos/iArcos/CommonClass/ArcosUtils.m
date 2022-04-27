@@ -143,6 +143,10 @@
     return [NSString stringWithFormat:@"%d", [aNumber intValue]];
 }
 
++ (NSObject*)convertNilDateToNull:(NSDate*)aDate {
+    return (aDate == nil) ? [NSNull null] : aDate;
+}
+
 + (void)showMsg:(NSString*)message delegate:(id)delegate {
     UIAlertView *v = [[UIAlertView alloc] initWithTitle: @"" message: message delegate: delegate cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
     [v show];
@@ -267,6 +271,9 @@
 
 + (NSDate*)sundayOfWeek:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* weekdayComponents = [gregorian components:NSCalendarUnitWeekday fromDate:aDate];
     NSDateComponents* componentsToAdd = [[[NSDateComponents alloc] init] autorelease];
     NSInteger weekday = [weekdayComponents weekday];
@@ -279,7 +286,10 @@
 }
 
 + (NSDate*)prevSunday:(NSDate*)aCurrentSundayDate {
-    NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];    
+    NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* componentsToAdd = [[[NSDateComponents alloc] init] autorelease];
     int numOfdays = -7;
     [componentsToAdd setDay:numOfdays];
@@ -289,6 +299,9 @@
 
 + (NSDate*)nextSunday:(NSDate*)aCurrentSundayDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* componentsToAdd = [[[NSDateComponents alloc] init] autorelease];
     int numOfdays = 7;
     [componentsToAdd setDay:numOfdays];
@@ -367,6 +380,9 @@
     }
 //    NSLog(@"aDayOfWeekend is %d", [ArcosUtils convertNSIntegerToInt:aDayOfWeekend]);
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* weekdayComponents = [gregorian components:NSCalendarUnitWeekday fromDate:aDate];
     NSDateComponents* componentsToAdd = [[[NSDateComponents alloc] init] autorelease];
     //in order to sync with the number in the sql server
@@ -384,6 +400,9 @@
 
 + (NSDate*)beginOfWeek:(NSDate*)aCurrentSundayDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* componentsToAdd = [[[NSDateComponents alloc] init] autorelease];
     int numOfdays = -6;
     [componentsToAdd setDay:numOfdays];
@@ -393,6 +412,9 @@
 
 + (NSDate*)dateWithBeginOfWeek:(NSDate*)aBeginOfWeekDate interval:(NSInteger)anInterval {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* componentsToAdd = [[[NSDateComponents alloc] init] autorelease];
 //    int numOfdays = 7;
     [componentsToAdd setDay:anInterval];
@@ -402,6 +424,9 @@
 
 + (NSDate*)beginDayOfMonth:(NSInteger)aMonthNumber withDate:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* yearComponents = [gregorian components:kCFCalendarUnitYear | kCFCalendarUnitMonth | kCFCalendarUnitDay fromDate:aDate];
     
     [yearComponents setMonth:aMonthNumber];
@@ -414,6 +439,9 @@
 
 + (NSDate*)endDayOfMonth:(NSInteger)aMonthNumber withDate:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* yearComponents = [gregorian components:kCFCalendarUnitYear | kCFCalendarUnitMonth | kCFCalendarUnitDay fromDate:aDate];
     
     [yearComponents setMonth:aMonthNumber];  
@@ -428,6 +456,9 @@
 
 + (NSDate*)endDayOfYearWithDate:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* yearComponents = [gregorian components:kCFCalendarUnitYear | kCFCalendarUnitMonth | kCFCalendarUnitDay fromDate:aDate];    
     [yearComponents setMonth:12];
     NSDate* currentDate = [gregorian dateFromComponents:yearComponents];
@@ -441,6 +472,9 @@
 
 + (NSDate*)beginOfDay:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* yearComponents = [gregorian components:kCFCalendarUnitYear | kCFCalendarUnitMonth | kCFCalendarUnitDay fromDate:aDate];        
     [yearComponents setHour:1];
     [yearComponents setMinute:0];
@@ -450,6 +484,9 @@
 
 + (NSDate*)beginOfDayWithZeroTime:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* yearComponents = [gregorian components:kCFCalendarUnitYear | kCFCalendarUnitMonth | kCFCalendarUnitDay fromDate:aDate];
     [yearComponents setHour:0];
     [yearComponents setMinute:0];
@@ -459,6 +496,9 @@
 
 + (NSDate*)endOfDay:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* yearComponents = [gregorian components:kCFCalendarUnitYear | kCFCalendarUnitMonth | kCFCalendarUnitDay fromDate:aDate];        
     [yearComponents setHour:22];
     [yearComponents setMinute:59];
@@ -468,6 +508,9 @@
 
 + (NSDate*)endOfDayWithMaxTime:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* yearComponents = [gregorian components:kCFCalendarUnitYear | kCFCalendarUnitMonth | kCFCalendarUnitDay fromDate:aDate];
     [yearComponents setHour:23];
     [yearComponents setMinute:59];
@@ -478,42 +521,63 @@
 + (NSInteger)weekDayWithDate:(NSDate*)aDate {
     //in objective c 1 to 7 stand for Sunday to Saturday
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* weekdayComponents = [gregorian components:NSCalendarUnitWeekday fromDate:aDate];
     return [weekdayComponents weekday];
 }
 
 + (NSInteger)monthDayWithDate:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* monthdayComponents = [gregorian components:NSCalendarUnitMonth fromDate:aDate];
     return [monthdayComponents month];
 }
 
 + (NSInteger)yearDayWithDate:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* weekdayComponents = [gregorian components:NSCalendarUnitYear fromDate:aDate];
     return [weekdayComponents year];
 }
 
 + (NSInteger)dayWithDate:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* dayComponents = [gregorian components:NSCalendarUnitDay fromDate:aDate];
     return [dayComponents day];
 }
 
 + (NSInteger)minuteWithDate:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* dayComponents = [gregorian components:NSCalendarUnitMinute fromDate:aDate];
     return [dayComponents minute];
 }
 
 + (NSInteger)numOfDaysBetweenDates:(NSDate*)aStartDate endDate:(NSDate*)anEndDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* daysComponents = [gregorian components:NSCalendarUnitDay fromDate:aStartDate toDate:anEndDate options:0];
     return [daysComponents day];
 }
 
 + (NSDate*)addMinutes:(int)aMinuteQty date:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* componentsToAdd = [[[NSDateComponents alloc] init] autorelease];
     [componentsToAdd setMinute:aMinuteQty];
     return [gregorian dateByAddingComponents:componentsToAdd
@@ -522,6 +586,9 @@
 
 + (NSDate*)addHours:(int)anHourQty date:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* componentsToAdd = [[[NSDateComponents alloc] init] autorelease];
     [componentsToAdd setHour:anHourQty];
     return [gregorian dateByAddingComponents:componentsToAdd
@@ -530,6 +597,9 @@
 
 + (NSDate*)addDays:(int)aDayQty date:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* componentsToAdd = [[[NSDateComponents alloc] init] autorelease];    
     [componentsToAdd setDay:aDayQty];
     return [gregorian dateByAddingComponents:componentsToAdd
@@ -538,6 +608,9 @@
 
 + (NSDate*)addMonths:(int)aMonthQty date:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* componentsToAdd = [[[NSDateComponents alloc] init] autorelease];    
     [componentsToAdd setMonth:aMonthQty];
     return [gregorian dateByAddingComponents:componentsToAdd
@@ -546,6 +619,9 @@
 
 + (NSDate*)addYears:(int)aYearQty date:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* componentsToAdd = [[[NSDateComponents alloc] init] autorelease];
     [componentsToAdd setYear:aYearQty];
     return [gregorian dateByAddingComponents:componentsToAdd
@@ -554,6 +630,9 @@
 
 + (NSDate*)configDateWithMinute:(int)aMinuteQty date:(NSDate*)aDate {
     NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
     NSDateComponents* dateComponents = [gregorian components:kCFCalendarUnitYear | kCFCalendarUnitMonth | kCFCalendarUnitDay | kCFCalendarUnitHour fromDate:aDate];
     [dateComponents setMinute:aMinuteQty];
     [dateComponents setSecond:0];

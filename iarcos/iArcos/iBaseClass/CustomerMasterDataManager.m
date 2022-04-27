@@ -46,6 +46,9 @@
 @synthesize meetingMainTemplateViewController = _meetingMainTemplateViewController;
 @synthesize meetingNavigationController = _meetingNavigationController;
 @synthesize meetingText = _meetingText;
+@synthesize arcosCalendarTableViewController = _arcosCalendarTableViewController;
+@synthesize calendarNavigationController = _calendarNavigationController;
+@synthesize calendarText = _calendarText;
 
 - (id)init{
     self = [super init];
@@ -54,6 +57,7 @@
         self.presenterText = @"Presenter";
         self.targetText = @"Target";
         self.meetingText = @"Meeting";
+        self.calendarText = @"Calendar";
 //        self.mainNewPresenterViewController = [[[NewPresenterViewController alloc] initWithNibName:@"NewPresenterViewController" bundle:nil] autorelease];
 //        self.mainNewPresenterViewController.parentPresenterRequestSource = PresenterRequestSourceMainMenu;
 //        self.mainNewPresenterNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.mainNewPresenterViewController] autorelease];
@@ -140,6 +144,8 @@
         self.meetingMainTemplateViewController.actionType = self.meetingMainTemplateViewController.createActionType;
 //        self.meetingMainTemplateViewController.actionType = @"";
         self.meetingNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.meetingMainTemplateViewController] autorelease];
+        self.arcosCalendarTableViewController = [[[ArcosCalendarTableViewController alloc] initWithNibName:@"ArcosCalendarTableViewController" bundle:nil] autorelease];
+        self.calendarNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.arcosCalendarTableViewController] autorelease];
         
 //        NSMutableDictionary* dashboardCellData = [self createItemCellData:self.dashboardText imageFile:@"Dashboard.png" myCustomController:self.templateDashboardViewController];
         NSMutableDictionary* dashboardCellData = [self createItemCellData:self.dashboardText imageFile:@"Dashboard.png" myCustomController:self.dashboardServerNavigationController];
@@ -156,6 +162,8 @@
 //        NSMutableDictionary* dashboardMainTemplateCellData = [self createItemCellData:self.dashboardText imageFile:@"Dashboard.png" myCustomController:self.dashboardMainTemplateNavigationController];
         NSMutableDictionary* targetCellData = [self createItemCellData:self.targetText imageFile:@"Target.png" myCustomController:self.targetNavigationController];
         NSMutableDictionary* meetingCellData = [self createItemCellData:self.meetingText imageFile:@"Meeting.png" myCustomController:self.meetingNavigationController];
+        NSMutableDictionary* calendarCellData = [self createItemCellData:self.calendarText imageFile:@"Calendar.png" myCustomController:self.calendarNavigationController];
+        
         
         
         //dashboardMainTemplateCellData,
@@ -167,6 +175,7 @@
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showMeetingFlag]) {
             [self.displayList addObject:meetingCellData];
         }
+        [self.displayList addObject:calendarCellData];
         [self.displayList addObject:presenterCellData];
     }
     return self;
@@ -199,6 +208,9 @@
     self.weeklyMainTemplateNavigationController = nil;
     self.targetTableViewController = nil;
     self.targetNavigationController = nil;
+    self.arcosCalendarTableViewController = nil;
+    self.calendarNavigationController = nil;
+    self.calendarText = nil;
     
     [super dealloc];
 }

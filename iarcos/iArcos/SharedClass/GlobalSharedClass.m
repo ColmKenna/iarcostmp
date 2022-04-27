@@ -43,6 +43,8 @@ static GlobalSharedClass* _shared = nil;
 @synthesize datetimehmFormat;
 @synthesize dateHyphenFormat = _dateHyphenFormat;
 @synthesize hourMinuteFormat = _hourMinuteFormat;
+@synthesize utcDatetimeFormat = _utcDatetimeFormat;
+@synthesize datetimeCalendarFormat = _datetimeCalendarFormat;
 @synthesize orderPadsSize;
 @synthesize noDataFoundMsg = _noDataFoundMsg;
 @synthesize pageSize;
@@ -172,6 +174,8 @@ static GlobalSharedClass* _shared = nil;
         self.datetimehmFormat = @"dd/MM/yyyy HH:mm";
         self.dateHyphenFormat = @"dd-MM-yyyy";
         self.hourMinuteFormat = @"HH:mm";
+        self.utcDatetimeFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+        self.datetimeCalendarFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSSSSS";
         self.orderPadsSize = CGSizeMake(380.0f, 700.0f);
         self.noDataFoundMsg = @"No data found";
         self.pageSize = 100;
@@ -531,6 +535,8 @@ CGFloat RadiansToDegrees(CGFloat radians)
     if (self.datetimehmFormat != nil) { self.datetimehmFormat = nil; }
     if (self.dateHyphenFormat != nil) { self.dateHyphenFormat = nil; }
     self.hourMinuteFormat = nil;
+    self.utcDatetimeFormat = nil;
+    self.datetimeCalendarFormat = nil;
     if (self.noDataFoundMsg != nil) { self.noDataFoundMsg = nil; } 
     if (self.locationSelectorName != nil) { self.locationSelectorName = nil; }
     self.locLocLinkSelectorName = nil;

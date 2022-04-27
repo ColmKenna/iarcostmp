@@ -55,6 +55,8 @@ typedef enum {
     NSString* datetimehmFormat;
     NSString* _dateHyphenFormat;
     NSString* _hourMinuteFormat;
+    NSString* _utcDatetimeFormat;
+    NSString* _datetimeCalendarFormat;
     CGSize orderPadsSize;
     NSString* _noDataFoundMsg;
     int pageSize;
@@ -168,6 +170,8 @@ typedef enum {
 @property (nonatomic,retain) NSString* datetimehmFormat;
 @property (nonatomic,retain) NSString* dateHyphenFormat;
 @property (nonatomic,retain) NSString* hourMinuteFormat;
+@property (nonatomic,retain) NSString* utcDatetimeFormat;
+@property (nonatomic,retain) NSString* datetimeCalendarFormat;
 @property (nonatomic,assign) CGSize orderPadsSize;
 @property (nonatomic,retain) NSString* noDataFoundMsg;
 @property (nonatomic,assign) int pageSize;

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ArcosCalendarTableViewController">
+            <connections>
+                <outlet property="arcosCalendarTableHeaderView" destination="Xen-O3-OcV" id="40c-CH-ab4"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" style="plain" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <connections>
+                <outlet property="dataSource" destination="-1" id="Tng-2m-Rnh"/>
+                <outlet property="delegate" destination="-1" id="9aC-8N-iBw"/>
+            </connections>
+            <point key="canvasLocation" x="132" y="102"/>
+        </tableView>
+        <view contentMode="scaleToFill" id="Xen-O3-OcV" customClass="ArcosCalendarTableHeaderView">
+            <rect key="frame" x="0.0" y="0.0" width="952" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mon" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jor-wm-n7Z" customClass="ArcosCalendarTableHeaderLabel">
+                    <rect key="frame" x="0.0" y="0.0" width="136" height="44"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tue" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zka-SY-pKs" customClass="ArcosCalendarTableHeaderLabel">
+                    <rect key="frame" x="136" y="0.0" width="136" height="44"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wed" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AHX-Ti-ezI" customClass="ArcosCalendarTableHeaderLabel">
+                    <rect key="frame" x="272" y="0.0" width="136" height="44"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thu" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6br-4Q-ULL" customClass="ArcosCalendarTableHeaderLabel">
+                    <rect key="frame" x="408" y="0.0" width="136" height="44"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fri" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VaX-0B-hFI" customClass="ArcosCalendarTableHeaderLabel">
+                    <rect key="frame" x="544" y="0.0" width="136" height="44"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sat" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zib-gx-nzr" customClass="ArcosCalendarTableHeaderLabel">
+                    <rect key="frame" x="680" y="0.0" width="136" height="44"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sun" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AuZ-gb-NnI" customClass="ArcosCalendarTableHeaderLabel">
+                    <rect key="frame" x="816" y="0.0" width="136" height="44"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="6br-4Q-ULL" firstAttribute="width" secondItem="jor-wm-n7Z" secondAttribute="width" id="2VI-YF-bKB"/>
+                <constraint firstItem="jor-wm-n7Z" firstAttribute="leading" secondItem="Xen-O3-OcV" secondAttribute="leading" id="8nm-X8-K8d"/>
+                <constraint firstItem="AHX-Ti-ezI" firstAttribute="leading" secondItem="zka-SY-pKs" secondAttribute="trailing" id="Chf-VR-uWz"/>
+                <constraint firstAttribute="bottom" secondItem="zib-gx-nzr" secondAttribute="bottom" id="GnX-ft-sqp"/>
+                <constraint firstItem="zka-SY-pKs" firstAttribute="top" secondItem="Xen-O3-OcV" secondAttribute="top" id="Hmu-tT-kZP"/>
+                <constraint firstItem="AuZ-gb-NnI" firstAttribute="top" secondItem="Xen-O3-OcV" secondAttribute="top" id="LuX-mA-b6w"/>
+                <constraint firstItem="6br-4Q-ULL" firstAttribute="top" secondItem="Xen-O3-OcV" secondAttribute="top" id="OK7-pw-18u"/>
+                <constraint firstItem="AHX-Ti-ezI" firstAttribute="top" secondItem="Xen-O3-OcV" secondAttribute="top" id="Of6-5p-d1c"/>
+                <constraint firstAttribute="bottom" secondItem="6br-4Q-ULL" secondAttribute="bottom" id="QTr-Uv-qbK"/>
+                <constraint firstAttribute="bottom" secondItem="AuZ-gb-NnI" secondAttribute="bottom" id="QXQ-UC-do8"/>
+                <constraint firstItem="jor-wm-n7Z" firstAttribute="top" secondItem="Xen-O3-OcV" secondAttribute="top" id="QlW-54-UKE"/>
+                <constraint firstItem="AuZ-gb-NnI" firstAttribute="leading" secondItem="zib-gx-nzr" secondAttribute="trailing" id="S2f-YK-7Ho"/>
+                <constraint firstItem="6br-4Q-ULL" firstAttribute="leading" secondItem="AHX-Ti-ezI" secondAttribute="trailing" id="Ujf-os-Huc"/>
+                <constraint firstItem="zka-SY-pKs" firstAttribute="leading" secondItem="jor-wm-n7Z" secondAttribute="trailing" id="XZE-rn-tc9"/>
+                <constraint firstAttribute="trailing" secondItem="AuZ-gb-NnI" secondAttribute="trailing" id="Yri-f9-Ty0"/>
+                <constraint firstItem="AuZ-gb-NnI" firstAttribute="width" secondItem="jor-wm-n7Z" secondAttribute="width" id="bmW-bk-cwr"/>
+                <constraint firstAttribute="bottom" secondItem="AHX-Ti-ezI" secondAttribute="bottom" id="cMl-DV-ULx"/>
+                <constraint firstItem="VaX-0B-hFI" firstAttribute="top" secondItem="Xen-O3-OcV" secondAttribute="top" id="dj8-4i-FKW"/>
+                <constraint firstItem="AHX-Ti-ezI" firstAttribute="width" secondItem="jor-wm-n7Z" secondAttribute="width" id="eHD-DR-0Ec"/>
+                <constraint firstAttribute="bottom" secondItem="VaX-0B-hFI" secondAttribute="bottom" id="f5A-bn-xKR"/>
+                <constraint firstItem="zib-gx-nzr" firstAttribute="leading" secondItem="VaX-0B-hFI" secondAttribute="trailing" id="fqy-aF-ILW"/>
+                <constraint firstItem="zib-gx-nzr" firstAttribute="top" secondItem="Xen-O3-OcV" secondAttribute="top" id="i2d-NZ-CcP"/>
+                <constraint firstAttribute="bottom" secondItem="zka-SY-pKs" secondAttribute="bottom" id="jim-Uj-hUV"/>
+                <constraint firstItem="zka-SY-pKs" firstAttribute="width" secondItem="jor-wm-n7Z" secondAttribute="width" id="k1A-J2-gXw"/>
+                <constraint firstItem="zib-gx-nzr" firstAttribute="width" secondItem="jor-wm-n7Z" secondAttribute="width" id="lai-oS-Bap"/>
+                <constraint firstAttribute="bottom" secondItem="jor-wm-n7Z" secondAttribute="bottom" id="rRg-wk-cGx"/>
+                <constraint firstItem="VaX-0B-hFI" firstAttribute="leading" secondItem="6br-4Q-ULL" secondAttribute="trailing" id="vsX-gE-AX4"/>
+                <constraint firstItem="VaX-0B-hFI" firstAttribute="width" secondItem="jor-wm-n7Z" secondAttribute="width" id="xJX-Yh-6BR"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="friLabel" destination="VaX-0B-hFI" id="xio-h1-XfT"/>
+                <outlet property="monLabel" destination="jor-wm-n7Z" id="IsP-V1-Yv7"/>
+                <outlet property="satLabel" destination="zib-gx-nzr" id="8L3-WU-YEI"/>
+                <outlet property="sunLabel" destination="AuZ-gb-NnI" id="t1H-Ba-6hM"/>
+                <outlet property="thuLabel" destination="6br-4Q-ULL" id="jol-bv-D54"/>
+                <outlet property="tueLabel" destination="zka-SY-pKs" id="9mi-4G-iU4"/>
+                <outlet property="wedLabel" destination="AHX-Ti-ezI" id="b66-Zu-ifu"/>
+            </connections>
+            <point key="canvasLocation" x="197" y="-261"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

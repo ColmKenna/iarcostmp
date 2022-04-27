@@ -47,7 +47,7 @@
 //    UIBarButtonItem* signInButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign In" style:UIBarButtonItemStylePlain target:self action:@selector(signInPressed:)];
 //    [self.navigationItem setRightBarButtonItem:signInButton];
 //    [signInButton release];
-    self.kScopes = [NSArray arrayWithObjects:@"https://graph.microsoft.com/user.read", @"https://graph.microsoft.com/Mail.Send", @"https://graph.microsoft.com/Mail.ReadWrite", nil];
+    self.kScopes = [NSArray arrayWithObjects:@"https://graph.microsoft.com/user.read", @"https://graph.microsoft.com/Mail.Send", @"https://graph.microsoft.com/Mail.ReadWrite", @"https://graph.microsoft.com/Calendars.Read", @"https://graph.microsoft.com/Calendars.ReadWrite", nil];
     self.webViewParameters = [[[MSALWebviewParameters alloc] initWithParentViewController:self] autorelease];
 //    self.webViewParameters.webviewType = MSALWebviewTypeWKWebView;
     

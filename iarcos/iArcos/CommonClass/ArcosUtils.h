@@ -22,6 +22,7 @@
 + (void)showMsg:(int)errorCode message:(NSString*)message delegate:(id)delegate;
 + (NSString*)convertToIntString:(NSString*)aField;
 + (NSString*)convertNumberToIntString:(NSNumber*)aNumber;
++ (NSObject*)convertNilDateToNull:(NSDate*)aDate;
 + (void)showMsg:(NSString*)message delegate:(id)delegate;
 + (void)showMsg:(NSString*)message title:(NSString*)title delegate:(id)delegate;
 + (void)showMsg:(NSString*)message title:(NSString*)title delegate:(id)delegate tag:(int)aTag;
