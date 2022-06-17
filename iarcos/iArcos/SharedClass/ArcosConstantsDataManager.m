@@ -17,12 +17,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConstantsDataManager);
 @synthesize applicationContext = _applicationContext;
 @synthesize currentAccountAddress = _currentAccountAddress;
 @synthesize kGraphMessageURI = _kGraphMessageURI;
+@synthesize kGraphEventURI = _kGraphEventURI;
 
 - (instancetype)init {
     self = [super init];
     if (self != nil) {
-        self.kClientID = @"6aa698d7-5fd4-42f4-8702-cd04b9d9c52e";
-//        self.kClientID = @"e06cc226-c91e-4273-8fdb-c2b335d6334e";
+//        self.kClientID = @"6aa698d7-5fd4-42f4-8702-cd04b9d9c52e";
+        self.kClientID = @"e06cc226-c91e-4273-8fdb-c2b335d6334e";
         self.kAuthority = @"https://login.microsoftonline.com/common";
         self.kGraphURI = @"https://graph.microsoft.com/v1.0/me/sendMail";
         self.accessToken = @"";
@@ -33,6 +34,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConstantsDataManager);
         self.applicationContext = [[[MSALPublicClientApplication alloc] initWithConfiguration:config error:nil] autorelease];
         self.currentAccountAddress = nil;
         self.kGraphMessageURI = @"https://graph.microsoft.com/v1.0/me/messages";
+        self.kGraphEventURI = @"https://graph.microsoft.com/v1.0/me/events";//calendar
     }
     
     return self;
@@ -46,6 +48,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConstantsDataManager);
     self.applicationContext = nil;
     self.currentAccountAddress = nil;
     self.kGraphMessageURI = nil;
+    self.kGraphEventURI = nil;
     
     [super dealloc];
 }

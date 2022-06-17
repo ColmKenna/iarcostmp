@@ -45,6 +45,9 @@ static GlobalSharedClass* _shared = nil;
 @synthesize hourMinuteFormat = _hourMinuteFormat;
 @synthesize utcDatetimeFormat = _utcDatetimeFormat;
 @synthesize datetimeCalendarFormat = _datetimeCalendarFormat;
+@synthesize utcDateFormat = _utcDateFormat;
+@synthesize stdUtcDateTimeFormat = _stdUtcDateTimeFormat;
+@synthesize ieTimeZone = _ieTimeZone;
 @synthesize orderPadsSize;
 @synthesize noDataFoundMsg = _noDataFoundMsg;
 @synthesize pageSize;
@@ -122,6 +125,8 @@ static GlobalSharedClass* _shared = nil;
 @synthesize remindLevel = _remindLevel;
 @synthesize myDbName = _myDbName;
 @synthesize acctNoCompany = _acctNoCompany;
+@synthesize myAppBlueColor = _myAppBlueColor;
+@synthesize mySystemBlueColor = _mySystemBlueColor;
 
 +(GlobalSharedClass*)shared 
 {
@@ -176,6 +181,9 @@ static GlobalSharedClass* _shared = nil;
         self.hourMinuteFormat = @"HH:mm";
         self.utcDatetimeFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
         self.datetimeCalendarFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSSSSS";
+        self.utcDateFormat = @"yyyy-MM-dd";
+        self.stdUtcDateTimeFormat = @"yyyy-MM-dd'T'HH:mm:ss";
+        self.ieTimeZone = @"Europe/Dublin";
         self.orderPadsSize = CGSizeMake(380.0f, 700.0f);
         self.noDataFoundMsg = @"No data found";
         self.pageSize = 100;
@@ -249,6 +257,8 @@ static GlobalSharedClass* _shared = nil;
         self.remindLevel = 70;
         self.myDbName = @"MY10";
         self.acctNoCompany = @"uniphar";
+        self.myAppBlueColor = [UIColor colorWithRed:0.0 green:150.0/255.0 blue:214.0/255.0 alpha:1.0];
+        self.mySystemBlueColor = [UIColor colorWithRed:0.0 green:132.0/255.0 blue:254.0/255.0 alpha:1.0];
 	}
     
 	return self;
@@ -537,6 +547,9 @@ CGFloat RadiansToDegrees(CGFloat radians)
     self.hourMinuteFormat = nil;
     self.utcDatetimeFormat = nil;
     self.datetimeCalendarFormat = nil;
+    self.utcDateFormat = nil;
+    self.stdUtcDateTimeFormat = nil;
+    self.ieTimeZone = nil;
     if (self.noDataFoundMsg != nil) { self.noDataFoundMsg = nil; } 
     if (self.locationSelectorName != nil) { self.locationSelectorName = nil; }
     self.locLocLinkSelectorName = nil;
@@ -589,6 +602,8 @@ CGFloat RadiansToDegrees(CGFloat radians)
     self.startRecordingDate = nil;
     self.myDbName = nil;
     self.acctNoCompany = nil;
+    self.myAppBlueColor = nil;
+    self.mySystemBlueColor = nil;
     
     [super dealloc];
 }

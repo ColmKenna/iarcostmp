@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "ArcosCalendarCellBaseTableViewDataManager.h"
+#import "ArcosCalendarTableViewCellDelegate.h"
 
 @interface ArcosCalendarTableViewCell : UITableViewCell {
+    id<ArcosCalendarTableViewCellDelegate> _actionDelegate;
     UIView* _view0;
     UIView* _view1;
     UIView* _view2;
@@ -46,9 +48,10 @@
     ArcosCalendarCellBaseTableViewDataManager* _fifTableViewDataManager;
     ArcosCalendarCellBaseTableViewDataManager* _sixTableViewDataManager;
     ArcosCalendarCellBaseTableViewDataManager* _sevTableViewDataManager;
-    
+    NSIndexPath* _myIndexPath;
 }
 
+@property(nonatomic, assign) id<ArcosCalendarTableViewCellDelegate> actionDelegate;
 @property(nonatomic, retain) IBOutlet UIView* view0;
 @property(nonatomic, retain) IBOutlet UIView* view1;
 @property(nonatomic, retain) IBOutlet UIView* view2;
@@ -84,7 +87,7 @@
 @property(nonatomic, retain) ArcosCalendarCellBaseTableViewDataManager* fifTableViewDataManager;
 @property(nonatomic, retain) ArcosCalendarCellBaseTableViewDataManager* sixTableViewDataManager;
 @property(nonatomic, retain) ArcosCalendarCellBaseTableViewDataManager* sevTableViewDataManager;
-
+@property(nonatomic, retain) NSIndexPath* myIndexPath;
 
 
 - (void)configCellWithData:(NSMutableDictionary*)aCellData;

@@ -20,6 +20,7 @@
 @synthesize matrixDataList = _matrixDataList;
 @synthesize currentThirdDayOfMonthDate = _currentThirdDayOfMonthDate;
 @synthesize todayDate = _todayDate;
+@synthesize currentSelectedDate = _currentSelectedDate;
 @synthesize dayWeekOfMonthIndexHashMap = _dayWeekOfMonthIndexHashMap;
 @synthesize dayWeekDayIndexHashMap = _dayWeekDayIndexHashMap;
 
@@ -36,6 +37,7 @@
         self.weekdaySeqList = [NSMutableArray arrayWithObjects:self.monWeekday, self.tueWeekday, self.wedWeekday, self.thuWeekday, self.friWeekday, self.satWeekday, self.sunWeekday, nil];
         [self createBasicData];
         self.todayDate = [self createThirdDayNoonDateWithDate:[NSDate date] thirdDayFlag:NO];
+        self.currentSelectedDate = [self createThirdDayNoonDateWithDate:[NSDate date] thirdDayFlag:NO];
     }
     return self;
 }
@@ -52,6 +54,7 @@
     self.matrixDataList = nil;
     self.currentThirdDayOfMonthDate = nil;
     self.todayDate = nil;
+    self.currentSelectedDate = nil;
     self.dayWeekOfMonthIndexHashMap = nil;
     self.dayWeekDayIndexHashMap = nil;
     
@@ -90,6 +93,7 @@
     [yearComponents setHour:12];
     [yearComponents setMinute:0];
     [yearComponents setSecond:0];
+    [yearComponents setNanosecond:0];
     return [gregorian dateFromComponents:yearComponents];
 }
 
@@ -108,6 +112,7 @@
         [yearComponents setHour:12];
         [yearComponents setMinute:0];
         [yearComponents setSecond:0];
+        [yearComponents setNanosecond:0];
         NSDate* auxDate = [gregorian dateFromComponents:yearComponents];
 //        NSRange weekOfMonthRange = [gregorian rangeOfUnit:NSCalendarUnitWeekOfMonth inUnit:NSCalendarUnitMonth forDate:auxDate];
         NSDateComponents* firstNSDateComponents = [gregorian components:NSCalendarUnitWeekOfMonth | NSCalendarUnitWeekday fromDate:auxDate];
@@ -168,9 +173,9 @@
     [yearComponents setNanosecond:0];
     return [gregorian dateFromComponents:yearComponents];
 }
-
+//bodyPreview
 - (NSString*)retrieveCalendarURIWithDate:(NSDate*)aDate {
-    return [NSString stringWithFormat:@"https://graph.microsoft.com/v1.0/me/calendarview?$select=id,subject,bodyPreview,start,end,location,&$top=1000&startdatetime=%@&enddatetime=%@", [ArcosUtils stringFromDate:[self beginDayOfMonthWithDate:aDate] format:[GlobalSharedClass shared].utcDatetimeFormat], [ArcosUtils stringFromDate:[self endDayOfMonthWithDate:aDate] format:[GlobalSharedClass shared].utcDatetimeFormat]];
+    return [NSString stringWithFormat:@"https://graph.microsoft.com/v1.0/me/calendarview?$select=id,subject,bodyPreview,start,end,location,isAllDay,&$top=1000&startdatetime=%@&enddatetime=%@", [ArcosUtils stringFromDate:[self beginDayOfMonthWithDate:aDate] format:[GlobalSharedClass shared].utcDatetimeFormat], [ArcosUtils stringFromDate:[self endDayOfMonthWithDate:aDate] format:[GlobalSharedClass shared].utcDatetimeFormat]];
 }
 
 - (void)populateCalendarEntryWithData:(NSDictionary*)aDataDict {
@@ -196,6 +201,22 @@
     
 //    NSLog(@"parsed %@", [ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].datetimeCalendarFormat]);
     
+}
+
+- (void)clearCalendarEventData {
+    for (int i = 0; i < [self.matrixDataList count]; i++) {
+        NSMutableDictionary* weekDataDict = [self.matrixDataList objectAtIndex:i];
+        for (int j = 0; j < [self.weekdaySeqList count]; j++) {
+            NSNumber* weekDay = [self.weekdaySeqList objectAtIndex:j];
+            NSMutableDictionary* dayDataDict = [weekDataDict objectForKey:weekDay];
+            if (dayDataDict != nil) {
+                NSMutableArray* eventDataList = [dayDataDict objectForKey:@"Event"];
+                if (eventDataList != nil && [eventDataList count] > 0) {
+                    [eventDataList removeAllObjects];
+                }
+            }
+        }
+    }
 }
 
 @end

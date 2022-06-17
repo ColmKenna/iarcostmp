@@ -22,6 +22,7 @@
     NSMutableArray* _matrixDataList;
     NSDate* _currentThirdDayOfMonthDate;
     NSDate* _todayDate;
+    NSDate* _currentSelectedDate;
     NSMutableDictionary* _dayWeekOfMonthIndexHashMap;
     NSMutableDictionary* _dayWeekDayIndexHashMap;
 }
@@ -37,6 +38,7 @@
 @property(nonatomic, retain) NSMutableArray* matrixDataList;
 @property(nonatomic, retain) NSDate* currentThirdDayOfMonthDate;
 @property(nonatomic, retain) NSDate* todayDate;
+@property(nonatomic, retain) NSDate* currentSelectedDate;
 @property(nonatomic, retain) NSMutableDictionary* dayWeekOfMonthIndexHashMap;
 @property(nonatomic, retain) NSMutableDictionary* dayWeekDayIndexHashMap;
 
@@ -46,6 +48,7 @@
 - (NSDate*)endDayOfMonthWithDate:(NSDate*)aDate;
 - (NSString*)retrieveCalendarURIWithDate:(NSDate*)aDate;
 - (void)populateCalendarEntryWithData:(NSDictionary*)aDataDict;
+- (void)clearCalendarEventData;
 
 @end
 

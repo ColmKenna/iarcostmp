@@ -95,7 +95,7 @@
     if (@available(iOS 15.0, *)) {
         UINavigationBarAppearance* customNavigationBarAppearance = [[UINavigationBarAppearance alloc] init];
         [customNavigationBarAppearance configureWithOpaqueBackground];
-        [customNavigationBarAppearance setBackgroundColor:[UIColor colorWithRed:0.0 green:150.0/255.0 blue:214.0/255.0 alpha:1.0]];
+        [customNavigationBarAppearance setBackgroundColor:[GlobalSharedClass shared].myAppBlueColor];
         [customNavigationBarAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil]];
         self.arcosRootViewController.customerMasterViewController.navigationController.navigationBar.standardAppearance = customNavigationBarAppearance;
         self.arcosRootViewController.customerMasterViewController.navigationController.navigationBar.scrollEdgeAppearance = customNavigationBarAppearance;
@@ -103,17 +103,19 @@
         [self.arcosRootViewController.customerMasterViewController.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     } else {
         // Fallback on earlier versions
-        [self.arcosRootViewController.customerMasterViewController.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0.0 green:150.0/255.0 blue:214.0/255.0 alpha:1.0]];
+        [self.arcosRootViewController.customerMasterViewController.navigationController.navigationBar setBarTintColor:[GlobalSharedClass shared].myAppBlueColor];
         [self.arcosRootViewController.customerMasterViewController.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     }
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
 - (void)todayPressed:(id)sender {
+    self.arcosCalendarTableDataManager.currentSelectedDate = self.arcosCalendarTableDataManager.todayDate;
     self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate = [self.arcosCalendarTableDataManager createThirdDayNoonDateWithDate:self.arcosCalendarTableDataManager.todayDate thirdDayFlag:YES];
     [self.arcosCalendarTableDataManager calculateCalendarData:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
     [self.tableView reloadData];
     [self showCurrentMonth];
+    [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
 }
 
 - (void)prevPressed:(id)sender {
@@ -186,7 +188,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"IdArcosCalendarTableViewCell";
+    static NSString* CellIdentifier = @"IdArcosCalendarTableViewCell";
     
     ArcosCalendarTableViewCell* cell = (ArcosCalendarTableViewCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if(cell == nil) {
@@ -201,6 +203,8 @@
     
     // Configure the cell...
     [cell makeCellReadyToUse];
+    cell.myIndexPath = indexPath;
+    cell.actionDelegate = self;
     NSMutableDictionary* weekDataDict = [self.arcosCalendarTableDataManager.matrixDataList objectAtIndex:indexPath.row];
     for (int i = 0; i < [self.arcosCalendarTableDataManager.weekdaySeqList count]; i++) {
         NSNumber* weekDay = [self.arcosCalendarTableDataManager.weekdaySeqList objectAtIndex:i];
@@ -214,6 +218,10 @@
                 UIView* auxView = [cell.viewList objectAtIndex:i];
                 auxView.backgroundColor = [UIColor colorWithRed:239.0/255.0 green:239.0/255.0 blue:244.0/255.0 alpha:0.5];
             }
+            if ([auxDate compare:self.arcosCalendarTableDataManager.currentSelectedDate] == NSOrderedSame) {
+                auxLabel.backgroundColor = [GlobalSharedClass shared].mySystemBlueColor;
+                auxLabel.textColor = [UIColor whiteColor];
+            }
             NSMutableArray* eventDataList = [dayDataDict objectForKey:@"Event"];
             if ([eventDataList count] > 1) {
                 NSSortDescriptor* startDateDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"StartDate" ascending:YES selector:@selector(compare:)] autorelease];
@@ -225,19 +233,59 @@
             [auxTableView reloadData];
         }
     }
-//    for (int i = 0; i < 2; i++) {
-//        NSNumber* weekDay = [self.arcosCalendarTableDataManager.weekdaySeqList objectAtIndex:i];
-//        NSMutableDictionary* dayDataDict = [weekDataDict objectForKey:weekDay];
-//        if (dayDataDict != nil) {
-//            NSMutableArray* eventDataList = [dayDataDict objectForKey:@"Event"];
-//            ArcosCalendarCellBaseTableViewDataManager* baseTableViewDataManager = [cell.dataManagerList objectAtIndex:i];
-//            baseTableViewDataManager.displayList = eventDataList;
-//            UITableView* auxTableView = [cell.tableViewList objectAtIndex:i];
-//            [auxTableView reloadData];
-//        }
-//    }
     
     return cell;
+}
+
+#pragma mark - ArcosCalendarTableViewCellDelegate
+- (void)inputFinishedWithIndexPath:(NSIndexPath*)anIndexPath labelIndex:(int)aLabelIndex {
+    @try {
+        NSMutableDictionary* weekDataDict = [self.arcosCalendarTableDataManager.matrixDataList objectAtIndex:anIndexPath.row];
+        NSNumber* weekDay = [self.arcosCalendarTableDataManager.weekdaySeqList objectAtIndex:aLabelIndex];
+        NSMutableDictionary* dayDataDict = [weekDataDict objectForKey:weekDay];
+        if (dayDataDict == nil) return;
+        NSLog(@"inputFinishedWithIndexPath");
+        self.arcosCalendarTableDataManager.currentSelectedDate = [dayDataDict objectForKey:@"Date"];
+        [self.tableView reloadData];
+    } @catch (NSException *exception) {
+        [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:self tag:0 handler:nil];
+    }
+    
+    
+}
+
+- (void)longInputFinishedWithIndexPath:(NSIndexPath*)anIndexPath sourceView:(UIView*)aView {
+    @try {
+        NSMutableDictionary* weekDataDict = [self.arcosCalendarTableDataManager.matrixDataList objectAtIndex:anIndexPath.row];
+        NSNumber* weekDay = [self.arcosCalendarTableDataManager.weekdaySeqList objectAtIndex:aView.tag];
+        NSMutableDictionary* dayDataDict = [weekDataDict objectForKey:weekDay];
+        if (dayDataDict == nil) return;
+        NSLog(@"longInputFinishedWithIndexPath");
+        ArcosCalendarEventEntryDetailTableViewController* ACEEDTVC = [[ArcosCalendarEventEntryDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        ACEEDTVC.refreshDelegate = self;
+        ACEEDTVC.presentDelegate = self;
+        ACEEDTVC.arcosCalendarEventEntryDetailDataManager.actionType = ACEEDTVC.arcosCalendarEventEntryDetailDataManager.createText;
+        [ACEEDTVC.arcosCalendarEventEntryDetailDataManager retrieveCreateDataWithDate:[dayDataDict objectForKey:@"Date"]];
+        UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
+        tmpNavigationController.preferredContentSize = CGSizeMake(500.0f, 700.0f);
+        tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+        tmpNavigationController.popoverPresentationController.sourceView = aView;
+        [self presentViewController:tmpNavigationController animated:YES completion:nil];
+        [ACEEDTVC release];
+        [tmpNavigationController release];
+    } @catch (NSException *exception) {
+        [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:self tag:0 handler:nil];
+    }
+}
+
+#pragma mark - ModalPresentViewControllerDelegate
+- (void)didDismissModalPresentViewController {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - ArcosCalendarEventEntryDetailTableViewControllerDelegate
+- (void)refreshCalendarTableViewController {
+    [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
 }
 
 - (void)retrieveCalendarEntriesWithDate:(NSDate*)aDate {
@@ -254,7 +302,7 @@
     NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/json, text/plain, */*" forHTTPHeaderField:@"Accept"];
-    [request setValue:@"outlook.timezone=\"Europe/Dublin\"" forHTTPHeaderField:@"Prefer"];
+    [request setValue:[NSString stringWithFormat:@"outlook.timezone=\"%@\"", [GlobalSharedClass shared].ieTimeZone] forHTTPHeaderField:@"Prefer"];
     
     [request setValue:[NSString stringWithFormat:@"Bearer %@", [ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken] forHTTPHeaderField:@"Authorization"];
     
@@ -283,9 +331,10 @@
                 });
             } else {
                 id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
-//                NSLog(@"calendar entries res %@ -- %@", result, data);
+                NSLog(@"calendar entries res %@ -- %@", result, data);
                 NSDictionary* resultDict = (NSDictionary*)result;
                 NSArray* eventList = [resultDict objectForKey:@"value"];
+                [self.arcosCalendarTableDataManager clearCalendarEventData];
                 for (int i = 0; i < [eventList count]; i++) {
                     NSDictionary* eventDict = [eventList objectAtIndex:i];
                     [self.arcosCalendarTableDataManager populateCalendarEntryWithData:eventDict];

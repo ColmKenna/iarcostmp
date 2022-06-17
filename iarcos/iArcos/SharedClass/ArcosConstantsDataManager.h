@@ -18,6 +18,7 @@
     MSALPublicClientApplication* _applicationContext;
     NSString* _currentAccountAddress;
     NSString* _kGraphMessageURI;
+    NSString* _kGraphEventURI;
 }
 
 + (ArcosConstantsDataManager*)sharedArcosConstantsDataManager;
@@ -28,6 +29,7 @@
 @property(nonatomic, retain) MSALPublicClientApplication* applicationContext;
 @property(nonatomic, retain) NSString* currentAccountAddress;
 @property(nonatomic, retain) NSString* kGraphMessageURI;
+@property(nonatomic, retain) NSString* kGraphEventURI;
 
 @end
 

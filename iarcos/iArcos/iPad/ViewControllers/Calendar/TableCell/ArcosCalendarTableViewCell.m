@@ -9,6 +9,7 @@
 #import "ArcosCalendarTableViewCell.h"
 
 @implementation ArcosCalendarTableViewCell
+@synthesize actionDelegate = _actionDelegate;
 @synthesize view0 = _view0;
 @synthesize view1 = _view1;
 @synthesize view2 = _view2;
@@ -44,6 +45,7 @@
 @synthesize fifTableViewDataManager = _fifTableViewDataManager;
 @synthesize sixTableViewDataManager = _sixTableViewDataManager;
 @synthesize sevTableViewDataManager = _sevTableViewDataManager;
+@synthesize myIndexPath = _myIndexPath;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -58,6 +60,16 @@
 }
 
 - (void)dealloc {
+    for (UILabel* auxLabel in self.labelList) {
+        for (UIGestureRecognizer* recognizer in auxLabel.gestureRecognizers) {
+            [auxLabel removeGestureRecognizer:recognizer];
+        }
+    }
+    for (UIView* auxView in self.viewList) {
+        for (UIGestureRecognizer* recognizer in auxView.gestureRecognizers) {
+            [auxView removeGestureRecognizer:recognizer];
+        }
+    }
     self.view0 = nil;
     self.view1 = nil;
     self.view2 = nil;
@@ -93,6 +105,7 @@
     self.fifTableViewDataManager = nil;
     self.sixTableViewDataManager = nil;
     self.sevTableViewDataManager = nil;
+    self.myIndexPath = nil;
     
     [super dealloc];
 }
@@ -129,6 +142,9 @@
     self.tableView5.delegate = self.sixTableViewDataManager;
     self.tableView6.dataSource = self.sevTableViewDataManager;
     self.tableView6.delegate = self.sevTableViewDataManager;
+    
+    
+    
     @try {
         for (int i = 0; i < countOfItems; i++) {
             NSString* labelName = [NSString stringWithFormat:@"label%d", i];
@@ -144,12 +160,52 @@
     } @catch (NSException *exception) {
         NSLog(@"%@", [exception reason]);
     }
+    for (UILabel* auxLabel in self.labelList) {
+        for (UIGestureRecognizer* recognizer in auxLabel.gestureRecognizers) {
+            [auxLabel removeGestureRecognizer:recognizer];
+        }
+        
+        UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
+        [auxLabel addGestureRecognizer:singleTap];
+        
+//        UILongPressGestureRecognizer* longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
+//        longPress.minimumPressDuration = 1.0;
+//        [auxLabel addGestureRecognizer:longPress];
+//
+//        [longPress release];
+        [singleTap release];
+    }
+    for (UIView* auxView in self.viewList) {
+        for (UIGestureRecognizer* recognizer in auxView.gestureRecognizers) {
+            [auxView removeGestureRecognizer:recognizer];
+        }
+        UILongPressGestureRecognizer* longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
+        longPress.minimumPressDuration = 1.0;
+        [auxView addGestureRecognizer:longPress];
+        [longPress release];
+    }
+}
+
+- (void)handleSingleTapGesture:(UITapGestureRecognizer*)sender {
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        UILabel* tapLabel = (UILabel*)sender.view;
+        [self.actionDelegate inputFinishedWithIndexPath:self.myIndexPath labelIndex:[ArcosUtils convertNSIntegerToInt:tapLabel.tag]];
+    }
+}
+
+- (void)handleLongPressGesture:(UILongPressGestureRecognizer*)sender {
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        UIView* tapView = (UIView*)sender.view;
+        [self.actionDelegate longInputFinishedWithIndexPath:self.myIndexPath sourceView:tapView];
+    }
 }
 
 - (void)clearAllInfo {
     for (int i = 0; i < [self.labelList count]; i++) {
         UILabel* tmpLabel = [self.labelList objectAtIndex:i];
         tmpLabel.text = @"";
+        tmpLabel.backgroundColor = [UIColor clearColor];
+        tmpLabel.textColor = [UIColor blackColor];
         UIView* tmpView = [self.viewList objectAtIndex:i];
         tmpView.backgroundColor = [UIColor whiteColor];
         UITableView* tmpTableView = [self.tableViewList objectAtIndex:i];

@@ -57,6 +57,9 @@ typedef enum {
     NSString* _hourMinuteFormat;
     NSString* _utcDatetimeFormat;
     NSString* _datetimeCalendarFormat;
+    NSString* _utcDateFormat;
+    NSString* _stdUtcDateTimeFormat;
+    NSString* _ieTimeZone;
     CGSize orderPadsSize;
     NSString* _noDataFoundMsg;
     int pageSize;
@@ -136,6 +139,8 @@ typedef enum {
     int _remindLevel;
     NSString* _myDbName;
     NSString* _acctNoCompany;
+    UIColor* _myAppBlueColor;
+    UIColor* _mySystemBlueColor;
 }
 
 +(GlobalSharedClass*)shared;
@@ -172,6 +177,9 @@ typedef enum {
 @property (nonatomic,retain) NSString* hourMinuteFormat;
 @property (nonatomic,retain) NSString* utcDatetimeFormat;
 @property (nonatomic,retain) NSString* datetimeCalendarFormat;
+@property (nonatomic,retain) NSString* utcDateFormat;
+@property (nonatomic,retain) NSString* stdUtcDateTimeFormat;
+@property (nonatomic,retain) NSString* ieTimeZone;
 @property (nonatomic,assign) CGSize orderPadsSize;
 @property (nonatomic,retain) NSString* noDataFoundMsg;
 @property (nonatomic,assign) int pageSize;
@@ -249,6 +257,8 @@ typedef enum {
 @property (nonatomic,assign) int remindLevel;
 @property (nonatomic,retain) NSString* myDbName;
 @property (nonatomic,retain) NSString* acctNoCompany;
+@property (nonatomic,retain) UIColor* myAppBlueColor;
+@property (nonatomic,retain) UIColor* mySystemBlueColor;
 
 //usful functions
 - (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber;

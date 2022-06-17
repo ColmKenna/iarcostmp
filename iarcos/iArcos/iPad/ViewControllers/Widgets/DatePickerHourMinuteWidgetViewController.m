@@ -73,6 +73,9 @@
             resultFlag = YES;
         }
     }
+    if (self.minDate == nil && self.maxDate == nil) {
+        resultFlag = YES;
+    }
     if (resultFlag) {
         self.myDatePicker.date = auxDate;
     }
