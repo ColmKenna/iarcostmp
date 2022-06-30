@@ -14,6 +14,7 @@
 @synthesize switchTableCellId = _switchTableCellId;
 @synthesize dateTableCellId = _dateTableCellId;
 @synthesize datetimeTableCellId = _datetimeTableCellId;
+@synthesize deleteTableCellId = _deleteTableCellId;
 
 - (instancetype)init {
     self = [super init];
@@ -23,6 +24,7 @@
         self.switchTableCellId = @"IdArcosCalendarEventEntryDetailSwitchTableViewCell";
         self.dateTableCellId = @"IdArcosCalendarEventEntryDetailDateTableViewCell";
         self.datetimeTableCellId = @"IdArcosCalendarEventEntryDetailDateTimeTableViewCell";
+        self.deleteTableCellId = @"IdArcosCalendarEventEntryDetailDeleteTableViewCell";
     }
     return self;
 }
@@ -33,6 +35,7 @@
     self.switchTableCellId = nil;
     self.dateTableCellId = nil;
     self.datetimeTableCellId = nil;
+    self.deleteTableCellId = nil;
     
     [super dealloc];
 }
@@ -72,6 +75,9 @@
             break;
         case 5:
             auxIdentifier = self.datetimeTableCellId;
+            break;
+        case 6:
+            auxIdentifier = self.deleteTableCellId;
             break;
             
         default:

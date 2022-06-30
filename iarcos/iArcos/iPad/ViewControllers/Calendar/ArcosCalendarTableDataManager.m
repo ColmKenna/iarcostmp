@@ -132,7 +132,7 @@
 
 - (NSMutableDictionary*)createEventDataWithId:(NSString*)anId subject:(NSString*)aSubject
                                   bodyPreview:(NSString*)aBodyPreview location:(NSString*)aLocation
-                                    startDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate {
+                                    startDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate isAllDay:(NSString*)anIsAllDay {
     NSMutableDictionary* eventDict = [NSMutableDictionary dictionaryWithCapacity:6];
     [eventDict setObject:[ArcosUtils convertNilToEmpty:anId] forKey:@"Id"];
     [eventDict setObject:[ArcosUtils convertNilToEmpty:aSubject] forKey:@"Subject"];
@@ -140,6 +140,7 @@
     [eventDict setObject:[ArcosUtils convertNilToEmpty:aLocation] forKey:@"Location"];
     [eventDict setObject:[ArcosUtils convertNilDateToNull:aStartDate] forKey:@"StartDate"];
     [eventDict setObject:[ArcosUtils convertNilDateToNull:anEndDate] forKey:@"EndDate"];
+    [eventDict setObject:[ArcosUtils convertNilToEmpty:anIsAllDay] forKey:@"IsAllDay"];
     
     return eventDict;
 }
@@ -197,7 +198,7 @@
         eventDictList = [NSMutableArray array];
         [dayDataDict setObject:eventDictList forKey:@"Event"];
     }
-    [eventDictList addObject:[self createEventDataWithId:[ArcosUtils convertNilToEmpty:[aDataDict objectForKey:@"id"]] subject:[ArcosUtils convertNilToEmpty:[aDataDict objectForKey:@"subject"]] bodyPreview:[ArcosUtils convertNilToEmpty:[aDataDict objectForKey:@"bodyPreview"]] location:[ArcosUtils convertNilToEmpty:locationStr] startDate:startDate endDate:endDate]];
+    [eventDictList addObject:[self createEventDataWithId:[ArcosUtils convertNilToEmpty:[aDataDict objectForKey:@"id"]] subject:[ArcosUtils convertNilToEmpty:[aDataDict objectForKey:@"subject"]] bodyPreview:[ArcosUtils convertNilToEmpty:[aDataDict objectForKey:@"bodyPreview"]] location:[ArcosUtils convertNilToEmpty:locationStr] startDate:startDate endDate:endDate isAllDay:[ArcosUtils convertNilToEmpty:[ArcosUtils convertIntToString:[[aDataDict objectForKey:@"isAllDay"] intValue]]]]];
     
 //    NSLog(@"parsed %@", [ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].datetimeCalendarFormat]);
     

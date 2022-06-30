@@ -15,6 +15,7 @@
     NSString* _switchTableCellId;
     NSString* _dateTableCellId;
     NSString* _datetimeTableCellId;
+    NSString* _deleteTableCellId;
 }
 
 @property(nonatomic, retain) NSString* textFieldTableCellId;
@@ -22,6 +23,7 @@
 @property(nonatomic, retain) NSString* switchTableCellId;
 @property(nonatomic, retain) NSString* dateTableCellId;
 @property(nonatomic, retain) NSString* datetimeTableCellId;
+@property(nonatomic, retain) NSString* deleteTableCellId;
 
 - (ArcosCalendarEventEntryDetailBaseTableViewCell*)createEventEntryDetailBaseTableCellWithData:(NSMutableDictionary*)aData;
 - (NSString*)identifierWithData:(NSMutableDictionary*)aData;

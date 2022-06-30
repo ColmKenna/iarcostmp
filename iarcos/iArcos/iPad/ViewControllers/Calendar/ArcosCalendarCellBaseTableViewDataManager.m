@@ -9,10 +9,14 @@
 #import "ArcosCalendarCellBaseTableViewDataManager.h"
 
 @implementation ArcosCalendarCellBaseTableViewDataManager
+@synthesize actionDelegate = _actionDelegate;
 @synthesize displayList = _displayList;
+@synthesize weekOfMonthIndexPath = _weekOfMonthIndexPath;
+@synthesize weekdaySeqIndex = _weekdaySeqIndex;
 
 - (void)dealloc {
     self.displayList = nil;
+    self.weekOfMonthIndexPath = nil;
     
     [super dealloc];
 }
@@ -48,10 +52,17 @@
     }
     
     // Configure the cell...
+    cell.myIndexPath = indexPath;
+    cell.actionDelegate = self;
     NSMutableDictionary* cellData = [self.displayList objectAtIndex:indexPath.row];
     [cell configCellWithData:cellData];
     
     return cell;
+}
+
+#pragma mark - ArcosCalendarEventEntryTableViewCellDelegate
+- (void)eventEntryInputFinishedWithIndexPath:(NSIndexPath *)anIndexPath sourceView:(UIView *)aView {
+    [self.actionDelegate eventEntryInputFinishedWithIndexPath:anIndexPath dataList:self.displayList sourceView:aView];
 }
 
 @end

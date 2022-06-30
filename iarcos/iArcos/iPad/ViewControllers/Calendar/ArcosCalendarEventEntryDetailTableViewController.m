@@ -56,7 +56,7 @@
 }
 
 - (void)dealloc {
-    NSLog(@"ArcosCalendarEventEntryDetailTableViewController dealloc");
+//    NSLog(@"ArcosCalendarEventEntryDetailTableViewController dealloc");
     self.arcosCalendarEventEntryDetailDataManager = nil;
     self.tableCellFactory = nil;
     [self.HUD removeFromSuperview];
@@ -70,7 +70,7 @@
 }
 
 - (void)addPressed {
-    NSLog(@"addPressed");
+//    NSLog(@"addPressed");
     [self.HUD show:YES];
     [self.view endEditing:YES];
     if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {
@@ -79,6 +79,7 @@
         return;
     }
     NSMutableDictionary* eventDict = [self.arcosCalendarEventEntryDetailDataManager retrieveEventDict];
+    NSString* allDayFlag = [eventDict objectForKey:self.arcosCalendarEventEntryDetailDataManager.allDayKey];
     NSMutableDictionary* startResultDict = [eventDict objectForKey:@"start"];
     NSString* startResultData = [startResultDict objectForKey:@"dateTime"];
     NSDate* startDate = [ArcosUtils dateFromString:startResultData format:[GlobalSharedClass shared].stdUtcDateTimeFormat];
@@ -86,6 +87,12 @@
     NSMutableDictionary* endResultDict = [eventDict objectForKey:@"end"];
     NSString* endResultData = [endResultDict objectForKey:@"dateTime"];
     NSDate* endDate = [ArcosUtils dateFromString:endResultData format:[GlobalSharedClass shared].stdUtcDateTimeFormat];
+    
+    if ([allDayFlag isEqualToString:@"true"] && [endDate compare:startDate] != NSOrderedDescending) {
+        [ArcosUtils showDialogBox:@"The start date must be before the end date" title:@"" delegate:nil target:self tag:0 handler:nil];
+        [self.HUD hide:YES];
+        return;
+    }
     
     if ([endDate compare:startDate] == NSOrderedAscending) {
         [ArcosUtils showDialogBox:@"The start date must be before the end date" title:@"" delegate:nil target:self tag:0 handler:nil];
@@ -106,7 +113,7 @@
     
     NSError* auxError = nil;
     NSData* payloadData = [NSJSONSerialization dataWithJSONObject:eventDict options:NSJSONWritingPrettyPrinted error:&auxError];
-    NSLog(@"aux %@", auxError);
+//    NSLog(@"aux %@", auxError);
     
     [request setHTTPBody:payloadData];
     NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -144,7 +151,90 @@
 }
 
 - (void)editPressed {
-    NSLog(@"editPressed");
+//    NSLog(@"editPressed");
+    [self.HUD show:YES];
+    [self.view endEditing:YES];
+    if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {
+        [ArcosUtils showDialogBox:@"Email account not set up" title:@"" delegate:nil target:self tag:0 handler:nil];
+        [self.HUD hide:YES];
+        return;
+    }
+    NSMutableDictionary* eventDict = [self.arcosCalendarEventEntryDetailDataManager retrieveEditEventDict];
+    if ([eventDict count] == 0) {
+        [ArcosUtils showDialogBox:@"There is no change" title:@"" delegate:nil target:self tag:0 handler:nil];
+        [self.HUD hide:YES];
+        return;
+    }
+    NSString* allDayFlag = [eventDict objectForKey:self.arcosCalendarEventEntryDetailDataManager.allDayKey];
+    if (allDayFlag == nil) {
+        NSString* originalAllDayInt = [self.arcosCalendarEventEntryDetailDataManager.originalEventDataDict objectForKey:@"IsAllDay"];
+        allDayFlag = @"true";
+        if (![originalAllDayInt isEqualToString:@"1"]) {
+            allDayFlag = @"false";
+        }
+    }
+//    NSLog(@"allDayFlag %@", allDayFlag);
+//    NSLog(@"allDayFlag 2 %@ %@", self.arcosCalendarEventEntryDetailDataManager.editEndDate, self.arcosCalendarEventEntryDetailDataManager.editStartDate);
+    if ([allDayFlag isEqualToString:@"true"] && [self.arcosCalendarEventEntryDetailDataManager.editEndDate compare:self.arcosCalendarEventEntryDetailDataManager.editStartDate] != NSOrderedDescending) {
+        [ArcosUtils showDialogBox:@"The start date must be before the end date" title:@"" delegate:nil target:self tag:0 handler:nil];
+        [self.HUD hide:YES];
+        return;
+    }
+    
+    if ([self.arcosCalendarEventEntryDetailDataManager.editEndDate compare:self.arcosCalendarEventEntryDetailDataManager.editStartDate] == NSOrderedAscending) {
+        [ArcosUtils showDialogBox:@"The start date must be before the end date" title:@"" delegate:nil target:self tag:0 handler:nil];
+        [self.HUD hide:YES];
+        return;
+    }
+    
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",[ArcosConstantsDataManager sharedArcosConstantsDataManager].kGraphEventURI, [self.arcosCalendarEventEntryDetailDataManager.originalEventDataDict objectForKey:@"Id"]]];
+    NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
+    [request setHTTPMethod:@"PATCH"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:@"application/json, text/plain, */*" forHTTPHeaderField:@"Accept"];
+    
+    [request setValue:[NSString stringWithFormat:@"Bearer %@", [ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken] forHTTPHeaderField:@"Authorization"];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    
+    NSError* auxError = nil;
+    NSData* payloadData = [NSJSONSerialization dataWithJSONObject:eventDict options:NSJSONWritingPrettyPrinted error:&auxError];
+//    NSLog(@"aux %@", auxError);
+    
+    [request setHTTPBody:payloadData];
+    NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:config];
+    NSURLSessionDataTask* downloadTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            NSLog(@"error %@", error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.HUD hide:YES];
+                [ArcosUtils showDialogBox:[error description] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+            });
+        } else {
+            NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+            int statusCode = [ArcosUtils convertNSIntegerToInt:[httpResponse statusCode]];
+            NSLog(@"response status code: %d", statusCode);
+            if (statusCode != 200) {
+                id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
+                NSLog(@"test %@ -- %@", result, data);
+                NSDictionary* resultDict = (NSDictionary*)result;
+                NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
+                NSString* errorMsg = [errorResultDict objectForKey:@"message"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.HUD hide:YES];
+                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+                });
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.refreshDelegate refreshCalendarTableViewController];
+                    [weakSelf.presentDelegate didDismissModalPresentViewController];
+                });
+            }
+        }
+    }];
+    [downloadTask resume];
 }
 
 #pragma mark - Table view data source
@@ -199,5 +289,67 @@
     [self.tableView reloadData];
 }
 
+- (void)detailDeleteButtonPressed {
+    void (^deleteActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        [self deleteEventProcessor];
+    };
+    void (^cancelActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        
+    };
+    [ArcosUtils showTwoBtnsDialogBox:@"Are you sure you want to delete this event?" title:@"" delegate:nil target:self tag:0 lBtnText:@"Cancel" rBtnText:@"Delete Event" lBtnHandler:cancelActionHandler rBtnHandler:deleteActionHandler];
+}
+
+- (void)deleteEventProcessor {
+    [self.HUD show:YES];
+    [self.view endEditing:YES];
+    if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {
+        [ArcosUtils showDialogBox:@"Email account not set up" title:@"" delegate:nil target:self tag:0 handler:nil];
+        [self.HUD hide:YES];
+        return;
+    }
+    
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",[ArcosConstantsDataManager sharedArcosConstantsDataManager].kGraphEventURI, [self.arcosCalendarEventEntryDetailDataManager.originalEventDataDict objectForKey:@"Id"]]];
+    NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
+    [request setHTTPMethod:@"DELETE"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:@"application/json, text/plain, */*" forHTTPHeaderField:@"Accept"];
+    
+    [request setValue:[NSString stringWithFormat:@"Bearer %@", [ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken] forHTTPHeaderField:@"Authorization"];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:config];
+    NSURLSessionDataTask* downloadTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            NSLog(@"error %@", error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.HUD hide:YES];
+                [ArcosUtils showDialogBox:[error description] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+            });
+        } else {
+            NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+            int statusCode = [ArcosUtils convertNSIntegerToInt:[httpResponse statusCode]];
+            NSLog(@"response status code: %d", statusCode);
+            if (statusCode != 204) {
+                id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
+                NSLog(@"test %@ -- %@", result, data);
+                NSDictionary* resultDict = (NSDictionary*)result;
+                NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
+                NSString* errorMsg = [errorResultDict objectForKey:@"message"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.HUD hide:YES];
+                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+                });
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.refreshDelegate refreshCalendarTableViewController];
+                    [weakSelf.presentDelegate didDismissModalPresentViewController];
+                });
+            }
+        }
+    }];
+    [downloadTask resume];
+}
 
 @end

@@ -26,6 +26,10 @@
     NSString* _startKey;
     NSString* _endKey;
     NSString* _allDayKey;
+    
+    NSMutableDictionary* _originalEventDataDict;
+    NSDate* _editStartDate;
+    NSDate* _editEndDate;
 }
 
 @property(nonatomic, retain) NSString* actionType;
@@ -43,14 +47,19 @@
 @property(nonatomic,retain) NSString* startKey;
 @property(nonatomic,retain) NSString* endKey;
 @property(nonatomic,retain) NSString* allDayKey;
+@property(nonatomic,retain) NSMutableDictionary* originalEventDataDict;
+@property(nonatomic,retain) NSDate* editStartDate;
+@property(nonatomic,retain) NSDate* editEndDate;
 
 - (NSMutableDictionary*)createCellDataWithCellType:(NSNumber*)aCellType fieldDesc:(NSString*)aFieldDesc fieldName:(NSString*)aFieldName fieldData:(id)aFieldData;
 - (void)retrieveCreateDataWithDate:(NSDate*)aDate;
+- (void)retrieveEditDataWithCellData:(NSMutableDictionary*)aCellData;
 - (NSMutableDictionary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath;
 - (void)dataDetailBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath;
 - (NSIndexPath*)indexPathWithFieldName:(NSString*)aFieldName;
 - (void)dataRefreshListWithSwitchReturnValue:(NSString*)aReturnValue;
 - (NSMutableDictionary*)retrieveEventDict;
+- (NSMutableDictionary*)retrieveEditEventDict;
 
 @end
 

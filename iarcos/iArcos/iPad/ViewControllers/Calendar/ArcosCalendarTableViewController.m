@@ -228,6 +228,9 @@
                 [eventDataList sortUsingDescriptors:[NSArray arrayWithObjects:startDateDescriptor, nil]];
             }            
             ArcosCalendarCellBaseTableViewDataManager* baseTableViewDataManager = [cell.dataManagerList objectAtIndex:i];
+            baseTableViewDataManager.actionDelegate = self;
+//            baseTableViewDataManager.weekOfMonthIndexPath = indexPath;
+//            baseTableViewDataManager.weekdaySeqIndex = i;
             baseTableViewDataManager.displayList = eventDataList;
             UITableView* auxTableView = [cell.tableViewList objectAtIndex:i];
             [auxTableView reloadData];
@@ -237,6 +240,28 @@
     return cell;
 }
 
+#pragma mark - ArcosCalendarCellBaseTableViewDataManagerDelegate
+- (void)eventEntryInputFinishedWithIndexPath:(NSIndexPath*)anIndexPath dataList:(NSMutableArray *)aDataList sourceView:(UIView *)aView {
+    @try {
+        NSMutableDictionary* eventDataDict = [aDataList objectAtIndex:anIndexPath.row];
+        if (eventDataDict == nil) return;
+//        NSLog(@"eventDataDict %@", eventDataDict);
+        ArcosCalendarEventEntryDetailTableViewController* ACEEDTVC = [[ArcosCalendarEventEntryDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        ACEEDTVC.refreshDelegate = self;
+        ACEEDTVC.presentDelegate = self;
+        [ACEEDTVC.arcosCalendarEventEntryDetailDataManager retrieveEditDataWithCellData:eventDataDict];
+        UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
+        tmpNavigationController.preferredContentSize = CGSizeMake(500.0f, 700.0f);
+        tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+        tmpNavigationController.popoverPresentationController.sourceView = aView;
+        [self presentViewController:tmpNavigationController animated:YES completion:nil];
+        [ACEEDTVC release];
+        [tmpNavigationController release];
+    } @catch (NSException *exception) {
+        [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:self tag:0 handler:nil];
+    }
+}
+
 #pragma mark - ArcosCalendarTableViewCellDelegate
 - (void)inputFinishedWithIndexPath:(NSIndexPath*)anIndexPath labelIndex:(int)aLabelIndex {
     @try {
@@ -244,7 +269,7 @@
         NSNumber* weekDay = [self.arcosCalendarTableDataManager.weekdaySeqList objectAtIndex:aLabelIndex];
         NSMutableDictionary* dayDataDict = [weekDataDict objectForKey:weekDay];
         if (dayDataDict == nil) return;
-        NSLog(@"inputFinishedWithIndexPath");
+//        NSLog(@"inputFinishedWithIndexPath");
         self.arcosCalendarTableDataManager.currentSelectedDate = [dayDataDict objectForKey:@"Date"];
         [self.tableView reloadData];
     } @catch (NSException *exception) {
@@ -260,7 +285,7 @@
         NSNumber* weekDay = [self.arcosCalendarTableDataManager.weekdaySeqList objectAtIndex:aView.tag];
         NSMutableDictionary* dayDataDict = [weekDataDict objectForKey:weekDay];
         if (dayDataDict == nil) return;
-        NSLog(@"longInputFinishedWithIndexPath");
+//        NSLog(@"longInputFinishedWithIndexPath");
         ArcosCalendarEventEntryDetailTableViewController* ACEEDTVC = [[ArcosCalendarEventEntryDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
         ACEEDTVC.refreshDelegate = self;
         ACEEDTVC.presentDelegate = self;
@@ -331,7 +356,7 @@
                 });
             } else {
                 id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
-                NSLog(@"calendar entries res %@ -- %@", result, data);
+//                NSLog(@"calendar entries res %@ -- %@", result, data);
                 NSDictionary* resultDict = (NSDictionary*)result;
                 NSArray* eventList = [resultDict objectForKey:@"value"];
                 [self.arcosCalendarTableDataManager clearCalendarEventData];

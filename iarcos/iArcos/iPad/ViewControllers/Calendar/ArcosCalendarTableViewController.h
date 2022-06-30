@@ -14,7 +14,7 @@
 #import "MBProgressHUD.h"
 #import "ArcosCalendarEventEntryDetailTableViewController.h"
 
-@interface ArcosCalendarTableViewController : UITableViewController <ArcosCalendarTableViewCellDelegate, ModalPresentViewControllerDelegate, ArcosCalendarEventEntryDetailTableViewControllerDelegate>{
+@interface ArcosCalendarTableViewController : UITableViewController <ArcosCalendarTableViewCellDelegate, ModalPresentViewControllerDelegate, ArcosCalendarEventEntryDetailTableViewControllerDelegate, ArcosCalendarCellBaseTableViewDataManagerDelegate>{
     ArcosCalendarTableDataManager* _arcosCalendarTableDataManager;
     ArcosCalendarTableHeaderView* _arcosCalendarTableHeaderView;
     ArcosRootViewController* _arcosRootViewController;

@@ -30,6 +30,7 @@
 
 - (void)configCellWithData:(NSMutableDictionary*)aCellData {
     self.fieldValueTextField.placeholder = [aCellData objectForKey:@"FieldDesc"];
+    self.fieldValueTextField.text = [aCellData objectForKey:@"FieldData"];
 }
 
 #pragma mark UITextFieldDelegate

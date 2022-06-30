@@ -13,6 +13,7 @@
 
 - (void)detailBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath;
 - (void)refreshListWithSwitchReturnValue:(NSString*)aReturnValue;
+- (void)detailDeleteButtonPressed;
 
 @end
 
