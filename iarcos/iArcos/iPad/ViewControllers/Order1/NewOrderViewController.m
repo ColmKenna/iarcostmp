@@ -195,6 +195,11 @@
         [rightButtonList addObject:loadButton];
         [loadButton release];
     }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
+        UIBarButtonItem* packageButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"discount.png"] style:UIBarButtonItemStylePlain target:self action:@selector(packageButtonPressed)];
+        [rightButtonList addObject:packageButton];
+        [packageButton release];
+    }
     self.navigationItem.rightBarButtonItems = rightButtonList;
     
     [checkoutButton release];
@@ -230,6 +235,54 @@
                 }
             }
         }
+    }
+}
+
+- (void)packageButtonPressed {
+    PackageTableViewController* PTVC = [[PackageTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    PTVC.modalDelegate = self;
+    PTVC.actionDelegate = self;
+    UINavigationController* auxNavigationController = [[UINavigationController alloc] initWithRootViewController:PTVC];
+    if (@available(iOS 13.0, *)) {
+        auxNavigationController.modalInPresentation = YES;
+    }
+    auxNavigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+    auxNavigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:auxNavigationController animated:YES completion:^{
+        
+    }];
+    [auxNavigationController release];
+    [PTVC release];
+}
+
+#pragma mark PackageTableViewControllerDelegate
+- (void)packageSaveButtonPressed {
+    NSDictionary* currentFormDetailRecordDict = [self.fdtvc.formDetailDataManager formDetailRecordDictWithIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR];
+    if (currentFormDetailRecordDict != nil) {
+        [self didSelectFormDetailRow:currentFormDetailRecordDict];
+    }
+    
+    NSNumber* pGiur = [[[GlobalSharedClass shared] retrieveCurrentSelectedPackage] objectForKey:@"pGiur"];
+    NSMutableArray* productIURList = [NSMutableArray arrayWithCapacity:[[[OrderSharedClass sharedOrderSharedClass].currentOrderCart allKeys] count]];
+    for(NSString* aKey in [OrderSharedClass sharedOrderSharedClass].currentOrderCart) {
+        NSMutableDictionary* aDict = [[OrderSharedClass sharedOrderSharedClass].currentOrderCart objectForKey:aKey];
+        NSNumber* tmpProductIUR = [aDict objectForKey:@"ProductIUR"];
+        [productIURList addObject:tmpProductIUR];
+    }
+    NSMutableDictionary* priceHashMap = [[ArcosCoreData sharedArcosCoreData] retrievePriceWithLocationIUR:pGiur productIURList:productIURList];
+    for(NSString* aKey in [OrderSharedClass sharedOrderSharedClass].currentOrderCart) {
+        NSMutableDictionary* aDict = [[OrderSharedClass sharedOrderSharedClass].currentOrderCart objectForKey:aKey];
+        NSNumber* tmpProductIUR = [aDict objectForKey:@"ProductIUR"];
+        NSDictionary* tmpPriceDict = [priceHashMap objectForKey:tmpProductIUR];
+        if (tmpPriceDict != nil) {
+            [aDict setObject:[NSNumber numberWithBool:YES] forKey:@"PriceFlag"];
+        } else {
+            [aDict setObject:[NSNumber numberWithBool:NO] forKey:@"PriceFlag"];
+        }
+        NSDecimalNumber* tmpDiscountPercent = [tmpPriceDict objectForKey:@"DiscountPercent"];
+        [aDict setObject:[NSNumber numberWithFloat:[tmpDiscountPercent floatValue]] forKey:@"DiscountPercent"];
+        [aDict setObject:[NSNumber numberWithFloat:[tmpDiscountPercent floatValue]] forKey:@"PriceDiscountPercent"];
+        [aDict setObject:[ProductFormRowConverter calculateLineValue:aDict] forKey:@"LineValue"];
     }
 }
 
@@ -353,9 +406,12 @@
     cpwvc.modalDelegate = self;
     cpwvc.orderHeader = [OrderSharedClass sharedOrderSharedClass].currentOrderHeader;
     cpwvc.isOrderPadPrinterType = YES;
-    if ([cpwvc respondsToSelector:@selector(isModalInPresentation)]) {
+    if (@available(iOS 13.0, *)) {
         cpwvc.modalInPresentation = YES;
     }
+//    if ([cpwvc respondsToSelector:@selector(isModalInPresentation)]) {
+//        cpwvc.modalInPresentation = YES;
+//    }
     cpwvc.modalPresentationStyle = UIModalPresentationFormSheet;
     cpwvc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentViewController:cpwvc animated:YES completion:^{
@@ -801,11 +857,35 @@
 }
 
 - (void)configTitleToWhite {
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    if (@available(iOS 15.0, *)) {
+        UINavigationBarAppearance* customNavigationBarAppearance = [[UINavigationBarAppearance alloc] init];
+        [customNavigationBarAppearance configureWithOpaqueBackground];
+        [customNavigationBarAppearance setBackgroundColor:[GlobalSharedClass shared].myAppBlueColor];
+        [customNavigationBarAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil]];
+        self.navigationController.navigationBar.standardAppearance = customNavigationBarAppearance;
+        self.navigationController.navigationBar.scrollEdgeAppearance = customNavigationBarAppearance;
+        [customNavigationBarAppearance release];
+    } else {
+        // Fallback on earlier versions
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    }
+//    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
 }
 
 - (void)configTitleToBlue {
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor clearColor]}];
+    if (@available(iOS 15.0, *)) {
+        UINavigationBarAppearance* customNavigationBarAppearance = [[UINavigationBarAppearance alloc] init];
+        [customNavigationBarAppearance configureWithOpaqueBackground];
+        [customNavigationBarAppearance setBackgroundColor:[GlobalSharedClass shared].myAppBlueColor];
+        [customNavigationBarAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor clearColor], NSForegroundColorAttributeName, nil]];
+        self.navigationController.navigationBar.standardAppearance = customNavigationBarAppearance;
+        self.navigationController.navigationBar.scrollEdgeAppearance = customNavigationBarAppearance;
+        [customNavigationBarAppearance release];
+    } else {
+        // Fallback on earlier versions
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor clearColor]}];
+    }
+//    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor clearColor]}];
 }
 
 @end

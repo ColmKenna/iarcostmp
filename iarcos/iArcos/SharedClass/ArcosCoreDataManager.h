@@ -27,6 +27,7 @@
 #import "ArcosOrderHeaderBO.h"
 #import "OrderHeader.h"
 #import "ArcosOrderLineBO.h"
+#import "Package.h"
 
 @interface ArcosCoreDataManager : NSObject
 
@@ -35,6 +36,7 @@
 -(LocationProductMAT*)populateLocationProductMATWithFieldList:(NSArray*)aFieldList locationProductMAT:(LocationProductMAT*)anLocationProductMAT levelIUR:(NSNumber*)aLevelIUR;
 -(DescrDetail*)populateDescrDetailWithSoapOB:(ArcosGenericReturnObjectWithImage*)anObject descrDetail:(DescrDetail*)DescrDetail;
 -(DescrDetail*)populateDescrDetailWithFieldList:(NSArray*)aFieldList descrDetail:(DescrDetail*)DescrDetail;
+-(Package*)populatePackageWithFieldList:(NSArray*)aFieldList package:(Package*)Package;
 -(Location*)populateLocationWithSoapOB:(ArcosGenericReturnObjectWithImage*)anObject location:(Location*)Location;
 -(Location*)populateLocationWithFieldList:(NSArray*)aFieldList location:(Location*)Location;
 -(Price*)populatePriceWithFieldList:(NSArray*)aFieldList price:(Price*)Price;
@@ -50,6 +52,7 @@
 - (void)populateOrderWithSoapOB:(ArcosOrderHeaderBO*)anObject orderHeader:(OrderHeader*)OrderHeader;
 - (NSMutableDictionary*)createOrderLineWithManagedOrderLine:(OrderLine*)anOrderLine;
 - (NSMutableArray*)processPriceProductList:(NSMutableArray*)aProductList priceHashMap:(NSMutableDictionary*)aPriceHashMap bonusDealHashMap:(NSMutableDictionary*)aBonusDealHashMap;
+- (NSMutableArray*)processPriceProductList:(NSMutableArray*)aProductList priceHashMap:(NSMutableDictionary*)aPriceHashMap;
 - (NSMutableArray*)processMasterPriceProductList:(NSMutableArray*)aProductList masterPriceHashMap:(NSMutableDictionary*)aMasterPriceHashMap masterBonusDealHashMap:(NSMutableDictionary*)aMasterBonusDealHashMap;
 - (NSMutableArray*)processPriceOverrideWithProductList:(NSMutableArray*)aProductList priceOverride:(int)aPriceOverride;
 - (NSMutableArray*)processCUiurWithProductList:(NSMutableArray*)aProductList;

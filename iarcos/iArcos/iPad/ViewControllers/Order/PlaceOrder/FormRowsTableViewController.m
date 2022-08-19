@@ -863,6 +863,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)resetDividerFormRowsWithDividerIUR:(NSNumber*)anIUR withDividerName:(NSString*)name locationIUR:(NSNumber*)aLocationIUR {
     self.dividerName = name;
     self.unsortedFormrows = [[ArcosCoreData sharedArcosCoreData] dividerFormRowsWithDividerIUR:anIUR formIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR locationIUR:aLocationIUR];
+        
     [self processDefaultQtyPercent:self.unsortedFormrows];
     [self processUnsortedFormRows];
 }

@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string>Arcos-Icon-2a-iPadPro@2x.png</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.strataiarcos</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>

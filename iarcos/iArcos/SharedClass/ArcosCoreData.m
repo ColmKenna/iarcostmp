@@ -1516,7 +1516,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         }
     }
     
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableUsePriceListFlag]) {        
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableUsePriceListFlag]) {
         if (![[ArcosConfigDataManager sharedArcosConfigDataManager] enableUsePriceProductGroupFlag]) {
             NSMutableDictionary* priceHashMap = [self retrievePriceWithLocationIUR:aLocationIUR productIURList:aProductIURList];
             NSMutableDictionary* bonusDealHashMap = [self retrieveBonusDealWithLocationIUR:aLocationIUR productIURList:aProductIURList];
@@ -1527,6 +1527,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
             NSMutableDictionary* pgPriceHashMap = [self retrievePriceWithLocationIUR:[locationDict objectForKey:@"PGiur"] productIURList:aProductIURList];
             NSMutableDictionary* pgBonusDealHashMap = [self retrieveBonusDealWithLocationIUR:[locationDict objectForKey:@"PGiur"] productIURList:aProductIURList];
             aProductList = [self.arcosCoreDataManager processPriceProductList:aProductList priceHashMap:pgPriceHashMap bonusDealHashMap:pgBonusDealHashMap];
+        }
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
+            NSNumber* auxPGiur = [[[GlobalSharedClass shared] retrieveCurrentSelectedPackage] objectForKey:@"pGiur"];
+            
+            NSMutableDictionary* pgPriceHashMap = [self retrievePriceWithLocationIUR:auxPGiur productIURList:aProductIURList];
+            aProductList = [self.arcosCoreDataManager processPriceProductList:aProductList priceHashMap:pgPriceHashMap];
         }
     }
     int auxPriceOverride = [[locationDict objectForKey:@"PriceOverride"] intValue];    
@@ -1544,8 +1550,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         [productIURList addObject:auxProductIUR];
     }
     NSMutableArray* productsList = [self productWithProductIURList:productIURList];
-    productsList = [self processEntryPriceProductList:productsList productIURList:productIURList locationIUR:aLocationIUR];    
-    
+    productsList = [self processEntryPriceProductList:productsList productIURList:productIURList locationIUR:aLocationIUR];
     NSMutableDictionary* productHashMap = [NSMutableDictionary dictionaryWithCapacity:[productsList count]];
     for (NSDictionary* aProductDict in productsList) {
         NSNumber* productIURKey = [aProductDict objectForKey:@"ProductIUR"];
@@ -2098,6 +2103,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         
     //releas the instance
     [formatter release];
+    [returnOrderHeader setObject:[ArcosUtils convertNilToZero:orderHeader.PosteedIUR] forKey:@"PosteedIUR"];
     return returnOrderHeader;
     
 }
@@ -2895,6 +2901,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     //OH.OrderNumber=0; need to be increament number in setting
     OH.CustomerRef=custRef;
     OH.PromotionIUR = [ArcosUtils convertStringToNumber:[acctNoDict objectForKey:@"acctNo"]];
+    OH.PosteedIUR = [ArcosUtils convertNilToZero:[anOrder objectForKey:@"PosteedIUR"]];
     OH.OrderDate=[orderHeader objectForKey:@"orderDate"];
     OH.OSiur=[status objectForKey:@"DescrDetailIUR"];
     OH.OTiur=[type objectForKey:@"DescrDetailIUR"];
@@ -3376,8 +3383,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 
 -(NSMutableArray*)detailingRNG{
     NSPredicate* predicate=[NSPredicate predicateWithFormat:@"Active=1 AND DescrTypeCode = %@",@"PI"];
+    NSArray* sortDescNames = [NSArray arrayWithObjects:@"ProfileOrder", nil];
     
-    NSMutableArray* objectsArray=[self fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:nil  withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
+    NSMutableArray* objectsArray=[self fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:nil  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSManagedObjectResultType needDistinct:NO ascending:[NSNumber numberWithBool:YES]];
     
     //convert product to call tran object
     NSMutableArray* newObjectArray=[NSMutableArray array];
@@ -3574,6 +3582,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     }
     
     return  YES;     
+}
+- (void)LoadPackageWithFieldList:(NSArray*)aFieldList existingPackageDict:(NSMutableDictionary*)anExistingPackageDict {
+    NSNumber* packageIUR = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:0]];
+    Package* aPackage = [anExistingPackageDict objectForKey:packageIUR];
+    if (aPackage != nil) {
+        [self.arcosCoreDataManager populatePackageWithFieldList:aFieldList package:aPackage];
+    } else {
+        NSManagedObjectContext* context = [self importManagedObjectContext];
+        Package* Package = [NSEntityDescription
+                                  insertNewObjectForEntityForName:@"Package"
+                                  inManagedObjectContext:context];
+        [self.arcosCoreDataManager populatePackageWithFieldList:aFieldList package:Package];
+    }
 }
 - (void)LoadLocationWithFieldList:(NSArray*)aFieldList existingLocationDict:(NSMutableDictionary*)anExistingLocationDict {
     NSNumber* locationIUR = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:0]];
@@ -4838,6 +4859,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     collected.DateCollected = aDate;
     [self saveContext:self.addManagedObjectContext];
 }
+#pragma mark - Package data
+- (NSMutableDictionary*)retrieveDefaultPackageWithLocationIUR:(NSNumber*)aLocationIUR {
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"locationIUR = %@ and defaultPackage = 1 and active = 1", aLocationIUR];
+    NSArray* sortDescNames = [NSArray arrayWithObjects:@"accountCode", nil];
+    NSMutableArray* objectArray = [self fetchRecordsWithEntity:@"Package" withPropertiesToFetch:nil  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
+    if ([objectArray count] > 0) {
+        return [NSMutableDictionary dictionaryWithDictionary:[objectArray objectAtIndex:0]];
+    }
+    return nil;
+}
+
+- (NSMutableDictionary*)retrievePackageWithIUR:(NSNumber*)aPackageIUR {
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"iUR = %@ and active = 1", aPackageIUR];
+    NSArray* sortDescNames = [NSArray arrayWithObjects:@"accountCode", nil];
+    NSMutableArray* objectArray = [self fetchRecordsWithEntity:@"Package" withPropertiesToFetch:nil  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
+    if ([objectArray count] > 0) {
+        return [NSMutableDictionary dictionaryWithDictionary:[objectArray objectAtIndex:0]];
+    }
+    return nil;
+}
 
 #pragma mark Generic method
 -(NSNumber*)recordQtyWithEntityName:(NSString*)anEntityName predicate:(NSPredicate*)aPredicate {
@@ -5240,7 +5281,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     
     NSError *error = nil;
     __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error])
+    NSDictionary* migrOptions = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption, [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
+    if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:migrOptions error:&error])
     {
         /*
          Replace this implementation with code to handle the error appropriately.

@@ -181,6 +181,28 @@
         [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[NSDate date] forKey:@"deliveryDate"];
         [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[NSNumber numberWithBool:NO] forKey:@"deliveryDateYellowBG"];
     }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
+        [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader removeObjectForKey:@"wholesaler"];
+        [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader removeObjectForKey:@"wholesalerText"];
+        NSMutableDictionary* tmpCurrentSelectedPackage = [[GlobalSharedClass shared] retrieveCurrentSelectedPackage];
+        NSNumber* packageWholesalerIUR = [tmpCurrentSelectedPackage objectForKey:@"wholesalerIUR"];
+        if ([packageWholesalerIUR intValue] != 0) {
+            NSMutableArray* packageWholesalerObjectList = [[ArcosCoreData sharedArcosCoreData] locationWithIUR:packageWholesalerIUR];
+            if ([packageWholesalerObjectList count] == 1) {
+                NSMutableDictionary* packageWholesalerDict = [packageWholesalerObjectList objectAtIndex:0];
+                [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:packageWholesalerDict forKey:@"wholesaler"];
+                [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[packageWholesalerDict objectForKey:@"Name"] forKey:@"wholesalerText"];
+            }
+        }
+        [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader removeObjectForKey:@"acctNo"];
+        [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader removeObjectForKey:@"acctNoText"];
+        NSString* tmpAccountCode = [ArcosUtils convertNilToEmpty:[tmpCurrentSelectedPackage objectForKey:@"accountCode"]];
+        NSMutableDictionary* acctNoDict = [NSMutableDictionary dictionaryWithCapacity:2];
+        [acctNoDict setObject:tmpAccountCode forKey:@"acctNo"];
+        [acctNoDict setObject:tmpAccountCode forKey:@"Title"];
+        [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:acctNoDict forKey:@"acctNo"];
+        [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:tmpAccountCode forKey:@"acctNoText"];
+    }
     [self refreshTotalGoods];
     [self.orderInfoTableViewController createBasicDataWithOrderHeader:[OrderSharedClass sharedOrderSharedClass].currentOrderHeader];
     [self.orderInfoTableView reloadData];
@@ -269,7 +291,7 @@
         if (auxOrderType == nil) {
             [ArcosUtils showDialogBox:@"Please select an order type" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
             return;
-        }
+        }        
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableVanSaleFlag] && ![[auxOrderType objectForKey:@"DescrDetailCode"] isEqualToString:[GlobalSharedClass shared].vansCode]) {
             void (^continueActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
                 if ([[ArcosConfigDataManager sharedArcosConfigDataManager] checkTotalOrderValueFlag]) {
@@ -346,9 +368,12 @@
 //        cpwvc.myDelegate = self;
         cpwvc.modalDelegate = self;
         cpwvc.orderHeader = auxOrderHeader;
-        if ([cpwvc respondsToSelector:@selector(isModalInPresentation)]) {
+        if (@available(iOS 13.0, *)) {
             cpwvc.modalInPresentation = YES;
         }
+//        if ([cpwvc respondsToSelector:@selector(isModalInPresentation)]) {
+//            cpwvc.modalInPresentation = YES;
+//        }
         cpwvc.modalPresentationStyle = UIModalPresentationFormSheet;
         cpwvc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         [self presentViewController:cpwvc animated:YES completion:^{
@@ -380,6 +405,9 @@
 //    } else {
 //        
 //    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
+        [GlobalSharedClass shared].currentSelectedPackage = nil;
+    }
     [GlobalSharedClass shared].lastOrderFormIUR = [NSNumber numberWithInt:[[OrderSharedClass sharedOrderSharedClass].currentFormIUR intValue]];
     [OrderSharedClass sharedOrderSharedClass].currentFormIUR=nil;
     [GlobalSharedClass shared].currentSelectedOrderLocationIUR = nil;

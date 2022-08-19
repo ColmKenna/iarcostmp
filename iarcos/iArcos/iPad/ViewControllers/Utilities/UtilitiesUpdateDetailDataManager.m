@@ -28,6 +28,7 @@
 @synthesize sectionTitlePlistTitleRelatedDict = _sectionTitlePlistTitleRelatedDict;
 @synthesize dataTablesPlistTitle = _dataTablesPlistTitle;
 @synthesize uploadItemsPlistTitle = _uploadItemsPlistTitle;
+@synthesize packageTableName = _packageTableName;
 /*
  0: FULL
  1: PARTIAL
@@ -37,6 +38,7 @@
 -(id)init{
     self=[super init];
     if (self!=nil) {
+        self.packageTableName = @"Package";
         self.downloadModeConstantDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"FULL",@"PARTIAL",@"EXCLUDE", nil] forKeys:[NSArray arrayWithObjects:[NSNumber numberWithInt:0], [NSNumber numberWithInt:1], [NSNumber numberWithInt:2], nil]];
         self.downloadSectionTitle = @"Download";
         self.uploadSectionTitle = @"Upload";
@@ -84,6 +86,7 @@
     self.sectionTitlePlistTitleRelatedDict = nil;
     self.dataTablesPlistTitle = nil;
     self.uploadItemsPlistTitle = nil;
+    self.packageTableName = nil;
     
     [super dealloc];
 }
@@ -99,6 +102,7 @@
     @try {
         //should be synced when there is a new table added.
         self.dataTableNameRelatedEntityDict = [NSMutableDictionary dictionaryWithCapacity:[self.tableNameList count]];
+        [self.dataTableNameRelatedEntityDict setObject:[NSArray arrayWithObjects:[GlobalSharedClass shared].packageSelectorName, nil] forKey:self.packageTableName];
         [self.dataTableNameRelatedEntityDict setObject:[NSArray arrayWithObjects:[GlobalSharedClass shared].locationSelectorName, [GlobalSharedClass shared].locLocLinkSelectorName, nil] forKey:@"Location"];
         [self.dataTableNameRelatedEntityDict setObject:[NSArray arrayWithObjects:[GlobalSharedClass shared].locationProductMATSelectorName, nil] forKey:@"Location MAT"];
         [self.dataTableNameRelatedEntityDict setObject:[NSArray arrayWithObject:[GlobalSharedClass shared].productSelectorName] forKey:@"Product"];
@@ -158,7 +162,11 @@
     for (int i = 0; i < [tmpDisplayList count]; i++) {
         NSMutableDictionary* tmpDataDict = [tmpDisplayList objectAtIndex:i];
         NSMutableDictionary* newDataDict = [NSMutableDictionary dictionaryWithDictionary:tmpDataDict];
-        [self.tableNameList addObject:[newDataDict objectForKey:@"TableName"]];
+        NSString* auxTableName = [newDataDict objectForKey:@"TableName"];
+        if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag] && [auxTableName isEqualToString:self.packageTableName]) {
+            continue;
+        }
+        [self.tableNameList addObject:auxTableName];
         [self.dataTablesDisplayList addObject:newDataDict];
     }
     [self.groupedGenericNameDict setObject:self.tableNameList forKey:self.downloadSectionTitle];

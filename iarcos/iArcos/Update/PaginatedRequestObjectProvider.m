@@ -20,6 +20,7 @@
 @synthesize utilitiesUpdateDetailDataManager = _utilitiesUpdateDetailDataManager;
 @synthesize formRowPaginatedRequestField = _formRowPaginatedRequestField;
 @synthesize locationProductMATPaginatedRequestField = _locationProductMATPaginatedRequestField;
+@synthesize packagePaginatedRequestField = _packagePaginatedRequestField;
 
 - (void)dealloc {
     if (self.productPaginatedRequestField != nil) { self.productPaginatedRequestField = nil; }
@@ -33,6 +34,7 @@
     if (self.utilitiesUpdateDetailDataManager != nil) { self.utilitiesUpdateDetailDataManager = nil; }
     if (self.formRowPaginatedRequestField != nil) { self.formRowPaginatedRequestField = nil; }      
     self.locationProductMATPaginatedRequestField = nil;
+    self.packagePaginatedRequestField = nil;
     
     [super dealloc];
 }
@@ -496,6 +498,27 @@
     self.locationProductMATPaginatedRequestField.orderBy = orderBy;
     
     return self.locationProductMATPaginatedRequestField;
+}
+
+- (PaginatedRequestObject*)packageRequestObject:(NSString*)aLocationIURList {
+    NSMutableDictionary* dataDict = [self getUpdateCenterDataDict:[GlobalSharedClass shared].packageSelectorName];
+    NSNumber* downloadMode = [dataDict objectForKey:@"DownloadMode"];
+    NSNumber* isDownloaded = [dataDict objectForKey:@"IsDownloaded"];
+    self.packagePaginatedRequestField = [[[PaginatedRequestObject alloc] init] autorelease];
+    NSString* selectStatement = @"SELECT IUR, LocationIUR, WholesalerIUR, PGiur, AccountCode, xxIUR, yyIUR, xxString, FormIUR, Active, AllowBonus, DefaultPackage";
+    NSString* fromStatement = nil;
+    if ([downloadMode intValue] == 1 && [isDownloaded boolValue]) {//1:Partial
+        NSDate* downloadDate = [dataDict objectForKey:@"DownloadDate"];
+        fromStatement = [NSString stringWithFormat:@"FROM Package WHERE LocationIUR IN (%@) AND DateLastModified >= convert(datetime, '%@', 103)", aLocationIURList, [ArcosUtils stringFromDate:downloadDate format:[GlobalSharedClass shared].dateFormat]];
+    } else {
+        fromStatement = [NSString stringWithFormat:@"FROM Package WHERE LocationIUR IN (%@)", aLocationIURList];
+    }
+    NSString* orderBy = @"order by IUR";
+    self.packagePaginatedRequestField.selectStateMent = selectStatement;
+    self.packagePaginatedRequestField.fromStatement = fromStatement;
+    self.packagePaginatedRequestField.orderBy = orderBy;
+    
+    return self.packagePaginatedRequestField;
 }
 
 @end

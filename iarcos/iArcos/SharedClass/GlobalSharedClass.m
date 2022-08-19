@@ -54,6 +54,7 @@ static GlobalSharedClass* _shared = nil;
 @synthesize imagePageSize;
 @synthesize batchedSize;
 @synthesize responsePageSize = _responsePageSize;
+@synthesize packageSelectorName = _packageSelectorName;
 @synthesize locationSelectorName = _locationSelectorName;
 @synthesize locLocLinkSelectorName = _locLocLinkSelectorName;
 @synthesize productSelectorName = _productSelectorName;
@@ -127,6 +128,7 @@ static GlobalSharedClass* _shared = nil;
 @synthesize acctNoCompany = _acctNoCompany;
 @synthesize myAppBlueColor = _myAppBlueColor;
 @synthesize mySystemBlueColor = _mySystemBlueColor;
+@synthesize currentSelectedPackage = _currentSelectedPackage;
 
 +(GlobalSharedClass*)shared 
 {
@@ -190,6 +192,7 @@ static GlobalSharedClass* _shared = nil;
         self.imagePageSize = 1;
         self.batchedSize = 3000;
         self.responsePageSize = 100;
+        self.packageSelectorName = @"Package";
         self.locationSelectorName = @"Location";
         self.locLocLinkSelectorName = @"LocLocLink";
         self.productSelectorName = @"Product";
@@ -259,6 +262,7 @@ static GlobalSharedClass* _shared = nil;
         self.acctNoCompany = @"uniphar";
         self.myAppBlueColor = [UIColor colorWithRed:0.0 green:150.0/255.0 blue:214.0/255.0 alpha:1.0];
         self.mySystemBlueColor = [UIColor colorWithRed:0.0 green:132.0/255.0 blue:254.0/255.0 alpha:1.0];
+        self.currentSelectedPackage = nil;
 	}
     
 	return self;
@@ -523,6 +527,13 @@ CGFloat RadiansToDegrees(CGFloat radians)
     return passcode;
 }
 
+- (NSMutableDictionary*)retrieveCurrentSelectedPackage {
+    if (self.currentSelectedPackage == nil) {
+        self.currentSelectedPackage = [[ArcosCoreData sharedArcosCoreData] retrieveDefaultPackageWithLocationIUR:self.currentSelectedLocationIUR];
+    }
+    return self.currentSelectedPackage;
+}
+
 #pragma mark app setting
 
 -(void)dealloc{    
@@ -550,7 +561,8 @@ CGFloat RadiansToDegrees(CGFloat radians)
     self.utcDateFormat = nil;
     self.stdUtcDateTimeFormat = nil;
     self.ieTimeZone = nil;
-    if (self.noDataFoundMsg != nil) { self.noDataFoundMsg = nil; } 
+    if (self.noDataFoundMsg != nil) { self.noDataFoundMsg = nil; }
+    self.packageSelectorName = nil;
     if (self.locationSelectorName != nil) { self.locationSelectorName = nil; }
     self.locLocLinkSelectorName = nil;
     if (self.productSelectorName != nil) { self.productSelectorName = nil; }
@@ -604,6 +616,7 @@ CGFloat RadiansToDegrees(CGFloat radians)
     self.acctNoCompany = nil;
     self.myAppBlueColor = nil;
     self.mySystemBlueColor = nil;
+    self.currentSelectedPackage = nil;
     
     [super dealloc];
 }

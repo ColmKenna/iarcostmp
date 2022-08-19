@@ -24,6 +24,7 @@
     UtilitiesUpdateDetailDataManager* _utilitiesUpdateDetailDataManager;
     PaginatedRequestObject* _formRowPaginatedRequestField;
     PaginatedRequestObject* _locationProductMATPaginatedRequestField;
+    PaginatedRequestObject* _packagePaginatedRequestField;
 }
 
 @property(nonatomic, retain) PaginatedRequestObject* productPaginatedRequestField;
@@ -37,6 +38,7 @@
 @property(nonatomic, assign) UtilitiesUpdateDetailDataManager* utilitiesUpdateDetailDataManager;
 @property(nonatomic, retain) PaginatedRequestObject* formRowPaginatedRequestField;
 @property(nonatomic, retain) PaginatedRequestObject* locationProductMATPaginatedRequestField;
+@property(nonatomic, retain) PaginatedRequestObject* packagePaginatedRequestField;
 
 - (PaginatedRequestObject*)descrDetailsRequestObject;
 - (PaginatedRequestObject*)productRequestObject;
@@ -49,5 +51,6 @@
 - (NSMutableDictionary*)getUpdateCenterDataDict:(NSString*)aSelectorName;
 - (PaginatedRequestObject*)formRowRequestObject;
 - (PaginatedRequestObject*)locationProductMATRequestObject;
+- (PaginatedRequestObject*)packageRequestObject:(NSString*)aLocationIURList;
 
 @end

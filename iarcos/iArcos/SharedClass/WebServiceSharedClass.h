@@ -79,6 +79,7 @@
 -(void)loadProductsToDB;
 -(void)loadPriceToDB;
 -(void)loadPaginatedLocationsToDB:(NSNumber*)aPageNumber;
+-(void)loadPackageToDB;
 -(void)loadLocationsToDB;
 -(void)loadPaginatedLocLocLinkToDB:(NSNumber*)aPageNumber;
 -(void)loadLocLocLinkToDB;

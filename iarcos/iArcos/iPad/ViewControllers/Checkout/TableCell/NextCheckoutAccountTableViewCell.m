@@ -19,6 +19,11 @@
 
 - (void)configCellWithData:(NSMutableDictionary *)aCellData {
     [super configCellWithData:aCellData];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
+        self.fieldValueLabel.textColor = [UIColor blackColor];
+    } else {
+        self.fieldValueLabel.textColor = [UIColor blueColor];
+    }
     self.fieldValueLabel.text = [[aCellData objectForKey:@"FieldData"] objectForKey:@"Title"];
     for (UIGestureRecognizer* recognizer in self.fieldValueLabel.gestureRecognizers) {
         [self.fieldValueLabel removeGestureRecognizer:recognizer];
@@ -29,6 +34,9 @@
 }
 
 -(void)handleSingleTapGesture:(id)sender {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
+        return;
+    }
     if (![self.baseDelegate checkWholesalerAppliedStatus]) {
         return;
     }

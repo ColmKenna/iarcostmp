@@ -300,6 +300,22 @@
     return DescrDetail;
 }
 
+-(Package*)populatePackageWithFieldList:(NSArray*)aFieldList package:(Package*)Package {
+    Package.iUR = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:0]];
+    Package.locationIUR = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:1]];
+    Package.wholesalerIUR = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:2]];
+    Package.pGiur = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:3]];
+    Package.accountCode = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[aFieldList objectAtIndex:4]]];
+    Package.xxIUR = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:5]];
+    Package.yyIUR = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:6]];
+    Package.xxString = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[aFieldList objectAtIndex:7]]];
+    Package.formIUR = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:8]];
+    Package.active = [NSNumber numberWithBool:[ArcosUtils convertStringToBool:[aFieldList objectAtIndex:9]]];
+    Package.allowBonus = [NSNumber numberWithBool:[ArcosUtils convertStringToBool:[aFieldList objectAtIndex:10]]];
+    Package.defaultPackage = [NSNumber numberWithBool:[ArcosUtils convertStringToBool:[aFieldList objectAtIndex:11]]];
+    return Package;
+}
+
 -(Location*)populateLocationWithSoapOB:(ArcosGenericReturnObjectWithImage*)anObject location:(Location*)Location {
     Location.LocationIUR        =    [ArcosUtils convertStringToNumber:anObject.Field1];    
     Location.LocationCode		=    [ArcosUtils trim:[ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field2]]];
@@ -603,6 +619,23 @@
             if (bonusDeal != nil) {
                 [resultProductDict setObject:bonusDeal forKey:@"BonusDeal"];
             }
+        }
+        [resultProductList addObject:resultProductDict];
+    }
+    return resultProductList;
+}
+
+- (NSMutableArray*)processPriceProductList:(NSMutableArray*)aProductList priceHashMap:(NSMutableDictionary*)aPriceHashMap {
+    NSMutableArray* resultProductList = [NSMutableArray arrayWithCapacity:[aProductList count]];
+    for (NSDictionary* auxProductDict in aProductList) {
+        NSMutableDictionary* resultProductDict = [NSMutableDictionary dictionaryWithDictionary:auxProductDict];
+        [resultProductDict setObject:[NSNumber numberWithBool:NO] forKey:@"PriceFlag"];
+        NSNumber* auxProductIUR = [auxProductDict objectForKey:@"ProductIUR"];
+        NSDictionary* auxPriceDict = [aPriceHashMap objectForKey:auxProductIUR];
+        if (auxPriceDict != nil) {
+            [resultProductDict setObject:[NSNumber numberWithBool:YES] forKey:@"PriceFlag"];
+            NSDecimalNumber* auxDiscountPercentFromPrice = [auxPriceDict objectForKey:@"DiscountPercent"];
+            [resultProductDict setObject:[NSNumber numberWithFloat:[auxDiscountPercentFromPrice floatValue]] forKey:@"DiscountPercent"];
         }
         [resultProductList addObject:resultProductDict];
     }

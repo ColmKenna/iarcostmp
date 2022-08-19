@@ -51,6 +51,9 @@
         self.fieldValueLabel.textColor = [UIColor blackColor];
     } else {
         self.fieldValueLabel.textColor = [UIColor blueColor];
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag] && ([[self.cellData objectForKey:@"CellKey"] isEqualToString:@"wholesaler"] || [[self.cellData objectForKey:@"CellKey"] isEqualToString:@"acctNo"])) {
+            self.fieldValueLabel.textColor = [UIColor blackColor];
+        }
     }
     if (!self.isEventSet) {
         self.isEventSet = YES;
@@ -61,6 +64,7 @@
 }
 
 -(void)handleSingleTapGesture:(id)sender {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag] && ([[self.cellData objectForKey:@"CellKey"] isEqualToString:@"wholesaler"] || [[self.cellData objectForKey:@"CellKey"] isEqualToString:@"acctNo"])) return;
     if (self.isNotEditable) return;
     if (self.widgetFactory == nil) {
         self.widgetFactory = [WidgetFactory factory];

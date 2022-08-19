@@ -101,6 +101,34 @@
     self.isPaginatedLoadingFinished = NO;
 }
 
+-(void)loadPackageToDB {
+    if (self.isLoadingFinished) {
+        NSMutableArray* locationList = [[ArcosCoreData sharedArcosCoreData] retrieveLocationWithPredicate:nil];
+        NSString* locationIurList = @"";
+        int locationListLength = [ArcosUtils convertNSUIntegerToUnsignedInt:[locationList count]];
+        if (locationListLength == 0) {
+            self.isLoadingFinished = YES;
+            return;
+        }
+        for (int i = 0; i < locationListLength; i++) {
+            NSDictionary* locationDict = [locationList objectAtIndex:i];
+            if (i == 0) {
+                locationIurList = [NSString stringWithFormat:@"%@", [locationDict objectForKey:@"LocationIUR"]];
+            } else {
+                locationIurList = [NSString stringWithFormat:@"%@,%@", locationIurList, [locationDict objectForKey:@"LocationIUR"]];
+            }
+        }
+        if ([locationIurList isEqualToString:@""]) {
+            locationIurList = @"-999";
+        }
+        PaginatedRequestObject* packageRequestObject = [self.paginatedRequestObjectProvider packageRequestObject:locationIurList];
+        NSString* sqlStatement = [NSString stringWithFormat:@"%@ %@ %@", packageRequestObject.selectStateMent, packageRequestObject.fromStatement, packageRequestObject.orderBy];
+        [self.service GenerateDataAsCsv:self action:@selector(packageGenerateDataAsCsvBackFromService:) stateMent:[ArcosUtils wrapStringByCDATA:sqlStatement]];
+        [self.delegate StartGettingData];
+    }
+    self.isLoadingFinished = NO;
+}
+
 -(void)loadLocationsToDB{
     if (self.isLoadingFinished){
         PaginatedRequestObject* locationRequestObject = [self.paginatedRequestObjectProvider locationRequestObject];
@@ -1452,12 +1480,20 @@
     [self genericGenerateDataAsCsvBackFromService:result action:@selector(priceWSRBackFromService:)];
 }
 
+-(void)packageGenerateDataAsCsvBackFromService:(id)result {
+    [self genericGenerateDataAsCsvBackFromService:result action:@selector(packageWSRBackFromService:)];
+}
+
 -(void)locationGenerateDataAsCsvBackFromService:(id)result {
     [self genericGenerateDataAsCsvBackFromService:result action:@selector(locationWSRBackFromService:)];
 }
 
 - (void)priceWSRBackFromService:(id)result {
     [self genericWSRBackFromService:result className:@"SaveRecordPriceUpdateCenter"];
+}
+
+-(void)packageWSRBackFromService:(id)result {
+    [self genericWSRBackFromService:result className:@"SaveRecordPackageUpdateCenter"];
 }
 
 -(void)locationWSRBackFromService:(id)result {
@@ -1499,6 +1535,12 @@
                     NSMutableDictionary* descrDetailDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].descrDetailSelectorName];
                     if ([[descrDetailDataDict objectForKey:@"DownloadMode"] intValue] == 0) {
                         [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"DescrDetail"];
+                    }
+                }
+                if ([aClassName isEqualToString:@"SaveRecordPackageUpdateCenter"]) {
+                    NSMutableDictionary* locationDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].packageSelectorName];
+                    if ([[locationDataDict objectForKey:@"DownloadMode"] intValue] == 0) {
+                        [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"Package"];
                     }
                 }
                 if ([aClassName isEqualToString:@"SaveRecordLocationUpdateCenter"]) {

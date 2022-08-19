@@ -679,6 +679,11 @@
         int downloadModeValue = [downloadMode intValue]; 
         NSNumber* tableIUR = [dataDict objectForKey:@"IUR"];
         switch ([tableIUR intValue]) {
+            case 90:
+                if (downloadModeValue == 0 || downloadModeValue == 1) {
+                    [updateCenter pushSelector: @selector(loadPackageToDB) withName:[GlobalSharedClass shared].packageSelectorName];
+                }
+                break;
             case 100:
                 if (downloadModeValue == 0 || downloadModeValue == 1) {
                     [updateCenter pushSelector: @selector(loadLocationsToDB) withName:[GlobalSharedClass shared].locationSelectorName];

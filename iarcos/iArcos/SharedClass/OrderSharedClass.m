@@ -632,6 +632,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OrderSharedClass);
         [arcosStockonHandUtils updateStockonHandWithOrderLines:orderLines actionType:0];
         [arcosStockonHandUtils release];
     }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
+        NSNumber* tmpPackageIUR = [[[GlobalSharedClass shared] retrieveCurrentSelectedPackage] objectForKey:@"iUR"];
+        [order setObject:[ArcosUtils convertNilToZero:tmpPackageIUR] forKey:@"PosteedIUR"];
+    }
     //save to coredata
     BOOL isSuccess= [[ArcosCoreData sharedArcosCoreData]saveOrder:order];
     

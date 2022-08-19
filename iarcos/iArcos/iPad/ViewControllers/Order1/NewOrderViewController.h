@@ -31,8 +31,9 @@
 #import "FormPlanogramViewController.h"
 #import "StandardOrderPadMatTableViewController.h"
 #import "NewOrderDataManager.h"
+#import "PackageTableViewController.h"
 
-@interface NewOrderViewController : UIViewController<FormDetailDelegate, FormRowDividerDelegate, OrderFormNavigationControllerBackButtonDelegate, BranchLeafProductNavigationTitleDelegate, CustomisePresentViewControllerDelegate,ModalPresentViewControllerDelegate> {
+@interface NewOrderViewController : UIViewController<FormDetailDelegate, FormRowDividerDelegate, OrderFormNavigationControllerBackButtonDelegate, BranchLeafProductNavigationTitleDelegate, CustomisePresentViewControllerDelegate,ModalPresentViewControllerDelegate, PackageTableViewControllerDelegate> {
     UINavigationBar* _tableNavigationBar;
     UILabel* _locationName;
     UILabel* _locationAddress;

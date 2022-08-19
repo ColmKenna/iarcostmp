@@ -85,6 +85,7 @@
 - (BOOL)enableAlternateOrderEntryPopoverFlag;
 - (BOOL)showPreviousMemoInCallEntryFlag;
 - (BOOL)showStartTimeAtHomePageFlag;
+- (BOOL)showPackageFlag;
 - (void)resetSystemCodes:(NSString*)aSystemCodes;
 - (void)persistentSystemCodes;
 

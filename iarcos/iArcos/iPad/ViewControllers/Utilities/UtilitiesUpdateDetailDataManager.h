@@ -29,7 +29,8 @@
     NSMutableDictionary* _uploadItemsNameRelatedEntityDict;
     NSMutableDictionary* _sectionTitlePlistTitleRelatedDict;
     NSString* _dataTablesPlistTitle;
-    NSString* _uploadItemsPlistTitle;    
+    NSString* _uploadItemsPlistTitle;
+    NSString* _packageTableName;
 }
 
 @property(nonatomic, retain) NSMutableDictionary* dataTablesDict;
@@ -50,6 +51,7 @@
 @property(nonatomic, retain) NSMutableDictionary* sectionTitlePlistTitleRelatedDict;
 @property(nonatomic, retain) NSString* dataTablesPlistTitle;
 @property(nonatomic, retain) NSString* uploadItemsPlistTitle;
+@property(nonatomic, retain) NSString* packageTableName;
 
 - (void)loadUpdateCenterPlist;
 - (void)loadDefaultUpdateCenterPlist;

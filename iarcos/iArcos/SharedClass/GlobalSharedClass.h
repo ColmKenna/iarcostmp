@@ -66,6 +66,7 @@ typedef enum {
     int imagePageSize;
     int batchedSize;
     int _responsePageSize;
+    NSString* _packageSelectorName;
     NSString* _locationSelectorName;
     NSString* _locLocLinkSelectorName;
     NSString* _productSelectorName;
@@ -141,6 +142,7 @@ typedef enum {
     NSString* _acctNoCompany;
     UIColor* _myAppBlueColor;
     UIColor* _mySystemBlueColor;
+    NSMutableDictionary* _currentSelectedPackage;
 }
 
 +(GlobalSharedClass*)shared;
@@ -187,6 +189,7 @@ typedef enum {
 @property (nonatomic,assign) int batchedSize;
 @property (nonatomic,assign) int responsePageSize;
 
+@property (nonatomic, retain) NSString* packageSelectorName;
 @property (nonatomic, retain) NSString* locationSelectorName;
 @property (nonatomic, retain) NSString* locLocLinkSelectorName;
 @property (nonatomic, retain) NSString* productSelectorName;
@@ -259,6 +262,7 @@ typedef enum {
 @property (nonatomic,retain) NSString* acctNoCompany;
 @property (nonatomic,retain) UIColor* myAppBlueColor;
 @property (nonatomic,retain) UIColor* mySystemBlueColor;
+@property (nonatomic,retain) NSMutableDictionary* currentSelectedPackage;
 
 //usful functions
 - (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber;
@@ -286,4 +290,5 @@ typedef enum {
 //app setting
 //-(void)increaseOrderNumber;
 -(NSString*)currentPasscode;
+- (NSMutableDictionary*)retrieveCurrentSelectedPackage;
 @end

@@ -308,6 +308,9 @@ typedef enum {
 //Collected data
 - (BOOL)deleteCollectedWithLocationIUR:(NSNumber*)aLocationIUR comments:(NSString*)aComments;
 - (void)insertCollectedWithLocationIUR:(NSNumber*)aLocationIUR comments:(NSString*)aComments iUR:(NSNumber*)anIUR date:(NSDate*)aDate;
+//Package data
+- (NSMutableDictionary*)retrieveDefaultPackageWithLocationIUR:(NSNumber*)aLocationIUR;
+- (NSMutableDictionary*)retrievePackageWithIUR:(NSNumber*)aPackageIUR;
 
 //testing and loading jason data functions
 - (void)clearTables;
@@ -320,6 +323,7 @@ typedef enum {
 - (void)LoadProductWithSoapOB:(ArcosGenericReturnObjectWithImage*)anObject;
 - (void)LoadProductWithFieldList:(NSArray*)aFieldList existentProductDict:(NSMutableDictionary*)anExistentProductDict;
 - (void)loadLocationProductMATWithFieldList:(NSArray*)aFieldList existingLocationProductMATDict:(NSMutableDictionary*)anExistingLocationProductMATDict levelIUR:(NSNumber*)aLevelIUR;
+- (void)LoadPackageWithFieldList:(NSArray*)aFieldList existingPackageDict:(NSMutableDictionary*)anExistingPackageDict;
 - (BOOL)LoadLocationWithSoapOB:(ArcosGenericReturnObjectWithImage*)anObject;
 - (void)LoadLocationWithFieldList:(NSArray*)aFieldList existingLocationDict:(NSMutableDictionary*)anExistingLocationDict;
 - (void)LoadPriceWithFieldList:(NSArray*)aFieldList existingPriceDict:(NSMutableDictionary*)anExistingPriceDict existingPromotionDict:(NSMutableDictionary*)anExistingPromotionDict;
