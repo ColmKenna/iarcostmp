@@ -1091,7 +1091,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 
     return alteredArray;
 }
-- (NSMutableArray*)allOrderLinesWithOrderNumber:(NSNumber*)aNumber withSortKey:(NSString*)aKey locationIUR:(NSNumber*)aLocationIUR {
+- (NSMutableArray*)allOrderLinesWithOrderNumber:(NSNumber*)aNumber withSortKey:(NSString*)aKey locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
     NSArray* sortDescNames=[NSArray arrayWithObjects:aKey,nil];
     NSArray* properties=[NSArray arrayWithObjects:@"UnitPrice", @"LineValue",@"Qty",@"DiscountPercent",@"Bonus",@"ProductIUR",@"OrderNumber",@"OrderLine",@"InStock",@"FOC",@"PPIUR",@"Testers",nil];
     NSPredicate* predicate=[NSPredicate predicateWithFormat:@"OrderNumber=%d",[aNumber intValue]];
@@ -1114,7 +1114,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     NSMutableArray* productDictList = [[ArcosCoreData sharedArcosCoreData] productWithProductIURList:productIURList];
 //    NSMutableDictionary* priceHashMap = [self retrievePriceWithLocationIUR:aLocationIUR productIURList:productIURList];
 //    productDictList = [self.arcosCoreDataManager processPriceProductList:productDictList priceHashMap:priceHashMap];
-    productDictList = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:productDictList productIURList:productIURList locationIUR:aLocationIUR];
+    productDictList = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:productDictList productIURList:productIURList locationIUR:aLocationIUR packageIUR:aPackageIUR];
     
     
     NSMutableDictionary* productDictHashMap = [NSMutableDictionary dictionaryWithCapacity:[productDictList count]];
@@ -1437,7 +1437,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     
     return theGroups;
 }
-- (NSMutableArray*)dividerFormRowsWithDividerIUR:(NSNumber*)anIUR formIUR:(NSNumber*)aFormIUR locationIUR:(NSNumber*)aLocationIUR {
+- (NSMutableArray*)dividerFormRowsWithDividerIUR:(NSNumber*)anIUR formIUR:(NSNumber*)aFormIUR locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
     NSArray* sortDescNames = [NSArray arrayWithObjects:@"SequenceDivider",@"SequenceNumber",nil];
     NSPredicate* predicate = nil;
     if ([anIUR intValue]>0) {
@@ -1447,13 +1447,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     }
     NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"FormRow" withPropertiesToFetch:nil  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
     if ([objectsArray count] > 0) {        
-        return [self formRowProductProcessCenter:objectsArray locationIUR:aLocationIUR];
+        return [self formRowProductProcessCenter:objectsArray locationIUR:aLocationIUR packageIUR:aPackageIUR];
     } else {
         return [NSMutableArray array];
     }
 }
 
-- (NSMutableArray*)formRowWithDividerIURSortByNatureOrder:(NSNumber*)anIUR withFormIUR:(NSNumber*)formIUR locationIUR:(NSNumber*)aLocationIUR{
+- (NSMutableArray*)formRowWithDividerIURSortByNatureOrder:(NSNumber*)anIUR withFormIUR:(NSNumber*)formIUR locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
     NSArray* sortDescNames=[NSArray arrayWithObjects:@"SequenceDivider",@"SequenceNumber",nil];
     //NSArray* properties=[NSArray arrayWithObjects:@"Details",@"SequenceDivider", nil];
     NSPredicate* predicate=nil;
@@ -1473,7 +1473,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 //    NSLog(@"form row number -- %d form divider iur %d  form iur  %d",[objectsArray count],[anIUR intValue],[formIUR intValue]);    
     
     if ([objectsArray count]>0) {        
-        return [self formRowProductProcessCenter:objectsArray locationIUR:aLocationIUR];
+        return [self formRowProductProcessCenter:objectsArray locationIUR:aLocationIUR packageIUR:aPackageIUR];
     }else{
         return [NSMutableArray array];
     }
@@ -1490,18 +1490,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     }    
 }
 
-- (NSMutableArray*)formRowWithFormIUR:(NSNumber*)aFormIUR dividerRecordIUR:(NSNumber*)anDividerRecordIUR locationIUR:(NSNumber*)aLocationIUR{
+- (NSMutableArray*)formRowWithFormIUR:(NSNumber*)aFormIUR dividerRecordIUR:(NSNumber*)anDividerRecordIUR locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
     NSArray* sortDescNames = [NSArray arrayWithObjects:@"SequenceNumber",nil];
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"FormIUR=%d and Level5IUR = %d and ProductIUR > 0", [aFormIUR intValue],[anDividerRecordIUR intValue]];
     NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"FormRow" withPropertiesToFetch:nil  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
     if ([objectsArray count] > 0) {
-        return [self formRowProductProcessCenter:objectsArray locationIUR:aLocationIUR];
+        return [self formRowProductProcessCenter:objectsArray locationIUR:aLocationIUR packageIUR:aPackageIUR];
     } else {
         return [NSMutableArray array];
     }
 }
 
-- (NSMutableArray*)processEntryPriceProductList:(NSMutableArray*)aProductList productIURList:(NSMutableArray*)aProductIURList locationIUR:(NSNumber*)aLocationIUR {
+- (NSMutableArray*)processEntryPriceProductList:(NSMutableArray*)aProductList productIURList:(NSMutableArray*)aProductIURList locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
     NSMutableArray* locationList = [[ArcosCoreData sharedArcosCoreData] locationWithIURWithoutCheck:aLocationIUR];
     NSDictionary* locationDict = nil;
     if (locationList != nil && [locationList count] > 0) {
@@ -1529,7 +1529,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
             aProductList = [self.arcosCoreDataManager processPriceProductList:aProductList priceHashMap:pgPriceHashMap bonusDealHashMap:pgBonusDealHashMap];
         }
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
-            NSNumber* auxPGiur = [[[GlobalSharedClass shared] retrieveCurrentSelectedPackage] objectForKey:@"pGiur"];
+            NSNumber* auxPGiur = [[self retrievePackageWithIUR:aPackageIUR] objectForKey:@"pGiur"];
             
             NSMutableDictionary* pgPriceHashMap = [self retrievePriceWithLocationIUR:auxPGiur productIURList:aProductIURList];
             aProductList = [self.arcosCoreDataManager processPriceProductList:aProductList priceHashMap:pgPriceHashMap];
@@ -1542,7 +1542,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     return aProductList;
 }
 
-- (NSMutableArray*)formRowProductProcessCenter:(NSMutableArray*)anObjectArray locationIUR:(NSNumber*)aLocationIUR{
+- (NSMutableArray*)formRowProductProcessCenter:(NSMutableArray*)anObjectArray locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
     NSMutableArray* productIURList = [NSMutableArray arrayWithCapacity:[anObjectArray count]];
     for (NSDictionary* aDict in anObjectArray) {
         NSNumber* auxProductIUR = [aDict objectForKey:@"ProductIUR"];
@@ -1550,7 +1550,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         [productIURList addObject:auxProductIUR];
     }
     NSMutableArray* productsList = [self productWithProductIURList:productIURList];
-    productsList = [self processEntryPriceProductList:productsList productIURList:productIURList locationIUR:aLocationIUR];
+    productsList = [self processEntryPriceProductList:productsList productIURList:productIURList locationIUR:aLocationIUR packageIUR:aPackageIUR];
     NSMutableDictionary* productHashMap = [NSMutableDictionary dictionaryWithCapacity:[productsList count]];
     for (NSDictionary* aProductDict in productsList) {
         NSNumber* productIURKey = [aProductDict objectForKey:@"ProductIUR"];
@@ -1600,7 +1600,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     }
 }
 
-- (NSMutableDictionary*)createFormRowWithProductIUR:(NSNumber*)anIUR locationIUR:(NSNumber*)aLocationIUR {
+- (NSMutableDictionary*)createFormRowWithProductIUR:(NSNumber*)anIUR locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
     NSPredicate* predicate;
     if ([anIUR intValue]<0) {//search all product
         return nil;
@@ -1618,7 +1618,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         for (NSDictionary* aDict in objectsArray) {
             [productIURList addObject:[aDict objectForKey:@"ProductIUR"]];
         }
-        objectsArray = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:objectsArray productIURList:productIURList locationIUR:aLocationIUR];
+        objectsArray = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:objectsArray productIURList:productIURList locationIUR:aLocationIUR packageIUR:aPackageIUR];
         NSMutableDictionary* product=[objectsArray objectAtIndex:0];
         formRow = [ProductFormRowConverter createFormRowWithProduct:product];
         return formRow;

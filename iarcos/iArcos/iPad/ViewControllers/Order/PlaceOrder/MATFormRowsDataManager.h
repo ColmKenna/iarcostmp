@@ -31,11 +31,11 @@
 @property(nonatomic, assign) int totalClickTime;
 
 //- (void)processRawData:(NSMutableArray*)aDisplayList;
-- (void)newProcessRawData:(NSMutableArray*)aDisplayList locationIUR:(NSNumber*)aLocationIUR;
+- (void)newProcessRawData:(NSMutableArray*)aDisplayList locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
 - (void)clearAllSubViews:(UIView*)aView;
 - (void)createMATFormRowsData;
 - (void)syncQtyBonDisplayList;
-- (void)processLocationProductMATData:(NSNumber*)aLocationIUR;
+- (void)processLocationProductMATData:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
 - (void)retrieveQtyBonDisplayListWithDisplayList:(NSMutableArray*)aDisplayList;
 
 @end

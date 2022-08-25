@@ -55,7 +55,8 @@
     NSString* custRef = [anOrderHeader objectForKey:@"custRef"];
     NSMutableDictionary* acctNoDict = [anOrderHeader objectForKey:@"acctNo"];
     OH.CustomerRef = custRef;
-    OH.PromotionIUR = [ArcosUtils convertStringToNumber:[acctNoDict objectForKey:@"acctNo"]];    
+    OH.PromotionIUR = [ArcosUtils convertStringToNumber:[acctNoDict objectForKey:@"acctNo"]];
+    OH.PosteedIUR = [ArcosUtils convertNilToZero:[anOrderHeader objectForKey:@"PosteedIUR"]];
     OH.OrderDate = currentDate;
     OH.OSiur = [ArcosUtils convertNilToZero:self.orderStatusIUR];
     OH.OTiur = [ArcosUtils convertNilToZero:[type objectForKey:@"DescrDetailIUR"]];

@@ -41,13 +41,14 @@
     
     NSMutableDictionary* tmpWholesalerIURHashMap = [NSMutableDictionary dictionaryWithCapacity:[self.displayList count]];
     NSMutableDictionary* tmpPGiurHashMap = [NSMutableDictionary dictionaryWithCapacity:[self.displayList count]];
-    NSMutableDictionary* defaultPackageDict = [[GlobalSharedClass shared] retrieveCurrentSelectedPackage];
-    int defaultPackageIUR = [[defaultPackageDict objectForKey:@"iUR"] intValue];
+//    NSMutableDictionary* defaultPackageDict = [[GlobalSharedClass shared] retrieveCurrentSelectedPackage];
+//    int defaultPackageIUR = [[defaultPackageDict objectForKey:@"iUR"] intValue];
+    int currentPackageIUR = [[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR] intValue];
     for (int i = 0; i < [objectArray count]; i++) {
         NSDictionary* tmpPackageDict = [objectArray objectAtIndex:i];
         NSMutableDictionary* resPackageDict = [NSMutableDictionary dictionaryWithDictionary:tmpPackageDict];
         [resPackageDict setObject:[NSNumber numberWithBool:NO] forKey:@"selectedFlag"];
-        if (defaultPackageIUR != 0 && defaultPackageIUR == [[resPackageDict objectForKey:@"iUR"] intValue]) {
+        if (currentPackageIUR != 0 && currentPackageIUR == [[resPackageDict objectForKey:@"iUR"] intValue]) {
             [resPackageDict setObject:[NSNumber numberWithBool:YES] forKey:@"selectedFlag"];
         }
         [self.displayList addObject:resPackageDict];
@@ -103,7 +104,8 @@
         }
     }
     if (selectedPackageDict != nil) {
-        [GlobalSharedClass shared].currentSelectedPackage = [NSMutableDictionary dictionaryWithDictionary:selectedPackageDict];
+//        [GlobalSharedClass shared].currentSelectedPackage = [NSMutableDictionary dictionaryWithDictionary:selectedPackageDict];
+        [GlobalSharedClass shared].currentSelectedPackageIUR = [NSNumber numberWithInt:[[selectedPackageDict objectForKey:@"iUR"] intValue]];
     }
 }
 

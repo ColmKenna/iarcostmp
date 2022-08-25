@@ -416,6 +416,7 @@
     CheckoutPrinterWrapperViewController* cpwvc = [[CheckoutPrinterWrapperViewController alloc] initWithNibName:@"CheckoutPrinterWrapperViewController" bundle:nil];
     cpwvc.modalDelegate = self;
     cpwvc.orderHeader = self.orderDetailDataManager.orderHeader;
+    cpwvc.packageIUR = [self.orderDetailDataManager.orderHeader objectForKey:@"PosteedIUR"];
     if (@available(iOS 13.0, *)) {
         cpwvc.modalInPresentation = YES;
     }
@@ -448,7 +449,7 @@
     NSLog(@"showOrderlineDetailsDelegate");
     NSNumber* isSealed = [self.orderDetailDataManager.savedOrderDetailCellData objectForKey:@"IsCealed"];
     NSNumber* orderNumber = [self.orderDetailDataManager.savedOrderDetailCellData objectForKey:@"OrderNumber"];
-    NSMutableArray* orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:orderNumber withSortKey:@"OrderLine" locationIUR:[self.orderDetailDataManager.savedOrderDetailCellData objectForKey:@"LocationIUR"]];
+    NSMutableArray* orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:orderNumber withSortKey:@"OrderLine" locationIUR:[self.orderDetailDataManager.savedOrderDetailCellData objectForKey:@"LocationIUR"] packageIUR:[self.orderDetailDataManager.orderHeader objectForKey:@"PosteedIUR"]];
     NSNumber* formIUR = [self.orderDetailDataManager.savedOrderDetailCellData objectForKey:@"FormIUR"];
     OrderProductViewController<SubstitutableDetailViewController>* orderProducts=[[[OrderProductViewController alloc]initWithNibName:@"OrderProductViewController" bundle:nil]autorelease];
     orderProducts.delegate=self;
@@ -763,7 +764,7 @@
 
 - (void)yesActionPressedProcessor {    
     NSNumber* orderNumber = [self.orderDetailDataManager.savedOrderDetailCellData objectForKey:@"OrderNumber"];
-    NSMutableArray* orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:orderNumber withSortKey:@"OrderLine" locationIUR:[self.orderDetailDataManager.savedOrderDetailCellData objectForKey:@"LocationIUR"]];
+    NSMutableArray* orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:orderNumber withSortKey:@"OrderLine" locationIUR:[self.orderDetailDataManager.savedOrderDetailCellData objectForKey:@"LocationIUR"] packageIUR:[self.orderDetailDataManager.orderHeader objectForKey:@"PosteedIUR"]];
     [self.orderDetailDataManager.orderHeader setObject:orderLines forKey:@"OrderLines"];    
     [self.repeatOrderDataManager repeatOrderWithDataDict:self.orderDetailDataManager.orderHeader];
     [ArcosUtils showDialogBox:@"New order created" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {

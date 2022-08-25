@@ -142,7 +142,8 @@ typedef enum {
     NSString* _acctNoCompany;
     UIColor* _myAppBlueColor;
     UIColor* _mySystemBlueColor;
-    NSMutableDictionary* _currentSelectedPackage;
+//    NSMutableDictionary* _currentSelectedPackage;
+    NSNumber* _currentSelectedPackageIUR;
 }
 
 +(GlobalSharedClass*)shared;
@@ -262,7 +263,8 @@ typedef enum {
 @property (nonatomic,retain) NSString* acctNoCompany;
 @property (nonatomic,retain) UIColor* myAppBlueColor;
 @property (nonatomic,retain) UIColor* mySystemBlueColor;
-@property (nonatomic,retain) NSMutableDictionary* currentSelectedPackage;
+//@property (nonatomic,retain) NSMutableDictionary* currentSelectedPackage;
+@property (nonatomic,retain) NSNumber* currentSelectedPackageIUR;
 
 //usful functions
 - (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber;
@@ -290,5 +292,6 @@ typedef enum {
 //app setting
 //-(void)increaseOrderNumber;
 -(NSString*)currentPasscode;
-- (NSMutableDictionary*)retrieveCurrentSelectedPackage;
+//- (NSMutableDictionary*)retrieveCurrentSelectedPackage;
+- (NSNumber*)retrieveCurrentSelectedPackageIUR;
 @end

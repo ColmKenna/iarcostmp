@@ -142,7 +142,7 @@ typedef enum {
 //order data
 - (NSNumber*)orderWithOrderNumber:(int)anOrderNumber;
 - (NSMutableArray*)allOrdersWithSortKey:(NSString*)aKey withLocationIUR:(NSNumber*)anIUR;
-- (NSMutableArray*)allOrderLinesWithOrderNumber:(NSNumber*)aNumber withSortKey:(NSString*)aKey locationIUR:(NSNumber*)aLocationIUR;
+- (NSMutableArray*)allOrderLinesWithOrderNumber:(NSNumber*)aNumber withSortKey:(NSString*)aKey locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
 - (NSMutableArray*)ordersWithDataRangeStart:(NSDate*)startDate withEndDate:(NSDate*)endDate;
 - (NSNumber*)countCallsWithDataRangeStart:(NSDate*)aStartDate withEndDate:(NSDate*)anEndDate;
 - (NSMutableArray*)ordersWithLocationIUR:(NSNumber*)aLocationIUR startDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate;
@@ -164,15 +164,15 @@ typedef enum {
 - (BOOL)deleteFormDetailWithFormIUR:(NSNumber*)aFormIUR;
 
 - (NSMutableDictionary*)formRowWithDividerIUR:(NSNumber*)anIUR withFormIUR:(NSNumber*)formIUR;
-- (NSMutableArray*)dividerFormRowsWithDividerIUR:(NSNumber*)anIUR formIUR:(NSNumber*)aFormIUR locationIUR:(NSNumber*)aLocationIUR;
-- (NSMutableArray*)formRowWithDividerIURSortByNatureOrder:(NSNumber*)anIUR withFormIUR:(NSNumber*)formIUR locationIUR:(NSNumber*)aLocationIUR;
+- (NSMutableArray*)dividerFormRowsWithDividerIUR:(NSNumber*)anIUR formIUR:(NSNumber*)aFormIUR locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
+- (NSMutableArray*)formRowWithDividerIURSortByNatureOrder:(NSNumber*)anIUR withFormIUR:(NSNumber*)formIUR locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
 - (NSDictionary*)formRowWithFormIUR:(NSNumber*)aFormIUR productIUR:(NSNumber*)aProductIUR;
-- (NSMutableArray*)formRowWithFormIUR:(NSNumber*)aFormIUR dividerRecordIUR:(NSNumber*)anDividerRecordIUR locationIUR:(NSNumber*)aLocationIUR;
-- (NSMutableArray*)formRowProductProcessCenter:(NSMutableArray*)anObjectArray locationIUR:(NSNumber*)aLocationIUR;
+- (NSMutableArray*)formRowWithFormIUR:(NSNumber*)aFormIUR dividerRecordIUR:(NSNumber*)anDividerRecordIUR locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
+- (NSMutableArray*)formRowProductProcessCenter:(NSMutableArray*)anObjectArray locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
 - (BOOL)deleteFormRowWithFormIUR:(NSNumber*)aFormIUR;
 
 - (void)saveGeoLocationWithLocationIUR:(NSNumber*)anIUR withLat:(NSNumber*)lat withLon:(NSNumber*)lon;
-- (NSMutableDictionary*)createFormRowWithProductIUR:(NSNumber*)anIUR locationIUR:(NSNumber*)aLocationIUR;
+- (NSMutableDictionary*)createFormRowWithProductIUR:(NSNumber*)anIUR locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
 - (BOOL)updateOrderLine:(NSMutableDictionary*)orderLine;
 - (BOOL)deleteOrderLineWithOrderNumber:(NSNumber*)orderNumber withLineNumber:(NSNumber*)lineNumber;
 - (BOOL)deleteOrderLine:(NSMutableDictionary*)orderLine;
@@ -346,7 +346,7 @@ typedef enum {
 -(void)loadJourneyWithSoapOB:(ArcosJourneyBO*)anObject;
 //usefull utilitiese
 -(NSString*)fullAddressWith:(NSMutableDictionary*)aLocation;
-- (NSMutableArray*)processEntryPriceProductList:(NSMutableArray*)aProductList productIURList:(NSMutableArray*)aProductIURList locationIUR:(NSNumber*)aLocationIUR;
+- (NSMutableArray*)processEntryPriceProductList:(NSMutableArray*)aProductList productIURList:(NSMutableArray*)aProductIURList locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
 
 //Generic method
 -(NSNumber*)recordQtyWithEntityName:(NSString*)anEntityName predicate:(NSPredicate*)aPredicate;

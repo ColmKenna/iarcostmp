@@ -94,7 +94,7 @@
     NSMutableArray* productDictList = [[ArcosCoreData sharedArcosCoreData] productWithProductIURList:productIURList];
 //    NSMutableDictionary* priceHashMap = [[ArcosCoreData sharedArcosCoreData] retrievePriceWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR productIURList:productIURList];
 //    productDictList = [[ArcosCoreData sharedArcosCoreData].arcosCoreDataManager processPriceProductList:productDictList priceHashMap:priceHashMap];
-    productDictList = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:productDictList productIURList:productIURList locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+    productDictList = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:productDictList productIURList:productIURList locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
     NSMutableDictionary* productDictHashMap = [NSMutableDictionary dictionaryWithCapacity:[productDictList count]];
     for (int i = 0; i < [productDictList count]; i++) {
         NSDictionary* productDict = [productDictList objectAtIndex:i];

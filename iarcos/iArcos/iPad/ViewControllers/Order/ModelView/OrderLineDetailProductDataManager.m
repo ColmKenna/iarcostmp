@@ -116,8 +116,8 @@
     return NO;
 }
 
-- (void)retrieveStandardFormDataList:(NSNumber*)aLocationIUR {
-    NSMutableArray* formRowDictList = [[ArcosCoreData sharedArcosCoreData] formRowWithDividerIURSortByNatureOrder:[NSNumber numberWithInt:-1] withFormIUR:self.formIUR locationIUR:aLocationIUR];
+- (void)retrieveStandardFormDataList:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
+    NSMutableArray* formRowDictList = [[ArcosCoreData sharedArcosCoreData] formRowWithDividerIURSortByNatureOrder:[NSNumber numberWithInt:-1] withFormIUR:self.formIUR locationIUR:aLocationIUR packageIUR:aPackageIUR];
     if (formRowDictList == nil) {
         self.displayList = [NSMutableArray array];
     } else {

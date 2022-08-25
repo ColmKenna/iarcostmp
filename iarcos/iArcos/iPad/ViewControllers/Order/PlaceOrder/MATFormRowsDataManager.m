@@ -69,7 +69,7 @@
     }
 }
 */
-- (void)newProcessRawData:(NSMutableArray*)aDisplayList locationIUR:(NSNumber*)aLocationIUR {
+- (void)newProcessRawData:(NSMutableArray*)aDisplayList locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
     NSMutableArray* productIURList = [NSMutableArray arrayWithCapacity:[aDisplayList count]];
     for (int i = 0; i < [aDisplayList count]; i++) {
         ArcosGenericClass* cellData = [aDisplayList objectAtIndex:i];
@@ -79,7 +79,7 @@
     NSMutableArray* auxProductDictList = [[ArcosCoreData sharedArcosCoreData] productWithProductIURList:productIURList];
 //    NSMutableDictionary* priceHashMap = [[ArcosCoreData sharedArcosCoreData] retrievePriceWithLocationIUR:aLocationIUR productIURList:productIURList];
 //    NSMutableArray* productsList = [[ArcosCoreData sharedArcosCoreData].arcosCoreDataManager processPriceProductList:auxProductDictList priceHashMap:priceHashMap];
-    NSMutableArray* productsList = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:auxProductDictList productIURList:productIURList locationIUR:aLocationIUR];
+    NSMutableArray* productsList = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:auxProductDictList productIURList:productIURList locationIUR:aLocationIUR packageIUR:aPackageIUR];
     NSMutableDictionary* productHashMap = [NSMutableDictionary dictionaryWithCapacity:[productsList count]];
     for (NSDictionary* aProductDict in productsList) {
         NSNumber* productIURKey = [aProductDict objectForKey:@"ProductIUR"];
@@ -143,7 +143,7 @@
     }
 }
 
-- (void)processLocationProductMATData:(NSNumber*)aLocationIUR {
+- (void)processLocationProductMATData:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
     NSArray* properties = [NSArray arrayWithObjects:@"productIUR", @"qty13",@"qty14",@"qty15",@"qty16",@"qty17",@"qty18",@"qty19",@"qty20",@"qty21",@"qty22",@"qty23",@"qty24",@"qty25",@"dateLastModified",@"inStock",nil];
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"locationIUR = %@", aLocationIUR];
     NSMutableArray* objectsArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"LocationProductMAT" withPropertiesToFetch:properties withPredicate:predicate withSortDescNames:nil withResulType:NSDictionaryResultType needDistinct:NO ascending:[NSNumber numberWithBool:NO]];
@@ -155,7 +155,7 @@
     NSMutableArray* auxProductDictList = [[ArcosCoreData sharedArcosCoreData] productWithProductIURList:productIURList];
 //    NSMutableDictionary* priceHashMap = [[ArcosCoreData sharedArcosCoreData] retrievePriceWithLocationIUR:aLocationIUR productIURList:productIURList];
 //    NSMutableArray* productDictList = [[ArcosCoreData sharedArcosCoreData].arcosCoreDataManager processPriceProductList:auxProductDictList priceHashMap:priceHashMap];
-    NSMutableArray* productDictList = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:auxProductDictList productIURList:productIURList locationIUR:aLocationIUR];
+    NSMutableArray* productDictList = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:auxProductDictList productIURList:productIURList locationIUR:aLocationIUR packageIUR:aPackageIUR];
     
     
     NSMutableDictionary* productDictHashMap = [NSMutableDictionary dictionaryWithCapacity:[productDictList count]];

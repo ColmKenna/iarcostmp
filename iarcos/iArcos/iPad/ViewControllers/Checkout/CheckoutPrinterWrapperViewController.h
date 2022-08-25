@@ -60,6 +60,7 @@ typedef enum {
     CompositeErrorResult* _compositeErrorResult;
     NSMutableDictionary* _orderHeader;
     NSMutableArray* _orderLines;
+    NSNumber* _packageIUR;
 //    UIFont* _orderLineFont;
     UIImage* _logoImage;
     OrderDetailOrderEmailActionDataManager* _orderDetailOrderEmailActionDataManager;
@@ -106,6 +107,7 @@ typedef enum {
 @property(nonatomic, retain) CompositeErrorResult* compositeErrorResult;
 @property(nonatomic, retain) NSMutableDictionary* orderHeader;
 @property(nonatomic, retain) NSMutableArray* orderLines;
+@property(nonatomic, retain) NSNumber* packageIUR;
 //@property(nonatomic, retain) UIFont* orderLineFont;
 @property(nonatomic, retain) UIImage* logoImage;
 @property(nonatomic, retain) OrderDetailOrderEmailActionDataManager* orderDetailOrderEmailActionDataManager;

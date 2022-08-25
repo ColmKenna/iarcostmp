@@ -422,7 +422,7 @@
             }
             
             NSLog(@"get only one product!");
-            formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+//            formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
             NSLog(@"form row for the product is %@",formRow);
             
             //sync the row with current cart
@@ -447,7 +447,8 @@
                     BOOL isProductInCurrentForm=[[OrderSharedClass sharedOrderSharedClass]isProductInCurrentFormWithIUR:ProductIUR];
                     
                     if (isProductInCurrentForm) {//create a form row and add to the form rows array
-                        NSMutableDictionary* formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+//                        NSMutableDictionary* formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+                        NSMutableDictionary* formRow = [NSMutableDictionary dictionary];
                         //sync the row with current cart
                         formRow=[[OrderSharedClass sharedOrderSharedClass]syncRowWithCurrentCart:formRow];
                         //[[OrderSharedClass sharedOrderSharedClass]syncAllSelectionsWithRowData:formRow];

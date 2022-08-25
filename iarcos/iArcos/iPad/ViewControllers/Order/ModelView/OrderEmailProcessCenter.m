@@ -33,7 +33,7 @@
 //    NSMutableArray* orderLines = nil;
     NSNumber* coordinateType = [self.orderHeader objectForKey:@"CoordinateType"];
     if ([coordinateType intValue] == 0) {
-        self.orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:[self.orderHeader objectForKey:@"OrderNumber"] withSortKey:@"OrderLine" locationIUR:[self.orderHeader objectForKey:@"LocationIUR"]];
+        self.orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:[self.orderHeader objectForKey:@"OrderNumber"] withSortKey:@"OrderLine" locationIUR:[self.orderHeader objectForKey:@"LocationIUR"] packageIUR:[self.orderHeader objectForKey:@"PosteedIUR"]];
     } else if ([coordinateType intValue] == 1) {
         self.orderLines = [self.orderHeader objectForKey:@"RemoteOrderline"];
     }

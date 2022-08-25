@@ -308,7 +308,8 @@
     NSNumber* isCellCealed=[(NSMutableDictionary*)cell.data objectForKey:@"IsCealed"];
 
     NSNumber* orderNumber=[[self.displayList objectAtIndex:indexPath.row]objectForKey:@"OrderNumber"];
-    NSMutableArray* orderLines=[[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:orderNumber withSortKey:@"OrderLine" locationIUR:[[self.displayList objectAtIndex:indexPath.row]objectForKey:@"LocationIUR"]];
+//    NSMutableArray* orderLines=[[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:orderNumber withSortKey:@"OrderLine" locationIUR:[[self.displayList objectAtIndex:indexPath.row]objectForKey:@"LocationIUR"]];
+    NSMutableArray* orderLines = nil;
     NSNumber* formIUR = [[self.displayList objectAtIndex:indexPath.row] objectForKey:@"FormIUR"];
 //    NSLog(@"row %d is taped!",indexPath.row);
     

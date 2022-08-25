@@ -467,7 +467,7 @@
         }
 //        NSMutableDictionary* priceHashMap = [[ArcosCoreData sharedArcosCoreData] retrievePriceWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR productIURList:productIURList];
 //        products = [[ArcosCoreData sharedArcosCoreData].arcosCoreDataManager processPriceProductList:products priceHashMap:priceHashMap];
-        products = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:products productIURList:productIURList locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        products = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:products productIURList:productIURList locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
         for (NSMutableDictionary* aProduct in products) {//loop products
             
             NSMutableDictionary* formRow = [ProductFormRowConverter createFormRowWithProduct:aProduct];
@@ -513,7 +513,7 @@
 
 - (void)formrowListSelectSmallTemplateViewItemWithData:(NSMutableDictionary*)aCellDataDict {
     NSNumber* sequenceDivider = [aCellDataDict objectForKey:@"SequenceDivider"];
-    NSMutableArray* unsortFormRows = [[ArcosCoreData sharedArcosCoreData] formRowWithDividerIURSortByNatureOrder:sequenceDivider withFormIUR:self.branchLeafProductDataManager.formIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+    NSMutableArray* unsortFormRows = [[ArcosCoreData sharedArcosCoreData] formRowWithDividerIURSortByNatureOrder:sequenceDivider withFormIUR:self.branchLeafProductDataManager.formIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
     [self.branchLeafProductDataManager fillTheUnsortListWithData:unsortFormRows];    
     
     self.branchLeafProductDataManager.displayList = unsortFormRows;

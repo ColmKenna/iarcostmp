@@ -50,6 +50,7 @@
 @synthesize compositeErrorResult = _compositeErrorResult;
 @synthesize orderHeader = _orderHeader;
 @synthesize orderLines = _orderLines;
+@synthesize packageIUR = _packageIUR;
 //@synthesize orderLineFont = _orderLineFont;
 @synthesize logoImage = _logoImage;
 @synthesize orderDetailOrderEmailActionDataManager = _orderDetailOrderEmailActionDataManager;
@@ -95,7 +96,7 @@
 //    self.totalOrderValueContentLabel.text = [self.orderHeader objectForKey:@"totalGoodsText"];
 //    self.checkoutPDFRenderer = [[[CheckoutPDFRenderer alloc] init] autorelease];
 //    self.fileName = @"order.pdf";
-    self.orderLines = [[ArcosCoreData sharedArcosCoreData] allOrderLinesWithOrderNumber:[self.orderHeader objectForKey:@"OrderNumber"] withSortKey:@"OrderLine" locationIUR:[self.orderHeader objectForKey:@"LocationIUR"]];
+    self.orderLines = [[ArcosCoreData sharedArcosCoreData] allOrderLinesWithOrderNumber:[self.orderHeader objectForKey:@"OrderNumber"] withSortKey:@"OrderLine" locationIUR:[self.orderHeader objectForKey:@"LocationIUR"] packageIUR:self.packageIUR];
 //    self.orderLineFont = [UIFont systemFontOfSize:11.0];    
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternativeLogoFlag]) {
         self.logoImage = [[ArcosCoreData sharedArcosCoreData] thumbWithIUR:[NSNumber numberWithInt:100]];            
@@ -172,6 +173,7 @@
     self.compositeErrorResult = nil;
     self.orderHeader = nil;
     self.orderLines = nil;
+    self.packageIUR = nil;
 //    self.orderLineFont = nil;
     self.logoImage = nil;
     self.orderDetailOrderEmailActionDataManager = nil;

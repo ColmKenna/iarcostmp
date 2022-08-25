@@ -97,7 +97,7 @@
     if ([self.orderLineDetailProductDataManager checkFormIURStandardFlag]) {
         self.formRowSearchDelegate = [[[FormRowCurrentListSearchDataManager alloc] initWithTarget:self] autorelease];
 //        self.showSeparator = [self.orderLineDetailProductDataManager showSeparatorWithFormIUR:self.orderLineDetailProductDataManager.formIUR];
-        [self.orderLineDetailProductDataManager retrieveStandardFormDataList:self.locationIUR];
+        [self.orderLineDetailProductDataManager retrieveStandardFormDataList:self.locationIUR packageIUR:[self.vansOrderHeader objectForKey:@"PosteedIUR"]];
     } else {
         self.formRowSearchDelegate = [[[ProductSearchDataManager alloc] initWithTarget:self] autorelease];
 //        self.showSeparator = [ProductFormRowConverter showSeparatorWithFormType:@"104"];

@@ -184,7 +184,7 @@
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
         [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader removeObjectForKey:@"wholesaler"];
         [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader removeObjectForKey:@"wholesalerText"];
-        NSMutableDictionary* tmpCurrentSelectedPackage = [[GlobalSharedClass shared] retrieveCurrentSelectedPackage];
+        NSMutableDictionary* tmpCurrentSelectedPackage = [[ArcosCoreData sharedArcosCoreData] retrievePackageWithIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
         NSNumber* packageWholesalerIUR = [tmpCurrentSelectedPackage objectForKey:@"wholesalerIUR"];
         if ([packageWholesalerIUR intValue] != 0) {
             NSMutableArray* packageWholesalerObjectList = [[ArcosCoreData sharedArcosCoreData] locationWithIUR:packageWholesalerIUR];
@@ -368,6 +368,7 @@
 //        cpwvc.myDelegate = self;
         cpwvc.modalDelegate = self;
         cpwvc.orderHeader = auxOrderHeader;
+        cpwvc.packageIUR = [[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR];
         if (@available(iOS 13.0, *)) {
             cpwvc.modalInPresentation = YES;
         }
@@ -406,7 +407,7 @@
 //        
 //    }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
-        [GlobalSharedClass shared].currentSelectedPackage = nil;
+        [GlobalSharedClass shared].currentSelectedPackageIUR = nil;
     }
     [GlobalSharedClass shared].lastOrderFormIUR = [NSNumber numberWithInt:[[OrderSharedClass sharedOrderSharedClass].currentFormIUR intValue]];
     [OrderSharedClass sharedOrderSharedClass].currentFormIUR=nil;

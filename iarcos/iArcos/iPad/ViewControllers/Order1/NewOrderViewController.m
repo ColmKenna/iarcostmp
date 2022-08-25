@@ -239,6 +239,10 @@
 }
 
 - (void)packageButtonPressed {
+    if (self.orderPadsPopover != nil && [self.orderPadsPopover isPopoverVisible]) {
+        [self.orderPadsPopover dismissPopoverAnimated:NO];
+        return;
+    }
     PackageTableViewController* PTVC = [[PackageTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     PTVC.modalDelegate = self;
     PTVC.actionDelegate = self;
@@ -262,7 +266,9 @@
         [self didSelectFormDetailRow:currentFormDetailRecordDict];
     }
     
-    NSNumber* pGiur = [[[GlobalSharedClass shared] retrieveCurrentSelectedPackage] objectForKey:@"pGiur"];
+//    NSNumber* pGiur = [[[GlobalSharedClass shared] retrieveCurrentSelectedPackage] objectForKey:@"pGiur"];
+    NSMutableDictionary* currentSelectedPackage = [[ArcosCoreData sharedArcosCoreData] retrievePackageWithIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
+    NSNumber* pGiur = [currentSelectedPackage objectForKey:@"pGiur"];
     NSMutableArray* productIURList = [NSMutableArray arrayWithCapacity:[[[OrderSharedClass sharedOrderSharedClass].currentOrderCart allKeys] count]];
     for(NSString* aKey in [OrderSharedClass sharedOrderSharedClass].currentOrderCart) {
         NSMutableDictionary* aDict = [[OrderSharedClass sharedOrderSharedClass].currentOrderCart objectForKey:aKey];
@@ -405,6 +411,7 @@
 //    cpwvc.myDelegate = self;
     cpwvc.modalDelegate = self;
     cpwvc.orderHeader = [OrderSharedClass sharedOrderSharedClass].currentOrderHeader;
+    cpwvc.packageIUR = [[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR];
     cpwvc.isOrderPadPrinterType = YES;
     if (@available(iOS 13.0, *)) {
         cpwvc.modalInPresentation = YES;
@@ -581,9 +588,13 @@
     StandardOrderPadMatTableViewController* SOPMTVC = [[StandardOrderPadMatTableViewController alloc] initWithNibName:@"StandardOrderPadMatTableViewController" bundle:nil];
     SOPMTVC.backButtonDelegate = self;
     SOPMTVC.formRowsTableViewController.isShowingSearchBar = YES;
-    [SOPMTVC.formRowsTableViewController resetDividerFormRowsWithDividerIUR:aDividerIUR withDividerName:aDividerName locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+    NSNumber* resPackageIUR = [NSNumber numberWithInt:0];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
+        resPackageIUR = [[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR];
+    }
+    [SOPMTVC.formRowsTableViewController resetDividerFormRowsWithDividerIUR:aDividerIUR withDividerName:aDividerName locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:resPackageIUR];
 //    [SOPMTVC.formRowsTableViewController resetDataWithDividerIUR:aDividerIUR withDividerName:aDividerName locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
-    [SOPMTVC.mATFormRowsTableViewController.matFormRowsDataManager processLocationProductMATData:[GlobalSharedClass shared].currentSelectedLocationIUR];
+    [SOPMTVC.mATFormRowsTableViewController.matFormRowsDataManager processLocationProductMATData:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
     [SOPMTVC.standardOrderPadMatDataManager processMatDataList:SOPMTVC.mATFormRowsTableViewController.matFormRowsDataManager.displayList];
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:SOPMTVC] autorelease];
     [SOPMTVC release];
@@ -602,7 +613,11 @@
     tmpfrtvc.view.frame = self.orderBaseTableContentView.frame;
     tmpfrtvc.isShowingSearchBar = YES;
     tmpfrtvc.isStandardOrderPadFlag = YES;
-    [tmpfrtvc resetDividerFormRowsWithDividerIUR:sequenceDivider withDividerName:@"All" locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+    NSNumber* resPackageIUR = [NSNumber numberWithInt:0];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
+        resPackageIUR = [[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR];
+    }
+    [tmpfrtvc resetDividerFormRowsWithDividerIUR:sequenceDivider withDividerName:@"All" locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:resPackageIUR];
 //    [tmpfrtvc resetDataWithDividerIUR:sequenceDivider withDividerName:@"All" locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
     tmpfrtvc.backButtonDelegate = self;
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:tmpfrtvc] autorelease];
@@ -640,7 +655,11 @@
     tmpfrtvc.isShowingSearchBar = YES;
     tmpfrtvc.isStandardOrderPadFlag = YES;
     tmpfrtvc.dividerIUR = sequenceDivider;
-    [tmpfrtvc resetDividerFormRowsWithDividerIUR:sequenceDivider withDividerName:details locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+    NSNumber* resPackageIUR = [NSNumber numberWithInt:0];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
+        resPackageIUR = [[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR];
+    }
+    [tmpfrtvc resetDividerFormRowsWithDividerIUR:sequenceDivider withDividerName:details locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:resPackageIUR];
 //    [tmpfrtvc resetDataWithDividerIUR:sequenceDivider withDividerName:details locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
     tmpfrtvc.backButtonDelegate = self;
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:tmpfrtvc] autorelease];

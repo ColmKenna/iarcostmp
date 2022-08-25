@@ -318,9 +318,13 @@
 //    cpwvc.myDelegate = self;
     cpwvc.modalDelegate = self;
     cpwvc.orderHeader = self.savedIarcosOrderDetailDataManager.orderHeader;
-    if ([cpwvc respondsToSelector:@selector(isModalInPresentation)]) {
+    cpwvc.packageIUR = [self.savedIarcosOrderDetailDataManager.orderHeader objectForKey:@"PosteedIUR"];
+    if (@available(iOS 13.0, *)) {
         cpwvc.modalInPresentation = YES;
     }
+//    if ([cpwvc respondsToSelector:@selector(isModalInPresentation)]) {
+//        cpwvc.modalInPresentation = YES;
+//    }
     cpwvc.modalPresentationStyle = UIModalPresentationFormSheet;
     cpwvc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentViewController:cpwvc animated:YES completion:^{
@@ -355,7 +359,7 @@
 -(void)showOrderlineDetailsDelegate {
     NSNumber* isSealed = [self.savedOrderDetailCellData objectForKey:@"IsSealed"];
     NSNumber* orderNumber = [self.savedOrderDetailCellData objectForKey:@"OrderNumber"];
-    NSMutableArray* orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:orderNumber withSortKey:@"OrderLine" locationIUR:[self.savedOrderDetailCellData objectForKey:@"LocationIUR"]];
+    NSMutableArray* orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:orderNumber withSortKey:@"OrderLine" locationIUR:[self.savedOrderDetailCellData objectForKey:@"LocationIUR"] packageIUR:[self.savedIarcosOrderDetailDataManager.orderHeader objectForKey:@"PosteedIUR"]];
 //    NSNumber* formIUR = [self.savedOrderDetailCellData objectForKey:@"FormIUR"];
     NSMutableDictionary* formTypeDict = [self.savedIarcosOrderDetailDataManager.orderHeader objectForKey:@"formType"];
     
@@ -804,7 +808,7 @@
         
     } else {
         NSNumber* orderNumber = [self.savedOrderDetailCellData objectForKey:@"OrderNumber"];
-        NSMutableArray* orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:orderNumber withSortKey:@"OrderLine" locationIUR:[self.savedOrderDetailCellData objectForKey:@"LocationIUR"]];
+        NSMutableArray* orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:orderNumber withSortKey:@"OrderLine" locationIUR:[self.savedOrderDetailCellData objectForKey:@"LocationIUR"] packageIUR:[self.savedIarcosOrderDetailDataManager.orderHeader objectForKey:@"PosteedIUR"]];
         [self.savedIarcosOrderDetailDataManager.orderHeader setObject:orderLines forKey:@"OrderLines"];
     }
     [self.repeatOrderDataManager repeatOrderWithDataDict:self.savedIarcosOrderDetailDataManager.orderHeader];

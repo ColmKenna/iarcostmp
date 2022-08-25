@@ -349,7 +349,7 @@
         }
         
         NSLog(@"get only one product!");
-        formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
         if (formRow == nil) {
             [ArcosUtils showDialogBox:@"Product not found" title:@"" delegate:nil target:self tag:0 handler:nil];
             return;
@@ -417,7 +417,7 @@
                     BOOL isProductInCurrentForm = [self isProductInFormRowWithFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR productIUR:ProductIUR];
                     
                     if (isProductInCurrentForm) {//create a form row and add to the form rows array
-                        NSMutableDictionary* formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+                        NSMutableDictionary* formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
                         //sync the row with current cart
                         formRow=[[OrderSharedClass sharedOrderSharedClass]syncRowWithCurrentCart:formRow];
                         [unsortFormRows addObject:formRow];
@@ -438,7 +438,7 @@
     if ([ProductIUR intValue]>0  && ([anOrderLevel intValue] == 0 || [anOrderLevel intValue] == 6)) {
         NSMutableDictionary* formRow=[NSMutableDictionary dictionary];        
 //        NSLog(@"get only one product!");
-        formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
         if (formRow == nil) {
             [ArcosUtils showDialogBox:@"Product not found" title:@"" delegate:nil target:self tag:0 handler:nil];
             return;
@@ -487,7 +487,7 @@
             if (products!=nil&&[products count]>0) {//any product for the given L5 code
                 for (NSMutableDictionary* aProduct in products) {//loop products
                     NSNumber* ProductIUR=[aProduct objectForKey:@"ProductIUR"];                
-                    NSMutableDictionary* formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+                    NSMutableDictionary* formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
                     formRow=[[OrderSharedClass sharedOrderSharedClass]syncRowWithCurrentCart:formRow];
                     [unsortFormRows addObject:formRow];
                 }                        
@@ -503,7 +503,7 @@
 
 - (NSMutableArray*)retrieveFormRowList:(NSNumber*)aSequenceDivider {//[NSNumber numberWithInt:-1]
 //    NSMutableArray* auxUnsortFormRows = [[ArcosCoreData sharedArcosCoreData] formRowWithDividerIURSortByNatureOrder:aSequenceDivider withFormIUR:[self.currentFile objectForKey:@"FormIUR"] locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
-    NSMutableArray* auxUnsortFormRows = [[ArcosCoreData sharedArcosCoreData] dividerFormRowsWithDividerIUR:aSequenceDivider formIUR:[self.currentFile objectForKey:@"FormIUR"] locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+    NSMutableArray* auxUnsortFormRows = [[ArcosCoreData sharedArcosCoreData] dividerFormRowsWithDividerIUR:aSequenceDivider formIUR:[self.currentFile objectForKey:@"FormIUR"] locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
     for (int i = 0; i < [auxUnsortFormRows count]; i++) {
         NSMutableDictionary* formRow = [auxUnsortFormRows objectAtIndex:i];
         formRow = [[OrderSharedClass sharedOrderSharedClass]syncRowWithCurrentCart:formRow];

@@ -860,21 +860,21 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 //functions
-- (void)resetDividerFormRowsWithDividerIUR:(NSNumber*)anIUR withDividerName:(NSString*)name locationIUR:(NSNumber*)aLocationIUR {
+- (void)resetDividerFormRowsWithDividerIUR:(NSNumber*)anIUR withDividerName:(NSString*)name locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
     self.dividerName = name;
-    self.unsortedFormrows = [[ArcosCoreData sharedArcosCoreData] dividerFormRowsWithDividerIUR:anIUR formIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR locationIUR:aLocationIUR];
+    self.unsortedFormrows = [[ArcosCoreData sharedArcosCoreData] dividerFormRowsWithDividerIUR:anIUR formIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR locationIUR:aLocationIUR packageIUR:aPackageIUR];
         
     [self processDefaultQtyPercent:self.unsortedFormrows];
     [self processUnsortedFormRows];
 }
 
 -(void)resetDataWithDividerIUR:(NSNumber*)anIUR withDividerName:(NSString*)name locationIUR:(NSNumber*)aLocationIUR{
-    self.dividerName=name;
-
-    //get new form row list which is sort by coredata
-    self.unsortedFormrows=[[ArcosCoreData sharedArcosCoreData] formRowWithDividerIURSortByNatureOrder:anIUR withFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR locationIUR:aLocationIUR];
-    [self processDefaultQtyPercent:self.unsortedFormrows];
-    [self processUnsortedFormRows];
+//    self.dividerName=name;
+//
+//    //get new form row list which is sort by coredata
+//    self.unsortedFormrows=[[ArcosCoreData sharedArcosCoreData] formRowWithDividerIURSortByNatureOrder:anIUR withFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR locationIUR:aLocationIUR];
+//    [self processDefaultQtyPercent:self.unsortedFormrows];
+//    [self processUnsortedFormRows];
 }
 
 - (void)processDefaultQtyPercent:(NSMutableArray*)aFormRowDictList {
@@ -952,8 +952,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 
--(void)resetDataWithDividerRecordIUR:(NSNumber*)aDividerRecordIUR locationIUR:(NSNumber*)aLocationIUR{
-    self.unsortedFormrows = [[ArcosCoreData sharedArcosCoreData] formRowWithFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR dividerRecordIUR:aDividerRecordIUR locationIUR:aLocationIUR];
+-(void)resetDataWithDividerRecordIUR:(NSNumber*)aDividerRecordIUR locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
+    self.unsortedFormrows = [[ArcosCoreData sharedArcosCoreData] formRowWithFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR dividerRecordIUR:aDividerRecordIUR locationIUR:aLocationIUR packageIUR:aPackageIUR];
     [self processUnsortedFormRows];
 }
 

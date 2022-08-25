@@ -277,7 +277,7 @@
             [tmpCellData setObject:[ProductFormRowConverter calculateLineValue:tmpCellData] forKey:@"LineValue"];
             [[ArcosCoreData sharedArcosCoreData]updateOrderLine:tmpCellData];
         }
-        NSMutableArray* orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:self.orderNumber withSortKey:@"OrderLine" locationIUR:self.locationIUR];
+        NSMutableArray* orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:self.orderNumber withSortKey:@"OrderLine" locationIUR:self.locationIUR packageIUR:[ArcosUtils convertNilToZero:[self.vansOrderHeader objectForKey:@"PosteedIUR"]]];
         [self resetTableDataWithData:orderLines];
         [self.tableView reloadData];
         [self calculateOrderLinesTotal];
@@ -288,7 +288,7 @@
         [self deleteOrderLine:data];
     }else{
         [[ArcosCoreData sharedArcosCoreData]updateOrderLine:data];
-        NSMutableArray* orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:self.orderNumber withSortKey:@"OrderLine" locationIUR:self.locationIUR];
+        NSMutableArray* orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:self.orderNumber withSortKey:@"OrderLine" locationIUR:self.locationIUR packageIUR:[ArcosUtils convertNilToZero:[self.vansOrderHeader objectForKey:@"PosteedIUR"]]];
         [self resetTableDataWithData:orderLines];
         [self.tableView reloadData];
         [self calculateOrderLinesTotal];
@@ -336,7 +336,7 @@
 
 #pragma mark OrderLineDetailProductDelegate
 - (void)didSaveOrderlinesFinish {
-    NSMutableArray* orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:self.orderNumber withSortKey:@"OrderLine" locationIUR:self.locationIUR];
+    NSMutableArray* orderLines = [[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:self.orderNumber withSortKey:@"OrderLine" locationIUR:self.locationIUR packageIUR:[self.vansOrderHeader objectForKey:@"PosteedIUR"]];
     [self resetTableDataWithData:orderLines];
     [self.tableView reloadData];
     [self calculateOrderLinesTotal];

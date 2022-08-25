@@ -145,9 +145,9 @@
 -(NSMutableDictionary*)selectionTotal;
 
 //functions
-- (void)resetDividerFormRowsWithDividerIUR:(NSNumber*)anIUR withDividerName:(NSString*)name locationIUR:(NSNumber*)aLocationIUR;
+- (void)resetDividerFormRowsWithDividerIUR:(NSNumber*)anIUR withDividerName:(NSString*)name locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
 -(void)resetDataWithDividerIUR:(NSNumber*)anIUR withDividerName:(NSString*)name locationIUR:(NSNumber*)aLocationIUR;
--(void)resetDataWithDividerRecordIUR:(NSNumber*)aDividerRecordIUR locationIUR:(NSNumber*)aLocationIUR;
+-(void)resetDataWithDividerRecordIUR:(NSNumber*)aDividerRecordIUR locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
 -(void)processUnsortedFormRows;
 -(void)resetDataWithFormRows:(NSMutableDictionary*)formRows;
 -(void)clearData;

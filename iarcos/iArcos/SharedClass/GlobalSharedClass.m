@@ -128,7 +128,8 @@ static GlobalSharedClass* _shared = nil;
 @synthesize acctNoCompany = _acctNoCompany;
 @synthesize myAppBlueColor = _myAppBlueColor;
 @synthesize mySystemBlueColor = _mySystemBlueColor;
-@synthesize currentSelectedPackage = _currentSelectedPackage;
+//@synthesize currentSelectedPackage = _currentSelectedPackage;
+@synthesize currentSelectedPackageIUR = _currentSelectedPackageIUR;
 
 +(GlobalSharedClass*)shared 
 {
@@ -262,7 +263,7 @@ static GlobalSharedClass* _shared = nil;
         self.acctNoCompany = @"uniphar";
         self.myAppBlueColor = [UIColor colorWithRed:0.0 green:150.0/255.0 blue:214.0/255.0 alpha:1.0];
         self.mySystemBlueColor = [UIColor colorWithRed:0.0 green:132.0/255.0 blue:254.0/255.0 alpha:1.0];
-        self.currentSelectedPackage = nil;
+//        self.currentSelectedPackage = nil;
 	}
     
 	return self;
@@ -527,11 +528,18 @@ CGFloat RadiansToDegrees(CGFloat radians)
     return passcode;
 }
 
-- (NSMutableDictionary*)retrieveCurrentSelectedPackage {
-    if (self.currentSelectedPackage == nil) {
-        self.currentSelectedPackage = [[ArcosCoreData sharedArcosCoreData] retrieveDefaultPackageWithLocationIUR:self.currentSelectedLocationIUR];
+//- (NSMutableDictionary*)retrieveCurrentSelectedPackage {
+//    if (self.currentSelectedPackage == nil) {
+//        self.currentSelectedPackage = [[ArcosCoreData sharedArcosCoreData] retrieveDefaultPackageWithLocationIUR:self.currentSelectedLocationIUR];
+//    }
+//    return self.currentSelectedPackage;
+//}
+- (NSNumber*)retrieveCurrentSelectedPackageIUR {
+    if (self.currentSelectedPackageIUR == nil) {
+        NSMutableDictionary* tmpDefaultPackage = [[ArcosCoreData sharedArcosCoreData] retrieveDefaultPackageWithLocationIUR:self.currentSelectedLocationIUR];
+        self.currentSelectedPackageIUR = [tmpDefaultPackage objectForKey:@"iUR"];
     }
-    return self.currentSelectedPackage;
+    return self.currentSelectedPackageIUR;
 }
 
 #pragma mark app setting
@@ -616,7 +624,8 @@ CGFloat RadiansToDegrees(CGFloat radians)
     self.acctNoCompany = nil;
     self.myAppBlueColor = nil;
     self.mySystemBlueColor = nil;
-    self.currentSelectedPackage = nil;
+//    self.currentSelectedPackage = nil;
+    self.currentSelectedPackageIUR = nil;
     
     [super dealloc];
 }
