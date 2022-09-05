@@ -633,7 +633,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OrderSharedClass);
         [arcosStockonHandUtils release];
     }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
-        [order setObject:[ArcosUtils convertNilToZero:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]] forKey:@"PosteedIUR"];
+        [order setObject:[ArcosUtils convertNilToZero:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault]] forKey:@"PosteedIUR"];
     }
     //save to coredata
     BOOL isSuccess= [[ArcosCoreData sharedArcosCoreData]saveOrder:order];

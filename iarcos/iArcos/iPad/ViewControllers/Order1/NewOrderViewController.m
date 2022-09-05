@@ -244,6 +244,12 @@
         return;
     }
     PackageTableViewController* PTVC = [[PackageTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    if ([PTVC.packageDataManager.displayList count] == 0) {
+        [ArcosUtils showDialogBox:@"Selected Location does not have any Packages setup" title:@"" delegate:nil target:self tag:0 handler:nil];
+        [GlobalSharedClass shared].packageViewCount = 1;
+        [PTVC release];
+        return;
+    }
     PTVC.modalDelegate = self;
     PTVC.actionDelegate = self;
     UINavigationController* auxNavigationController = [[UINavigationController alloc] initWithRootViewController:PTVC];
@@ -267,7 +273,7 @@
     }
     
 //    NSNumber* pGiur = [[[GlobalSharedClass shared] retrieveCurrentSelectedPackage] objectForKey:@"pGiur"];
-    NSMutableDictionary* currentSelectedPackage = [[ArcosCoreData sharedArcosCoreData] retrievePackageWithIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
+    NSMutableDictionary* currentSelectedPackage = [[ArcosCoreData sharedArcosCoreData] retrievePackageWithIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault]];
     NSNumber* pGiur = [currentSelectedPackage objectForKey:@"pGiur"];
     NSMutableArray* productIURList = [NSMutableArray arrayWithCapacity:[[[OrderSharedClass sharedOrderSharedClass].currentOrderCart allKeys] count]];
     for(NSString* aKey in [OrderSharedClass sharedOrderSharedClass].currentOrderCart) {
@@ -342,6 +348,11 @@
     } 
     if (self.isNotFirstLoaded) {
         [self configRightBarButtons];
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
+            if ([GlobalSharedClass shared].packageViewCount == 0) {
+                [self packageButtonPressed];
+            }
+        }
         return;
     }
 //    [self.navigationController popToRootViewControllerAnimated:NO];
@@ -359,6 +370,11 @@
     }
     self.isNotFirstLoaded = YES;
     [self configRightBarButtons];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
+        if ([GlobalSharedClass shared].packageViewCount == 0) {
+            [self packageButtonPressed];
+        }
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -411,7 +427,7 @@
 //    cpwvc.myDelegate = self;
     cpwvc.modalDelegate = self;
     cpwvc.orderHeader = [OrderSharedClass sharedOrderSharedClass].currentOrderHeader;
-    cpwvc.packageIUR = [[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR];
+    cpwvc.packageIUR = [[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault];
     cpwvc.isOrderPadPrinterType = YES;
     if (@available(iOS 13.0, *)) {
         cpwvc.modalInPresentation = YES;
@@ -590,11 +606,11 @@
     SOPMTVC.formRowsTableViewController.isShowingSearchBar = YES;
     NSNumber* resPackageIUR = [NSNumber numberWithInt:0];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
-        resPackageIUR = [[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR];
+        resPackageIUR = [[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault];
     }
     [SOPMTVC.formRowsTableViewController resetDividerFormRowsWithDividerIUR:aDividerIUR withDividerName:aDividerName locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:resPackageIUR];
 //    [SOPMTVC.formRowsTableViewController resetDataWithDividerIUR:aDividerIUR withDividerName:aDividerName locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
-    [SOPMTVC.mATFormRowsTableViewController.matFormRowsDataManager processLocationProductMATData:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
+    [SOPMTVC.mATFormRowsTableViewController.matFormRowsDataManager processLocationProductMATData:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault]];
     [SOPMTVC.standardOrderPadMatDataManager processMatDataList:SOPMTVC.mATFormRowsTableViewController.matFormRowsDataManager.displayList];
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:SOPMTVC] autorelease];
     [SOPMTVC release];
@@ -615,7 +631,7 @@
     tmpfrtvc.isStandardOrderPadFlag = YES;
     NSNumber* resPackageIUR = [NSNumber numberWithInt:0];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
-        resPackageIUR = [[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR];
+        resPackageIUR = [[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault];
     }
     [tmpfrtvc resetDividerFormRowsWithDividerIUR:sequenceDivider withDividerName:@"All" locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:resPackageIUR];
 //    [tmpfrtvc resetDataWithDividerIUR:sequenceDivider withDividerName:@"All" locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
@@ -657,7 +673,7 @@
     tmpfrtvc.dividerIUR = sequenceDivider;
     NSNumber* resPackageIUR = [NSNumber numberWithInt:0];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
-        resPackageIUR = [[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR];
+        resPackageIUR = [[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault];
     }
     [tmpfrtvc resetDividerFormRowsWithDividerIUR:sequenceDivider withDividerName:details locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:resPackageIUR];
 //    [tmpfrtvc resetDataWithDividerIUR:sequenceDivider withDividerName:details locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];

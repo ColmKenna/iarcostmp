@@ -17,6 +17,16 @@
 @synthesize actionDelegate = _actionDelegate;
 @synthesize packageDataManager = _packageDataManager;
 
+- (instancetype)initWithStyle:(UITableViewStyle)style {
+    self = [super initWithStyle:style];
+    if (self) {
+        // Custom initialization
+        self.packageDataManager = [[[PackageDataManager alloc] init] autorelease];
+        [self.packageDataManager retrievePackageDataWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -33,15 +43,16 @@
     self.navigationItem.rightBarButtonItem = saveButton;
     [saveButton release];
     
-    self.packageDataManager = [[[PackageDataManager alloc] init] autorelease];
-    [self.packageDataManager retrievePackageDataWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+    
 }
 
 - (void)cancelButtonPressed {
+    if ([GlobalSharedClass shared].packageViewCount == 0) return;
     [self.modalDelegate didDismissModalPresentViewController];
 }
 
 - (void)saveButtonPressed {
+    [GlobalSharedClass shared].packageViewCount = 1;
     if ([self.packageDataManager.displayList count] == 0) {
         [self.modalDelegate didDismissModalPresentViewController];
         return;

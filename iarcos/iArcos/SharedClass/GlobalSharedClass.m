@@ -130,6 +130,7 @@ static GlobalSharedClass* _shared = nil;
 @synthesize mySystemBlueColor = _mySystemBlueColor;
 //@synthesize currentSelectedPackage = _currentSelectedPackage;
 @synthesize currentSelectedPackageIUR = _currentSelectedPackageIUR;
+@synthesize packageViewCount = _packageViewCount;
 
 +(GlobalSharedClass*)shared 
 {
@@ -263,7 +264,7 @@ static GlobalSharedClass* _shared = nil;
         self.acctNoCompany = @"uniphar";
         self.myAppBlueColor = [UIColor colorWithRed:0.0 green:150.0/255.0 blue:214.0/255.0 alpha:1.0];
         self.mySystemBlueColor = [UIColor colorWithRed:0.0 green:132.0/255.0 blue:254.0/255.0 alpha:1.0];
-//        self.currentSelectedPackage = nil;
+        self.packageViewCount = 0;
 	}
     
 	return self;
@@ -534,8 +535,8 @@ CGFloat RadiansToDegrees(CGFloat radians)
 //    }
 //    return self.currentSelectedPackage;
 //}
-- (NSNumber*)retrieveCurrentSelectedPackageIUR {
-    if (self.currentSelectedPackageIUR == nil) {
+- (NSNumber*)retrieveCurrentSelectedPackageIURWithRequestSource:(ProductRequestSource)aRequestSource {
+    if (self.currentSelectedPackageIUR == nil && aRequestSource == ProductRequestSourcePresenterSubMenu) {
         NSMutableDictionary* tmpDefaultPackage = [[ArcosCoreData sharedArcosCoreData] retrieveDefaultPackageWithLocationIUR:self.currentSelectedLocationIUR];
         self.currentSelectedPackageIUR = [tmpDefaultPackage objectForKey:@"iUR"];
     }

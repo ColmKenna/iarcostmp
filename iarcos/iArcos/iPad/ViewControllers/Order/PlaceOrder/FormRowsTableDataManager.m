@@ -28,7 +28,7 @@
         }
 //        NSMutableDictionary* priceHashMap = [[ArcosCoreData sharedArcosCoreData] retrievePriceWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR productIURList:productIURList];
 //        NSMutableArray* products = [[ArcosCoreData sharedArcosCoreData].arcosCoreDataManager processPriceProductList:auxProducts priceHashMap:priceHashMap];
-        NSMutableArray* products = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:auxProducts productIURList:productIURList locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
+        NSMutableArray* products = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:auxProducts productIURList:productIURList locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault]];
         tmpDisplayList = [NSMutableArray arrayWithCapacity:[products count]];
         for (NSMutableDictionary* aProduct in products) {//loop products
             NSMutableDictionary* formRow = [ProductFormRowConverter createFormRowWithProduct:aProduct];
@@ -50,7 +50,7 @@
     for (NSDictionary* aDict in objectArray) {
         [productIURList addObject:[aDict objectForKey:@"ProductIUR"]];
     }
-    NSMutableArray* products = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:objectArray productIURList:productIURList locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
+    NSMutableArray* products = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:objectArray productIURList:productIURList locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault]];
     tmpDisplayList = [NSMutableArray arrayWithCapacity:[products count]];
     for (NSMutableDictionary* aProduct in products) {//loop products
         NSMutableDictionary* formRow = [ProductFormRowConverter createFormRowWithProduct:aProduct];

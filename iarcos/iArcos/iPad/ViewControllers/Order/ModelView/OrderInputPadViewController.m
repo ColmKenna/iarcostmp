@@ -478,7 +478,9 @@
     if ([orderFormDetails containsString:@"[ND]"]) {
         [self showDiscountWithFlag:NO];
     }
-    
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
+        self.DiscountField.enabled = NO;
+    }
     [self checkQtyByBonusDeal];
     [self resetTotalValue];
 }
@@ -838,7 +840,7 @@
     //reset the total value
     [self resetTotalValue];
     NSNumber* discount=[NSNumber numberWithFloat:[self.DiscountField.text floatValue]];
-    if (self.currentTextField.tag == 0 && [discount floatValue] != 0) {
+    if (self.currentTextField.tag == 0 && [discount floatValue] != 0 && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
         [self submitInput];
     }
 }

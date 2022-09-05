@@ -43,7 +43,11 @@
     NSMutableDictionary* tmpPGiurHashMap = [NSMutableDictionary dictionaryWithCapacity:[self.displayList count]];
 //    NSMutableDictionary* defaultPackageDict = [[GlobalSharedClass shared] retrieveCurrentSelectedPackage];
 //    int defaultPackageIUR = [[defaultPackageDict objectForKey:@"iUR"] intValue];
-    int currentPackageIUR = [[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR] intValue];
+    int currentPackageIUR = [[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault] intValue];
+    if (currentPackageIUR == 0) {
+        NSMutableDictionary* tmpDefaultPackage = [[ArcosCoreData sharedArcosCoreData] retrieveDefaultPackageWithLocationIUR:aLocationIUR];
+        currentPackageIUR = [[tmpDefaultPackage objectForKey:@"iUR"] intValue];
+    }
     for (int i = 0; i < [objectArray count]; i++) {
         NSDictionary* tmpPackageDict = [objectArray objectAtIndex:i];
         NSMutableDictionary* resPackageDict = [NSMutableDictionary dictionaryWithDictionary:tmpPackageDict];

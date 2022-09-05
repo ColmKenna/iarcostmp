@@ -20,6 +20,11 @@ typedef enum {
     DateYear,
     DateMat
 } DateType;
+
+typedef enum {
+    ProductRequestSourceDefault = 0,
+    ProductRequestSourcePresenterSubMenu
+} ProductRequestSource;
 @interface GlobalSharedClass : NSObject {
     NSMutableArray* testingCustomers;
     NSMutableArray* customerDetails;
@@ -142,8 +147,8 @@ typedef enum {
     NSString* _acctNoCompany;
     UIColor* _myAppBlueColor;
     UIColor* _mySystemBlueColor;
-//    NSMutableDictionary* _currentSelectedPackage;
     NSNumber* _currentSelectedPackageIUR;
+    int _packageViewCount;
 }
 
 +(GlobalSharedClass*)shared;
@@ -265,6 +270,7 @@ typedef enum {
 @property (nonatomic,retain) UIColor* mySystemBlueColor;
 //@property (nonatomic,retain) NSMutableDictionary* currentSelectedPackage;
 @property (nonatomic,retain) NSNumber* currentSelectedPackageIUR;
+@property (nonatomic,assign) int packageViewCount;
 
 //usful functions
 - (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber;
@@ -293,5 +299,5 @@ typedef enum {
 //-(void)increaseOrderNumber;
 -(NSString*)currentPasscode;
 //- (NSMutableDictionary*)retrieveCurrentSelectedPackage;
-- (NSNumber*)retrieveCurrentSelectedPackageIUR;
+- (NSNumber*)retrieveCurrentSelectedPackageIURWithRequestSource:(ProductRequestSource)aRequestSource;
 @end

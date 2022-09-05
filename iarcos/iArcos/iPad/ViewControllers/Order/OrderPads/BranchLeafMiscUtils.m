@@ -36,7 +36,7 @@
     }
 //    NSMutableDictionary* priceHashMap = [[ArcosCoreData sharedArcosCoreData] retrievePriceWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR productIURList:productIURList];
 //    productList = [[ArcosCoreData sharedArcosCoreData].arcosCoreDataManager processPriceProductList:productList priceHashMap:priceHashMap];
-    productList = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:productList productIURList:productIURList locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
+    productList = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:productList productIURList:productIURList locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault]];
     NSMutableArray* unsortFormRows = [NSMutableArray arrayWithCapacity:[productList count]];
     for (NSMutableDictionary* product in productList) {
         NSMutableDictionary* formRow = [ProductFormRowConverter createFormRowWithProduct:product];

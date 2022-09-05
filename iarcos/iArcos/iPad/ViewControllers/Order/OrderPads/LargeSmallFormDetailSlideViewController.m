@@ -292,7 +292,7 @@
     FormRowsTableViewController* FRTVC = [[FormRowsTableViewController alloc] initWithNibName:@"FormRowsTableViewController" bundle:nil];
     FRTVC.isShowingSearchBar = YES;
     NSNumber* dividerIUR = [aDividerDict objectForKey:@"IUR"];
-    [FRTVC resetDataWithDividerRecordIUR:dividerIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
+    [FRTVC resetDataWithDividerRecordIUR:dividerIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault]];
     [self.navigationController pushViewController:FRTVC animated:YES];
     [FRTVC release];
     NSLog(@"show product view");

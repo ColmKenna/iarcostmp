@@ -110,7 +110,7 @@
 //    self.startDate = [NSDate date];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] retrieveLocationProductMATDataLocallyFlag]) {
         self.isServiceCalled = YES;
-        [self.matFormRowsDataManager processLocationProductMATData:self.locationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
+        [self.matFormRowsDataManager processLocationProductMATData:self.locationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault]];
     } else {
         self.isServiceCalled = NO;
         [self.callGenericServices genericGetCustomerData:[self.locationIUR intValue] startDate:[ArcosUtils dateFromString:[ArcosUtils stringFromDate:[NSDate date] format:[GlobalSharedClass shared].datetimeFormat] format:[GlobalSharedClass shared].datetimeFormat] endDate:[ArcosUtils dateFromString:[ArcosUtils stringFromDate:[NSDate date] format:[GlobalSharedClass shared].datetimeFormat] format:[GlobalSharedClass shared].datetimeFormat] type:@"MATQTY" level:6 action:@selector(setTableGetCustomerDataResult:) target:self];
@@ -503,7 +503,7 @@
         self.matFormRowsDataManager.displayList = result.ArrayOfData;
         self.matFormRowsDataManager.originalDisplayList = [NSMutableArray arrayWithArray:self.matFormRowsDataManager.displayList];
         self.matFormRowsDataManager.fieldNames = result.FieldNames;
-        [self.matFormRowsDataManager newProcessRawData:result.ArrayOfData locationIUR:self.locationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIUR]];
+        [self.matFormRowsDataManager newProcessRawData:result.ArrayOfData locationIUR:self.locationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault]];
         [self.tableView reloadData];
 //        NSDate* innerEndDate = [NSDate date];
 //        NSTimeInterval innerExecuteTime = [innerEndDate timeIntervalSinceDate:innerStartDate];

@@ -673,6 +673,7 @@
 - (void)succeedToCheckNewLocationIUR:(NSIndexPath *)indexPath {
     [self succeedToCheckSameLocationIUR:indexPath];
     [GlobalSharedClass shared].currentSelectedPackageIUR = nil;
+    [GlobalSharedClass shared].packageViewCount = 0;
     NSMutableDictionary* aCust = [self getCustomerWithIndexPath:indexPath];
     [self resetCurrentOrderAndWholesaler:[aCust objectForKey:@"LocationIUR"]];
     [self configWholesalerLogo];
