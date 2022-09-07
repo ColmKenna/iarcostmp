@@ -32,6 +32,7 @@
 }
 
 - (NSDictionary*)formDetailRecordDictWithIUR:(NSNumber*)aFormDetailIUR {
+    if (aFormDetailIUR == nil) return nil;
     for (int i = 0; i < [self.displayList count]; i++) {
         NSDictionary* formDetailRecordDict = [self.displayList objectAtIndex:i];
         NSNumber* formDetailIUR = [formDetailRecordDict objectForKey:@"IUR"];
