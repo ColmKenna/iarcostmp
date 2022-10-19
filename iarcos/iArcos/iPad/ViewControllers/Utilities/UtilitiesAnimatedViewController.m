@@ -880,15 +880,18 @@ static const CGFloat constantColorLookupTable[20][3] =
 }
 
 - (void)populateTylyTableChartView:(UIInterfaceOrientation)anOrientation {
-    [self removeAllSubViews:self.tylyTableScrollView];    
+    [self removeAllSubViews:self.tylyTableScrollView];
+    
     float labelWidth = 69.0f;
+    labelWidth = (landscapeBigViewSize.size.width - 10 * 3 - 50) / 12;
     float labelHeight = 21.0f;
     float sepSpace = 0.0f;
-    float beginSpace = 50.0f;
+    float beginSpace = 60.0f;
     float verBeginSpace = 20.0f;
     float verSepSpace = 20.0f;
     if (UIInterfaceOrientationIsPortrait(anOrientation)) {
         labelWidth = 56.0f;
+        labelWidth = (portraitBigViewSize.size.width - 10 * 3 - 50) / 12;
     }
     
     int tagNumber = 1;
@@ -905,7 +908,7 @@ static const CGFloat constantColorLookupTable[20][3] =
                 }                    
                     break;
                 case 1: {
-                    textColor = [UIColor greenColor];
+                    textColor = [UIColor colorWithRed:0.0 green:100.0/255.0 blue:0.0 alpha:1.0];
                 }                    
                     break;
                     
@@ -929,7 +932,7 @@ static const CGFloat constantColorLookupTable[20][3] =
 }
 
 - (void)addLabel:(UIView*)aView rect:(CGRect)aRect value:(NSString*)aValue tag:(int)aTag textAlignment:(NSTextAlignment)anAlignment color:(UIColor*)aColor {
-    UILabel* headerLabel = [[UILabel alloc] initWithFrame:aRect];
+    LeftRightInsetUILabel* headerLabel = [[LeftRightInsetUILabel alloc] initWithFrame:aRect];
     headerLabel.textAlignment = anAlignment;
     headerLabel.text = aValue;
     if ([aValue isEqualToString:@"0"]) {

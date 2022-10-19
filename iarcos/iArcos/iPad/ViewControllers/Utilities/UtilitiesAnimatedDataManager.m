@@ -36,6 +36,8 @@
 @synthesize configDict = _configDict;
 @synthesize pnfDescrDetailCode = _pnfDescrDetailCode;
 @synthesize pnfDetail = _pnfDetail;
+//@synthesize monthPieCompositeResultList = _monthPieCompositeResultList;
+@synthesize monthPieNormalBarCount = _monthPieNormalBarCount;
 
 - (id)init{
     self = [super init];
@@ -48,8 +50,8 @@
             [monthMapKeyList addObject:[NSNumber numberWithInt:i]];
         }    
         self.monthMapDict = [NSDictionary dictionaryWithObjects:monthMapValueList forKeys:monthMapKeyList];
-        self.tylyTableKeyList = [NSMutableArray arrayWithObjects:@"TY",@"LY",@"Diff",@"DiffPercent", nil];
-        self.tylyTableHeadingList = [NSMutableArray arrayWithObjects:@"MAT",@"PREV",@"DIFF",@"%", nil];
+        self.tylyTableKeyList = [NSMutableArray arrayWithObjects:@"LY",@"TY",@"Diff",@"DiffPercent", nil];
+        self.tylyTableHeadingList = [NSMutableArray arrayWithObjects:@"PREV",@"MAT",@"DIFF",@"%", nil];
         self.tyBarIdentifier = @"Bar Plot 1";
         self.lyBarIdentifier = @"Bar Plot 2";
         self.monthPieLegendList = [NSMutableArray array];
@@ -62,6 +64,7 @@
         self.configDict = [[ArcosCoreData sharedArcosCoreData] configWithIUR:[NSNumber numberWithInt:0]];
         self.pnfDescrDetailCode = @"PRODUCTNF";
         self.pnfDetail = @"Product not found";
+        self.monthPieNormalBarCount = 10;
     }
     return self;
 }
@@ -94,6 +97,7 @@
     self.configDict = nil;
     self.pnfDescrDetailCode = nil;
     self.pnfDetail = nil;
+//    self.monthPieCompositeResultList = nil;
                 
     [super dealloc];
 }
@@ -118,16 +122,21 @@
 }
 
 - (void)processMonthPieRawData:(ArcosGenericReturnObject*)result {
-    NSMutableArray* tmpDisplayList = result.ArrayOfData;    
+    NSMutableArray* tmpDisplayList = result.ArrayOfData;
+    NSMutableArray* finalResultDictList = [NSMutableArray arrayWithCapacity:[tmpDisplayList count]];
     float totalYearQty = 0.0;
     for (int i = 0; i < [tmpDisplayList count]; i++) {
         ArcosGenericClass* tmpArcosGenericClass = [tmpDisplayList objectAtIndex:i];
-        [self.monthPieLegendList addObject:[tmpArcosGenericClass Field2]];
+        NSMutableDictionary* tmpFinalResultDict = [NSMutableDictionary dictionaryWithCapacity:2];
+//        [self.monthPieLegendList addObject:[tmpArcosGenericClass Field2]];
+        [tmpFinalResultDict setObject:[ArcosUtils convertNilToEmpty:[tmpArcosGenericClass Field2]] forKey:@"StdTitle"];
+        [finalResultDictList addObject:tmpFinalResultDict];
         NSNumber* tmpMonthQty = [ArcosUtils convertStringToNumber:[ArcosUtils convertBlankToZero:[ArcosUtils trim:[tmpArcosGenericClass Field16]]]];
         [self.monthPieRawDisplayList addObject:tmpMonthQty];
         totalYearQty += [tmpMonthQty floatValue];
     }
     for (int i = 0; i < [self.monthPieRawDisplayList count]; i++) {
+        NSMutableDictionary* tmpFinalResultDict = [finalResultDictList objectAtIndex:i];
         NSNumber* tmpMonthQty = [self.monthPieRawDisplayList objectAtIndex:i];
         float tmpMonthPercentage = 0;
         if (totalYearQty == 0) {
@@ -135,13 +144,15 @@
         } else {
             tmpMonthPercentage = [tmpMonthQty floatValue] / totalYearQty * 100;
         }
-        [self.monthPieDisplayList addObject:[NSNumber numberWithFloat:tmpMonthPercentage]];
+        [tmpFinalResultDict setObject:[NSNumber numberWithFloat:tmpMonthPercentage] forKey:@"Percentage"];
+//        [self.monthPieDisplayList addObject:[NSNumber numberWithFloat:tmpMonthPercentage]];
     }
-    self.monthPieNullLabelDisplayList = [NSMutableArray arrayWithCapacity:[self.monthPieDisplayList count]];
-    self.monthPieLabelDisplayList = [NSMutableArray arrayWithArray:self.monthPieDisplayList];
-    for (int i = 0; i < [self.monthPieRawDisplayList count]; i++) {
-        [self.monthPieNullLabelDisplayList addObject:[NSNull null]];
-    }
+//    self.monthPieNullLabelDisplayList = [NSMutableArray arrayWithCapacity:[self.monthPieDisplayList count]];
+//    self.monthPieLabelDisplayList = [NSMutableArray arrayWithArray:self.monthPieDisplayList];
+//    for (int i = 0; i < [self.monthPieRawDisplayList count]; i++) {
+//        [self.monthPieNullLabelDisplayList addObject:[NSNull null]];
+//    }
+    [self monthPieFinalResultProcessorWithDataList:finalResultDictList];
 }
 
 - (void)processLineRawData:(ArcosGenericReturnObject*)result {
@@ -404,9 +415,9 @@
         NSSortDescriptor* detailDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Detail" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
         [finalResultDictList sortUsingDescriptors:[NSArray arrayWithObjects:detailDescriptor, nil]];
         
-        self.monthPieNullLabelDisplayList = [NSMutableArray arrayWithCapacity:[auxDataList count]];
+//        self.monthPieNullLabelDisplayList = [NSMutableArray arrayWithCapacity:[auxDataList count]];
         for (NSMutableDictionary* tmpFinalResultDict in finalResultDictList) {
-            [self.monthPieLegendList addObject:[tmpFinalResultDict objectForKey:@"Detail"]];
+//            [self.monthPieLegendList addObject:[tmpFinalResultDict objectForKey:@"Detail"]];
             NSNumber* tmpTotalSum = [levelCodeQtyHashMap objectForKey:[tmpFinalResultDict objectForKey:@"DescrDetailCode"]];
             float tmpMonthPercentage = 0;
             if (yearTotalQty == 0) {
@@ -415,18 +426,62 @@
                 tmpMonthPercentage = [tmpTotalSum floatValue] / yearTotalQty * 100;
             }
             
-            [self.monthPieDisplayList addObject:[NSNumber numberWithFloat:tmpMonthPercentage]];
+//            [self.monthPieDisplayList addObject:[NSNumber numberWithFloat:tmpMonthPercentage]];
+//            [self.monthPieNullLabelDisplayList addObject:[NSNull null]];
+            [tmpFinalResultDict setObject:[tmpFinalResultDict objectForKey:@"Detail"] forKey:@"StdTitle"];
+            [tmpFinalResultDict setObject:[NSNumber numberWithFloat:tmpMonthPercentage] forKey:@"Percentage"];
+        }
+        /*
+        NSSortDescriptor* percentageDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Percentage" ascending:NO selector:@selector(compare:)] autorelease];
+        [finalResultDictList sortUsingDescriptors:[NSArray arrayWithObjects:percentageDescriptor, nil]];
+        int auxArrayCount = [ArcosUtils convertNSUIntegerToUnsignedInt:[finalResultDictList count]];
+        int auxCompositeResultListCount = auxArrayCount;
+        int arrayCountBiggerThanNornalBarCountFlag = NO;
+        if (auxArrayCount > self.monthPieNormalBarCount) {
+            auxArrayCount = self.monthPieNormalBarCount;
+            arrayCountBiggerThanNornalBarCountFlag = YES;
+            auxCompositeResultListCount = auxArrayCount + 1;
+        }
+        float otherTotalPercentage = 0.0;
+        if (arrayCountBiggerThanNornalBarCountFlag) {
+            for (int i = self.monthPieNormalBarCount; i < [finalResultDictList count]; i++) {
+                NSMutableDictionary* tmpFinalResultDict = [finalResultDictList objectAtIndex:i];
+                otherTotalPercentage += [[tmpFinalResultDict objectForKey:@"Percentage"] floatValue];
+            }
+        }
+        NSMutableArray* auxCompositeResultList = [NSMutableArray arrayWithCapacity:auxCompositeResultListCount];
+        for (int i = 0; i < auxArrayCount; i++) {
+            [auxCompositeResultList addObject:[finalResultDictList objectAtIndex:i]];
+        }
+        NSSortDescriptor* compositePercentageDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Percentage" ascending:YES selector:@selector(compare:)] autorelease];
+        [auxCompositeResultList sortUsingDescriptors:[NSArray arrayWithObjects:compositePercentageDescriptor, nil]];
+        if (arrayCountBiggerThanNornalBarCountFlag) {
+            NSMutableDictionary* otherResultDict = [NSMutableDictionary dictionaryWithCapacity:2];
+            [otherResultDict setObject:@"Other" forKey:@"StdTitle"];
+            [otherResultDict setObject:[NSNumber numberWithFloat:otherTotalPercentage] forKey:@"Percentage"];
+            [auxCompositeResultList insertObject:otherResultDict atIndex:0];
+        }
+        self.monthPieCompositeResultList = [NSMutableArray arrayWithArray:auxCompositeResultList];
+        self.monthPieDisplayList = [NSMutableArray arrayWithCapacity:[self.monthPieCompositeResultList count]];
+        self.monthPieNullLabelDisplayList = [NSMutableArray arrayWithCapacity:[self.monthPieCompositeResultList count]];
+        self.monthPieLegendList = [NSMutableArray arrayWithCapacity:[self.monthPieCompositeResultList count]];
+        for (int i = 0; i < [self.monthPieCompositeResultList count]; i++) {
+            NSMutableDictionary* tmpDict = [self.monthPieCompositeResultList objectAtIndex:i];
+            [self.monthPieLegendList addObject:[tmpDict objectForKey:@"StdTitle"]];
+            [self.monthPieDisplayList addObject:[tmpDict objectForKey:@"Percentage"]];
             [self.monthPieNullLabelDisplayList addObject:[NSNull null]];
         }
         self.monthPieLabelDisplayList = [NSMutableArray arrayWithArray:self.monthPieDisplayList];
+         */
+        [self monthPieFinalResultProcessorWithDataList:finalResultDictList];
 //        NSLog(@"TEST %@", self.monthPieLabelDisplayList);
 //        NSLog(@"TESTa %@", self.monthPieDisplayList);
     } else {
         NSSortDescriptor* detailsDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Details" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
         [auxDataList sortUsingDescriptors:[NSArray arrayWithObjects:detailsDescriptor, nil]];
-        self.monthPieNullLabelDisplayList = [NSMutableArray arrayWithCapacity:[auxDataList count]];
+//        self.monthPieNullLabelDisplayList = [NSMutableArray arrayWithCapacity:[auxDataList count]];
         for (NSMutableDictionary* tmpLocationProductMATDict in auxDataList) {
-            [self.monthPieLegendList addObject:[tmpLocationProductMATDict objectForKey:@"Details"]];
+//            [self.monthPieLegendList addObject:[tmpLocationProductMATDict objectForKey:@"Details"]];
             NSNumber* tmpMonthQty = [tmpLocationProductMATDict objectForKey:@"total"];
             float tmpMonthPercentage = 0;
             if (yearTotalQty == 0) {
@@ -435,11 +490,57 @@
                 tmpMonthPercentage = [tmpMonthQty floatValue] / yearTotalQty * 100;
             }
             
-            [self.monthPieDisplayList addObject:[NSNumber numberWithFloat:tmpMonthPercentage]];
-            [self.monthPieNullLabelDisplayList addObject:[NSNull null]];
+//            [self.monthPieDisplayList addObject:[NSNumber numberWithFloat:tmpMonthPercentage]];
+//            [self.monthPieNullLabelDisplayList addObject:[NSNull null]];
+            [tmpLocationProductMATDict setObject:[tmpLocationProductMATDict objectForKey:@"Details"] forKey:@"StdTitle"];
+            [tmpLocationProductMATDict setObject:[NSNumber numberWithFloat:tmpMonthPercentage] forKey:@"Percentage"];
         }
-        self.monthPieLabelDisplayList = [NSMutableArray arrayWithArray:self.monthPieDisplayList];
+//        self.monthPieLabelDisplayList = [NSMutableArray arrayWithArray:self.monthPieDisplayList];
+        [self monthPieFinalResultProcessorWithDataList:auxDataList];
     }    
+}
+
+- (void)monthPieFinalResultProcessorWithDataList:(NSMutableArray*)aFinalResultDictList {
+    NSSortDescriptor* percentageDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Percentage" ascending:NO selector:@selector(compare:)] autorelease];
+    [aFinalResultDictList sortUsingDescriptors:[NSArray arrayWithObjects:percentageDescriptor, nil]];
+    int auxArrayCount = [ArcosUtils convertNSUIntegerToUnsignedInt:[aFinalResultDictList count]];
+    int auxCompositeResultListCount = auxArrayCount;
+    int arrayCountBiggerThanNornalBarCountFlag = NO;
+    if (auxArrayCount > self.monthPieNormalBarCount) {
+        auxArrayCount = self.monthPieNormalBarCount;
+        arrayCountBiggerThanNornalBarCountFlag = YES;
+        auxCompositeResultListCount = auxArrayCount + 1;
+    }
+    float otherTotalPercentage = 0.0;
+    if (arrayCountBiggerThanNornalBarCountFlag) {
+        for (int i = self.monthPieNormalBarCount; i < [aFinalResultDictList count]; i++) {
+            NSMutableDictionary* tmpFinalResultDict = [aFinalResultDictList objectAtIndex:i];
+            otherTotalPercentage += [[tmpFinalResultDict objectForKey:@"Percentage"] floatValue];
+        }
+    }
+    NSMutableArray* auxCompositeResultList = [NSMutableArray arrayWithCapacity:auxCompositeResultListCount];
+    for (int i = 0; i < auxArrayCount; i++) {
+        [auxCompositeResultList addObject:[aFinalResultDictList objectAtIndex:i]];
+    }
+    NSSortDescriptor* compositePercentageDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Percentage" ascending:YES selector:@selector(compare:)] autorelease];
+    [auxCompositeResultList sortUsingDescriptors:[NSArray arrayWithObjects:compositePercentageDescriptor, nil]];
+    if (arrayCountBiggerThanNornalBarCountFlag) {
+        NSMutableDictionary* otherResultDict = [NSMutableDictionary dictionaryWithCapacity:2];
+        [otherResultDict setObject:@"Other" forKey:@"StdTitle"];
+        [otherResultDict setObject:[NSNumber numberWithFloat:otherTotalPercentage] forKey:@"Percentage"];
+        [auxCompositeResultList insertObject:otherResultDict atIndex:0];
+    }
+//    self.monthPieCompositeResultList = [NSMutableArray arrayWithArray:auxCompositeResultList];
+    self.monthPieDisplayList = [NSMutableArray arrayWithCapacity:[auxCompositeResultList count]];
+    self.monthPieNullLabelDisplayList = [NSMutableArray arrayWithCapacity:[auxCompositeResultList count]];
+    self.monthPieLegendList = [NSMutableArray arrayWithCapacity:[auxCompositeResultList count]];
+    for (int i = 0; i < [auxCompositeResultList count]; i++) {
+        NSMutableDictionary* tmpDict = [auxCompositeResultList objectAtIndex:i];
+        [self.monthPieLegendList addObject:[tmpDict objectForKey:@"StdTitle"]];
+        [self.monthPieDisplayList addObject:[tmpDict objectForKey:@"Percentage"]];
+        [self.monthPieNullLabelDisplayList addObject:[NSNull null]];
+    }
+    self.monthPieLabelDisplayList = [NSMutableArray arrayWithArray:self.monthPieDisplayList];
 }
 
 - (NSMutableArray*)descrDetailWithDescrDetailCodeList:(NSArray*)aDescrDetailCodeList descrTypeCode:(NSString*)aDescrTypeCode {

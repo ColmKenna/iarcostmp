@@ -563,6 +563,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     return [self.arcosCoreDataManager convertDescrDetailDictList:descrList];
 }
 
+- (NSMutableArray*)descrDetailWithDescrTypeCode:(NSString*)aDescrTypeCode descrDetailCodeList:(NSMutableArray*)aDescrDetailCodeList {
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode = %@ and DescrDetailCode in %@", aDescrTypeCode, aDescrDetailCodeList];
+    NSArray* properties = [NSArray arrayWithObjects:@"DescrDetailIUR", @"ImageIUR", @"Detail", @"DescrDetailCode", nil];
+    NSArray* sortDescNames = [NSArray arrayWithObjects:@"Detail",nil];
+    return [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:properties  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
+}
+
 //descrtype
 - (NSMutableArray*)allDescrType {
     NSArray* sortDescNames = [NSArray arrayWithObjects:@"DescrTypeCode",nil];

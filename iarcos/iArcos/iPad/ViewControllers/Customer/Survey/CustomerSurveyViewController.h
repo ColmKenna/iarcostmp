@@ -31,6 +31,8 @@
     ArcosRootViewController* _arcosRootViewController;
     UINavigationController* _globalNavigationController;
     BOOL _isFirstLoadedFlag;
+    UILabel* _custNameHeaderLabel;
+    UILabel* _custAddrHeaderLabel;
 }
 
 @property(nonatomic, retain) CustomerSurveyDataManager* customerSurveyDataManager;
@@ -42,6 +44,8 @@
 @property (nonatomic,retain) ArcosRootViewController* arcosRootViewController;
 @property (nonatomic,retain) UINavigationController* globalNavigationController;
 @property (nonatomic,assign) BOOL isFirstLoadedFlag;
+@property(nonatomic, retain) UILabel* custNameHeaderLabel;
+@property(nonatomic, retain) UILabel* custAddrHeaderLabel;
 
 -(BOOL)validateResponses;
 -(BOOL)validateActiveQuestions;

@@ -43,6 +43,8 @@
 @synthesize rootView = _rootView;
 //@synthesize arcosConfigDataManager = _arcosConfigDataManager;
 @synthesize coordinateType = _coordinateType;
+@synthesize custNameHeaderLabel = _custNameHeaderLabel;
+@synthesize custAddrHeaderLabel = _custAddrHeaderLabel;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -80,6 +82,10 @@
     self.rootView = nil;
 //    self.arcosConfigDataManager = nil;
     self.coordinateType = nil;
+    [self.custNameHeaderLabel removeFromSuperview];
+    [self.custAddrHeaderLabel removeFromSuperview];
+    self.custNameHeaderLabel = nil;
+    self.custAddrHeaderLabel = nil;
     
     [super dealloc];
 }
@@ -230,6 +236,29 @@
         [self.detailingDataManager refreshContactField];
         [self.tableView reloadData];
     }
+    if (self.requestSource == DetailingRequestSourceCall) {
+        if (self.custNameHeaderLabel == nil) {
+            self.custNameHeaderLabel = [[[UILabel alloc] initWithFrame:CGRectMake(2.0, 1, 550.0, 26.0)] autorelease];
+            self.custNameHeaderLabel.textColor = [UIColor whiteColor];
+            self.custNameHeaderLabel.font = [UIFont boldSystemFontOfSize:17.0];
+        }
+        self.custNameHeaderLabel.text = [ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass] currentCustomerName]];
+        [self.navigationController.navigationBar addSubview:self.custNameHeaderLabel];
+        if (self.custAddrHeaderLabel == nil) {
+            self.custAddrHeaderLabel = [[[UILabel alloc] initWithFrame:CGRectMake(2.0, 28, 550.0, 14.0)] autorelease];
+            self.custAddrHeaderLabel.font = [UIFont systemFontOfSize:12.0];
+            self.custAddrHeaderLabel.textColor = [UIColor whiteColor];
+        }
+        self.custAddrHeaderLabel.text = [ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass] currentCustomerAddress]];
+        [self.navigationController.navigationBar addSubview:self.custAddrHeaderLabel];
+        if ([self.navigationItem.leftBarButtonItems count] == 0) {
+            [self configTitleToBlue];
+            [self hideHeaderLabelWithFlag:NO];
+        } else {
+            [self configTitleToWhite];
+            [self hideHeaderLabelWithFlag:YES];
+        }
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -244,7 +273,8 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
+    [self.custNameHeaderLabel removeFromSuperview];
+    [self.custAddrHeaderLabel removeFromSuperview];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -1046,6 +1076,39 @@
     [self fillDetailingByCalltranList:[self.orderHeader objectForKey:@"RemoteCallTrans"]];
     if (!self.isEditable) {
         [self.detailingDataManager resetDataToShowResultOnlyWhenSent];
+    }
+}
+
+- (void)hideHeaderLabelWithFlag:(BOOL)aFlag {
+    self.custNameHeaderLabel.hidden = aFlag;
+    self.custAddrHeaderLabel.hidden = aFlag;
+}
+
+- (void)configTitleToWhite {
+    if (@available(iOS 15.0, *)) {
+        UINavigationBarAppearance* customNavigationBarAppearance = [[UINavigationBarAppearance alloc] init];
+        [customNavigationBarAppearance configureWithOpaqueBackground];
+        [customNavigationBarAppearance setBackgroundColor:[GlobalSharedClass shared].myAppBlueColor];
+        [customNavigationBarAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil]];
+        self.navigationController.navigationBar.standardAppearance = customNavigationBarAppearance;
+        self.navigationController.navigationBar.scrollEdgeAppearance = customNavigationBarAppearance;
+        [customNavigationBarAppearance release];
+    } else {
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    }
+}
+
+- (void)configTitleToBlue {
+    if (@available(iOS 15.0, *)) {
+        UINavigationBarAppearance* customNavigationBarAppearance = [[UINavigationBarAppearance alloc] init];
+        [customNavigationBarAppearance configureWithOpaqueBackground];
+        [customNavigationBarAppearance setBackgroundColor:[GlobalSharedClass shared].myAppBlueColor];
+        [customNavigationBarAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor clearColor], NSForegroundColorAttributeName, nil]];
+        self.navigationController.navigationBar.standardAppearance = customNavigationBarAppearance;
+        self.navigationController.navigationBar.scrollEdgeAppearance = customNavigationBarAppearance;
+        [customNavigationBarAppearance release];
+    } else {
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor clearColor]}];
     }
 }
 @end

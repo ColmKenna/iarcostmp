@@ -223,6 +223,7 @@ typedef enum {
 - (NSNumber*)countDescrDetailWithDescrCodeType:(NSString *)aDescrCodeType parentCode:(NSString*)aParentCode;
 - (NSMutableArray*)descrDetailWithDescrTypeCode:(NSString*)aDescrTypeCode descrDetailCode:(NSString*)aDescrDetailCode;
 - (NSMutableArray*)descrDetailAllFieldsWithDescrTypeCode:(NSString*)aDescrTypeCode descrDetailCode:(NSString*)aDescrDetailCode;
+- (NSMutableArray*)descrDetailWithDescrTypeCode:(NSString*)aDescrTypeCode descrDetailCodeList:(NSMutableArray*)aDescrDetailCodeList;
 
 //descrtype
 - (NSMutableArray*)allDescrType;

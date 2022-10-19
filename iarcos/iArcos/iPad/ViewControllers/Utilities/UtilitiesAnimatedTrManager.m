@@ -128,21 +128,21 @@
 //    barPlot.barCornerRadius      = 4.0;
 	barPlot.barsAreHorizontal = NO;
 	barPlot.dataSource		  = aTarget;
-	barPlot.identifier		  = anAnimatedDataManager.tyBarIdentifier;
+	barPlot.identifier		  = anAnimatedDataManager.lyBarIdentifier;
     barPlot.delegate = aTarget;
     [graph addPlot:barPlot];
     [barPlot release];
     // Second bar plot
 //    CPTBarPlot *barPlot2 = [CPTBarPlot tubularBarPlotWithColor:[CPTColor greenColor] horizontalBars:NO];
     CPTBarPlot *barPlot2 = [[CPTBarPlot alloc] init];
-    barPlot2.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:0.0 green:1.0 blue:0.0 alpha:1.0]];
+    barPlot2.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:0.0 green:100.0/255.0 blue:0.0 alpha:1.0]];
     barPlot2.lineStyle = barLineStyle;
 	barPlot2.dataSource = aTarget;
     barPlot2.barWidth = [NSNumber numberWithFloat:0.25f];
 //	barPlot2.barOffset = CPTDecimalFromFloat(0.75f);
     barPlot2.barOffset = [NSNumber numberWithFloat:0.625f];
 //    barPlot2.barCornerRadius = 2.0f;
-	barPlot2.identifier = anAnimatedDataManager.lyBarIdentifier;
+	barPlot2.identifier = anAnimatedDataManager.tyBarIdentifier;
 	barPlot2.delegate = aTarget;
     
 	[graph addPlot:barPlot2];
@@ -268,10 +268,10 @@
     [barPlot release];
     // Add plot space for bar charts
     CPTXYPlotSpace *barPlotSpace = (CPTXYPlotSpace *)graph.defaultPlotSpace;
-    barPlotSpace.allowsUserInteraction = YES;
+//    barPlotSpace.allowsUserInteraction = YES;
     barPlotSpace.delegate = self;
     barPlotSpace.xRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithFloat:150.0f]];
-    barPlotSpace.yRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithFloat:10.0]];
+    barPlotSpace.yRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithFloat:11.0]];
     [graph addPlotSpace:barPlotSpace];
     
     //Add title

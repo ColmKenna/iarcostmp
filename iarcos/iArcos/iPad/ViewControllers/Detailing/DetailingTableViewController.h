@@ -44,7 +44,9 @@ typedef enum {
     DetailingDataManager* _detailingDataManager;
     ArcosRootViewController* _rootView;
 //    ArcosConfigDataManager* _arcosConfigDataManager;
-    NSNumber* _coordinateType;    
+    NSNumber* _coordinateType;
+    UILabel* _custNameHeaderLabel;
+    UILabel* _custAddrHeaderLabel;
 }
 @property(nonatomic,assign) DetailingRequestSource requestSource;
 @property(nonatomic,retain)    NSMutableArray* detailingSelections;
@@ -63,5 +65,7 @@ typedef enum {
 @property (nonatomic, retain) ArcosRootViewController* rootView;
 //@property (nonatomic, retain) ArcosConfigDataManager* arcosConfigDataManager;
 @property (nonatomic, retain) NSNumber* coordinateType;
+@property(nonatomic, retain) UILabel* custNameHeaderLabel;
+@property(nonatomic, retain) UILabel* custAddrHeaderLabel;
 
 @end

@@ -40,6 +40,8 @@
     NSDictionary* _configDict;
     NSString* _pnfDescrDetailCode;
     NSString* _pnfDetail;
+//    NSMutableArray* _monthPieCompositeResultList;
+    int _monthPieNormalBarCount;
 }
 
 @property(nonatomic, retain) NSMutableArray* tylyBarDisplayList;
@@ -69,6 +71,8 @@
 @property(nonatomic, retain) NSDictionary* configDict;
 @property(nonatomic, retain) NSString* pnfDescrDetailCode;
 @property(nonatomic, retain) NSString* pnfDetail;
+//@property(nonatomic, retain) NSMutableArray* monthPieCompositeResultList;
+@property(nonatomic, assign) int monthPieNormalBarCount;
 
 - (void)processRawData:(ArcosGenericReturnObject*)result;
 - (void)processMonthPieRawData:(ArcosGenericReturnObject*)result;

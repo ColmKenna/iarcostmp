@@ -76,6 +76,8 @@
     if (self.downloadThread != nil) { self.downloadThread = nil; }
     if (self.saveDataThread != nil) { self.saveDataThread = nil; }
     self.myRootViewController = nil;
+    [self.custNameHeaderLabel removeFromSuperview];
+    [self.custAddrHeaderLabel removeFromSuperview];
     self.custNameHeaderLabel = nil;
     self.custAddrHeaderLabel = nil;
     self.myNewOrderDataManager = nil;

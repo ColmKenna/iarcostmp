@@ -23,6 +23,7 @@
 #import "UIImage+Resize.h"
 #import "SlideAcrossViewAnimationDelegate.h"
 #import "ArcosConfigDataManager.h"
+#import "LeftRightInsetUILabel.h"
 
 @interface UtilitiesAnimatedViewController : UIViewController<CPTPlotSpaceDelegate,CPTPlotDataSource,CPTScatterPlotDelegate,CPTBarPlotDelegate,UITableViewDelegate, UITableViewDataSource> {
     id<ModelViewDelegate> _delegate;
