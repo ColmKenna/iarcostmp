@@ -22,6 +22,9 @@
     NSMutableArray* _displayEmployeeNameList;
     NSMutableDictionary* _currentEmployeeDict;
     NSString* _dashboardTitle;
+    NSString* _overviewsFolder;
+    int _rowPointer;
+    NSMutableDictionary* _currentDashFileDict;
 }
 
 @property(nonatomic, assign) BOOL resourceLoadingFinishedFlag;
@@ -34,9 +37,14 @@
 @property(nonatomic, retain) NSMutableArray* displayEmployeeNameList;
 @property(nonatomic, retain) NSMutableDictionary* currentEmployeeDict;
 @property(nonatomic, retain) NSString* dashboardTitle;
+@property(nonatomic, retain) NSString* overviewsFolder;
+@property(nonatomic, assign) int rowPointer;
+@property(nonatomic, retain) NSMutableDictionary* currentDashFileDict;
 
 
 - (void)createDashboardFileList;
+- (void)processGet_Download_Filenames:(id)aResult;
+- (NSString*)retrieveFilePathWithFileDict:(NSMutableDictionary*)aDashFileDict;
 
 @end
 

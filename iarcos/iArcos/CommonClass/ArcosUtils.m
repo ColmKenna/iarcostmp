@@ -209,6 +209,10 @@
     return [aField stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"|"]];
 }
 
++ (NSString*)trim:(NSString*)aField characters:(NSString*)aCharacters {
+    return [aField stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:aCharacters]];
+}
+
 + (NSString*)convertIntToString:(int)aField {
     return [NSString stringWithFormat:@"%d", aField];
 }

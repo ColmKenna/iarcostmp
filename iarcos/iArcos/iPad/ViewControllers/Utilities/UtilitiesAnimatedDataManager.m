@@ -51,7 +51,7 @@
         }    
         self.monthMapDict = [NSDictionary dictionaryWithObjects:monthMapValueList forKeys:monthMapKeyList];
         self.tylyTableKeyList = [NSMutableArray arrayWithObjects:@"LY",@"TY",@"Diff",@"DiffPercent", nil];
-        self.tylyTableHeadingList = [NSMutableArray arrayWithObjects:@"PREV",@"MAT",@"DIFF",@"%", nil];
+        self.tylyTableHeadingList = [NSMutableArray arrayWithObjects:@"PREV",@"THIS",@"DIFF",@"%", nil];
         self.tyBarIdentifier = @"Bar Plot 1";
         self.lyBarIdentifier = @"Bar Plot 2";
         self.monthPieLegendList = [NSMutableArray array];
@@ -522,13 +522,14 @@
     for (int i = 0; i < auxArrayCount; i++) {
         [auxCompositeResultList addObject:[aFinalResultDictList objectAtIndex:i]];
     }
-    NSSortDescriptor* compositePercentageDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Percentage" ascending:YES selector:@selector(compare:)] autorelease];
-    [auxCompositeResultList sortUsingDescriptors:[NSArray arrayWithObjects:compositePercentageDescriptor, nil]];
+//    NSSortDescriptor* compositePercentageDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Percentage" ascending:YES selector:@selector(compare:)] autorelease];
+//    [auxCompositeResultList sortUsingDescriptors:[NSArray arrayWithObjects:compositePercentageDescriptor, nil]];
     if (arrayCountBiggerThanNornalBarCountFlag) {
         NSMutableDictionary* otherResultDict = [NSMutableDictionary dictionaryWithCapacity:2];
         [otherResultDict setObject:@"Other" forKey:@"StdTitle"];
         [otherResultDict setObject:[NSNumber numberWithFloat:otherTotalPercentage] forKey:@"Percentage"];
-        [auxCompositeResultList insertObject:otherResultDict atIndex:0];
+//        [auxCompositeResultList insertObject:otherResultDict atIndex:0];
+        [auxCompositeResultList addObject:otherResultDict];
     }
 //    self.monthPieCompositeResultList = [NSMutableArray arrayWithArray:auxCompositeResultList];
     self.monthPieDisplayList = [NSMutableArray arrayWithCapacity:[auxCompositeResultList count]];

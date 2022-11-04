@@ -40,6 +40,7 @@
 -(void)downloadFileWithURL:(NSURL*)url WithName:(NSString*)name toFolder:(NSString*)folder;
 //static method
 +(BOOL)createFolder:(NSString*)folderName;
++ (BOOL)createIntermediateFolder:(NSString*)folderName;
 +(BOOL)fileExistInFolder:(NSString*)folderName withFileName:(NSString*)fileName;
 +(BOOL)fileExistAtPath:(NSString*)path;
 +(BOOL)saveFileToFolder:(NSString*)folderName withName:(NSString*)fileName withData:(NSData*)data;

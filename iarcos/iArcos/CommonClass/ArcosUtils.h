@@ -36,6 +36,7 @@
 + (NSDecimalNumber*)convertStringToDecimalNumber:(NSString*)aField;
 + (NSString*)trim:(NSString*)aField;
 + (NSString*)trimPipe:(NSString*)aField;
++ (NSString*)trim:(NSString*)aField characters:(NSString*)aCharacters;
 + (NSString*)convertIntToString:(int)aField;
 + (NSString*)convertFloatToString:(float)aField;
 + (unsigned int)convertNSUIntegerToUnsignedInt:(NSUInteger)aField;

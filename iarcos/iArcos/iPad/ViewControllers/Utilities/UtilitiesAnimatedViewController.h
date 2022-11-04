@@ -24,6 +24,7 @@
 #import "SlideAcrossViewAnimationDelegate.h"
 #import "ArcosConfigDataManager.h"
 #import "LeftRightInsetUILabel.h"
+#import "UtilitiesAnimatedMonthTableHeaderView.h"
 
 @interface UtilitiesAnimatedViewController : UIViewController<CPTPlotSpaceDelegate,CPTPlotDataSource,CPTScatterPlotDelegate,CPTBarPlotDelegate,UITableViewDelegate, UITableViewDataSource> {
     id<ModelViewDelegate> _delegate;
@@ -45,7 +46,7 @@
     CPTGraphHostingViewWithTouchEvent* monthPieChartView;    
     CPTGraphHostingViewWithTouchEvent* monthTableChartView;
     UITableView* monthTableView;
-    UIView* monthTableHeaderView;
+    UtilitiesAnimatedMonthTableHeaderView* _monthTableHeaderView;
     
     BOOL isYearViewInMiniMode;
     CGRect landscapeBigViewSize;
@@ -115,7 +116,7 @@
 @property(nonatomic, retain) IBOutlet CPTGraphHostingViewWithTouchEvent* monthPieChartView;
 @property(nonatomic, retain) IBOutlet CPTGraphHostingViewWithTouchEvent* monthTableChartView;
 @property(nonatomic, retain) IBOutlet UITableView* monthTableView;
-@property(nonatomic, retain) IBOutlet UIView* monthTableHeaderView;
+@property(nonatomic, retain) IBOutlet UtilitiesAnimatedMonthTableHeaderView* monthTableHeaderView;
 @property(nonatomic, retain) NSMutableArray* chartViewList;
 @property(nonatomic, retain) CPTPlotSpaceAnnotation* symbolTextAnnotation;
 @property(nonatomic, retain) CPTPlotSpaceAnnotation* yearSymbolTextAnnotation;

@@ -228,13 +228,14 @@
     CPTXYAxis *x          = axisSet.xAxis;
     x.majorIntervalLength   = @10.0;
     x.minorTicksPerInterval = 0;
-    x.orthogonalPosition = [NSNumber numberWithFloat:0.0];
+    x.orthogonalPosition = [NSNumber numberWithFloat:-aDataManager.monthPieNormalBarCount - 1];
     x.labelFormatter = xAxisFormatter;
     x.labelingPolicy = CPTAxisLabelingPolicyNone;
     CPTLineCap *lineCap = [[CPTLineCap alloc] init];
     lineCap.lineCapType     = CPTLineCapTypeOpenArrow;
     lineCap.size         = CGSizeMake(12.0, 12.0);
     x.axisLineCapMax = lineCap;
+    x.hidden = YES;
     
     NSNumberFormatter* yAxisFormatter = [[[NSNumberFormatter alloc] init] autorelease];
     yAxisFormatter.maximumFractionDigits = 0;    
@@ -247,6 +248,7 @@
     y.labelingPolicy = CPTAxisLabelingPolicyNone;
     y.axisLineCapMax = lineCap;
     [lineCap release];
+    y.hidden = YES;
     
     // Create a bar line style
     CPTMutableLineStyle *barLineStyle = [[[CPTMutableLineStyle alloc] init] autorelease];
@@ -271,11 +273,11 @@
 //    barPlotSpace.allowsUserInteraction = YES;
     barPlotSpace.delegate = self;
     barPlotSpace.xRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithFloat:150.0f]];
-    barPlotSpace.yRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithFloat:11.0]];
+    barPlotSpace.yRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithFloat:-11.0]];
     [graph addPlotSpace:barPlotSpace];
     
     //Add title
-    graph.titleTextStyle = [self textStyleWithFontSize:17.0f];
+    graph.titleTextStyle = [self textStyleWithFontSize:20.0f];
     graph.title = aTitle;
     graph.titleDisplacement = [GlobalSharedClass shared].analysisTitleDisplacement;
     [graph release];

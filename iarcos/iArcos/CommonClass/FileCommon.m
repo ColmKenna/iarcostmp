@@ -153,6 +153,22 @@
     }
     return NO;
 }
++ (BOOL)createIntermediateFolder:(NSString*)folderName {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@", folderName]];
+    
+    NSError* error = nil;
+    if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]){
+        [[NSFileManager defaultManager] createDirectoryAtPath:filePath withIntermediateDirectories:YES attributes:nil error:&error];
+        if (error) {
+            return NO;
+        } else {
+            return YES;
+        }
+    }
+    return NO;
+}
 +(BOOL)fileExistInFolder:(NSString*)folderName withFileName:(NSString*)fileName{
     if (folderName==nil || [folderName isEqualToString:@""]) {
         return NO;

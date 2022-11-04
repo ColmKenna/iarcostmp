@@ -23,7 +23,7 @@
 @synthesize monthPieChartView;
 @synthesize monthTableChartView;
 @synthesize monthTableView;
-@synthesize monthTableHeaderView;
+@synthesize monthTableHeaderView = _monthTableHeaderView;
 @synthesize chartViewList = _chartViewList;
 @synthesize symbolTextAnnotation = _symbolTextAnnotation;
 @synthesize yearSymbolTextAnnotation = _yearSymbolTextAnnotation;
@@ -515,8 +515,12 @@ static const CGFloat constantColorLookupTable[20][3] =
         
 	} else if ([plot isKindOfClass:[CPTBarPlot class]]) {
         switch ( fieldEnum ) {
-			case CPTBarPlotFieldBarLocation:
-				num = (NSDecimalNumber *)[NSDecimalNumber numberWithUnsignedInteger:index];
+            case CPTBarPlotFieldBarLocation: {
+                num = (NSDecimalNumber *)[NSDecimalNumber numberWithUnsignedInteger:index];
+                if ([(NSString*)plot.identifier isEqualToString:self.animatedDataManager.monthPieIdentifier]) {
+                    num = (NSDecimalNumber *)[NSDecimalNumber numberWithInteger:index - self.animatedDataManager.monthPieNormalBarCount - 1];
+                }
+            }				
 				break;
                 
 			case CPTBarPlotFieldBarTip:{
@@ -548,6 +552,9 @@ static const CGFloat constantColorLookupTable[20][3] =
         id tmpLabelObj = [self.animatedDataManager.monthPieLabelDisplayList objectAtIndex:index];
         if ([tmpLabelObj isKindOfClass:[NSNull class]]) {
             return nil;
+        }
+        if (index == self.animatedDataManager.monthPieNormalBarCount) {
+            blackTextStyle = [self.animatedTrManager textStyleWithFontSize:14.0f fontColor:[CPTColor redColor]];
         }
         return [[[CPTTextLayer alloc] initWithText:[NSString stringWithFormat:@"%@\n%.0f%%", [self.animatedDataManager.monthPieLegendList objectAtIndex:index], [[self.animatedDataManager.monthPieLabelDisplayList objectAtIndex:index] floatValue]] style:blackTextStyle] autorelease];
     }
@@ -828,7 +835,7 @@ static const CGFloat constantColorLookupTable[20][3] =
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     [self constructLineChart:self.weekLineChartView identifier:@"IdWeekLineChart" title:[NSString stringWithFormat:@"Year: %d", [ArcosUtils convertNSIntegerToInt:[ArcosUtils yearDayWithDate:[NSDate date]]]] dataManager:self.animatedDataManager target:self];
     
-    [self constructPieChart:self.monthPieChartView identifier:@"IdMonthPieChart" title:[NSString stringWithFormat:@"MAT Sales up to: %@", [self.animatedDataManager.monthMapDict objectForKey:[NSNumber numberWithInteger:[ArcosUtils monthDayWithDate:[NSDate date]]]]] dataManager:self.animatedDataManager target:self];
+    [self constructPieChart:self.monthPieChartView identifier:@"IdMonthPieChart" title:[NSString stringWithFormat:@"MAT Sales up to: %@", [NSString stringWithFormat:@"%@", [ArcosUtils stringFromDate:[NSDate date] format:@"MMMM yyyy"]]] dataManager:self.animatedDataManager target:self];
     
     [self constructTableChart:self.monthTableChartView title:[NSString stringWithFormat:@"Month: %@", [self.animatedDataManager.monthMapDict objectForKey:[NSNumber numberWithInteger:[ArcosUtils monthDayWithDate:[NSDate date]]]]] dataManager:self.animatedDataManager target:self];
     [self bringSubViewFrontTableChart:self.monthTableChartView scrollView:self.monthTableView];
@@ -897,26 +904,27 @@ static const CGFloat constantColorLookupTable[20][3] =
     int tagNumber = 1;
     for (int i = 0; i < [self.animatedDataManager.tylyTableKeyList count]; i++) {
         CGFloat yOrigin = verBeginSpace + i * labelHeight + i * verSepSpace;
-        [self addLabel:self.tylyTableScrollView rect:CGRectMake(10.0f, yOrigin, 40.0f, labelHeight) value:[self.animatedDataManager.tylyTableHeadingList objectAtIndex:i] tag:999 textAlignment:NSTextAlignmentRight color:[UIColor blackColor]];
+        UIColor* textColor = nil;
+        switch (i) {
+            case 0: {
+                textColor = [UIColor redColor];
+            }
+                break;
+            case 1: {
+                textColor = [UIColor colorWithRed:0.0 green:100.0/255.0 blue:0.0 alpha:1.0];
+            }
+                break;
+                
+            default: {
+                textColor = [UIColor blackColor];
+            }
+                break;
+        }
+        [self addLabel:self.tylyTableScrollView rect:CGRectMake(10.0f, yOrigin, 40.0f, labelHeight) value:[self.animatedDataManager.tylyTableHeadingList objectAtIndex:i] tag:999 textAlignment:NSTextAlignmentRight color:textColor];
         for (int j = 0; j < [self.animatedDataManager.tylyBarDisplayList count]; j++) {
             NSMutableDictionary* tmpDict = [self.animatedDataManager.tylyBarDisplayList objectAtIndex:j];
             CGFloat xOrigin = beginSpace + j * labelWidth + sepSpace;
-            UIColor* textColor = nil;
-            switch (i) {
-                case 0: {
-                    textColor = [UIColor redColor];
-                }                    
-                    break;
-                case 1: {
-                    textColor = [UIColor colorWithRed:0.0 green:100.0/255.0 blue:0.0 alpha:1.0];
-                }                    
-                    break;
-                    
-                default: {
-                    textColor = [UIColor blackColor];
-                }
-                    break;
-            }
+            
             [self addLabel:self.tylyTableScrollView rect:CGRectMake(xOrigin, yOrigin, labelWidth, labelHeight) value:[ArcosUtils convertNumberToIntString:[tmpDict objectForKey:[self.animatedDataManager.tylyTableKeyList objectAtIndex:i]]] tag:tagNumber textAlignment:NSTextAlignmentRight color:textColor];
             tagNumber++;
         }

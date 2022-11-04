@@ -78,16 +78,49 @@
     self.title = [NSString stringWithFormat:@"%@",self.dashboardServerDataManager.dashboardTitle];
     [FileCommon removeAllFileUnderFolder:self.dashboardServerDataManager.dashboardFolderName];
     self.dashboardServerDataManager.displayFileList = [NSMutableArray array];
-    self.dashboardServerDataManager.displayEmployeeNameList = [NSMutableArray array];
+//    self.dashboardServerDataManager.displayEmployeeNameList = [NSMutableArray array];
     self.dashboardServerDataManager.resourceLoadingFinishedFlag = YES;
     self.dashboardServerDataManager.currentPage = 0;
     self.myScrollView.contentOffset = CGPointZero;
-    [self.dashboardServerDataManager createDashboardFileList];
-    if ([self.dashboardServerDataManager.dashboardFileList count] == 0 || [self.dashboardServerDataManager.employeeDictList count] == 0) {
-        return;
-    }
+//    [self.dashboardServerDataManager createDashboardFileList];
+//    if ([self.dashboardServerDataManager.dashboardFileList count] == 0 || [self.dashboardServerDataManager.employeeDictList count] == 0) {
+//        return;
+//    }
     [self.HUD show:YES];
-    self.resourcesTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkResourceList) userInfo:nil repeats:YES];
+//    self.resourcesTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkResourceList) userInfo:nil repeats:YES];
+//    [self.arcosService Get_Download_Filenames:self action:@selector(backFromGet_Download_Filenames:) directory:self.dashboardServerDataManager.overviewsUKFolder];//self.dashboardServerDataManager.overviewsFolder
+//    [self.arcosService Download_File:self action:@selector(backFromDownload_File:) directory:@"Overviews\\UK" fileName:@"Emp_Dashboard_5.pdf"];
+    if (![ArcosSystemCodesUtils allDashOptionExistence]) {
+        [self.dashboardServerDataManager createDashboardFileList];
+        self.dashboardServerDataManager.currentDashFileDict = [self.dashboardServerDataManager.dashboardFileList objectAtIndex:0];
+        [self.arcosService GetFromResources:self action:@selector(backFromGetFromResources:) FileNAme:[self.dashboardServerDataManager.currentDashFileDict objectForKey:@"FileName"]];
+    } else {
+        self.dashboardServerDataManager.rowPointer = 0;
+        [self.arcosService Get_Download_Filenames:self action:@selector(backFromGet_Download_Filenames:) directory:self.dashboardServerDataManager.overviewsFolder];
+    }
+}
+
+- (void)backFromGet_Download_Filenames:(id)aResult {
+    BOOL successFlag = YES;
+    if ([aResult isKindOfClass:[NSError class]]) {
+        NSError* anError = (NSError*)aResult;
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@",[anError localizedDescription]] title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
+        successFlag = NO;
+    } else if ([aResult isKindOfClass:[SoapFault class]]) {
+        SoapFault* anSoapFault = (SoapFault*)aResult;
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@",[anSoapFault faultString]] title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
+        successFlag = NO;
+    } else {
+        [self.dashboardServerDataManager processGet_Download_Filenames:aResult];
+        if ([self.dashboardServerDataManager.dashboardFileList count] == 0) {
+            [self.HUD hide:YES];
+            return;
+        }
+        self.resourcesTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkResourceList) userInfo:nil repeats:YES];
+    }
+    if (!successFlag) {
+        [self.HUD hide:YES];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -105,28 +138,31 @@
 
 - (void)checkResourceList {
     if (!self.dashboardServerDataManager.resourceLoadingFinishedFlag) return;
-    if ([self.dashboardServerDataManager.dashboardFileList count] <= 0) {
+    if (self.dashboardServerDataManager.rowPointer >= [self.dashboardServerDataManager.dashboardFileList count]) {
         [self.HUD hide:YES];
         [self.resourcesTimer invalidate];
         self.resourcesTimer = nil;
         [self displayFileOnCanvas];
         [self alignSubviews];
-//        NSLog(@"testa %@ %@", self.dashboardServerDataManager.displayEmployeeNameList, self.dashboardServerDataManager.displayFileList);
     } else {
         self.dashboardServerDataManager.resourceLoadingFinishedFlag = NO;
-        self.dashboardServerDataManager.currentFileName = [NSString stringWithFormat:@"%@", [self.dashboardServerDataManager.dashboardFileList lastObject]];
-        [self.dashboardServerDataManager.dashboardFileList removeLastObject];
-        self.dashboardServerDataManager.currentEmployeeDict = [NSMutableDictionary dictionaryWithDictionary:[self.dashboardServerDataManager.employeeDictList lastObject]];
-//        NSLog(@"test_0 %@", self.dashboardServerDataManager.currentEmployeeDict);
-        [self.dashboardServerDataManager.employeeDictList removeLastObject];
-        [self.arcosService GetFromResources:self action:@selector(backFromGetFromResources:) FileNAme:self.dashboardServerDataManager.currentFileName];
+//        self.dashboardServerDataManager.currentFileName = [NSString stringWithFormat:@"%@", [self.dashboardServerDataManager.dashboardFileList lastObject]];
+//        [self.dashboardServerDataManager.dashboardFileList removeLastObject];
+//        self.dashboardServerDataManager.currentEmployeeDict = [NSMutableDictionary dictionaryWithDictionary:[self.dashboardServerDataManager.employeeDictList lastObject]];
+//        [self.dashboardServerDataManager.employeeDictList removeLastObject];
+//        [self.arcosService GetFromResources:self action:@selector(backFromGetFromResources:) FileNAme:self.dashboardServerDataManager.currentFileName];
+        self.dashboardServerDataManager.currentDashFileDict = [self.dashboardServerDataManager.dashboardFileList objectAtIndex:self.dashboardServerDataManager.rowPointer];
+        [self.arcosService Download_File:self action:@selector(backFromDownload_File:) directory:[self.dashboardServerDataManager.currentDashFileDict objectForKey:@"Directory"] fileName:[self.dashboardServerDataManager.currentDashFileDict objectForKey:@"FileName"]];
     }
 }
 
-- (void)backFromGetFromResources:(id)result {
-    self.dashboardServerDataManager.resourceLoadingFinishedFlag = YES;
+- (void)backFromDownload_File:(id)result {
     if ([result isKindOfClass:[SoapFault class]]) {
-        
+        SoapFault* anSoapFault = (SoapFault*)result;
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@",[anSoapFault faultString]] title:@"" delegate:nil target:self tag:0 handler:nil];
+        [self.HUD hide:YES];
+        [self.resourcesTimer invalidate];
+        self.resourcesTimer = nil;
     } else if ([result isKindOfClass:[NSError class]]) {
         NSError* anError = (NSError*)result;
         [ArcosUtils showDialogBox:[anError localizedDescription] title:@"" delegate:nil target:self tag:0 handler:nil];
@@ -136,17 +172,55 @@
     } else {
         @try {
             NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:result options:0] autorelease];
-            NSString* filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon dashboardPath], self.dashboardServerDataManager.currentFileName];
+            NSString* tmpFileDirectory = [self.dashboardServerDataManager.currentDashFileDict objectForKey:@"Directory"];
+            NSString* resFileDirectory = [tmpFileDirectory stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
+            if (![resFileDirectory isEqualToString:@""]) {
+                [FileCommon createIntermediateFolder:[NSString stringWithFormat:@"%@/%@", self.dashboardServerDataManager.dashboardFolderName, resFileDirectory]];
+            }
+            NSString* filePath = [self.dashboardServerDataManager retrieveFilePathWithFileDict:self.dashboardServerDataManager.currentDashFileDict];
             BOOL saveFileFlag = [myNSData writeToFile:filePath atomically:YES];
             if (saveFileFlag) {
-                [self.dashboardServerDataManager.displayFileList addObject:[NSString stringWithFormat:@"%@", self.dashboardServerDataManager.currentFileName]];
-//                NSLog(@"test_1 %@", self.dashboardServerDataManager.currentEmployeeDict);
-                [self.dashboardServerDataManager.displayEmployeeNameList addObject:[NSString stringWithFormat:@"%@", [self.dashboardServerDataManager.currentEmployeeDict objectForKey:@"Title"]]];
+                [self.dashboardServerDataManager.displayFileList addObject:[NSMutableDictionary dictionaryWithDictionary:self.dashboardServerDataManager.currentDashFileDict]];
+//                [self.dashboardServerDataManager.displayEmployeeNameList addObject:[NSString stringWithFormat:@"%@", [self.dashboardServerDataManager.currentEmployeeDict objectForKey:@"Title"]]];
             }
         }
         @catch (NSException *exception) {
             [ArcosUtils showMsg:[exception reason] delegate:nil];
         }
+    }
+    self.dashboardServerDataManager.rowPointer++;
+    self.dashboardServerDataManager.resourceLoadingFinishedFlag = YES;
+}
+
+- (void)backFromGetFromResources:(id)result {
+    if ([result isKindOfClass:[SoapFault class]]) {
+        SoapFault* anSoapFault = (SoapFault*)result;
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@",[anSoapFault faultString]] title:@"" delegate:nil target:self tag:0 handler:nil];
+        [self.HUD hide:YES];
+//        [self.resourcesTimer invalidate];
+//        self.resourcesTimer = nil;
+    } else if ([result isKindOfClass:[NSError class]]) {
+        NSError* anError = (NSError*)result;
+        [ArcosUtils showDialogBox:[anError localizedDescription] title:@"" delegate:nil target:self tag:0 handler:nil];
+        [self.HUD hide:YES];
+//        [self.resourcesTimer invalidate];
+//        self.resourcesTimer = nil;
+    } else {
+        @try {
+            NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:result options:0] autorelease];
+            NSString* filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon dashboardPath], [self.dashboardServerDataManager.currentDashFileDict objectForKey:@"FileName"]];
+            BOOL saveFileFlag = [myNSData writeToFile:filePath atomically:YES];
+            if (saveFileFlag) {
+                [self.dashboardServerDataManager.displayFileList addObject:[NSMutableDictionary dictionaryWithDictionary:self.dashboardServerDataManager.currentDashFileDict]];
+                [self displayFileOnCanvas];
+                [self alignSubviews];
+//                [self.dashboardServerDataManager.displayEmployeeNameList addObject:[NSString stringWithFormat:@"%@", [self.dashboardServerDataManager.currentEmployeeDict objectForKey:@"Title"]]];
+            }
+        }
+        @catch (NSException *exception) {
+            [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:self tag:0 handler:nil];
+        }
+        [self.HUD hide:YES];
     }
 }
 
@@ -156,8 +230,10 @@
         GenericWebViewItemViewController* gwvivc = [[GenericWebViewItemViewController alloc] initWithNibName:@"GenericWebViewItemViewController" bundle:nil];
         [self.viewItemControllerList addObject:gwvivc];
         [self.myScrollView addSubview:gwvivc.view];
-        NSString* fileName = [self.dashboardServerDataManager.displayFileList objectAtIndex:i];
-        NSString* filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon dashboardPath], fileName];
+//        NSString* fileName = [self.dashboardServerDataManager.displayFileList objectAtIndex:i];
+//        NSString* filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon dashboardPath], fileName];
+        NSMutableDictionary* tmpDashboardFileDict = [self.dashboardServerDataManager.displayFileList objectAtIndex:i];
+        NSString* filePath = [self.dashboardServerDataManager retrieveFilePathWithFileDict:tmpDashboardFileDict];
         [gwvivc loadContentWithPath:filePath];
         [gwvivc didMoveToParentViewController:self];
         [gwvivc release];
@@ -213,12 +289,14 @@
     }
     int myLength = [ArcosUtils convertNSUIntegerToUnsignedInt:[self.dashboardServerDataManager.displayFileList count]] - 1;
     if ([self.dashboardServerDataManager.displayFileList count] > 1) {
+        NSMutableDictionary* tmpDashboardFileDict = [self.dashboardServerDataManager.displayFileList objectAtIndex:self.dashboardServerDataManager.currentPage];
+        NSString* tmpFileName = [tmpDashboardFileDict objectForKey:@"FileName"];
         if (self.dashboardServerDataManager.currentPage == 0) {
-            self.title = [NSString stringWithFormat:@"%@ >", [self.dashboardServerDataManager.displayEmployeeNameList objectAtIndex:self.dashboardServerDataManager.currentPage]];
+            self.title = [NSString stringWithFormat:@"%@ >", tmpFileName];
         } else if (self.dashboardServerDataManager.currentPage == myLength) {
-            self.title = [NSString stringWithFormat:@"< %@", [self.dashboardServerDataManager.displayEmployeeNameList objectAtIndex:self.dashboardServerDataManager.currentPage]];
+            self.title = [NSString stringWithFormat:@"< %@", tmpFileName];
         } else {
-            self.title = [NSString stringWithFormat:@"< %@ >", [self.dashboardServerDataManager.displayEmployeeNameList objectAtIndex:self.dashboardServerDataManager.currentPage]];
+            self.title = [NSString stringWithFormat:@"< %@ >", tmpFileName];
         }
     }
 }

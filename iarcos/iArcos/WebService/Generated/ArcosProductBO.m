@@ -60,6 +60,7 @@
 	@synthesize FlagIUR = _FlagIUR;
 	@synthesize Reference = _Reference;
 	@synthesize BlockBonus = _BlockBonus;
+	@synthesize MiscToggle = _MiscToggle;
 
 	- (id) init
 	{
@@ -165,6 +166,7 @@
 			self.FlagIUR = [[Soap getNodeValue: node withName: @"FlagIUR"] intValue];
 			self.Reference = [Soap getNodeValue: node withName: @"Reference"];
 			self.BlockBonus = [[Soap getNodeValue: node withName: @"BlockBonus"] boolValue];
+			self.MiscToggle = [[Soap getNodeValue: node withName: @"MiscToggle"] boolValue];
 		}
 		return self;
 	}
@@ -242,6 +244,7 @@
 		[s appendFormat: @"<FlagIUR>%@</FlagIUR>", [NSString stringWithFormat: @"%i", self.FlagIUR]];
 		if (self.Reference != nil) [s appendFormat: @"<Reference>%@</Reference>", [[self.Reference stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"] stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"]];
 		[s appendFormat: @"<BlockBonus>%@</BlockBonus>", (self.BlockBonus)?@"true":@"false"];
+		[s appendFormat: @"<MiscToggle>%@</MiscToggle>", (self.MiscToggle)?@"true":@"false"];
 
 		return s;
 	}

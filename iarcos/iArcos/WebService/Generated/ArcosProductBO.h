@@ -63,6 +63,7 @@
 	int _FlagIUR;
 	NSString* _Reference;
 	BOOL _BlockBonus;
+	BOOL _MiscToggle;
 	
 }
 		
@@ -120,6 +121,7 @@
 	@property int FlagIUR;
 	@property (retain, nonatomic) NSString* Reference;
 	@property BOOL BlockBonus;
+	@property BOOL MiscToggle;
 
 	+ (ArcosProductBO*) createWithNode: (CXMLNode*) node;
 	- (id) initWithNode: (CXMLNode*) node;
