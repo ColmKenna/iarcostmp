@@ -43,7 +43,7 @@
     BOOL taskFlag = [[ArcosConfigDataManager sharedArcosConfigDataManager] recordTasksFlag];
     self.sectionTitleList = [NSMutableArray arrayWithObjects:self.orderSectionTitle, nil];
     
-    NSMutableArray* orderSectionContentList = [NSMutableArray arrayWithObjects:@"All",@"Today",@"This Week",@"This Month",@"This Year",@"MAT", nil];
+    NSMutableArray* orderSectionContentList = [NSMutableArray arrayWithObjects:@"All",@"Today",@"This Week",@"This Month",@"This Year",@"MAT",@"Pending Only", nil];
     
     [self.groupDataDict setObject:orderSectionContentList forKey:self.orderSectionTitle];
     if (taskFlag) {

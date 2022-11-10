@@ -1197,8 +1197,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     
     NSMutableArray* objectsArray=[self fetchRecordsWithEntity:@"OrderHeader" withPropertiesToFetch:properties  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSManagedObjectResultType needDistinct:NO ascending:[NSNumber numberWithBool:NO]];
     
-    NSMutableArray* resultObjectList = [NSMutableArray arrayWithCapacity:[objectsArray count]];
-    for (OrderHeader* tmpOrderHeader in objectsArray) {
+    return [self savedOrdersProcessor:objectsArray];
+}
+
+- (NSMutableArray*)retrievePendingOnlyOrders {
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"OrderHeaderIUR = 0"];
+    NSArray* sortDescNames=[NSArray arrayWithObjects:@"OrderDate",nil];
+    NSArray* properties=[NSArray arrayWithObjects:@"OrderNumber", @"OrderDate",@"Points",@"DeliveryDate",@"TotalGoods",@"LocationIUR",@"OrderHeaderIUR",@"EnteredDate",@"NumberOflines",@"OSiur",@"FormIUR",@"ContactIUR",@"WholesaleIUR",nil];
+    
+    NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"OrderHeader" withPropertiesToFetch:properties  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSManagedObjectResultType needDistinct:NO ascending:[NSNumber numberWithBool:NO]];
+    return [self savedOrdersProcessor:objectsArray];
+}
+
+- (NSMutableArray*)savedOrdersProcessor:(NSMutableArray*)anObjectArray {
+    NSMutableArray* resultObjectList = [NSMutableArray arrayWithCapacity:[anObjectArray count]];
+    for (OrderHeader* tmpOrderHeader in anObjectArray) {
         NSMutableDictionary* resultObjectDict = [NSMutableDictionary dictionaryWithCapacity:14];
         [resultObjectDict setObject:tmpOrderHeader.OrderNumber forKey:@"OrderNumber"];
         [resultObjectDict setObject:tmpOrderHeader.OrderDate forKey:@"OrderDate"];
@@ -1216,7 +1229,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         [resultObjectDict setObject:[ArcosUtils convertNilToZero:tmpOrderHeader.call.CTiur] forKey:@"CTiur"];
         [resultObjectList addObject:resultObjectDict];
     }
-//    NSLog(@"total %d of order are found",[ArcosUtils convertNSUIntegerToUnsignedInt:[resultObjectList count]]);
     return resultObjectList;
 }
 
@@ -1977,23 +1989,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 //    NSLog(@"order status iur is %d",[OSiur intValue]);
     NSDictionary* aDescrption=[self descriptionWithIUR:OSiur];
 //    NSLog(@"order status desc is %@",aDescrption);
-
-    [returnOrderHeader setObject:aDescrption forKey:@"status"];
-    [returnOrderHeader setObject:[aDescrption objectForKey:@"Detail"] forKey:@"statusText"];
+    if (aDescrption != nil) {
+        [returnOrderHeader setObject:aDescrption forKey:@"status"];
+        [returnOrderHeader setObject:[aDescrption objectForKey:@"Detail"] forKey:@"statusText"];
+    }
     
     NSNumber* OTiur=orderHeader.OTiur;
 //    NSLog(@"order type iur is %d",[OTiur intValue]);
     aDescrption=[self descriptionWithIUR:OTiur];
 //    NSLog(@"order type desc is %@",aDescrption);
-    
-    [returnOrderHeader setObject:aDescrption forKey:@"type"];
-    [returnOrderHeader setObject:[aDescrption objectForKey:@"Detail"] forKey:@"orderTypeText"];
+    if (aDescrption != nil) {
+        [returnOrderHeader setObject:aDescrption forKey:@"type"];
+        [returnOrderHeader setObject:[aDescrption objectForKey:@"Detail"] forKey:@"orderTypeText"];
+    }
     
     NSNumber* CTiur=orderHeader.call.CTiur;
     if (CTiur!=nil) {
         aDescrption=[self descriptionWithIUR:CTiur];
-        [returnOrderHeader setObject:aDescrption forKey:@"callType"];
-        [returnOrderHeader setObject:[aDescrption objectForKey:@"Detail"] forKey:@"callTypeText"];
+        if (aDescrption != nil) {
+            [returnOrderHeader setObject:aDescrption forKey:@"callType"];
+            [returnOrderHeader setObject:[aDescrption objectForKey:@"Detail"] forKey:@"callTypeText"];
+        }        
     }else{
         [returnOrderHeader setObject:[NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:0] forKey:@"DescrDetailIUR"] forKey:@"callType"];
         [returnOrderHeader setObject:@"None" forKey:@"callTypeText"];
@@ -3307,7 +3323,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 }
 -(NSMutableArray*)detailingQADesc{
         
-    NSPredicate* predicate=[NSPredicate predicateWithFormat:@"Active=1 AND ForDetailing = %@ AND  (DescrTypeCode='L1' OR DescrTypeCode='L2' OR DescrTypeCode='L3' OR DescrTypeCode='L4' OR DescrTypeCode='L5') ",[NSNumber numberWithBool:YES]];
+    NSPredicate* predicate=[NSPredicate predicateWithFormat:@"Active=1 AND ForDetailing = %@ AND  (DescrTypeCode='L1' OR DescrTypeCode='L2' OR DescrTypeCode='L3' OR DescrTypeCode='L4' OR DescrTypeCode='L5' OR DescrTypeCode='DD') ",[NSNumber numberWithBool:YES]];
     NSArray* sortDescNames=[NSArray arrayWithObjects:@"ProfileOrder",nil];
 
     NSMutableArray* objectsArray=[self fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:nil  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];

@@ -254,6 +254,11 @@
             orderData = [[ArcosCoreData sharedArcosCoreData] ordersWithDataRangeStart:startDate withEndDate:[NSDate date]];
         }
             break;
+        case 6: {
+            orderDisplayTypeValue = 9;
+            orderData = [[ArcosCoreData sharedArcosCoreData] retrievePendingOnlyOrders];
+        }
+            break;
             
         default:
             break;

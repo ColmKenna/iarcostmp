@@ -248,6 +248,10 @@
             self.tableData = [[ArcosCoreData sharedArcosCoreData]ordersWithDataRangeStart:[[GlobalSharedClass shared]thisMat] withEndDate:[ArcosUtils endOfDay:[NSDate date]]];
         }
             break;
+        case 9: {
+            self.tableData = [[ArcosCoreData sharedArcosCoreData] retrievePendingOnlyOrders];
+        }
+            break;
         default:
             break;
     }

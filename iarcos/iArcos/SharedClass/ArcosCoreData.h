@@ -144,6 +144,7 @@ typedef enum {
 - (NSMutableArray*)allOrdersWithSortKey:(NSString*)aKey withLocationIUR:(NSNumber*)anIUR;
 - (NSMutableArray*)allOrderLinesWithOrderNumber:(NSNumber*)aNumber withSortKey:(NSString*)aKey locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
 - (NSMutableArray*)ordersWithDataRangeStart:(NSDate*)startDate withEndDate:(NSDate*)endDate;
+- (NSMutableArray*)retrievePendingOnlyOrders;
 - (NSNumber*)countCallsWithDataRangeStart:(NSDate*)aStartDate withEndDate:(NSDate*)anEndDate;
 - (NSMutableArray*)ordersWithLocationIUR:(NSNumber*)aLocationIUR startDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate;
 //- (NSMutableArray*)ordersWithCustomerIUR:(NSNumber*)anIUR;

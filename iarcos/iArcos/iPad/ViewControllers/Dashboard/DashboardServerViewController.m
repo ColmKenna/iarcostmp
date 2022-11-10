@@ -113,6 +113,7 @@
     } else {
         [self.dashboardServerDataManager processGet_Download_Filenames:aResult];
         if ([self.dashboardServerDataManager.dashboardFileList count] == 0) {
+            [ArcosUtils showDialogBox:@"Employee Dashboard not available" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
             [self.HUD hide:YES];
             return;
         }

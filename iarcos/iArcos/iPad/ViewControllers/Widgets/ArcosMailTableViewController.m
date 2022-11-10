@@ -59,7 +59,18 @@
     [self.sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:[UIFont labelFontSize]], NSFontAttributeName, nil] forState:UIControlStateNormal];
     [self.navigationItem setRightBarButtonItem:self.sendButton];
     
-    [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
+    if (@available(iOS 15.0, *)) {
+        UINavigationBarAppearance* customNavigationBarAppearance = [[UINavigationBarAppearance alloc] init];
+        [customNavigationBarAppearance configureWithOpaqueBackground];
+        [customNavigationBarAppearance setBackgroundColor:[UIColor redColor]];
+        [customNavigationBarAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil]];
+        self.navigationController.navigationBar.standardAppearance = customNavigationBarAppearance;
+        self.navigationController.navigationBar.scrollEdgeAppearance = customNavigationBarAppearance;
+        [customNavigationBarAppearance release];
+    } else {
+        [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
+    }
+    
     [self.navigationController.navigationBar setTranslucent:NO];
 }
 

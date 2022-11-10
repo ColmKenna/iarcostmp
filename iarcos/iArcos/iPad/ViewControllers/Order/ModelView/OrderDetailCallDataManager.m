@@ -24,14 +24,14 @@
     [self.sectionTitleList addObject:sectionTitle];
     NSMutableArray* contactDisplayList = [NSMutableArray arrayWithCapacity:4];
     NSMutableDictionary* contactDict = [NSMutableDictionary dictionaryWithDictionary:[self.orderHeader objectForKey:@"contact"]];
-    [contactDict setObject:[self.orderHeader objectForKey:@"contactText"] forKey:self.titleKey];
+    [contactDict setObject:[ArcosUtils convertNilToEmpty:[self.orderHeader objectForKey:@"contactText"]] forKey:self.titleKey];
     NSMutableDictionary* contactCellDict = [self createWriteCellDataWithCellKey:@"contact" fieldNameLabel:@"Contact" writeType:[NSNumber numberWithInt:7] fieldData:contactDict];
     [contactCellDict setObject:[self.orderHeader objectForKey:@"LocationIUR"] forKey:@"LocationIUR"];
     
     [contactDisplayList addObject:contactCellDict];
     [contactDisplayList addObject:[self createDateHourMinLabelCellDataWithCellKey:@"orderDate" fieldNameLabel:@"Date" writeType:[NSNumber numberWithInt:1]]];
     NSMutableDictionary* callTypeDict = [NSMutableDictionary dictionaryWithDictionary:[self.orderHeader objectForKey:@"callType"]];
-    [callTypeDict setObject:[self.orderHeader objectForKey:@"callTypeText"] forKey:self.titleKey];
+    [callTypeDict setObject:[ArcosUtils convertNilToEmpty:[self.orderHeader objectForKey:@"callTypeText"]] forKey:self.titleKey];
     [contactDisplayList addObject:[self createWriteCellDataWithCellKey:@"callType" fieldNameLabel:@"Call Type" writeType:[NSNumber numberWithInt:6] fieldData:callTypeDict]];
     [contactDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"EmployeeIUR" fieldNameLabel:@"Employee" fieldData:[self employeeName:[self.orderHeader objectForKey:@"EmployeeIUR"]]]];
     

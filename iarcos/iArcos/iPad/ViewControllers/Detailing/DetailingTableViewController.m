@@ -883,7 +883,9 @@
     NSMutableDictionary* aMainData=[NSMutableDictionary dictionary];
     [aMainData setObject:[self.orderHeader objectForKey:@"orderDate"]  forKey:@"OrderDate"];
     //call type
-    [aMainData setObject:[self.orderHeader objectForKey:@"callType"]  forKey:@"CallType"];
+    if ([self.orderHeader objectForKey:@"callType"] != nil) {
+        [aMainData setObject:[self.orderHeader objectForKey:@"callType"] forKey:@"CallType"];
+    }    
     //contact
     NSMutableDictionary* aContact=[self.orderHeader objectForKey:@"contact"] ;
     NSMutableDictionary* aNewContact=[NSMutableDictionary dictionary];
