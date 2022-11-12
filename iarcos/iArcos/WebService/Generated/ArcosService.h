@@ -8,10 +8,10 @@
 	
 /* Add class references */
 				
+#import "ArcosErrorModel.h"
+#import "ArcosAuthenticator.h"
 #import "ArcosLocationBO.h"
 #import "ArcosEmployeeBO.h"
-#import "ArcosAuthenticator.h"
-#import "ArcosErrorModel.h"
 #import "ArcosPriceBO.h"
 #import "ArcosAttendeeWithDetails.h"
 #import "ArcosPresenterForMeeting.h"
@@ -27,6 +27,7 @@
 #import "ArcosCallTran.h"
 #import "ArcosMemoBO.h"
 #import "ArcosOrderLineBO.h"
+#import "ArcosOrderOrCallHeaders.h"
 #import "ArcosArrayOfInt.h"
 #import "ArcosLocationLongtitideLatitudeUpdateObject.h"
 #import "ArcosJourneyBO.h"
@@ -43,12 +44,13 @@
 #import "ArcosPresenter.h"
 #import "ArcosImportRecordField.h"
 #import "ArcosTargetDetail.h"
+#import "ArcosProductSummary.h"
 #import "ArcosLevel5Spec.h"
 #import "ArcosDownloadFileInfo.h"
-#import "ArcosArrayOfLocationWithReps.h"
-#import "ArcosArrayOfEmployeeBO.h"
 #import "ArcosArrayOfGenericClass.h"
 #import "ArcosGenericClass.h"
+#import "ArcosArrayOfLocationWithReps.h"
+#import "ArcosArrayOfEmployeeBO.h"
 #import "ArcosArrayOfPriceBO.h"
 #import "ArcosMeetingWithDetailsDownload.h"
 #import "ArcosArrayOfAttendeeWithDetails.h"
@@ -73,6 +75,7 @@
 #import "ArcosArrayOfCallTran.h"
 #import "ArcosArrayOfMemoBO.h"
 #import "ArcosArrayOfOrderLineBO.h"
+#import "ArcosArrayOfOrderOrCallHeaders.h"
 #import "ArcosArrayOfLocationBO.h"
 #import "ArcosArrayOfLocationLongtitideLatitudeUpdateObject.h"
 #import "ArcosArrayOfJourneyBO.h"
@@ -94,6 +97,7 @@
 #import "ArcosArrayOfTargetDetail.h"
 #import "ArcosArrayOfGenericReturnObjectWithImage.h"
 #import "ArcosGenericReturnObjectWithImage.h"
+#import "ArcosArrayOfProductSummary.h"
 #import "ArcosArrayOfLevel5Spec.h"
 #import "ArcosArrayOfCallBO.h"
 #import "ArcosArrayOfDownloadFileInfo.h"
@@ -112,6 +116,42 @@
 				
 @interface ArcosService : SoapService
 		
+	// Returns ArcosGenericReturnObject*
+	/*  */
+	- (SoapRequest*) UploadFileFromSite: (id <SoapDelegate>) handler contents: (NSData*) contents fileName: (NSString*) fileName;
+	- (SoapRequest*) UploadFileFromSite: (id) target action: (SEL) action contents: (NSData*) contents fileName: (NSString*) fileName;
+	-(SoapRequest*)UploadFileFromSiteWithProgress:(SoapRequestProgressBlock)progressBlock contents: (NSData*) contents fileName: (NSString*) fileName completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns ArcosGenericReturnObject*
+	/*  */
+	- (SoapRequest*) MoveFileToValidFolder: (id <SoapDelegate>) handler fileName: (NSString*) fileName;
+	- (SoapRequest*) MoveFileToValidFolder: (id) target action: (SEL) action fileName: (NSString*) fileName;
+	-(SoapRequest*)MoveFileToValidFolderWithProgress:(SoapRequestProgressBlock)progressBlock fileName: (NSString*) fileName completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns ArcosGenericReturnObject*
+	/*  */
+	- (SoapRequest*) MoveFileToImportedFolder: (id <SoapDelegate>) handler fileName: (NSString*) fileName;
+	- (SoapRequest*) MoveFileToImportedFolder: (id) target action: (SEL) action fileName: (NSString*) fileName;
+	-(SoapRequest*)MoveFileToImportedFolderWithProgress:(SoapRequestProgressBlock)progressBlock fileName: (NSString*) fileName completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns NSMutableArray*
+	/*  */
+	- (SoapRequest*) GetContactsLocations: (id <SoapDelegate>) handler contactEmail: (NSString*) contactEmail;
+	- (SoapRequest*) GetContactsLocations: (id) target action: (SEL) action contactEmail: (NSString*) contactEmail;
+	-(SoapRequest*)GetContactsLocationsWithProgress:(SoapRequestProgressBlock)progressBlock contactEmail: (NSString*) contactEmail completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns NSMutableArray*
+	/*  */
+	- (SoapRequest*) GetContactsLocationsByiur: (id <SoapDelegate>) handler iur: (int) iur;
+	- (SoapRequest*) GetContactsLocationsByiur: (id) target action: (SEL) action iur: (int) iur;
+	-(SoapRequest*)GetContactsLocationsByiurWithProgress:(SoapRequestProgressBlock)progressBlock iur: (int) iur completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns NSMutableArray*
+	/*  */
+	- (SoapRequest*) GetLocationsSignedToApp: (id <SoapDelegate>) handler;
+	- (SoapRequest*) GetLocationsSignedToApp: (id) target action: (SEL) action;
+	-(SoapRequest*)GetLocationsSignedToAppWithProgress:(SoapRequestProgressBlock)progressBlock completion:(SoapRequestCompletionBlock)completionBlock;
+
 	// Returns NSMutableArray*
 	/*  */
 	- (SoapRequest*) GetEmployeesLocations: (id <SoapDelegate>) handler employeeiur: (int) employeeiur;
@@ -267,6 +307,18 @@
 	- (SoapRequest*) GetAllOrderHeadersBetweenDateRangesOrLocationAndEmplyee: (id <SoapDelegate>) handler CompanyIUR: (int) CompanyIUR EmployeeIUR: (int) EmployeeIUR StartDate: (NSDate*) StartDate EndDate: (NSDate*) EndDate locationIUR: (int) locationIUR emplyeeiur: (int) emplyeeiur;
 	- (SoapRequest*) GetAllOrderHeadersBetweenDateRangesOrLocationAndEmplyee: (id) target action: (SEL) action CompanyIUR: (int) CompanyIUR EmployeeIUR: (int) EmployeeIUR StartDate: (NSDate*) StartDate EndDate: (NSDate*) EndDate locationIUR: (int) locationIUR emplyeeiur: (int) emplyeeiur;
 	-(SoapRequest*)GetAllOrderHeadersBetweenDateRangesOrLocationAndEmplyeeWithProgress:(SoapRequestProgressBlock)progressBlock CompanyIUR: (int) CompanyIUR EmployeeIUR: (int) EmployeeIUR StartDate: (NSDate*) StartDate EndDate: (NSDate*) EndDate locationIUR: (int) locationIUR emplyeeiur: (int) emplyeeiur completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns NSMutableArray*
+	/*  */
+	- (SoapRequest*) GetAllOrderHeadersWithoutLinesBetweenDateRangesOrLocationAndEmployee: (id <SoapDelegate>) handler CompanyIUR: (int) CompanyIUR EmployeeIUR: (int) EmployeeIUR StartDate: (NSDate*) StartDate EndDate: (NSDate*) EndDate locationIUR: (int) locationIUR emplyeeiur: (int) emplyeeiur;
+	- (SoapRequest*) GetAllOrderHeadersWithoutLinesBetweenDateRangesOrLocationAndEmployee: (id) target action: (SEL) action CompanyIUR: (int) CompanyIUR EmployeeIUR: (int) EmployeeIUR StartDate: (NSDate*) StartDate EndDate: (NSDate*) EndDate locationIUR: (int) locationIUR emplyeeiur: (int) emplyeeiur;
+	-(SoapRequest*)GetAllOrderHeadersWithoutLinesBetweenDateRangesOrLocationAndEmployeeWithProgress:(SoapRequestProgressBlock)progressBlock CompanyIUR: (int) CompanyIUR EmployeeIUR: (int) EmployeeIUR StartDate: (NSDate*) StartDate EndDate: (NSDate*) EndDate locationIUR: (int) locationIUR emplyeeiur: (int) emplyeeiur completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns NSMutableArray*
+	/*  */
+	- (SoapRequest*) GetAllOrderHeadersAndCalls: (id <SoapDelegate>) handler CompanyIUR: (int) CompanyIUR EmployeeIUR: (int) EmployeeIUR StartDate: (NSDate*) StartDate EndDate: (NSDate*) EndDate locationIUR: (int) locationIUR;
+	- (SoapRequest*) GetAllOrderHeadersAndCalls: (id) target action: (SEL) action CompanyIUR: (int) CompanyIUR EmployeeIUR: (int) EmployeeIUR StartDate: (NSDate*) StartDate EndDate: (NSDate*) EndDate locationIUR: (int) locationIUR;
+	-(SoapRequest*)GetAllOrderHeadersAndCallsWithProgress:(SoapRequestProgressBlock)progressBlock CompanyIUR: (int) CompanyIUR EmployeeIUR: (int) EmployeeIUR StartDate: (NSDate*) StartDate EndDate: (NSDate*) EndDate locationIUR: (int) locationIUR completion:(SoapRequestCompletionBlock)completionBlock;
 
 	// Returns NSMutableArray*
 	/*  */
@@ -610,6 +662,18 @@
 	- (SoapRequest*) GenerateDataAsCsv: (id) target action: (SEL) action stateMent: (NSString*) stateMent;
 	-(SoapRequest*)GenerateDataAsCsvWithProgress:(SoapRequestProgressBlock)progressBlock stateMent: (NSString*) stateMent completion:(SoapRequestCompletionBlock)completionBlock;
 
+	// Returns ArcosGenericClass*
+	/*  */
+	- (SoapRequest*) GenerateProductDataAsCsv: (id <SoapDelegate>) handler activeOnly: (BOOL) activeOnly StartDate: (NSDate*) StartDate;
+	- (SoapRequest*) GenerateProductDataAsCsv: (id) target action: (SEL) action activeOnly: (BOOL) activeOnly StartDate: (NSDate*) StartDate;
+	-(SoapRequest*)GenerateProductDataAsCsvWithProgress:(SoapRequestProgressBlock)progressBlock activeOnly: (BOOL) activeOnly StartDate: (NSDate*) StartDate completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns ArcosGenericClass*
+	/*  */
+	- (SoapRequest*) GenerateProductDataRestrictedByEmployeeAsCsv: (id <SoapDelegate>) handler Employeeiur: (int) Employeeiur activeOnly: (BOOL) activeOnly StartDate: (NSDate*) StartDate;
+	- (SoapRequest*) GenerateProductDataRestrictedByEmployeeAsCsv: (id) target action: (SEL) action Employeeiur: (int) Employeeiur activeOnly: (BOOL) activeOnly StartDate: (NSDate*) StartDate;
+	-(SoapRequest*)GenerateProductDataRestrictedByEmployeeAsCsvWithProgress:(SoapRequestProgressBlock)progressBlock Employeeiur: (int) Employeeiur activeOnly: (BOOL) activeOnly StartDate: (NSDate*) StartDate completion:(SoapRequestCompletionBlock)completionBlock;
+
 	// Returns ArcosGenericReturnObject*
 	/*  */
 	- (SoapRequest*) GetDataForLocation: (id <SoapDelegate>) handler type: (NSString*) type locationiur: (int) locationiur;
@@ -766,6 +830,24 @@
 	- (SoapRequest*) GetPagedProductDetailsView: (id) target action: (SEL) action SelectStateMent: (NSString*) SelectStateMent fromStatement: (NSString*) fromStatement OrderBy: (NSString*) OrderBy pagenumber: (int) pagenumber pagesize: (int) pagesize;
 	-(SoapRequest*)GetPagedProductDetailsViewWithProgress:(SoapRequestProgressBlock)progressBlock SelectStateMent: (NSString*) SelectStateMent fromStatement: (NSString*) fromStatement OrderBy: (NSString*) OrderBy pagenumber: (int) pagenumber pagesize: (int) pagesize completion:(SoapRequestCompletionBlock)completionBlock;
 
+	// Returns NSMutableArray*
+	/*  */
+	- (SoapRequest*) GetProductsByCriteria: (id <SoapDelegate>) handler field: (NSString*) field criteria: (NSString*) criteria;
+	- (SoapRequest*) GetProductsByCriteria: (id) target action: (SEL) action field: (NSString*) field criteria: (NSString*) criteria;
+	-(SoapRequest*)GetProductsByCriteriaWithProgress:(SoapRequestProgressBlock)progressBlock field: (NSString*) field criteria: (NSString*) criteria completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns ArcosGenericObjectWithImage*
+	/*  */
+	- (SoapRequest*) GetAllActiveProductsPaged: (id <SoapDelegate>) handler activeOnly: (BOOL) activeOnly StartDate: (NSDate*) StartDate pagenumber: (int) pagenumber pagesize: (int) pagesize;
+	- (SoapRequest*) GetAllActiveProductsPaged: (id) target action: (SEL) action activeOnly: (BOOL) activeOnly StartDate: (NSDate*) StartDate pagenumber: (int) pagenumber pagesize: (int) pagesize;
+	-(SoapRequest*)GetAllActiveProductsPagedWithProgress:(SoapRequestProgressBlock)progressBlock activeOnly: (BOOL) activeOnly StartDate: (NSDate*) StartDate pagenumber: (int) pagenumber pagesize: (int) pagesize completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns ArcosGenericObjectWithImage*
+	/*  */
+	- (SoapRequest*) GetAllActiveProductsRestrictedByEmployeePaged: (id <SoapDelegate>) handler employeeiur: (int) employeeiur activeOnly: (BOOL) activeOnly StartDate: (NSDate*) StartDate pagenumber: (int) pagenumber pagesize: (int) pagesize;
+	- (SoapRequest*) GetAllActiveProductsRestrictedByEmployeePaged: (id) target action: (SEL) action employeeiur: (int) employeeiur activeOnly: (BOOL) activeOnly StartDate: (NSDate*) StartDate pagenumber: (int) pagenumber pagesize: (int) pagesize;
+	-(SoapRequest*)GetAllActiveProductsRestrictedByEmployeePagedWithProgress:(SoapRequestProgressBlock)progressBlock employeeiur: (int) employeeiur activeOnly: (BOOL) activeOnly StartDate: (NSDate*) StartDate pagenumber: (int) pagenumber pagesize: (int) pagesize completion:(SoapRequestCompletionBlock)completionBlock;
+
 	// Returns NSString*
 	/*  */
 	- (SoapRequest*) RunLevel5: (id <SoapDelegate>) handler spec: (ArcosLevel5Spec*) spec tablename: (NSString*) tablename iur: (int) iur extraFilters: (NSString*) extraFilters;
@@ -885,42 +967,6 @@
 	- (SoapRequest*) Download_File: (id <SoapDelegate>) handler directory: (NSString*) directory fileName: (NSString*) fileName;
 	- (SoapRequest*) Download_File: (id) target action: (SEL) action directory: (NSString*) directory fileName: (NSString*) fileName;
 	-(SoapRequest*)Download_FileWithProgress:(SoapRequestProgressBlock)progressBlock directory: (NSString*) directory fileName: (NSString*) fileName completion:(SoapRequestCompletionBlock)completionBlock;
-
-	// Returns ArcosGenericReturnObject*
-	/*  */
-	- (SoapRequest*) UploadFileFromSite: (id <SoapDelegate>) handler contents: (NSData*) contents fileName: (NSString*) fileName;
-	- (SoapRequest*) UploadFileFromSite: (id) target action: (SEL) action contents: (NSData*) contents fileName: (NSString*) fileName;
-	-(SoapRequest*)UploadFileFromSiteWithProgress:(SoapRequestProgressBlock)progressBlock contents: (NSData*) contents fileName: (NSString*) fileName completion:(SoapRequestCompletionBlock)completionBlock;
-
-	// Returns ArcosGenericReturnObject*
-	/*  */
-	- (SoapRequest*) MoveFileToValidFolder: (id <SoapDelegate>) handler fileName: (NSString*) fileName;
-	- (SoapRequest*) MoveFileToValidFolder: (id) target action: (SEL) action fileName: (NSString*) fileName;
-	-(SoapRequest*)MoveFileToValidFolderWithProgress:(SoapRequestProgressBlock)progressBlock fileName: (NSString*) fileName completion:(SoapRequestCompletionBlock)completionBlock;
-
-	// Returns ArcosGenericReturnObject*
-	/*  */
-	- (SoapRequest*) MoveFileToImportedFolder: (id <SoapDelegate>) handler fileName: (NSString*) fileName;
-	- (SoapRequest*) MoveFileToImportedFolder: (id) target action: (SEL) action fileName: (NSString*) fileName;
-	-(SoapRequest*)MoveFileToImportedFolderWithProgress:(SoapRequestProgressBlock)progressBlock fileName: (NSString*) fileName completion:(SoapRequestCompletionBlock)completionBlock;
-
-	// Returns NSMutableArray*
-	/*  */
-	- (SoapRequest*) GetContactsLocations: (id <SoapDelegate>) handler contactEmail: (NSString*) contactEmail;
-	- (SoapRequest*) GetContactsLocations: (id) target action: (SEL) action contactEmail: (NSString*) contactEmail;
-	-(SoapRequest*)GetContactsLocationsWithProgress:(SoapRequestProgressBlock)progressBlock contactEmail: (NSString*) contactEmail completion:(SoapRequestCompletionBlock)completionBlock;
-
-	// Returns NSMutableArray*
-	/*  */
-	- (SoapRequest*) GetContactsLocationsByiur: (id <SoapDelegate>) handler iur: (int) iur;
-	- (SoapRequest*) GetContactsLocationsByiur: (id) target action: (SEL) action iur: (int) iur;
-	-(SoapRequest*)GetContactsLocationsByiurWithProgress:(SoapRequestProgressBlock)progressBlock iur: (int) iur completion:(SoapRequestCompletionBlock)completionBlock;
-
-	// Returns NSMutableArray*
-	/*  */
-	- (SoapRequest*) GetLocationsSignedToApp: (id <SoapDelegate>) handler;
-	- (SoapRequest*) GetLocationsSignedToApp: (id) target action: (SEL) action;
-	-(SoapRequest*)GetLocationsSignedToAppWithProgress:(SoapRequestProgressBlock)progressBlock completion:(SoapRequestCompletionBlock)completionBlock;
 
 		
 	+ (ArcosService*) service;

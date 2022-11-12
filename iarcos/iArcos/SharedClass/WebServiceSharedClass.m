@@ -62,20 +62,80 @@
 
 -(void)loadPaginatedProductsToDB:(NSNumber*)aPageNumber {    
     if (self.isPaginatedLoadingFinished) {        
-        PaginatedRequestObject* productRequestObject = [self.paginatedRequestObjectProvider productRequestObject];        
-        [self.service GetPagedProductDetailsView:self action:@selector(paginatedProductsBackFromService:) SelectStateMent:productRequestObject.selectStateMent fromStatement:productRequestObject.fromStatement OrderBy:productRequestObject.orderBy pagenumber:[aPageNumber intValue] pagesize:[GlobalSharedClass shared].pageSize];
+//        PaginatedRequestObject* productRequestObject = [self.paginatedRequestObjectProvider productRequestObject];
+//        [self.service GetPagedProductDetailsView:self action:@selector(paginatedProductsBackFromService:) SelectStateMent:productRequestObject.selectStateMent fromStatement:productRequestObject.fromStatement OrderBy:productRequestObject.orderBy pagenumber:[aPageNumber intValue] pagesize:[GlobalSharedClass shared].pageSize];
+        NSMutableDictionary* productDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].productSelectorName];
+        NSNumber* downloadMode = [productDataDict objectForKey:@"DownloadMode"];
+        NSNumber* isDownloaded = [productDataDict objectForKey:@"IsDownloaded"];
+        SettingManager* sm = [SettingManager setting];
+        NSString* keypath = [NSString stringWithFormat:@"CompanySetting.%@",@"Download"];
+        NSMutableDictionary* activeOnly = [sm getSettingForKeypath:keypath atIndex:3];
+        NSNumber* active = [activeOnly objectForKey:@"Value"];
+        NSMutableDictionary* empolyee = [sm getSettingForKeypath:@"PersonalSetting.Personal" atIndex:0];
+        NSNumber* empolyeeIUR = [empolyee objectForKey:@"Value"];
+        if ([downloadMode intValue] == 1 && [isDownloaded boolValue]) {//1:Partial
+            NSDate* downloadDate = [productDataDict objectForKey:@"DownloadDate"];
+            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] allowDownloadByEmployeeFlag]) {
+                [self.service GetAllActiveProductsRestrictedByEmployeePaged:self action:@selector(paginatedProductsBackFromService:) employeeiur:[empolyeeIUR intValue] activeOnly:[active boolValue] StartDate:downloadDate pagenumber:[aPageNumber intValue] pagesize:[GlobalSharedClass shared].pageSize];
+            } else {
+                [self.service GetAllActiveProductsPaged:self action:@selector(paginatedProductsBackFromService:) activeOnly:[active boolValue] StartDate:downloadDate pagenumber:[aPageNumber intValue] pagesize:[GlobalSharedClass shared].pageSize];
+            }
+        } else {
+            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] allowDownloadByEmployeeFlag]) {
+                [self.service GetAllActiveProductsRestrictedByEmployeePaged:self action:@selector(paginatedProductsBackFromService:) employeeiur:[empolyeeIUR intValue] activeOnly:[active boolValue] StartDate:[ArcosUtils dateFromString:@"01/12/1999" format:[GlobalSharedClass shared].dateFormat] pagenumber:[aPageNumber intValue] pagesize:[GlobalSharedClass shared].pageSize];
+            } else {
+                [self.service GetAllActiveProductsPaged:self action:@selector(paginatedProductsBackFromService:) activeOnly:[active boolValue] StartDate:[ArcosUtils dateFromString:@"01/12/1999" format:[GlobalSharedClass shared].dateFormat] pagenumber:[aPageNumber intValue] pagesize:[GlobalSharedClass shared].pageSize];
+            }
+        }
     }
     self.isPaginatedLoadingFinished = NO;
 }
 
 -(void)loadProductsToDB{
     if (self.isLoadingFinished) {
-        PaginatedRequestObject* productRequestObject = [self.paginatedRequestObjectProvider productRequestObject];
+//        PaginatedRequestObject* productRequestObject = [self.paginatedRequestObjectProvider productRequestObject];
+        NSMutableDictionary* productDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].productSelectorName];
+        NSNumber* downloadMode = [productDataDict objectForKey:@"DownloadMode"];
+        NSNumber* isDownloaded = [productDataDict objectForKey:@"IsDownloaded"];
+        SettingManager* sm = [SettingManager setting];
+        NSString* keypath = [NSString stringWithFormat:@"CompanySetting.%@",@"Download"];
+        NSMutableDictionary* activeOnly = [sm getSettingForKeypath:keypath atIndex:3];
+        NSNumber* active = [activeOnly objectForKey:@"Value"];
+        NSMutableDictionary* empolyee = [sm getSettingForKeypath:@"PersonalSetting.Personal" atIndex:0];
+        NSNumber* empolyeeIUR = [empolyee objectForKey:@"Value"];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] downloadDataByCSVFlag]) {
-            NSString* sqlStatement = [NSString stringWithFormat:@"%@ %@ %@", productRequestObject.selectStateMent, productRequestObject.fromStatement, productRequestObject.orderBy];
-            [self.service GenerateDataAsCsv:self action:@selector(generateDataAsCsvBackFromService:) stateMent:sqlStatement];
+//            NSString* sqlStatement = [NSString stringWithFormat:@"%@ %@ %@", productRequestObject.selectStateMent, productRequestObject.fromStatement, productRequestObject.orderBy];
+//            [self.service GenerateDataAsCsv:self action:@selector(generateDataAsCsvBackFromService:) stateMent:sqlStatement];
+            if ([downloadMode intValue] == 1 && [isDownloaded boolValue]) {//1:Partial
+                NSDate* downloadDate = [productDataDict objectForKey:@"DownloadDate"];
+                if ([[ArcosConfigDataManager sharedArcosConfigDataManager] allowDownloadByEmployeeFlag]) {
+                    [self.service GenerateProductDataRestrictedByEmployeeAsCsv:self action:@selector(generateDataAsCsvBackFromService:) Employeeiur:[empolyeeIUR intValue] activeOnly:[active boolValue] StartDate:downloadDate];
+                } else {
+                    [self.service GenerateProductDataAsCsv:self action:@selector(generateDataAsCsvBackFromService:) activeOnly:[active boolValue] StartDate:downloadDate];
+                }
+            } else {
+                if ([[ArcosConfigDataManager sharedArcosConfigDataManager] allowDownloadByEmployeeFlag]) {
+                    [self.service GenerateProductDataRestrictedByEmployeeAsCsv:self action:@selector(generateDataAsCsvBackFromService:) Employeeiur:[empolyeeIUR intValue] activeOnly:[active boolValue] StartDate:[ArcosUtils dateFromString:@"01/12/1999" format:[GlobalSharedClass shared].dateFormat]];
+                } else {
+                    [self.service GenerateProductDataAsCsv:self action:@selector(generateDataAsCsvBackFromService:) activeOnly:[active boolValue] StartDate:[ArcosUtils dateFromString:@"01/12/1999" format:[GlobalSharedClass shared].dateFormat]];
+                }
+            }
         } else {
-            [self.service GetPagedProductDetailsView:self action:@selector(productsBackFromService:) SelectStateMent:productRequestObject.selectStateMent fromStatement:productRequestObject.fromStatement OrderBy:productRequestObject.orderBy pagenumber:1 pagesize:[GlobalSharedClass shared].pageSize];
+//            [self.service GetPagedProductDetailsView:self action:@selector(productsBackFromService:) SelectStateMent:productRequestObject.selectStateMent fromStatement:productRequestObject.fromStatement OrderBy:productRequestObject.orderBy pagenumber:1 pagesize:[GlobalSharedClass shared].pageSize];
+            if ([downloadMode intValue] == 1 && [isDownloaded boolValue]) {//1:Partial
+                NSDate* downloadDate = [productDataDict objectForKey:@"DownloadDate"];
+                if ([[ArcosConfigDataManager sharedArcosConfigDataManager] allowDownloadByEmployeeFlag]) {
+                    [self.service GetAllActiveProductsRestrictedByEmployeePaged:self action:@selector(productsBackFromService:) employeeiur:[empolyeeIUR intValue] activeOnly:[active boolValue] StartDate:downloadDate pagenumber:1 pagesize:[GlobalSharedClass shared].pageSize];
+                } else {
+                    [self.service GetAllActiveProductsPaged:self action:@selector(productsBackFromService:) activeOnly:[active boolValue] StartDate:downloadDate pagenumber:1 pagesize:[GlobalSharedClass shared].pageSize];
+                }
+            } else {
+                if ([[ArcosConfigDataManager sharedArcosConfigDataManager] allowDownloadByEmployeeFlag]) {
+                    [self.service GetAllActiveProductsRestrictedByEmployeePaged:self action:@selector(productsBackFromService:) employeeiur:[empolyeeIUR intValue] activeOnly:[active boolValue] StartDate:[ArcosUtils dateFromString:@"01/12/1999" format:[GlobalSharedClass shared].dateFormat] pagenumber:1 pagesize:[GlobalSharedClass shared].pageSize];
+                } else {
+                    [self.service GetAllActiveProductsPaged:self action:@selector(productsBackFromService:) activeOnly:[active boolValue] StartDate:[ArcosUtils dateFromString:@"01/12/1999" format:[GlobalSharedClass shared].dateFormat] pagenumber:1 pagesize:[GlobalSharedClass shared].pageSize];
+                }
+            }
         }
         [self.delegate StartGettingData];
     }

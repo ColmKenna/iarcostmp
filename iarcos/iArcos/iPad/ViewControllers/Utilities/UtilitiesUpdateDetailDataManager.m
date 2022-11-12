@@ -12,6 +12,7 @@
 
 @synthesize dataTablesDict = _dataTablesDict;
 @synthesize dataTablesDisplayList = _dataTablesDisplayList;
+@synthesize dataTablesIndexHashMap = _dataTablesIndexHashMap;
 @synthesize downloadModeConstantDict = _downloadModeConstantDict;
 @synthesize dataTableNameRelatedEntityDict = _dataTableNameRelatedEntityDict;
 @synthesize tableNameList = _tableNameList;
@@ -70,6 +71,7 @@
 - (void)dealloc {
     if (self.dataTablesDict != nil) { self.dataTablesDict = nil; }
     if (self.dataTablesDisplayList != nil) { self.dataTablesDisplayList = nil; }
+    self.dataTablesIndexHashMap = nil;
     if (self.downloadModeConstantDict != nil) { self.downloadModeConstantDict = nil; }
     if (self.dataTableNameRelatedEntityDict != nil) { self.dataTableNameRelatedEntityDict = nil; }
     if (self.tableNameList != nil) { self.tableNameList = nil; }
@@ -159,8 +161,10 @@
     NSMutableArray* tmpDisplayList = [aDataTablesDict objectForKey:@"DataTables"];
     self.dataTablesDisplayList = [NSMutableArray arrayWithCapacity:[tmpDisplayList count]];
     self.tableNameList = [NSMutableArray arrayWithCapacity:[tmpDisplayList count]];
+    self.dataTablesIndexHashMap = [NSMutableDictionary dictionaryWithCapacity:[tmpDisplayList count]];
     for (int i = 0; i < [tmpDisplayList count]; i++) {
         NSMutableDictionary* tmpDataDict = [tmpDisplayList objectAtIndex:i];
+        [self.dataTablesIndexHashMap setObject:[NSNumber numberWithInt:i] forKey:[tmpDataDict objectForKey:@"IUR"]];
         NSMutableDictionary* newDataDict = [NSMutableDictionary dictionaryWithDictionary:tmpDataDict];
         NSString* auxTableName = [newDataDict objectForKey:@"TableName"];
         if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag] && [auxTableName isEqualToString:self.packageTableName]) {
@@ -323,7 +327,8 @@
         [dataDict setObject:[NSDate date] forKey:@"DownloadDate"];
         [dataDict setObject:[NSNumber numberWithBool:YES] forKey:@"IsDownloaded"];
         NSMutableArray* plistDisplayList = [self.dataTablesDict objectForKey:@"DataTables"];
-        NSMutableDictionary* plistDataDict = [plistDisplayList objectAtIndex:aSelectorIndexpath.section];
+        NSNumber* plistIndex = [self.dataTablesIndexHashMap objectForKey:[dataDict objectForKey:@"IUR"]];
+        NSMutableDictionary* plistDataDict = [plistDisplayList objectAtIndex:[plistIndex intValue]];
         [plistDataDict setObject:[NSDate date] forKey:@"DownloadDate"];
         [plistDataDict setObject:[NSNumber numberWithBool:YES] forKey:@"IsDownloaded"];
         [self.dataTablesDict writeToFile:[FileCommon updateCenterPlistPath] atomically:YES];
@@ -334,7 +339,8 @@
     NSMutableArray* plistDisplayList = [self.dataTablesDict objectForKey:@"DataTables"];
     for (int i = 0; i < [self.dataTablesDisplayList count]; i++) {
         NSMutableDictionary* dataDict = [self.dataTablesDisplayList objectAtIndex:i];
-        NSMutableDictionary* plistDataDict = [plistDisplayList objectAtIndex:i];
+        NSNumber* plistIndex = [self.dataTablesIndexHashMap objectForKey:[dataDict objectForKey:@"IUR"]];
+        NSMutableDictionary* plistDataDict = [plistDisplayList objectAtIndex:[plistIndex intValue]];
         NSNumber* downloadMode = [dataDict objectForKey:@"DownloadMode"];
         NSString* downloadModeName = [dataDict objectForKey:@"DownloadModeName"];
         NSNumber* newDownloadMode = [NSNumber numberWithInt:[downloadMode intValue]];

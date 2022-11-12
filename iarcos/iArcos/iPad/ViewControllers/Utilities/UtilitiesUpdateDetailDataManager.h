@@ -14,6 +14,7 @@
 @interface UtilitiesUpdateDetailDataManager : NSObject {
     NSMutableDictionary* _dataTablesDict;
     NSMutableArray* _dataTablesDisplayList;
+    NSMutableDictionary* _dataTablesIndexHashMap;
     NSDictionary* _downloadModeConstantDict;
     NSMutableDictionary* _dataTableNameRelatedEntityDict;
     NSMutableArray* _tableNameList;
@@ -35,6 +36,7 @@
 
 @property(nonatomic, retain) NSMutableDictionary* dataTablesDict;
 @property(nonatomic, retain) NSMutableArray* dataTablesDisplayList;
+@property(nonatomic, retain) NSMutableDictionary* dataTablesIndexHashMap;
 @property(nonatomic, retain) NSDictionary* downloadModeConstantDict;
 @property(nonatomic, retain) NSMutableDictionary* dataTableNameRelatedEntityDict;
 @property(nonatomic, retain) NSMutableArray* tableNameList;
