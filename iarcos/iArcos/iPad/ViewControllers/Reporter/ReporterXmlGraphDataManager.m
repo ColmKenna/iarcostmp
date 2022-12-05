@@ -12,12 +12,18 @@
 @synthesize displayList = _displayList;
 @synthesize reportDocument = _reportDocument;
 @synthesize identifier = _identifier;
+@synthesize actualBarCount = _actualBarCount;
+@synthesize maxNormalBarCount = _maxNormalBarCount;
+@synthesize arrayCountBiggerThanMaxNornalBarCountFlag = _arrayCountBiggerThanMaxNornalBarCountFlag;
+@synthesize processedDisplayList = _processedDisplayList;
 
 - (instancetype)init {
     self = [super init];
     if (self) {
         self.displayList = [NSMutableArray array];
         self.identifier = @"barIdentifier";
+        self.maxNormalBarCount = 10;
+        self.arrayCountBiggerThanMaxNornalBarCountFlag = NO;
     }
     return self;
 }
@@ -26,6 +32,7 @@
     self.displayList = nil;
     self.reportDocument = nil;
     self.identifier = nil;
+    self.processedDisplayList = nil;
     
     [super dealloc];
 }
@@ -61,6 +68,38 @@
         [myDict setObject:[NSNumber numberWithFloat:tmpCountPercentage] forKey:@"Percentage"];
         [self.displayList addObject:myDict];
     }
+    
+    NSSortDescriptor* percentageDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Percentage" ascending:NO selector:@selector(compare:)] autorelease];
+    [self.displayList sortUsingDescriptors:[NSArray arrayWithObjects:percentageDescriptor, nil]];
+    int auxArrayCount = [ArcosUtils convertNSUIntegerToUnsignedInt:[self.displayList count]];
+    int auxCompositeResultListCount = auxArrayCount;
+    self.actualBarCount = auxArrayCount;
+    self.arrayCountBiggerThanMaxNornalBarCountFlag = NO;
+    if (auxArrayCount > self.maxNormalBarCount) {
+        auxArrayCount = self.maxNormalBarCount;
+        self.arrayCountBiggerThanMaxNornalBarCountFlag = YES;
+        auxCompositeResultListCount = auxArrayCount + 1;
+        self.actualBarCount = auxArrayCount + 1;
+    }
+    float otherTotalPercentage = 0.0;
+    if (self.arrayCountBiggerThanMaxNornalBarCountFlag) {
+        for (int i = self.maxNormalBarCount; i < [self.displayList count]; i++) {
+            NSMutableDictionary* tmpFinalResultDict = [self.displayList objectAtIndex:i];
+            otherTotalPercentage += [[tmpFinalResultDict objectForKey:@"Percentage"] floatValue];
+        }
+    }
+    NSMutableArray* auxCompositeResultList = [NSMutableArray arrayWithCapacity:auxCompositeResultListCount];
+    for (int i = 0; i < auxArrayCount; i++) {
+        [auxCompositeResultList addObject:[self.displayList objectAtIndex:i]];
+    }
+    if (self.arrayCountBiggerThanMaxNornalBarCountFlag) {
+        NSMutableDictionary* otherResultDict = [NSMutableDictionary dictionaryWithCapacity:2];
+        [otherResultDict setObject:@"Other" forKey:@"Details"];
+        [otherResultDict setObject:[NSNumber numberWithFloat:otherTotalPercentage] forKey:@"Percentage"];
+        [auxCompositeResultList addObject:otherResultDict];
+    }
+    
+    self.processedDisplayList = [NSMutableArray arrayWithArray:auxCompositeResultList];
 }
 
 @end

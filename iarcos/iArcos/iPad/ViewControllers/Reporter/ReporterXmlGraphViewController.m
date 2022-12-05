@@ -58,13 +58,15 @@
     CPTXYAxis *x          = axisSet.xAxis;
     x.majorIntervalLength   = @10.0;
     x.minorTicksPerInterval = 0;
-    x.orthogonalPosition = [NSNumber numberWithFloat:0.0];
+//    x.orthogonalPosition = [NSNumber numberWithFloat:0.0];
+    x.orthogonalPosition = [NSNumber numberWithFloat:-self.reporterXmlGraphDataManager.actualBarCount];
     x.labelFormatter = xAxisFormatter;
     x.labelingPolicy = CPTAxisLabelingPolicyNone;
     CPTLineCap *lineCap = [[CPTLineCap alloc] init];
     lineCap.lineCapType     = CPTLineCapTypeOpenArrow;
     lineCap.size         = CGSizeMake(12.0, 12.0);
     x.axisLineCapMax = lineCap;
+    x.hidden = YES;
     
     NSNumberFormatter* yAxisFormatter = [[[NSNumberFormatter alloc] init] autorelease];
     yAxisFormatter.maximumFractionDigits = 0;
@@ -77,6 +79,7 @@
     y.labelingPolicy = CPTAxisLabelingPolicyNone;
     y.axisLineCapMax = lineCap;
     [lineCap release];
+    y.hidden = YES;
     
     // Create a bar line style
     CPTMutableLineStyle *barLineStyle = [[[CPTMutableLineStyle alloc] init] autorelease];
@@ -98,19 +101,19 @@
     [barPlot release];
     // Add plot space for bar charts
     CPTXYPlotSpace *barPlotSpace = (CPTXYPlotSpace *)graph.defaultPlotSpace;
-    barPlotSpace.allowsUserInteraction = YES;
+    barPlotSpace.allowsUserInteraction = NO;
     barPlotSpace.delegate = self;
     barPlotSpace.xRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithFloat:150.0f]];
-    int yAxisNum = 10;
-    if ([self.reporterXmlGraphDataManager.displayList count] <= yAxisNum) {
-        yAxisNum = [ArcosUtils convertNSUIntegerToUnsignedInt:[self.reporterXmlGraphDataManager.displayList count]];
-        barPlotSpace.allowsUserInteraction = NO;
-    }
-    if ([self.reporterXmlGraphDataManager.displayList count] == 0) {
-        yAxisNum = 10;
-        barPlotSpace.allowsUserInteraction = NO;
-    }
-    barPlotSpace.yRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithInt:yAxisNum]];
+//    int yAxisNum = 11;
+//    if ([self.reporterXmlGraphDataManager.processedDisplayList count] <= yAxisNum) {
+//        yAxisNum = [ArcosUtils convertNSUIntegerToUnsignedInt:[self.reporterXmlGraphDataManager.processedDisplayList count]];
+//        barPlotSpace.allowsUserInteraction = NO;
+//    }
+//    if ([self.reporterXmlGraphDataManager.processedDisplayList count] == 0) {
+//        yAxisNum = 10;
+//        barPlotSpace.allowsUserInteraction = NO;
+//    }
+    barPlotSpace.yRange = [CPTPlotRange plotRangeWithLocation:[NSNumber numberWithFloat:0.0f] length:[NSNumber numberWithInt:-self.reporterXmlGraphDataManager.actualBarCount]];
     [graph addPlotSpace:barPlotSpace];
     
     //Add title
@@ -151,20 +154,20 @@
 }
 
 - (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot {
-    return [self.reporterXmlGraphDataManager.displayList count];
+    return [self.reporterXmlGraphDataManager.processedDisplayList count];
 }
 
 - (NSNumber*)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index {
     NSNumber* num = nil;
     switch ( fieldEnum ) {
         case CPTBarPlotFieldBarLocation:
-            num = (NSDecimalNumber *)[NSDecimalNumber numberWithUnsignedInteger:index];
+            num = (NSDecimalNumber *)[NSDecimalNumber numberWithInteger:index - self.reporterXmlGraphDataManager.actualBarCount];
             break;
             
         case CPTBarPlotFieldBarTip:{
             
             
-            NSMutableDictionary* tmpDict = [self.reporterXmlGraphDataManager.displayList objectAtIndex:index];
+            NSMutableDictionary* tmpDict = [self.reporterXmlGraphDataManager.processedDisplayList objectAtIndex:index];
             num = [tmpDict objectForKey:@"Percentage"];
         }
             break;
@@ -176,7 +179,7 @@
 
 - (CPTLayer *)dataLabelForPlot:(CPTPlot *)plot recordIndex:(NSUInteger)index {
     CPTMutableTextStyle* blackTextStyle = [self textStyleWithFontSize:14.0f fontColor:[CPTColor blackColor]];
-    NSMutableDictionary* tmpDict = [self.reporterXmlGraphDataManager.displayList objectAtIndex:index];
+    NSMutableDictionary* tmpDict = [self.reporterXmlGraphDataManager.processedDisplayList objectAtIndex:index];
     
     return [[[CPTTextLayer alloc] initWithText:[NSString stringWithFormat:@"%@\n%.0f%%", [tmpDict objectForKey:@"Details"], [[tmpDict objectForKey:@"Percentage"] floatValue]] style:blackTextStyle] autorelease];
 }

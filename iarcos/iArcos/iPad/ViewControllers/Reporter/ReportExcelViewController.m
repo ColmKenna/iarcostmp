@@ -130,6 +130,7 @@
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
         ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
         amwvc.mailDelegate = self;
+        amwvc.toRecipients = toRecipients;
         amwvc.subjectText = self.reporterFileManager.reportTitle;
         if ([FileCommon fileExistAtPath:self.reporterFileManager.localExcelFilePath]) {
             NSData* data = [NSData dataWithContentsOfFile:self.reporterFileManager.localExcelFilePath];            

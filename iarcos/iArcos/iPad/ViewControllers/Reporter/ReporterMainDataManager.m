@@ -12,6 +12,7 @@
 @synthesize displayList = _displayList;
 @synthesize dateDictDisplayList = _dateDictDisplayList;
 @synthesize locationList = _locationList;
+@synthesize selectedReporterHolder = _selectedReporterHolder;
 
 - (id)init{
     self = [super init];
@@ -27,6 +28,7 @@
     if (self.displayList != nil) { self.displayList = nil; }
     if (self.dateDictDisplayList != nil) { self.dateDictDisplayList = nil; }    
     if (self.locationList != nil) { self.locationList = nil; }
+    self.selectedReporterHolder = nil;
     
     [super dealloc];
 }

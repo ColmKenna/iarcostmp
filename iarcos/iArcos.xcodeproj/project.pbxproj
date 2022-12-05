@@ -1572,6 +1572,8 @@
 		63FF1A99215BAA2700C64C41 /* FormRowTableCellRrpGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF1A98215BAA2700C64C41 /* FormRowTableCellRrpGenerator.m */; };
 		63FF1A9C215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF1A9B215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m */; };
 		63FF7FFC1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF7FFB1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m */; };
+		7903626F29371CA2001425F4 /* ReporterXmlExcelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7903626D29371CA2001425F4 /* ReporterXmlExcelViewController.m */; };
+		7903627029371CA2001425F4 /* ReporterXmlExcelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7903626E29371CA2001425F4 /* ReporterXmlExcelViewController.xib */; };
 		7905C70B25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7905C70A25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m */; };
 		790AAE8029028F9200C2F2BC /* UtilitiesAnimatedMonthTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 790AAE7F29028F9200C2F2BC /* UtilitiesAnimatedMonthTableHeaderView.m */; };
 		7914EF762803D53000FD2DC2 /* ArcosCalendarEventEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7914EF742803D53000FD2DC2 /* ArcosCalendarEventEntryTableViewCell.m */; };
@@ -4728,6 +4730,9 @@
 		63FF1A9B215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormRowTableCellNormalGenerator.m; sourceTree = "<group>"; };
 		63FF7FFA1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NextCheckoutDeliveryInstructions1TableViewCell.h; sourceTree = "<group>"; };
 		63FF7FFB1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NextCheckoutDeliveryInstructions1TableViewCell.m; sourceTree = "<group>"; };
+		7903626C29371CA2001425F4 /* ReporterXmlExcelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlExcelViewController.h; sourceTree = "<group>"; };
+		7903626D29371CA2001425F4 /* ReporterXmlExcelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterXmlExcelViewController.m; sourceTree = "<group>"; };
+		7903626E29371CA2001425F4 /* ReporterXmlExcelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReporterXmlExcelViewController.xib; sourceTree = "<group>"; };
 		7905C70925BE70EB00FFBF77 /* ReporterXmlGraphDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlGraphDataManager.h; sourceTree = "<group>"; };
 		7905C70A25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterXmlGraphDataManager.m; sourceTree = "<group>"; };
 		790AAE7E29028F9200C2F2BC /* UtilitiesAnimatedMonthTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UtilitiesAnimatedMonthTableHeaderView.h; sourceTree = "<group>"; };
@@ -7160,6 +7165,9 @@
 				799A268525CE71FC006F620C /* ReporterXmlSubTableFooterView.h */,
 				799A268625CE71FC006F620C /* ReporterXmlSubTableFooterView.m */,
 				799A268A25CE8432006F620C /* ReporterXmlSubTableDelegate.h */,
+				7903626C29371CA2001425F4 /* ReporterXmlExcelViewController.h */,
+				7903626D29371CA2001425F4 /* ReporterXmlExcelViewController.m */,
+				7903626E29371CA2001425F4 /* ReporterXmlExcelViewController.xib */,
 			);
 			path = Reporter;
 			sourceTree = "<group>";
@@ -9429,6 +9437,7 @@
 				630B3D5919F01CB9007B2442 /* UtilitiesUpdateDetailViewController.xib in Resources */,
 				630B3E2019F01CB9007B2442 /* Switch.png in Resources */,
 				63BF56A11EC07D1400FA50DA /* InvoiceTemplateViewController.xib in Resources */,
+				7903627029371CA2001425F4 /* ReporterXmlExcelViewController.xib in Resources */,
 				632C5AF91A0A4AC0002D3945 /* SavedIarcosOrderDetailTableViewController.xib in Resources */,
 				630B351E19F01C81007B2442 /* StoreNewsDate.plist in Resources */,
 				630B3D3F19F01CB9007B2442 /* UtilitiesCallDateRangePicker.xib in Resources */,
@@ -10397,6 +10406,7 @@
 				630B3C4519F01CB9007B2442 /* OrderSplitViewController.m in Sources */,
 				630B345F19F0127C007B2442 /* Rebate.m in Sources */,
 				6364AF9E1C16FBD800D00C0F /* LeftBlueSeparatorUILabel.m in Sources */,
+				7903626F29371CA2001425F4 /* ReporterXmlExcelViewController.m in Sources */,
 				63A0F5581A321BAC00A58178 /* CustomerDetailsActionBaseDataManager.m in Sources */,
 				630B3D3B19F01CB9007B2442 /* UtilitiesAnimatedTrManager.m in Sources */,
 				630B3C7219F01CB9007B2442 /* OrderSenderCenter.m in Sources */,
@@ -10806,7 +10816,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 11.4.7;
+				MARKETING_VERSION = 11.5.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10832,10 +10842,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = iArcos/iArcos.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Teva Pharmaceuticals USA, Inc. (4H37G9GJK2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Teva Pharmaceuticals USA, Inc. (4H37G9GJK2)";
+				CODE_SIGN_IDENTITY = "Apple Distribution: David Kilmartin (Z39Z4X9J9E)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: David Kilmartin (Z39Z4X9J9E)";
 				CURRENT_PROJECT_VERSION = 1.0;
-				DEVELOPMENT_TEAM = 4H37G9GJK2;
+				DEVELOPMENT_TEAM = Z39Z4X9J9E;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -10862,7 +10872,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 11.4.7;
+				MARKETING_VERSION = 11.5.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -10876,7 +10886,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "b8e1e57a-016f-4a71-9609-ef2a4483e535";
-				PROVISIONING_PROFILE_SPECIFIER = iArcos;
+				PROVISIONING_PROFILE_SPECIFIER = iArcosReleaseCenter31082022;
 			};
 			name = Release;
 		};
@@ -10998,7 +11008,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 11.4.7;
+				MARKETING_VERSION = 11.5.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

@@ -127,6 +127,7 @@ typedef enum {
     NSString* _appImageName;
     NSString* _rowDelimiter;
     NSString* _fieldDelimiter;
+    NSString* _commaDelimiter;
     int _callEntrySelectionBoxLength;
     NSString* _vansCode;
     int _popoverMinimumWidth;
@@ -248,6 +249,7 @@ typedef enum {
 @property (nonatomic,retain) NSString* appImageName;
 @property (nonatomic,retain) NSString* rowDelimiter;
 @property (nonatomic,retain) NSString* fieldDelimiter;
+@property (nonatomic,retain) NSString* commaDelimiter;
 @property (nonatomic,assign) int callEntrySelectionBoxLength;
 @property (nonatomic,retain) NSString* vansCode;
 @property (nonatomic,assign) int popoverMinimumWidth;

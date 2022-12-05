@@ -314,6 +314,7 @@
 //    [callGenericServices.HUD show:YES];
     ReporterTableViewCell* auxCell = (ReporterTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
      ArcosGenericClass* aReporter = [self.reporterMainDataManager.displayList objectAtIndex:indexPath.row];
+    self.reporterMainDataManager.selectedReporterHolder = aReporter;
     NSNumber* reportIUR=[NSNumber numberWithInt: [aReporter.Field11 intValue]];
     self.selectedReportCode = [NSString stringWithFormat:@"%@", aReporter.Field5] ;
     NSString* auxTitle = @"";
@@ -444,6 +445,7 @@
         
         [reportMainTemplateViewController.reporterXmlSubTableViewController.reporterXmlSubDataManager processRawData:doc];
         [reportMainTemplateViewController.reporterXmlGraphViewController.reporterXmlGraphDataManager processRawData:doc];
+        [reportMainTemplateViewController.reporterXmlExcelViewController processRawData:doc fileName:self.reporterMainDataManager.selectedReporterHolder.Field6];
         
         [self.navigationController pushViewController:reportMainTemplateViewController animated:YES];
         [reportMainTemplateViewController release];

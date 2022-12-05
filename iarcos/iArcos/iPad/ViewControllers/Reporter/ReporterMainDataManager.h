@@ -15,11 +15,13 @@
     NSMutableArray* _displayList;
     NSMutableArray* _dateDictDisplayList;
     NSMutableArray* _locationList;
+    ArcosGenericClass* _selectedReporterHolder;
 }
 
 @property(nonatomic, retain) NSMutableArray* displayList;
 @property(nonatomic, retain) NSMutableArray* dateDictDisplayList;
 @property(nonatomic, retain) NSMutableArray* locationList;
+@property(nonatomic, retain) ArcosGenericClass* selectedReporterHolder;
 
 - (void)processRawData:(NSMutableArray*)aDisplayList;
 - (void)dateSelectedFromDate:(NSDate*)aStartDate ToDate:(NSDate*)anEndDate indexPath:(NSIndexPath*)anIndexPath;
