@@ -63,6 +63,11 @@
 //        self.productSize.text = [theData objectForKey:@"ProductSize"];
 //    }
     self.value.text=[NSString stringWithFormat:@"%1.2f", [[theData objectForKey:@"LineValue"]floatValue]];
+    if ([[theData objectForKey:@"LineValue"] floatValue] < 0) {
+        self.value.textColor = [UIColor redColor];
+    } else {
+        self.value.textColor = [UIColor blackColor];
+    }
 }
 
 

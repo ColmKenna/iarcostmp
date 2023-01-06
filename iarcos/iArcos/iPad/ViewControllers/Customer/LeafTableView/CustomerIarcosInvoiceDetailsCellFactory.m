@@ -17,6 +17,7 @@
 @synthesize readLabelTableCellId = _readLabelTableCellId;
 @synthesize drillDownTableCellId = _drillDownTableCellId;
 @synthesize orderNumberTableCellId = _orderNumberTableCellId;
+@synthesize valueTableCellId = _valueTableCellId;
 
 -(id)init {
     self = [super init];
@@ -24,6 +25,7 @@
         self.readLabelTableCellId = @"IdOrderDetailReadLabelTableCell";
         self.drillDownTableCellId = @"IdOrderDetailIArcosDrillDownTableCell";
         self.orderNumberTableCellId = @"IdOrderDetailOrderNumberTableCell";
+        self.valueTableCellId = @"IdOrderDetailInvoiceValueTableCell";
     }
     return self;
 }
@@ -32,6 +34,7 @@
     if (self.readLabelTableCellId != nil) { self.readLabelTableCellId = nil; }
     if (self.drillDownTableCellId != nil) { self.drillDownTableCellId = nil; }
     self.orderNumberTableCellId = nil;
+    self.valueTableCellId = nil;
     
     [super dealloc];
 }
@@ -53,6 +56,9 @@
         case 17:
             cell = [self createOrderDetailOrderNumberTableCell];
             break;
+        case 18:
+            cell = [self createOrderDetailInvoiceValueTableCell];
+            break;
         default:
             cell = [self createOrderDetailReadLabelTableCell];
             break;
@@ -68,6 +74,9 @@
 }
 - (OrderDetailBaseTableCell*)createOrderDetailOrderNumberTableCell {
     return [self getCellWithIdentifier:self.orderNumberTableCellId];
+}
+- (OrderDetailBaseTableCell*)createOrderDetailInvoiceValueTableCell {
+    return [self getCellWithIdentifier:self.valueTableCellId];
 }
 
 -(UITableViewCell*)getCellWithIdentifier:(NSString*)idendifier {
@@ -95,6 +104,9 @@
             break;
         case 17:
             identifier = self.orderNumberTableCellId;
+            break;
+        case 18:
+            identifier = self.valueTableCellId;
             break;
             
         default:

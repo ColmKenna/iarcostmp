@@ -121,31 +121,45 @@
     }
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"LocationIUR in %@", locationIURList];
     NSMutableArray* objectsArray = [[ArcosCoreData sharedArcosCoreData] getLocationsWithPredicate:predicate];
-    if ([locationIURList count] == [objectsArray count]) {
-        locationList = objectsArray;
-    } else {//duplicate location iur scenario or else
-        NSLog(@"duplicate location iur scenario happens.");
-        for (int i = 0; i < [locationIURList count]; i++) {
-            NSNumber* journeyLocationIUR = [locationIURList objectAtIndex:i];
-            for (int j = 0; j < [objectsArray count]; j++) {
-                NSDictionary* locationDict = [objectsArray objectAtIndex:j];                
-                if ([journeyLocationIUR isEqualToNumber:[locationDict objectForKey:@"LocationIUR"]] ) {
-                    [locationList addObject:locationDict];
-                    break;
-                }
-            }
+    locationList = objectsArray;
+//    if ([locationIURList count] == [objectsArray count]) {
+//        locationList = objectsArray;
+//    } else {//duplicate location iur scenario or else
+//        NSLog(@"duplicate location iur scenario happens.");
+//        for (int i = 0; i < [locationIURList count]; i++) {
+//            NSNumber* journeyLocationIUR = [locationIURList objectAtIndex:i];
+//            for (int j = 0; j < [objectsArray count]; j++) {
+//                NSDictionary* locationDict = [objectsArray objectAtIndex:j];
+//                if ([journeyLocationIUR isEqualToNumber:[locationDict objectForKey:@"LocationIUR"]] ) {
+//                    [locationList addObject:locationDict];
+//                    break;
+//                }
+//            }
+//        }
+//    }
+    NSMutableArray* resultLocationList = [NSMutableArray arrayWithCapacity:[locationList count]];
+    NSMutableDictionary* locationDictHashMap = [NSMutableDictionary dictionaryWithCapacity:[locationList count]];
+    for (int i = 0; i < [locationList count]; i++) {
+        NSDictionary* tmpLocationDict = [locationList objectAtIndex:i];
+        [locationDictHashMap setObject:tmpLocationDict forKey:[tmpLocationDict objectForKey:@"LocationIUR"]];
+    }
+    for (int i = 0; i < [journeyList count]; i++) {
+        NSDictionary* tmpJourneyDict = [journeyList objectAtIndex:i];
+        NSDictionary* tmpLocationDict = [locationDictHashMap objectForKey:[tmpJourneyDict objectForKey:@"LocationIUR"]];
+        if (tmpLocationDict != nil) {
+            [resultLocationList addObject:tmpLocationDict];
         }
-    }    
+    }
 //    NSLog(@"locationList and count is %d", [locationList count]);
     NSDate* journeyDateObj = [ArcosUtils addHours:1 date:[ArcosUtils dateFromString:journeyDate format:@"dd/MM/yyyy"]];
     NSDate* startDate = [ArcosUtils beginOfDay:[ArcosUtils addDays:-5 date:journeyDateObj]];
     NSDate* endDate = [ArcosUtils endOfDay:[ArcosUtils addDays:5 date:journeyDateObj]];
 //    NSLog(@"%@ separator %@ separator %@",journeyDateObj , startDate, endDate);
-    for (int i = 0; i < [locationList count]; i++) {
-        NSMutableDictionary* location = [locationList objectAtIndex:i];
+    for (int i = 0; i < [resultLocationList count]; i++) {
+        NSMutableDictionary* resultLocation = [resultLocationList objectAtIndex:i];
         //0:no order 1:call 2:order
         NSNumber* orderQty = [NSNumber numberWithInt:0];
-        NSMutableArray* orderHeaderList = [[ArcosCoreData sharedArcosCoreData] ordersWithLocationIUR:[location objectForKey:@"LocationIUR"] startDate:startDate endDate:endDate];
+        NSMutableArray* orderHeaderList = [[ArcosCoreData sharedArcosCoreData] ordersWithLocationIUR:[resultLocation objectForKey:@"LocationIUR"] startDate:startDate endDate:endDate];
         if (orderHeaderList != nil && [orderHeaderList count] > 0) {
             orderQty = [NSNumber numberWithInt:1];
             for (int j = 0; j < [orderHeaderList count]; j++) {
@@ -158,7 +172,7 @@
         }
         [orderQtyList addObject:orderQty];
     }
-    [self.locationListDict setObject:locationList forKey:journeyDate];
+    [self.locationListDict setObject:resultLocationList forKey:journeyDate];
     [self.orderQtyListDict setObject:orderQtyList forKey:journeyDate];
 }
 

@@ -90,8 +90,8 @@
 //    [self.navigationItem setLeftBarButtonItem:closeButton];
 //    [closeButton release];
     
-    self.formButton = [[[UIBarButtonItem alloc] initWithTitle:@"Form" style:UIBarButtonItemStylePlain target:self action:@selector(formPressed:)] autorelease];
-    [self.navigationItem setRightBarButtonItem:self.formButton];
+//    self.formButton = [[[UIBarButtonItem alloc] initWithTitle:@"Form" style:UIBarButtonItemStylePlain target:self action:@selector(formPressed:)] autorelease];
+//    [self.navigationItem setRightBarButtonItem:self.formButton];
     
     
     callGenericServices = [[CallGenericServices alloc] initWithView:self.navigationController.view];

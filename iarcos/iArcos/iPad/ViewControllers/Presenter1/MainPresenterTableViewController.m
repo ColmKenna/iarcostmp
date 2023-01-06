@@ -16,6 +16,8 @@
 @synthesize parentMainPresenterRequestSource = _parentMainPresenterRequestSource;
 @synthesize mainPresenterDataManager = _mainPresenterDataManager;
 @synthesize isNotFirstLoaded = _isNotFirstLoaded;
+@synthesize custNameHeaderLabel = _custNameHeaderLabel;
+@synthesize custAddrHeaderLabel = _custAddrHeaderLabel;
 
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
@@ -39,6 +41,10 @@
 
 - (void)dealloc {
     self.mainPresenterDataManager = nil;
+    [self.custNameHeaderLabel removeFromSuperview];
+    [self.custAddrHeaderLabel removeFromSuperview];
+    self.custNameHeaderLabel = nil;
+    self.custAddrHeaderLabel = nil;
     
     [super dealloc];
 }
@@ -52,7 +58,10 @@
     [super viewWillAppear:animated];
     if (self.parentMainPresenterRequestSource == PresenterRequestSourceMainMenu) {
         self.title = @"Presenter";
+        [self configTitleWithColor:[UIColor clearColor]];
+        [self hideHeaderLabelWithFlag:YES];
     } else {
+        /*
         if ([[ArcosUtils convertNilToZero:[GlobalSharedClass shared].currentSelectedContactIUR] intValue] != 0) {
             self.title=[NSString stringWithFormat:@"Present to %@",[[OrderSharedClass sharedOrderSharedClass] currentContactName]];
         }else if ([GlobalSharedClass shared].currentSelectedLocationIUR !=nil){
@@ -61,9 +70,60 @@
         } else {
             self.title=@"Presenter";
         }
+        */
+        if (self.custNameHeaderLabel == nil) {
+            self.custNameHeaderLabel = [[[UILabel alloc] initWithFrame:CGRectMake(2.0, 1, 550.0, 26.0)] autorelease];
+            self.custNameHeaderLabel.textColor = [UIColor whiteColor];
+            self.custNameHeaderLabel.font = [UIFont boldSystemFontOfSize:17.0];
+        }
+        if ([[ArcosUtils convertNilToZero:[GlobalSharedClass shared].currentSelectedContactIUR] intValue] != 0) {
+            self.custNameHeaderLabel.text = [NSString stringWithFormat:@"%@ - %@", [ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass] currentCustomerName]], [[OrderSharedClass sharedOrderSharedClass] currentContactName]];
+        } else {
+            self.custNameHeaderLabel.text = [ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass] currentCustomerName]];
+        }        
+        [self.navigationController.navigationBar addSubview:self.custNameHeaderLabel];
+        if (self.custAddrHeaderLabel == nil) {
+            self.custAddrHeaderLabel = [[[UILabel alloc] initWithFrame:CGRectMake(2.0, 28, 550.0, 14.0)] autorelease];
+            self.custAddrHeaderLabel.font = [UIFont systemFontOfSize:12.0];
+            self.custAddrHeaderLabel.textColor = [UIColor whiteColor];
+        }
+        self.custAddrHeaderLabel.text = [ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass] currentCustomerAddress]];
+        [self.navigationController.navigationBar addSubview:self.custAddrHeaderLabel];
+        if ([self.navigationItem.leftBarButtonItems count] == 0) {
+            [self configTitleWithColor:[UIColor clearColor]];
+            [self hideHeaderLabelWithFlag:NO];
+        } else {
+            [self configTitleWithColor:[UIColor whiteColor]];
+            [self hideHeaderLabelWithFlag:YES];
+        }
     }
     [self.mainPresenterDataManager retrieveMainPresenterDataList];
     [self.tableView reloadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.custNameHeaderLabel removeFromSuperview];
+    [self.custAddrHeaderLabel removeFromSuperview];
+}
+
+- (void)hideHeaderLabelWithFlag:(BOOL)aFlag {
+    self.custNameHeaderLabel.hidden = aFlag;
+    self.custAddrHeaderLabel.hidden = aFlag;
+}
+
+- (void)configTitleWithColor:(UIColor*)aColor {
+    if (@available(iOS 15.0, *)) {
+        UINavigationBarAppearance* customNavigationBarAppearance = [[UINavigationBarAppearance alloc] init];
+        [customNavigationBarAppearance configureWithOpaqueBackground];
+        [customNavigationBarAppearance setBackgroundColor:[GlobalSharedClass shared].myAppBlueColor];
+        [customNavigationBarAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:aColor, NSForegroundColorAttributeName, nil]];
+        self.navigationController.navigationBar.standardAppearance = customNavigationBarAppearance;
+        self.navigationController.navigationBar.scrollEdgeAppearance = customNavigationBarAppearance;
+        [customNavigationBarAppearance release];
+    } else {
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:aColor}];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {

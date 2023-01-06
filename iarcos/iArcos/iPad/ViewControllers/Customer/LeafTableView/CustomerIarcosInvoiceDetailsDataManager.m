@@ -63,7 +63,7 @@
     [invoiceDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Cus.Ref." fieldNameLabel:@"Cus.Ref." fieldData:[ArcosUtils convertNilToEmpty:[self.replyResult Field24]]]];
     [invoiceDetailDisplayList addObject:[self createOrderNumberCellDataWithFieldNameLabel:@"Order No." fieldData:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[self.replyResult Field16]]]]];
     [invoiceDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Employee" fieldNameLabel:@"Employee" fieldData:[ArcosUtils convertNilToEmpty:[self.replyResult Field10]]]];
-    [invoiceDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"Value" fieldNameLabel:@"Value" fieldData:[ArcosUtils convertToFloatString:[ArcosUtils convertNilToEmpty:[self.replyResult Field21]]]]];
+    [invoiceDetailDisplayList addObject:[self createValueCellDataWithCellKey:@"Value" fieldNameLabel:@"Value" fieldData:[ArcosUtils convertToFloatString:[ArcosUtils convertNilToEmpty:[self.replyResult Field21]]]]];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
         [invoiceDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"TotalVAT" fieldNameLabel:@"VAT" fieldData:[ArcosUtils convertToFloatString:[ArcosUtils convertNilToEmpty:[self.replyResult Field22]]]]];
         NSNumber* valueFloatNumber = [ArcosUtils convertStringToFloatNumber:[ArcosUtils convertNilToEmpty:[self.replyResult Field21]]];
@@ -104,6 +104,15 @@
 - (NSMutableDictionary*)createOrderNumberCellDataWithFieldNameLabel:(NSString*)aFieldNameLabel fieldData:(NSString*)aFieldData {
     NSMutableDictionary* cellData = [NSMutableDictionary dictionaryWithCapacity:3];
     [cellData setObject:[NSNumber numberWithInt:17] forKey:@"CellType"];
+    [cellData setObject:aFieldNameLabel forKey:@"FieldNameLabel"];
+    [cellData setObject:aFieldData forKey:@"FieldData"];
+    return cellData;
+}
+
+- (NSMutableDictionary*)createValueCellDataWithCellKey:(NSString*)aCellKey fieldNameLabel:(NSString*)aFieldNameLabel fieldData:(NSString*)aFieldData {
+    NSMutableDictionary* cellData = [NSMutableDictionary dictionaryWithCapacity:4];
+    [cellData setObject:[NSNumber numberWithInt:18] forKey:@"CellType"];
+    [cellData setObject:aCellKey forKey:@"CellKey"];
     [cellData setObject:aFieldNameLabel forKey:@"FieldNameLabel"];
     [cellData setObject:aFieldData forKey:@"FieldData"];
     return cellData;

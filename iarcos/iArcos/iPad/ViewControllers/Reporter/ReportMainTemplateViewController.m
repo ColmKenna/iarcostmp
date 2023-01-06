@@ -137,7 +137,12 @@
         ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
         amwvc.mailDelegate = self;
         amwvc.toRecipients = toRecipients;
-        amwvc.subjectText = self.reporterXmlExcelViewController.fileName;
+        amwvc.subjectText = self.reporterXmlExcelViewController.reportTitle;
+        NSMutableString* msgBodyString = [NSMutableString stringWithString:@""];
+        [msgBodyString appendString:@"Please find attached:\n"];
+        [msgBodyString appendString:@"\n"];
+        [msgBodyString appendString:self.reporterXmlExcelViewController.fileName];
+        amwvc.bodyText = msgBodyString;
         if ([FileCommon fileExistAtPath:self.reporterXmlExcelViewController.filePath]) {
             NSData* data = [NSData dataWithContentsOfFile:self.reporterXmlExcelViewController.filePath];
             if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {

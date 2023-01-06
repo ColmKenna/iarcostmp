@@ -8,8 +8,9 @@
 	
 /* Add class references */
 				
-#import "ArcosErrorModel.h"
+#import "ArcosDownloadFileInfo.h"
 #import "ArcosAuthenticator.h"
+#import "ArcosErrorModel.h"
 #import "ArcosLocationBO.h"
 #import "ArcosEmployeeBO.h"
 #import "ArcosPriceBO.h"
@@ -46,7 +47,7 @@
 #import "ArcosTargetDetail.h"
 #import "ArcosProductSummary.h"
 #import "ArcosLevel5Spec.h"
-#import "ArcosDownloadFileInfo.h"
+#import "ArcosArrayOfDownloadFileInfo.h"
 #import "ArcosArrayOfGenericClass.h"
 #import "ArcosGenericClass.h"
 #import "ArcosArrayOfLocationWithReps.h"
@@ -100,7 +101,6 @@
 #import "ArcosArrayOfProductSummary.h"
 #import "ArcosArrayOfLevel5Spec.h"
 #import "ArcosArrayOfCallBO.h"
-#import "ArcosArrayOfDownloadFileInfo.h"
 #import "ArcosLocationWithReps.h"
 #import "ArcosContactWithLocationDetails.h"
 #import "ArcosOrderTransferObject.h"
@@ -116,6 +116,18 @@
 				
 @interface ArcosService : SoapService
 		
+	// Returns NSMutableArray*
+	/*  */
+	- (SoapRequest*) Get_Download_Filenames: (id <SoapDelegate>) handler directory: (NSString*) directory;
+	- (SoapRequest*) Get_Download_Filenames: (id) target action: (SEL) action directory: (NSString*) directory;
+	-(SoapRequest*)Get_Download_FilenamesWithProgress:(SoapRequestProgressBlock)progressBlock directory: (NSString*) directory completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns NSData*
+	/*  */
+	- (SoapRequest*) Download_File: (id <SoapDelegate>) handler directory: (NSString*) directory fileName: (NSString*) fileName;
+	- (SoapRequest*) Download_File: (id) target action: (SEL) action directory: (NSString*) directory fileName: (NSString*) fileName;
+	-(SoapRequest*)Download_FileWithProgress:(SoapRequestProgressBlock)progressBlock directory: (NSString*) directory fileName: (NSString*) fileName completion:(SoapRequestCompletionBlock)completionBlock;
+
 	// Returns ArcosGenericReturnObject*
 	/*  */
 	- (SoapRequest*) UploadFileFromSite: (id <SoapDelegate>) handler contents: (NSData*) contents fileName: (NSString*) fileName;
@@ -914,6 +926,12 @@
 	- (SoapRequest*) GetFromResources: (id) target action: (SEL) action FileNAme: (NSString*) FileNAme;
 	-(SoapRequest*)GetFromResourcesWithProgress:(SoapRequestProgressBlock)progressBlock FileNAme: (NSString*) FileNAme completion:(SoapRequestCompletionBlock)completionBlock;
 
+	// Returns BOOL
+	/*  */
+	- (SoapRequest*) FileExistsInResources: (id <SoapDelegate>) handler FileName: (NSString*) FileName;
+	- (SoapRequest*) FileExistsInResources: (id) target action: (SEL) action FileName: (NSString*) FileName;
+	-(SoapRequest*)FileExistsInResourcesWithProgress:(SoapRequestProgressBlock)progressBlock FileName: (NSString*) FileName completion:(SoapRequestCompletionBlock)completionBlock;
+
 	// Returns NSString*
 	/*  */
 	- (SoapRequest*) DeleteFromResources: (id <SoapDelegate>) handler FileNAme: (NSString*) FileNAme;
@@ -955,18 +973,6 @@
 	- (SoapRequest*) DoPortalDirectoriesExist: (id <SoapDelegate>) handler;
 	- (SoapRequest*) DoPortalDirectoriesExist: (id) target action: (SEL) action;
 	-(SoapRequest*)DoPortalDirectoriesExistWithProgress:(SoapRequestProgressBlock)progressBlock completion:(SoapRequestCompletionBlock)completionBlock;
-
-	// Returns NSMutableArray*
-	/*  */
-	- (SoapRequest*) Get_Download_Filenames: (id <SoapDelegate>) handler directory: (NSString*) directory;
-	- (SoapRequest*) Get_Download_Filenames: (id) target action: (SEL) action directory: (NSString*) directory;
-	-(SoapRequest*)Get_Download_FilenamesWithProgress:(SoapRequestProgressBlock)progressBlock directory: (NSString*) directory completion:(SoapRequestCompletionBlock)completionBlock;
-
-	// Returns NSData*
-	/*  */
-	- (SoapRequest*) Download_File: (id <SoapDelegate>) handler directory: (NSString*) directory fileName: (NSString*) fileName;
-	- (SoapRequest*) Download_File: (id) target action: (SEL) action directory: (NSString*) directory fileName: (NSString*) fileName;
-	-(SoapRequest*)Download_FileWithProgress:(SoapRequestProgressBlock)progressBlock directory: (NSString*) directory fileName: (NSString*) fileName completion:(SoapRequestCompletionBlock)completionBlock;
 
 		
 	+ (ArcosService*) service;

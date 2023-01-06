@@ -119,7 +119,7 @@
 //        [addLineButton release];
 //        self.navigationItem.rightBarButtonItems = rightButtonList;
 //    }
-    
+    [ArcosUtils configEdgesForExtendedLayout:self];
     self.tableView.allowsSelection=NO;
     //minddle buttons
 //    NSArray *statusItems = [NSArray arrayWithObjects: @"Search",@"Selection",nil];

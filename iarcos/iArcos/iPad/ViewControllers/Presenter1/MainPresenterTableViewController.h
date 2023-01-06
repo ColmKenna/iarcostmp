@@ -15,11 +15,15 @@
     PresenterRequestSource _parentMainPresenterRequestSource;
     MainPresenterDataManager* _mainPresenterDataManager;
     BOOL _isNotFirstLoaded;
+    UILabel* _custNameHeaderLabel;
+    UILabel* _custAddrHeaderLabel;
 }
 
 @property(nonatomic,assign) PresenterRequestSource parentMainPresenterRequestSource;
 @property(nonatomic, retain) MainPresenterDataManager* mainPresenterDataManager;
 @property(nonatomic,assign) BOOL isNotFirstLoaded;
+@property(nonatomic, retain) UILabel* custNameHeaderLabel;
+@property(nonatomic, retain) UILabel* custAddrHeaderLabel;
 
 - (UIViewController*)retrieveNewPresenterViewControllerResult:(NSDictionary*)mainPresenterCellDict;
 

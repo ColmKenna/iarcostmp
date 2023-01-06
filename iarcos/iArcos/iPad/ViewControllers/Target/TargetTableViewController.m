@@ -102,6 +102,7 @@
             [self.tableView reloadData];
         }
     } else if ([employeeTargetList count] <= 0) {
+        [self.callGenericServices.HUD hide:YES];
         [ArcosUtils showDialogBox:[GlobalSharedClass shared].noDataFoundMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
             
         }];

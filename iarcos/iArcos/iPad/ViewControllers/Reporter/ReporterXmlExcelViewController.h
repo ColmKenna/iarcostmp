@@ -17,12 +17,13 @@
     UIWebView* _myWebView;
     NSString* _fileName;
     NSString* _filePath;
-    
+    NSString* _reportTitle;
 }
 
 @property(nonatomic,retain) IBOutlet UIWebView* myWebView;
 @property(nonatomic,retain) NSString* fileName;
 @property(nonatomic,retain) NSString* filePath;
+@property(nonatomic,retain) NSString* reportTitle;
 
 - (void)processRawData:(CXMLDocument*)aReportDocument fileName:(NSString*)aFileName;
 

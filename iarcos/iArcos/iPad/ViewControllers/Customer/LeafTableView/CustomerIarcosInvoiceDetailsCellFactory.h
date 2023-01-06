@@ -13,11 +13,13 @@
     NSString* _readLabelTableCellId;
     NSString* _drillDownTableCellId;
     NSString* _orderNumberTableCellId;
+    NSString* _valueTableCellId;
 }
 
 @property(nonatomic, retain) NSString* readLabelTableCellId;
 @property(nonatomic, retain) NSString* drillDownTableCellId;
 @property(nonatomic, retain) NSString* orderNumberTableCellId;
+@property(nonatomic, retain) NSString* valueTableCellId;
 
 +(id)factory;
 - (OrderDetailBaseTableCell*)createOrderDetailBaseTableCellWithData:(NSMutableDictionary*)aData;

@@ -11,9 +11,11 @@
 #import "MBProgressHUD.h"
 #import "ArcosService.h"
 #import "GenericWebViewItemViewController.h"
+#import "ArcosUtils.h"
+#import "ConnectivityCheck.h"
 @class ArcosRootViewController;
 
-@interface DashboardServerViewController : UIViewController <UIScrollViewDelegate> {
+@interface DashboardServerViewController : UIViewController <UIScrollViewDelegate, ConnectivityDelegate> {
     DashboardServerDataManager* _dashboardServerDataManager;
     MBProgressHUD* _HUD;
     NSTimer* _resourcesTimer;
@@ -21,6 +23,7 @@
     NSMutableArray* _viewItemControllerList;
     UIScrollView* _myScrollView;
     ArcosRootViewController* _arcosRootViewController;
+    ConnectivityCheck* _connectivityCheck;
 }
 
 @property(nonatomic, retain) DashboardServerDataManager* dashboardServerDataManager;
@@ -30,6 +33,7 @@
 @property(nonatomic,retain) NSMutableArray* viewItemControllerList;
 @property(nonatomic,retain) IBOutlet UIScrollView* myScrollView;
 @property(nonatomic, retain) ArcosRootViewController* arcosRootViewController;
+@property(nonatomic, retain) ConnectivityCheck* connectivityCheck;
 
 @end
 

@@ -21,6 +21,7 @@
 @synthesize viewItemControllerList = _viewItemControllerList;
 @synthesize myScrollView = _myScrollView;
 @synthesize arcosRootViewController = _arcosRootViewController;
+@synthesize connectivityCheck = _connectivityCheck;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -35,6 +36,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.view.backgroundColor = [UIColor colorWithRed:211.0/255.0 green:215.0/255.0 blue:221.0/255.0 alpha:1.0];
+    self.connectivityCheck = [[[ConnectivityCheck alloc] init] autorelease];
     self.HUD = [[[MBProgressHUD alloc] initWithView:self.navigationController.view] autorelease];
     self.HUD.dimBackground = YES;
     [self.navigationController.view addSubview:self.HUD];
@@ -65,7 +67,8 @@
     self.viewItemControllerList = nil;
     self.myScrollView = nil;
     self.arcosRootViewController = nil;
-    
+    self.connectivityCheck.delegate = nil;
+    self.connectivityCheck = nil;
     
     [super dealloc];
 }
@@ -78,25 +81,48 @@
     self.title = [NSString stringWithFormat:@"%@",self.dashboardServerDataManager.dashboardTitle];
     [FileCommon removeAllFileUnderFolder:self.dashboardServerDataManager.dashboardFolderName];
     self.dashboardServerDataManager.displayFileList = [NSMutableArray array];
-//    self.dashboardServerDataManager.displayEmployeeNameList = [NSMutableArray array];
     self.dashboardServerDataManager.resourceLoadingFinishedFlag = YES;
     self.dashboardServerDataManager.currentPage = 0;
     self.myScrollView.contentOffset = CGPointZero;
-//    [self.dashboardServerDataManager createDashboardFileList];
-//    if ([self.dashboardServerDataManager.dashboardFileList count] == 0 || [self.dashboardServerDataManager.employeeDictList count] == 0) {
-//        return;
-//    }
     [self.HUD show:YES];
-//    self.resourcesTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(checkResourceList) userInfo:nil repeats:YES];
-//    [self.arcosService Get_Download_Filenames:self action:@selector(backFromGet_Download_Filenames:) directory:self.dashboardServerDataManager.overviewsUKFolder];//self.dashboardServerDataManager.overviewsFolder
-//    [self.arcosService Download_File:self action:@selector(backFromDownload_File:) directory:@"Overviews\\UK" fileName:@"Emp_Dashboard_5.pdf"];
-    if (![ArcosSystemCodesUtils allDashOptionExistence]) {
-        [self.dashboardServerDataManager createDashboardFileList];
-        self.dashboardServerDataManager.currentDashFileDict = [self.dashboardServerDataManager.dashboardFileList objectAtIndex:0];
-        [self.arcosService GetFromResources:self action:@selector(backFromGetFromResources:) FileNAme:[self.dashboardServerDataManager.currentDashFileDict objectForKey:@"FileName"]];
+    BOOL connectedFlag = [self.connectivityCheck syncStart];
+    if (connectedFlag) {
+        if (![ArcosSystemCodesUtils allDashOptionExistence]) {
+            [self.dashboardServerDataManager createDashboardFileList];
+            self.dashboardServerDataManager.currentDashFileDict = [self.dashboardServerDataManager.dashboardFileList objectAtIndex:0];
+            [self.arcosService FileExistsInResources:self action:@selector(backFromFileExistsInResources:) FileName:[self.dashboardServerDataManager.currentDashFileDict objectForKey:@"FileName"]];
+        } else {
+            self.dashboardServerDataManager.rowPointer = 0;
+            [self.arcosService Get_Download_Filenames:self action:@selector(backFromGet_Download_Filenames:) directory:self.dashboardServerDataManager.overviewsFolder];
+        }
     } else {
-        self.dashboardServerDataManager.rowPointer = 0;
-        [self.arcosService Get_Download_Filenames:self action:@selector(backFromGet_Download_Filenames:) directory:self.dashboardServerDataManager.overviewsFolder];
+        [ArcosUtils showDialogBox:self.connectivityCheck.errorString title:@"" delegate:nil target:self tag:0 handler:nil];
+        [self.HUD hide:YES];
+    }
+}
+
+- (void)backFromFileExistsInResources:(id)result {
+    if ([result isKindOfClass:[SoapFault class]]) {
+        SoapFault* anSoapFault = (SoapFault*)result;
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@",[anSoapFault faultString]] title:@"" delegate:nil target:self tag:0 handler:nil];
+        [self.HUD hide:YES];
+    } else if ([result isKindOfClass:[NSError class]]) {
+        NSError* anError = (NSError*)result;
+        [ArcosUtils showDialogBox:[anError localizedDescription] title:@"" delegate:nil target:self tag:0 handler:nil];
+        [self.HUD hide:YES];
+    } else {
+        @try {
+            if ([result boolValue]) {
+                [self.arcosService GetFromResources:self action:@selector(backFromGetFromResources:) FileNAme:[self.dashboardServerDataManager.currentDashFileDict objectForKey:@"FileName"]];
+            } else {
+                [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@ could not be located", [self.dashboardServerDataManager.currentDashFileDict objectForKey:@"FileName"]] title:@"" delegate:nil target:self tag:0 handler:nil];
+                [self.HUD hide:YES];
+            }
+        }
+        @catch (NSException *exception) {
+            [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:self tag:0 handler:nil];
+            [self.HUD hide:YES];
+        }
     }
 }
 

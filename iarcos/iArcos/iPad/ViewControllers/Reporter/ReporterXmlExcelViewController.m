@@ -16,6 +16,7 @@
 @synthesize myWebView = _myWebView;
 @synthesize fileName = _fileName;
 @synthesize filePath = _filePath;
+@synthesize reportTitle = _reportTitle;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,11 +32,13 @@
     self.myWebView = nil;
     self.fileName = nil;
     self.filePath = nil;
+    self.reportTitle = nil;
     
     [super dealloc];
 }
 
 - (void)processRawData:(CXMLDocument*)aReportDocument fileName:(NSString*)aFileName {
+    self.reportTitle = [NSString stringWithFormat:@"%@", aFileName];
     self.fileName = [NSString stringWithFormat:@"%@.csv", aFileName];
     self.filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon reporterPath], self.fileName];
     NSMutableString* reportContent = [NSMutableString string];

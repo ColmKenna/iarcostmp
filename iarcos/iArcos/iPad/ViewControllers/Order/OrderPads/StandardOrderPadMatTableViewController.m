@@ -50,6 +50,7 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [ArcosUtils configEdgesForExtendedLayout:self];
     self.navigationController.navigationBarHidden = YES;
     self.factory = [WidgetFactory factory];
     self.factory.delegate = self;

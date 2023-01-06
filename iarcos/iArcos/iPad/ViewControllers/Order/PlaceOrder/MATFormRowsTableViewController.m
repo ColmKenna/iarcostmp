@@ -91,7 +91,8 @@
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;    
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [ArcosUtils configEdgesForExtendedLayout:self];
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backPressed:)];
     [self.navigationItem setLeftBarButtonItem:backButton];
     [backButton release];    

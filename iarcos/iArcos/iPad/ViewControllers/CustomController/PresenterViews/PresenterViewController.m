@@ -537,7 +537,7 @@
         self.frwvc.formRowsTableViewController.dividerIUR = [NSNumber numberWithInt:-2];
         self.frwvc.formRowsTableViewController.unsortedFormrows = aFormRowList;
         self.frwvc.formRowsTableViewController.isRequestSourceFromPresenter = YES;
-        self.frwvc.formRowsTableViewController.isShowingSearchBar = NO;
+        self.frwvc.formRowsTableViewController.isShowingSearchBar = YES;
         [self.frwvc.formRowsTableViewController syncUnsortedFormRowsWithOriginal];
         self.frwvc.myDelegate = self;
         self.frwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];

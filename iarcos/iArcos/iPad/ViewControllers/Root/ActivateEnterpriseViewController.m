@@ -85,6 +85,9 @@
     self.activateActivityIndicatorView = nil;
     self.activateConfigurationDataManager = nil;
     self.myArcosService = nil;
+    for (UIGestureRecognizer* recognizer in self.firstRegCode.gestureRecognizers) {
+        [self.firstRegCode removeGestureRecognizer:recognizer];
+    }
     
     [super dealloc];
 }
@@ -100,6 +103,18 @@
     self.accessCode.enabled = NO;
     self.activationBtn.enabled = NO;
     self.activateConfigurationDataManager = [ActivateConfigurationDataManager configInstance];
+    UITapGestureRecognizer* doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapGesture:)];
+    doubleTap.numberOfTapsRequired = 2;
+    [self.firstRegCode addGestureRecognizer:doubleTap];
+    [doubleTap release];
+}
+
+- (void)handleDoubleTapGesture:(id)aSender {
+    UITapGestureRecognizer* recognizer = (UITapGestureRecognizer*)aSender;
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        self.firstRegCode.text = @"https://arcosaws.iarcos.com";
+        self.fourthRegCode.text = @"1060";
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {

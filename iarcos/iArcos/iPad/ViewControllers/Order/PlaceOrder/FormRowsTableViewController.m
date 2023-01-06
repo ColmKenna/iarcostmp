@@ -141,6 +141,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [ArcosUtils configEdgesForExtendedLayout:self];
     if (self.isCellEditable) {
         UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(EditTable:)];
         [self.navigationItem setRightBarButtonItem:addButton];
@@ -168,6 +169,7 @@
         self.navigationController.navigationBarHidden = YES;
     }
     self.tableView.allowsSelection=NO;
+    
     //input popover
     self.factory=[WidgetFactory factory];
     self.factory.delegate=self;
@@ -253,7 +255,7 @@
     } else {
         self.mySearchBar.hidden = YES;
     }
-    if (!self.isNotFirstLoaded && (!self.isSearchProductTable && !self.isPredicativeSearchProduct) && !self.isRequestSourceFromPresenter) {
+    if (!self.isNotFirstLoaded && (!self.isSearchProductTable && !self.isPredicativeSearchProduct)) {// && !self.isRequestSourceFromPresenter
 //        [self scrollBehindSearchSection];
         [self hideMySearchBar];
     }
