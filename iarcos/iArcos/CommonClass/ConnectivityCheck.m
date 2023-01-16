@@ -12,6 +12,7 @@
 #import "ArcosGenericReturnObject.h"
 #import "SettingManager.h"
 #import "ActivateAppStatusManager.h"
+#import "ArcosUtils.h"
 NSString *const kConnectivityChangeNotification = @"ConnectivityChangeNotification";
 
 @interface ConnectivityCheck (Private) 
@@ -38,6 +39,8 @@ NSString *const kConnectivityChangeNotification = @"ConnectivityChangeNotificati
 @synthesize delegate;
 @synthesize isRegisterValidation = _isRegisterValidation;
 @synthesize asyncDelegate = _asyncDelegate;
+@synthesize httpStatusCode = _httpStatusCode;
+@synthesize urlConnection = _urlConnection;
 -(id)init{
     self=[super init];
     if (self!=nil) {
@@ -84,6 +87,7 @@ NSString *const kConnectivityChangeNotification = @"ConnectivityChangeNotificati
         
         errorString=@"Unknown error!";
         self.isRegisterValidation = NO;
+        self.httpStatusCode = -1;
     }
     return self;
 }
@@ -236,27 +240,29 @@ NSString *const kConnectivityChangeNotification = @"ConnectivityChangeNotificati
 }
 //check is the web file exsit
 -(BOOL) webFileExistsOnAddress:(NSString*)address{
-    
+    return YES;
+    /*
     NSString *url = address;
     
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
     NSHTTPURLResponse* response = nil;
     NSError* error = nil;
     [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-//    NSLog(@"statusCode = %d", [response statusCode]);
-    
+    NSLog(@"statusCode = %ld", [response statusCode]);
+    self.httpStatusCode = [ArcosUtils convertNSIntegerToInt:[response statusCode]];
     if ([response statusCode] >= 400||[response statusCode] == 0){
         return NO;
     }
     else{
         return YES;
     }
+     */
 }
 
 -(void)asyncWebFileExistsOnAddress:(NSString*)address {
     NSString *url = address;
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
-    [[[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES] autorelease];
+    self.urlConnection = [[[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES] autorelease];
 }
 
 -(void)asyncWebStart {
@@ -367,7 +373,8 @@ NSString *const kConnectivityChangeNotification = @"ConnectivityChangeNotificati
         if ([[tmpActivateAppStatusManager getAppStatus] isEqualToNumber:tmpActivateAppStatusManager.demoAppStatusNum]) {
             errorString = @"No Internet Access";
         } else {
-            errorString= [NSString stringWithFormat: @"Service is not available! %@ ",[SettingManager serviceAddress]];
+//            errorString= [NSString stringWithFormat: @"Service is not available! %@ ",[SettingManager serviceAddress]];
+            errorString= [NSString stringWithFormat: @"Service could not be accessed.\n%@\nReturned code was:%d",[SettingManager serviceAddress], self.httpStatusCode];
         }
     }else if(!self.serviceConnected && self.isRegisterValidation) {
         errorString = @"No Internet Access or URL not available.";
@@ -385,6 +392,7 @@ NSString *const kConnectivityChangeNotification = @"ConnectivityChangeNotificati
     if (self.internetReach != nil) {
         self.internetReach = nil;
     }
+    self.urlConnection = nil;
 //    self.delegate=nil;
     [super dealloc];
 }
@@ -392,12 +400,19 @@ NSString *const kConnectivityChangeNotification = @"ConnectivityChangeNotificati
 #pragma mark NSURLConnectionDataDelegate
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse*)response {
     NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-//    NSLog(@"statusCode: %d",httpResponse.statusCode);
-    if (httpResponse.statusCode == 200) {
-        [self.asyncDelegate asyncConnectionResult:YES];
-    } else {
+    NSLog(@"http statusCode: %ld",httpResponse.statusCode);
+    self.httpStatusCode = [ArcosUtils convertNSIntegerToInt:httpResponse.statusCode];
+//    if (httpResponse.statusCode == 200) {
+//        [self.asyncDelegate asyncConnectionResult:YES];
+//    } else {
+//        NSError* tmpError = [self asyncRegisterErrorGenerator];
+//        [self.asyncDelegate asyncFailWithError:tmpError];
+//    }
+    if (self.httpStatusCode >= 400 || self.httpStatusCode == 0) {
         NSError* tmpError = [self asyncRegisterErrorGenerator];
         [self.asyncDelegate asyncFailWithError:tmpError];
+    } else {
+        [self.asyncDelegate asyncConnectionResult:YES];
     }
 }
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {

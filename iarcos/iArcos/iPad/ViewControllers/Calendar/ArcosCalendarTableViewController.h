@@ -13,18 +13,21 @@
 @class ArcosRootViewController;
 #import "MBProgressHUD.h"
 #import "ArcosCalendarEventEntryDetailTableViewController.h"
+#import "ArcosService.h"
 
 @interface ArcosCalendarTableViewController : UITableViewController <ArcosCalendarTableViewCellDelegate, ModalPresentViewControllerDelegate, ArcosCalendarEventEntryDetailTableViewControllerDelegate, ArcosCalendarCellBaseTableViewDataManagerDelegate>{
     ArcosCalendarTableDataManager* _arcosCalendarTableDataManager;
     ArcosCalendarTableHeaderView* _arcosCalendarTableHeaderView;
     ArcosRootViewController* _arcosRootViewController;
     MBProgressHUD* _HUD;
+    ArcosService* _arcosService;
 }
 
 @property(nonatomic, retain) ArcosCalendarTableDataManager* arcosCalendarTableDataManager;
 @property(nonatomic, retain) IBOutlet ArcosCalendarTableHeaderView* arcosCalendarTableHeaderView;
 @property(nonatomic, retain) ArcosRootViewController* arcosRootViewController;
 @property(nonatomic, retain) MBProgressHUD* HUD;
+@property(nonatomic, retain) ArcosService* arcosService;
 
 @end
 

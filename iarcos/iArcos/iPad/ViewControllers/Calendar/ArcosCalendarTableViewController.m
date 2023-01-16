@@ -18,6 +18,7 @@
 @synthesize arcosCalendarTableHeaderView = _arcosCalendarTableHeaderView;
 @synthesize arcosRootViewController = _arcosRootViewController;
 @synthesize HUD = _HUD;
+@synthesize arcosService = _arcosService;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,6 +28,7 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.arcosService = [ArcosService service];
     if (@available(iOS 15.0, *)) {
         UINavigationBarAppearance* customNavigationBarAppearance = [[UINavigationBarAppearance alloc] init];
         [customNavigationBarAppearance configureWithOpaqueBackground];
@@ -59,6 +61,7 @@
     [self showCurrentMonth];
     self.arcosRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
     [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
+//    [self retrieveCalendarInfoWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
 }
 
 - (void)dealloc {
@@ -67,6 +70,7 @@
     self.arcosRootViewController = nil;
     [self.HUD removeFromSuperview];
     self.HUD = nil;
+    self.arcosService = nil;
     
     [super dealloc];
 }
@@ -374,6 +378,21 @@
     [downloadTask resume];
 }
 
+- (void)retrieveCalendarInfoWithDate:(NSDate*)aDate {
+    [self.arcosService GetCalendarInfo:self action:@selector(backFromGetCalendarInfo:) Employeeiur:1 Yearnum:2023 Month:1];
+}
 
+- (void)backFromGetCalendarInfo:(id)aResult {
+    if ([aResult isKindOfClass:[NSError class]]) {
+        NSError* anError = (NSError*)aResult;
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@",[anError localizedDescription]] title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
+    } else if ([aResult isKindOfClass:[SoapFault class]]) {
+        SoapFault* aSoapFault = (SoapFault*)aResult;
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@",[aSoapFault faultString]] title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
+    } else {
+//        ArcosGenericReturnObject* replyResult = (ArcosGenericReturnObject*)aResult;
+        
+    }
+}
 
 @end

@@ -36,6 +36,8 @@ extern NSString *const kConnectivityChangeNotification;
     id<ConnectivityDelegate> delegate;
     BOOL _isRegisterValidation;
     id<AsyncWebConnectionDelegate> _asyncDelegate;
+    int _httpStatusCode;
+    NSURLConnection* _urlConnection;
 }
 @property(nonatomic,assign) BOOL wifiConnected;
 @property(nonatomic,assign) BOOL cell3GConnected;
@@ -51,6 +53,8 @@ extern NSString *const kConnectivityChangeNotification;
 @property(nonatomic,assign) id<ConnectivityDelegate> delegate;
 @property(nonatomic,assign) BOOL isRegisterValidation;
 @property(nonatomic,assign) id<AsyncWebConnectionDelegate> asyncDelegate;
+@property(nonatomic,assign) int httpStatusCode;
+@property(nonatomic, retain) NSURLConnection* urlConnection;
 
 -(void)stop;
 -(BOOL)syncStart;

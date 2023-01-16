@@ -8,8 +8,9 @@
 	
 /* Add class references */
 				
-#import "ArcosDownloadFileInfo.h"
 #import "ArcosAuthenticator.h"
+#import "ArcosArrayOfString.h"
+#import "ArcosDownloadFileInfo.h"
 #import "ArcosErrorModel.h"
 #import "ArcosLocationBO.h"
 #import "ArcosEmployeeBO.h"
@@ -19,7 +20,6 @@
 #import "ArcosExpenses.h"
 #import "ArcosAttachmentSummary.h"
 #import "ArcosAttachmentWithFileContents.h"
-#import "ArcosArrayOfString.h"
 #import "ArcosIncompleteObject.h"
 #import "ArcosQuestionBO.h"
 #import "ArcosConLocLinkBO.h"
@@ -116,6 +116,24 @@
 				
 @interface ArcosService : SoapService
 		
+	// Returns int
+	/*  */
+	- (SoapRequest*) UploadFileToAttachment: (id <SoapDelegate>) handler contents: (NSData*) contents _fileName: (NSString*) _fileName attachmentiur: (int) attachmentiur;
+	- (SoapRequest*) UploadFileToAttachment: (id) target action: (SEL) action contents: (NSData*) contents _fileName: (NSString*) _fileName attachmentiur: (int) attachmentiur;
+	-(SoapRequest*)UploadFileToAttachmentWithProgress:(SoapRequestProgressBlock)progressBlock contents: (NSData*) contents _fileName: (NSString*) _fileName attachmentiur: (int) attachmentiur completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns NSMutableArray*
+	/*  */
+	- (SoapRequest*) Get_Resource_Filenames: (id <SoapDelegate>) handler LocationIUR: (int) LocationIUR LocationCode: (NSString*) LocationCode;
+	- (SoapRequest*) Get_Resource_Filenames: (id) target action: (SEL) action LocationIUR: (int) LocationIUR LocationCode: (NSString*) LocationCode;
+	-(SoapRequest*)Get_Resource_FilenamesWithProgress:(SoapRequestProgressBlock)progressBlock LocationIUR: (int) LocationIUR LocationCode: (NSString*) LocationCode completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns NSMutableArray*
+	/*  */
+	- (SoapRequest*) DoPortalDirectoriesExist: (id <SoapDelegate>) handler;
+	- (SoapRequest*) DoPortalDirectoriesExist: (id) target action: (SEL) action;
+	-(SoapRequest*)DoPortalDirectoriesExistWithProgress:(SoapRequestProgressBlock)progressBlock completion:(SoapRequestCompletionBlock)completionBlock;
+
 	// Returns NSMutableArray*
 	/*  */
 	- (SoapRequest*) Get_Download_Filenames: (id <SoapDelegate>) handler directory: (NSString*) directory;
@@ -596,6 +614,18 @@
 	- (SoapRequest*) Saveorderheader: (id) target action: (SEL) action CompanyIUR: (int) CompanyIUR OrderTransfer: (ArcosOrderTransferObject*) OrderTransfer;
 	-(SoapRequest*)SaveorderheaderWithProgress:(SoapRequestProgressBlock)progressBlock CompanyIUR: (int) CompanyIUR OrderTransfer: (ArcosOrderTransferObject*) OrderTransfer completion:(SoapRequestCompletionBlock)completionBlock;
 
+	// Returns NSMutableArray*
+	/*  */
+	- (SoapRequest*) CheckIfOrderExistsByIPadOrderNumber: (id <SoapDelegate>) handler CompanyIUR: (int) CompanyIUR ipdadOrderNumber: (int) ipdadOrderNumber locationiur: (int) locationiur;
+	- (SoapRequest*) CheckIfOrderExistsByIPadOrderNumber: (id) target action: (SEL) action CompanyIUR: (int) CompanyIUR ipdadOrderNumber: (int) ipdadOrderNumber locationiur: (int) locationiur;
+	-(SoapRequest*)CheckIfOrderExistsByIPadOrderNumberWithProgress:(SoapRequestProgressBlock)progressBlock CompanyIUR: (int) CompanyIUR ipdadOrderNumber: (int) ipdadOrderNumber locationiur: (int) locationiur completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns NSMutableArray*
+	/*  */
+	- (SoapRequest*) CheckIfOrderExistsByOrderHeaderiur: (id <SoapDelegate>) handler CompanyIUR: (int) CompanyIUR orderheaderiur: (int) orderheaderiur;
+	- (SoapRequest*) CheckIfOrderExistsByOrderHeaderiur: (id) target action: (SEL) action CompanyIUR: (int) CompanyIUR orderheaderiur: (int) orderheaderiur;
+	-(SoapRequest*)CheckIfOrderExistsByOrderHeaderiurWithProgress:(SoapRequestProgressBlock)progressBlock CompanyIUR: (int) CompanyIUR orderheaderiur: (int) orderheaderiur completion:(SoapRequestCompletionBlock)completionBlock;
+
 	// Returns id
 	/*  */
 	- (SoapRequest*) UpdateOrderLine: (id <SoapDelegate>) handler CompanyIUR: (int) CompanyIUR Employee: (ArcosEmployeeBO*) Employee orderline: (ArcosOrderLineBO*) orderline;
@@ -661,6 +691,12 @@
 	- (SoapRequest*) GetData: (id <SoapDelegate>) handler stateMent: (NSString*) stateMent;
 	- (SoapRequest*) GetData: (id) target action: (SEL) action stateMent: (NSString*) stateMent;
 	-(SoapRequest*)GetDataWithProgress:(SoapRequestProgressBlock)progressBlock stateMent: (NSString*) stateMent completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns ArcosGenericReturnObject*
+	/*  */
+	- (SoapRequest*) GetCalendarInfo: (id <SoapDelegate>) handler Employeeiur: (int) Employeeiur Yearnum: (int) Yearnum Month: (int) Month;
+	- (SoapRequest*) GetCalendarInfo: (id) target action: (SEL) action Employeeiur: (int) Employeeiur Yearnum: (int) Yearnum Month: (int) Month;
+	-(SoapRequest*)GetCalendarInfoWithProgress:(SoapRequestProgressBlock)progressBlock Employeeiur: (int) Employeeiur Yearnum: (int) Yearnum Month: (int) Month completion:(SoapRequestCompletionBlock)completionBlock;
 
 	// Returns ArcosGenericReturnObject*
 	/*  */
@@ -955,24 +991,6 @@
 	- (SoapRequest*) UploadFileNew: (id <SoapDelegate>) handler contents: (NSData*) contents _fileName: (NSString*) _fileName _description: (NSString*) _description tableIUR: (NSString*) tableIUR tableName: (NSString*) tableName employeeiur: (int) employeeiur Locationiur: (int) Locationiur DateAttached: (NSDate*) DateAttached;
 	- (SoapRequest*) UploadFileNew: (id) target action: (SEL) action contents: (NSData*) contents _fileName: (NSString*) _fileName _description: (NSString*) _description tableIUR: (NSString*) tableIUR tableName: (NSString*) tableName employeeiur: (int) employeeiur Locationiur: (int) Locationiur DateAttached: (NSDate*) DateAttached;
 	-(SoapRequest*)UploadFileNewWithProgress:(SoapRequestProgressBlock)progressBlock contents: (NSData*) contents _fileName: (NSString*) _fileName _description: (NSString*) _description tableIUR: (NSString*) tableIUR tableName: (NSString*) tableName employeeiur: (int) employeeiur Locationiur: (int) Locationiur DateAttached: (NSDate*) DateAttached completion:(SoapRequestCompletionBlock)completionBlock;
-
-	// Returns int
-	/*  */
-	- (SoapRequest*) UploadFileToAttachment: (id <SoapDelegate>) handler contents: (NSData*) contents _fileName: (NSString*) _fileName attachmentiur: (int) attachmentiur;
-	- (SoapRequest*) UploadFileToAttachment: (id) target action: (SEL) action contents: (NSData*) contents _fileName: (NSString*) _fileName attachmentiur: (int) attachmentiur;
-	-(SoapRequest*)UploadFileToAttachmentWithProgress:(SoapRequestProgressBlock)progressBlock contents: (NSData*) contents _fileName: (NSString*) _fileName attachmentiur: (int) attachmentiur completion:(SoapRequestCompletionBlock)completionBlock;
-
-	// Returns NSMutableArray*
-	/*  */
-	- (SoapRequest*) Get_Resource_Filenames: (id <SoapDelegate>) handler LocationIUR: (int) LocationIUR LocationCode: (NSString*) LocationCode;
-	- (SoapRequest*) Get_Resource_Filenames: (id) target action: (SEL) action LocationIUR: (int) LocationIUR LocationCode: (NSString*) LocationCode;
-	-(SoapRequest*)Get_Resource_FilenamesWithProgress:(SoapRequestProgressBlock)progressBlock LocationIUR: (int) LocationIUR LocationCode: (NSString*) LocationCode completion:(SoapRequestCompletionBlock)completionBlock;
-
-	// Returns NSMutableArray*
-	/*  */
-	- (SoapRequest*) DoPortalDirectoriesExist: (id <SoapDelegate>) handler;
-	- (SoapRequest*) DoPortalDirectoriesExist: (id) target action: (SEL) action;
-	-(SoapRequest*)DoPortalDirectoriesExistWithProgress:(SoapRequestProgressBlock)progressBlock completion:(SoapRequestCompletionBlock)completionBlock;
 
 		
 	+ (ArcosService*) service;
