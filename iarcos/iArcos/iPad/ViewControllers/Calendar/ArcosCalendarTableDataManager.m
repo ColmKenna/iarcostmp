@@ -23,6 +23,7 @@
 @synthesize currentSelectedDate = _currentSelectedDate;
 @synthesize dayWeekOfMonthIndexHashMap = _dayWeekOfMonthIndexHashMap;
 @synthesize dayWeekDayIndexHashMap = _dayWeekDayIndexHashMap;
+@synthesize dayCountInMonth = _dayCountInMonth;
 
 - (instancetype)init {
     self = [super init];
@@ -106,6 +107,7 @@
     gregorian.minimumDaysInFirstWeek = 1;
     gregorian.firstWeekday = [self.monWeekday intValue];
     NSRange monthRange = [gregorian rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:aCurrentCalculatedDate];
+    self.dayCountInMonth = [ArcosUtils convertNSUIntegerToUnsignedInt:monthRange.length];
     for (int i = 1; i <= monthRange.length; i++) {
         NSDateComponents* yearComponents = [gregorian components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay fromDate:aCurrentCalculatedDate];
         [yearComponents setDay:i];
@@ -217,6 +219,29 @@
                 }
             }
         }
+    }
+}
+
+- (void)populateJourneyEntryWithDataList:(NSMutableArray*)aDataList {
+    if ([aDataList count] < self.dayCountInMonth) return;
+    for (int i = 1; i <= self.dayCountInMonth; i++) {
+        int arrayIndex = i - 1;
+        ArcosGenericClass* auxArcosGenericClass = [aDataList objectAtIndex:arrayIndex];
+        NSString* am = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:auxArcosGenericClass.Field1]];
+        NSString* pm = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:auxArcosGenericClass.Field2]];
+        NSString* startLocation = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:auxArcosGenericClass.Field3]];
+        NSString* endLocation = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:auxArcosGenericClass.Field4]];
+        NSMutableDictionary* journeyDataDict = [NSMutableDictionary dictionaryWithCapacity:4];
+        [journeyDataDict setObject:am forKey:@"Am"];
+        [journeyDataDict setObject:pm forKey:@"Pm"];
+        [journeyDataDict setObject:startLocation forKey:@"StartLocation"];
+        [journeyDataDict setObject:endLocation forKey:@"EndLocation"];
+        NSNumber* day = [NSNumber numberWithInt:i];
+        NSNumber* weekOfMonthIndex = [self.dayWeekOfMonthIndexHashMap objectForKey:day];
+        NSNumber* weekDayIndex = [self.dayWeekDayIndexHashMap objectForKey:day];
+        NSMutableDictionary* weekDataDict = [self.matrixDataList objectAtIndex:[weekOfMonthIndex intValue]];
+        NSMutableDictionary* dayDataDict = [weekDataDict objectForKey:weekDayIndex];
+        [dayDataDict setObject:journeyDataDict forKey:@"Journey"];
     }
 }
 

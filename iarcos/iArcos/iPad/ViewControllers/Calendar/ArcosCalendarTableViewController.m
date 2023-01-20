@@ -60,8 +60,8 @@
     [self.navigationController.view addSubview:self.HUD];
     [self showCurrentMonth];
     self.arcosRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
-    [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
-//    [self retrieveCalendarInfoWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
+//    [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
+    [self retrieveCalendarInfoWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
 }
 
 - (void)dealloc {
@@ -119,7 +119,8 @@
     [self.arcosCalendarTableDataManager calculateCalendarData:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
     [self.tableView reloadData];
     [self showCurrentMonth];
-    [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
+//    [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
+    [self retrieveCalendarInfoWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
 }
 
 - (void)prevPressed:(id)sender {
@@ -127,7 +128,8 @@
     [self.arcosCalendarTableDataManager calculateCalendarData:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
     [self.tableView reloadData];
     [self showCurrentMonth];
-    [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
+//    [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
+    [self retrieveCalendarInfoWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
 }
 
 - (void)nextPressed:(id)sender {
@@ -135,7 +137,8 @@
     [self.arcosCalendarTableDataManager calculateCalendarData:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
     [self.tableView reloadData];
     [self showCurrentMonth];
-    [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
+//    [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
+    [self retrieveCalendarInfoWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
 }
 
 - (void)showCurrentMonth {
@@ -226,6 +229,27 @@
                 auxLabel.backgroundColor = [GlobalSharedClass shared].mySystemBlueColor;
                 auxLabel.textColor = [UIColor whiteColor];
             }
+            NSMutableDictionary* journeyDataDict = [dayDataDict objectForKey:@"Journey"];
+//            NSLog(@"%d %@", i, journeyDataDict);
+            NSNumber* amIUR = [ArcosUtils convertStringToNumber:[journeyDataDict objectForKey:@"Am"]];
+            NSNumber* pmIUR = [ArcosUtils convertStringToNumber:[journeyDataDict objectForKey:@"Pm"]];
+            NSMutableDictionary* btnDict = [cell.btnList objectAtIndex:i];
+            UIButton* btnAm = [btnDict objectForKey:@"AmBtn"];
+            UIButton* btnPm = [btnDict objectForKey:@"PmBtn"];
+            
+            if ([amIUR intValue] != 0) {
+                UIImage* amImage = [[ArcosCoreData sharedArcosCoreData] thumbWithIUR:amIUR];
+                if (amImage != nil) {
+                    [btnAm setImage:amImage forState:UIControlStateNormal];
+                }
+                if ([pmIUR intValue] != [amIUR intValue]) {
+                    UIImage* pmImage = [[ArcosCoreData sharedArcosCoreData] thumbWithIUR:pmIUR];
+                    if (pmImage != nil) {
+                        [btnPm setImage:pmImage forState:UIControlStateNormal];
+                    }
+                }
+            }
+            
             NSMutableArray* eventDataList = [dayDataDict objectForKey:@"Event"];
             if ([eventDataList count] > 1) {
                 NSSortDescriptor* startDateDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"StartDate" ascending:YES selector:@selector(compare:)] autorelease];
@@ -236,6 +260,7 @@
 //            baseTableViewDataManager.weekOfMonthIndexPath = indexPath;
 //            baseTableViewDataManager.weekdaySeqIndex = i;
             baseTableViewDataManager.displayList = eventDataList;
+            baseTableViewDataManager.journeyDataDict = journeyDataDict;
             UITableView* auxTableView = [cell.tableViewList objectAtIndex:i];
             [auxTableView reloadData];
         }
@@ -322,10 +347,11 @@
         [ArcosUtils showDialogBox:@"Email account not set up" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
             
         }];
+        [self.tableView reloadData];
         [self.HUD hide:YES];
         return;
     }
-    [self.HUD show:YES];
+//    [self.HUD show:YES];
     __weak typeof(self) weakSelf = self;
     NSURL* url = [NSURL URLWithString:[self.arcosCalendarTableDataManager retrieveCalendarURIWithDate:aDate]];
     NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
@@ -341,6 +367,7 @@
         if (error != nil) {
 //            NSLog(@"sendMsg error %@", error);
             dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
                 [weakSelf.HUD hide:YES];
                 [ArcosUtils showDialogBox:[error localizedDescription] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
             });
@@ -355,6 +382,7 @@
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableView reloadData];
                     [weakSelf.HUD hide:YES];
                     [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
                 });
@@ -379,19 +407,23 @@
 }
 
 - (void)retrieveCalendarInfoWithDate:(NSDate*)aDate {
-    [self.arcosService GetCalendarInfo:self action:@selector(backFromGetCalendarInfo:) Employeeiur:1 Yearnum:2023 Month:1];
+    [self.HUD show:YES];
+    [self.arcosService GetCalendarInfo:self action:@selector(backFromGetCalendarInfo:) Employeeiur:[[SettingManager employeeIUR] intValue] Yearnum:[ArcosUtils convertNSIntegerToInt:[ArcosUtils yearDayWithDate:aDate]] Month:[ArcosUtils convertNSIntegerToInt:[ArcosUtils monthDayWithDate:aDate]]];
 }
 
 - (void)backFromGetCalendarInfo:(id)aResult {
     if ([aResult isKindOfClass:[NSError class]]) {
         NSError* anError = (NSError*)aResult;
         [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@",[anError localizedDescription]] title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
+        [self.HUD hide:YES];
     } else if ([aResult isKindOfClass:[SoapFault class]]) {
         SoapFault* aSoapFault = (SoapFault*)aResult;
         [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@",[aSoapFault faultString]] title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
+        [self.HUD hide:YES];
     } else {
-//        ArcosGenericReturnObject* replyResult = (ArcosGenericReturnObject*)aResult;
-        
+        ArcosGenericReturnObject* replyResult = (ArcosGenericReturnObject*)aResult;
+        [self.arcosCalendarTableDataManager populateJourneyEntryWithDataList:replyResult.ArrayOfData];
+        [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
     }
 }
 

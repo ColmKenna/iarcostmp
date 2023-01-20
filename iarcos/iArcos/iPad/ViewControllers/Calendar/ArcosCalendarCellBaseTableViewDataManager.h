@@ -9,18 +9,21 @@
 #import <Foundation/Foundation.h>
 #import "ArcosCalendarEventEntryTableViewCell.h"
 #import "ArcosCalendarCellBaseTableViewDataManagerDelegate.h"
+#import "ArcosCalendarEventEntryView.h"
 
 @interface ArcosCalendarCellBaseTableViewDataManager : NSObject <UITableViewDataSource, UITableViewDelegate, ArcosCalendarEventEntryTableViewCellDelegate> {
     id<ArcosCalendarCellBaseTableViewDataManagerDelegate> _actionDelegate;
     NSMutableArray* _displayList;
     NSIndexPath* _weekOfMonthIndexPath;
     int _weekdaySeqIndex;
+    NSMutableDictionary* _journeyDataDict;
 }
 
 @property(nonatomic, assign) id<ArcosCalendarCellBaseTableViewDataManagerDelegate> actionDelegate;
 @property(nonatomic, retain) NSMutableArray* displayList;
 @property(nonatomic, retain) NSIndexPath* weekOfMonthIndexPath;
 @property(nonatomic, assign) int weekdaySeqIndex;
+@property(nonatomic, retain) NSMutableDictionary* journeyDataDict;
 
 @end
 

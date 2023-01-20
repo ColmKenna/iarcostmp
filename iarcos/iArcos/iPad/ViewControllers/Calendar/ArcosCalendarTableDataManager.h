@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ArcosUtils.h"
 #import "GlobalSharedClass.h"
+#import "ArcosGenericClass.h"
 
 @interface ArcosCalendarTableDataManager : NSObject {
     NSNumber* _sunWeekday;
@@ -25,6 +26,7 @@
     NSDate* _currentSelectedDate;
     NSMutableDictionary* _dayWeekOfMonthIndexHashMap;
     NSMutableDictionary* _dayWeekDayIndexHashMap;
+    int _dayCountInMonth;
 }
 
 @property(nonatomic, retain) NSNumber* sunWeekday;
@@ -41,6 +43,7 @@
 @property(nonatomic, retain) NSDate* currentSelectedDate;
 @property(nonatomic, retain) NSMutableDictionary* dayWeekOfMonthIndexHashMap;
 @property(nonatomic, retain) NSMutableDictionary* dayWeekDayIndexHashMap;
+@property(nonatomic, assign) int dayCountInMonth;
 
 - (void)calculateCalendarData:(NSDate*)aCurrentCalculatedDate;
 - (NSDate*)createThirdDayNoonDateWithDate:(NSDate*)aDate thirdDayFlag:(BOOL)aFlag;
@@ -49,6 +52,7 @@
 - (NSString*)retrieveCalendarURIWithDate:(NSDate*)aDate;
 - (void)populateCalendarEntryWithData:(NSDictionary*)aDataDict;
 - (void)clearCalendarEventData;
+- (void)populateJourneyEntryWithDataList:(NSMutableArray*)aDataList;
 
 @end
 

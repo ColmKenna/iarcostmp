@@ -47,6 +47,22 @@
 @synthesize sevTableViewDataManager = _sevTableViewDataManager;
 @synthesize myIndexPath = _myIndexPath;
 
+@synthesize btn0 = _btn0;
+@synthesize btn01 = _btn01;
+@synthesize btn1 = _btn1;
+@synthesize btn11 = _btn11;
+@synthesize btn2 = _btn2;
+@synthesize btn21 = _btn21;
+@synthesize btn3 = _btn3;
+@synthesize btn31 = _btn31;
+@synthesize btn4 = _btn4;
+@synthesize btn41 = _btn41;
+@synthesize btn5 = _btn5;
+@synthesize btn51 = _btn51;
+@synthesize btn6 = _btn6;
+@synthesize btn61 = _btn61;
+@synthesize btnList = _btnList;
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
@@ -107,6 +123,22 @@
     self.sevTableViewDataManager = nil;
     self.myIndexPath = nil;
     
+    self.btn0 = nil;
+    self.btn01 = nil;
+    self.btn1 = nil;
+    self.btn11 = nil;
+    self.btn2 = nil;
+    self.btn21 = nil;
+    self.btn3 = nil;
+    self.btn31 = nil;
+    self.btn4 = nil;
+    self.btn41 = nil;
+    self.btn5 = nil;
+    self.btn51 = nil;
+    self.btn6 = nil;
+    self.btn61 = nil;
+    self.btnList = nil;
+    
     [super dealloc];
 }
 
@@ -119,6 +151,7 @@
     self.labelList = [NSMutableArray arrayWithCapacity:countOfItems];
     self.viewList = [NSMutableArray arrayWithCapacity:countOfItems];
     self.tableViewList = [NSMutableArray arrayWithCapacity:countOfItems];
+    self.btnList = [NSMutableArray arrayWithCapacity:countOfItems];
     
     self.firTableViewDataManager = [[[ArcosCalendarCellBaseTableViewDataManager alloc] init] autorelease];
     self.secTableViewDataManager = [[[ArcosCalendarCellBaseTableViewDataManager alloc] init] autorelease];
@@ -141,9 +174,7 @@
     self.tableView5.dataSource = self.sixTableViewDataManager;
     self.tableView5.delegate = self.sixTableViewDataManager;
     self.tableView6.dataSource = self.sevTableViewDataManager;
-    self.tableView6.delegate = self.sevTableViewDataManager;
-    
-    
+    self.tableView6.delegate = self.sevTableViewDataManager;    
     
     @try {
         for (int i = 0; i < countOfItems; i++) {
@@ -156,6 +187,16 @@
             NSString* tableViewName = [NSString stringWithFormat:@"tableView%d", i];
             SEL tableViewSelector = NSSelectorFromString(tableViewName);
             [self.tableViewList addObject:[self performSelector:tableViewSelector]];
+            
+            NSString* btnNamex = [NSString stringWithFormat:@"btn%d", i];
+            SEL btnxSelector = NSSelectorFromString(btnNamex);
+            NSMutableDictionary* btnDict = [NSMutableDictionary dictionaryWithCapacity:2];
+            [btnDict setObject:[self performSelector:btnxSelector] forKey:@"AmBtn"];
+            
+            NSString* btnNamex1 = [NSString stringWithFormat:@"btn%d1", i];
+            SEL btnx1Selector = NSSelectorFromString(btnNamex1);
+            [btnDict setObject:[self performSelector:btnx1Selector] forKey:@"PmBtn"];
+            [self.btnList addObject:btnDict];
         }
     } @catch (NSException *exception) {
         NSLog(@"%@", [exception reason]);
@@ -210,6 +251,11 @@
         tmpView.backgroundColor = [UIColor whiteColor];
         UITableView* tmpTableView = [self.tableViewList objectAtIndex:i];
         [tmpTableView reloadData];
+        NSMutableDictionary* btnDict = [self.btnList objectAtIndex:i];
+        UIButton* amBtn = [btnDict objectForKey:@"AmBtn"];
+        [amBtn setImage:nil forState:UIControlStateNormal];
+        UIButton* pmBtn = [btnDict objectForKey:@"PmBtn"];
+        [pmBtn setImage:nil forState:UIControlStateNormal];
     }
 }
 

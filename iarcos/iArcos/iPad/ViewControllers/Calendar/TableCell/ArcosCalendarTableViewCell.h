@@ -49,6 +49,23 @@
     ArcosCalendarCellBaseTableViewDataManager* _sixTableViewDataManager;
     ArcosCalendarCellBaseTableViewDataManager* _sevTableViewDataManager;
     NSIndexPath* _myIndexPath;
+    
+    UIButton* _btn0;
+    UIButton* _btn01;
+    UIButton* _btn1;
+    UIButton* _btn11;
+    UIButton* _btn2;
+    UIButton* _btn21;
+    UIButton* _btn3;
+    UIButton* _btn31;
+    UIButton* _btn4;
+    UIButton* _btn41;
+    UIButton* _btn5;
+    UIButton* _btn51;
+    UIButton* _btn6;
+    UIButton* _btn61;
+    NSMutableArray* _btnList;
+    
 }
 
 @property(nonatomic, assign) id<ArcosCalendarTableViewCellDelegate> actionDelegate;
@@ -89,6 +106,21 @@
 @property(nonatomic, retain) ArcosCalendarCellBaseTableViewDataManager* sevTableViewDataManager;
 @property(nonatomic, retain) NSIndexPath* myIndexPath;
 
+@property(nonatomic, retain) IBOutlet UIButton* btn0;
+@property(nonatomic, retain) IBOutlet UIButton* btn01;
+@property(nonatomic, retain) IBOutlet UIButton* btn1;
+@property(nonatomic, retain) IBOutlet UIButton* btn11;
+@property(nonatomic, retain) IBOutlet UIButton* btn2;
+@property(nonatomic, retain) IBOutlet UIButton* btn21;
+@property(nonatomic, retain) IBOutlet UIButton* btn3;
+@property(nonatomic, retain) IBOutlet UIButton* btn31;
+@property(nonatomic, retain) IBOutlet UIButton* btn4;
+@property(nonatomic, retain) IBOutlet UIButton* btn41;
+@property(nonatomic, retain) IBOutlet UIButton* btn5;
+@property(nonatomic, retain) IBOutlet UIButton* btn51;
+@property(nonatomic, retain) IBOutlet UIButton* btn6;
+@property(nonatomic, retain) IBOutlet UIButton* btn61;
+@property(nonatomic, retain) NSMutableArray* btnList;
 
 - (void)configCellWithData:(NSMutableDictionary*)aCellData;
 - (void)makeCellReadyToUse;
