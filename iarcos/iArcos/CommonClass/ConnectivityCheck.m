@@ -173,7 +173,7 @@ NSString *const kConnectivityChangeNotification = @"ConnectivityChangeNotificati
     //set the service time out interval 
     [GlobalSharedClass shared].serviceTimeoutInterval=60.0;
     ArcosService* se=[ArcosService serviceWithUsername:@"u1103395_Support" andPassword:@"Strata411325"];
-    NSString* sqlStatement =@"select";
+    NSString* sqlStatement =@"SELECT IUR FROM CONFIG WHERE IUR = 1";
     [se GetData:self action:@selector(serviceCheck:) stateMent:sqlStatement];
 
     

@@ -422,8 +422,13 @@
         [self.HUD hide:YES];
     } else {
         ArcosGenericReturnObject* replyResult = (ArcosGenericReturnObject*)aResult;
-        [self.arcosCalendarTableDataManager populateJourneyEntryWithDataList:replyResult.ArrayOfData];
-        [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
+        if (replyResult.ErrorModel.Code < 0) {
+            [ArcosUtils showDialogBox:replyResult.ErrorModel.Message title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
+            [self.HUD hide:YES];
+        } else {
+            [self.arcosCalendarTableDataManager populateJourneyEntryWithDataList:replyResult.ArrayOfData];
+            [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
+        }
     }
 }
 
