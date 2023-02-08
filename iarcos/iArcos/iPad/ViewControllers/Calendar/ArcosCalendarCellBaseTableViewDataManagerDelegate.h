@@ -12,7 +12,7 @@
 @protocol ArcosCalendarCellBaseTableViewDataManagerDelegate <NSObject>
 
 
-- (void)eventEntryInputFinishedWithIndexPath:(NSIndexPath*)anIndexPath dataList:(NSMutableArray*)aDataList sourceView:(UIView*)aView;
+- (void)eventEntryInputFinishedWithIndexPath:(NSIndexPath*)anIndexPath dataList:(NSMutableArray*)aDataList dateFormatText:(NSString*)aDateFormatText sourceView:(UIView*)aView;
 
 
 

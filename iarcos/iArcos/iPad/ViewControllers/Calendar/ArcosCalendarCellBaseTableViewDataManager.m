@@ -14,11 +14,13 @@
 @synthesize weekOfMonthIndexPath = _weekOfMonthIndexPath;
 @synthesize weekdaySeqIndex = _weekdaySeqIndex;
 @synthesize journeyDataDict = _journeyDataDict;
+@synthesize dateFormatText = _dateFormatText;
 
 - (void)dealloc {
     self.displayList = nil;
     self.weekOfMonthIndexPath = nil;
     self.journeyDataDict = nil;
+    self.dateFormatText = nil;
     
     [super dealloc];
 }
@@ -92,7 +94,7 @@
 
 #pragma mark - ArcosCalendarEventEntryTableViewCellDelegate
 - (void)eventEntryInputFinishedWithIndexPath:(NSIndexPath *)anIndexPath sourceView:(UIView *)aView {
-    [self.actionDelegate eventEntryInputFinishedWithIndexPath:anIndexPath dataList:self.displayList sourceView:aView];
+    [self.actionDelegate eventEntryInputFinishedWithIndexPath:anIndexPath dataList:self.displayList dateFormatText:self.dateFormatText sourceView:aView];
 }
 
 - (ArcosCalendarEventEntryView*)retrieveHeaderFooterView {

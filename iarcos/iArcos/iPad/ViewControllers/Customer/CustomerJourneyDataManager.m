@@ -16,6 +16,7 @@
 @synthesize locationListDict = _locationListDict;
 @synthesize orderQtyListDict = _orderQtyListDict;
 @synthesize currentJourneyDict = _currentJourneyDict;
+@synthesize journeyDictHashMap = _journeyDictHashMap;
 
 - (id)init {
     self = [super init];
@@ -33,6 +34,7 @@
     if (self.locationListDict != nil) { self.locationListDict = nil; }
     if (self.orderQtyListDict != nil) { self.orderQtyListDict = nil; }
     self.currentJourneyDict = nil;
+    self.journeyDictHashMap = nil;
     
     [super dealloc];
 }
@@ -227,6 +229,18 @@
     NSString* sectionTitle = [self.sectionTitleList objectAtIndex:anIndexPath.section];
     NSMutableArray* orderQtyList = [self.orderQtyListDict objectForKey:sectionTitle];
     return [orderQtyList objectAtIndex:anIndexPath.row];
+}
+
+- (void)processCalendarJourneyData {
+    NSMutableArray* journeyList = [[ArcosCoreData sharedArcosCoreData] allJourney];
+    self.displayList = [NSMutableArray arrayWithCapacity:[journeyList count]];
+    self.journeyDictHashMap = [NSMutableDictionary dictionaryWithCapacity:[journeyList count]];
+    [self processRawDataProcessor:journeyList];
+    for (int i = 0; i < [self.displayList count]; i++) {
+        NSMutableDictionary* tmpJourneyDict = [self.displayList objectAtIndex:i];
+        NSString* tmpJourneyDate = [tmpJourneyDict objectForKey:@"JourneyDate"];
+        [self.journeyDictHashMap setObject:tmpJourneyDict forKey:tmpJourneyDate];
+    }
 }
 
 @end

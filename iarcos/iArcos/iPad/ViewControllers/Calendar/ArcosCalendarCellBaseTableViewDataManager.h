@@ -17,6 +17,7 @@
     NSIndexPath* _weekOfMonthIndexPath;
     int _weekdaySeqIndex;
     NSMutableDictionary* _journeyDataDict;
+    NSString* _dateFormatText;
 }
 
 @property(nonatomic, assign) id<ArcosCalendarCellBaseTableViewDataManagerDelegate> actionDelegate;
@@ -24,6 +25,7 @@
 @property(nonatomic, retain) NSIndexPath* weekOfMonthIndexPath;
 @property(nonatomic, assign) int weekdaySeqIndex;
 @property(nonatomic, retain) NSMutableDictionary* journeyDataDict;
+@property(nonatomic, retain) NSString* dateFormatText;
 
 @end
 

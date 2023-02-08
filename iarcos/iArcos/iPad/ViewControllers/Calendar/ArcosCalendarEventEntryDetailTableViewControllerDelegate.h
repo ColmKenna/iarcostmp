@@ -12,7 +12,9 @@
 @protocol ArcosCalendarEventEntryDetailTableViewControllerDelegate <NSObject>
 
 
-- (void)refreshCalendarTableViewController;
+//- (void)refreshCalendarTableViewController;
+- (void)deleteButtonPressedDelegate;
+- (UITableView*)retrieveEventTableView;
 
 @end
 

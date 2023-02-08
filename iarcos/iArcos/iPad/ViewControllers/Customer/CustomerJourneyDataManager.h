@@ -17,6 +17,8 @@
     NSMutableDictionary* _locationListDict;
     NSMutableDictionary* _orderQtyListDict;
     NSMutableDictionary* _currentJourneyDict;
+    
+    NSMutableDictionary* _journeyDictHashMap;
 }
 
 @property (nonatomic, retain) NSMutableArray* groupName;
@@ -26,6 +28,7 @@
 @property (nonatomic, retain) NSMutableDictionary* locationListDict;
 @property (nonatomic, retain) NSMutableDictionary* orderQtyListDict;
 @property (nonatomic, retain) NSMutableDictionary* currentJourneyDict;
+@property (nonatomic, retain) NSMutableDictionary* journeyDictHashMap;
 
 - (void)processRawData:(NSMutableArray*)aJourneyList;
 - (void)processRawDataProcessor:(NSMutableArray*)aJourneyList;
@@ -38,4 +41,7 @@
 - (void)dashboardProcessRawData:(NSMutableArray*)aJourneyList;
 - (NSMutableDictionary*)retrieveCustomerWithIndexPath:(NSIndexPath*)anIndexPath;
 - (NSNumber*)retrieveOrderQtyWithIndexPath:(NSIndexPath*)anIndexPath;
+
+- (void)processCalendarJourneyData;
+
 @end

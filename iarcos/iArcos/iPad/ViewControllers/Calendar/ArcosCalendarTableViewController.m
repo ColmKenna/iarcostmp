@@ -19,6 +19,7 @@
 @synthesize arcosRootViewController = _arcosRootViewController;
 @synthesize HUD = _HUD;
 @synthesize arcosService = _arcosService;
+@synthesize customerJourneyDataManager = _customerJourneyDataManager;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -61,6 +62,8 @@
     [self showCurrentMonth];
     self.arcosRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
 //    [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
+    self.customerJourneyDataManager = [[[CustomerJourneyDataManager alloc] init] autorelease];
+    [self.customerJourneyDataManager processCalendarJourneyData];
     [self retrieveCalendarInfoWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
 }
 
@@ -71,6 +74,7 @@
     [self.HUD removeFromSuperview];
     self.HUD = nil;
     self.arcosService = nil;
+    self.customerJourneyDataManager = nil;
     
     [super dealloc];
 }
@@ -261,6 +265,7 @@
 //            baseTableViewDataManager.weekdaySeqIndex = i;
             baseTableViewDataManager.displayList = eventDataList;
             baseTableViewDataManager.journeyDataDict = journeyDataDict;
+            baseTableViewDataManager.dateFormatText = [ArcosUtils stringFromDate:auxDate format:[GlobalSharedClass shared].dateFormat];
             UITableView* auxTableView = [cell.tableViewList objectAtIndex:i];
             [auxTableView reloadData];
         }
@@ -270,19 +275,32 @@
 }
 
 #pragma mark - ArcosCalendarCellBaseTableViewDataManagerDelegate
-- (void)eventEntryInputFinishedWithIndexPath:(NSIndexPath*)anIndexPath dataList:(NSMutableArray *)aDataList sourceView:(UIView *)aView {
+- (void)eventEntryInputFinishedWithIndexPath:(NSIndexPath*)anIndexPath dataList:(NSMutableArray *)aDataList dateFormatText:(NSString*)aDateFormatText sourceView:(UIView *)aView {
     @try {
         NSMutableDictionary* eventDataDict = [aDataList objectAtIndex:anIndexPath.row];
         if (eventDataDict == nil) return;
 //        NSLog(@"eventDataDict %@", eventDataDict);
-        ArcosCalendarEventEntryDetailTableViewController* ACEEDTVC = [[ArcosCalendarEventEntryDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-        ACEEDTVC.refreshDelegate = self;
+//        ArcosCalendarEventEntryDetailTableViewController* ACEEDTVC = [[ArcosCalendarEventEntryDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        ArcosCalendarEventEntryDetailTemplateViewController* ACEEDTVC = [[ArcosCalendarEventEntryDetailTemplateViewController alloc] initWithNibName:@"ArcosCalendarEventEntryDetailTemplateViewController" bundle:nil];
+        ACEEDTVC.actionDelegate = self;
         ACEEDTVC.presentDelegate = self;
-        [ACEEDTVC.arcosCalendarEventEntryDetailDataManager retrieveEditDataWithCellData:eventDataDict];
+        [ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveEditDataWithCellData:eventDataDict];
+        NSMutableDictionary* auxJourneyDict = [self.customerJourneyDataManager.journeyDictHashMap objectForKey:aDateFormatText];
+        if (auxJourneyDict != nil) {
+            [self.customerJourneyDataManager getLocationsWithJourneyDict:auxJourneyDict];
+            ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.journeyDictList = [self.customerJourneyDataManager.locationListDict objectForKey:aDateFormatText];
+        }
+        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = aDataList;
+        
+        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText];
+        
+//        [ACEEDTVC.arcosCalendarEventEntryDetailDataManager retrieveEditDataWithCellData:eventDataDict];
         UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
-        tmpNavigationController.preferredContentSize = CGSizeMake(500.0f, 700.0f);
+        tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
         tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
         tmpNavigationController.popoverPresentationController.sourceView = aView;
+        
+        
         [self presentViewController:tmpNavigationController animated:YES completion:nil];
         [ACEEDTVC release];
         [tmpNavigationController release];
@@ -315,13 +333,30 @@
         NSMutableDictionary* dayDataDict = [weekDataDict objectForKey:weekDay];
         if (dayDataDict == nil) return;
 //        NSLog(@"longInputFinishedWithIndexPath");
-        ArcosCalendarEventEntryDetailTableViewController* ACEEDTVC = [[ArcosCalendarEventEntryDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-        ACEEDTVC.refreshDelegate = self;
+//        ArcosCalendarEventEntryDetailTableViewController* ACEEDTVC = [[ArcosCalendarEventEntryDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        ArcosCalendarEventEntryDetailTemplateViewController* ACEEDTVC = [[ArcosCalendarEventEntryDetailTemplateViewController alloc] initWithNibName:@"ArcosCalendarEventEntryDetailTemplateViewController" bundle:nil];
+        ACEEDTVC.actionDelegate = self;
         ACEEDTVC.presentDelegate = self;
-        ACEEDTVC.arcosCalendarEventEntryDetailDataManager.actionType = ACEEDTVC.arcosCalendarEventEntryDetailDataManager.createText;
-        [ACEEDTVC.arcosCalendarEventEntryDetailDataManager retrieveCreateDataWithDate:[dayDataDict objectForKey:@"Date"]];
+        ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.actionType = ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.createText;
+        [ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveCreateDataWithDate:[dayDataDict objectForKey:@"Date"]];
+        //
+        NSString* auxDateFormatText = [ArcosUtils stringFromDate:[dayDataDict objectForKey:@"Date"] format:[GlobalSharedClass shared].dateFormat];
+        NSMutableDictionary* auxJourneyDict = [self.customerJourneyDataManager.journeyDictHashMap objectForKey:auxDateFormatText];
+        if (auxJourneyDict != nil) {
+            [self.customerJourneyDataManager getLocationsWithJourneyDict:auxJourneyDict];
+            ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.journeyDictList = [self.customerJourneyDataManager.locationListDict objectForKey:auxDateFormatText];
+        }
+        NSMutableArray* eventDataList = [dayDataDict objectForKey:@"Event"];
+        if ([eventDataList count] > 1) {
+            NSSortDescriptor* startDateDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"StartDate" ascending:YES selector:@selector(compare:)] autorelease];
+            [eventDataList sortUsingDescriptors:[NSArray arrayWithObjects:startDateDescriptor, nil]];
+        }
+        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = eventDataList;
+        
+        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:auxDateFormatText];
+        
         UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
-        tmpNavigationController.preferredContentSize = CGSizeMake(500.0f, 700.0f);
+        tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
         tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
         tmpNavigationController.popoverPresentationController.sourceView = aView;
         [self presentViewController:tmpNavigationController animated:YES completion:nil];

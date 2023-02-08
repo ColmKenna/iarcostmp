@@ -983,5 +983,15 @@
     return mimeTypeString;
 }
 
++ (void)maskTemplateViewWithView:(UIView*)aView {
+    UIBezierPath* maskPath = [UIBezierPath bezierPathWithRoundedRect:aView.bounds byRoundingCorners:(UIRectCornerTopLeft|UIRectCornerTopRight|UIRectCornerBottomLeft|UIRectCornerBottomRight) cornerRadii:CGSizeMake(10.0f, 10.0f)];
+    
+    CAShapeLayer* maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = aView.bounds;
+    maskLayer.path = maskPath.CGPath;
+    aView.layer.mask = maskLayer;
+    [maskLayer release];
+}
+
 
 @end
