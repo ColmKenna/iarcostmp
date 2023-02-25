@@ -49,12 +49,12 @@
         NSMutableDictionary* elementDict = [NSMutableDictionary dictionary];
         for (int i = 0; i < element.childCount; i++) {
             if (![[element childAtIndex:i].name isEqualToString:@"text"]) {
-                [elementDict setObject:[[element childAtIndex:i] stringValue] forKey:[element childAtIndex:i].name];
+                [elementDict setObject:[ArcosUtils convertNilToEmpty:[[element childAtIndex:i] stringValue]] forKey:[ArcosUtils convertNilToEmpty:[element childAtIndex:i].name]];
             }
         }
         
         NSString* subTitleString = [NSString stringWithFormat:@"%@",[elementDict objectForKey:@"Details"]];
-        [elementDict setObject:subTitleString forKey:@"Title"];
+        [elementDict setObject:[ArcosUtils convertNilToEmpty:subTitleString] forKey:@"Title"];
         NSNumber* countNumber = [ArcosUtils convertStringToNumber:[elementDict objectForKey:@"Count"]];
         NSNumber* qtyNumber = [ArcosUtils convertStringToNumber:[elementDict objectForKey:@"Qty"]];
         NSNumber* valueNumber = [ArcosUtils convertStringToFloatNumber:[elementDict objectForKey:@"Value"]];

@@ -47,7 +47,7 @@
         NSMutableDictionary* elementDict = [NSMutableDictionary dictionary];
         for (int i = 0; i < element.childCount; i++) {
             if (![[element childAtIndex:i].name isEqualToString:@"text"]) {
-                [elementDict setObject:[[element childAtIndex:i] stringValue] forKey:[element childAtIndex:i].name];
+                [elementDict setObject:[ArcosUtils convertNilToEmpty:[[element childAtIndex:i] stringValue]] forKey:[ArcosUtils convertNilToEmpty:[element childAtIndex:i].name]];
             }
         }
         totalCount += [[ArcosUtils convertStringToNumber:[elementDict objectForKey:@"Count"]] floatValue];

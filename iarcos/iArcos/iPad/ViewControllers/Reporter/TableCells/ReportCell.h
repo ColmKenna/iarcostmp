@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ReportTableCellProtocol.h"
+#import "ArcosUtils.h"
 
 @interface ReportCell : UITableViewCell<ReportTableCellProtocol>{
 }

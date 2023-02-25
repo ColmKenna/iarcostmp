@@ -44,7 +44,7 @@
         if (![[element childAtIndex:i].name isEqualToString:@"text"]&&[[element childAtIndex:i]stringValue]!=nil) {
             //NSLog(@"child name:%@  %d  child value:%@  %d",[element childAtIndex:i].name,[[element childAtIndex:i].name length],[[element childAtIndex:i]stringValue],[[[element childAtIndex:i]stringValue]length]);
             
-            [elementDict setObject:[[element childAtIndex:i]stringValue] forKey:[element childAtIndex:i].name];
+            [elementDict setObject:[ArcosUtils convertNilToEmpty:[[element childAtIndex:i]stringValue]] forKey:[ArcosUtils convertNilToEmpty:[element childAtIndex:i].name]];
         }
         
     }

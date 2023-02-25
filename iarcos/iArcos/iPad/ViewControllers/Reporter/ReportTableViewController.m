@@ -96,13 +96,13 @@
             if (![[sortElement childAtIndex:i].name isEqualToString:@"text"]) {
                 
                 if ([[sortElement childAtIndex:i]stringValue] !=nil) {
-                    [elementDict setObject:[[sortElement childAtIndex:i]stringValue] forKey:[sortElement childAtIndex:i].name];
+                    [elementDict setObject:[ArcosUtils convertNilToEmpty:[[sortElement childAtIndex:i]stringValue]] forKey:[ArcosUtils convertNilToEmpty:[sortElement childAtIndex:i].name]];
                 }else {
-                    [elementDict setObject:@"" forKey:[sortElement childAtIndex:i].name];
+                    [elementDict setObject:@"" forKey:[ArcosUtils convertNilToEmpty:[sortElement childAtIndex:i].name]];
                 }
                 
                 
-                [elementDict setObject:[sortElement childAtIndex:i].name forKey:@"Title"];
+                [elementDict setObject:[ArcosUtils convertNilToEmpty:[sortElement childAtIndex:i].name] forKey:@"Title"];
                 [elementDict setObject:@"Sort" forKey:@"PopoverCellType"];
 
                 [self.sortList addObject:elementDict];
@@ -126,12 +126,12 @@
             
             if (![[element childAtIndex:i].name isEqualToString:@"text"]) {
                 
-                [elementDict setObject:[[element childAtIndex:i]stringValue] forKey:[element childAtIndex:i].name];
+                [elementDict setObject:[ArcosUtils convertNilToEmpty:[[element childAtIndex:i]stringValue]] forKey:[ArcosUtils convertNilToEmpty:[element childAtIndex:i].name]];
             }
         }
         
         NSString* subTitleString=[NSString stringWithFormat:@"%@",[elementDict objectForKey:@"Details"]];
-        [elementDict setObject:subTitleString forKey:@"Title"];
+        [elementDict setObject:[ArcosUtils convertNilToEmpty:subTitleString] forKey:@"Title"];
         [elementDict setObject:@"SubTable" forKey:@"PopoverCellType"];
 
         [self.optionList addObject:elementDict];
