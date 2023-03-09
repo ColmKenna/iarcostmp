@@ -22,5 +22,7 @@
 -(DetailingTableCell*)createSampleTableCell;
 -(DetailingTableCell*)createGivenRequestTableCell;
 -(DetailingTableCell*)createPresenterTableCell;
+-(DetailingTableCell*)createPresenterParentTableCell;
+-(DetailingTableCell*)createPresentationsTableCell;
 -(NSString*)identifierWithData:(NSMutableDictionary*)data;
 @end

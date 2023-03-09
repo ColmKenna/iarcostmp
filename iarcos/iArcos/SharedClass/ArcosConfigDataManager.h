@@ -86,6 +86,7 @@
 - (BOOL)showPreviousMemoInCallEntryFlag;
 - (BOOL)showStartTimeAtHomePageFlag;
 - (BOOL)showPackageFlag;
+- (BOOL)showPresenterInDetailingFlag;
 - (void)resetSystemCodes:(NSString*)aSystemCodes;
 - (void)persistentSystemCodes;
 

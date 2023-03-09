@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SettingInputCell.h"
+#import "ArcosUtils.h"
 
 @interface DetailingTableCell : SettingInputCell {
     NSNumber* _locationIUR;

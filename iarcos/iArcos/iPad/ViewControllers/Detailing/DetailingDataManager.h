@@ -22,6 +22,10 @@
     NSString* _meetingContactKey;
     BOOL _isCallSaved;
     NSString* _actionType;
+    NSString* _presentationsKey;
+    NSMutableArray* _originalPresentationsDisplayList;
+    NSMutableDictionary* _presentationsHashMap;
+    NSMutableArray* _presentationsDisplayList;
 }
 
 @property(nonatomic, retain) NSMutableDictionary* detailingHeaderDict;
@@ -36,11 +40,16 @@
 @property(nonatomic, retain) NSString* meetingContactKey;
 @property(nonatomic, assign) BOOL isCallSaved;
 @property (nonatomic, retain) NSString* actionType;
+@property (nonatomic, retain) NSString* presentationsKey;
+@property (nonatomic, retain) NSMutableArray* originalPresentationsDisplayList;
+@property (nonatomic, retain) NSMutableDictionary* presentationsHashMap;
+@property (nonatomic, retain) NSMutableArray* presentationsDisplayList;
 
 - (void)createBasicData;
 - (NSMutableArray*)rowListWithSection:(NSInteger)section;
 - (NSString*)activeKeyWithSection:(NSInteger)section;
 - (void)resetDataToShowResultOnlyWhenSent;
 - (void)refreshContactField;
+- (void)resetBranchData;
 
 @end

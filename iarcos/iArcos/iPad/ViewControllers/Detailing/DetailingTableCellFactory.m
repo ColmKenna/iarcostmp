@@ -44,6 +44,10 @@
         return [self createGivenRequestTableCell];
     }else if ([DetailLevel isEqualToString:@"PS"] || [DetailLevel isEqualToString:@"MC"]) {
         return [self createPresenterTableCell];
+    } else if ([DetailLevel isEqualToString:@"PPHEADER"]) {
+        return [self createPresenterParentTableCell];
+    } else if ([DetailLevel isEqualToString:@"PP"]) {
+        return [self createPresentationsTableCell];
     }
     
     return nil;
@@ -66,6 +70,12 @@
 -(DetailingTableCell*)createPresenterTableCell {
     return [self getCellWithIdentifier:@"DetailingPSTableCell"];
 }
+-(DetailingTableCell*)createPresenterParentTableCell {
+    return [self getCellWithIdentifier:@"IdDetailingPPHEADERTableCell"];
+}
+-(DetailingTableCell*)createPresentationsTableCell {
+    return [self getCellWithIdentifier:@"IdDetailingPPTableCell"];
+}
 -(NSString*)identifierWithData:(NSMutableDictionary*)data{
     NSString* DetailLevel=[data objectForKey:@"DetailLevel"];
     if (DetailLevel==nil) {
@@ -84,6 +94,10 @@
         return [self retrievePIIdentifier];
     }else if ([DetailLevel isEqualToString:@"PS"] || [DetailLevel isEqualToString:@"MC"]) {
         return @"DetailingPSTableCell";
+    }else if ([DetailLevel isEqualToString:@"PP"]) {
+        return @"IdDetailingPPTableCell";
+    }else if ([DetailLevel isEqualToString:@"PPHEADER"]) {
+        return @"IdDetailingPPHEADERTableCell";
     }
     
     return nil;

@@ -481,6 +481,9 @@
     if (![self checkPresenter]) {
         return;
     }
+    if (![self checkPresentations]) {
+        return;
+    }
     
     if (![self checkBasicInfo]) {
 //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning" 
@@ -764,6 +767,7 @@
 }
 
 -(BOOL)checkPresenter {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPresenterInDetailingFlag]) return YES;
     if (![[ArcosConfigDataManager sharedArcosConfigDataManager] recordPresenterTransactionFlag]) return YES;
     NSMutableArray* presenterList = [self.detailingDataManager.detailingRowDict objectForKey:self.detailingDataManager.presenterKey];
     for (int i = 0; i < [presenterList count]; i++) {
@@ -777,6 +781,25 @@
         //add call tran to the calltrans array
         [self.calltrans addObject:aCalltran];
         [aCalltran release];
+    }
+    return YES;
+}
+
+- (BOOL)checkPresentations {
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showPresenterInDetailingFlag]) return YES;
+    NSArray* tmpKeyList = [self.detailingDataManager.presentationsHashMap allKeys];
+    for (int i = 0; i < [tmpKeyList count]; i++) {
+        NSMutableArray* tmpValueList = [self.detailingDataManager.presentationsHashMap objectForKey:[tmpKeyList objectAtIndex:i]];
+        for (NSMutableDictionary* aDict in tmpValueList) {
+            if ([[aDict objectForKey:@"data"] boolValue]) {
+                ArcosCallTran* aCalltran = [[ArcosCallTran alloc] init];
+                aCalltran.DetailIUR = [[aDict objectForKey:@"IUR"] intValue];
+                aCalltran.Score = 0;
+                aCalltran.DetailLevel = @"PS";
+                [self.calltrans addObject:aCalltran];
+                [aCalltran release];
+            }
+        }
     }
     return YES;
 }
@@ -865,6 +888,37 @@
 }
 -(UIViewController*)retrieveParentViewController {
     return self;
+}
+- (void)presenterHeaderPressedWithIndexPath:(NSIndexPath *)anIndexpath {
+    NSMutableDictionary* cellData = [self.detailingDataManager.presentationsDisplayList objectAtIndex:anIndexpath.row];
+    BOOL openFlag = [[cellData objectForKey:@"OpenFlag"] boolValue];
+    NSString* detailLevelString = [cellData objectForKey:@"DetailLevel"];
+    if ([detailLevelString isEqualToString:@"PP"]) return;
+    [self.detailingDataManager resetBranchData];
+    [cellData setObject:[NSNumber numberWithBool:!openFlag] forKey:@"OpenFlag"];
+    
+    self.detailingDataManager.presentationsDisplayList = [NSMutableArray array];
+    for (int i = 0; i < [self.detailingDataManager.originalPresentationsDisplayList count]; i++) {
+        NSMutableDictionary* tmpCellData = [self.detailingDataManager.originalPresentationsDisplayList objectAtIndex:i];
+        [self.detailingDataManager.presentationsDisplayList addObject:tmpCellData];
+        BOOL tmpOpenFlag = [[tmpCellData objectForKey:@"OpenFlag"] boolValue];
+        if (tmpOpenFlag) {
+            NSMutableArray* tmpLeafDataList = [self.detailingDataManager.presentationsHashMap objectForKey:[tmpCellData objectForKey:@"DescrDetailIUR"]];
+            [self.detailingDataManager.presentationsDisplayList addObjectsFromArray:tmpLeafDataList];
+        }
+    }
+    [self.detailingDataManager.detailingRowDict setObject:self.detailingDataManager.presentationsDisplayList forKey:self.detailingDataManager.presentationsKey];
+    
+    [self.tableView reloadData];
+}
+
+- (void)shownButtonPressedWithValue:(BOOL)aValue atIndexPath:(NSIndexPath *)anIndexPath {
+    NSMutableDictionary* tmpPresentationsDict = [self.detailingDataManager.presentationsDisplayList objectAtIndex:anIndexPath.row];
+    if (aValue) {
+        [tmpPresentationsDict setObject:[NSNumber numberWithBool:aValue] forKey:@"data"];
+    } else {
+        [tmpPresentationsDict removeObjectForKey:@"data"];
+    }
 }
 
 #pragma mark filling the detailing
@@ -1043,7 +1097,7 @@
             NSDictionary* presenterDict = [[ArcosCoreData sharedArcosCoreData] presenterWithIUR:[NSNumber numberWithInt:CT.DetailIUR]];
             [cellData setObject:[NSNumber numberWithInt:CT.DetailIUR] forKey:@"presenterIUR"];
             [cellData setObject:@"PS" forKey:@"DetailLevel"];
-            [cellData setObject:[ArcosUtils convertNilToEmpty:[presenterDict objectForKey:@"Title"]]  forKey:@"Label"];
+            [cellData setObject:[ArcosUtils convertNilToEmpty:[presenterDict objectForKey:@"fullTitle"]]  forKey:@"Label"];
 //            [cellData setObject:[NSNumber numberWithInt:CT.Score] forKey:@"data"];
             [cellData setObject:[ArcosUtils convertNilToEmpty:CT.Reference] forKey:@"data"];
             [presenterSelection addObject:cellData];
@@ -1068,6 +1122,19 @@
                 
             }
             [meetingContactSelection addObject:cellData];
+        }
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPresenterInDetailingFlag] && [CT.DetailLevel isEqualToString:self.detailingDataManager.presenterKey]) {
+            NSArray* tmpKeyList = [self.detailingDataManager.presentationsHashMap allKeys];
+            for (int i = 0; i < [tmpKeyList count]; i++) {
+                NSMutableArray* tmpValueList = [self.detailingDataManager.presentationsHashMap objectForKey:[tmpKeyList objectAtIndex:i]];
+                for (NSMutableDictionary* aDict in tmpValueList) {
+                    if (CT.DetailIUR != 0 && [[aDict objectForKey:@"IUR"] intValue] != 0) {
+                        if (CT.DetailIUR == [[aDict valueForKeyPath:@"IUR"] intValue]) {
+                            [aDict setObject:[NSNumber numberWithBool:YES] forKey:@"data"];
+                        }
+                    }
+                }
+            }            
         }
     }
 }

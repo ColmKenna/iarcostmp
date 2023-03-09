@@ -22,6 +22,10 @@
 @synthesize meetingContactKey = _meetingContactKey;
 @synthesize isCallSaved = _isCallSaved;
 @synthesize actionType = _actionType;
+@synthesize presentationsKey = _presentationsKey;
+@synthesize originalPresentationsDisplayList = _originalPresentationsDisplayList;
+@synthesize presentationsHashMap = _presentationsHashMap;
+@synthesize presentationsDisplayList = _presentationsDisplayList;
 
 - (id)init {
     self = [super init];
@@ -33,6 +37,7 @@
         self.promotionalItemsKey = @"RG";
         self.presenterKey = @"PS";
         self.meetingContactKey = @"MC";
+        self.presentationsKey = @"PP";
         self.detailingHeaderDict = [NSMutableDictionary dictionaryWithCapacity:5];
         self.detailingActiveKeyList = [NSMutableArray arrayWithCapacity:5];
         self.detailingRowDict = [NSMutableDictionary dictionaryWithCapacity:5];
@@ -58,6 +63,7 @@
         [self.detailingHeaderDict setObject:promotionalItemsValue forKey:self.promotionalItemsKey];
         [self.detailingHeaderDict setObject:@"Presenter" forKey:self.presenterKey];
         [self.detailingHeaderDict setObject:@"Attendees" forKey:self.meetingContactKey];
+        [self.detailingHeaderDict setObject:@"Presentations" forKey:self.presentationsKey];
     }
     
     return self;
@@ -75,6 +81,10 @@
     self.presenterKey = nil;
     self.meetingContactKey = nil;
     self.actionType = nil;
+    self.presentationsKey = nil;
+    self.originalPresentationsDisplayList = nil;
+    self.presentationsHashMap = nil;
+    self.presentationsDisplayList = nil;
     
     [super dealloc];
 }
@@ -114,6 +124,12 @@
             [self.detailingRowDict setObject:detailingRNGList forKey:self.promotionalItemsKey];
         }
     }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPresenterInDetailingFlag]) {
+        [self createBasicPresentationsData];
+        self.presentationsDisplayList = [NSMutableArray arrayWithArray:self.originalPresentationsDisplayList];
+        [self.detailingActiveKeyList addObject:self.presentationsKey];
+        [self.detailingRowDict setObject:self.presentationsDisplayList forKey:self.presentationsKey];
+    }
 }
 
 - (NSMutableArray*)rowListWithSection:(NSInteger)section {
@@ -129,6 +145,9 @@
     int keyListCount = [ArcosUtils convertNSUIntegerToUnsignedInt:[self.detailingActiveKeyList count]];
     for (int i = keyListCount - 1; i >= 0; i--) {
         NSString* tmpKey = [self.detailingActiveKeyList objectAtIndex:i];
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPresenterInDetailingFlag] && [tmpKey isEqualToString:self.presentationsKey]) {
+            continue;
+        }
         NSMutableArray* tmpSelection = [self.detailingRowDict objectForKey:tmpKey];
         int selectionCount = [ArcosUtils convertNSUIntegerToUnsignedInt:[tmpSelection count]];
         for (int j = selectionCount - 1; j >= 0; j--) {
@@ -140,6 +159,34 @@
         if ([tmpSelection count] == 0) {
             [self.detailingActiveKeyList removeObjectAtIndex:i];
         }
+    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPresenterInDetailingFlag]) {
+        int secondKeyListCount = [ArcosUtils convertNSUIntegerToUnsignedInt:[self.detailingActiveKeyList count]];
+        int presentationsKeyListCount = [ArcosUtils convertNSUIntegerToUnsignedInt:[self.presentationsDisplayList count]];
+        for (int i = secondKeyListCount - 1; i >= 0; i--) {
+            NSString* tmpKey = [self.detailingActiveKeyList objectAtIndex:i];
+            if (![tmpKey isEqualToString:self.presentationsKey]) {
+                continue;
+            }
+            for (int j = presentationsKeyListCount - 1; j >= 0; j--) {
+                NSMutableDictionary* ppHeaderDict = [self.presentationsDisplayList objectAtIndex:j];
+                NSMutableArray* ppDictList = [self.presentationsHashMap objectForKey:[ppHeaderDict objectForKey:@"DescrDetailIUR"]];
+                int ppDictListCount = [ArcosUtils convertNSUIntegerToUnsignedInt:[ppDictList count]];
+                for (int k = ppDictListCount - 1; k >= 0; k--) {
+                    NSMutableDictionary* tmpPpDict = [ppDictList objectAtIndex:k];
+                    if ([tmpPpDict objectForKey:@"data"] == nil) {
+                        [ppDictList removeObjectAtIndex:k];
+                    }
+                }
+                if ([ppDictList count] == 0) {
+                    [self.presentationsDisplayList removeObjectAtIndex:j];
+                    [self.originalPresentationsDisplayList removeObjectAtIndex:j];
+                }
+            }
+            if ([self.presentationsDisplayList count] == 0) {
+                [self.detailingActiveKeyList removeObjectAtIndex:i];
+            }
+        }    
     }
 }
 
@@ -162,6 +209,65 @@
             [MData setObject:tmpContactDict forKey:@"Contact"];
             [basicInfoDict setObject:MData forKey:@"data"];
         }
+    }
+}
+
+- (void)createBasicPresentationsData {
+    self.originalPresentationsDisplayList = [NSMutableArray array];
+    NSMutableArray* tmpPresenterParentDataList = [self retrievePresenterParentData];
+    NSMutableArray* tmpDescrDetailIURList = [NSMutableArray arrayWithCapacity:[tmpPresenterParentDataList count]];
+    for (int i = 0; i < [tmpPresenterParentDataList count]; i++) {
+        NSDictionary* tmpDescrDetailDict = [tmpPresenterParentDataList objectAtIndex:i];
+        NSNumber* tmpDescrDetailIUR = [tmpDescrDetailDict objectForKey:@"DescrDetailIUR"];
+        [tmpDescrDetailIURList addObject:[ArcosUtils convertNilToZero:tmpDescrDetailIUR]];
+    }
+    NSMutableArray* tmpPresenterDataList = [self retrievePresenterWithDescrDetailIURList:tmpDescrDetailIURList];
+    self.presentationsHashMap = [NSMutableDictionary dictionaryWithCapacity:[tmpPresenterParentDataList count]];
+    for (int i = 0; i < [tmpPresenterDataList count]; i++) {
+        NSDictionary* tmpPresenterDataDict = [tmpPresenterDataList objectAtIndex:i];
+        NSMutableDictionary* resPresenterDataDict = [NSMutableDictionary dictionaryWithDictionary:tmpPresenterDataDict];
+        [resPresenterDataDict setObject:@"PP" forKey:@"DetailLevel"];
+        NSNumber* tmpLocationIUR = [tmpPresenterDataDict objectForKey:@"LocationIUR"];
+        NSMutableArray* subPresenterDataList = [self.presentationsHashMap objectForKey:tmpLocationIUR];
+        if (subPresenterDataList == nil) {
+            subPresenterDataList = [NSMutableArray array];
+            [self.presentationsHashMap setObject:subPresenterDataList forKey:tmpLocationIUR];
+        }
+        [subPresenterDataList addObject:resPresenterDataDict];
+    }
+
+    for (int i = 0; i < [tmpPresenterParentDataList count]; i++) {
+        NSDictionary* tmpDescrDetailDict = [tmpPresenterParentDataList objectAtIndex:i];
+        NSNumber* tmpDescrDetailIUR = [ArcosUtils convertNilToZero:[tmpDescrDetailDict objectForKey:@"DescrDetailIUR"]];
+        if ([[self.presentationsHashMap objectForKey:tmpDescrDetailIUR] count] > 0) {
+            NSMutableDictionary* resDescrDetailDict = [NSMutableDictionary dictionaryWithDictionary:tmpDescrDetailDict];
+            [resDescrDetailDict setObject:@"PPHEADER" forKey:@"DetailLevel"];
+            [resDescrDetailDict setObject:[NSNumber numberWithBool:NO] forKey:@"OpenFlag"];
+            [self.originalPresentationsDisplayList addObject:resDescrDetailDict];
+        }
+    }
+//    NSLog(@"ap:%@", self.originalPresentationsDisplayList);
+//    NSLog(@"az:%@", self.presentationsHashMap);
+}
+
+- (NSMutableArray*)retrievePresenterParentData {
+    NSArray* properties = [NSArray arrayWithObjects:@"DescrDetailIUR", @"Detail", @"Active", nil];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode = 'PP' and Active = 1"];
+    NSArray* sortArray = [NSArray arrayWithObjects:@"ProfileOrder", nil];
+    return [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:properties  withPredicate:predicate withSortDescNames:sortArray withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
+}
+
+- (NSMutableArray*)retrievePresenterWithDescrDetailIURList:(NSMutableArray*)aDescrDetailIURList {
+    NSArray* properties = [NSArray arrayWithObjects:@"IUR", @"fullTitle", @"Active", @"LocationIUR", @"ImageIUR", @"displaySequence", @"memoDetails", nil];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"LocationIUR in %@ and Active = 1", aDescrDetailIURList];
+    NSArray* sortArray = [NSArray arrayWithObjects:@"displaySequence", nil];
+    return [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"Presenter" withPropertiesToFetch:properties  withPredicate:predicate withSortDescNames:sortArray withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
+}
+
+- (void)resetBranchData {
+    for (int i = 0; i < [self.originalPresentationsDisplayList count]; i++) {
+        NSMutableDictionary* tmpBranchDict = [self.originalPresentationsDisplayList objectAtIndex:i];
+        [tmpBranchDict setObject:[NSNumber numberWithBool:NO] forKey:@"OpenFlag"];
     }
 }
 
