@@ -34,6 +34,9 @@
     self.label.text = [theData objectForKey:@"Label"];
 //    NSNumber* answerData = [theData objectForKey:@"data"];
     self.statusLabel.text = [theData objectForKey:@"data"];
+    if ([[theData objectForKey:@"data"] isEqualToString:@"0"]) {
+        self.statusLabel.text = @"Shown";
+    }
 }
 
 @end

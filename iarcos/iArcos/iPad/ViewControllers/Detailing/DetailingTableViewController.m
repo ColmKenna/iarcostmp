@@ -312,6 +312,13 @@
     if (self.requestSource == DetailingRequestSourceCustomer && section == 0) {
         return 0;
     }
+    NSString* activeKey = [self.detailingDataManager.detailingActiveKeyList objectAtIndex:section];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPresenterInDetailingFlag] && self.isEditable && [activeKey isEqualToString:self.detailingDataManager.presenterKey]) {
+        return 0;
+    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPresenterInDetailingFlag] && !self.isEditable && [activeKey isEqualToString:self.detailingDataManager.presentationsKey]) {
+        return 0;
+    }
     return [[self.detailingDataManager rowListWithSection:section] count];
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
@@ -319,12 +326,26 @@
     if (self.requestSource == DetailingRequestSourceCustomer && section == 0) {
         return nil;
     }
-    NSString* activeKey = [self.detailingDataManager activeKeyWithSection:section];
+    NSString* activeKey = [self.detailingDataManager.detailingActiveKeyList objectAtIndex:section];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPresenterInDetailingFlag] && self.isEditable && [activeKey isEqualToString:self.detailingDataManager.presenterKey]) {
+        return nil;
+    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPresenterInDetailingFlag] && !self.isEditable && [activeKey isEqualToString:self.detailingDataManager.presentationsKey]) {
+        return nil;
+    }
+//    NSString* activeKey = [self.detailingDataManager activeKeyWithSection:section];
     return [self.detailingDataManager.detailingHeaderDict objectForKey:activeKey];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.requestSource == DetailingRequestSourceCustomer && indexPath.section == 0) {
+        return 0;
+    }
+    NSString* activeKey = [self.detailingDataManager.detailingActiveKeyList objectAtIndex:indexPath.section];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPresenterInDetailingFlag] && self.isEditable && [activeKey isEqualToString:self.detailingDataManager.presenterKey]) {
+        return 0;
+    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPresenterInDetailingFlag] && !self.isEditable && [activeKey isEqualToString:self.detailingDataManager.presentationsKey]) {
         return 0;
     }
     if (indexPath.section==0) {
@@ -335,6 +356,13 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (self.requestSource == DetailingRequestSourceCustomer && section == 0) {
+        return 0.1;
+    }
+    NSString* activeKey = [self.detailingDataManager.detailingActiveKeyList objectAtIndex:section];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPresenterInDetailingFlag] && self.isEditable && [activeKey isEqualToString:self.detailingDataManager.presenterKey]) {
+        return 0.1;
+    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPresenterInDetailingFlag] && !self.isEditable && [activeKey isEqualToString:self.detailingDataManager.presentationsKey]) {
         return 0.1;
     }
     return 38.0f;
@@ -375,6 +403,13 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.requestSource == DetailingRequestSourceCustomer && indexPath.section == 0) {
+        return;
+    }
+    NSString* activeKey = [self.detailingDataManager.detailingActiveKeyList objectAtIndex:indexPath.section];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPresenterInDetailingFlag] && self.isEditable && [activeKey isEqualToString:self.detailingDataManager.presenterKey]) {
+        return;
+    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPresenterInDetailingFlag] && !self.isEditable && [activeKey isEqualToString:self.detailingDataManager.presentationsKey]) {
         return;
     }
     [ArcosUtils groupStyleTableView:tableView tableCell:cell indexPath:indexPath];
@@ -1083,8 +1118,8 @@
                 }
             }
         }
-        
-        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] recordPresenterTransactionFlag] && [CT.DetailLevel isEqualToString:self.detailingDataManager.presenterKey]) {
+        //[[ArcosConfigDataManager sharedArcosConfigDataManager] recordPresenterTransactionFlag] &&
+        if ([CT.DetailLevel isEqualToString:self.detailingDataManager.presenterKey]) {
             
             NSMutableArray* presenterSelection = [self.detailingDataManager.detailingRowDict objectForKey:self.detailingDataManager.presenterKey];
             if (presenterSelection == nil) {
