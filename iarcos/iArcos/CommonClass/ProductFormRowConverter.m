@@ -34,6 +34,7 @@
  SamplesAvailable at 25/01/2020
  Testers at 13/03/2020
  ProductColour at 18/07/2021
+ vatAmount on 24/03/2023
  change restore as well
  */
 + (NSMutableDictionary*)createFormRowWithProduct:(NSMutableDictionary*) product {
@@ -71,6 +72,7 @@
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
     [formRow setObject:[NSNumber numberWithInt:0]  forKey:@"Qty"];
     [formRow setObject:[NSNumber numberWithFloat:0]  forKey:@"LineValue"];
+    [formRow setObject:[NSNumber numberWithFloat:0]  forKey:@"vatAmount"];
     
     if ([[ArcosUtils convertNilToZero:[product objectForKey:@"PriceFlag"]] intValue] == 1 && [[ArcosConfigDataManager sharedArcosConfigDataManager] useDiscountFromPriceFlag]) {
         NSNumber* allowDiscount = [SettingManager SettingForKeypath:@"CompanySetting.Order Processing" atIndex:1];
@@ -133,6 +135,7 @@
     [formRow setObject:[anOrderLine objectForKey:@"Bonus"] forKey:@"Bonus"];
     [formRow setObject:[anOrderLine objectForKey:@"Qty"] forKey:@"Qty"];
     [formRow setObject:[anOrderLine objectForKey:@"LineValue"]  forKey:@"LineValue"];
+    [formRow setObject:[anOrderLine objectForKey:@"vatAmount"]  forKey:@"vatAmount"];
     [formRow setObject:[anOrderLine objectForKey:@"DiscountPercent"]  forKey:@"DiscountPercent"];
     [formRow setObject:[anOrderLine objectForKey:@"InStock"] forKey:@"InStock"];
     [formRow setObject:[anOrderLine objectForKey:@"FOC"] forKey:@"FOC"];
@@ -195,6 +198,7 @@
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
     [formRow setObject:[NSNumber numberWithInt:0]  forKey:@"Qty"];
     [formRow setObject:[NSNumber numberWithFloat:0]  forKey:@"LineValue"];
+    [formRow setObject:[NSNumber numberWithFloat:0]  forKey:@"vatAmount"];
     [formRow setObject:[NSNumber numberWithFloat:0]  forKey:@"DiscountPercent"];
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"InStock"];
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"FOC"];
@@ -367,6 +371,7 @@
     [aFormRowDict setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
     [aFormRowDict setObject:[NSNumber numberWithInt:0]  forKey:@"Qty"];
     [aFormRowDict setObject:[NSNumber numberWithFloat:0]  forKey:@"LineValue"];
+    [aFormRowDict setObject:[NSNumber numberWithFloat:0]  forKey:@"vatAmount"];
 //    [aFormRowDict setObject:[NSNumber numberWithFloat:0]  forKey:@"DiscountPercent"];
     [aFormRowDict setObject:[NSNumber numberWithInt:0] forKey:@"InStock"];
     [aFormRowDict setObject:[NSNumber numberWithInt:0] forKey:@"FOC"];
