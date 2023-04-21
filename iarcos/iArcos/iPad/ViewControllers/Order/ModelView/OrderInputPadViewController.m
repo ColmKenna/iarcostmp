@@ -951,6 +951,7 @@
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
 //        [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"DiscountPercent"];
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"LineValue"];
+        [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"vatAmount"];
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"InStock"];
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"FOC"];
         [self.Data setObject:[NSNumber numberWithBool:NO] forKey: @"IsSelected"];
@@ -965,6 +966,12 @@
         //        NSNumber* total=[NSNumber numberWithFloat:[qty intValue]*[[self.Data objectForKey:@"UnitPrice"]floatValue]];
         NSNumber* total = [self resetTotalValue];
         [self.Data setObject:total forKey:@"LineValue"];
+        if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+            [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"vatAmount"];
+        } else {
+            NSDictionary* auxDescrDetailDict = [[ArcosCoreData sharedArcosCoreData] descriptionWithIUR:[self.Data objectForKey:@"VCIUR"]];
+            [self.Data setObject:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:[total floatValue] / 100 * [[auxDescrDetailDict objectForKey:@"Dec1"] floatValue]]] forKey:@"vatAmount"];
+        }
         [self.Data setObject:[NSNumber numberWithBool:YES] forKey: @"IsSelected"];
     }
     if ([[ArcosUtils convertNilToZero:[self.Data objectForKey:@"PriceFlag"]] intValue] == 1 && [[ArcosConfigDataManager sharedArcosConfigDataManager] useDiscountFromPriceFlag]) {

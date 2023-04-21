@@ -456,12 +456,12 @@
 -(void)savePressed:(id)sender {
     if (![self validatePresentationPopover]) return;
     [self.view endEditing:YES];
-    if (![self.weeklyMainTemplateDataManager checkValidation]) {
-        [ArcosUtils showDialogBox:@"Please fill out at least one of these fields." title:[GlobalSharedClass shared].errorTitle delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
-            
-        }];
-        return;
-    }
+//    if (![self.weeklyMainTemplateDataManager checkValidation]) {
+//        [ArcosUtils showDialogBox:@"Please fill out at least one of these fields." title:[GlobalSharedClass shared].errorTitle delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+//
+//        }];
+//        return;
+//    }
     if ([self.weeklyMainTemplateDataManager isNewRecord]) {
         [self createWeeklyRecord];
     } else {        

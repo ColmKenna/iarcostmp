@@ -38,7 +38,8 @@
 }
 
 -(void)setDataXML:(CXMLElement*)element{
-    NSMutableDictionary* elementDict = [[[NSMutableDictionary alloc] init] autorelease];
+    NSMutableDictionary* elementDict = [self convertElementToDict:element];
+    /*
     for (int i = 0; i < element.childCount; i++) {
         if (![[element childAtIndex:i].name isEqualToString:@"text"] && [[element childAtIndex:i]stringValue] != nil) {
 //            NSLog(@"child name:%@  %d  child value:%@  %d",[element childAtIndex:i].name, [ArcosUtils convertNSUIntegerToUnsignedInt:[[element childAtIndex:i].name length]],[[element childAtIndex:i]stringValue], [ArcosUtils convertNSUIntegerToUnsignedInt:[[[element childAtIndex:i] stringValue] length]]);
@@ -47,7 +48,7 @@
         }
         
     }
-    
+    */
     NSString* dateTimeStr = [self retrieveDatetime:[elementDict objectForKey:@"Date"]];
     self.reasonLabel.text = [ArcosUtils trim:[NSString stringWithFormat:@"%@ %@", dateTimeStr, [ArcosUtils trim:[elementDict objectForKey:@"Reason"]]]];
     self.venueLabel.text = [elementDict objectForKey:@"Venue"];

@@ -36,12 +36,39 @@
     NSMutableArray* sortedOrderKeyList = [[OrderSharedClass sharedOrderSharedClass] getSortedCartKeys:[[OrderSharedClass sharedOrderSharedClass].currentOrderCart allValues]];
     float totalBonus = 0.0;
     float totalTrade = 0.0;
+    float totalVAT = 0.0;
     BOOL percentageSetFlag = NO;
+    
+//    NSMutableDictionary* descrDetailDictHashMap = nil;
+//    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+//        NSMutableDictionary* VCIURHashMap = [NSMutableDictionary dictionaryWithCapacity:[sortedOrderKeyList count]];
+//        for (int i = 0; i < [sortedOrderKeyList count]; i++) {
+//            NSString* tmpOrderKey = [sortedOrderKeyList objectAtIndex:i];
+//            NSMutableDictionary* tmpOrderLineDict = [[OrderSharedClass sharedOrderSharedClass].currentOrderCart objectForKey:tmpOrderKey];
+//            NSNumber* tmpVCIUR = [tmpOrderLineDict objectForKey:@"VCIUR"];
+//            [VCIURHashMap setObject:tmpVCIUR forKey:tmpVCIUR];
+//        }
+//        NSMutableArray* descrDetailDictList = [[ArcosCoreData sharedArcosCoreData] descriptionWithIURList:[NSMutableArray arrayWithArray:[VCIURHashMap allKeys]]];
+//        descrDetailDictHashMap = [NSMutableDictionary dictionaryWithCapacity:[descrDetailDictList count]];
+//        for (int i = 0; i < [descrDetailDictList count]; i++) {
+//            NSDictionary* tmpDescrDetailDict = [descrDetailDictList objectAtIndex:i];
+//            [descrDetailDictHashMap setObject:tmpDescrDetailDict forKey:[tmpDescrDetailDict objectForKey:@"DescrDetailIUR"]];
+//        }
+//    }
+    
     for (int i = 0; i < [sortedOrderKeyList count]; i++) {
         NSString* tmpOrderKey = [sortedOrderKeyList objectAtIndex:i];
         NSMutableDictionary* tmpOrderLineDict = [[OrderSharedClass sharedOrderSharedClass].currentOrderCart objectForKey:tmpOrderKey];
         totalTrade += [[tmpOrderLineDict objectForKey:@"LineValue"] floatValue];
         totalBonus += [[tmpOrderLineDict objectForKey:@"Bonus"] intValue] * [[tmpOrderLineDict objectForKey:@"UnitPrice"] floatValue];
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+//            NSNumber* tmpVCIUR = [tmpOrderLineDict objectForKey:@"VCIUR"];
+//            NSDictionary* tmpDescrDetailDict = [descrDetailDictHashMap objectForKey:tmpVCIUR];
+//            if (tmpDescrDetailDict != nil) {
+//                totalVAT += [[tmpOrderLineDict objectForKey:@"LineValue"] floatValue] / 100 * [[tmpDescrDetailDict objectForKey:@"Dec1"] floatValue];
+//            }
+            totalVAT += [[tmpOrderLineDict objectForKey:@"vatAmount"] floatValue];
+        }
     }
     int percentageValue = 0;
     if (totalBonus > 0.0) {
@@ -67,8 +94,12 @@
     } else {
         anOrderPadFooterViewCell.totalBonusValue.text = @"";
     }
-    
-    anOrderPadFooterViewCell.totalTradeValue.text = [NSString stringWithFormat:@"%.2f", totalTrade];
+        
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+        anOrderPadFooterViewCell.totalTradeValue.text = [NSString stringWithFormat:@"Total Trade %.2f", totalTrade];
+    } else {
+        anOrderPadFooterViewCell.totalTradeValue.text = [NSString stringWithFormat:@"Goods: %.2f VAT: %.2f Total: %.2f", totalTrade, totalVAT, (totalTrade + totalVAT)];
+    }
 }
 
 @end

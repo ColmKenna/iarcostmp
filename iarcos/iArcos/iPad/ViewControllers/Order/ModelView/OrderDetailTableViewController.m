@@ -712,8 +712,8 @@
 -(void)deleteOrderHeaderWithOrderNnumber:(NSNumber *)orderNumber {
     [self.orderProductViewControllerDelegate deleteOrderHeaderWithOrderNnumber:orderNumber];
 }
--(void)totalGoodsUpdateForOrderNumber:(NSNumber *)orderNumber withValue:(NSNumber *)totalGoods {
-    [self.orderProductViewControllerDelegate totalGoodsUpdateForOrderNumber:orderNumber withValue:totalGoods];
+-(void)totalGoodsUpdateForOrderNumber:(NSNumber *)orderNumber withValue:(NSNumber *)totalGoods totalVat:(NSNumber*)aTotalVat {
+    [self.orderProductViewControllerDelegate totalGoodsUpdateForOrderNumber:orderNumber withValue:totalGoods totalVat:aTotalVat];
 }
 
 #pragma mark WidgetFactoryDelegate

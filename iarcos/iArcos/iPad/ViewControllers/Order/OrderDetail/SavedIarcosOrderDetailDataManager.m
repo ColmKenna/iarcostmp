@@ -107,11 +107,17 @@
     [self.orderHeader setObject:[ArcosUtils convertNilToEmpty:[arcosGenericClass Field14]] forKey:@"statusText"];
     [self.orderHeader setObject:[ArcosUtils convertNilToEmpty:[arcosGenericClass Field10]] forKey:@"orderTypeText"];
     [self.orderHeader setObject:[NSString stringWithFormat:@"%.2f", [[ArcosUtils convertStringToFloatNumber:[arcosGenericClass Field27]] floatValue]] forKey:@"totalGoodsText"];
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+        [self.orderHeader setObject:[NSString stringWithFormat:@"%.2f", [[ArcosUtils convertStringToFloatNumber:[arcosGenericClass Field27]] floatValue]] forKey:@"totalGoodsText"];
+    } else {
+        [self.orderHeader setObject:[NSString stringWithFormat:@"%.2f", ([[ArcosUtils convertStringToFloatNumber:[arcosGenericClass Field27]] floatValue] + [[ArcosUtils convertStringToFloatNumber:[arcosGenericClass Field34]] floatValue])] forKey:@"totalGoodsText"];
+    }
     [self.orderHeader setObject:[ArcosUtils convertNilToEmpty:[arcosGenericClass Field29]] forKey:@"custRef"];
     [self.orderHeader setObject:[ArcosUtils convertNilToEmpty:[arcosGenericClass Field30]] forKey:@"acctNoText"];
     [self.orderHeader setObject:[ArcosUtils convertNilToEmpty:[arcosGenericClass Field28]] forKey:@"memo"];
     [self.orderHeader setObject:[SettingManager employeeIUR] forKey:@"EmployeeIUR"];
     [self.orderHeader setObject:[ArcosUtils convertStringToFloatNumber:[arcosGenericClass Field27]] forKey:@"TotalGoods"];
+    [self.orderHeader setObject:[ArcosUtils convertStringToFloatNumber:[arcosGenericClass Field34]] forKey:@"TotalVat"];
     [self.orderHeader setObject:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[arcosGenericClass Field24]]] forKey:@"invoiceRef"];
     [self.orderHeader setObject:[ArcosUtils convertStringToNumber:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[arcosGenericClass Field33]]]] forKey:@"InvoiceHeaderIUR"];
     NSNumber* formIUR = [ArcosUtils convertStringToNumber:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:arcosGenericClass.Field11]]];
@@ -163,6 +169,7 @@
         [orderlineDict setObject:[ArcosUtils convertStringToNumber:[subArcosGenericClass Field2]] forKey:@"Qty"];
         [orderlineDict setObject:[ArcosUtils convertStringToNumber:[subArcosGenericClass Field3]] forKey:@"Bonus"];
         [orderlineDict setObject:[ArcosUtils convertStringToFloatNumber:[subArcosGenericClass Field7]] forKey:@"LineValue"];
+        [orderlineDict setObject:[ArcosUtils convertStringToFloatNumber:[subArcosGenericClass Field18]] forKey:@"vatAmount"];
         [orderlineDict setObject:[ArcosUtils convertStringToNumber:[subArcosGenericClass Field10]] forKey:@"DiscountPercent"];
         NSNumber* tmpProductIUR = [ArcosUtils convertStringToNumber:[subArcosGenericClass Field11]];
         [orderlineDict setObject:tmpProductIUR forKey:@"ProductIUR"];

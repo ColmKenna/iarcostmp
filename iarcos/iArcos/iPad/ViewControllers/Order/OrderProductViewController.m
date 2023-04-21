@@ -844,6 +844,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 -(void)restoreCurrentOrderLine{
     if (self.backupSelectedOrderLine != nil) {
         [self.currentSelectedOrderLine setObject:[self.backupSelectedOrderLine objectForKey:@"LineValue" ]forKey:@"LineValue"];
+        [self.currentSelectedOrderLine setObject:[self.backupSelectedOrderLine objectForKey:@"vatAmount" ]forKey:@"vatAmount"];
         [self.currentSelectedOrderLine setObject:[self.backupSelectedOrderLine objectForKey:@"DiscountPercent" ]forKey:@"DiscountPercent"];
         [self.currentSelectedOrderLine setObject:[self.backupSelectedOrderLine objectForKey:@"Bonus" ]forKey:@"Bonus"];
         [self.currentSelectedOrderLine setObject:[self.backupSelectedOrderLine objectForKey:@"Qty" ]forKey:@"Qty"];
@@ -863,6 +864,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     int totalPoints=0;
     int totalBonus=0;
     int totalQty=0;
+    float totalVAT = 0.0f;
     
     for(NSMutableDictionary* aDict in self.displayList ){
         //NSNumber* isSelected=[aDict objectForKey:@"IsSelected"];
@@ -872,6 +874,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
             totalPoints+=[[aDict objectForKey:@"Points"]intValue];
             totalBonus+=[[aDict objectForKey:@"Bonus"]intValue];
             totalQty+=[[aDict objectForKey:@"Qty"]intValue];
+            totalVAT += [[aDict objectForKey:@"vatAmount"]floatValue];
         }
     }
     totalQtyLabel.text=[NSString stringWithFormat:@"%d",totalQty];
@@ -887,8 +890,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     
     
     //sync with order header table
-    [[ArcosCoreData sharedArcosCoreData]updateOrderHeaderTotalGoods:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:totalValue]] withOrderNumber:self.orderNumber];
-    [self.delegate totalGoodsUpdateForOrderNumber:self.orderNumber withValue:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:totalValue]]];
+    [[ArcosCoreData sharedArcosCoreData]updateOrderHeaderTotalGoods:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:totalValue]] withOrderNumber:self.orderNumber totalVat:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:totalVAT]]];
+    [self.delegate totalGoodsUpdateForOrderNumber:self.orderNumber withValue:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:totalValue]] totalVat:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:totalVAT]]];
     
     return nil;
     

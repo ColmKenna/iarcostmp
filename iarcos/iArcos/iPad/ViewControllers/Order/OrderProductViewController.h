@@ -22,7 +22,7 @@
 
 @protocol OrderProductViewControllerDelegate 
 -(void)deleteOrderHeaderWithOrderNnumber:(NSNumber*)orderNumber;
--(void)totalGoodsUpdateForOrderNumber:(NSNumber *)orderNumber withValue:(NSNumber *)totalGoods;
+-(void)totalGoodsUpdateForOrderNumber:(NSNumber *)orderNumber withValue:(NSNumber *)totalGoods totalVat:(NSNumber*)aTotalVat;
 @end
 
 @interface OrderProductViewController : OrderDetailViewController <SelectionPopoverDelegate,ModelViewDelegate,WidgetFactoryDelegate,UIActionSheetDelegate, PresentViewControllerDelegate, OrderLineDetailProductDelegate, UIPopoverControllerDelegate>{

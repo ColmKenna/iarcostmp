@@ -85,7 +85,11 @@
         self.deliveryDate.hidden = NO;
         self.value.hidden = NO;
         self.deliveryDate.text = [ArcosUtils stringFromDate:[cellData objectForKey:@"DeliveryDate"] format:[GlobalSharedClass shared].dateFormat];
-        self.value.text = [NSString stringWithFormat:@"%1.2f",[[cellData objectForKey:@"TotalGoods"]floatValue]];
+        if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+            self.value.text = [NSString stringWithFormat:@"%1.2f",[[cellData objectForKey:@"TotalGoods"]floatValue]];
+        } else {
+            self.value.text=[NSString stringWithFormat:@"%1.2f",([[cellData objectForKey:@"TotalGoods"]floatValue] + [[cellData objectForKey:@"TotalVat"]floatValue])];
+        }
         self.name.text = [cellData objectForKey:@"WholesaleNameText"];
         self.typeDesc.text = [cellData objectForKey:@"OrderTypeText"];
         if ([[cellData objectForKey:@"IsSealed"] boolValue]) {

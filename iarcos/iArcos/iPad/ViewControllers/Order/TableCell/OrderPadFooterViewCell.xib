@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
-    <device id="ipad9_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -25,7 +23,7 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Trade" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9rA-1h-Vcw">
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Trade" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9rA-1h-Vcw">
                     <rect key="frame" x="588" y="11" width="88" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="88" id="8ci-4f-net"/>
@@ -36,10 +34,9 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99999.99" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q7w-yq-Yxj">
-                    <rect key="frame" x="678" y="11" width="80" height="21"/>
+                    <rect key="frame" x="345" y="11" width="413" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="MIN-Ad-P5S"/>
-                        <constraint firstAttribute="width" constant="80" id="Odh-v5-3fd"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -51,7 +48,8 @@
                 <constraint firstItem="zXL-le-ReD" firstAttribute="top" secondItem="InY-Te-XEk" secondAttribute="top" constant="11" id="8gl-WX-oXu"/>
                 <constraint firstItem="9rA-1h-Vcw" firstAttribute="top" secondItem="InY-Te-XEk" secondAttribute="top" constant="11" id="Bqn-wH-gHH"/>
                 <constraint firstAttribute="trailing" secondItem="Q7w-yq-Yxj" secondAttribute="trailing" constant="10" id="GyD-LL-rVW"/>
-                <constraint firstItem="Q7w-yq-Yxj" firstAttribute="leading" secondItem="9rA-1h-Vcw" secondAttribute="trailing" constant="2" id="Iy9-6z-fsd"/>
+                <constraint firstAttribute="trailing" secondItem="9rA-1h-Vcw" secondAttribute="trailing" constant="92" id="Tb4-qc-V9J"/>
+                <constraint firstItem="Q7w-yq-Yxj" firstAttribute="leading" secondItem="zXL-le-ReD" secondAttribute="trailing" constant="10" id="fof-CJ-Atf"/>
                 <constraint firstItem="zXL-le-ReD" firstAttribute="leading" secondItem="InY-Te-XEk" secondAttribute="leading" constant="15" id="jWD-Ig-fQa"/>
                 <constraint firstItem="Q7w-yq-Yxj" firstAttribute="top" secondItem="InY-Te-XEk" secondAttribute="top" constant="11" id="yEn-Rj-GF0"/>
             </constraints>

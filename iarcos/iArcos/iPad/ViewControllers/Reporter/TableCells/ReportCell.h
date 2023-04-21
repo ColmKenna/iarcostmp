@@ -14,5 +14,6 @@
 }
 
 - (NSString*)retrieveDate:(NSString*)aDateStr;
+- (NSMutableDictionary*)convertElementToDict:(CXMLElement*)anElement;
 
 @end

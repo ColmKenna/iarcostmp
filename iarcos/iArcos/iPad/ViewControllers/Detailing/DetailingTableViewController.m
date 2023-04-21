@@ -848,6 +848,7 @@
 //        NSLog(@"order header to save is %@",self.orderHeader);
         [self.orderHeader setObject:[NSNumber numberWithInt:0] forKey:@"NumberOflines"];
         [self.orderHeader setObject:[NSNumber numberWithInt:0] forKey:@"TotalGoods"];
+        [self.orderHeader setObject:[NSNumber numberWithInt:0] forKey:@"TotalVat"];
         isSuccess= [[OrderSharedClass sharedOrderSharedClass]saveAnOrderWithHearder:self.orderHeader withCallTrans:self.calltrans]; 
     }
     

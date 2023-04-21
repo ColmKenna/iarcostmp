@@ -40,6 +40,7 @@
 	NSDecimalNumber* _NetRevenue;
 	NSDate* _DeliveryDate;
 	NSDecimalNumber* _TradeValue;
+	NSDecimalNumber* _VatAmount;
 	
 }
 		
@@ -74,6 +75,7 @@
 	@property (retain, nonatomic) NSDecimalNumber* NetRevenue;
 	@property (retain, nonatomic) NSDate* DeliveryDate;
 	@property (retain, nonatomic) NSDecimalNumber* TradeValue;
+	@property (retain, nonatomic) NSDecimalNumber* VatAmount;
 
 	+ (ArcosOrderLineBO*) createWithNode: (CXMLNode*) node;
 	- (id) initWithNode: (CXMLNode*) node;

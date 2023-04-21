@@ -37,6 +37,7 @@
 	@synthesize NetRevenue = _NetRevenue;
 	@synthesize DeliveryDate = _DeliveryDate;
 	@synthesize TradeValue = _TradeValue;
+	@synthesize VatAmount = _VatAmount;
 
 	- (id) init
 	{
@@ -58,6 +59,7 @@
 			self.NetRevenue = nil;
 			self.DeliveryDate = nil;
 			self.TradeValue = nil;
+			self.VatAmount = nil;
 
 		}
 		return self;
@@ -103,6 +105,7 @@
 			self.NetRevenue = [NSDecimalNumber decimalNumberWithString: [Soap getNodeValue: node withName: @"NetRevenue"]];
 			self.DeliveryDate = [Soap dateFromString: [Soap getNodeValue: node withName: @"DeliveryDate"]];
 			self.TradeValue = [NSDecimalNumber decimalNumberWithString: [Soap getNodeValue: node withName: @"TradeValue"]];
+			self.VatAmount = [NSDecimalNumber decimalNumberWithString: [Soap getNodeValue: node withName: @"VatAmount"]];
 		}
 		return self;
 	}
@@ -157,6 +160,7 @@
 		if (self.NetRevenue != nil) [s appendFormat: @"<NetRevenue>%@</NetRevenue>", [NSString stringWithFormat: @"%@", self.NetRevenue]];
 		if (self.DeliveryDate != nil) [s appendFormat: @"<DeliveryDate>%@</DeliveryDate>", [Soap getDateString: self.DeliveryDate]];
 		if (self.TradeValue != nil) [s appendFormat: @"<TradeValue>%@</TradeValue>", [NSString stringWithFormat: @"%@", self.TradeValue]];
+		if (self.VatAmount != nil) [s appendFormat: @"<VatAmount>%@</VatAmount>", [NSString stringWithFormat: @"%@", self.VatAmount]];
 
 		return s;
 	}
@@ -198,6 +202,7 @@
 		self.NetRevenue = nil;
 		self.DeliveryDate = nil;
 		self.TradeValue = nil;
+		self.VatAmount = nil;
 		[super dealloc];
 	}
 

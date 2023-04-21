@@ -59,6 +59,7 @@
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"FOC"] forKey:@"FOC"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"Testers"] forKey:@"Testers"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"LineValue"] forKey:@"LineValue"];
+        [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"vatAmount"] forKey:@"vatAmount"];
         [tmpOrderRestoreDict setObject:[ArcosUtils convertNilToZero:[anOrderline objectForKey:@"PriceFlag"]] forKey:@"PriceFlag"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"UnitPrice"] forKey:@"UnitPrice"];
         [tmpOrderRestoreDict setObject:[ArcosUtils convertNilToZero:[anOrderline objectForKey:@"RRIUR"]] forKey:@"RRIUR"];

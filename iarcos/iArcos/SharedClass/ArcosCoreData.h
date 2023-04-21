@@ -185,7 +185,7 @@ typedef enum {
 - (OrderHeader*)orderHeaderWithOrderNumber:(NSNumber*)orderNumber;
 - (NSMutableDictionary*)editingOrderHeaderWithOrderNumber:(NSNumber*)orderNumber;
 - (BOOL)saveOrderHeader:(NSMutableDictionary*)orderHeader;
-- (BOOL)updateOrderHeaderTotalGoods:(NSNumber*)totalGoods withOrderNumber:(NSNumber*)orderNumber;
+- (BOOL)updateOrderHeaderTotalGoods:(NSNumber*)totalGoods withOrderNumber:(NSNumber*)orderNumber totalVat:(NSNumber*)aTotalVat;
 //send order
 - (BOOL)saveSentOrderWithOrderHeaderBO:(ArcosOrderHeaderBO*)orderHeaderBO;
 //- (BOOL)updateOrderLineForOrderHeaderBO:(ArcosOrderHeaderBO*)orderHeaderBO;

@@ -160,6 +160,7 @@
             NSDictionary* OTDict = [descrDetailHashMap objectForKey:tmpOrderHeader.OTiur];
             [orderCallDict setObject:[ArcosUtils convertNilToEmpty:[OTDict objectForKey:@"Detail"]] forKey:@"OrderTypeText"];
             [orderCallDict setObject:tmpOrderHeader.TotalGoods forKey:@"TotalGoods"];
+            [orderCallDict setObject:tmpOrderHeader.TotalVat forKey:@"TotalVat"];
             NSDictionary* wholesaleDict = [locationHashMap objectForKey:tmpOrderHeader.WholesaleIUR];
             [orderCallDict setObject:[ArcosUtils convertNilToZero:tmpOrderHeader.WholesaleIUR] forKey:@"WholesaleIUR"];
             [orderCallDict setObject:[ArcosUtils convertNilToEmpty:[wholesaleDict objectForKey:@"Name"]] forKey:@"WholesaleNameText"];
@@ -229,6 +230,7 @@
         [cellData setObject:[ArcosUtils convertNilToEmpty:arcosGenericClass.Field8] forKey:@"WholesaleNameText"];
         [cellData setObject:[ArcosUtils convertStringToNumber:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:arcosGenericClass.Field9]]] forKey:@"WholesaleIUR"];
         [cellData setObject:[ArcosUtils convertStringToFloatNumber:arcosGenericClass.Field5] forKey:@"TotalGoods"];
+        [cellData setObject:[ArcosUtils convertStringToFloatNumber:arcosGenericClass.Field13] forKey:@"TotalVat"];
         NSDate* deliveryDate = [ArcosUtils dateFromString:arcosGenericClass.Field6 format:[GlobalSharedClass shared].dateFormat];
         deliveryDate = [ArcosUtils addHours:1 date:deliveryDate];
         [cellData setObject:deliveryDate forKey:@"DeliveryDate"];

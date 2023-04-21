@@ -34,7 +34,8 @@
 }
 
 -(void)setDataXML:(CXMLElement*)element{
-    NSMutableDictionary* elementDict=[[[NSMutableDictionary alloc]init]autorelease];
+    NSMutableDictionary* elementDict = [self convertElementToDict:element];
+    /*
     for (int i=0; i<element.childCount; i++) {
         
         if (![[element childAtIndex:i].name isEqualToString:@"text"]&&[[element childAtIndex:i]stringValue]!=nil) {
@@ -44,7 +45,7 @@
         }
         
     }
-    
+    */
     
     self.name.text=[elementDict objectForKey:@"Name"];
     self.address.text=[elementDict objectForKey:@"Address"];

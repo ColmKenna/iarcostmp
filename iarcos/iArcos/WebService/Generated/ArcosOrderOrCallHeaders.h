@@ -22,6 +22,8 @@
 	int _Osiur;
 	int _NumberOfLines;
 	NSString* _StatusCode;
+	int _Qty;
+	int _Bonus;
 	
 }
 		
@@ -38,6 +40,8 @@
 	@property int Osiur;
 	@property int NumberOfLines;
 	@property (retain, nonatomic) NSString* StatusCode;
+	@property int Qty;
+	@property int Bonus;
 
 	+ (ArcosOrderOrCallHeaders*) createWithNode: (CXMLNode*) node;
 	- (id) initWithNode: (CXMLNode*) node;

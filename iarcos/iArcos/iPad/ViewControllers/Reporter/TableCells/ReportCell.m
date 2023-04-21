@@ -46,4 +46,19 @@
     }
     return myResultDate;
 }
+
+- (NSMutableDictionary*)convertElementToDict:(CXMLElement*)anElement {
+    NSMutableDictionary* auxElementDict = [[[NSMutableDictionary alloc] init] autorelease];
+    for (int i=0; i<anElement.childCount; i++) {
+        
+        if (![[anElement childAtIndex:i].name isEqualToString:@"text"]&&[[anElement childAtIndex:i]stringValue]!=nil) {
+            //NSLog(@"child name:%@  %d  child value:%@  %d",[element childAtIndex:i].name,[[element childAtIndex:i].name length],[[element childAtIndex:i]stringValue],[[[element childAtIndex:i]stringValue]length]);
+            
+            [auxElementDict setObject:[ArcosUtils convertNilToEmpty:[[anElement childAtIndex:i]stringValue]] forKey:[ArcosUtils convertNilToEmpty:[anElement childAtIndex:i].name]];
+        }
+        
+    }
+    return auxElementDict;
+}
+
 @end

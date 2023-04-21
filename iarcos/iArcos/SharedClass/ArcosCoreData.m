@@ -1100,7 +1100,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 }
 - (NSMutableArray*)allOrderLinesWithOrderNumber:(NSNumber*)aNumber withSortKey:(NSString*)aKey locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
     NSArray* sortDescNames=[NSArray arrayWithObjects:aKey,nil];
-    NSArray* properties=[NSArray arrayWithObjects:@"UnitPrice", @"LineValue",@"Qty",@"DiscountPercent",@"Bonus",@"ProductIUR",@"OrderNumber",@"OrderLine",@"InStock",@"FOC",@"PPIUR",@"Testers",nil];
+    NSArray* properties=[NSArray arrayWithObjects:@"UnitPrice", @"LineValue",@"Qty",@"DiscountPercent",@"Bonus",@"ProductIUR",@"OrderNumber",@"OrderLine",@"InStock",@"FOC",@"PPIUR",@"Testers",@"vatAmount",nil];
     NSPredicate* predicate=[NSPredicate predicateWithFormat:@"OrderNumber=%d",[aNumber intValue]];
     
     NSMutableArray* auxObjectsArray=[self fetchRecordsWithEntity:@"OrderLine" withPropertiesToFetch:properties  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
@@ -1193,7 +1193,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     
     
     NSArray* sortDescNames=[NSArray arrayWithObjects:@"OrderDate",nil];
-    NSArray* properties=[NSArray arrayWithObjects:@"OrderNumber", @"OrderDate",@"Points",@"DeliveryDate",@"TotalGoods",@"LocationIUR",@"OrderHeaderIUR",@"EnteredDate",@"NumberOflines",@"OSiur",@"FormIUR",@"ContactIUR",@"WholesaleIUR",nil];
+    NSArray* properties=[NSArray arrayWithObjects:@"OrderNumber", @"OrderDate",@"Points",@"DeliveryDate",@"TotalGoods",@"LocationIUR",@"OrderHeaderIUR",@"EnteredDate",@"NumberOflines",@"OSiur",@"FormIUR",@"ContactIUR",@"WholesaleIUR",@"TotalVat",nil];
     
     NSMutableArray* objectsArray=[self fetchRecordsWithEntity:@"OrderHeader" withPropertiesToFetch:properties  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSManagedObjectResultType needDistinct:NO ascending:[NSNumber numberWithBool:NO]];
     
@@ -1203,7 +1203,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 - (NSMutableArray*)retrievePendingOnlyOrders {
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"OrderHeaderIUR = 0"];
     NSArray* sortDescNames=[NSArray arrayWithObjects:@"OrderDate",nil];
-    NSArray* properties=[NSArray arrayWithObjects:@"OrderNumber", @"OrderDate",@"Points",@"DeliveryDate",@"TotalGoods",@"LocationIUR",@"OrderHeaderIUR",@"EnteredDate",@"NumberOflines",@"OSiur",@"FormIUR",@"ContactIUR",@"WholesaleIUR",nil];
+    NSArray* properties=[NSArray arrayWithObjects:@"OrderNumber", @"OrderDate",@"Points",@"DeliveryDate",@"TotalGoods",@"LocationIUR",@"OrderHeaderIUR",@"EnteredDate",@"NumberOflines",@"OSiur",@"FormIUR",@"ContactIUR",@"WholesaleIUR",@"TotalVat",nil];
     
     NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"OrderHeader" withPropertiesToFetch:properties  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSManagedObjectResultType needDistinct:NO ascending:[NSNumber numberWithBool:NO]];
     return [self savedOrdersProcessor:objectsArray];
@@ -1218,6 +1218,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         [resultObjectDict setObject:[ArcosUtils convertNilToZero:tmpOrderHeader.Points] forKey:@"Points"];
         [resultObjectDict setObject:tmpOrderHeader.DeliveryDate forKey:@"DeliveryDate"];
         [resultObjectDict setObject:[ArcosUtils convertNilToZero:tmpOrderHeader.TotalGoods] forKey:@"TotalGoods"];
+        [resultObjectDict setObject:[ArcosUtils convertNilToZero:tmpOrderHeader.TotalVat] forKey:@"TotalVat"];
         [resultObjectDict setObject:tmpOrderHeader.LocationIUR forKey:@"LocationIUR"];
         [resultObjectDict setObject:tmpOrderHeader.OrderHeaderIUR forKey:@"OrderHeaderIUR"];
         [resultObjectDict setObject:tmpOrderHeader.EnteredDate forKey:@"EnteredDate"];
@@ -1668,6 +1669,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         OL.DiscountPercent=[orderLine objectForKey:@"DiscountPercent"];
         OL.Bonus=[orderLine objectForKey:@"Bonus"];
         OL.LineValue=[orderLine objectForKey:@"LineValue"];
+        OL.vatAmount=[orderLine objectForKey:@"vatAmount"];
         OL.Qty=[orderLine objectForKey:@"Qty"];
         OL.InStock = [orderLine objectForKey:@"InStock"];
         OL.FOC = [orderLine objectForKey:@"FOC"];
@@ -1906,6 +1908,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     OL.Bonus = [anOrderLine objectForKey:@"Bonus"];
     OL.Qty = [anOrderLine objectForKey:@"Qty"];
     OL.LineValue = [anOrderLine objectForKey:@"LineValue"];
+    OL.vatAmount = [anOrderLine objectForKey:@"vatAmount"];
     OL.DiscountPercent = [anOrderLine objectForKey:@"DiscountPercent"];
     OL.InStock = [anOrderLine objectForKey:@"InStock"];
     OL.FOC = [anOrderLine objectForKey:@"FOC"];
@@ -1971,8 +1974,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     [returnOrderHeader setObject: orderHeader.NumberOflines forKey:@"NumberOflines"];
     
     [returnOrderHeader setObject: [orderHeader.DocketIUR stringValue]  forKey:@"orderNumberText"];
-    [returnOrderHeader setObject: [NSString stringWithFormat:@"%1.2f", [orderHeader.TotalGoods floatValue]] forKey:@"totalGoodsText"];
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+        [returnOrderHeader setObject: [NSString stringWithFormat:@"%1.2f", [orderHeader.TotalGoods floatValue]] forKey:@"totalGoodsText"];
+    } else {
+        [returnOrderHeader setObject: [NSString stringWithFormat:@"%1.2f", ([orderHeader.TotalGoods floatValue] + [orderHeader.TotalVat floatValue])] forKey:@"totalGoodsText"];
+    }
     [returnOrderHeader setObject:[ArcosUtils convertNilToZero:orderHeader.TotalGoods] forKey:@"TotalGoods"];
+    [returnOrderHeader setObject:[ArcosUtils convertNilToZero:orderHeader.TotalVat] forKey:@"TotalVat"];
     [returnOrderHeader setObject:[ArcosUtils convertNilToZero:orderHeader.TotalQty] forKey:@"TotalQty"];
     [returnOrderHeader setObject:[ArcosUtils convertNilToZero:orderHeader.TotalBonus] forKey:@"TotalBonus"];
     [returnOrderHeader setObject:[ArcosUtils convertNilToEmpty:orderHeader.DeliveryInstructions1] forKey:@"DeliveryInstructions1"];
@@ -2009,7 +2017,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         if (aDescrption != nil) {
             [returnOrderHeader setObject:aDescrption forKey:@"callType"];
             [returnOrderHeader setObject:[aDescrption objectForKey:@"Detail"] forKey:@"callTypeText"];
-        }        
+        } else {
+            [returnOrderHeader setObject:[NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:0] forKey:@"DescrDetailIUR"] forKey:@"callType"];
+            [returnOrderHeader setObject:@"None" forKey:@"callTypeText"];
+        }
     }else{
         [returnOrderHeader setObject:[NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:0] forKey:@"DescrDetailIUR"] forKey:@"callType"];
         [returnOrderHeader setObject:@"None" forKey:@"callTypeText"];
@@ -2283,7 +2294,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     [self saveContext:self.fetchManagedObjectContext];
     return YES;
 }
-- (BOOL)updateOrderHeaderTotalGoods:(NSNumber*)totalGoods withOrderNumber:(NSNumber*)orderNumber{
+- (BOOL)updateOrderHeaderTotalGoods:(NSNumber*)totalGoods withOrderNumber:(NSNumber*)orderNumber totalVat:(NSNumber*)aTotalVat{
     if (orderNumber==nil||totalGoods==nil) {
         return NO;
     }
@@ -2293,6 +2304,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         return NO;
     }
     OH.TotalGoods=[NSDecimalNumber decimalNumberWithString:[totalGoods stringValue]];
+    OH.TotalVat = [NSDecimalNumber decimalNumberWithString:[aTotalVat stringValue]];
     [self saveContext:self.fetchManagedObjectContext];
     return YES;
 }
@@ -2938,6 +2950,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         OH.ContactIUR=[NSNumber numberWithInt:0];
     }
     OH.TotalGoods=[orderHeader objectForKey:@"TotalGoods"];
+    OH.TotalVat=[orderHeader objectForKey:@"TotalVat"];
     OH.TotalQty=[orderHeader objectForKey:@"TotalQty"];
     OH.TotalBonus=[orderHeader objectForKey:@"TotalBonus"];
     OH.NumberOflines=[orderHeader objectForKey:@"NumberOflines"];
@@ -2970,6 +2983,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         OL.Bonus=[orderLine objectForKey:@"Bonus"];
         OL.Qty=[orderLine objectForKey:@"Qty"];
         OL.LineValue=[orderLine objectForKey:@"LineValue"];
+        OL.vatAmount=[orderLine objectForKey:@"vatAmount"];
         OL.DiscountPercent=[orderLine objectForKey:@"DiscountPercent"];
         OL.InStock = [orderLine objectForKey:@"InStock"];
         OL.FOC = [orderLine objectForKey:@"FOC"];
@@ -4035,6 +4049,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
                 OL.Bonus=[NSNumber numberWithInt:orderLine.Bonus];
                 OL.Qty=[NSNumber numberWithInt:orderLine.Qty];
                 OL.LineValue=orderLine.LineValue;
+                OL.vatAmount=orderLine.VatAmount;
                 OL.DiscountPercent=orderLine.DiscountPercent;
                 OL.RebatePercent = orderLine.RebatePercent;
                 OL.Points = [NSNumber numberWithInt:orderLine.Points];

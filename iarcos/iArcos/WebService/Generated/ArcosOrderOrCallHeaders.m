@@ -19,6 +19,8 @@
 	@synthesize Osiur = _Osiur;
 	@synthesize NumberOfLines = _NumberOfLines;
 	@synthesize StatusCode = _StatusCode;
+	@synthesize Qty = _Qty;
+	@synthesize Bonus = _Bonus;
 
 	- (id) init
 	{
@@ -59,6 +61,8 @@
 			self.Osiur = [[Soap getNodeValue: node withName: @"Osiur"] intValue];
 			self.NumberOfLines = [[Soap getNodeValue: node withName: @"NumberOfLines"] intValue];
 			self.StatusCode = [Soap getNodeValue: node withName: @"StatusCode"];
+			self.Qty = [[Soap getNodeValue: node withName: @"Qty"] intValue];
+			self.Bonus = [[Soap getNodeValue: node withName: @"Bonus"] intValue];
 		}
 		return self;
 	}
@@ -95,6 +99,8 @@
 		[s appendFormat: @"<Osiur>%@</Osiur>", [NSString stringWithFormat: @"%i", self.Osiur]];
 		[s appendFormat: @"<NumberOfLines>%@</NumberOfLines>", [NSString stringWithFormat: @"%i", self.NumberOfLines]];
 		if (self.StatusCode != nil) [s appendFormat: @"<StatusCode>%@</StatusCode>", [[self.StatusCode stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"] stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"]];
+		[s appendFormat: @"<Qty>%@</Qty>", [NSString stringWithFormat: @"%i", self.Qty]];
+		[s appendFormat: @"<Bonus>%@</Bonus>", [NSString stringWithFormat: @"%i", self.Bonus]];
 
 		return s;
 	}

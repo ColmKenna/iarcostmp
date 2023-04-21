@@ -511,6 +511,24 @@
     float totalValue = 0.0f;
     int totalBonus = 0;
     int totalQty = 0;
+    float totalVAT = 0.0f;
+//    NSMutableDictionary* descrDetailDictHashMap = nil;
+//    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+//        NSMutableArray* sortedOrderKeyList = [[OrderSharedClass sharedOrderSharedClass] getSortedCartKeys:[[OrderSharedClass sharedOrderSharedClass].currentOrderCart allValues]];
+//        NSMutableDictionary* VCIURHashMap = [NSMutableDictionary dictionaryWithCapacity:[sortedOrderKeyList count]];
+//        for (int i = 0; i < [sortedOrderKeyList count]; i++) {
+//            NSString* tmpOrderKey = [sortedOrderKeyList objectAtIndex:i];
+//            NSMutableDictionary* tmpOrderLineDict = [[OrderSharedClass sharedOrderSharedClass].currentOrderCart objectForKey:tmpOrderKey];
+//            NSNumber* tmpVCIUR = [tmpOrderLineDict objectForKey:@"VCIUR"];
+//            [VCIURHashMap setObject:tmpVCIUR forKey:tmpVCIUR];
+//        }
+//        NSMutableArray* descrDetailDictList = [[ArcosCoreData sharedArcosCoreData] descriptionWithIURList:[NSMutableArray arrayWithArray:[VCIURHashMap allKeys]]];
+//        descrDetailDictHashMap = [NSMutableDictionary dictionaryWithCapacity:[descrDetailDictList count]];
+//        for (int i = 0; i < [descrDetailDictList count]; i++) {
+//            NSDictionary* tmpDescrDetailDict = [descrDetailDictList objectAtIndex:i];
+//            [descrDetailDictHashMap setObject:tmpDescrDetailDict forKey:[tmpDescrDetailDict objectForKey:@"DescrDetailIUR"]];
+//        }
+//    }
     
     for(NSString* aKey in [OrderSharedClass sharedOrderSharedClass].currentOrderCart){
         NSMutableDictionary* aDict = [[OrderSharedClass sharedOrderSharedClass].currentOrderCart objectForKey:aKey];
@@ -520,10 +538,23 @@
             totalValue += [[aDict objectForKey:@"LineValue"] floatValue];
             totalBonus += [[aDict objectForKey:@"Bonus"] intValue];
             totalQty += [[aDict objectForKey:@"Qty"] intValue];
+            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+//                NSNumber* tmpVCIUR = [aDict objectForKey:@"VCIUR"];
+//                NSDictionary* tmpDescrDetailDict = [descrDetailDictHashMap objectForKey:tmpVCIUR];
+//                if (tmpDescrDetailDict != nil) {
+//                    totalVAT += [[aDict objectForKey:@"LineValue"] floatValue] / 100 * [[tmpDescrDetailDict objectForKey:@"Dec1"] floatValue];
+//                }
+                totalVAT += [[aDict objectForKey:@"vatAmount"] floatValue];
+            }
         }
     }
     [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[NSNumber numberWithFloat:totalValue] forKey:@"TotalGoods"];
-    [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[NSString stringWithFormat:@"%1.2f", totalValue] forKey:@"totalGoodsText"];
+    [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[NSNumber numberWithFloat:totalVAT] forKey:@"TotalVat"];
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+        [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[NSString stringWithFormat:@"%1.2f", totalValue] forKey:@"totalGoodsText"];
+    } else {
+        [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[NSString stringWithFormat:@"Goods: %.2f VAT: %.2f Total: %.2f", totalValue, totalVAT, (totalValue + totalVAT)] forKey:@"totalGoodsText"];
+    }
     [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[NSNumber numberWithFloat:totalQty] forKey:@"TotalQty"];
     [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[NSNumber numberWithFloat:totalBonus] forKey:@"TotalBonus"];
     [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[NSNumber numberWithFloat:totalProducts] forKey:@"NumberOflines"];

@@ -433,7 +433,11 @@
     NSNumber* numberOfLines=[cellData objectForKey:@"NumberOflines"];
 
     if ([numberOfLines intValue]>0) {
-        cell.value.text=[NSString stringWithFormat:@"%1.2f",[[cellData objectForKey:@"TotalGoods"]floatValue]];
+        if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+            cell.value.text=[NSString stringWithFormat:@"%1.2f",[[cellData objectForKey:@"TotalGoods"]floatValue]];
+        } else {
+            cell.value.text=[NSString stringWithFormat:@"%1.2f",([[cellData objectForKey:@"TotalGoods"]floatValue] + [[cellData objectForKey:@"TotalVat"]floatValue])];
+        }
         //[cell.name setTextColor:[UIColor blueColor]];
         //assign icon
         UIImage* auxWholesalerImage = nil;
@@ -1116,11 +1120,12 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         }
     }
 }
--(void)totalGoodsUpdateForOrderNumber:(NSNumber *)orderNumber withValue:(NSNumber *)totalGoods{
+-(void)totalGoodsUpdateForOrderNumber:(NSNumber *)orderNumber withValue:(NSNumber *)totalGoods totalVat:(NSNumber*)aTotalVat {
     for (int i=0; i<[self.displayList count]; i++) {
         NSMutableDictionary* anOrderHeader=[self.displayList objectAtIndex:i];
         if ([[anOrderHeader objectForKey:@"OrderNumber"]intValue]==[orderNumber intValue]) {
             [anOrderHeader setObject:[NSDecimalNumber decimalNumberWithString:[totalGoods stringValue]] forKey:@"TotalGoods"];
+            [anOrderHeader setObject:[NSDecimalNumber decimalNumberWithString:[aTotalVat stringValue]] forKey:@"TotalVat"];
             break;
         }
     }

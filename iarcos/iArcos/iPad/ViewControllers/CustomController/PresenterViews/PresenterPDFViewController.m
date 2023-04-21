@@ -17,6 +17,7 @@
 @synthesize pdfView;
 @synthesize indicatorView = _indicatorView;
 @synthesize arcosRootViewController = _arcosRootViewController;
+@synthesize mailController = _mailController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,6 +37,7 @@
     if (self.pdfView != nil) { self.pdfView = nil; }
     self.indicatorView = nil;
     self.arcosRootViewController = nil;
+    self.mailController = nil;
         
     [super dealloc];
 }
@@ -57,7 +59,7 @@
     // Do any additional setup after loading the view from its nib.
     self.pdfView.frame=self.view.frame;
     self.pdfView.scalesPageToFit=YES;
-
+    self.pdfView.delegate = self;
     
     //get the pdf name
     NSString* fileName=@"";
@@ -149,6 +151,52 @@
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    if (navigationType == UIWebViewNavigationTypeLinkClicked) {
+        NSString* auxScheme = [[[request URL] scheme] lowercaseString];
+        if ([auxScheme isEqualToString:@"http"] || [auxScheme isEqualToString:@"https"]) {
+            PresenterPdfLinkWebViewController* pplwvc = [[PresenterPdfLinkWebViewController alloc] initWithNibName:@"PresenterPdfLinkWebViewController" bundle:nil];
+            pplwvc.linkURL = [request URL];
+            [self.navigationController pushViewController:pplwvc animated:YES];
+            [pplwvc release];
+        } else if ([auxScheme isEqualToString:@"mailto"]) {
+            NSString* emailAddress = @"";
+            @try {
+                emailAddress = [[[request URL] absoluteString] substringFromIndex:7];
+            } @catch (NSException *exception) {
+                [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:self tag:0 handler:nil];
+            }
+            NSMutableArray* toRecipients = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"%@", emailAddress], nil];
+            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+                ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
+//                    amwvc.myDelegate = self;
+                amwvc.mailDelegate = self;
+                amwvc.toRecipients = toRecipients;
+                amwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
+                self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:amwvc] autorelease];
+                CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.arcosRootViewController];
+                self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+                [self.arcosRootViewController addChildViewController:self.globalNavigationController];
+                [self.arcosRootViewController.view addSubview:self.globalNavigationController.view];
+                [self.globalNavigationController didMoveToParentViewController:self.arcosRootViewController];
+                [amwvc release];
+                [UIView animateWithDuration:0.3f animations:^{
+                    self.globalNavigationController.view.frame = parentNavigationRect;
+                } completion:^(BOOL finished){
+                    
+                }];
+            }
+            if (![ArcosEmailValidator checkCanSendMailStatus:self]) return NO;
+            self.mailController = [[[MFMailComposeViewController alloc] init] autorelease];
+            self.mailController.mailComposeDelegate = self;
+            
+            [self.mailController setToRecipients:toRecipients];
+            [self.arcosRootViewController presentViewController:self.mailController animated:YES completion:nil];
+        } else {
+            [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Invalid scheme found.\n%@", [[request URL] absoluteString]] title:@"" delegate:nil target:self tag:0 handler:nil];
+        }
+        return NO;
+    }
+    
     return YES;
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{
@@ -178,5 +226,52 @@
     float tmpWidth = self.view.frame.size.width / 2 - self.indicatorView.frame.size.width / 2;
     float tmpHeight = self.view.frame.size.height / 2 - self.indicatorView.frame.size.height / 2;
     self.indicatorView.frame = CGRectMake(tmpWidth, tmpHeight, self.indicatorView.frame.size.width, self.indicatorView.frame.size.height);
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+    NSString* message = @"";
+    NSString* title = @"";
+    switch (result) {
+        case MFMailComposeResultCancelled:
+            message = @"Result: canceled";
+            break;
+            
+        case MFMailComposeResultSaved:
+            message = @"Result: saved";
+            break;
+            
+        case MFMailComposeResultSent: {
+            message = @"Sent Email OK";
+            title = @"App Email";
+        }
+            break;
+            
+        case MFMailComposeResultFailed: {
+            message = @"Failed to Send Email";
+            title = [GlobalSharedClass shared].errorTitle;
+        }
+            break;
+            
+        default:
+            message = @"Result: not sent";
+            break;
+    }
+    if (result != MFMailComposeResultFailed) {
+        [self alertViewCallBack];
+    } else {
+        [ArcosUtils showDialogBox:message title:title delegate:self target:controller tag:99 handler:^(UIAlertAction *action) {
+            [self alertViewCallBack];
+        }];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+    [self alertViewCallBack];
+}
+
+- (void)alertViewCallBack {
+    [self.arcosRootViewController dismissViewControllerAnimated:YES completion:^ {
+        self.mailController = nil;
+    }];
 }
 @end

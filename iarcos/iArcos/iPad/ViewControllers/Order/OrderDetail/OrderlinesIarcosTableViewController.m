@@ -424,12 +424,14 @@
 
 - (void)calculateOrderLinesTotal {
     float totalValue = 0.0f;
+    float totalVAT = 0.0f;
     
     for(NSMutableDictionary* aDict in self.displayList ){
         totalValue += [[aDict objectForKey:@"LineValue"]floatValue];
+        totalVAT += [[aDict objectForKey:@"vatAmount"]floatValue];
     }
 
-    [[ArcosCoreData sharedArcosCoreData] updateOrderHeaderTotalGoods:[NSNumber numberWithFloat:totalValue] withOrderNumber:self.orderNumber];
+    [[ArcosCoreData sharedArcosCoreData] updateOrderHeaderTotalGoods:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:totalValue]] withOrderNumber:self.orderNumber totalVat:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:totalVAT]]];
     [self refreshParentNavController];
 }
 

@@ -68,6 +68,7 @@
         OH.ContactIUR = [NSNumber numberWithInt:0];
     }
     OH.TotalGoods = [anOrderHeader objectForKey:@"TotalGoods"];
+    OH.TotalVat = [anOrderHeader objectForKey:@"TotalVat"];
     OH.TotalQty = [ArcosUtils convertNilToZero:[anOrderHeader objectForKey:@"TotalQty"]];
     OH.TotalBonus = [ArcosUtils convertNilToZero:[anOrderHeader objectForKey:@"TotalBonus"]];
 //    OH.DeliveryInstructions2 = [ArcosUtils convertNilToEmpty:[anOrderHeader objectForKey:@"DeliveryInstructions2"]];
@@ -95,6 +96,7 @@
         OL.Bonus = [auxOrderLineDict objectForKey:@"Bonus"];
         OL.Qty = [auxOrderLineDict objectForKey:@"Qty"];
         OL.LineValue = [auxOrderLineDict objectForKey:@"LineValue"];
+        OL.vatAmount = [auxOrderLineDict objectForKey:@"vatAmount"];
         OL.DiscountPercent = [auxOrderLineDict objectForKey:@"DiscountPercent"];
         OL.InStock = [auxOrderLineDict objectForKey:@"InStock"];
         OL.FOC = [auxOrderLineDict objectForKey:@"FOC"];

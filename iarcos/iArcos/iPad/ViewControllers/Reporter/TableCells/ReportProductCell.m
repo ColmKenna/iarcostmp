@@ -37,7 +37,8 @@
     
 }
 -(void)setDataXML:(CXMLElement*)element{
-    NSMutableDictionary* elementDict=[[[NSMutableDictionary alloc]init]autorelease];
+    NSMutableDictionary* elementDict = [self convertElementToDict:element];
+    /*
     for (int i=0; i<element.childCount; i++) {
         
         if (![[element childAtIndex:i].name isEqualToString:@"text"]&&[[element childAtIndex:i]stringValue]!=nil) {
@@ -46,7 +47,7 @@
             [elementDict setObject:[[element childAtIndex:i]stringValue] forKey:[element childAtIndex:i].name];
         }
     }
-    
+    */
     self.code.text=[elementDict objectForKey:@"Code"];
     self.description.text=[elementDict objectForKey:@"Description"];
     self.catalog.text=[elementDict objectForKey:@"Catalog_x0020_Code"];

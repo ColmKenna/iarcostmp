@@ -246,6 +246,7 @@
     
     [self.customerGDPRDataManager.orderHeader setObject:[NSNumber numberWithInt:0] forKey:@"NumberOflines"];
     [self.customerGDPRDataManager.orderHeader setObject:[NSNumber numberWithInt:0] forKey:@"TotalGoods"];
+    [self.customerGDPRDataManager.orderHeader setObject:[NSNumber numberWithInt:0] forKey:@"TotalVat"];
     if (self.customerGDPRDataManager.contactDict == nil) {
         [self.customerGDPRDataManager.orderHeader setObject:[[GlobalSharedClass shared] createUnAssignedContact] forKey:@"contact"];
     } else {

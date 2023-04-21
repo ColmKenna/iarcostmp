@@ -21,6 +21,7 @@
 #import "ArcosAttachmentSummary.h"
 #import "ArcosAttachmentWithFileContents.h"
 #import "ArcosIncompleteObject.h"
+#import "ArcosProductUpdateDTO.h"
 #import "ArcosQuestionBO.h"
 #import "ArcosConLocLinkBO.h"
 #import "ArcosDescrTypeBO.h"
@@ -116,6 +117,12 @@
 				
 @interface ArcosService : SoapService
 		
+	// Returns int
+	/*  */
+	- (SoapRequest*) UploadFileNew: (id <SoapDelegate>) handler contents: (NSData*) contents _fileName: (NSString*) _fileName _description: (NSString*) _description tableIUR: (NSString*) tableIUR tableName: (NSString*) tableName employeeiur: (int) employeeiur Locationiur: (int) Locationiur DateAttached: (NSDate*) DateAttached;
+	- (SoapRequest*) UploadFileNew: (id) target action: (SEL) action contents: (NSData*) contents _fileName: (NSString*) _fileName _description: (NSString*) _description tableIUR: (NSString*) tableIUR tableName: (NSString*) tableName employeeiur: (int) employeeiur Locationiur: (int) Locationiur DateAttached: (NSDate*) DateAttached;
+	-(SoapRequest*)UploadFileNewWithProgress:(SoapRequestProgressBlock)progressBlock contents: (NSData*) contents _fileName: (NSString*) _fileName _description: (NSString*) _description tableIUR: (NSString*) tableIUR tableName: (NSString*) tableName employeeiur: (int) employeeiur Locationiur: (int) Locationiur DateAttached: (NSDate*) DateAttached completion:(SoapRequestCompletionBlock)completionBlock;
+
 	// Returns int
 	/*  */
 	- (SoapRequest*) UploadFileToAttachment: (id <SoapDelegate>) handler contents: (NSData*) contents _fileName: (NSString*) _fileName attachmentiur: (int) attachmentiur;
@@ -271,6 +278,30 @@
 	- (SoapRequest*) UpdateLevelImage: (id <SoapDelegate>) handler descrDetailiur: (int) descrDetailiur contents: (NSData*) contents filename: (NSString*) filename;
 	- (SoapRequest*) UpdateLevelImage: (id) target action: (SEL) action descrDetailiur: (int) descrDetailiur contents: (NSData*) contents filename: (NSString*) filename;
 	-(SoapRequest*)UpdateLevelImageWithProgress:(SoapRequestProgressBlock)progressBlock descrDetailiur: (int) descrDetailiur contents: (NSData*) contents filename: (NSString*) filename completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns ArcosGenericReturnObject*
+	/*  */
+	- (SoapRequest*) MarkOrderForDeletion: (id <SoapDelegate>) handler CompanyIUR: (int) CompanyIUR EmployeeEmail: (NSString*) EmployeeEmail orderheaderiur: (int) orderheaderiur;
+	- (SoapRequest*) MarkOrderForDeletion: (id) target action: (SEL) action CompanyIUR: (int) CompanyIUR EmployeeEmail: (NSString*) EmployeeEmail orderheaderiur: (int) orderheaderiur;
+	-(SoapRequest*)MarkOrderForDeletionWithProgress:(SoapRequestProgressBlock)progressBlock CompanyIUR: (int) CompanyIUR EmployeeEmail: (NSString*) EmployeeEmail orderheaderiur: (int) orderheaderiur completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns ArcosGenericReturnObject*
+	/*  */
+	- (SoapRequest*) UpdateProduct: (id <SoapDelegate>) handler CompanyIUR: (int) CompanyIUR email: (NSString*) email orderheaderiur: (int) orderheaderiur productDetails: (ArcosProductUpdateDTO*) productDetails;
+	- (SoapRequest*) UpdateProduct: (id) target action: (SEL) action CompanyIUR: (int) CompanyIUR email: (NSString*) email orderheaderiur: (int) orderheaderiur productDetails: (ArcosProductUpdateDTO*) productDetails;
+	-(SoapRequest*)UpdateProductWithProgress:(SoapRequestProgressBlock)progressBlock CompanyIUR: (int) CompanyIUR email: (NSString*) email orderheaderiur: (int) orderheaderiur productDetails: (ArcosProductUpdateDTO*) productDetails completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns ArcosGenericReturnObject*
+	/*  */
+	- (SoapRequest*) UpdateEmployeeOnOrder: (id <SoapDelegate>) handler CompanyIUR: (int) CompanyIUR EmployeeIUR: (int) EmployeeIUR orderheaderiur: (int) orderheaderiur newEmployeeiur: (int) newEmployeeiur;
+	- (SoapRequest*) UpdateEmployeeOnOrder: (id) target action: (SEL) action CompanyIUR: (int) CompanyIUR EmployeeIUR: (int) EmployeeIUR orderheaderiur: (int) orderheaderiur newEmployeeiur: (int) newEmployeeiur;
+	-(SoapRequest*)UpdateEmployeeOnOrderWithProgress:(SoapRequestProgressBlock)progressBlock CompanyIUR: (int) CompanyIUR EmployeeIUR: (int) EmployeeIUR orderheaderiur: (int) orderheaderiur newEmployeeiur: (int) newEmployeeiur completion:(SoapRequestCompletionBlock)completionBlock;
+
+	// Returns ArcosGenericReturnObject*
+	/*  */
+	- (SoapRequest*) UpdateDeliveryDateOnOrder: (id <SoapDelegate>) handler CompanyIUR: (int) CompanyIUR email: (NSString*) email orderheaderiur: (int) orderheaderiur deliverDate: (NSDate*) deliverDate;
+	- (SoapRequest*) UpdateDeliveryDateOnOrder: (id) target action: (SEL) action CompanyIUR: (int) CompanyIUR email: (NSString*) email orderheaderiur: (int) orderheaderiur deliverDate: (NSDate*) deliverDate;
+	-(SoapRequest*)UpdateDeliveryDateOnOrderWithProgress:(SoapRequestProgressBlock)progressBlock CompanyIUR: (int) CompanyIUR email: (NSString*) email orderheaderiur: (int) orderheaderiur deliverDate: (NSDate*) deliverDate completion:(SoapRequestCompletionBlock)completionBlock;
 
 	// Returns NSMutableArray*
 	/*  */
@@ -704,6 +735,12 @@
 	- (SoapRequest*) ReporterOptions: (id) target action: (SEL) action;
 	-(SoapRequest*)ReporterOptionsWithProgress:(SoapRequestProgressBlock)progressBlock completion:(SoapRequestCompletionBlock)completionBlock;
 
+	// Returns ArcosGenericReturnObject*
+	/*  */
+	- (SoapRequest*) ReporterOptionsForArcosManager: (id <SoapDelegate>) handler;
+	- (SoapRequest*) ReporterOptionsForArcosManager: (id) target action: (SEL) action;
+	-(SoapRequest*)ReporterOptionsForArcosManagerWithProgress:(SoapRequestProgressBlock)progressBlock completion:(SoapRequestCompletionBlock)completionBlock;
+
 	// Returns ArcosGenericClass*
 	/*  */
 	- (SoapRequest*) GenerateDataAsCsv: (id <SoapDelegate>) handler stateMent: (NSString*) stateMent;
@@ -985,12 +1022,6 @@
 	- (SoapRequest*) UploadFile: (id <SoapDelegate>) handler contents: (NSData*) contents _fileName: (NSString*) _fileName _description: (NSString*) _description tableIUR: (NSString*) tableIUR tableName: (NSString*) tableName employeeiur: (int) employeeiur;
 	- (SoapRequest*) UploadFile: (id) target action: (SEL) action contents: (NSData*) contents _fileName: (NSString*) _fileName _description: (NSString*) _description tableIUR: (NSString*) tableIUR tableName: (NSString*) tableName employeeiur: (int) employeeiur;
 	-(SoapRequest*)UploadFileWithProgress:(SoapRequestProgressBlock)progressBlock contents: (NSData*) contents _fileName: (NSString*) _fileName _description: (NSString*) _description tableIUR: (NSString*) tableIUR tableName: (NSString*) tableName employeeiur: (int) employeeiur completion:(SoapRequestCompletionBlock)completionBlock;
-
-	// Returns int
-	/*  */
-	- (SoapRequest*) UploadFileNew: (id <SoapDelegate>) handler contents: (NSData*) contents _fileName: (NSString*) _fileName _description: (NSString*) _description tableIUR: (NSString*) tableIUR tableName: (NSString*) tableName employeeiur: (int) employeeiur Locationiur: (int) Locationiur DateAttached: (NSDate*) DateAttached;
-	- (SoapRequest*) UploadFileNew: (id) target action: (SEL) action contents: (NSData*) contents _fileName: (NSString*) _fileName _description: (NSString*) _description tableIUR: (NSString*) tableIUR tableName: (NSString*) tableName employeeiur: (int) employeeiur Locationiur: (int) Locationiur DateAttached: (NSDate*) DateAttached;
-	-(SoapRequest*)UploadFileNewWithProgress:(SoapRequestProgressBlock)progressBlock contents: (NSData*) contents _fileName: (NSString*) _fileName _description: (NSString*) _description tableIUR: (NSString*) tableIUR tableName: (NSString*) tableName employeeiur: (int) employeeiur Locationiur: (int) Locationiur DateAttached: (NSDate*) DateAttached completion:(SoapRequestCompletionBlock)completionBlock;
 
 		
 	+ (ArcosService*) service;
