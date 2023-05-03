@@ -87,7 +87,14 @@
     [orderDetailDisplayList addObject:[self createWriteCellDataWithCellKey:@"status" fieldNameLabel:@"Status" writeType:[NSNumber numberWithInt:3] fieldData:orderStatusDict]];
     NSMutableDictionary* orderTypeDict = [self addTitleToDict:@"type" titleKey:@"orderTypeText"];
     [orderDetailDisplayList addObject:[self createWriteCellDataWithCellKey:@"type" fieldNameLabel:@"Type" writeType:[NSNumber numberWithInt:5] fieldData:orderTypeDict]];
-    [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"totalGoodsText" fieldNameLabel:@"Value" fieldData:[self.orderHeader objectForKey:@"totalGoodsText"]]];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+        [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"TotalGoods" fieldNameLabel:@"Goods" fieldData:[NSString stringWithFormat:@"%1.2f",[[self.orderHeader objectForKey:@"TotalGoods"] floatValue]]]];
+        [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"TotalVat" fieldNameLabel:@"VAT" fieldData:[NSString stringWithFormat:@"%1.2f",[[self.orderHeader objectForKey:@"TotalVat"] floatValue]]]];
+        [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"totalGoodsText" fieldNameLabel:@"Total" fieldData:[self.orderHeader objectForKey:@"totalGoodsText"]]];
+    } else {
+        [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"totalGoodsText" fieldNameLabel:@"Value" fieldData:[self.orderHeader objectForKey:@"totalGoodsText"]]];
+    }
+//    [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"totalGoodsText" fieldNameLabel:@"Value" fieldData:[self.orderHeader objectForKey:@"totalGoodsText"]]];
     
     [self.groupedDataDict setObject:orderDetailDisplayList forKey:sectionTitle];
 }
@@ -151,7 +158,14 @@
     }
     [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"status" fieldNameLabel:@"Status" fieldData:[self.orderHeader objectForKey:@"statusText"]]];
     [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"type" fieldNameLabel:@"Type" fieldData:[self.orderHeader objectForKey:@"orderTypeText"]]];
-    [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"totalGoodsText" fieldNameLabel:@"Value" fieldData:[self.orderHeader objectForKey:@"totalGoodsText"]]];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+        [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"TotalGoods" fieldNameLabel:@"Goods" fieldData:[NSString stringWithFormat:@"%1.2f",[[self.orderHeader objectForKey:@"TotalGoods"] floatValue]]]];
+        [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"TotalVat" fieldNameLabel:@"VAT" fieldData:[NSString stringWithFormat:@"%1.2f",[[self.orderHeader objectForKey:@"TotalVat"] floatValue]]]];
+        [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"totalGoodsText" fieldNameLabel:@"Total" fieldData:[self.orderHeader objectForKey:@"totalGoodsText"]]];
+    } else {
+        [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"totalGoodsText" fieldNameLabel:@"Value" fieldData:[self.orderHeader objectForKey:@"totalGoodsText"]]];
+    }
+//    [orderDetailDisplayList addObject:[self createReadLabelCellDataWithCellKey:@"totalGoodsText" fieldNameLabel:@"Value" fieldData:[self.orderHeader objectForKey:@"totalGoodsText"]]];
     
     [self.groupedDataDict setObject:orderDetailDisplayList forKey:sectionTitle];
 }

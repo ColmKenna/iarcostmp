@@ -389,8 +389,12 @@
         [self.navigationController pushViewController:tmpCustomerInfoTableViewController animated:YES];
         [tmpCustomerInfoTableViewController release];
     }else if(anno.type==OrderAddressAnnotation){//push the order detail
-        NSLog(@"handleSingleTapGesture");  
-        CustomerOrderDetailsModalViewController* codmvc=[[CustomerOrderDetailsModalViewController alloc]initWithNibName:@"CustomerOrderDetailsModalViewController" bundle:nil];
+        NSLog(@"handleSingleTapGesture");
+        NSString* orderDetailsNibName = @"CustomerOrderDetailsModalViewController";
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+            orderDetailsNibName = @"CustomerOrderDetailsGoodsVatModalViewController";
+        }
+        CustomerOrderDetailsModalViewController* codmvc=[[CustomerOrderDetailsModalViewController alloc]initWithNibName:orderDetailsNibName bundle:nil];
         codmvc.title = @"ORDER DETAILS";    
         codmvc.animateDelegate=self;
         if (anno.anObject!=nil) {

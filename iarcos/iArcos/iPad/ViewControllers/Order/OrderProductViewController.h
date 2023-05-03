@@ -63,6 +63,7 @@
     ArcosStockonHandUtils* _arcosStockonHandUtils;
     NSMutableDictionary* _vansOrderHeader;
     UIBarButtonItem* _discountButton;
+    BOOL _viewPresentingFlag;
 }
 
 @property (nonatomic,retain) IBOutlet UILabel* descTitleLabel;
@@ -99,6 +100,7 @@
 @property(nonatomic,retain) ArcosStockonHandUtils* arcosStockonHandUtils;
 @property(nonatomic,retain) NSMutableDictionary* vansOrderHeader;
 @property(nonatomic,retain) UIBarButtonItem* discountButton;
+@property(nonatomic,assign) BOOL viewPresentingFlag;
 
 - (IBAction) EditTable:(id)sender;
 

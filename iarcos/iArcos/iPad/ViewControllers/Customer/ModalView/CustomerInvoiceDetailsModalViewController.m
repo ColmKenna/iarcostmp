@@ -374,7 +374,11 @@
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     if (![self.orderNumber isEqualToString:@""]) {
-        CustomerOrderDetailsModalViewController* codmvc=[[CustomerOrderDetailsModalViewController alloc]initWithNibName:@"CustomerOrderDetailsModalViewController" bundle:nil];
+        NSString* orderDetailsNibName = @"CustomerOrderDetailsModalViewController";
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+            orderDetailsNibName = @"CustomerOrderDetailsGoodsVatModalViewController";
+        }
+        CustomerOrderDetailsModalViewController* codmvc=[[CustomerOrderDetailsModalViewController alloc]initWithNibName:orderDetailsNibName bundle:nil];
         codmvc.title = @"ORDER DETAILS";
         codmvc.animateDelegate = self;
         codmvc.orderIUR = self.orderHeaderIUR;

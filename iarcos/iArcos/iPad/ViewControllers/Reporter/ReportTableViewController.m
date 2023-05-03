@@ -503,7 +503,11 @@
     //[arcosCustomiseAnimation addPushViewAnimation:self.rootView withController:self.globalNavigationController];
 }
 -(void)showOrderDetail:(CXMLElement*)data{
-    CustomerOrderDetailsModalViewController* codmvc=[[CustomerOrderDetailsModalViewController alloc]initWithNibName:@"CustomerOrderDetailsModalViewController" bundle:nil];
+    NSString* orderDetailsNibName = @"CustomerOrderDetailsModalViewController";
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+        orderDetailsNibName = @"CustomerOrderDetailsGoodsVatModalViewController";
+    }
+    CustomerOrderDetailsModalViewController* codmvc=[[CustomerOrderDetailsModalViewController alloc]initWithNibName:orderDetailsNibName bundle:nil];
     codmvc.title = @"ORDER DETAILS";    
     codmvc.animateDelegate=self;
     //    NSLog(@"order iur is %@", orderIUR); //52428

@@ -33,6 +33,8 @@
 @synthesize instructions2;
 @synthesize memo;
 @synthesize value;
+@synthesize goods = _goods;
+@synthesize vat = _vat;
 
 @synthesize orderIUR;
 @synthesize orderEntryInputDataManager = _orderEntryInputDataManager;
@@ -93,6 +95,8 @@
     if (self.instructions2 != nil) { self.instructions2 = nil; }
     if (self.memo != nil) { self.memo = nil; }
     if (self.value != nil) { self.value = nil; }
+    self.goods = nil;
+    self.vat = nil;
     self.orderEntryInputDataManager = nil;
     self.invoiceRef = nil;
     self.invoiceHeaderIUR = nil;
@@ -383,7 +387,15 @@
                 self.memo.text = [NSString stringWithFormat:@"%@ | %@", [replyResult Field26], [replyResult Field28]];
             }
         }        
-        self.value.text = [NSString stringWithFormat:@"%.2f", [[replyResult Field27] floatValue]];
+//        self.value.text = [NSString stringWithFormat:@"%.2f", [[replyResult Field27] floatValue]];
+        if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+            
+        } else {
+            
+        }
+        self.goods.text = [NSString stringWithFormat:@"%.2f", [[replyResult Field27] floatValue]];
+        self.vat.text = [NSString stringWithFormat:@"%.2f", [[replyResult Field34] floatValue]];
+        self.value.text = [NSString stringWithFormat:@"%.2f", ([[replyResult Field27] floatValue] + [[replyResult Field34] floatValue])];
         self.displayList = replyResult.SubObjects;
         [self.orderDetailListView reloadData];
     } else if(result.ErrorModel.Code <= 0) {

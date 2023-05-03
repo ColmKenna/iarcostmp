@@ -41,6 +41,8 @@
     IBOutlet UITextField* instructions2;
     IBOutlet UITextView* memo;
     IBOutlet UITextField* value;
+    UITextField* _goods;
+    UITextField* _vat;
     OrderEntryInputDataManager* _orderEntryInputDataManager;
     NSString* _invoiceRef;
     NSString* _invoiceHeaderIUR;
@@ -82,6 +84,8 @@
 @property (nonatomic,retain) IBOutlet UITextField* instructions;
 @property (nonatomic,retain) IBOutlet UITextField* instructions2;
 @property (nonatomic,retain) IBOutlet UITextField* value;
+@property (nonatomic,retain) IBOutlet UITextField* goods;
+@property (nonatomic,retain) IBOutlet UITextField* vat;
 @property (nonatomic,retain) IBOutlet UITextView* memo;
 @property (nonatomic,retain) NSString* orderIUR;
 @property(nonatomic, retain) OrderEntryInputDataManager* orderEntryInputDataManager;

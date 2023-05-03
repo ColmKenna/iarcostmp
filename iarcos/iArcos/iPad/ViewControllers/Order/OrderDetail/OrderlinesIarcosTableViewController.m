@@ -34,6 +34,7 @@
 @synthesize locationIUR = _locationIUR;
 @synthesize vansOrderHeader = _vansOrderHeader;
 @synthesize discountButton = _discountButton;
+@synthesize viewPresentingFlag = _viewPresentingFlag;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -235,7 +236,7 @@
 }
 
 #pragma mark PresentViewControllerDelegate
-- (void)didDismissPresentView {
+- (void)didDismissPresentView {    
     [UIView animateWithDuration:0.3f animations:^{
         CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.myRootViewController];
         self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
@@ -244,6 +245,7 @@
         [self.globalNavigationController.view removeFromSuperview];
         [self.globalNavigationController removeFromParentViewController];
         self.globalNavigationController = nil;
+        self.viewPresentingFlag = NO;
     }];
 }
 
@@ -312,6 +314,8 @@
 }
 
 - (void)addLinePressed:(id)sender {
+    if (self.viewPresentingFlag) return;
+    self.viewPresentingFlag = YES;
     OrderLineDetailProductTableViewController* oldptvc = [[OrderLineDetailProductTableViewController alloc] initWithNibName:@"OrderLineDetailProductTableViewController" bundle:nil];
     oldptvc.locationIUR = self.locationIUR;
     oldptvc.delegate = self;

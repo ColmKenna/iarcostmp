@@ -1626,6 +1626,7 @@
 		79B7227A25B52A03007709BF /* ReporterGroupMainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B7227825B52A03007709BF /* ReporterGroupMainTableViewController.m */; };
 		79B7227B25B52A03007709BF /* ReporterGroupMainTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79B7227925B52A03007709BF /* ReporterGroupMainTableViewController.xib */; };
 		79B7228025B52A22007709BF /* ReporterGroupMainDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B7227F25B52A22007709BF /* ReporterGroupMainDataManager.m */; };
+		79B80A8329F91BDF00859D05 /* CustomerOrderDetailsGoodsVatModalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79B80A8229F91BDF00859D05 /* CustomerOrderDetailsGoodsVatModalViewController.xib */; };
 		79B94F062625DCD400BB324A /* ProductSelectionListingDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 79B94F052625DCD400BB324A /* ProductSelectionListingDataManager.m */; };
 		79BB1ACB29890FF300EA4A20 /* ArcosCalendarEventEntryDetailTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79BB1AC929890FF300EA4A20 /* ArcosCalendarEventEntryDetailTemplateViewController.m */; };
 		79BB1ACC29890FF300EA4A20 /* ArcosCalendarEventEntryDetailTemplateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79BB1ACA29890FF300EA4A20 /* ArcosCalendarEventEntryDetailTemplateViewController.xib */; };
@@ -4849,6 +4850,7 @@
 		79B7227925B52A03007709BF /* ReporterGroupMainTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReporterGroupMainTableViewController.xib; sourceTree = "<group>"; };
 		79B7227E25B52A22007709BF /* ReporterGroupMainDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterGroupMainDataManager.h; sourceTree = "<group>"; };
 		79B7227F25B52A22007709BF /* ReporterGroupMainDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterGroupMainDataManager.m; sourceTree = "<group>"; };
+		79B80A8229F91BDF00859D05 /* CustomerOrderDetailsGoodsVatModalViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomerOrderDetailsGoodsVatModalViewController.xib; sourceTree = "<group>"; };
 		79B83C9225E915030030FFCA /* MeetingDetailsTableViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingDetailsTableViewControllerDelegate.h; sourceTree = "<group>"; };
 		79B94F042625DCD400BB324A /* ProductSelectionListingDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductSelectionListingDataManager.h; sourceTree = "<group>"; };
 		79B94F052625DCD400BB324A /* ProductSelectionListingDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductSelectionListingDataManager.m; sourceTree = "<group>"; };
@@ -6178,6 +6180,7 @@
 				18DD38B5243ACF9200FA899B /* CustomerOrderDetailsHeaderView.m */,
 				188C5D1724B2D60200C8E445 /* CustomerTyvLyTableViewHeader.h */,
 				188C5D1824B2D60200C8E445 /* CustomerTyvLyTableViewHeader.m */,
+				79B80A8229F91BDF00859D05 /* CustomerOrderDetailsGoodsVatModalViewController.xib */,
 			);
 			path = ModalView;
 			sourceTree = "<group>";
@@ -9388,6 +9391,7 @@
 				63FE6DBA1EF93ACB00360F68 /* CustomerSurveySummaryTableViewController.xib in Resources */,
 				630B3D0A19F01CB9007B2442 /* QueryOrderMemoTypeTableCells.xib in Resources */,
 				630B3BFD19F01CB9007B2442 /* OrderDateRangePicker.xib in Resources */,
+				79B80A8329F91BDF00859D05 /* CustomerOrderDetailsGoodsVatModalViewController.xib in Resources */,
 				630B3DF719F01CB9007B2442 /* down.png in Resources */,
 				63A1330821A86C26000128F5 /* MeetingExpenseTableViewCells.xib in Resources */,
 				630B3BE419F01CB9007B2442 /* CustomerJourneyStartDateTableCell.xib in Resources */,
@@ -10922,7 +10926,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 11.8.5;
+				MARKETING_VERSION = 11.8.6;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10978,7 +10982,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 11.8.5;
+				MARKETING_VERSION = 11.8.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -11114,7 +11118,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 11.8.5;
+				MARKETING_VERSION = 11.8.6;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

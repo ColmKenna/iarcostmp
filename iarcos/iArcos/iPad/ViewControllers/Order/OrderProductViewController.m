@@ -49,6 +49,7 @@
 @synthesize arcosStockonHandUtils = _arcosStockonHandUtils;
 @synthesize vansOrderHeader = _vansOrderHeader;
 @synthesize discountButton = _discountButton;
+@synthesize viewPresentingFlag = _viewPresentingFlag;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -452,6 +453,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    if (self.viewPresentingFlag) return;
+    self.viewPresentingFlag = YES;
     ProductDetailViewController* pdvc = [[ProductDetailViewController alloc] initWithNibName:@"ProductDetailViewController" bundle:nil];
 //    pdvc.productDetailRequestSource = ProductDetailRequestSourceProductDetail;
     pdvc.presentViewDelegate = self;
@@ -505,6 +508,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 - (void)addLinePressed:(id)sender {
+    if (self.viewPresentingFlag) return;
+    self.viewPresentingFlag = YES;
     OrderLineDetailProductTableViewController* oldptvc = [[OrderLineDetailProductTableViewController alloc] initWithNibName:@"OrderLineDetailProductTableViewController" bundle:nil];
     oldptvc.locationIUR = self.locationIUR;
     oldptvc.delegate = self;
@@ -899,7 +904,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 #pragma mark PresentViewControllerDelegate
 - (void)didDismissPresentView {
-//    [self.rootView dismissViewControllerAnimated:YES completion:nil];
+//    [self.rootView dismissViewControllerAnimated:YES completion:nil];    
     [UIView animateWithDuration:0.3f animations:^{
         CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.rootView];
         self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
@@ -908,6 +913,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         [self.globalNavigationController.view removeFromSuperview];
         [self.globalNavigationController removeFromParentViewController];
         self.globalNavigationController = nil;
+        self.viewPresentingFlag = NO;
     }];
 }
 
