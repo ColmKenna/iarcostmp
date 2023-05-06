@@ -21,6 +21,7 @@
 #import "ArcosMailWrapperViewController.h"
 #import "MeetingMainTemplateViewController.h"
 #import "ProductDetailViewController.h"
+#import "ReportOrderHeaderView.h"
 
 @interface ReportTableViewController : UITableViewController<UIPopoverControllerDelegate,WidgetFactoryDelegate,ModelViewDelegate,SlideAcrossViewAnimationDelegate, CustomisePresentViewControllerDelegate,GetDataGenericDelegate,MFMailComposeViewControllerDelegate,ArcosMailTableViewControllerDelegate,PresentViewControllerDelegate>{
     CXMLDocument* ReportDocument;

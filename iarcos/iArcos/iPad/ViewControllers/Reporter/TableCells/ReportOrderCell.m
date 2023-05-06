@@ -18,6 +18,8 @@
 @synthesize  orderDate;
 @synthesize  employee;
 @synthesize deliveryDate;
+@synthesize goodsLabel = _goodsLabel;
+@synthesize vatLabel = _vatLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -54,7 +56,20 @@
     self.name.text=[elementDict objectForKey:@"Name"];
     self.address.text=[elementDict objectForKey:@"Address"];
     self.type.text=[elementDict objectForKey:@"CustomerRef"];
-    self.value.text=[ArcosUtils convertToFloatString:[elementDict objectForKey:@"Value"]];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+        self.goodsLabel.hidden = NO;
+        self.vatLabel.hidden = NO;
+        self.goodsLabel.text = [ArcosUtils convertToFloatString:[elementDict objectForKey:@"Value"]];
+        self.vatLabel.text = [ArcosUtils convertToFloatString:[elementDict objectForKey:@"TotalVat"]];
+        NSNumber* goodsNumber = [ArcosUtils convertStringToFloatNumber:[ArcosUtils convertBlankToZero:[ArcosUtils convertNilToEmpty:[elementDict objectForKey:@"Value"]]]];
+        NSNumber* vatNumber = [ArcosUtils convertStringToFloatNumber:[ArcosUtils convertBlankToZero:[ArcosUtils convertNilToEmpty:[elementDict objectForKey:@"TotalVat"]]]];
+        self.value.text = [NSString stringWithFormat:@"%1.2f", ([goodsNumber floatValue] + [vatNumber floatValue])];
+    } else {
+        self.goodsLabel.hidden = YES;
+        self.vatLabel.hidden = YES;
+        self.value.text = [ArcosUtils convertToFloatString:[elementDict objectForKey:@"Value"]];
+    }
+    
     
     NSString* orderDateString=[elementDict objectForKey:@"Date"];
     NSString* deliveryDateString=[elementDict objectForKey:@"DeliveryDate"];
@@ -90,6 +105,8 @@
     if (self.deliveryDate != nil) {
         self.deliveryDate = nil;
     }
+    self.goodsLabel = nil;
+    self.vatLabel = nil;
     [super dealloc];
 }
 @end

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ReportCell.h"
+#import "ArcosConfigDataManager.h"
 
 @interface ReportOrderCell : ReportCell{
     IBOutlet UILabel* name;
@@ -17,7 +18,8 @@
     IBOutlet UILabel* orderDate;
     IBOutlet UILabel* employee;
     IBOutlet UILabel* deliveryDate;
-
+    UILabel* _goodsLabel;
+    UILabel* _vatLabel;
  
 }
 
@@ -29,4 +31,6 @@
 @property(nonatomic,retain) IBOutlet UILabel* orderDate;
 @property(nonatomic,retain) IBOutlet UILabel* employee;
 @property(nonatomic,retain) IBOutlet UILabel* deliveryDate;
+@property(nonatomic,retain) IBOutlet UILabel* goodsLabel;
+@property(nonatomic,retain) IBOutlet UILabel* vatLabel;
 @end

@@ -20,6 +20,8 @@
 @synthesize sendButton;
 @synthesize  selectIndicator;
 @synthesize icon;
+@synthesize goodsLabel = _goodsLabel;
+@synthesize vatLabel = _vatLabel;
 @synthesize  data;
 @synthesize theIndexPath;
 @synthesize indicator;
@@ -71,7 +73,9 @@
     if (self.deliveryDate != nil) { self.deliveryDate = nil; }
     if (self.sendButton != nil) { self.sendButton = nil; }
     if (self.selectIndicator != nil) { self.selectIndicator = nil; }    
-    if (self.icon != nil) { self.icon = nil; }        
+    if (self.icon != nil) { self.icon = nil; }
+    self.goodsLabel = nil;
+    self.vatLabel = nil;
     if (self.data != nil) { self.data = nil; }
     if (self.theIndexPath != nil) { self.theIndexPath = nil; }
     if (self.indicator != nil) { self.indicator = nil; }

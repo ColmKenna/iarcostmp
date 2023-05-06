@@ -22,6 +22,8 @@
     IBOutlet UIButton* sendButton;
     IBOutlet UIImageView* selectIndicator;
     IBOutlet UIImageView* icon;
+    UILabel* _goodsLabel;
+    UILabel* _vatLabel;
     
     BOOL isSelected;
     
@@ -45,19 +47,22 @@
 @property (nonatomic,retain) IBOutlet UILabel* point;
 @property (nonatomic,retain) IBOutlet UILabel* deliveryDate;
 @property (nonatomic,retain) IBOutlet UIButton* sendButton;
+@property (nonatomic,retain) IBOutlet UIImageView* selectIndicator;
+@property (nonatomic,retain) IBOutlet UIImageView* icon;
+@property (nonatomic,retain) IBOutlet UILabel* goodsLabel;
+@property (nonatomic,retain) IBOutlet UILabel* vatLabel;
 @property (nonatomic,retain) NSIndexPath* theIndexPath;
 @property (nonatomic,retain) IBOutlet UIActivityIndicatorView* indicator;
 @property (nonatomic,assign) id<SavedOrderTableCellDelegate>delegate;
 @property (nonatomic,assign) int type;
--(IBAction)sendOrder:(id)sender;
--(void)animate;
--(void)stopAnimateWithStatus:(BOOL)status;
-@property (nonatomic,retain) IBOutlet UIImageView* selectIndicator;
-@property (nonatomic,retain) IBOutlet UIImageView* icon;
+
+
 
 @property (nonatomic,retain)     NSObject* data;
 
-
+-(IBAction)sendOrder:(id)sender;
+-(void)animate;
+-(void)stopAnimateWithStatus:(BOOL)status;
 -(void)flipSelectStatus;
 -(void)setSelectStatus:(BOOL)select;
 -(void)needEditable:(BOOL)editable;

@@ -175,7 +175,20 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{   
     // custom view for header. will be adjusted to default or specified header height
     //return self.headerView;
-    return [cellFactory headViewWithReportCode:self.reportCode];
+    UIView* auxView = [cellFactory headViewWithReportCode:self.reportCode];
+    if ([cellFactory viewTagWithCode:self.reportCode] == 3) {
+        ReportOrderHeaderView* resView = (ReportOrderHeaderView*)auxView;
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+            resView.goodsLabel.hidden = NO;
+            resView.vatLabel.hidden = NO;
+            resView.totalLabel.text = @"Total";
+        } else {
+            resView.goodsLabel.hidden = YES;
+            resView.vatLabel.hidden = YES;
+            resView.totalLabel.text = @"Value";
+        }
+    }
+    return auxView;
     
 }
 

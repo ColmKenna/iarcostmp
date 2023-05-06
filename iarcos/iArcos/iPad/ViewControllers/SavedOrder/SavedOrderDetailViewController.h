@@ -25,6 +25,7 @@
 #import "ArcosConfigDataManager.h"
 #import "SavedOrderPresenterTranDataManager.h"
 #import "SavedOrderDetailDataManager.h"
+#import "SavedOrderDetailHeaderView.h"
 @protocol SavedOrderDetailViewDelegate
 -(void)needRefresh;
 
@@ -33,7 +34,7 @@
 @interface SavedOrderDetailViewController : UtilitiesDetailViewController<SelectionPopoverDelegate,ModelViewDelegate,UIGestureRecognizerDelegate,UIActionSheetDelegate,OrderProductViewControllerDelegate,SavedOrderTableCellDelegate,UIAlertViewDelegate,OrderSenderCenterDelegate,ConnectivityDelegate,PresentViewControllerDelegate> {
     UILabel* _customerLabel;
     UILabel* _valueLabel;
-    IBOutlet UIView* headerView;
+    SavedOrderDetailHeaderView* _headerView;
     NSMutableArray* tableData;
     NSMutableArray* displayList;
     NSIndexPath* currentSelectDeleteIndexPath;
@@ -69,7 +70,7 @@
 }
 @property (nonatomic,retain) IBOutlet UILabel* customerLabel;
 @property (nonatomic,retain) IBOutlet UILabel* valueLabel;
-@property (nonatomic,retain) IBOutlet UIView* headerView;
+@property (nonatomic,retain) IBOutlet SavedOrderDetailHeaderView* headerView;
 @property (nonatomic,assign) BOOL isCellEditable;
 
 @property (nonatomic,retain)  NSMutableArray* tableData;

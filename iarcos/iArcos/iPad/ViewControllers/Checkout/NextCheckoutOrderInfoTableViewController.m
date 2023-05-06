@@ -122,8 +122,14 @@
     [orderDetailsList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:1] cellKey:@"deliveryDate" writableType:[NSNumber numberWithInt:0] fieldName:@"Delivery" fieldData:[self.orderHeader objectForKey:@"deliveryDate"] bgColor:[self.orderHeader objectForKey:@"deliveryDateYellowBG"]]];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showDeliveryInstructionsFlag]) {
         [orderDetailsList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:13] cellKey:@"DeliveryInstructions1" writableType:self.placeHolderNumber fieldName:@"Instructions" fieldData:[self.orderHeader objectForKey:@"DeliveryInstructions1"]]];
+    }    
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+        [orderDetailsList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:2] cellKey:@"totalGoodsText" writableType:self.placeHolderNumber fieldName:@"Value" fieldData:[ArcosUtils convertNilToEmpty:[self.orderHeader objectForKey:@"totalGoodsText"]]]];
+    } else {
+        [orderDetailsList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:2] cellKey:@"TotalGoods" writableType:self.placeHolderNumber fieldName:@"Goods" fieldData:[NSString stringWithFormat:@"%1.2f", [[self.orderHeader objectForKey:@"TotalGoods"] floatValue]]]];
+        [orderDetailsList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:2] cellKey:@"TotalVat" writableType:self.placeHolderNumber fieldName:@"VAT" fieldData:[NSString stringWithFormat:@"%1.2f", [[self.orderHeader objectForKey:@"TotalVat"] floatValue]]]];
+        [orderDetailsList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:2] cellKey:@"totalGoodsText" writableType:self.placeHolderNumber fieldName:@"Total" fieldData:[ArcosUtils convertNilToEmpty:[self.orderHeader objectForKey:@"totalGoodsText"]]]];
     }
-    [orderDetailsList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:2] cellKey:@"totalGoodsText" writableType:self.placeHolderNumber fieldName:@"Value" fieldData:[ArcosUtils convertNilToEmpty:[self.orderHeader objectForKey:@"totalGoodsText"]]]];
     [orderDetailsList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:3] cellKey:@"status" writableType:[NSNumber numberWithInt:3] fieldName:@"Status" fieldData:[ArcosUtils addTitleToDict:self.orderHeader cellKey:@"status" titleKey:@"statusText"] titleKey:@"statusText"]];
     [orderDetailsList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:3] cellKey:@"type" writableType:[NSNumber numberWithInt:5] fieldName:@"Order Type" fieldData:[ArcosUtils addTitleToDict:self.orderHeader cellKey:@"type" titleKey:@"orderTypeText"] titleKey:@"orderTypeText"]];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showCallTypeFlag]) {

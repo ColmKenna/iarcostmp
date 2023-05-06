@@ -36,7 +36,7 @@
 @implementation SavedOrderDetailViewController
 @synthesize customerLabel = _customerLabel;
 @synthesize valueLabel = _valueLabel;
-@synthesize headerView;
+@synthesize headerView = _headerView;
 @synthesize tableData;
 @synthesize displayList;
 @synthesize isCellEditable;
@@ -298,7 +298,16 @@
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{   
     // custom view for header. will be adjusted to default or specified header height
-    return headerView;
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+        self.headerView.goodsLabel.hidden = NO;
+        self.headerView.vatLabel.hidden = NO;
+        self.headerView.totalLabel.text = @"Total";
+    } else {
+        self.headerView.goodsLabel.hidden = YES;
+        self.headerView.vatLabel.hidden = YES;
+        self.headerView.totalLabel.text = @"Value";
+    }
+    return self.headerView;
     
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -354,6 +363,9 @@
 {
     
     NSString *CellIdentifier = @"SavedOrderTableCell";
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+        CellIdentifier = @"SavedOrderGoodsVatTableCell";
+    }
     
     SavedOrderTableCell *cell=(SavedOrderTableCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if(cell == nil) {
@@ -361,7 +373,7 @@
         NSArray* nibContents = [[NSBundle mainBundle] loadNibNamed:@"CustomTableViewCells" owner:self options:nil];
         
         for (id nibItem in nibContents) {
-            if ([nibItem isKindOfClass:[SavedOrderTableCell class]] && [[(SavedOrderTableCell *)nibItem reuseIdentifier] isEqualToString: @"SavedOrderTableCell"]) {
+            if ([nibItem isKindOfClass:[SavedOrderTableCell class]] && [[(SavedOrderTableCell *)nibItem reuseIdentifier] isEqualToString:CellIdentifier]) {
                 cell= (SavedOrderTableCell *) nibItem;
                 cell.delegate=self;
                 //add taps
@@ -436,7 +448,9 @@
         if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
             cell.value.text=[NSString stringWithFormat:@"%1.2f",[[cellData objectForKey:@"TotalGoods"]floatValue]];
         } else {
-            cell.value.text=[NSString stringWithFormat:@"%1.2f",([[cellData objectForKey:@"TotalGoods"]floatValue] + [[cellData objectForKey:@"TotalVat"]floatValue])];
+            cell.goodsLabel.text = [NSString stringWithFormat:@"%1.2f", [[cellData objectForKey:@"TotalGoods"] floatValue]];
+            cell.vatLabel.text = [NSString stringWithFormat:@"%1.2f", [[cellData objectForKey:@"TotalVat"] floatValue]];
+            cell.value.text=[NSString stringWithFormat:@"%1.2f",([[cellData objectForKey:@"TotalGoods"] floatValue] + [[cellData objectForKey:@"TotalVat"] floatValue])];
         }
         //[cell.name setTextColor:[UIColor blueColor]];
         //assign icon

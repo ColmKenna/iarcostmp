@@ -553,7 +553,8 @@
     if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
         [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[NSString stringWithFormat:@"%1.2f", totalValue] forKey:@"totalGoodsText"];
     } else {
-        [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[NSString stringWithFormat:@"Goods: %.2f VAT: %.2f Total: %.2f", totalValue, totalVAT, (totalValue + totalVAT)] forKey:@"totalGoodsText"];
+//        [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[NSString stringWithFormat:@"Goods: %.2f VAT: %.2f Total: %.2f", totalValue, totalVAT, (totalValue + totalVAT)] forKey:@"totalGoodsText"];
+        [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[NSString stringWithFormat:@"%1.2f", (totalValue + totalVAT)] forKey:@"totalGoodsText"];
     }
     [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[NSNumber numberWithFloat:totalQty] forKey:@"TotalQty"];
     [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:[NSNumber numberWithFloat:totalBonus] forKey:@"TotalBonus"];
