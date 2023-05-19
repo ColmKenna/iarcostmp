@@ -205,10 +205,26 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.formRowsTableDataManager.prevStandardOrderPadFlag = NO;
     self.formRowsTableDataManager.currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
     NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.formRowsTableDataManager.currentFormDetailDict objectForKey:@"Details"]];
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag]) {
-        self.formRowTableCellGeneratorDelegate = [[[FormRowTableCellRrpGenerator alloc] init] autorelease];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag]) {        
+        NSMutableArray* prevObjectList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrTypeCode:@"SD" descrDetailCode:@"PREVIOUS"];
+        self.formRowsTableDataManager.prevNumber = [NSNumber numberWithInt:0];
+        if ([prevObjectList count] > 0) {
+            NSDictionary* prevDescrDetailDict = [prevObjectList objectAtIndex:0];
+            NSString* prevDetail = [prevDescrDetailDict objectForKey:@"Detail"];
+            NSNumber* tmpPrevNumber = [ArcosUtils convertStringToNumber:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:prevDetail]]];
+            if ([tmpPrevNumber intValue] >= 0 && [tmpPrevNumber intValue] <= 25) {
+                self.formRowsTableDataManager.prevNumber = [ArcosUtils convertStringToNumber:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:prevDetail]]];
+            } else {
+                [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Invalid previous months found.\n%@", tmpPrevNumber] title:@"" delegate:nil target:self tag:0 handler:nil];
+            }
+            self.formRowTableCellGeneratorDelegate = [[[FormRowTableCellPrevRrpGenerator alloc] init] autorelease];
+            self.formRowsTableDataManager.prevStandardOrderPadFlag = YES;
+        } else {
+            self.formRowTableCellGeneratorDelegate = [[[FormRowTableCellRrpGenerator alloc] init] autorelease];
+        }
     } else if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].myDbName] && [orderFormDetails containsString:@"[NB]"]) {
         self.formRowTableCellGeneratorDelegate = [[[FormRowTableCellMyGenerator alloc] init] autorelease];
     } else {
@@ -274,7 +290,9 @@
         [self reloadTableViewData];
         return;
     }
-    
+    if (self.isRequestSourceFromPresenter) {
+        [self requestSourceFromPresenterScrollProcessor];
+    }
     if ([self.dividerIUR intValue]!=-2) {
         
     }else{
@@ -285,6 +303,20 @@
     }
     
     self.isNotFirstLoaded = YES;
+}
+
+- (void)requestSourceFromPresenterScrollProcessor {
+    NSNumber* lastProductIUR = [[OrderSharedClass sharedOrderSharedClass].lastPositionDict objectForKey:@"ProductIUR"];
+    NSIndexPath* lastIndexPath = [[OrderSharedClass sharedOrderSharedClass].lastPositionDict objectForKey:@"IndexPath"];
+    @try {
+        if ([lastProductIUR intValue] != 0 && lastIndexPath != nil) {
+            NSMutableDictionary* auxDataDict = [self.unsortedFormrows objectAtIndex:lastIndexPath.row];
+            if ([lastProductIUR intValue] == [[auxDataDict objectForKey:@"ProductIUR"] intValue]) {
+                [self.tableView scrollToRowAtIndexPath:lastIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            }
+        }
+    } @catch (NSException *exception) {
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -324,6 +356,10 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{   
     // custom view for header. will be adjusted to default or specified header height
     UIView* auxHeaderView = [self.formRowTableCellGeneratorDelegate generateTableHeaderView];
+    if (self.formRowsTableDataManager.prevStandardOrderPadFlag) {
+        FormRowTableHeaderView* auxPrevHeaderView = (FormRowTableHeaderView*)auxHeaderView;
+        auxPrevHeaderView.prevLabel.text = [NSString stringWithFormat:@"%@ Months", self.formRowsTableDataManager.prevNumber];
+    }
     for (UIGestureRecognizer* recognizer in auxHeaderView.gestureRecognizers) {
         [auxHeaderView removeGestureRecognizer:recognizer];
     }
@@ -426,6 +462,7 @@
     cell.cellDelegate = self;
     [cell configCellWithData:cellData];
     [cell configMatImageWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR productIUR:[cellData objectForKey:@"ProductIUR"]];
+    [cell configPreviousWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR productIUR:[cellData objectForKey:@"ProductIUR"] previousNumber:self.formRowsTableDataManager.prevNumber prevFlag:self.formRowsTableDataManager.prevStandardOrderPadFlag];
     
     [self.unsortedFormrows replaceObjectAtIndex:indexPath.row withObject:cellData];
     cell.description.text=[cellData objectForKey:@"Details"];
@@ -675,6 +712,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         
         
         NSIndexPath* swipedIndexPath = [ArcosUtils indexPathWithRecognizer:reconizer tableview:self.tableView];
+        self.formRowsTableDataManager.currentIndexPath = swipedIndexPath;
         [self showNumberPadPopoverWithIndexPath:swipedIndexPath];
     }
 }
@@ -740,6 +778,17 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [self.inputPopover dismissPopoverAnimated:YES];
     [self saveOrderToTheCart:data];
     [self processDefaultQtyPercentProcessor:data];
+    if (self.isRequestSourceFromPresenter) {
+        if ([[data objectForKey:@"IsSelected"] boolValue]) {
+            [[OrderSharedClass sharedOrderSharedClass].lastPositionDict setObject:[NSNumber numberWithInt:[[data objectForKey:@"ProductIUR"] intValue]] forKey:@"ProductIUR"];
+            [[OrderSharedClass sharedOrderSharedClass].lastPositionDict setObject:[NSIndexPath indexPathForRow:self.formRowsTableDataManager.currentIndexPath.row inSection:self.formRowsTableDataManager.currentIndexPath.section] forKey:@"IndexPath"];
+        } else {
+            NSNumber* lastProductIUR = [[OrderSharedClass sharedOrderSharedClass].lastPositionDict objectForKey:@"ProductIUR"];
+            if ([lastProductIUR intValue] != 0 && [lastProductIUR intValue] == [[data objectForKey:@"ProductIUR"] intValue]) {
+                [[OrderSharedClass sharedOrderSharedClass].lastPositionDict removeAllObjects];
+            }
+        }
+    }
     [self reloadTableViewData];
     if (self.isPredicativeSearchProduct && [self.unsortedFormrows count] == 1) {
         [self.mySearchBar becomeFirstResponder];

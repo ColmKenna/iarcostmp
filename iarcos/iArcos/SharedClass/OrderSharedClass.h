@@ -21,7 +21,7 @@
     //IURs
     NSNumber* currentFormIUR;
     NSNumber* currentSelectionIUR;
-
+    NSMutableDictionary* _lastPositionDict;
 }
 + (OrderSharedClass *)sharedOrderSharedClass;
 -(id)init;
@@ -34,6 +34,7 @@
 //IURs
 @property (nonatomic,retain) NSNumber* currentFormIUR;
 @property (nonatomic,retain)  NSNumber* currentSelectionIUR;
+@property (nonatomic,retain) NSMutableDictionary* lastPositionDict;
 
 //order form
 -(BOOL)anyForm;

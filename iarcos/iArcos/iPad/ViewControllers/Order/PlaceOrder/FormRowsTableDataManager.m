@@ -10,9 +10,14 @@
 
 @implementation FormRowsTableDataManager
 @synthesize currentFormDetailDict = _currentFormDetailDict;
+@synthesize prevStandardOrderPadFlag = _prevStandardOrderPadFlag;
+@synthesize prevNumber = _prevNumber;
+@synthesize currentIndexPath = _currentIndexPath;
 
 - (void)dealloc {
     self.currentFormDetailDict = nil;
+    self.prevNumber = nil;
+    self.currentIndexPath = nil;
     
     [super dealloc];
 }

@@ -414,6 +414,7 @@
     [OrderSharedClass sharedOrderSharedClass].currentFormIUR=nil;
     [GlobalSharedClass shared].currentSelectedOrderLocationIUR = nil;
     [GlobalSharedClass shared].currentSelectedPresenterLocationIUR = nil;
+    [[OrderSharedClass sharedOrderSharedClass].lastPositionDict removeAllObjects];
     
     int itemIndex = [self.myRootViewController.customerMasterViewController.customerMasterDataManager retrieveIndexByTitle:self.myRootViewController.customerMasterViewController.subMenuListingTableViewController.requestSourceName];
     

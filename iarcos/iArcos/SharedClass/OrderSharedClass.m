@@ -35,6 +35,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OrderSharedClass);
 @synthesize currentFormIUR;
 @synthesize currentSelectionIUR;
 @synthesize arcosOrderRestoreUtils = _arcosOrderRestoreUtils;
+@synthesize lastPositionDict = _lastPositionDict;
 -(id)init{
     self=[super init];
     if (self!=nil) {
@@ -48,6 +49,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OrderSharedClass);
         self.currentFormIUR=nil;
         self.currentSelectionIUR=nil;
         self.arcosOrderRestoreUtils = [[[ArcosOrderRestoreUtils alloc] init] autorelease];
+        self.lastPositionDict = [NSMutableDictionary dictionaryWithCapacity:2];//Key ProductIUR, IndexPath
     }
     
     return self;
@@ -60,6 +62,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OrderSharedClass);
     self.currentFormIUR = nil;
     self.currentSelectionIUR = nil;
     self.arcosOrderRestoreUtils = nil;
+    self.lastPositionDict = nil;
     
     [super dealloc];
 }
@@ -572,6 +575,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OrderSharedClass);
     [self setOrderHeaderToDefault];
     //self.currentFormIUR=nil;
     //self.currentSelectionIUR=nil;
+    [self.lastPositionDict removeAllObjects];
 }
 
 #pragma mark save order

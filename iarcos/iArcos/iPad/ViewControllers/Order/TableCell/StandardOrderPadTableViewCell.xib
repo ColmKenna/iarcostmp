@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -398,6 +397,163 @@
             </connections>
             <point key="canvasLocation" x="74" y="390"/>
         </view>
+        <view tag="5" contentMode="scaleToFill" id="nwo-og-LAC" customClass="FormRowTableHeaderView">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Description" lineBreakMode="tailTruncation" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qHE-xd-BQX">
+                    <rect key="frame" x="15" y="11" width="149" height="21"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Qty" textAlignment="center" lineBreakMode="tailTruncation" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Bzo-6y-HgV" customClass="LeftBorderUILabel">
+                    <rect key="frame" x="534" y="0.0" width="78" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="SRP" textAlignment="right" lineBreakMode="tailTruncation" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="LEL-GB-bVe" customClass="LeftBorderUILabel">
+                    <rect key="frame" x="456" y="0.0" width="78" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Value" textAlignment="right" lineBreakMode="tailTruncation" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="JQX-he-TWA" customClass="LeftBorderUILabel">
+                    <rect key="frame" x="690" y="0.0" width="78" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Price" textAlignment="right" lineBreakMode="tailTruncation" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0rC-nl-Nyw" customClass="LeftBorderUILabel">
+                    <rect key="frame" x="612" y="0.0" width="78" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="3 Months" textAlignment="right" lineBreakMode="tailTruncation" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="6tw-x7-MM4" customClass="LeftBorderUILabel">
+                    <rect key="frame" x="378" y="0.0" width="78" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="descLabel" destination="qHE-xd-BQX" id="ESS-UO-cOb"/>
+                <outlet property="prevLabel" destination="6tw-x7-MM4" id="Che-2q-Fnu"/>
+                <outlet property="priceLabel" destination="0rC-nl-Nyw" id="Qdq-5x-3TU"/>
+                <outlet property="qtyLabel" destination="Bzo-6y-HgV" id="1ib-vK-q4f"/>
+                <outlet property="rrpLabel" destination="LEL-GB-bVe" id="ePI-zg-mag"/>
+                <outlet property="valueLabel" destination="JQX-he-TWA" id="z80-fi-5yP"/>
+            </connections>
+            <point key="canvasLocation" x="74" y="517"/>
+        </view>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="IdPrevStandardOrderPadTableViewCell" id="AJh-7i-ecZ" customClass="OrderProductTableCell">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AJh-7i-ecZ" id="r1e-Ui-pMO">
+                <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Product Name" lineBreakMode="tailTruncation" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3pf-Sp-wRr">
+                        <rect key="frame" x="50" y="22" width="253" height="21"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S19-73-UiJ">
+                        <rect key="frame" x="0.0" y="0.0" width="10" height="44"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="999.91" textAlignment="right" lineBreakMode="tailTruncation" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="mPe-cv-LR6" customClass="LeftBorderUILabel">
+                        <rect key="frame" x="456" y="0.0" width="78" height="44"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="999" textAlignment="center" lineBreakMode="tailTruncation" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="AtE-tz-1fw" customClass="LeftBorderUILabel">
+                        <rect key="frame" x="534" y="0.0" width="78" height="44"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                        <color key="textColor" systemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="333" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Se-AC-q1Y">
+                        <rect key="frame" x="307" y="22" width="69" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                        <color key="textColor" systemColor="scrollViewTexturedBackgroundColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="333" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iiD-sV-8eA">
+                        <rect key="frame" x="248" y="0.0" width="128" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                        <color key="textColor" systemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qB4-tA-Vfb">
+                        <rect key="frame" x="50" y="0.0" width="194" height="21"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P04-d5-Mus">
+                        <rect key="frame" x="14" y="6" width="32" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <bool key="isElement" value="YES"/>
+                        </accessibility>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="999.93" textAlignment="right" lineBreakMode="tailTruncation" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="JRm-TR-TEe" customClass="LeftBorderUILabel">
+                        <rect key="frame" x="690" y="0.0" width="78" height="44"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                        <color key="textColor" systemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="999.92" textAlignment="right" lineBreakMode="tailTruncation" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0kF-mL-rup" customClass="LeftBorderUILabel">
+                        <rect key="frame" x="612" y="0.0" width="78" height="44"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="999" textAlignment="center" lineBreakMode="tailTruncation" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a4c-Ww-qd3" customClass="LeftBorderUILabel">
+                        <rect key="frame" x="378" y="0.0" width="78" height="43"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </tableViewCellContentView>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <connections>
+                <outlet property="description" destination="3pf-Sp-wRr" id="ZUP-rk-wb3"/>
+                <outlet property="orderPadDetails" destination="qB4-tA-Vfb" id="r7B-8n-H3p"/>
+                <outlet property="prevLabel" destination="a4c-Ww-qd3" id="U7b-qv-Dbc"/>
+                <outlet property="price" destination="0kF-mL-rup" id="vPc-EU-Gr9"/>
+                <outlet property="productCode" destination="iiD-sV-8eA" id="doz-7B-vU0"/>
+                <outlet property="productImageView" destination="P04-d5-Mus" id="1i3-Jh-Gv0"/>
+                <outlet property="productSize" destination="1Se-AC-q1Y" id="0ux-am-Jdp"/>
+                <outlet property="qty" destination="AtE-tz-1fw" id="t4E-fY-7i9"/>
+                <outlet property="rrpPrice" destination="mPe-cv-LR6" id="0Ma-l2-pNA"/>
+                <outlet property="selectIndicator" destination="S19-73-UiJ" id="eh2-GX-Cb8"/>
+                <outlet property="value" destination="JRm-TR-TEe" id="ycW-q9-f98"/>
+            </connections>
+            <point key="canvasLocation" x="75" y="619"/>
+        </tableViewCell>
     </objects>
     <resources>
         <systemColor name="darkTextColor">

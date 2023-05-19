@@ -12,9 +12,15 @@
 
 @interface FormRowsTableDataManager : NSObject {
     NSDictionary* _currentFormDetailDict;
+    BOOL _prevStandardOrderPadFlag;
+    NSNumber* _prevNumber;
+    NSIndexPath* _currentIndexPath;
 }
 
 @property(nonatomic, retain) NSDictionary* currentFormDetailDict;
+@property(nonatomic, assign) BOOL prevStandardOrderPadFlag;
+@property(nonatomic, retain) NSNumber* prevNumber;
+@property(nonatomic, retain) NSIndexPath* currentIndexPath;
 
 - (NSMutableArray*)retrieveTableViewDataSourceWithSearchText:(NSString*)aSearchText;
 - (NSMutableArray*)retrievePredicativeTableViewDataSource;

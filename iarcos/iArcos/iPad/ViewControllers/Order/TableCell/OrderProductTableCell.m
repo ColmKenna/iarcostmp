@@ -32,6 +32,8 @@
 //@synthesize uniLabel = _uniLabel;
 //@synthesize udLabel = _udLabel;
 @synthesize maxLabel = _maxLabel;
+@synthesize prevLabel = _prevLabel;
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -108,6 +110,7 @@
 //    self.uniLabel = nil;
 //    self.udLabel = nil;
     self.maxLabel = nil;
+    self.prevLabel = nil;
             
     [super dealloc];
 }
@@ -176,6 +179,28 @@
             self.productImageView.image = anImage;
             self.productImageView.alpha = 1.0;
         }
+    }
+}
+
+- (void)configPreviousWithLocationIUR:(NSNumber*)aLocationIUR productIUR:(NSNumber*)aProductIUR previousNumber:(NSNumber*)aPreviousNumber prevFlag:(BOOL)aPrevFlag {
+    self.prevLabel.text = @"";
+    if ([aPreviousNumber intValue] == 0) return;
+    if (!aPrevFlag) return;
+    NSArray* properties = [NSArray arrayWithObjects:@"qty01",@"qty02",@"qty03",@"qty04",@"qty05",@"qty06",@"qty07",@"qty08",@"qty09",@"qty10",@"qty11",@"qty12",@"qty13",@"qty14",@"qty15",@"qty16",@"qty17",@"qty18",@"qty19",@"qty20",@"qty21",@"qty22",@"qty23",@"qty24",@"qty25",nil];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"locationIUR = %@ and productIUR = %@", aLocationIUR, aProductIUR];
+    NSMutableArray* objectArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"LocationProductMAT" withPropertiesToFetch:properties withPredicate:predicate withSortDescNames:nil withResulType:NSDictionaryResultType needDistinct:NO ascending:[NSNumber numberWithBool:NO]];
+    if ([objectArray count] > 0) {
+        NSDictionary* locationProductMATDict = [objectArray objectAtIndex:0];
+        NSMutableArray* qtyList = [NSMutableArray arrayWithCapacity:25];
+        for (int i = [ArcosUtils convertNSUIntegerToUnsignedInt:[properties count]] - 1; i >= 0; i--) {
+            NSString* tmpKey = [properties objectAtIndex:i];
+            [qtyList addObject:[ArcosUtils convertNilToZero:[locationProductMATDict objectForKey:tmpKey]]];
+        }
+        int prevSum = 0;
+        for (int i = 0; i < [aPreviousNumber intValue]; i++) {
+            prevSum += [[qtyList objectAtIndex:i] intValue];
+        }
+        self.prevLabel.text = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", prevSum]];
     }
 }
 

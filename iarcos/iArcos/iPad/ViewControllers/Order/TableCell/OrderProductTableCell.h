@@ -40,6 +40,7 @@
 //    UILabel* _uniLabel;
 //    UILabel* _udLabel;
     UILabel* _maxLabel;
+    UILabel* _prevLabel;
 }
 
 @property (nonatomic,retain) IBOutlet UIImageView* productImageView;
@@ -62,6 +63,7 @@
 //@property (nonatomic,retain) IBOutlet UILabel* uniLabel;
 //@property (nonatomic,retain) IBOutlet UILabel* udLabel;
 @property (nonatomic,retain) IBOutlet UILabel* maxLabel;
+@property (nonatomic,retain) IBOutlet UILabel* prevLabel;
 
 -(void)needEditButton:(BOOL)need;
 
@@ -74,5 +76,6 @@
 -(void)configCellWithData:(NSMutableDictionary*)theData;
 - (void)configBackgroundColour:(BOOL)select;
 - (void)configMatImageWithLocationIUR:(NSNumber*)aLocationIUR productIUR:(NSNumber*)aProductIUR;
+- (void)configPreviousWithLocationIUR:(NSNumber*)aLocationIUR productIUR:(NSNumber*)aProductIUR previousNumber:(NSNumber*)aPreviousNumber prevFlag:(BOOL)aPrevFlag;
 
 @end
