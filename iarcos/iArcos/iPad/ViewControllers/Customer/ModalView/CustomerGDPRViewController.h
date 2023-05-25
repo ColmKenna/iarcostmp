@@ -19,8 +19,12 @@
 #import "ArcosCoreData.h"
 #import "CustomerContactWrapperModalViewController.h"
 #import "GenericRefreshParentContentDelegate.h"
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
+#import "PresenterPdfLinkWebViewController.h"
+#import "ArcosMailWrapperViewController.h"
 
-@interface CustomerGDPRViewController : UIViewController <WidgetFactoryDelegate, UIPopoverControllerDelegate, CustomerGDPRTableCellDelegate, GenericRefreshParentContentDelegate, CustomisePresentViewControllerDelegate, CustomerInfoAccessTimesCalendarTableViewControllerDelegate> {
+@interface CustomerGDPRViewController : UIViewController <WidgetFactoryDelegate, UIPopoverControllerDelegate, CustomerGDPRTableCellDelegate, GenericRefreshParentContentDelegate, CustomisePresentViewControllerDelegate, CustomerInfoAccessTimesCalendarTableViewControllerDelegate, UIWebViewDelegate, MFMailComposeViewControllerDelegate, ArcosMailTableViewControllerDelegate> {
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
     id<GenericRefreshParentContentDelegate> _refreshDelegate;
     UILabel* _locationNameLabel;
@@ -44,6 +48,7 @@
     UIButton* _amendContactButton;
     UINavigationController* _globalNavigationController;
     UIViewController* _rootView;
+    MFMailComposeViewController* _mailController;
 }
 
 @property(nonatomic, assign) id<SlideAcrossViewAnimationDelegate> animateDelegate;
@@ -69,6 +74,7 @@
 @property(nonatomic, retain) IBOutlet UIButton* amendContactButton;
 @property (nonatomic, retain) UINavigationController* globalNavigationController;
 @property (nonatomic, retain) UIViewController* rootView;
+@property(nonatomic, retain) MFMailComposeViewController* mailController;
 
 - (IBAction)tapToSelectContactNameButtonPressed:(id)sender;
 - (IBAction)amendContactButtonPressed:(id)sender;

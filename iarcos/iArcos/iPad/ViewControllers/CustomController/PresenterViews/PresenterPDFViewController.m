@@ -184,6 +184,7 @@
                 } completion:^(BOOL finished){
                     
                 }];
+                return NO;
             }
             if (![ArcosEmailValidator checkCanSendMailStatus:self]) return NO;
             self.mailController = [[[MFMailComposeViewController alloc] init] autorelease];
