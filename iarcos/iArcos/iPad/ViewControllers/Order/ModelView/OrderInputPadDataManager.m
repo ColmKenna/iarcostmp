@@ -7,12 +7,35 @@
 //
 
 #import "OrderInputPadDataManager.h"
+#import "ArcosCoreData.h"
+#import "ArcosConfigDataManager.h"
 
 @implementation OrderInputPadDataManager
 @synthesize monthList = _monthList;
+@synthesize rebateTitle = _rebateTitle;
+
+- (instancetype)init {
+    self = [super init];
+    if(self) {
+        self.rebateTitle = @"";
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showInputPadRebateFlag]) {
+            NSMutableArray* rebateObjectList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrTypeCode:@"SD" descrDetailCode:@"REBATE"];
+            if ([rebateObjectList count] > 0) {
+                NSDictionary* rebateDescrDetailDict = [rebateObjectList objectAtIndex:0];
+                NSString* rebateDetail = [rebateDescrDetailDict objectForKey:@"Detail"];
+                NSString* tmpRebateTitle = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:rebateDetail]];
+                if (![tmpRebateTitle isEqualToString:@""]) {
+                    self.rebateTitle = tmpRebateTitle;
+                }
+            }
+        }
+    }
+    return self;
+}
 
 - (void)dealloc {
     self.monthList = nil;
+    self.rebateTitle = nil;
     
     [super dealloc];
 }

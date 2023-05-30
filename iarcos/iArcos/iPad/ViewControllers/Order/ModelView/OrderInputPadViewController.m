@@ -23,6 +23,7 @@
 @synthesize  QTYField;
 @synthesize  BonusField;
 @synthesize  DiscountField;
+@synthesize rebateField = _rebateField;
 
 @synthesize sevenButton = _sevenButton;
 @synthesize eightButton = _eightButton;
@@ -49,6 +50,7 @@
 @synthesize qtyLabel = _qtyLabel;
 @synthesize BonusLabel;
 @synthesize DiscountLabel;
+@synthesize rebateLabel = _rebateLabel;
 @synthesize valueLabel = _valueLabel;
 @synthesize isDetaillingType;
 @synthesize InStockField;
@@ -129,7 +131,8 @@
 {
     if (self.QTYField != nil) { self.QTYField = nil; }
     if (self.BonusField != nil) { self.BonusField = nil; }   
-    if (self.DiscountField != nil) { self.DiscountField = nil; }    
+    if (self.DiscountField != nil) { self.DiscountField = nil; }
+    self.rebateField = nil;
     if (self.ValueField != nil) { self.ValueField = nil; }
     self.currentTextField = nil;
     if (self.productName != nil) { self.productName = nil; }
@@ -156,6 +159,7 @@
     self.qtyLabel = nil;
     if (self.BonusLabel != nil) { self.BonusLabel = nil; }    
     if (self.DiscountLabel != nil) { self.DiscountLabel = nil; }
+    self.rebateLabel = nil;
     self.valueLabel = nil;
     if (self.InStockField != nil) { self.InStockField = nil; } 
     if (self.FOCField != nil) { self.FOCField = nil; }
@@ -331,6 +335,7 @@
         self.InStockField.text=[[self.Data objectForKey:@"InStock"] stringValue];        
         self.FOCField.text=[[self.Data objectForKey:@"FOC"]stringValue];
         self.instockRBTextField.text = [[self.Data objectForKey:@"InStock"] stringValue];
+        self.rebateField.text = [[[self.Data objectForKey:@"RebatePercent"] stringValue] stringByAppendingString:@"%"];
     }else{
         self.QTYField.text=@"0";
         self.BonusField.text=@"0";
@@ -339,6 +344,7 @@
         self.InStockField.text=@"0";
         self.FOCField.text=@"0";
         self.instockRBTextField.text = @"0";
+        self.rebateField.text = @"0%";
     }
     self.DiscountField.text=[[[self.Data objectForKey:@"DiscountPercent"]stringValue]stringByAppendingString:@"%"];
     self.bar.topItem.title=[self.Data objectForKey:@"Details"];
@@ -480,6 +486,16 @@
     }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
         self.DiscountField.enabled = NO;
+    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showInputPadRebateFlag]) {
+        self.rebateLabel.hidden = NO;
+        self.rebateField.hidden = NO;
+        if (![self.orderInputPadDataManager.rebateTitle isEqualToString:@""]) {
+            self.rebateLabel.text = self.orderInputPadDataManager.rebateTitle;
+        }
+    } else {
+        self.rebateLabel.hidden = YES;
+        self.rebateField.hidden = YES;
     }
     [self checkQtyByBonusDeal];
     [self resetTotalValue];
@@ -825,6 +841,7 @@
             [self checkQtyByBonusDeal];
             break;
         case 2:
+        case 8:
             self.currentTextField.text=@"0%";
             break;
         case 6:
@@ -861,6 +878,7 @@
             }
             break;
         case 2:
+        case 8:
             fieldString=[fieldString substringToIndex:[fieldString length]-2];
             self.currentTextField.text=[fieldString stringByAppendingString:@"%"];
             if ([fieldString isEqualToString:@"%"]||[fieldString isEqualToString:@""]||fieldString==nil) {
@@ -921,6 +939,7 @@
     }
     NSNumber* bonus=[NSNumber numberWithInt:[BonusField.text intValue]];
     NSNumber* discount=[NSNumber numberWithFloat:[DiscountField.text floatValue]];
+    NSNumber* rebate = [NSNumber numberWithFloat:[self.rebateField.text floatValue]];
     NSNumber* inStock = [NSNumber numberWithInt:[InStockField.text intValue]];
     NSNumber* foc = [NSNumber numberWithInt:[FOCField.text intValue]];
     
@@ -952,6 +971,7 @@
 //        [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"DiscountPercent"];
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"LineValue"];
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"vatAmount"];
+        [self.Data setObject:[NSNumber numberWithFloat:0] forKey:@"RebatePercent"];
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"InStock"];
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"FOC"];
         [self.Data setObject:[NSNumber numberWithBool:NO] forKey: @"IsSelected"];
@@ -960,6 +980,7 @@
         [self.Data setObject:qty forKey:@"Qty"];
         [self.Data setObject:bonus forKey:@"Bonus"];
         [self.Data setObject:discount forKey:@"DiscountPercent"];
+        [self.Data setObject:rebate forKey:@"RebatePercent"];
         [self.Data setObject:inStock forKey:@"InStock"];
         [self.Data setObject:foc forKey:@"FOC"];
         
@@ -1000,7 +1021,6 @@
     FOCField.text=@"0";
     self.instockRBTextField.text=@"0";
     [self.delegate operationDone:self.Data ];
-
 }
 
 //actions
@@ -1019,6 +1039,7 @@
             isCheckPass=[self QTYBonusCheck:theButton.tag];
             break;
         case 2:
+        case 8:
             isCheckPass=[self DiscountCheck:theButton.tag];
             break;
         case 6:
@@ -1110,6 +1131,7 @@
     InStockField.layer.cornerRadius=5.5f;
     FOCField.layer.cornerRadius = 5.5f;
     self.instockRBTextField.layer.cornerRadius = 5.5f;
+    self.rebateField.layer.cornerRadius = 5.5f;
     
     QTYField.layer.borderWidth=0.5f;
     BonusField.layer.borderWidth=0.5f;
@@ -1118,6 +1140,7 @@
     FOCField.layer.borderWidth = 0.5f;
     self.instockRBTextField.layer.borderWidth = 0.5f;
     self.unitPriceField.layer.borderWidth = 0.5f;
+    self.rebateField.layer.borderWidth = 0.5f;
     
     QTYField.layer.borderColor=[[UIColor blackColor]CGColor];
     BonusField.layer.borderColor=[[UIColor blackColor]CGColor];
@@ -1126,6 +1149,7 @@
     FOCField.layer.borderColor=[[UIColor blackColor]CGColor];
     self.instockRBTextField.layer.borderColor = [[UIColor blackColor]CGColor];
     self.unitPriceField.layer.borderColor=[[UIColor blackColor]CGColor];
+    self.rebateField.layer.borderColor = [[UIColor blackColor] CGColor];
     
     self.currentTextField.layer.borderWidth=3.0f;
     self.currentTextField.layer.borderColor=[[UIColor redColor]CGColor];

@@ -28,6 +28,7 @@
     IBOutlet UITextField* QTYField;
     IBOutlet UITextField* BonusField;
     IBOutlet UITextField* DiscountField;
+    UITextField* _rebateField;
     IBOutlet UITextField* ValueField;
     UITextField* _currentTextField;
     IBOutlet UILabel* productName;
@@ -56,6 +57,7 @@
     UILabel* _qtyLabel;
     IBOutlet UILabel* BonusLabel;
     IBOutlet UILabel* DiscountLabel;
+    UILabel* _rebateLabel;
     UILabel* _valueLabel;
     
     BOOL isDetaillingType;
@@ -126,6 +128,7 @@
 @property(nonatomic,retain) IBOutlet UITextField* QTYField;
 @property(nonatomic,retain) IBOutlet UITextField* BonusField;
 @property(nonatomic,retain) IBOutlet UITextField* DiscountField;
+@property(nonatomic,retain) IBOutlet UITextField* rebateField;
 
 @property(nonatomic, retain) IBOutlet UIButton* sevenButton;
 @property(nonatomic, retain) IBOutlet UIButton* eightButton;
@@ -155,6 +158,7 @@
 @property(nonatomic,retain) IBOutlet UILabel* qtyLabel;
 @property(nonatomic,retain) IBOutlet UILabel* BonusLabel;
 @property(nonatomic,retain) IBOutlet UILabel* DiscountLabel;
+@property(nonatomic,retain) IBOutlet UILabel* rebateLabel;
 @property(nonatomic,retain) IBOutlet UILabel* valueLabel;
 
 @property(nonatomic,assign)  BOOL isDetaillingType;

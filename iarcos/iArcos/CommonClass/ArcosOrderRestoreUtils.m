@@ -60,6 +60,7 @@
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"Testers"] forKey:@"Testers"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"LineValue"] forKey:@"LineValue"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"vatAmount"] forKey:@"vatAmount"];
+        [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"RebatePercent"] forKey:@"RebatePercent"];
         [tmpOrderRestoreDict setObject:[ArcosUtils convertNilToZero:[anOrderline objectForKey:@"PriceFlag"]] forKey:@"PriceFlag"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"UnitPrice"] forKey:@"UnitPrice"];
         [tmpOrderRestoreDict setObject:[ArcosUtils convertNilToZero:[anOrderline objectForKey:@"RRIUR"]] forKey:@"RRIUR"];
@@ -106,6 +107,10 @@
         NSString* tmpKey = [keyList objectAtIndex:i];
         NSNumber* tmpProductIUR = [ArcosUtils convertStringToNumber:tmpKey];
         NSMutableDictionary* tempDict = [dataDict objectForKey:tmpKey];
+        [tempDict setObject:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:[[tempDict objectForKey:@"DiscountPercent"] floatValue]]] forKey:@"DiscountPercent"];
+        [tempDict setObject:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:[[tempDict objectForKey:@"RebatePercent"] floatValue]]] forKey:@"RebatePercent"];
+        [tempDict setObject:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:[[tempDict objectForKey:@"LineValue"] floatValue]]] forKey:@"LineValue"];
+        [tempDict setObject:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:[[tempDict objectForKey:@"vatAmount"] floatValue]]] forKey:@"vatAmount"];
         if (![ProductFormRowConverter isSelectedWithFormRowDict:tempDict]) {
             continue;
         }

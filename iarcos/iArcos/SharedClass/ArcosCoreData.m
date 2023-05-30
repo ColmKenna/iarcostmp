@@ -1100,7 +1100,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 }
 - (NSMutableArray*)allOrderLinesWithOrderNumber:(NSNumber*)aNumber withSortKey:(NSString*)aKey locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
     NSArray* sortDescNames=[NSArray arrayWithObjects:aKey,nil];
-    NSArray* properties=[NSArray arrayWithObjects:@"UnitPrice", @"LineValue",@"Qty",@"DiscountPercent",@"Bonus",@"ProductIUR",@"OrderNumber",@"OrderLine",@"InStock",@"FOC",@"PPIUR",@"Testers",@"vatAmount",nil];
+    NSArray* properties=[NSArray arrayWithObjects:@"UnitPrice", @"LineValue",@"Qty",@"DiscountPercent",@"Bonus",@"ProductIUR",@"OrderNumber",@"OrderLine",@"InStock",@"FOC",@"PPIUR",@"Testers",@"vatAmount",@"RebatePercent",nil];
     NSPredicate* predicate=[NSPredicate predicateWithFormat:@"OrderNumber=%d",[aNumber intValue]];
     
     NSMutableArray* auxObjectsArray=[self fetchRecordsWithEntity:@"OrderLine" withPropertiesToFetch:properties  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
@@ -1670,6 +1670,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         OL.Bonus=[orderLine objectForKey:@"Bonus"];
         OL.LineValue=[orderLine objectForKey:@"LineValue"];
         OL.vatAmount=[orderLine objectForKey:@"vatAmount"];
+        OL.RebatePercent = [orderLine objectForKey:@"RebatePercent"];
         OL.Qty=[orderLine objectForKey:@"Qty"];
         OL.InStock = [orderLine objectForKey:@"InStock"];
         OL.FOC = [orderLine objectForKey:@"FOC"];
@@ -1909,6 +1910,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     OL.Qty = [anOrderLine objectForKey:@"Qty"];
     OL.LineValue = [anOrderLine objectForKey:@"LineValue"];
     OL.vatAmount = [anOrderLine objectForKey:@"vatAmount"];
+    OL.RebatePercent = [anOrderLine objectForKey:@"RebatePercent"];
     OL.DiscountPercent = [anOrderLine objectForKey:@"DiscountPercent"];
     OL.InStock = [anOrderLine objectForKey:@"InStock"];
     OL.FOC = [anOrderLine objectForKey:@"FOC"];
@@ -2984,6 +2986,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         OL.Qty=[orderLine objectForKey:@"Qty"];
         OL.LineValue=[orderLine objectForKey:@"LineValue"];
         OL.vatAmount=[orderLine objectForKey:@"vatAmount"];
+        OL.RebatePercent = [orderLine objectForKey:@"RebatePercent"];
         OL.DiscountPercent=[orderLine objectForKey:@"DiscountPercent"];
         OL.InStock = [orderLine objectForKey:@"InStock"];
         OL.FOC = [orderLine objectForKey:@"FOC"];

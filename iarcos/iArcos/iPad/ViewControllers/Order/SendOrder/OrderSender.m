@@ -170,6 +170,7 @@
         //AOLB.Comments=OL.comments;
         AOLB.LineValue=OL.LineValue;
         AOLB.VatAmount=OL.vatAmount;
+        AOLB.RebatePercent = OL.RebatePercent;
         AOLB.UnitPrice=OL.UnitPrice;
         AOLB.CostPrice=OL.CostPrice;
         AOLB.InvoiceRef=OL.InvoiceRef;

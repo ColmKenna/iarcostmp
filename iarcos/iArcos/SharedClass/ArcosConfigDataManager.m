@@ -305,6 +305,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConfigDataManager);
     return [self retrieveConfigFlagByIndex:76];
 }
 
+- (BOOL)showInputPadRebateFlag {
+    return [self retrieveConfigFlagByIndex:77];
+}
+
 - (void)resetSystemCodes:(NSString*)aSystemCodes {
     self.systemCodes = aSystemCodes;
 }

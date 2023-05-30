@@ -11,9 +11,11 @@
 
 @interface OrderInputPadDataManager : NSObject {
     NSMutableArray* _monthList;
+    NSString* _rebateTitle;
 }
 
 @property(nonatomic, retain) NSMutableArray* monthList;
+@property(nonatomic, retain) NSString* rebateTitle;
 
 - (NSMutableArray*)retrieveLocationProductMATWithLocationIUR:(NSNumber*)aLocationIUR productIUR:(NSNumber*)aProductIUR;
 - (void)processMonthListWithDate:(NSDate*)aDateLastModified;
