@@ -9,6 +9,7 @@
 #import "ReportManager.h"
 #import "ArcosService.h"
 #import "SettingManager.h"
+#import "ArcosRootViewController.h"
 
 @interface ReportManager (Private)
 -(void) GenerateReportWithCode:(NSNumber*)code;
@@ -23,6 +24,7 @@
 @synthesize AllData;
 @synthesize delegate;
 @synthesize xmlFileName = _xmlFileName;
+@synthesize arcosRootViewController = _arcosRootViewController;
 
 -(id)init{
     self=[super init];
@@ -30,6 +32,7 @@
         self.Options=[NSMutableArray array];
         self.MainData=[NSMutableArray array];
         self.AllData=[NSMutableDictionary dictionary];
+        self.arcosRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
     }
     return self;
 }
@@ -67,7 +70,13 @@
     NSString* xmlFilePath = [NSString stringWithFormat:@"%@/%@", [FileCommon reporterPath],self.xmlFileName];
     [FileCommon removeFileAtPath:xmlFilePath];
 //    NSLog(@"xmlFilePath: %@", xmlFilePath);
-    [ArcosSystemCodesUtils convertBase64ToPhysicalFile:newResult filePath:xmlFilePath];
+//    [ArcosSystemCodesUtils convertBase64ToPhysicalFile:newResult filePath:xmlFilePath];
+    ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)newResult;
+    if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
+        [arcosGetFromResourcesResult.FileContents writeToFile:xmlFilePath atomically:YES];
+    } else {
+        [ArcosUtils showDialogBox:arcosGetFromResourcesResult.ErrorModel.Message title:@"" delegate:nil target:self.arcosRootViewController tag:0 handler:nil];
+    }
     NSURL* url=[NSURL fileURLWithPath:xmlFilePath];
     self.ReportDocument = [[[CXMLDocument alloc] initWithContentsOfURL:url options:0 error:nil] autorelease];
 //    NSLog(@"abc");

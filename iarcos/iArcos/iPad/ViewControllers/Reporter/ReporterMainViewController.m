@@ -586,10 +586,21 @@
     if (result == nil) {
         return;
     }
-    BOOL isSuccessful = [ArcosSystemCodesUtils convertBase64ToPhysicalFile:result filePath:[NSString stringWithFormat:@"%@/%@", [FileCommon reporterPath],self.reporterFileManager.fileName]];
-    if (isSuccessful) {
-        [self drillDownToExcelView];
+    ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)result;
+    if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
+        BOOL saveFileFlag = [arcosGetFromResourcesResult.FileContents writeToFile:[NSString stringWithFormat:@"%@/%@", [FileCommon reporterPath],self.reporterFileManager.fileName] atomically:YES];
+        if (saveFileFlag) {
+            [self drillDownToExcelView];
+        } else {
+            [ArcosUtils showDialogBox:@"Unable to save the file on the iPad." title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
+        }
+    } else {
+        [ArcosUtils showDialogBox:arcosGetFromResourcesResult.ErrorModel.Message title:@"" delegate:nil target:self tag:0 handler:nil];
     }
+//    BOOL isSuccessful = [ArcosSystemCodesUtils convertBase64ToPhysicalFile:result filePath:[NSString stringWithFormat:@"%@/%@", [FileCommon reporterPath],self.reporterFileManager.fileName]];
+//    if (isSuccessful) {
+//        [self drillDownToExcelView];
+//    }
 }
 
 - (void)drillDownToExcelView {

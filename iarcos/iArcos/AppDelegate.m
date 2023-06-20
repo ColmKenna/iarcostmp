@@ -31,6 +31,7 @@
         [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [[UITableView appearance] setSectionHeaderTopPadding:0.0];
+        [[UISegmentedControl appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]} forState:UIControlStateNormal];
     } else {
         // Fallback on earlier versions
         [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.0 green:150.0/255.0 blue:214.0/255.0 alpha:1.0]];

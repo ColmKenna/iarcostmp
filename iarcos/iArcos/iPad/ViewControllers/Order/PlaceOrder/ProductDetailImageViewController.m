@@ -154,9 +154,15 @@
     
     UIImage* anImage = nil;
     if (successFlag) {
-        NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:result options:0] autorelease];
-        anImage = [[[UIImage alloc] initWithData:myNSData] autorelease];
-        self.bigProductCodeImageView.image = anImage;
+        ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)result;
+        if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
+//            NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:result options:0] autorelease];
+            anImage = [[[UIImage alloc] initWithData:arcosGetFromResourcesResult.FileContents] autorelease];
+            self.bigProductCodeImageView.image = anImage;
+        } else {
+            [ArcosUtils showDialogBox:arcosGetFromResourcesResult.ErrorModel.Message title:@"" delegate:nil target:self tag:0 handler:nil];
+        }
+        
     } else {
 //        self.bigProductCodeImageView.image = self.mediumImage;
         NSString* errorMsg = [NSString stringWithFormat:@"%@ not found.", [NSString stringWithFormat:@"L-%@.png",self.productCode]];

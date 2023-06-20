@@ -10,6 +10,7 @@
 #import "TouchXML.h"
 #import "ArcosService.h"
 #import "ArcosSystemCodesUtils.h"
+@class ArcosRootViewController;
 
 @protocol ReportManagerDelegate 
 
@@ -28,6 +29,7 @@
     
     id<ReportManagerDelegate> delegate;
     NSString* _xmlFileName;
+    ArcosRootViewController* _arcosRootViewController;
 }
 @property(nonatomic,retain) NSNumber* ReportCode;
 @property(nonatomic,retain) CXMLDocument* ReportDocument;
@@ -36,6 +38,7 @@
 @property(nonatomic,retain) NSMutableDictionary* AllData;
 @property(nonatomic,assign) id<ReportManagerDelegate> delegate;
 @property(nonatomic,retain) NSString* xmlFileName;
+@property (nonatomic, retain) ArcosRootViewController* arcosRootViewController;
 
 +(id)Manager;
 

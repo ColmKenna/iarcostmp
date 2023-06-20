@@ -191,16 +191,19 @@
     BOOL saveFileFlag = NO;
     if (successFlag) {
         NSString* auxFilePath = [NSString stringWithFormat:@"%@/%@", [FileCommon overviewPath], [self.displayList objectAtIndex:self.rowPointer]];
-        NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:result options:0] autorelease];
-         saveFileFlag = [myNSData writeToFile:auxFilePath atomically:YES];
-        if (saveFileFlag) {
-//            NSURL* url = [NSURL fileURLWithPath:self.filePath];
-//            NSURLRequest* requestObj = [NSURLRequest requestWithURL:url];
-//            [self.myWebView loadRequest:requestObj];
-//            self.myWebView.hidden = NO;
+//        NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:result options:0] autorelease];
+//         saveFileFlag = [myNSData writeToFile:auxFilePath atomically:YES];
+        ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)result;
+        if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
+            saveFileFlag = [arcosGetFromResourcesResult.FileContents writeToFile:auxFilePath atomically:YES];
+            if (saveFileFlag) {
+                
+            } else {
+                [ArcosUtils showDialogBox:@"Unable to save the file on the iPad." title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
+            }
         } else {
-            [ArcosUtils showDialogBox:@"Unable to save the file on the iPad." title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
-        }
+            [ArcosUtils showDialogBox:arcosGetFromResourcesResult.ErrorModel.Message title:@"" delegate:nil target:self tag:0 handler:nil];
+        }        
     } else {
     }
     self.rowPointer++;

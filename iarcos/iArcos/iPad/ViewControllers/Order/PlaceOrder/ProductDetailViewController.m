@@ -325,8 +325,13 @@
     }
     self.mediumImage = nil;
     if (successFlag) {
-        NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:result options:0] autorelease];
-        self.mediumImage = [[[UIImage alloc] initWithData:myNSData] autorelease];
+//        NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:result options:0] autorelease];
+        ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)result;
+        if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
+            self.mediumImage = [[[UIImage alloc] initWithData:arcosGetFromResourcesResult.FileContents] autorelease];
+        } else {
+            [ArcosUtils showDialogBox:arcosGetFromResourcesResult.ErrorModel.Message title:@"" delegate:nil target:self tag:0 handler:nil];
+        }
     } else {
         self.mediumImage = [[ArcosCoreData sharedArcosCoreData]thumbWithIUR:[NSNumber numberWithInt:1]];
         if (self.mediumImage == nil) {

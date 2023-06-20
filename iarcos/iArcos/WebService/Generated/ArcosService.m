@@ -102,6 +102,7 @@
 #import "ArcosArrayOfProductSummary.h"
 #import "ArcosArrayOfLevel5Spec.h"
 #import "ArcosArrayOfCallBO.h"
+#import "ArcosGetFromResourcesResult.h"
 #import "ArcosLocationWithReps.h"
 #import "ArcosContactWithLocationDetails.h"
 #import "ArcosOrderTransferObject.h"
@@ -4824,7 +4825,7 @@
 		return _request;
 	}
 
-	// Returns NSData*
+	// Returns ArcosGetFromResourcesResult*
 	/*  */
 	- (SoapRequest*) GetFromResources: (id <SoapDelegate>) handler FileNAme: (NSString*) FileNAme
 	{
@@ -4837,7 +4838,7 @@
 		
 		[_params addObject: [[[SoapParameter alloc] initWithValue: FileNAme forName: @"FileNAme"] autorelease]];
 		NSString* _envelope = [Soap createEnvelope: @"GetFromResources" forNamespace: self.namespace withParameters: _params withHeaders: self.headers];
-		SoapRequest* _request = [SoapRequest create: _target action: _action service: self soapAction: @"http://www.strataarcos.com/GetFromResources" postData: _envelope deserializeTo: @"NSData"];
+		SoapRequest* _request = [SoapRequest create: _target action: _action service: self soapAction: @"http://www.strataarcos.com/GetFromResources" postData: _envelope deserializeTo: [[ArcosGetFromResourcesResult alloc] autorelease]];
 		[_request send];
 		return _request;
 	}
@@ -4847,7 +4848,7 @@
 		
 		[_params addObject: [[[SoapParameter alloc] initWithValue: FileNAme forName: @"FileNAme"] autorelease]];
 		NSString* _envelope = [Soap createEnvelope:@"GetFromResources" forNamespace:self.namespace withParameters:_params withHeaders:self.headers];
-		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/GetFromResources" postData:_envelope deserializeTo:@"NSData" completionBlock:completionBlock];
+		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/GetFromResources" postData:_envelope deserializeTo:[[ArcosGetFromResourcesResult alloc] autorelease] completionBlock:completionBlock];
 		_request.progressBlock = progressBlock;
 		[_request send];
 		return _request;

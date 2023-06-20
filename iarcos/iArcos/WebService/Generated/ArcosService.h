@@ -102,6 +102,7 @@
 #import "ArcosArrayOfProductSummary.h"
 #import "ArcosArrayOfLevel5Spec.h"
 #import "ArcosArrayOfCallBO.h"
+#import "ArcosGetFromResourcesResult.h"
 #import "ArcosLocationWithReps.h"
 #import "ArcosContactWithLocationDetails.h"
 #import "ArcosOrderTransferObject.h"
@@ -993,7 +994,7 @@
 	- (SoapRequest*) UploadFileToResources: (id) target action: (SEL) action contents: (NSData*) contents fileName: (NSString*) fileName;
 	-(SoapRequest*)UploadFileToResourcesWithProgress:(SoapRequestProgressBlock)progressBlock contents: (NSData*) contents fileName: (NSString*) fileName completion:(SoapRequestCompletionBlock)completionBlock;
 
-	// Returns NSData*
+	// Returns ArcosGetFromResourcesResult*
 	/*  */
 	- (SoapRequest*) GetFromResources: (id <SoapDelegate>) handler FileNAme: (NSString*) FileNAme;
 	- (SoapRequest*) GetFromResources: (id) target action: (SEL) action FileNAme: (NSString*) FileNAme;
