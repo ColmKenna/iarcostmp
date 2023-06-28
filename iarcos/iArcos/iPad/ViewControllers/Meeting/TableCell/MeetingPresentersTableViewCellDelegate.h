@@ -11,6 +11,7 @@
 
 @protocol MeetingPresentersTableViewCellDelegate <NSObject>
 
+- (void)presenterHeaderPressedWithIndexPath:(NSIndexPath*)anIndexpath;
 - (void)meetingPresentersLinkToMeeting:(BOOL)aLinkToMeetingFlag atIndexPath:(NSIndexPath*)anIndexPath;
 
 @end

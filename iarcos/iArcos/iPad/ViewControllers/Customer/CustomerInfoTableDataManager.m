@@ -74,10 +74,12 @@
 @synthesize emailLabel = _emailLabel;
 @synthesize headerTailItemList = _headerTailItemList;
 @synthesize priceGroupsLabel = _priceGroupsLabel;
+@synthesize unassignedText = _unassignedText;
 
 - (id)initWithLocationIUR:(NSNumber*)aLocationIUR {
     self = [super init];
     if (self != nil) {
+        self.unassignedText = @"unassigned";
         self.phoneNumberLabel = @"Phone Number";
         self.emailLabel = @"Email";
         self.priceGroupsLabel = @"Price Group";
@@ -250,6 +252,7 @@
     self.emailLabel = nil;
     self.headerTailItemList = nil;
     self.priceGroupsLabel = nil;
+    self.unassignedText = nil;
     
     [super dealloc];
 }
@@ -395,7 +398,7 @@
         }
     }
     if ([lpValueList count] == 0) return;
-    NSMutableArray* lpDescrDetailList = [[ArcosCoreData sharedArcosCoreData] descriptionWithIURList:lpValueList];
+    NSMutableArray* lpDescrDetailList = [[ArcosCoreData sharedArcosCoreData] descriptionWithIURList:lpValueList needActive:YES];
     NSMutableDictionary* lpDescrDetailHashMap = [NSMutableDictionary dictionaryWithCapacity:[lpDescrDetailList count]];
     for (int i = 0; i < [lpDescrDetailList count]; i++) {
         NSDictionary* tmpDescrDetailDict = [lpDescrDetailList objectAtIndex:i];
@@ -414,7 +417,7 @@
         NSDictionary* descrDetailDict = [lpDescrDetailHashMap objectForKey:lpValue];
         NSString* fieldDesc = [ArcosUtils convertNilToEmpty:[descrTypeDict objectForKey:@"Details"]];
         NSString* fieldValue = [ArcosUtils convertNilToEmpty:[descrDetailDict objectForKey:@"Detail"]];
-        if (![fieldDesc isEqualToString:@""] && ![fieldValue isEqualToString:@""]) {
+        if (![fieldDesc isEqualToString:@""] && ![fieldValue isEqualToString:@""] && ![[ArcosUtils trim:[fieldValue lowercaseString]] isEqualToString:self.unassignedText]) {
             NSMutableDictionary* tmpLpItemDict = [NSMutableDictionary dictionaryWithCapacity:2];
             [tmpLpItemDict setObject:fieldDesc forKey:@"fieldDesc"];
             [tmpLpItemDict setObject:fieldValue forKey:@"fieldValue"];

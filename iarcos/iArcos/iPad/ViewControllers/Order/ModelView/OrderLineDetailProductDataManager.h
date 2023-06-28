@@ -17,6 +17,7 @@
     NSNumber* _orderNumber;
     NSNumber* _formIUR;
     BOOL _standardOrderFormFlag;
+    NSDictionary* _currentFormDetailDict;
 }
 
 @property(nonatomic, retain) NSMutableArray* displayList;
@@ -26,6 +27,7 @@
 @property(nonatomic, retain) NSNumber* orderNumber;
 @property(nonatomic, retain) NSNumber* formIUR;
 @property(nonatomic, assign) BOOL standardOrderFormFlag;
+@property(nonatomic, retain) NSDictionary* currentFormDetailDict;
 
 - (NSMutableArray*)productWithDescriptionKeyword:(NSString*)aKeyword;
 - (void)importExistentOrderLineToOrderCart:(NSMutableArray*)anOrderLineList;

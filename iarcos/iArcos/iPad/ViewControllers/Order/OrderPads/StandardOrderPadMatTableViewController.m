@@ -38,6 +38,7 @@
         self.isVanSalesEnabledFlag = [[ArcosConfigDataManager sharedArcosConfigDataManager] enableVanSaleFlag];
         self.isPageMultipleLoaded = NO;
         self.orderPadFooterViewDataManager = [[[OrderPadFooterViewDataManager alloc] init] autorelease];
+        
     }
     return self;
 }
@@ -51,6 +52,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [ArcosUtils configEdgesForExtendedLayout:self];
+    self.mATFormRowsTableViewController.matFormRowsDataManager.currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
     self.navigationController.navigationBarHidden = YES;
     self.factory = [WidgetFactory factory];
     self.factory.delegate = self;
@@ -80,7 +82,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag]) {
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.mATFormRowsTableViewController.matFormRowsDataManager.currentFormDetailDict objectForKey:@"Details"]];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![orderFormDetails containsString:@"[BD]"]) {
         self.mATFormRowsTableCellGeneratorDelegate = [[[MATFormRowsTableCellRrpGenerator alloc] init] autorelease];
     } else {
         self.mATFormRowsTableCellGeneratorDelegate = [[[MATFormRowsTableCellNormalGenerator alloc] init] autorelease];

@@ -73,6 +73,7 @@
     NSString* _emailLabel;
     NSMutableArray* _headerTailItemList;
     NSString* _priceGroupsLabel;
+    NSString* _unassignedText;
 }
 
 @property(nonatomic, retain) NSNumber* locationIUR;
@@ -138,6 +139,7 @@
 @property(nonatomic, retain) NSString* emailLabel;
 @property(nonatomic, retain) NSMutableArray* headerTailItemList;
 @property(nonatomic, retain) NSString* priceGroupsLabel;
+@property(nonatomic, retain) NSString* unassignedText;
 
 - (id)initWithLocationIUR:(NSNumber*)aLocationIUR;
 - (void)locationStatusProcessor:(NSNumber*)aLsiur;

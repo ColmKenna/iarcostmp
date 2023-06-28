@@ -50,7 +50,7 @@
     }
     */
     NSString* dateTimeStr = [self retrieveDatetime:[elementDict objectForKey:@"Date"]];
-    self.reasonLabel.text = [ArcosUtils trim:[NSString stringWithFormat:@"%@ %@", dateTimeStr, [ArcosUtils trim:[elementDict objectForKey:@"Reason"]]]];
+    self.reasonLabel.text = [ArcosUtils trim:[NSString stringWithFormat:@"%@ %@", dateTimeStr, [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[elementDict objectForKey:@"Reason"]]]]];
     self.venueLabel.text = [elementDict objectForKey:@"Venue"];
     self.typeLabel.text = [elementDict objectForKey:@"Type"];
     self.statusLabel.text = [elementDict objectForKey:@"Status"];

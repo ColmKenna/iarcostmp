@@ -1677,6 +1677,10 @@
 		79F225ED298B9AD2000B0FC1 /* ArcosCalendarEventEntryDetailListingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79F225EB298B9AD2000B0FC1 /* ArcosCalendarEventEntryDetailListingTableViewCell.xib */; };
 		79F3CDCD29B1E19F00B49810 /* DetailingPPHEADERTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79F3CDCC29B1E19F00B49810 /* DetailingPPHEADERTableCell.m */; };
 		79F3CDD029B1E3FE00B49810 /* DetailingPPTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79F3CDCF29B1E3FE00B49810 /* DetailingPPTableCell.m */; };
+		79FD45922A46E717008B4D6B /* MeetingPresentersCompositeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 79FD45912A46E717008B4D6B /* MeetingPresentersCompositeObject.m */; };
+		79FD45952A46E778008B4D6B /* MeetingPresentersBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79FD45942A46E778008B4D6B /* MeetingPresentersBaseTableViewCell.m */; };
+		79FD45982A46E7B6008B4D6B /* MeetingPresentersHeaderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79FD45972A46E7B6008B4D6B /* MeetingPresentersHeaderTableViewCell.m */; };
+		79FD459B2A46E892008B4D6B /* MeetingPresentersTableCellFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 79FD459A2A46E892008B4D6B /* MeetingPresentersTableCellFactory.m */; };
 		79FD8B9227F45B990026FEDB /* next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79FD8B8E27F45B990026FEDB /* next@2x.png */; };
 		79FD8B9427F45B990026FEDB /* previous@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79FD8B9027F45B990026FEDB /* previous@2x.png */; };
 /* End PBXBuildFile section */
@@ -4950,6 +4954,14 @@
 		79F3CDCC29B1E19F00B49810 /* DetailingPPHEADERTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailingPPHEADERTableCell.m; sourceTree = "<group>"; };
 		79F3CDCE29B1E3FE00B49810 /* DetailingPPTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailingPPTableCell.h; sourceTree = "<group>"; };
 		79F3CDCF29B1E3FE00B49810 /* DetailingPPTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailingPPTableCell.m; sourceTree = "<group>"; };
+		79FD45902A46E717008B4D6B /* MeetingPresentersCompositeObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingPresentersCompositeObject.h; sourceTree = "<group>"; };
+		79FD45912A46E717008B4D6B /* MeetingPresentersCompositeObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingPresentersCompositeObject.m; sourceTree = "<group>"; };
+		79FD45932A46E778008B4D6B /* MeetingPresentersBaseTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingPresentersBaseTableViewCell.h; sourceTree = "<group>"; };
+		79FD45942A46E778008B4D6B /* MeetingPresentersBaseTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingPresentersBaseTableViewCell.m; sourceTree = "<group>"; };
+		79FD45962A46E7B6008B4D6B /* MeetingPresentersHeaderTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingPresentersHeaderTableViewCell.h; sourceTree = "<group>"; };
+		79FD45972A46E7B6008B4D6B /* MeetingPresentersHeaderTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingPresentersHeaderTableViewCell.m; sourceTree = "<group>"; };
+		79FD45992A46E892008B4D6B /* MeetingPresentersTableCellFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetingPresentersTableCellFactory.h; sourceTree = "<group>"; };
+		79FD459A2A46E892008B4D6B /* MeetingPresentersTableCellFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetingPresentersTableCellFactory.m; sourceTree = "<group>"; };
 		79FD8B8E27F45B990026FEDB /* next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "next@2x.png"; sourceTree = "<group>"; };
 		79FD8B9027F45B990026FEDB /* previous@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "previous@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -8686,6 +8698,10 @@
 				635C2462224E42CA00761A94 /* MeetingPhotoUploadProcessMachine.m */,
 				635C2464224E434900761A94 /* MeetingPhotoUploadProcessMachineDelegate.h */,
 				79B83C9225E915030030FFCA /* MeetingDetailsTableViewControllerDelegate.h */,
+				79FD45902A46E717008B4D6B /* MeetingPresentersCompositeObject.h */,
+				79FD45912A46E717008B4D6B /* MeetingPresentersCompositeObject.m */,
+				79FD45992A46E892008B4D6B /* MeetingPresentersTableCellFactory.h */,
+				79FD459A2A46E892008B4D6B /* MeetingPresentersTableCellFactory.m */,
 			);
 			path = Meeting;
 			sourceTree = "<group>";
@@ -8795,6 +8811,10 @@
 				63155663223BAB0C00DEF591 /* MeetingAttachmentsTableViewCell.m */,
 				63155665223BAB4200DEF591 /* MeetingAttachmentsTableViewCell.xib */,
 				63155667223BAB9200DEF591 /* MeetingAttachmentsTableViewCellDelegate.h */,
+				79FD45932A46E778008B4D6B /* MeetingPresentersBaseTableViewCell.h */,
+				79FD45942A46E778008B4D6B /* MeetingPresentersBaseTableViewCell.m */,
+				79FD45962A46E7B6008B4D6B /* MeetingPresentersHeaderTableViewCell.h */,
+				79FD45972A46E7B6008B4D6B /* MeetingPresentersHeaderTableViewCell.m */,
 			);
 			path = TableCell;
 			sourceTree = "<group>";
@@ -9689,6 +9709,7 @@
 				639CAE741CFC7EE800D7246C /* GetRecordTypeGenericDecimalObject.m in Sources */,
 				6303EB63231D6B8500EC21A8 /* OrderPadFooterViewDataManager.m in Sources */,
 				7931734026267D7900195AFF /* ProductSelectionListingTableViewCell.m in Sources */,
+				79FD45952A46E778008B4D6B /* MeetingPresentersBaseTableViewCell.m in Sources */,
 				630B3B2B19F01CB9007B2442 /* PresenterSlideViewItemController.m in Sources */,
 				18D0DD092446AC0E0004BC45 /* OrderEntryInputRightHandSideGridDelegateController.m in Sources */,
 				630B3C4E19F01CB9007B2442 /* ImageL5FormRowsTableViewController.m in Sources */,
@@ -10263,6 +10284,7 @@
 				6304523619EFC79D00CDE68A /* ViewController.m in Sources */,
 				630F0EF72174E39A000BDA94 /* ProductDetailDesignViewController.m in Sources */,
 				63D861A41EFD310A00733513 /* CustomerSurveyDetailsSubHeaderTableCell.m in Sources */,
+				79FD459B2A46E892008B4D6B /* MeetingPresentersTableCellFactory.m in Sources */,
 				63A1330021A86828000128F5 /* MeetingExpenseTableViewController.m in Sources */,
 				630B3C2F19F01CB9007B2442 /* BranchLeafProductGridDataManager.m in Sources */,
 				799A268725CE71FC006F620C /* ReporterXmlSubTableFooterView.m in Sources */,
@@ -10641,6 +10663,7 @@
 				63ABC88D19F0252000DE2B1B /* UtilitiesArcosSplitViewController.m in Sources */,
 				630B3C8F19F01CB9007B2442 /* CurrentVersionFlag.m in Sources */,
 				63F042C9207E132B0063C46F /* DashboardMainTemplateTableViewController.m in Sources */,
+				79FD45922A46E717008B4D6B /* MeetingPresentersCompositeObject.m in Sources */,
 				63B048871EC216CC00AE9E4D /* OrderDetailPrintTableCell.m in Sources */,
 				7951AC00282E3FA400423717 /* ArcosCalendarEventEntryDetailTextViewTableViewCell.m in Sources */,
 				630B350019F0171A007B2442 /* SubMenuListingTableViewController.m in Sources */,
@@ -10733,6 +10756,7 @@
 				630B3CD419F01CB9007B2442 /* ReportInvoiceCell.m in Sources */,
 				630B34DB19F014E9007B2442 /* SplitDividerUILabel.m in Sources */,
 				632FD68F1EFAB1B80037701D /* CustomerSurveyDetailsDataManager.m in Sources */,
+				79FD45982A46E7B6008B4D6B /* MeetingPresentersHeaderTableViewCell.m in Sources */,
 				630B3DB719F01CB9007B2442 /* ArcosService.m in Sources */,
 				638A42B82191F79B006F993B /* MeetingMainBaseSectionView.m in Sources */,
 				630B3D9F19F01CB9007B2442 /* ArcosErrorModel.m in Sources */,
@@ -10951,7 +10975,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.0.8;
+				MARKETING_VERSION = 12.0.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11008,7 +11032,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.0.8;
+				MARKETING_VERSION = 12.0.9;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -11145,7 +11169,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.0.8;
+				MARKETING_VERSION = 12.0.9;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

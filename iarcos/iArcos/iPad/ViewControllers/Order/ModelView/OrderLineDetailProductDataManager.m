@@ -17,6 +17,7 @@
 @synthesize orderNumber = _orderNumber;
 @synthesize formIUR = _formIUR;
 @synthesize standardOrderFormFlag = _standardOrderFormFlag;
+@synthesize currentFormDetailDict = _currentFormDetailDict;
 
 - (id)init {
     self = [super init];
@@ -35,6 +36,7 @@
     if (self.parentOrderLineList != nil) { self.parentOrderLineList = nil; }
     if (self.orderNumber != nil) { self.orderNumber = nil; }        
     self.formIUR = nil;
+    self.currentFormDetailDict = nil;
         
     [super dealloc];
 }

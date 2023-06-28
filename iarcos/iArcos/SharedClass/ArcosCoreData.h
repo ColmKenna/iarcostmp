@@ -210,6 +210,7 @@ typedef enum {
 - (NSDictionary*)descriptionWithIURActive:(NSNumber*)anIUR;
 - (NSDictionary*)descriptionWithIUR:(NSNumber *)anIUR needActive:(BOOL)active;
 - (NSMutableArray*)descriptionWithIURList:(NSMutableArray*)anIURList;
+- (NSMutableArray*)descriptionWithIURList:(NSMutableArray*)anIURList needActive:(BOOL)active;
 - (NSDictionary*)descrTypeWithTypeCode:(NSString*)aCode;
 - (NSDictionary*)descrTypeAllRecordsWithTypeCode:(NSString*)aCode;
 - (NSMutableArray*)descrDetailWithDescrCodeType:(NSString*)aDescrCodeType;

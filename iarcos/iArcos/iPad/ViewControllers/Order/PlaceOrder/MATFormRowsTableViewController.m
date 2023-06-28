@@ -128,7 +128,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag]) {
+    self.matFormRowsDataManager.currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.matFormRowsDataManager.currentFormDetailDict objectForKey:@"Details"]];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![orderFormDetails containsString:@"[BD]"]) {
         self.mATFormRowsTableCellGeneratorDelegate = [[[MATFormRowsTableCellRrpGenerator alloc] init] autorelease];
     } else {
         self.mATFormRowsTableCellGeneratorDelegate = [[[MATFormRowsTableCellNormalGenerator alloc] init] autorelease];

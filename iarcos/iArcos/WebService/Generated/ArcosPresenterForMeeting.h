@@ -15,6 +15,8 @@
 	BOOL _Active;
 	int _ImageIUR;
 	NSString* _MemoDetails;
+	int _DisplaySequence;
+	int _Locationiur;
 	
 }
 		
@@ -24,6 +26,8 @@
 	@property BOOL Active;
 	@property int ImageIUR;
 	@property (retain, nonatomic) NSString* MemoDetails;
+	@property int DisplaySequence;
+	@property int Locationiur;
 
 	+ (ArcosPresenterForMeeting*) createWithNode: (CXMLNode*) node;
 	- (id) initWithNode: (CXMLNode*) node;

@@ -86,6 +86,7 @@
         self.formRowsTableDataManager = [[[FormRowsTableDataManager alloc] init] autorelease];
         self.rootView = [ArcosUtils getRootView];
         self.orderPadFooterViewDataManager = [[[OrderPadFooterViewDataManager alloc] init] autorelease];
+        self.formRowsTableDataManager.currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
     }
     return self;
 }
@@ -208,7 +209,7 @@
     self.formRowsTableDataManager.prevStandardOrderPadFlag = NO;
     self.formRowsTableDataManager.currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
     NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.formRowsTableDataManager.currentFormDetailDict objectForKey:@"Details"]];
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag]) {        
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![orderFormDetails containsString:@"[BD]"]) {
         NSMutableArray* prevObjectList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrTypeCode:@"SD" descrDetailCode:@"PREVIOUS"];
         self.formRowsTableDataManager.prevNumber = [NSNumber numberWithInt:0];
         if ([prevObjectList count] > 0) {

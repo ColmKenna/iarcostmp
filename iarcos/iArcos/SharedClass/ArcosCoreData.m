@@ -2837,7 +2837,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         return nil;
     }
 }
-
+- (NSMutableArray*)descriptionWithIURList:(NSMutableArray*)anIURList needActive:(BOOL)active {
+    NSPredicate* predicate = nil;
+    if (active) {
+        predicate = [NSPredicate predicateWithFormat:@"DescrDetailIUR in %@ and Active = 1",anIURList];
+    } else {
+        predicate = [NSPredicate predicateWithFormat:@"DescrDetailIUR in %@",anIURList];
+    }
+    NSMutableArray* objectArray = [self fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:nil  withPredicate:predicate withSortDescNames:nil withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
+    if ([objectArray count] > 0) {
+        return objectArray;
+    } else {
+        return nil;
+    }
+}
 
 - (NSDictionary*)descrTypeWithTypeCode:(NSString*)aCode{
     NSPredicate* predicate=nil;

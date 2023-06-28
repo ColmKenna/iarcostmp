@@ -9,13 +9,11 @@
 #import "MeetingPresentersTableViewCell.h"
 
 @implementation MeetingPresentersTableViewCell
-@synthesize actionDelegate = _actionDelegate;
 @synthesize myImageView = _myImageView;
-@synthesize fullTitleLabel = _fullTitleLabel;
 @synthesize memoDetailsLabel = _memoDetailsLabel;
 @synthesize shownButton = _shownButton;
 @synthesize shownActiveButton = _shownActiveButton;
-@synthesize myIndexPath = _myIndexPath;
+//@synthesize myIndexPath = _myIndexPath;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -30,13 +28,16 @@
 
 - (void)dealloc {
     self.myImageView = nil;
-    self.fullTitleLabel = nil;
     self.memoDetailsLabel = nil;
     self.shownButton = nil;
     self.shownActiveButton = nil;
-    self.myIndexPath = nil;
+//    self.myIndexPath = nil;
     
     [super dealloc];
+}
+
+- (void)configCellWithMeetingPresentersCompositeObject:(MeetingPresentersCompositeObject*)aMeetingPresentersCompositeObject {
+    [self configCellWithArcosPresenterForMeeting:aMeetingPresentersCompositeObject.presenterData];
 }
 
 - (void)configCellWithArcosPresenterForMeeting:(ArcosPresenterForMeeting*)anArcosPresenterForMeeting {

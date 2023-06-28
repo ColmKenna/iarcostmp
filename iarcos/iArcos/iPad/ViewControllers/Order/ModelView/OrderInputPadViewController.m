@@ -467,7 +467,7 @@
         self.BonusField.backgroundColor = [UIColor whiteColor];
     }
     //check the detailing
-    if(self.isDetaillingType || [[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag]){
+    if(self.isDetaillingType || ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![orderFormDetails containsString:@"[BD]"])){
         self.BonusField.hidden=YES;
         self.DiscountField.hidden=YES;
         self.BonusLabel.hidden=YES;

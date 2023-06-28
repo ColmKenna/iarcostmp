@@ -10,25 +10,23 @@
 #import "ArcosPresenterForMeeting.h"
 #import "ArcosPresenter.h"
 #import "ArcosUtils.h"
-#import "MeetingPresentersTableViewCellDelegate.h"
+#import "MeetingPresentersBaseTableViewCell.h"
 
-@interface MeetingPresentersTableViewCell : UITableViewCell {
-    id<MeetingPresentersTableViewCellDelegate> _actionDelegate;
+@interface MeetingPresentersTableViewCell : MeetingPresentersBaseTableViewCell {
+    
     UIImageView* _myImageView;
-    UILabel* _fullTitleLabel;
+//    UILabel* _fullTitleLabel;
     UILabel* _memoDetailsLabel;
     UIButton* _shownButton;
     UIButton* _shownActiveButton;
-    NSIndexPath* _myIndexPath;
+//    NSIndexPath* _myIndexPath;
 }
 
-@property(nonatomic, assign) id<MeetingPresentersTableViewCellDelegate> actionDelegate;
 @property(nonatomic, retain) IBOutlet UIImageView* myImageView;
-@property(nonatomic, retain) IBOutlet UILabel* fullTitleLabel;
 @property(nonatomic, retain) IBOutlet UILabel* memoDetailsLabel;
 @property(nonatomic, retain) IBOutlet UIButton* shownButton;
 @property(nonatomic, retain) IBOutlet UIButton* shownActiveButton;
-@property(nonatomic, retain) NSIndexPath* myIndexPath;
+//@property(nonatomic, retain) NSIndexPath* myIndexPath;
 
 - (void)configCellWithArcosPresenterForMeeting:(ArcosPresenterForMeeting*)anArcosPresenterForMeeting;
 - (IBAction)shownButtonPressed:(id)sender;

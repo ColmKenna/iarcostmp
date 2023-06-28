@@ -20,6 +20,7 @@
     NSMutableArray* _qtyBonDisplayList;
     NSMutableArray* _originalQtyBonDisplayList;
     int _totalClickTime;
+    NSDictionary* _currentFormDetailDict;
 }
 
 @property(nonatomic, retain) NSMutableArray* originalDisplayList;
@@ -29,6 +30,7 @@
 @property(nonatomic, retain) NSMutableArray* qtyBonDisplayList;
 @property(nonatomic, retain) NSMutableArray* originalQtyBonDisplayList;
 @property(nonatomic, assign) int totalClickTime;
+@property(nonatomic, retain) NSDictionary* currentFormDetailDict;
 
 //- (void)processRawData:(NSMutableArray*)aDisplayList;
 - (void)newProcessRawData:(NSMutableArray*)aDisplayList locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;

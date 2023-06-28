@@ -87,6 +87,7 @@
     UIBarButtonItem* saveButton = [[UIBarButtonItem alloc] initWithTitle:[GlobalSharedClass shared].saveButtonText style:UIBarButtonItemStylePlain target:self action:@selector(savePressed:)];
     [self.navigationItem setRightBarButtonItem:saveButton];
     [saveButton release];
+    self.orderLineDetailProductDataManager.currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:self.orderLineDetailProductDataManager.formIUR];
     
     self.rootView = [ArcosUtils getRootView];
     self.widgetFactory = [WidgetFactory factory];
@@ -114,7 +115,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag]) {
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.orderLineDetailProductDataManager.currentFormDetailDict objectForKey:@"Details"]];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![orderFormDetails containsString:@"[BD]"]) {
         self.formRowTableCellGeneratorDelegate = [[[FormRowTableCellRrpGenerator alloc] init] autorelease];
     } else {
         self.formRowTableCellGeneratorDelegate = [[[FormRowTableCellNormalGenerator alloc] init] autorelease];

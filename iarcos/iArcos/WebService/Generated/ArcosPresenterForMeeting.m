@@ -12,6 +12,8 @@
 	@synthesize Active = _Active;
 	@synthesize ImageIUR = _ImageIUR;
 	@synthesize MemoDetails = _MemoDetails;
+	@synthesize DisplaySequence = _DisplaySequence;
+	@synthesize Locationiur = _Locationiur;
 
 	- (id) init
 	{
@@ -39,6 +41,8 @@
 			self.Active = [[Soap getNodeValue: node withName: @"Active"] boolValue];
 			self.ImageIUR = [[Soap getNodeValue: node withName: @"ImageIUR"] intValue];
 			self.MemoDetails = [Soap getNodeValue: node withName: @"MemoDetails"];
+			self.DisplaySequence = [[Soap getNodeValue: node withName: @"DisplaySequence"] intValue];
+			self.Locationiur = [[Soap getNodeValue: node withName: @"Locationiur"] intValue];
 		}
 		return self;
 	}
@@ -68,6 +72,8 @@
 		[s appendFormat: @"<Active>%@</Active>", (self.Active)?@"true":@"false"];
 		[s appendFormat: @"<ImageIUR>%@</ImageIUR>", [NSString stringWithFormat: @"%i", self.ImageIUR]];
 		if (self.MemoDetails != nil) [s appendFormat: @"<MemoDetails>%@</MemoDetails>", [[self.MemoDetails stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"] stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"]];
+		[s appendFormat: @"<DisplaySequence>%@</DisplaySequence>", [NSString stringWithFormat: @"%i", self.DisplaySequence]];
+		[s appendFormat: @"<Locationiur>%@</Locationiur>", [NSString stringWithFormat: @"%i", self.Locationiur]];
 
 		return s;
 	}

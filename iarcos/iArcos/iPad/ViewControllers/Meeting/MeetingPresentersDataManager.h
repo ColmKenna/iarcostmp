@@ -10,14 +10,22 @@
 #import "MeetingBaseDataManager.h"
 #import "ArcosMeetingWithDetails.h"
 #import "ArcosPresenterForMeeting.h"
+#import "ArcosCoreData.h"
+#import "MeetingPresentersCompositeObject.h"
 
 @interface MeetingPresentersDataManager : MeetingBaseDataManager {
     NSMutableArray* _displayList;
+    NSMutableArray* _originalPresentationsDisplayList;
+    NSMutableDictionary* _presentationsHashMap;
 }
 
 @property(nonatomic, retain) NSMutableArray* displayList;
+@property (nonatomic, retain) NSMutableArray* originalPresentationsDisplayList;
+@property (nonatomic, retain) NSMutableDictionary* presentationsHashMap;
 
 - (void)dataMeetingPresentersLinkToMeeting:(BOOL)aLinkToMeetingFlag atIndexPath:(NSIndexPath *)anIndexPath;
+- (void)createBasicPresentationsDataWithReturnObject:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload;
+- (void)resetBranchData;
 
 @end
 

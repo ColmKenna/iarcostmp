@@ -9,12 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "MeetingPresentersDataManager.h"
 #import "MeetingPresentersTableViewCell.h"
+#import "MeetingPresentersTableCellFactory.h"
 
 @interface MeetingPresentersTableViewController : UITableViewController <MeetingPresentersTableViewCellDelegate> {
     MeetingPresentersDataManager* _meetingPresentersDataManager;
+    MeetingPresentersTableCellFactory* _tableCellFactory;
 }
 
 @property(nonatomic, retain) MeetingPresentersDataManager* meetingPresentersDataManager;
+@property(nonatomic, retain) MeetingPresentersTableCellFactory* tableCellFactory;
 
 - (void)reloadCustomiseTableView;
 

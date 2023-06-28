@@ -16,6 +16,7 @@
 @synthesize qtyBonDisplayList = _qtyBonDisplayList;
 @synthesize originalQtyBonDisplayList = _originalQtyBonDisplayList;
 @synthesize totalClickTime = _totalClickTime;
+@synthesize currentFormDetailDict = _currentFormDetailDict;
 
 - (id)init{
     self = [super init];
@@ -36,6 +37,7 @@
     if (self.fieldNames != nil) { self.fieldNames = nil; }
     if (self.qtyBonDisplayList != nil) { self.qtyBonDisplayList = nil; }
     self.originalQtyBonDisplayList = nil;
+    self.currentFormDetailDict = nil;
     
     [super dealloc];
 }
