@@ -13,7 +13,7 @@
     
 }
 
-+ (NSMutableDictionary*)createFormRowWithProduct:(NSMutableDictionary*) product;
++ (NSMutableDictionary*)createFormRowWithProduct:(NSMutableDictionary*)product orderFormDetails:(NSString*)anOrderFormDetails;
 + (NSMutableDictionary*)createOrderPadFormRowWrapper:(NSMutableDictionary*)aStdFormRowDict formRow:(NSDictionary*)aRawFormRowDict;
 + (NSMutableDictionary*)createFormRowWithOrderLine:(NSMutableDictionary*)anOrderLine;
 + (NSMutableDictionary*)createBlankFormRowWithProductIUR:(NSNumber*)aProductIUR;

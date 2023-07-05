@@ -169,11 +169,11 @@ typedef enum {
 - (NSMutableArray*)formRowWithDividerIURSortByNatureOrder:(NSNumber*)anIUR withFormIUR:(NSNumber*)formIUR locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
 - (NSDictionary*)formRowWithFormIUR:(NSNumber*)aFormIUR productIUR:(NSNumber*)aProductIUR;
 - (NSMutableArray*)formRowWithFormIUR:(NSNumber*)aFormIUR dividerRecordIUR:(NSNumber*)anDividerRecordIUR locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
-- (NSMutableArray*)formRowProductProcessCenter:(NSMutableArray*)anObjectArray locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
+- (NSMutableArray*)formRowProductProcessCenter:(NSMutableArray*)anObjectArray locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR orderFormDetails:(NSString*)anOrderFormDetails;
 - (BOOL)deleteFormRowWithFormIUR:(NSNumber*)aFormIUR;
 
 - (void)saveGeoLocationWithLocationIUR:(NSNumber*)anIUR withLat:(NSNumber*)lat withLon:(NSNumber*)lon;
-- (NSMutableDictionary*)createFormRowWithProductIUR:(NSNumber*)anIUR locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
+- (NSMutableDictionary*)createFormRowWithProductIUR:(NSNumber*)anIUR locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR orderFormDetails:(NSString*)anOrderFormDetails;
 - (BOOL)updateOrderLine:(NSMutableDictionary*)orderLine;
 - (BOOL)deleteOrderLineWithOrderNumber:(NSNumber*)orderNumber withLineNumber:(NSNumber*)lineNumber;
 - (BOOL)deleteOrderLine:(NSMutableDictionary*)orderLine;

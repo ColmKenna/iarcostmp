@@ -37,9 +37,11 @@
 //    NSMutableDictionary* priceHashMap = [[ArcosCoreData sharedArcosCoreData] retrievePriceWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR productIURList:productIURList];
 //    productList = [[ArcosCoreData sharedArcosCoreData].arcosCoreDataManager processPriceProductList:productList priceHashMap:priceHashMap];
     productList = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:productList productIURList:productIURList locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault]];
+    NSDictionary* currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[currentFormDetailDict objectForKey:@"Details"]];
     NSMutableArray* unsortFormRows = [NSMutableArray arrayWithCapacity:[productList count]];
     for (NSMutableDictionary* product in productList) {
-        NSMutableDictionary* formRow = [ProductFormRowConverter createFormRowWithProduct:product];
+        NSMutableDictionary* formRow = [ProductFormRowConverter createFormRowWithProduct:product orderFormDetails:orderFormDetails];
         //sync the row with current cart
         formRow = [[OrderSharedClass sharedOrderSharedClass] syncRowWithCurrentCart:formRow];        
         [unsortFormRows addObject:formRow];

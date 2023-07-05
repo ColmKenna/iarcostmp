@@ -1001,7 +1001,7 @@
         NSMutableDictionary* presenterPwdDict = [sm getSettingForKeypath:@"CompanySetting.Connection" atIndex:8];
         NSString* presenterPwd = [[presenterPwdDict objectForKey:@"Value"] uppercaseString];
         NSRange aBDRange = [presenterPwd rangeOfString:@"[BD]"];
-        if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && [self.originalDiscountPercent floatValue] != [[self.Data objectForKey:@"DiscountPercent"] floatValue]) {            
+        if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && !([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![orderFormDetails containsString:@"[BD]"]) && [self.originalDiscountPercent floatValue] != [[self.Data objectForKey:@"DiscountPercent"] floatValue]) {            
             [self.Data setObject:[NSNumber numberWithInt:-2] forKey:@"RRIUR"];
         }
     }

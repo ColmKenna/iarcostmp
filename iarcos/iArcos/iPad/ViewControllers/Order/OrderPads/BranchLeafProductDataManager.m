@@ -20,6 +20,7 @@
 @synthesize formTypeNumber = _formTypeNumber;
 @synthesize formIUR = _formIUR;
 @synthesize leafChildrenList = _leafChildrenList;
+@synthesize currentFormDetailDict = _currentFormDetailDict;
 
 - (id)init{
     self = [super init];
@@ -45,7 +46,8 @@
     if (self.sortKeyList != nil) { self.sortKeyList = nil; }
     if (self.formType != nil) { self.formType = nil; }
     if (self.formIUR != nil) { self.formIUR = nil; }
-    if (self.leafChildrenList != nil) { self.leafChildrenList = nil; }    
+    if (self.leafChildrenList != nil) { self.leafChildrenList = nil; }
+    self.currentFormDetailDict = nil;
     
     [super dealloc];
 }

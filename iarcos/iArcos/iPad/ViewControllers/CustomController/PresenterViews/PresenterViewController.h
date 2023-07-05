@@ -80,8 +80,8 @@ typedef enum {
 
 -(int)indexForFile:(NSString*)fileName;
 -(void)resetBarTitle:(NSString*)title;
--(void)oneOrderFormBranch:(NSString*)Lxcode orderLevel:(NSNumber*)anOrderLevel productIUR:(NSNumber*)ProductIUR button:(UIBarButtonItem*)button;
--(void)multipleOrderFormBranch:(NSString*)Lxcode orderLevel:(NSNumber*)anOrderLevel productIUR:(NSNumber*)ProductIUR button:(UIBarButtonItem*)button;
+-(void)oneOrderFormBranch:(NSString*)Lxcode orderLevel:(NSNumber*)anOrderLevel productIUR:(NSNumber*)ProductIUR button:(UIBarButtonItem*)button orderFormDetails:(NSString*)anOrderFormDetails;
+-(void)multipleOrderFormBranch:(NSString*)Lxcode orderLevel:(NSNumber*)anOrderLevel productIUR:(NSNumber*)ProductIUR button:(UIBarButtonItem*)button orderFormDetails:(NSString*)anOrderFormDetails;
 -(BOOL)isProductInFormRowWithFormIUR:(NSNumber*)aFormIUR productIUR:(NSNumber*)aProductIUR;
 - (NSString*)getMimeTypeWithFileName:(NSString*)aFileName;
 - (void)getOverSizeFileListFromDataList:(NSMutableArray*)aDataList;

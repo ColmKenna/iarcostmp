@@ -17,6 +17,7 @@
     int _topxNumber;
     int _flaggedProductsNumber;
     BOOL _isNotFirstTimeCompanyMsg;
+    NSDictionary* _currentFormDetailDict;
 }
 
 @property(nonatomic, retain) NSIndexPath* currentIndexPath;
@@ -25,15 +26,16 @@
 @property(nonatomic, assign) int topxNumber;
 @property(nonatomic, assign) int flaggedProductsNumber;
 @property(nonatomic, assign) BOOL isNotFirstTimeCompanyMsg;
+@property(nonatomic, retain) NSDictionary* currentFormDetailDict;
 
 - (NSNumber*)getCurrentLocationIUR;
 - (NSMutableArray*)getAccountNoList:(NSNumber*)aLocationIUR fromLocationIUR:(NSNumber*)aFromLocationIUR;
 - (NSMutableDictionary*)getAcctNoMiscDataDict:(NSNumber*)aLocationIUR fromLocationIUR:(NSNumber*)aFromLocationIUR;
-- (NSMutableArray*)productWithDescriptionKeyword:(NSString*)aKeyword;
-- (void)retrieveTopxListWithLocationIUR:(NSNumber*)aLocationIUR;
-- (NSMutableArray*)processLocationProductMATDataWithLocationIUR:(NSNumber*)aLocationIUR topx:(int)aTopxNum;
+- (NSMutableArray*)productWithDescriptionKeyword:(NSString*)aKeyword orderFormDetails:(NSString*)anOrderFormDetails;
+- (void)retrieveTopxListWithLocationIUR:(NSNumber*)aLocationIUR orderFormDetails:(NSString*)anOrderFormDetails;
+- (NSMutableArray*)processLocationProductMATDataWithLocationIUR:(NSNumber*)aLocationIUR topx:(int)aTopxNum orderFormDetails:(NSString*)anOrderFormDetails;
 - (void)removeTopxElementWithDataDict:(NSMutableDictionary*)aDataDict;
-- (void)retrieveTopCompanyProducts;
+- (void)retrieveTopCompanyProductsWithOrderFormDetails:(NSString*)anOrderFormDetails;
 - (BOOL)checkScannedProductInTopxList:(NSMutableDictionary*)aProductDict;
 
 @end

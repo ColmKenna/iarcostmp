@@ -15,10 +15,12 @@
 @synthesize topxNumber = _topxNumber;
 @synthesize flaggedProductsNumber = _flaggedProductsNumber;
 @synthesize isNotFirstTimeCompanyMsg = _isNotFirstTimeCompanyMsg;
+@synthesize currentFormDetailDict = _currentFormDetailDict;
 
 - (void)dealloc {
     self.currentIndexPath = nil;
     self.topxList = nil;
+    self.currentFormDetailDict = nil;
     
     [super dealloc];
 }
@@ -71,7 +73,7 @@
     return miscDataDict;
 }
 
-- (NSMutableArray*)productWithDescriptionKeyword:(NSString*)aKeyword {
+- (NSMutableArray*)productWithDescriptionKeyword:(NSString*)aKeyword orderFormDetails:(NSString*)anOrderFormDetails {
     NSMutableArray* products = [[ArcosCoreData sharedArcosCoreData] productWithDescriptionKeyword:aKeyword];
     NSMutableArray* displayList = nil;
     if (products == nil) {
@@ -79,7 +81,7 @@
     } else {
         displayList = [NSMutableArray arrayWithCapacity:[products count]];
         for (NSMutableDictionary* aProduct in products) {//loop products
-            NSMutableDictionary* formRow = [ProductFormRowConverter createFormRowWithProduct:aProduct];
+            NSMutableDictionary* formRow = [ProductFormRowConverter createFormRowWithProduct:aProduct orderFormDetails:anOrderFormDetails];
             //sync the row with current cart
             formRow = [[OrderSharedClass sharedOrderSharedClass]syncRowWithCurrentCart:formRow];
             [displayList addObject:formRow];
@@ -88,7 +90,7 @@
     return displayList;
 }
 
-- (void)retrieveTopxListWithLocationIUR:(NSNumber*)aLocationIUR {
+- (void)retrieveTopxListWithLocationIUR:(NSNumber*)aLocationIUR orderFormDetails:(NSString*)anOrderFormDetails {
     self.topxNumber = 0;
     NSMutableArray* objectList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrTypeCode:@"SD" descrDetailCode:@"TOPX"];
     if ([objectList count] > 0) {
@@ -100,10 +102,10 @@
         self.topxList = nil;
         return;
     }
-    self.topxList = [self processLocationProductMATDataWithLocationIUR:aLocationIUR topx:self.topxNumber];
+    self.topxList = [self processLocationProductMATDataWithLocationIUR:aLocationIUR topx:self.topxNumber orderFormDetails:anOrderFormDetails];
 }
 
-- (NSMutableArray*)processLocationProductMATDataWithLocationIUR:(NSNumber*)aLocationIUR topx:(int)aTopxNum {
+- (NSMutableArray*)processLocationProductMATDataWithLocationIUR:(NSNumber*)aLocationIUR topx:(int)aTopxNum orderFormDetails:(NSString*)anOrderFormDetails {
     NSArray* properties = [NSArray arrayWithObjects:@"productIUR", @"qty13",@"qty14",@"qty15",@"qty16",@"qty17",@"qty18",@"qty19",@"qty20",@"qty21",@"qty22",@"qty23",@"qty24",@"qty25",@"dateLastModified",nil];
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"locationIUR = %@", aLocationIUR];
     NSMutableArray* objectsArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"LocationProductMAT" withPropertiesToFetch:properties withPredicate:predicate withSortDescNames:nil withResulType:NSDictionaryResultType needDistinct:NO ascending:[NSNumber numberWithBool:NO]];
@@ -149,7 +151,7 @@
         productDict = [productDictHashMap objectForKey:productIUR];
         NSMutableDictionary* formRow = [NSMutableDictionary dictionary];
         if (productDict != nil) {
-            formRow = [ProductFormRowConverter createFormRowWithProduct:[NSMutableDictionary dictionaryWithDictionary:productDict]];
+            formRow = [ProductFormRowConverter createFormRowWithProduct:[NSMutableDictionary dictionaryWithDictionary:productDict] orderFormDetails:anOrderFormDetails];
         } else {
             formRow = [ProductFormRowConverter createBlankFormRowWithProductIUR:productIUR];
         }
@@ -171,7 +173,7 @@
     }
 }
 
-- (void)retrieveTopCompanyProducts {
+- (void)retrieveTopCompanyProductsWithOrderFormDetails:(NSString*)anOrderFormDetails {
     NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:[SettingManager employeeIUR]];
     NSNumber* OUiurNumber = [employeeDict objectForKey:@"OUiur"];
     NSPredicate* predicate = nil;
@@ -185,7 +187,7 @@
     NSMutableArray* resultList = [NSMutableArray arrayWithCapacity:[objectsArray count]];
     for (int i = 0; i < [objectsArray count]; i++) {
         NSDictionary* productDict = [objectsArray objectAtIndex:i];
-        NSMutableDictionary* formRow = [ProductFormRowConverter createFormRowWithProduct:[NSMutableDictionary dictionaryWithDictionary:productDict]];
+        NSMutableDictionary* formRow = [ProductFormRowConverter createFormRowWithProduct:[NSMutableDictionary dictionaryWithDictionary:productDict] orderFormDetails:anOrderFormDetails];
         NSString* combinedKey = [formRow objectForKey:@"CombinationKey"];
         if ([[OrderSharedClass sharedOrderSharedClass].currentOrderCart objectForKey:combinedKey] == nil) {
             [resultList addObject:formRow];

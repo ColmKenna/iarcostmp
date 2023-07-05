@@ -375,7 +375,8 @@
 
 //functions to be called by ProductSearchDataManager
 - (void)resetTableViewDataSourceWithSearchText:(NSString*)aSearchText {
-    [self.orderLineDetailProductDataManager productWithDescriptionKeyword:[NSString stringWithFormat:@"%@", aSearchText]];
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.orderLineDetailProductDataManager.currentFormDetailDict objectForKey:@"Details"]];
+    [self.orderLineDetailProductDataManager productWithDescriptionKeyword:[NSString stringWithFormat:@"%@", aSearchText] orderFormDetails:orderFormDetails];
     [self reloadTableViewData];
     if ([self.orderLineDetailProductDataManager.displayList count] == 0) {
         [ArcosUtils showDialogBox:[GlobalSharedClass shared].noDataFoundMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {

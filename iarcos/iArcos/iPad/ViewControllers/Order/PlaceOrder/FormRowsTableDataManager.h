@@ -22,7 +22,7 @@
 @property(nonatomic, retain) NSNumber* prevNumber;
 @property(nonatomic, retain) NSIndexPath* currentIndexPath;
 
-- (NSMutableArray*)retrieveTableViewDataSourceWithSearchText:(NSString*)aSearchText;
-- (NSMutableArray*)retrievePredicativeTableViewDataSource;
+- (NSMutableArray*)retrieveTableViewDataSourceWithSearchText:(NSString*)aSearchText orderFormDetails:(NSString*)anOrderFormDetails;
+- (NSMutableArray*)retrievePredicativeTableViewDataSourceWithOrderFormDetails:(NSString*)anOrderFormDetails;
 
 @end

@@ -164,8 +164,10 @@
         NSMutableArray* unsortFormRows = [NSMutableArray array];
         NSMutableArray* products = [[ArcosCoreData sharedArcosCoreData] activeProductWithL5Code:l5DescrDetailCode];
         if (products != nil && [products count] > 0) {
+            NSDictionary* currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
+            NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[currentFormDetailDict objectForKey:@"Details"]];
             for (NSMutableDictionary* product in products) {
-                NSMutableDictionary* formRow = [ProductFormRowConverter createFormRowWithProduct:product];
+                NSMutableDictionary* formRow = [ProductFormRowConverter createFormRowWithProduct:product orderFormDetails:orderFormDetails];
                 //sync the row with current cart
                 formRow = [[OrderSharedClass sharedOrderSharedClass] syncRowWithCurrentCart:formRow];
                 

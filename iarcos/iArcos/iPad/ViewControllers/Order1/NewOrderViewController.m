@@ -508,7 +508,7 @@
     NSString* details = [cellData objectForKey:@"Details"];
     NSRange aMATRange = [details rangeOfString:@"[MAT]"];
     if (aMATRange.location != NSNotFound) {
-        [self showStandardOrderPadMat:[NSNumber numberWithInt:-1] dividerName:@"All"];
+        [self showStandardOrderPadMat:[NSNumber numberWithInt:-1] dividerName:@"All" orderFormDetails:details];
         [self controlBackButtonAndNavigationTitle];
         return;
     }
@@ -602,7 +602,7 @@
     [self controlBackButtonAndNavigationTitle];
 }
 
-- (void)showStandardOrderPadMat:(NSNumber*)aDividerIUR dividerName:(NSString*)aDividerName {
+- (void)showStandardOrderPadMat:(NSNumber*)aDividerIUR dividerName:(NSString*)aDividerName orderFormDetails:(NSString*)anOrderFormDetails {
     StandardOrderPadMatTableViewController* SOPMTVC = [[StandardOrderPadMatTableViewController alloc] initWithNibName:@"StandardOrderPadMatTableViewController" bundle:nil];
     SOPMTVC.backButtonDelegate = self;
     SOPMTVC.formRowsTableViewController.isShowingSearchBar = YES;
@@ -612,7 +612,7 @@
     }
     [SOPMTVC.formRowsTableViewController resetDividerFormRowsWithDividerIUR:aDividerIUR withDividerName:aDividerName locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:resPackageIUR];
 //    [SOPMTVC.formRowsTableViewController resetDataWithDividerIUR:aDividerIUR withDividerName:aDividerName locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
-    [SOPMTVC.mATFormRowsTableViewController.matFormRowsDataManager processLocationProductMATData:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault]];
+    [SOPMTVC.mATFormRowsTableViewController.matFormRowsDataManager processLocationProductMATData:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault] orderFormDetails:anOrderFormDetails];
     [SOPMTVC.standardOrderPadMatDataManager processMatDataList:SOPMTVC.mATFormRowsTableViewController.matFormRowsDataManager.displayList];
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:SOPMTVC] autorelease];
     [SOPMTVC release];
@@ -662,7 +662,7 @@
     NSString* formDetailDetails = [currentFormDetailRecordDict objectForKey:@"Details"];
     NSRange aMATRange = [formDetailDetails rangeOfString:@"[MAT]"];
     if (aMATRange.location != NSNotFound) {
-        [self showStandardOrderPadMat:sequenceDivider dividerName:details];
+        [self showStandardOrderPadMat:sequenceDivider dividerName:details orderFormDetails:formDetailDetails];
         [self controlBackButtonAndNavigationTitle];
         return;
     }
@@ -799,7 +799,8 @@
             tmpfrtvc.isShowingSearchBar = YES;
             tmpfrtvc.isPredicativeSearchProduct = YES;
             tmpfrtvc.dividerIUR=[NSNumber numberWithInt:-2];
-            tmpfrtvc.unsortedFormrows = [tmpfrtvc.formRowsTableDataManager retrievePredicativeTableViewDataSource];
+            NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[tmpfrtvc.formRowsTableDataManager.currentFormDetailDict objectForKey:@"Details"]];
+            tmpfrtvc.unsortedFormrows = [tmpfrtvc.formRowsTableDataManager retrievePredicativeTableViewDataSourceWithOrderFormDetails:orderFormDetails];
             [tmpfrtvc syncUnsortedFormRowsWithOriginal];
             tmpfrtvc.backButtonDelegate = self;
             self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:tmpfrtvc] autorelease];

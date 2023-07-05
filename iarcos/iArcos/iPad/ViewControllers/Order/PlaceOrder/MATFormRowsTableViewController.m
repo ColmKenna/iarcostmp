@@ -92,6 +92,8 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.matFormRowsDataManager.currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.matFormRowsDataManager.currentFormDetailDict objectForKey:@"Details"]];
     [ArcosUtils configEdgesForExtendedLayout:self];
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backPressed:)];
     [self.navigationItem setLeftBarButtonItem:backButton];
@@ -111,7 +113,7 @@
 //    self.startDate = [NSDate date];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] retrieveLocationProductMATDataLocallyFlag]) {
         self.isServiceCalled = YES;
-        [self.matFormRowsDataManager processLocationProductMATData:self.locationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault]];
+        [self.matFormRowsDataManager processLocationProductMATData:self.locationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault] orderFormDetails:orderFormDetails];
     } else {
         self.isServiceCalled = NO;
         [self.callGenericServices genericGetCustomerData:[self.locationIUR intValue] startDate:[ArcosUtils dateFromString:[ArcosUtils stringFromDate:[NSDate date] format:[GlobalSharedClass shared].datetimeFormat] format:[GlobalSharedClass shared].datetimeFormat] endDate:[ArcosUtils dateFromString:[ArcosUtils stringFromDate:[NSDate date] format:[GlobalSharedClass shared].datetimeFormat] format:[GlobalSharedClass shared].datetimeFormat] type:@"MATQTY" level:6 action:@selector(setTableGetCustomerDataResult:) target:self];
@@ -506,7 +508,8 @@
         self.matFormRowsDataManager.displayList = result.ArrayOfData;
         self.matFormRowsDataManager.originalDisplayList = [NSMutableArray arrayWithArray:self.matFormRowsDataManager.displayList];
         self.matFormRowsDataManager.fieldNames = result.FieldNames;
-        [self.matFormRowsDataManager newProcessRawData:result.ArrayOfData locationIUR:self.locationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault]];
+        NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.matFormRowsDataManager.currentFormDetailDict objectForKey:@"Details"]];
+        [self.matFormRowsDataManager newProcessRawData:result.ArrayOfData locationIUR:self.locationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault] orderFormDetails:orderFormDetails];
         [self.tableView reloadData];
 //        NSDate* innerEndDate = [NSDate date];
 //        NSTimeInterval innerExecuteTime = [innerEndDate timeIntervalSinceDate:innerStartDate];

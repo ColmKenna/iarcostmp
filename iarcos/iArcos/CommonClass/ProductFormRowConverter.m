@@ -38,7 +38,7 @@
  RebatePercent on 29/05/2023
  change restore as well
  */
-+ (NSMutableDictionary*)createFormRowWithProduct:(NSMutableDictionary*) product {
++ (NSMutableDictionary*)createFormRowWithProduct:(NSMutableDictionary*)product orderFormDetails:(NSString*)anOrderFormDetails {
     NSMutableDictionary* formRow = [NSMutableDictionary dictionary];
     NSString* combinationKey = [NSString stringWithFormat:@"%@->%d",[product objectForKey:@"Description"], [[product objectForKey:@"ProductIUR"]intValue]];
     
@@ -82,7 +82,7 @@
         NSMutableDictionary* presenterPwdDict = [sm getSettingForKeypath:@"CompanySetting.Connection" atIndex:8];
         NSString* presenterPwd = [[presenterPwdDict objectForKey:@"Value"] uppercaseString];
         NSRange aBDRange = [presenterPwd rangeOfString:@"[BD]"];
-        if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag]) {
+        if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && !([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![anOrderFormDetails containsString:@"[BD]"])) {
             [formRow setObject:[ArcosUtils convertNilToZero:[product objectForKey:@"DiscountPercent"]]  forKey:@"DiscountPercent"];
             [formRow setObject:[ArcosUtils convertNilToZero:[product objectForKey:@"DiscountPercent"]]  forKey:@"PriceDiscountPercent"];
         } else {

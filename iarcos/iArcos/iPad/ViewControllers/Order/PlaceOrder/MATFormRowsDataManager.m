@@ -71,7 +71,7 @@
     }
 }
 */
-- (void)newProcessRawData:(NSMutableArray*)aDisplayList locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
+- (void)newProcessRawData:(NSMutableArray*)aDisplayList locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR orderFormDetails:(NSString*)anOrderFormDetails {
     NSMutableArray* productIURList = [NSMutableArray arrayWithCapacity:[aDisplayList count]];
     for (int i = 0; i < [aDisplayList count]; i++) {
         ArcosGenericClass* cellData = [aDisplayList objectAtIndex:i];
@@ -95,7 +95,7 @@
         productDict = [productHashMap objectForKey:productIUR];
         NSMutableDictionary* formRow = [NSMutableDictionary dictionary];
         if (productDict != nil) {
-            formRow = [ProductFormRowConverter createFormRowWithProduct:[NSMutableDictionary dictionaryWithDictionary:productDict]];
+            formRow = [ProductFormRowConverter createFormRowWithProduct:[NSMutableDictionary dictionaryWithDictionary:productDict] orderFormDetails:anOrderFormDetails];
         } else {
             formRow = [ProductFormRowConverter createBlankFormRowWithProductIUR:productIUR];
         }
@@ -145,7 +145,7 @@
     }
 }
 
-- (void)processLocationProductMATData:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
+- (void)processLocationProductMATData:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR orderFormDetails:(NSString*)anOrderFormDetails {
     NSArray* properties = [NSArray arrayWithObjects:@"productIUR", @"qty13",@"qty14",@"qty15",@"qty16",@"qty17",@"qty18",@"qty19",@"qty20",@"qty21",@"qty22",@"qty23",@"qty24",@"qty25",@"dateLastModified",@"inStock",nil];
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"locationIUR = %@", aLocationIUR];
     NSMutableArray* objectsArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"LocationProductMAT" withPropertiesToFetch:properties withPredicate:predicate withSortDescNames:nil withResulType:NSDictionaryResultType needDistinct:NO ascending:[NSNumber numberWithBool:NO]];
@@ -205,7 +205,7 @@
         productDict = [productDictHashMap objectForKey:productIUR];
         NSMutableDictionary* formRow = [NSMutableDictionary dictionary];
         if (productDict != nil) {
-            formRow = [ProductFormRowConverter createFormRowWithProduct:[NSMutableDictionary dictionaryWithDictionary:productDict]];
+            formRow = [ProductFormRowConverter createFormRowWithProduct:[NSMutableDictionary dictionaryWithDictionary:productDict] orderFormDetails:anOrderFormDetails];
         } else {
             formRow = [ProductFormRowConverter createBlankFormRowWithProductIUR:productIUR];
         }

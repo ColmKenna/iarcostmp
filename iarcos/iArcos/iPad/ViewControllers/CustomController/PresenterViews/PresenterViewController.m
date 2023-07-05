@@ -254,11 +254,12 @@
         NSString* Lxcode=[self.currentFile objectForKey:lxcodeKey];        
         NSNumber* ProductIUR=[self.currentFile objectForKey:@"ProductIUR"];    
         NSDictionary* currentFormDetailRecordDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR];
+        NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[currentFormDetailRecordDict objectForKey:@"Details"]];
         NSString* currentPrintDeliveryDocket = [currentFormDetailRecordDict objectForKey:@"PrintDeliveryDocket"];
         if ([currentPrintDeliveryDocket isEqualToString:@"1"]) {
-            [self oneOrderFormBranch:Lxcode orderLevel:orderLevel productIUR:ProductIUR button:button];
+            [self oneOrderFormBranch:Lxcode orderLevel:orderLevel productIUR:ProductIUR button:button orderFormDetails:orderFormDetails];
         } else {
-            [self multipleOrderFormBranch:Lxcode orderLevel:orderLevel productIUR:ProductIUR button:button];
+            [self multipleOrderFormBranch:Lxcode orderLevel:orderLevel productIUR:ProductIUR button:button orderFormDetails:orderFormDetails];
         }
     }    
 }
@@ -333,7 +334,7 @@
     [super dealloc];
 }
 
--(void)oneOrderFormBranch:(NSString*)Lxcode orderLevel:(NSNumber*)anOrderLevel productIUR:(NSNumber*)ProductIUR button:(UIBarButtonItem*)button {
+-(void)oneOrderFormBranch:(NSString*)Lxcode orderLevel:(NSNumber*)anOrderLevel productIUR:(NSNumber*)ProductIUR button:(UIBarButtonItem*)button orderFormDetails:(NSString*)anOrderFormDetails {
     //single product
     if ([ProductIUR intValue]>0 && ([anOrderLevel intValue] == 0 || [anOrderLevel intValue] == 6)) {
         NSMutableDictionary* formRow=[NSMutableDictionary dictionary];
@@ -354,7 +355,7 @@
         }
         
         NSLog(@"get only one product!");
-        formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourcePresenterSubMenu]];
+        formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourcePresenterSubMenu] orderFormDetails:anOrderFormDetails];
         if (formRow == nil) {
             [ArcosUtils showDialogBox:@"Product not found" title:@"" delegate:nil target:self tag:0 handler:nil];
             return;
@@ -422,7 +423,7 @@
                     BOOL isProductInCurrentForm = [self isProductInFormRowWithFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR productIUR:ProductIUR];
                     
                     if (isProductInCurrentForm) {//create a form row and add to the form rows array
-                        NSMutableDictionary* formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourcePresenterSubMenu]];
+                        NSMutableDictionary* formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourcePresenterSubMenu] orderFormDetails:anOrderFormDetails];
                         //sync the row with current cart
                         formRow=[[OrderSharedClass sharedOrderSharedClass]syncRowWithCurrentCart:formRow];
                         [unsortFormRows addObject:formRow];
@@ -438,12 +439,12 @@
     }
 }
 
--(void)multipleOrderFormBranch:(NSString*)Lxcode orderLevel:(NSNumber*)anOrderLevel productIUR:(NSNumber*)ProductIUR button:(UIBarButtonItem*)button {
+-(void)multipleOrderFormBranch:(NSString*)Lxcode orderLevel:(NSNumber*)anOrderLevel productIUR:(NSNumber*)ProductIUR button:(UIBarButtonItem*)button orderFormDetails:(NSString*)anOrderFormDetails {
     //single product
     if ([ProductIUR intValue]>0  && ([anOrderLevel intValue] == 0 || [anOrderLevel intValue] == 6)) {
         NSMutableDictionary* formRow=[NSMutableDictionary dictionary];        
 //        NSLog(@"get only one product!");
-        formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourcePresenterSubMenu]];
+        formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourcePresenterSubMenu] orderFormDetails:anOrderFormDetails];
         if (formRow == nil) {
             [ArcosUtils showDialogBox:@"Product not found" title:@"" delegate:nil target:self tag:0 handler:nil];
             return;
@@ -492,7 +493,7 @@
             if (products!=nil&&[products count]>0) {//any product for the given L5 code
                 for (NSMutableDictionary* aProduct in products) {//loop products
                     NSNumber* ProductIUR=[aProduct objectForKey:@"ProductIUR"];                
-                    NSMutableDictionary* formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourcePresenterSubMenu]];
+                    NSMutableDictionary* formRow=[[ArcosCoreData sharedArcosCoreData]createFormRowWithProductIUR:ProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:[[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourcePresenterSubMenu] orderFormDetails:anOrderFormDetails];
                     formRow=[[OrderSharedClass sharedOrderSharedClass]syncRowWithCurrentCart:formRow];
                     [unsortFormRows addObject:formRow];
                 }                        

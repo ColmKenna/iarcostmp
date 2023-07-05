@@ -29,7 +29,7 @@
 @property(nonatomic, assign) BOOL standardOrderFormFlag;
 @property(nonatomic, retain) NSDictionary* currentFormDetailDict;
 
-- (NSMutableArray*)productWithDescriptionKeyword:(NSString*)aKeyword;
+- (NSMutableArray*)productWithDescriptionKeyword:(NSString*)aKeyword orderFormDetails:(NSString*)anOrderFormDetails;
 - (void)importExistentOrderLineToOrderCart:(NSMutableArray*)anOrderLineList;
 - (NSMutableDictionary*)syncFormRowWithOrderCart:(NSMutableDictionary*)aFormRowDict;
 - (void)saveOrderLineToOrderCart:(NSMutableDictionary*)anOrderLineDict;

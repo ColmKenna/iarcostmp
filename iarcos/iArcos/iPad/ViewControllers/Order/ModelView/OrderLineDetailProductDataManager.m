@@ -41,14 +41,14 @@
     [super dealloc];
 }
 
-- (NSMutableArray*)productWithDescriptionKeyword:(NSString*)aKeyword {
+- (NSMutableArray*)productWithDescriptionKeyword:(NSString*)aKeyword orderFormDetails:(NSString*)anOrderFormDetails {
     NSMutableArray* products = [[ArcosCoreData sharedArcosCoreData] productWithDescriptionKeyword:aKeyword];
     if (products == nil) {
         self.displayList = [NSMutableArray array];
     } else {
         self.displayList = [NSMutableArray arrayWithCapacity:[products count]];
         for (NSMutableDictionary* aProduct in products) {//loop products            
-            NSMutableDictionary* formRow = [ProductFormRowConverter createFormRowWithProduct:aProduct];
+            NSMutableDictionary* formRow = [ProductFormRowConverter createFormRowWithProduct:aProduct orderFormDetails:anOrderFormDetails];
             formRow = [self syncFormRowWithOrderCart:formRow];
             [self.displayList addObject:formRow];
         }

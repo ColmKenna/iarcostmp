@@ -288,6 +288,8 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    self.checkoutDataManager.currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR];
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.checkoutDataManager.currentFormDetailDict objectForKey:@"Details"]];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] allowScannerToBeUsedFlag]) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(receiveBarCodeCheckoutNotification:)
@@ -295,7 +297,7 @@
                                                    object:nil];
     }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] allowTopxCustomerFlag]) {
-        [self.checkoutDataManager retrieveTopxListWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        [self.checkoutDataManager retrieveTopxListWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR orderFormDetails:orderFormDetails];
         if (!self.checkoutDataManager.isNotFirstTimeCustomerMsg) {
             self.checkoutDataManager.isNotFirstTimeCustomerMsg = YES;
             int topxNum = [ArcosUtils convertNSUIntegerToUnsignedInt:[self.checkoutDataManager.topxList count]];
@@ -307,7 +309,7 @@
         self.checkoutDataManager.topxList = nil;
     }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] allowTopxCompanyFlag]) {
-        [self.checkoutDataManager retrieveTopCompanyProducts];
+        [self.checkoutDataManager retrieveTopCompanyProductsWithOrderFormDetails:orderFormDetails];
         if (!self.checkoutDataManager.isNotFirstTimeCompanyMsg) {
             self.checkoutDataManager.isNotFirstTimeCompanyMsg = YES;
             if (self.checkoutDataManager.flaggedProductsNumber > 0) {
@@ -1163,7 +1165,8 @@ else{//No order line inputed yet
 - (void)receiveBarCodeCheckoutNotification:(NSNotification*)notification {
     NSDictionary* userInfo = notification.userInfo;
     NSString* barcode = [userInfo objectForKey:@"BarCode"];
-    NSMutableArray* productList = [self.checkoutDataManager productWithDescriptionKeyword:barcode];
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.checkoutDataManager.currentFormDetailDict objectForKey:@"Details"]];
+    NSMutableArray* productList = [self.checkoutDataManager productWithDescriptionKeyword:barcode orderFormDetails:orderFormDetails];
     if ([self.thePopover isPopoverVisible]) {
         [self.thePopover dismissPopoverAnimated:YES];
     }

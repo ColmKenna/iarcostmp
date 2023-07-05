@@ -778,7 +778,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 -(void)operationDone:(id)data{
     [self.inputPopover dismissPopoverAnimated:YES];
     [self saveOrderToTheCart:data];
-    [self processDefaultQtyPercentProcessor:data];
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.formRowsTableDataManager.currentFormDetailDict objectForKey:@"Details"]];
+    [self processDefaultQtyPercentProcessor:data orderFormDetails:orderFormDetails];
     if (self.isRequestSourceFromPresenter) {
         if ([[data objectForKey:@"IsSelected"] boolValue]) {
             [[OrderSharedClass sharedOrderSharedClass].lastPositionDict setObject:[NSNumber numberWithInt:[[data objectForKey:@"ProductIUR"] intValue]] forKey:@"ProductIUR"];
@@ -930,6 +931,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 - (void)processDefaultQtyPercent:(NSMutableArray*)aFormRowDictList {
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.formRowsTableDataManager.currentFormDetailDict objectForKey:@"Details"]];
     NSMutableDictionary* restoreOrderLineKeyDict = [NSMutableDictionary dictionary];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAutosaveFlag]) {
         ArcosOrderRestoreUtils* arcosOrderRestoreUtils = [[[ArcosOrderRestoreUtils alloc] init] autorelease];
@@ -965,21 +967,21 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
             
             [orderPadFormRow setObject:[NSNumber numberWithBool:YES] forKey:@"IsSelected"];
             
-            if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && !priceFlagBoolean) {
+            if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && !([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![orderFormDetails containsString:@"[BD]"]) && !priceFlagBoolean) {
                 [orderPadFormRow setObject:auxDefaultPercent forKey:@"DiscountPercent"];
             }
             [orderPadFormRow setObject:[ProductFormRowConverter calculateLineValue:orderPadFormRow] forKey:@"LineValue"];
             [[OrderSharedClass sharedOrderSharedClass] saveOrderLine:orderPadFormRow];
         }
         if ([auxDefaultQty intValue] == 0 && [auxDefaultPercent intValue] > 0) {
-            if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && !priceFlagBoolean) {
+            if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && !([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![orderFormDetails containsString:@"[BD]"]) && !priceFlagBoolean) {
                 [orderPadFormRow setObject:auxDefaultPercent forKey:@"DiscountPercent"];
             }
         }
     }
 }
 
-- (void)processDefaultQtyPercentProcessor:(NSMutableDictionary*)anOrderPadFormRow{
+- (void)processDefaultQtyPercentProcessor:(NSMutableDictionary*)anOrderPadFormRow  orderFormDetails:(NSString*)anOrderFormDetails {
     NSNumber* allowDiscount = [SettingManager SettingForKeypath:@"CompanySetting.Order Processing" atIndex:1];
     SettingManager* sm = [SettingManager setting];
     NSMutableDictionary* presenterPwdDict = [sm getSettingForKeypath:@"CompanySetting.Connection" atIndex:8];
@@ -994,9 +996,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     NSNumber* FOC = [anOrderPadFormRow objectForKey:@"FOC"];
     
     if (([qty intValue]<=0 ||qty==nil) && ([inStock intValue]==0 || inStock == nil) && ([bonus intValue]<=0 || bonus==nil) && ([FOC intValue]<=0 || FOC == nil)) {
-        if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && !priceFlagBoolean) {
+        if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && !([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![anOrderFormDetails containsString:@"[BD]"]) && !priceFlagBoolean) {
             [anOrderPadFormRow setObject:[ArcosUtils convertNilToZero:auxDefaultPercent] forKey:@"DiscountPercent"];
-        } else if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && priceFlagBoolean) {
+        } else if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && !([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![anOrderFormDetails containsString:@"[BD]"]) && priceFlagBoolean) {
             [anOrderPadFormRow setObject:[ArcosUtils convertNilToZero:auxPriceDiscountPercent] forKey:@"DiscountPercent"];
         } else {
             [anOrderPadFormRow setObject:[NSNumber numberWithFloat:0] forKey:@"DiscountPercent"];
@@ -1075,7 +1077,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 //}
 
 - (void)resetTableViewDataSourceWithSearchText:(NSString*)aSearchText {
-    self.unsortedFormrows = [self.formRowsTableDataManager retrieveTableViewDataSourceWithSearchText:aSearchText];
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.formRowsTableDataManager.currentFormDetailDict objectForKey:@"Details"]];
+    self.unsortedFormrows = [self.formRowsTableDataManager retrieveTableViewDataSourceWithSearchText:aSearchText orderFormDetails:orderFormDetails];
     [self reloadTableViewData];
     if ([self.unsortedFormrows count] == 0) {
         [ArcosUtils showDialogBox:[GlobalSharedClass shared].noDataFoundMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {

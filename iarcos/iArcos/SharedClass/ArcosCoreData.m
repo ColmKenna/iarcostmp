@@ -1466,8 +1466,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         predicate = [NSPredicate predicateWithFormat:@"FormIUR=%d and SequenceDivider>0",[aFormIUR intValue]];
     }
     NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"FormRow" withPropertiesToFetch:nil  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
-    if ([objectsArray count] > 0) {        
-        return [self formRowProductProcessCenter:objectsArray locationIUR:aLocationIUR packageIUR:aPackageIUR];
+    if ([objectsArray count] > 0) {
+        NSDictionary* currentFormDetailDict = [self formDetailWithFormIUR:aFormIUR];
+        NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[currentFormDetailDict objectForKey:@"Details"]];
+        return [self formRowProductProcessCenter:objectsArray locationIUR:aLocationIUR packageIUR:aPackageIUR orderFormDetails:orderFormDetails];
     } else {
         return [NSMutableArray array];
     }
@@ -1492,8 +1494,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     
 //    NSLog(@"form row number -- %d form divider iur %d  form iur  %d",[objectsArray count],[anIUR intValue],[formIUR intValue]);    
     
-    if ([objectsArray count]>0) {        
-        return [self formRowProductProcessCenter:objectsArray locationIUR:aLocationIUR packageIUR:aPackageIUR];
+    if ([objectsArray count]>0) {
+        NSDictionary* currentFormDetailDict = [self formDetailWithFormIUR:formIUR];
+        NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[currentFormDetailDict objectForKey:@"Details"]];
+        return [self formRowProductProcessCenter:objectsArray locationIUR:aLocationIUR packageIUR:aPackageIUR orderFormDetails:orderFormDetails];
     }else{
         return [NSMutableArray array];
     }
@@ -1515,7 +1519,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"FormIUR=%d and Level5IUR = %d and ProductIUR > 0", [aFormIUR intValue],[anDividerRecordIUR intValue]];
     NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"FormRow" withPropertiesToFetch:nil  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
     if ([objectsArray count] > 0) {
-        return [self formRowProductProcessCenter:objectsArray locationIUR:aLocationIUR packageIUR:aPackageIUR];
+        NSDictionary* currentFormDetailDict = [self formDetailWithFormIUR:aFormIUR];
+        NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[currentFormDetailDict objectForKey:@"Details"]];
+        return [self formRowProductProcessCenter:objectsArray locationIUR:aLocationIUR packageIUR:aPackageIUR orderFormDetails:orderFormDetails];
     } else {
         return [NSMutableArray array];
     }
@@ -1562,7 +1568,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     return aProductList;
 }
 
-- (NSMutableArray*)formRowProductProcessCenter:(NSMutableArray*)anObjectArray locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
+- (NSMutableArray*)formRowProductProcessCenter:(NSMutableArray*)anObjectArray locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR orderFormDetails:(NSString*)anOrderFormDetails {
     NSMutableArray* productIURList = [NSMutableArray arrayWithCapacity:[anObjectArray count]];
     for (NSDictionary* aDict in anObjectArray) {
         NSNumber* auxProductIUR = [aDict objectForKey:@"ProductIUR"];
@@ -1583,7 +1589,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         NSDictionary* productDict = nil;
         productDict = [productHashMap objectForKey:productIUR];
         if (productDict != nil) {
-            NSMutableDictionary* formRow = [ProductFormRowConverter createFormRowWithProduct:[NSMutableDictionary dictionaryWithDictionary:productDict]];
+            NSMutableDictionary* formRow = [ProductFormRowConverter createFormRowWithProduct:[NSMutableDictionary dictionaryWithDictionary:productDict] orderFormDetails:anOrderFormDetails];
             NSMutableDictionary* orderPadFormRow = [ProductFormRowConverter createOrderPadFormRowWrapper:formRow formRow:newDict];
             [newFormRowList addObject:orderPadFormRow];
         } else {//product not found relating to the form row
@@ -1620,7 +1626,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     }
 }
 
-- (NSMutableDictionary*)createFormRowWithProductIUR:(NSNumber*)anIUR locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR {
+- (NSMutableDictionary*)createFormRowWithProductIUR:(NSNumber*)anIUR locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR orderFormDetails:(NSString*)anOrderFormDetails {
     NSPredicate* predicate;
     if ([anIUR intValue]<0) {//search all product
         return nil;
@@ -1640,7 +1646,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         }
         objectsArray = [[ArcosCoreData sharedArcosCoreData] processEntryPriceProductList:objectsArray productIURList:productIURList locationIUR:aLocationIUR packageIUR:aPackageIUR];
         NSMutableDictionary* product=[objectsArray objectAtIndex:0];
-        formRow = [ProductFormRowConverter createFormRowWithProduct:product];
+        formRow = [ProductFormRowConverter createFormRowWithProduct:product orderFormDetails:anOrderFormDetails];
         return formRow;
     }else{
         return nil;

@@ -33,11 +33,11 @@
 @property(nonatomic, retain) NSDictionary* currentFormDetailDict;
 
 //- (void)processRawData:(NSMutableArray*)aDisplayList;
-- (void)newProcessRawData:(NSMutableArray*)aDisplayList locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
+- (void)newProcessRawData:(NSMutableArray*)aDisplayList locationIUR:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR orderFormDetails:(NSString*)anOrderFormDetails;
 - (void)clearAllSubViews:(UIView*)aView;
 - (void)createMATFormRowsData;
 - (void)syncQtyBonDisplayList;
-- (void)processLocationProductMATData:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR;
+- (void)processLocationProductMATData:(NSNumber*)aLocationIUR packageIUR:(NSNumber*)aPackageIUR orderFormDetails:(NSString*)anOrderFormDetails;
 - (void)retrieveQtyBonDisplayListWithDisplayList:(NSMutableArray*)aDisplayList;
 
 @end

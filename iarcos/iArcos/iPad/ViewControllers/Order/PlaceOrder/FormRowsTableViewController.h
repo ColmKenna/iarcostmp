@@ -167,7 +167,7 @@
 - (void)reloadTableViewData;
 - (void)scrollBehindSearchSection;
 - (void)fillTheUnsortListWithData;
-- (void)processDefaultQtyPercentProcessor:(NSMutableDictionary*)anOrderPadFormRow;
+- (void)processDefaultQtyPercentProcessor:(NSMutableDictionary*)anOrderPadFormRow orderFormDetails:(NSString*)anOrderFormDetails;
 -(void)saveOrderToTheCart:(NSMutableDictionary*)data;
 
 @end

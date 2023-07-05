@@ -82,6 +82,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.mATFormRowsTableViewController.matFormRowsDataManager.currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
     NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.mATFormRowsTableViewController.matFormRowsDataManager.currentFormDetailDict objectForKey:@"Details"]];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![orderFormDetails containsString:@"[BD]"]) {
         self.mATFormRowsTableCellGeneratorDelegate = [[[MATFormRowsTableCellRrpGenerator alloc] init] autorelease];
@@ -377,7 +378,8 @@
 - (void)operationDone:(id)data {  
     [self.inputPopover dismissPopoverAnimated:YES];
     [[OrderSharedClass sharedOrderSharedClass] saveOrderLine:data];
-    [self.formRowsTableViewController processDefaultQtyPercentProcessor:data];
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.mATFormRowsTableViewController.matFormRowsDataManager.currentFormDetailDict objectForKey:@"Details"]];
+    [self.formRowsTableViewController processDefaultQtyPercentProcessor:data orderFormDetails:orderFormDetails];
     [self.tableView reloadData];
 }
 

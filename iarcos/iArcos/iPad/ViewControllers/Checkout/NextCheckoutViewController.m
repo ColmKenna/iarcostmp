@@ -127,7 +127,8 @@
     NSMutableDictionary* presenterPwdDict = [sm getSettingForKeypath:@"CompanySetting.Connection" atIndex:8];
     NSString* presenterPwd = [[presenterPwdDict objectForKey:@"Value"] uppercaseString];
     NSRange aBDRange = [presenterPwd rangeOfString:@"[BD]"];
-    if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && [[ArcosConfigDataManager sharedArcosConfigDataManager] useDiscountByPriceGroupFlag]) {
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.checkoutDataManager.currentFormDetailDict objectForKey:@"Details"]];
+    if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && !([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![orderFormDetails containsString:@"[BD]"]) && [[ArcosConfigDataManager sharedArcosConfigDataManager] useDiscountByPriceGroupFlag]) {
         [rightButtonList addObject:self.discountButton];
     }
     self.navigationItem.rightBarButtonItems = rightButtonList;
@@ -136,6 +137,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.checkoutDataManager.currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR];
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.checkoutDataManager.currentFormDetailDict objectForKey:@"Details"]];
     [self configRightBarButtons];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] allowScannerToBeUsedFlag]) {
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -153,9 +156,9 @@
             [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader setObject:fullName forKey:@"contactText"];
         }
     }
-    NSDictionary* currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR];
-    NSDate* defaultDeliveryDate = [currentFormDetailDict objectForKey:@"DefaultDeliveryDate"];
-    NSString* wholesalerListString = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[currentFormDetailDict objectForKey:@"BackColor"]]];
+//    NSDictionary* currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR];
+    NSDate* defaultDeliveryDate = [self.checkoutDataManager.currentFormDetailDict objectForKey:@"DefaultDeliveryDate"];
+    NSString* wholesalerListString = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[self.checkoutDataManager.currentFormDetailDict objectForKey:@"BackColor"]]];
     NSNumber* wholesalerList = [ArcosUtils convertStringToNumber:wholesalerListString];
     if ([wholesalerList intValue] != 0) {
         NSMutableArray* wholesalerObjectList = [[ArcosCoreData sharedArcosCoreData] locationWithIUR:wholesalerList];
@@ -211,7 +214,7 @@
     
     
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] allowTopxCustomerFlag]) {
-        [self.checkoutDataManager retrieveTopxListWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        [self.checkoutDataManager retrieveTopxListWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR orderFormDetails:orderFormDetails];
         if (!self.checkoutDataManager.isNotFirstTimeCustomerMsg) {
             self.checkoutDataManager.isNotFirstTimeCustomerMsg = YES;
             int topxNum = [ArcosUtils convertNSUIntegerToUnsignedInt:[self.checkoutDataManager.topxList count]];
@@ -223,7 +226,7 @@
         self.checkoutDataManager.topxList = nil;
     }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] allowTopxCompanyFlag]) {
-        [self.checkoutDataManager retrieveTopCompanyProducts];
+        [self.checkoutDataManager retrieveTopCompanyProductsWithOrderFormDetails:orderFormDetails];
         if (!self.checkoutDataManager.isNotFirstTimeCompanyMsg) {
             self.checkoutDataManager.isNotFirstTimeCompanyMsg = YES;
             if (self.checkoutDataManager.flaggedProductsNumber > 0) {
@@ -736,7 +739,8 @@
 - (void)receiveBarCodeCheckoutNotification:(NSNotification*)notification {
     NSDictionary* userInfo = notification.userInfo;
     NSString* barcode = [userInfo objectForKey:@"BarCode"];
-    NSMutableArray* productList = [self.checkoutDataManager productWithDescriptionKeyword:barcode];
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.checkoutDataManager.currentFormDetailDict objectForKey:@"Details"]];
+    NSMutableArray* productList = [self.checkoutDataManager productWithDescriptionKeyword:barcode orderFormDetails:orderFormDetails];
     if ([self.thePopover isPopoverVisible]) {
         [self.thePopover dismissPopoverAnimated:YES];
     }

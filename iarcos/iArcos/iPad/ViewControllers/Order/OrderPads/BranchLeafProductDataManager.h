@@ -23,6 +23,7 @@
     int _formTypeNumber;
     NSNumber* _formIUR;
     NSMutableArray* _leafChildrenList;
+    NSDictionary* _currentFormDetailDict;
 }
 
 @property(nonatomic, assign) int itemPerRow;
@@ -37,6 +38,7 @@
 @property(nonatomic, assign) int formTypeNumber;
 @property(nonatomic, retain) NSNumber* formIUR;
 @property(nonatomic, retain) NSMutableArray* leafChildrenList;
+@property(nonatomic, retain) NSDictionary* currentFormDetailDict;
 
 - (void)processRawData:(NSMutableArray*)aDisplayList;
 - (void)processRawData4DisplayList;
