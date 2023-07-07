@@ -570,7 +570,8 @@
                     self.resourcesUpdateCenter.sucessfulFileCount++;
                 }
             } else {
-                [ArcosUtils showMsg:arcosGetFromResourcesResult.ErrorModel.Message delegate:nil];
+//                [ArcosUtils showMsg:arcosGetFromResourcesResult.ErrorModel.Message delegate:nil];
+                [self.resourcesUpdateCenter.errorMsgList addObject:[ArcosUtils convertNilToEmpty:arcosGetFromResourcesResult.ErrorModel.Message]];
             }
 //            BOOL saveFileFlag = [myNSData writeToFile:filePath atomically:YES];
 //            if (saveFileFlag) {
@@ -1928,9 +1929,25 @@
     self.isLoadingFinished = YES;
     [self.delegate FinishLoadingData:self.removeRecordUpdateCenter.completedOverallNumber];
 }
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 100) {
+        self.isLoadingFinished = YES;
+    }
+}
 #pragma mark ResourcesUpdateCenterDelegate
 -(void)resourcesUpdateCompleted:(int)anOverallFileCount {
-    self.isLoadingFinished = YES;
+    if ([self.resourcesUpdateCenter.errorMsgList count] > 0) {
+        NSString* fileText = @"file";
+        if ([self.resourcesUpdateCenter.errorMsgList count] > 1) {
+            fileText = @"files";
+        }
+        NSString* errorMsg = [NSString stringWithFormat:@"The following %@ cannot be located:\n%@", fileText , [self.resourcesUpdateCenter.errorMsgList componentsJoinedByString:@","]];
+        [ArcosUtils showMsg:errorMsg title:@"" delegate:self tag:100];
+    } else {
+        self.isLoadingFinished = YES;
+    }
     [self.delegate FinishLoadingData:anOverallFileCount];
 }
 

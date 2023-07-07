@@ -17,6 +17,8 @@
 
 @interface ResourcesUpdateCenter : NSObject <UtilitiesUpdateResourcesFileDelegate> {
     NSMutableArray* _presenterFileList;
+    NSMutableDictionary* _presenterFileHashMap;
+    NSMutableArray* _errorMsgList;
     NSMutableArray* _needDownloadFileList;
     BOOL _isResourceLoadingFinished;
     BOOL _isBusy;
@@ -41,6 +43,8 @@
 }
 
 @property(nonatomic, retain) NSMutableArray* presenterFileList;
+@property(nonatomic, retain) NSMutableDictionary* presenterFileHashMap;
+@property(nonatomic, retain) NSMutableArray* errorMsgList;
 @property(nonatomic, retain) NSMutableArray* needDownloadFileList;
 @property(nonatomic, assign) BOOL isResourceLoadingFinished;
 @property(nonatomic, assign) BOOL isBusy;

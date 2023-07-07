@@ -10975,7 +10975,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.0.10;
+				MARKETING_VERSION = 12.0.11;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -10991,7 +10991,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "6bf186ca-3030-49b7-b78a-3246afaeb9fc";
 				PROVISIONING_PROFILE_SPECIFIER = iArcosDevCenter29082022;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = iArcosDevCenter08062023;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = iArcosDevCenter070723;
 			};
 			name = Debug;
 		};
@@ -11032,7 +11032,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.0.10;
+				MARKETING_VERSION = 12.0.11;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -11169,7 +11169,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.0.10;
+				MARKETING_VERSION = 12.0.11;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11185,7 +11185,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4a2d26cb-4c25-4fc4-a9fe-d2be993ec50d";
 				PROVISIONING_PROFILE_SPECIFIER = iArcosDistCenter31082022;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = iArcosDistCenter08062023;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = iArcosDistCenter07072023;
 			};
 			name = AdHoc;
 		};

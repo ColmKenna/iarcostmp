@@ -10,6 +10,8 @@
 
 @implementation ResourcesUpdateCenter
 @synthesize presenterFileList = _presenterFileList;
+@synthesize presenterFileHashMap = _presenterFileHashMap;
+@synthesize errorMsgList = _errorMsgList;
 @synthesize needDownloadFileList = _needDownloadFileList;
 @synthesize isResourceLoadingFinished = _isResourceLoadingFinished;
 @synthesize isBusy = _isBusy;
@@ -40,10 +42,16 @@
         self.isBusy = NO;
         NSMutableArray* objectList = [[ArcosCoreData sharedArcosCoreData] presenterProductsActiveOnly:YES];
         self.presenterFileList = [NSMutableArray arrayWithCapacity:[objectList count]];
+        self.presenterFileHashMap = [NSMutableDictionary dictionaryWithCapacity:[objectList count]];
+        self.errorMsgList = [NSMutableArray array];
         for (int i = 0; i < [objectList count]; i++) {
             NSString* fileName = [[objectList objectAtIndex:i] objectForKey:@"Name"];
             if (fileName != nil && ![@"" isEqualToString:fileName]) {
-                [self.presenterFileList addObject:[NSString stringWithFormat:@"%@", fileName]];
+                NSString* existingFileName = [self.presenterFileHashMap objectForKey:fileName];
+                if (existingFileName == nil) {
+                    [self.presenterFileList addObject:[NSString stringWithFormat:@"%@", fileName]];
+                    [self.presenterFileHashMap setObject:[NSString stringWithFormat:@"%@", fileName] forKey:[NSString stringWithFormat:@"%@", fileName]];
+                }
             }
         }
         self.needDownloadFileList = [NSMutableArray arrayWithCapacity:[self.presenterFileList count]];
@@ -74,6 +82,8 @@
 - (void)dealloc {
     if (self.needDownloadFileList != nil) { self.needDownloadFileList = nil; }
     if (self.presenterFileList != nil) { self.presenterFileList = nil; }
+    self.presenterFileHashMap = nil;
+    self.errorMsgList = nil;
     if (self.resourcesTimer != nil) { self.resourcesTimer = nil; }
     if (self.currentFileName != nil) { self.currentFileName = nil; }
     if (self.resourcesUpdateDelegate != nil) { self.resourcesUpdateDelegate = nil; }
