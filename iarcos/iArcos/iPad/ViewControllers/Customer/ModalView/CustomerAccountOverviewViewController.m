@@ -183,27 +183,32 @@
         [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@ %@",[anError localizedDescription], auxFileName] title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
         successFlag = NO;
     } else if ([result isKindOfClass:[SoapFault class]]) {
-        SoapFault* anSoapFault = (SoapFault*)result;
-        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@ %@",[anSoapFault faultString], auxFileName] title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
+        SoapFault* aSoapFault = (SoapFault*)result;
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@ %@",[aSoapFault faultString], auxFileName] title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
         successFlag = NO;
     }
     
     BOOL saveFileFlag = NO;
     if (successFlag) {
-        NSString* auxFilePath = [NSString stringWithFormat:@"%@/%@", [FileCommon overviewPath], [self.displayList objectAtIndex:self.rowPointer]];
-//        NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:result options:0] autorelease];
-//         saveFileFlag = [myNSData writeToFile:auxFilePath atomically:YES];
-        ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)result;
-        if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
-            saveFileFlag = [arcosGetFromResourcesResult.FileContents writeToFile:auxFilePath atomically:YES];
+        @try {
+            NSString* auxFilePath = [NSString stringWithFormat:@"%@/%@", [FileCommon overviewPath], [self.displayList objectAtIndex:self.rowPointer]];
+            NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:result options:0] autorelease];
+            saveFileFlag = [myNSData writeToFile:auxFilePath atomically:YES];
             if (saveFileFlag) {
                 
             } else {
                 [ArcosUtils showDialogBox:@"Unable to save the file on the iPad." title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
             }
-        } else {
-            [ArcosUtils showDialogBox:arcosGetFromResourcesResult.ErrorModel.Message title:@"" delegate:nil target:self tag:0 handler:nil];
-        }        
+        } @catch (NSException *exception) {
+            [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:self tag:0 handler:nil];
+        }
+//        ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)result;
+//        if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
+//            saveFileFlag = [arcosGetFromResourcesResult.FileContents writeToFile:auxFilePath atomically:YES];
+//
+//        } else {
+//            [ArcosUtils showDialogBox:arcosGetFromResourcesResult.ErrorModel.Message title:@"" delegate:nil target:self tag:0 handler:nil];
+//        }
     } else {
     }
     self.rowPointer++;

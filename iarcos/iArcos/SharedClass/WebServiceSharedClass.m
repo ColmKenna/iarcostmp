@@ -522,6 +522,23 @@
     }
 }
 - (void)checkFileMD5Completed {
+    [self.resourcesUpdateCenter checkFileExistence];
+}
+
+- (void)showFilesNotFoundInResources {
+    if ([self.resourcesUpdateCenter.errorMsgList count] > 0) {
+        NSString* fileText = @"file";
+        if ([self.resourcesUpdateCenter.errorMsgList count] > 1) {
+            fileText = @"files";
+        }
+        NSString* errorMsg = [NSString stringWithFormat:@"The following %@ cannot be located:\n%@", fileText , [self.resourcesUpdateCenter.errorMsgList componentsJoinedByString:@"\n"]];
+        [ArcosUtils showMsg:errorMsg title:@"" delegate:self tag:100];
+    } else {
+        self.isLoadingFinished = YES;
+    }
+}
+
+- (void)checkFileExistenceCompleted {
     SettingManager* sm = [SettingManager setting];
     NSMutableDictionary* presenterPwdDict = [sm getSettingForKeypath:@"CompanySetting.Connection" atIndex:8];
     NSString* presenterPwd = [[presenterPwdDict objectForKey:@"Value"] uppercaseString];
@@ -529,21 +546,24 @@
     NSRange aWSRRange = [presenterPwd rangeOfString:@"[WSR]"];
 //    NSLog(@"abc: %@", self.resourcesUpdateCenter.needDownloadFileList);
     if (aWSRRange.location != NSNotFound) {
-        if ([self.resourcesUpdateCenter.needDownloadFileList count] == 0) {
-            self.isLoadingFinished = YES;
+        if ([self.resourcesUpdateCenter.resultDownloadFileList count] == 0) {
+            [self showFilesNotFoundInResources];
+//            self.isLoadingFinished = YES;
             [self.delegate FinishLoadingData:0];
         } else {
             [self.resourcesUpdateCenter runWSRTask];
         }
     } else {
-        if ([self.resourcesUpdateCenter.needDownloadFileList count] == 0) {
-            self.isLoadingFinished = YES;
+        if ([self.resourcesUpdateCenter.resultDownloadFileList count] == 0) {
+            [self showFilesNotFoundInResources];
+//            self.isLoadingFinished = YES;
             [self.delegate FinishLoadingData:0];
         } else {
             [self.resourcesUpdateCenter runTask];
         }
     }
 }
+
 -(void)loadPaginatedWSRToFolder:(NSString*)aFileName {
     if (self.isPaginatedLoadingFinished) {
         [self.service GetFromResources:self action:@selector(paginatedWSRBackFromService:) FileNAme:aFileName];
@@ -553,30 +573,35 @@
 
 -(void)paginatedWSRBackFromService:(id)result {
     if ([result isKindOfClass:[SoapFault class]]) {
-//        SoapFault* aSoapFault = (SoapFault*)result;
+        SoapFault* aSoapFault = (SoapFault*)result;
 //        [ArcosUtils showMsg:[aSoapFault faultString] delegate:nil];
-        [ArcosUtils showMsg:[NSString stringWithFormat:@"%@ is not available in Resources folder.", self.resourcesUpdateCenter.currentFileName] delegate:nil];
+//        [ArcosUtils showMsg:[NSString stringWithFormat:@"%@ is not available in Resources folder.", self.resourcesUpdateCenter.currentFileName] delegate:nil];
+        NSMutableDictionary* errorDetail = [NSMutableDictionary dictionary];
+        [errorDetail setObject:[NSString stringWithFormat:@"%@",[aSoapFault faultString]] forKey:NSLocalizedDescriptionKey];
+        NSError* tmpError = [NSError errorWithDomain:@"" code:0 userInfo:errorDetail];
+        [self.resourcesUpdateCenter compositeStopTask:tmpError];
     } else if ([result isKindOfClass:[NSError class]]) {
-        NSError* anError = (NSError*)result;
-        [ArcosUtils showMsg:[anError localizedDescription] delegate:nil];
+        NSError* tmpError = (NSError*)result;
+        [self.resourcesUpdateCenter compositeStopTask:tmpError];
+//        [ArcosUtils showMsg:[anError localizedDescription] delegate:nil];
     } else {
         @try {
-//            NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:result options:0] autorelease];
-            ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)result;
-            if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
-                NSString* filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon presenterPath], self.resourcesUpdateCenter.currentFileName];
-                BOOL saveFileFlag = [arcosGetFromResourcesResult.FileContents writeToFile:filePath atomically:YES];
-                if (saveFileFlag) {
-                    self.resourcesUpdateCenter.sucessfulFileCount++;
-                }
-            } else {
-//                [ArcosUtils showMsg:arcosGetFromResourcesResult.ErrorModel.Message delegate:nil];
-                [self.resourcesUpdateCenter.errorMsgList addObject:[ArcosUtils convertNilToEmpty:arcosGetFromResourcesResult.ErrorModel.Message]];
-            }
-//            BOOL saveFileFlag = [myNSData writeToFile:filePath atomically:YES];
-//            if (saveFileFlag) {
-//                self.resourcesUpdateCenter.sucessfulFileCount++;
+            NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:result options:0] autorelease];
+//            ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)result;
+//            if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
+//                NSString* filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon presenterPath], self.resourcesUpdateCenter.currentFileName];
+//                BOOL saveFileFlag = [arcosGetFromResourcesResult.FileContents writeToFile:filePath atomically:YES];
+//                if (saveFileFlag) {
+//                    self.resourcesUpdateCenter.sucessfulFileCount++;
+//                }
+//            } else {
+//                [self.resourcesUpdateCenter.errorMsgList addObject:[ArcosUtils convertNilToEmpty:arcosGetFromResourcesResult.ErrorModel.Message]];
 //            }
+            NSString* filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon presenterPath], self.resourcesUpdateCenter.currentFileName];
+            BOOL saveFileFlag = [myNSData writeToFile:filePath atomically:YES];
+            if (saveFileFlag) {
+                self.resourcesUpdateCenter.sucessfulFileCount++;
+            }
         }
         @catch (NSException *exception) {
             [ArcosUtils showMsg:[exception reason] delegate:nil];
@@ -1448,30 +1473,31 @@
         result = [self handleResultErrorProcess:result];
         if (result != nil) {
             @try {
-                ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)result;
-                if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
-//                    NSData* myNSData = [[NSData alloc] initWithBase64EncodedString:result options:0];
-                    NSString* filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon documentsPath], self.auxFileName];
-//                    [myNSData writeToFile:filePath atomically:YES];
-//                    [myNSData release];
-                    [arcosGetFromResourcesResult.FileContents writeToFile:filePath atomically:YES];
-                    NSString* fileContents = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
-                    NSArray* rowList = [fileContents componentsSeparatedByString:self.rowDelimiter];
-                    [fileContents release];
-                    [FileCommon removeFileAtPath:filePath];
-    //                if ([rowList count] > 2) {
-    //
-    //                }
-                    NSMutableDictionary* productDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].productSelectorName];
-                    if ([[productDataDict objectForKey:@"DownloadMode"] intValue] == 0) {
-                        [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"Product"];
-                    }
-                    self.batchedUpdateCenter = [[[BatchedUpdateCenter alloc] initBatchedWithTarget:self action:@selector(loadProductBatchedUpdateCenter:) loadingAction:@selector(batchedLoadingActionFlag) recordList:rowList pageSize:[GlobalSharedClass shared].batchedSize] autorelease];
-                    self.batchedUpdateCenter.batchedDelegate = self;
-                    [self.batchedUpdateCenter runTask];
-                } else {
-                    [self.delegate ErrorOccured:arcosGetFromResourcesResult.ErrorModel.Message];
+//                ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)result;
+//                if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
+//
+//                } else {
+//                    [self.delegate ErrorOccured:arcosGetFromResourcesResult.ErrorModel.Message];
+//                }
+                NSData* myNSData = [[NSData alloc] initWithBase64EncodedString:result options:0];
+                NSString* filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon documentsPath], self.auxFileName];
+                [myNSData writeToFile:filePath atomically:YES];
+                [myNSData release];
+//                [arcosGetFromResourcesResult.FileContents writeToFile:filePath atomically:YES];
+                NSString* fileContents = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+                NSArray* rowList = [fileContents componentsSeparatedByString:self.rowDelimiter];
+                [fileContents release];
+                [FileCommon removeFileAtPath:filePath];
+//                if ([rowList count] > 2) {
+//
+//                }
+                NSMutableDictionary* productDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].productSelectorName];
+                if ([[productDataDict objectForKey:@"DownloadMode"] intValue] == 0) {
+                    [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"Product"];
                 }
+                self.batchedUpdateCenter = [[[BatchedUpdateCenter alloc] initBatchedWithTarget:self action:@selector(loadProductBatchedUpdateCenter:) loadingAction:@selector(batchedLoadingActionFlag) recordList:rowList pageSize:[GlobalSharedClass shared].batchedSize] autorelease];
+                self.batchedUpdateCenter.batchedDelegate = self;
+                [self.batchedUpdateCenter runTask];
             }
             @catch (NSException *exception) {
                 [self.delegate ErrorOccured:[exception reason]];
@@ -1502,24 +1528,25 @@
         result = [self handleResultErrorProcess:result];
         if (result != nil) {
             @try {
-                ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)result;
-                if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
-//                    NSData* myNSData = [[NSData alloc] initWithBase64EncodedString:result options:0];
-                    NSString* filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon documentsPath], self.auxFileName];
-//                    [myNSData writeToFile:filePath atomically:YES];
-//                    [myNSData release];
-                    [arcosGetFromResourcesResult.FileContents writeToFile:filePath atomically:YES];
-                    NSString* fileContents = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
-                    NSArray* rowList = [fileContents componentsSeparatedByString:self.rowDelimiter];
-                    [fileContents release];
-                    [FileCommon removeFileAtPath:filePath];
-                    self.batchedUpdateCenter = [[[BatchedUpdateCenter alloc] initBatchedWithTarget:self action:@selector(loadLocationProductMATBatchedUpdateCenter:) loadingAction:@selector(batchedLoadingActionFlag) recordList:rowList pageSize:[GlobalSharedClass shared].batchedSize] autorelease];
-                    self.batchedUpdateCenter.levelIUR = [GlobalSharedClass shared].currentTimeStamp;
-                    self.batchedUpdateCenter.batchedDelegate = self;
-                    [self.batchedUpdateCenter runTask];
-                } else {
-                    [self.delegate ErrorOccured:arcosGetFromResourcesResult.ErrorModel.Message];
-                }
+//                ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)result;
+//                if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
+//
+//                } else {
+//                    [self.delegate ErrorOccured:arcosGetFromResourcesResult.ErrorModel.Message];
+//                }
+                NSData* myNSData = [[NSData alloc] initWithBase64EncodedString:result options:0];
+                NSString* filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon documentsPath], self.auxFileName];
+                [myNSData writeToFile:filePath atomically:YES];
+                [myNSData release];
+//                [arcosGetFromResourcesResult.FileContents writeToFile:filePath atomically:YES];
+                NSString* fileContents = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+                NSArray* rowList = [fileContents componentsSeparatedByString:self.rowDelimiter];
+                [fileContents release];
+                [FileCommon removeFileAtPath:filePath];
+                self.batchedUpdateCenter = [[[BatchedUpdateCenter alloc] initBatchedWithTarget:self action:@selector(loadLocationProductMATBatchedUpdateCenter:) loadingAction:@selector(batchedLoadingActionFlag) recordList:rowList pageSize:[GlobalSharedClass shared].batchedSize] autorelease];
+                self.batchedUpdateCenter.levelIUR = [GlobalSharedClass shared].currentTimeStamp;
+                self.batchedUpdateCenter.batchedDelegate = self;
+                [self.batchedUpdateCenter runTask];
             }
             @catch (NSException *exception) {
                 [self.delegate ErrorOccured:[exception reason]];
@@ -1605,58 +1632,57 @@
         result = [self handleResultErrorProcess:result];
         if (result != nil) {
             @try {
-                ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)result;
-                if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
-                    NSString* filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon documentsPath], self.auxFileName];
-                    [arcosGetFromResourcesResult.FileContents writeToFile:filePath atomically:YES];
-                    NSString* fileContents = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
-                    NSArray* rowList = [fileContents componentsSeparatedByString:self.rowDelimiter];
-                    [fileContents release];
-                    [FileCommon removeFileAtPath:filePath];
-                    if ([aClassName isEqualToString:@"SaveRecordDescrDetailUpdateCenter"]) {
-                        NSMutableDictionary* descrDetailDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].descrDetailSelectorName];
-                        if ([[descrDetailDataDict objectForKey:@"DownloadMode"] intValue] == 0) {
-                            [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"DescrDetail"];
-                        }
-                    }
-                    if ([aClassName isEqualToString:@"SaveRecordPackageUpdateCenter"]) {
-                        NSMutableDictionary* locationDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].packageSelectorName];
-                        if ([[locationDataDict objectForKey:@"DownloadMode"] intValue] == 0) {
-                            [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"Package"];
-                        }
-                    }
-                    if ([aClassName isEqualToString:@"SaveRecordLocationUpdateCenter"]) {
-                        NSMutableDictionary* locationDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].locationSelectorName];
-                        if ([[locationDataDict objectForKey:@"DownloadMode"] intValue] == 0) {
-                            [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"Location"];
-                        }
-                    }
-                    if ([aClassName isEqualToString:@"SaveRecordLocLocLinkUpdateCenter"]) {
-                        NSMutableDictionary* locLocLinkDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].locLocLinkSelectorName];
-                        if ([[locLocLinkDataDict objectForKey:@"DownloadMode"] intValue] == 0) {
-                            [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"LocLocLink"];
-                        }
-                    }
-                    if ([aClassName isEqualToString:@"SaveRecordPriceUpdateCenter"]) {
-                        NSMutableDictionary* priceDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].priceSelectorName];
-                        if ([[priceDataDict objectForKey:@"DownloadMode"] intValue] == 0) {
-                            [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"Price"];
-                            [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"Promotion"];
-                        }
-                    }
-                    self.saveRecordUpdateCenter = [[[NSClassFromString(aClassName) alloc] initWithRecordList:rowList] autorelease];
-                    self.saveRecordUpdateCenter.auxClassName = aClassName;
-                    self.saveRecordUpdateCenter.saveRecordDelegate = self;
-                    [self.delegate UpdateData];
-                    [self.saveRecordUpdateCenter runTask];
-                } else {
-                    [ArcosUtils showMsg:arcosGetFromResourcesResult.ErrorModel.Message delegate:nil];
-                }
-//                NSData* myNSData = [[NSData alloc] initWithBase64EncodedString:result options:0];
-//                NSString* filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon documentsPath], self.auxFileName];
+//                ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)result;
+//                if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
+//
+//                } else {
+//                    [ArcosUtils showMsg:arcosGetFromResourcesResult.ErrorModel.Message delegate:nil];
+//                }
+                NSData* myNSData = [[NSData alloc] initWithBase64EncodedString:result options:0];
+                NSString* filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon documentsPath], self.auxFileName];
 //                [arcosGetFromResourcesResult.FileContents writeToFile:filePath atomically:YES];
-//                [myNSData release];
-                
+                [myNSData writeToFile:filePath atomically:YES];
+                [myNSData release];
+                NSString* fileContents = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+                NSArray* rowList = [fileContents componentsSeparatedByString:self.rowDelimiter];
+                [fileContents release];
+                [FileCommon removeFileAtPath:filePath];
+                if ([aClassName isEqualToString:@"SaveRecordDescrDetailUpdateCenter"]) {
+                    NSMutableDictionary* descrDetailDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].descrDetailSelectorName];
+                    if ([[descrDetailDataDict objectForKey:@"DownloadMode"] intValue] == 0) {
+                        [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"DescrDetail"];
+                    }
+                }
+                if ([aClassName isEqualToString:@"SaveRecordPackageUpdateCenter"]) {
+                    NSMutableDictionary* locationDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].packageSelectorName];
+                    if ([[locationDataDict objectForKey:@"DownloadMode"] intValue] == 0) {
+                        [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"Package"];
+                    }
+                }
+                if ([aClassName isEqualToString:@"SaveRecordLocationUpdateCenter"]) {
+                    NSMutableDictionary* locationDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].locationSelectorName];
+                    if ([[locationDataDict objectForKey:@"DownloadMode"] intValue] == 0) {
+                        [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"Location"];
+                    }
+                }
+                if ([aClassName isEqualToString:@"SaveRecordLocLocLinkUpdateCenter"]) {
+                    NSMutableDictionary* locLocLinkDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].locLocLinkSelectorName];
+                    if ([[locLocLinkDataDict objectForKey:@"DownloadMode"] intValue] == 0) {
+                        [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"LocLocLink"];
+                    }
+                }
+                if ([aClassName isEqualToString:@"SaveRecordPriceUpdateCenter"]) {
+                    NSMutableDictionary* priceDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].priceSelectorName];
+                    if ([[priceDataDict objectForKey:@"DownloadMode"] intValue] == 0) {
+                        [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"Price"];
+                        [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"Promotion"];
+                    }
+                }
+                self.saveRecordUpdateCenter = [[[NSClassFromString(aClassName) alloc] initWithRecordList:rowList] autorelease];
+                self.saveRecordUpdateCenter.auxClassName = aClassName;
+                self.saveRecordUpdateCenter.saveRecordDelegate = self;
+                [self.delegate UpdateData];
+                [self.saveRecordUpdateCenter runTask];
             }
             @catch (NSException *exception) {
                 [self.delegate ErrorOccured:[exception reason]];
@@ -1938,16 +1964,17 @@
 }
 #pragma mark ResourcesUpdateCenterDelegate
 -(void)resourcesUpdateCompleted:(int)anOverallFileCount {
-    if ([self.resourcesUpdateCenter.errorMsgList count] > 0) {
-        NSString* fileText = @"file";
-        if ([self.resourcesUpdateCenter.errorMsgList count] > 1) {
-            fileText = @"files";
-        }
-        NSString* errorMsg = [NSString stringWithFormat:@"The following %@ cannot be located:\n%@", fileText , [self.resourcesUpdateCenter.errorMsgList componentsJoinedByString:@","]];
-        [ArcosUtils showMsg:errorMsg title:@"" delegate:self tag:100];
-    } else {
-        self.isLoadingFinished = YES;
-    }
+//    if ([self.resourcesUpdateCenter.errorMsgList count] > 0) {
+//        NSString* fileText = @"file";
+//        if ([self.resourcesUpdateCenter.errorMsgList count] > 1) {
+//            fileText = @"files";
+//        }
+//        NSString* errorMsg = [NSString stringWithFormat:@"The following %@ cannot be located:\n%@", fileText , [self.resourcesUpdateCenter.errorMsgList componentsJoinedByString:@","]];
+//        [ArcosUtils showMsg:errorMsg title:@"" delegate:self tag:100];
+//    } else {
+//        self.isLoadingFinished = YES;
+//    }
+    [self showFilesNotFoundInResources];
     [self.delegate FinishLoadingData:anOverallFileCount];
 }
 

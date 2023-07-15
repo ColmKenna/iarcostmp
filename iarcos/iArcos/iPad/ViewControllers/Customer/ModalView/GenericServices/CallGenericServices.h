@@ -96,5 +96,6 @@
 - (void)genericProcessDashboardQueryWithDashboardiur:(int)aDashboardiur Employeeiur:(int)anEmployeeiur Locationiur:(int)aLocationiur action:(SEL)anAction target:(id)aTarget;
 - (void)genericGetAttachmentWithIUR:(int)anIUR action:(SEL)anAction target:(id)aTarget;
 - (void)genericReporterOptionsWithAction:(SEL)anAction target:(id)aTarget;
+- (void)genericFileExistsInResourcesWithFileName:(NSString*)aFileName action:(SEL)anAction target:(id)aTarget;
 
 @end

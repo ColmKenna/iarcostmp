@@ -249,7 +249,8 @@
     
     self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
 //    self.popoverController.popoverContentSize=wvc.view.frame.size;
-    self.popoverController.popoverContentSize = [GlobalSharedClass shared].numberPadSize;
+    self.popoverController.popoverContentSize = CGSizeMake(470.0, oipvc.view.frame.size.height);//[GlobalSharedClass shared].numberPadSize;
+    
     wvc.delegate=self;
     return self.popoverController;
     

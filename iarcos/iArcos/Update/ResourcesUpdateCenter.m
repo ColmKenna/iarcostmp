@@ -13,6 +13,9 @@
 @synthesize presenterFileHashMap = _presenterFileHashMap;
 @synthesize errorMsgList = _errorMsgList;
 @synthesize needDownloadFileList = _needDownloadFileList;
+@synthesize resultDownloadFileList = _resultDownloadFileList;
+@synthesize currentResultFileName = _currentResultFileName;
+@synthesize resultRowPointer = _resultRowPointer;
 @synthesize isResourceLoadingFinished = _isResourceLoadingFinished;
 @synthesize isBusy = _isBusy;
 @synthesize resourcesTimer = _resourcesTimer;
@@ -56,6 +59,7 @@
         }
         self.needDownloadFileList = [NSMutableArray arrayWithCapacity:[self.presenterFileList count]];
         self.existingFileList = [NSMutableArray arrayWithCapacity:[self.presenterFileList count]];
+        self.resultDownloadFileList = [NSMutableArray arrayWithCapacity:[self.presenterFileList count]];
         for (int i = 0; i < [self.presenterFileList count]; i++) {
             NSString* fileName = [self.presenterFileList objectAtIndex:i];
             if (![FileCommon fileExistInFolder:@"presenter" withFileName:fileName]) {
@@ -81,6 +85,8 @@
 
 - (void)dealloc {
     if (self.needDownloadFileList != nil) { self.needDownloadFileList = nil; }
+    self.resultDownloadFileList = nil;
+    self.currentResultFileName = nil;
     if (self.presenterFileList != nil) { self.presenterFileList = nil; }
     self.presenterFileHashMap = nil;
     self.errorMsgList = nil;
@@ -100,7 +106,7 @@
 }
 
 - (void)runTask {
-    if ([self.needDownloadFileList count] <= 0 || self.isBusy) {
+    if ([self.resultDownloadFileList count] <= 0 || self.isBusy) {
         return;
     }
     if (self.isResourceLoadingFinished) {
@@ -114,20 +120,20 @@
     [self.resourcesTimer invalidate];
     self.resourcesTimer = nil;
     self.isBusy = NO;
-    [self.needDownloadFileList removeAllObjects];
+    [self.resultDownloadFileList removeAllObjects];
 }
 
 - (void)checkResourceList {
     if (self.isResourceLoadingFinished) {
         //stop the timer
-        if ([self.needDownloadFileList count] <= 0) {
+        if ([self.resultDownloadFileList count] <= 0) {
             [self.resourcesTimer invalidate];
             self.resourcesTimer = nil;
             [self.resourcesUpdateDelegate resourcesUpdateCompleted:self.sucessfulFileCount];
             self.isBusy = NO;
         } else {
             self.isResourceLoadingFinished = NO;
-            NSString* tmpFileName = [[[self.needDownloadFileList lastObject] retain] autorelease];
+            NSString* tmpFileName = [[[self.resultDownloadFileList lastObject] retain] autorelease];
             self.currentFileName = [NSString stringWithFormat:@"%@", tmpFileName];            
             if (self.resourcesFileDownloader != nil) {
                 self.resourcesFileDownloader = nil;
@@ -136,13 +142,13 @@
             [self.resourcesFileDownloader downloadFileWithServerAddress:self.downloadServer destFolderName:self.resourcesFileDownloader.presenterFolderName destFileName:self.currentFileName];
             self.resourcesFileDownloader.resourcesFileDelegate = self;
             [self.resourcesUpdateDelegate ResourceStatusTextWithValue:[NSString stringWithFormat:@"Start getting data for %@", self.currentFileName]];
-            [self.needDownloadFileList removeLastObject];
+            [self.resultDownloadFileList removeLastObject];
         }
     }
 }
 
 - (void)runWSRTask {
-    if ([self.needDownloadFileList count] <= 0 || self.isBusy) {
+    if ([self.resultDownloadFileList count] <= 0 || self.isBusy) {
         return;
     }
     if ([self.target performSelector:self.loadingAction]) {
@@ -155,18 +161,18 @@
 - (void)checkWSResourceList {
     if ([self.target performSelector:self.loadingAction]) {
         //stop the timer
-        if ([self.needDownloadFileList count] <= 0) {
+        if ([self.resultDownloadFileList count] <= 0) {
             [self.resourcesTimer invalidate];
             self.resourcesTimer = nil;
             [self.resourcesUpdateDelegate resourcesUpdateCompleted:self.sucessfulFileCount];
             self.isBusy = NO;
         } else {
-            NSString* tmpFileName = [[[self.needDownloadFileList lastObject] retain] autorelease];
+            NSString* tmpFileName = [[[self.resultDownloadFileList lastObject] retain] autorelease];
             self.currentFileName = [NSString stringWithFormat:@"%@", tmpFileName];
             [self.target performSelector:self.action withObject:self.currentFileName];
             
             [self.resourcesUpdateDelegate ResourceStatusTextWithValue:[NSString stringWithFormat:@"Start getting data for %@", self.currentFileName]];
-            [self.needDownloadFileList removeLastObject];
+            [self.resultDownloadFileList removeLastObject];
         }
     }
 }
@@ -216,21 +222,79 @@
 
 - (void)backFromGetFromResourcesDifferentMd5:(NSString*)result {
     self.rowPointer++;
-    result = [ArcosSystemCodesUtils handleResultErrorProcess:result]; 
-    if (result == nil || [result isEqualToString:@""]) {
-        [self checkFileMD5];
+    if ([result isKindOfClass:[SoapFault class]]) {
+        SoapFault* anSoapFault = (SoapFault*)result;
+        NSMutableDictionary* errorDetail = [NSMutableDictionary dictionary];
+        [errorDetail setObject:[NSString stringWithFormat:@"%@",[anSoapFault faultString]] forKey:NSLocalizedDescriptionKey];
+        NSError* tmpError = [NSError errorWithDomain:@"" code:0 userInfo:errorDetail];
+        [self compositeStopTask:tmpError];
+        return;
+    } else if ([result isKindOfClass:[NSError class]]) {
+        NSError* tmpError = (NSError*)result;
+        [self compositeStopTask:tmpError];
         return;
     }
+//    if (result == nil || [result isEqualToString:@""]) {
+//        [self checkFileMD5];
+//        return;
+//    }
     result = [result stringByReplacingOccurrencesOfString:@"-" withString:@""];
 //    NSLog(@"test two %@ %@", result, self.selectedFileMD5Value);
     if (![[result lowercaseString] isEqualToString:[self.selectedFileMD5Value lowercaseString]]) {
         [self.needDownloadFileList addObject:self.selectedFileMD5Name];
     }    
-    if (self.rowPointer == [self.existingFileList count]) {
-        [self.resourcesUpdateDelegate checkFileMD5Completed];
+//    if (self.rowPointer == [self.existingFileList count]) {
+//        [self.resourcesUpdateDelegate checkFileMD5Completed];
+//        return;
+//    }
+    [self checkFileMD5];
+}
+
+- (void)compositeStopTask:(NSError*)anError {
+    self.isResourceLoadingFinished = YES;
+    [self stopTask];
+    [self.resourcesUpdateDelegate didFailWithErrorResourcesFileDelegate:anError];
+}
+
+- (void)checkFileExistence {
+    self.arcosService = [[[ArcosService alloc] init] autorelease];
+    self.resultRowPointer = 0;
+    [self checkFileExistsInResources];
+}
+
+- (void)checkFileExistsInResources {
+    if (self.resultRowPointer == [self.needDownloadFileList count]) {
+        [self.resourcesUpdateDelegate checkFileExistenceCompleted];
         return;
     }
-    [self checkFileMD5];
+    self.currentResultFileName = [self.needDownloadFileList objectAtIndex:self.resultRowPointer];
+    [self.arcosService FileExistsInResources:self action:@selector(backFromFileExistsInResources:) FileName:self.currentResultFileName];
+}
+
+- (void)backFromFileExistsInResources:(id)result {
+    self.resultRowPointer++;
+    if ([result isKindOfClass:[SoapFault class]]) {
+        SoapFault* aSoapFault = (SoapFault*)result;
+        NSMutableDictionary* errorDetail = [NSMutableDictionary dictionary];
+        [errorDetail setObject:[NSString stringWithFormat:@"%@",[aSoapFault faultString]] forKey:NSLocalizedDescriptionKey];
+        NSError* tmpError = [NSError errorWithDomain:@"" code:0 userInfo:errorDetail];
+        [self compositeStopTask:tmpError];
+        return;
+    } else if ([result isKindOfClass:[NSError class]]) {
+        NSError* tmpError = (NSError*)result;
+        [self compositeStopTask:tmpError];
+        return;
+    }
+//    if (result == nil || [result isEqualToString:@""]) {
+//        [self checkFileExistsInResources];
+//        return;
+//    }
+    if ([result boolValue]) {
+        [self.resultDownloadFileList addObject:self.currentResultFileName];
+    } else {
+        [self.errorMsgList addObject:self.currentResultFileName];
+    }
+    [self checkFileExistsInResources];
 }
 
 @end

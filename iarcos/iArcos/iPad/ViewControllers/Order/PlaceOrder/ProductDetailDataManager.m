@@ -23,6 +23,7 @@
 @synthesize productImageIUR = _productImageIUR;
 @synthesize useLocalImageFlag = _useLocalImageFlag;
 @synthesize formRowDict = _formRowDict;
+@synthesize mediumImageName = _mediumImageName;
 
 - (id)init {
     self = [super init];
@@ -50,6 +51,7 @@
     self.detailsTitle = nil;
     self.productImageIUR = nil;
     self.formRowDict = nil;
+    self.mediumImageName = nil;
     
     [super dealloc];
 }

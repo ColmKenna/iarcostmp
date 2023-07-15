@@ -25,6 +25,7 @@
     NSNumber* _productImageIUR;
     BOOL _useLocalImageFlag;
     NSMutableDictionary* _formRowDict;
+    NSString* _mediumImageName;
 }
 
 @property(nonatomic, retain) NSMutableArray* displayList;
@@ -41,6 +42,7 @@
 @property(nonatomic, retain) NSNumber* productImageIUR;
 @property(nonatomic, assign) BOOL useLocalImageFlag;
 @property(nonatomic, retain) NSMutableDictionary* formRowDict;
+@property(nonatomic, retain) NSString* mediumImageName;
 
 - (void)processRawData:(ArcosGenericClass*)arcosGenericClass;
 - (NSMutableDictionary*)cellDataDict:(NSString*)aTitle value:(NSString*)aValue;

@@ -186,8 +186,8 @@
 
 - (void)backFromDownload_File:(id)result {
     if ([result isKindOfClass:[SoapFault class]]) {
-        SoapFault* anSoapFault = (SoapFault*)result;
-        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@",[anSoapFault faultString]] title:@"" delegate:nil target:self tag:0 handler:nil];
+        SoapFault* aSoapFault = (SoapFault*)result;
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@",[aSoapFault faultString]] title:@"" delegate:nil target:self tag:0 handler:nil];
         [self.HUD hide:YES];
         [self.resourcesTimer invalidate];
         self.resourcesTimer = nil;
@@ -222,8 +222,8 @@
 
 - (void)backFromGetFromResources:(id)result {
     if ([result isKindOfClass:[SoapFault class]]) {
-        SoapFault* anSoapFault = (SoapFault*)result;
-        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@",[anSoapFault faultString]] title:@"" delegate:nil target:self tag:0 handler:nil];
+        SoapFault* aSoapFault = (SoapFault*)result;
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@",[aSoapFault faultString]] title:@"" delegate:nil target:self tag:0 handler:nil];
         [self.HUD hide:YES];
 //        [self.resourcesTimer invalidate];
 //        self.resourcesTimer = nil;
@@ -235,19 +235,13 @@
 //        self.resourcesTimer = nil;
     } else {
         @try {
-            ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)result;
-            if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
-//                NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:result options:0] autorelease];
-                NSString* filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon dashboardPath], [self.dashboardServerDataManager.currentDashFileDict objectForKey:@"FileName"]];
-                BOOL saveFileFlag = [arcosGetFromResourcesResult.FileContents writeToFile:filePath atomically:YES];
-                if (saveFileFlag) {
-                    [self.dashboardServerDataManager.displayFileList addObject:[NSMutableDictionary dictionaryWithDictionary:self.dashboardServerDataManager.currentDashFileDict]];
-                    [self displayFileOnCanvas];
-                    [self alignSubviews];
-    //                [self.dashboardServerDataManager.displayEmployeeNameList addObject:[NSString stringWithFormat:@"%@", [self.dashboardServerDataManager.currentEmployeeDict objectForKey:@"Title"]]];
-                }
-            } else {
-                [ArcosUtils showDialogBox:arcosGetFromResourcesResult.ErrorModel.Message title:@"" delegate:nil target:self tag:0 handler:nil];
+            NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:result options:0] autorelease];
+            NSString* filePath = [NSString stringWithFormat:@"%@/%@", [FileCommon dashboardPath], [self.dashboardServerDataManager.currentDashFileDict objectForKey:@"FileName"]];
+            BOOL saveFileFlag = [myNSData writeToFile:filePath atomically:YES];
+            if (saveFileFlag) {
+                [self.dashboardServerDataManager.displayFileList addObject:[NSMutableDictionary dictionaryWithDictionary:self.dashboardServerDataManager.currentDashFileDict]];
+                [self displayFileOnCanvas];
+                [self alignSubviews];
             }
         }
         @catch (NSException *exception) {

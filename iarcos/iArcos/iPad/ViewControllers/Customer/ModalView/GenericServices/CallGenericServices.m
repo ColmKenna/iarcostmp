@@ -420,6 +420,13 @@
     [self.arcosService ReporterOptions:aTarget action:anAction];
 }
 
+- (void)genericFileExistsInResourcesWithFileName:(NSString*)aFileName action:(SEL)anAction target:(id)aTarget {
+    if (![self startCallService]) {
+        return;
+    }
+    [self.arcosService FileExistsInResources:aTarget action:anAction FileName:aFileName];
+}
+
 -(void)dealloc{
 //    if (self.delegate != nil) { self.delegate = nil; }
     [self.HUD removeFromSuperview];

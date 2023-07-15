@@ -20,6 +20,9 @@
     NSMutableDictionary* _presenterFileHashMap;
     NSMutableArray* _errorMsgList;
     NSMutableArray* _needDownloadFileList;
+    NSMutableArray* _resultDownloadFileList;
+    NSString* _currentResultFileName;
+    int _resultRowPointer;
     BOOL _isResourceLoadingFinished;
     BOOL _isBusy;
     NSTimer* _resourcesTimer;
@@ -46,6 +49,9 @@
 @property(nonatomic, retain) NSMutableDictionary* presenterFileHashMap;
 @property(nonatomic, retain) NSMutableArray* errorMsgList;
 @property(nonatomic, retain) NSMutableArray* needDownloadFileList;
+@property(nonatomic, retain) NSMutableArray* resultDownloadFileList;
+@property(nonatomic, retain) NSString* currentResultFileName;
+@property(nonatomic, assign) int resultRowPointer;
 @property(nonatomic, assign) BOOL isResourceLoadingFinished;
 @property(nonatomic, assign) BOOL isBusy;
 @property(nonatomic, retain) NSTimer* resourcesTimer;
@@ -72,5 +78,7 @@
 //- (void)stopWSRTask;
 - (id)initWithTarget:(id)aTarget action:(SEL)anAction loadingAction:(SEL)aLoadingAction;
 - (void)checkFileIntegrity;
+- (void)checkFileExistence;
+- (void)compositeStopTask:(NSError*)anError;
 
 @end

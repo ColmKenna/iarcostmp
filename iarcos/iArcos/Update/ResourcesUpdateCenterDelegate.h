@@ -13,6 +13,7 @@
 -(void)resourcesUpdateCompleted:(int)anOverallFileCount;
 - (void)didFailWithErrorResourcesFileDelegate:(NSError *)anError;
 - (void)checkFileMD5Completed;
+- (void)checkFileExistenceCompleted;
 @optional
 - (void)updateResourcesProgressBar:(float)aValue;
 - (void)ResourceStatusTextWithValue:(NSString*)aValue;

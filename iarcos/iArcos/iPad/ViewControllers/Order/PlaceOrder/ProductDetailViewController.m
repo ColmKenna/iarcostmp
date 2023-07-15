@@ -232,7 +232,7 @@
             self.title = [self.myArcosGenericClass Field15];
             NSString* productCode = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[self.myArcosGenericClass Field12]]];
             self.productDetailDataManager.productCode = productCode;
-            NSString* mediumImageName = [NSString stringWithFormat:@"M-%@.png",productCode];
+            self.productDetailDataManager.mediumImageName = [NSString stringWithFormat:@"M-%@.png",productCode];
             /*
             NSString* downloadServer = [SettingManager downloadServer];
             NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", downloadServer,mediumImageName]];
@@ -292,7 +292,8 @@
                 }
             }
             if (!self.productDetailDataManager.useLocalImageFlag) {
-                [self.callGenericServices genericGetFromResourcesWithFileName:mediumImageName action:@selector(setGenericGetFromResourcesResult:) target:self];
+                [self.callGenericServices genericFileExistsInResourcesWithFileName:self.productDetailDataManager.mediumImageName action:@selector(setFileExistsInResources:) target:self];
+//                [self.callGenericServices genericGetFromResourcesWithFileName:mediumImageName action:@selector(setGenericGetFromResourcesResult:) target:self];
             }            
         }
         @catch (NSException *exception) {
@@ -315,23 +316,45 @@
     return resultDescrDetail;
 }
 
--(void)setGenericGetFromResourcesResult:(id)result {
-//    [self.callGenericServices.HUD hide:YES];
+-(void)setFileExistsInResources:(id)result {
+    BOOL fileExistsFlag = NO;
     BOOL successFlag = YES;
     if ([result isKindOfClass:[NSError class]]) {
         successFlag = NO;
     } else if ([result isKindOfClass:[SoapFault class]]) {
         successFlag = NO;
     }
+    if (successFlag) {
+        if ([result boolValue]) {
+            fileExistsFlag = YES;
+            [self.callGenericServices genericGetFromResourcesWithFileName:self.productDetailDataManager.mediumImageName action:@selector(setGenericGetFromResourcesResult:) target:self];
+        }
+    }
+    if (!fileExistsFlag) {
+        NSMutableDictionary* errorDetail = [NSMutableDictionary dictionary];
+        [errorDetail setObject:@"404 - File or directory not found." forKey:NSLocalizedDescriptionKey];
+        NSError* notFoundError = [NSError errorWithDomain:@"" code:404 userInfo:errorDetail];
+        [self setGenericGetFromResourcesResult:notFoundError];
+    }
+}
+-(void)setGenericGetFromResourcesResult:(id)result {
+//    [self.callGenericServices.HUD hide:YES];
+    BOOL successFlag = YES;
+    if ([result isKindOfClass:[SoapFault class]]) {
+        successFlag = NO;
+    } else if ([result isKindOfClass:[NSError class]]) {
+        successFlag = NO;
+    }
     self.mediumImage = nil;
     if (successFlag) {
-//        NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:result options:0] autorelease];
-        ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)result;
-        if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
-            self.mediumImage = [[[UIImage alloc] initWithData:arcosGetFromResourcesResult.FileContents] autorelease];
-        } else {
-            [ArcosUtils showDialogBox:arcosGetFromResourcesResult.ErrorModel.Message title:@"" delegate:nil target:self tag:0 handler:nil];
-        }
+        NSData* myNSData = [[[NSData alloc] initWithBase64EncodedString:[ArcosUtils convertNilToEmpty:result] options:0] autorelease];
+        self.mediumImage = [[[UIImage alloc] initWithData:myNSData] autorelease];
+//        ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)result;
+//        if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
+//            
+//        } else {
+//            [ArcosUtils showDialogBox:arcosGetFromResourcesResult.ErrorModel.Message title:@"" delegate:nil target:self tag:0 handler:nil];
+//        }
     } else {
         self.mediumImage = [[ArcosCoreData sharedArcosCoreData]thumbWithIUR:[NSNumber numberWithInt:1]];
         if (self.mediumImage == nil) {
