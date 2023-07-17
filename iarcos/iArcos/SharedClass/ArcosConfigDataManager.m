@@ -309,6 +309,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConfigDataManager);
     return [self retrieveConfigFlagByIndex:77];
 }
 
+- (BOOL)restrictKeyMessageDetailingContentFlag {
+    return [self retrieveConfigFlagByIndex:78];
+}
+
 - (void)resetSystemCodes:(NSString*)aSystemCodes {
     self.systemCodes = aSystemCodes;
 }

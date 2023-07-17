@@ -3328,10 +3328,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 -(NSMutableArray*)detailingQA{
     
     NSMutableArray* QAs=[NSMutableArray arrayWithArray:[self detailingQAProduct]];
-    [QAs addObjectsFromArray:[self detailingQADesc]];
+    [QAs addObjectsFromArray:[self detailingQADescCheckFlag:NO subDescrDetailCode:@""]];
     
     return QAs;
     
+}
+-(NSMutableArray*)detailingQAWithSubDescrDetailCode:(NSString*)aSubDescrDetailCode {
+    NSMutableArray* QAs=[NSMutableArray arrayWithArray:[self detailingQAProduct]];
+    [QAs addObjectsFromArray:[self detailingQADescCheckFlag:YES subDescrDetailCode:aSubDescrDetailCode]];
+    
+    return QAs;
 }
 -(NSMutableArray*)detailingQAProduct{
     NSPredicate* predicate=[NSPredicate predicateWithFormat:@"Active=1 AND FOrDetailing = %@",[NSNumber numberWithBool:YES]];
@@ -3357,9 +3363,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     }
     return newObjectArray;
 }
--(NSMutableArray*)detailingQADesc{
-        
-    NSPredicate* predicate=[NSPredicate predicateWithFormat:@"Active=1 AND ForDetailing = %@ AND  (DescrTypeCode='L1' OR DescrTypeCode='L2' OR DescrTypeCode='L3' OR DescrTypeCode='L4' OR DescrTypeCode='L5' OR DescrTypeCode='DD') ",[NSNumber numberWithBool:YES]];
+-(NSMutableArray*)detailingQADescCheckFlag:(BOOL)aCheckFlag subDescrDetailCode:(NSString*)aSubDescrDetailCode {
+    NSPredicate* predicate = nil;
+    if (!aCheckFlag) {
+        predicate=[NSPredicate predicateWithFormat:@"Active=1 AND ForDetailing = %@ AND  (DescrTypeCode='L1' OR DescrTypeCode='L2' OR DescrTypeCode='L3' OR DescrTypeCode='L4' OR DescrTypeCode='L5' OR DescrTypeCode='DD') ",[NSNumber numberWithBool:YES]];
+    } else {
+        predicate=[NSPredicate predicateWithFormat:@"Active=1 AND ForDetailing = %@ AND DescrDetailCode CONTAINS[c] %@ AND  (DescrTypeCode='L1' OR DescrTypeCode='L2' OR DescrTypeCode='L3' OR DescrTypeCode='L4' OR DescrTypeCode='L5' OR DescrTypeCode='DD') ",[NSNumber numberWithBool:YES], aSubDescrDetailCode];
+    }
     NSArray* sortDescNames=[NSArray arrayWithObjects:@"ProfileOrder",nil];
 
     NSMutableArray* objectsArray=[self fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:nil  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];

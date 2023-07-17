@@ -88,6 +88,7 @@
 - (BOOL)showPackageFlag;
 - (BOOL)showPresenterInDetailingFlag;
 - (BOOL)showInputPadRebateFlag;
+- (BOOL)restrictKeyMessageDetailingContentFlag;
 - (void)resetSystemCodes:(NSString*)aSystemCodes;
 - (void)persistentSystemCodes;
 

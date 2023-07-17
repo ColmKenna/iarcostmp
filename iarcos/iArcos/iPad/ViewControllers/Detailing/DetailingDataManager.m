@@ -89,27 +89,56 @@
     [super dealloc];
 }
 
+- (void)keyMessageProcessorWithDataList:(NSMutableArray*)aDataList {
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode='KM' and Active=1"];
+    NSMutableArray* kmObjectsArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
+    if ([kmObjectsArray count] != 0) {
+        [self.detailingActiveKeyList addObject:self.keyMessagesKey];
+        NSMutableArray* detailingKeyMessagesList = [NSMutableArray arrayWithCapacity:[aDataList count]];
+        for (NSMutableDictionary* aDict in aDataList) {
+            NSMutableDictionary* newDict = [NSMutableDictionary dictionaryWithDictionary:aDict];
+            [newDict setObject:self.keyMessagesKey forKey:@"DetailLevel"];
+            [detailingKeyMessagesList addObject:newDict];
+        }
+        [self.detailingRowDict setObject:detailingKeyMessagesList forKey:self.keyMessagesKey];
+    }
+}
+
 - (void)createBasicData {
     [self.detailingActiveKeyList addObject:self.basicInfoKey];
     NSMutableArray* basicInfo=[NSMutableArray arrayWithObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:0],@"IUR",@"MA",@"DetailLevel",@"Basic Information",@"Label",nil]];
     [self.detailingRowDict setObject:basicInfo forKey:self.basicInfoKey];
-    NSMutableArray* detailingQAList = [[ArcosCoreData sharedArcosCoreData]detailingQA];
-    if ([detailingQAList count] != 0) {
-        [self.detailingActiveKeyList addObject:self.adoptionLadderKey];
-        [self.detailingRowDict setObject:detailingQAList forKey:self.adoptionLadderKey];
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode='KM' and Active=1"];
-        NSMutableArray* kmObjectsArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
-        if ([kmObjectsArray count] != 0) {
-            [self.detailingActiveKeyList addObject:self.keyMessagesKey];
-            NSMutableArray* detailingKeyMessagesList = [NSMutableArray arrayWithCapacity:[detailingQAList count]];
-            for (NSMutableDictionary* aDict in detailingQAList) {
-                NSMutableDictionary* newDict = [NSMutableDictionary dictionaryWithDictionary:aDict];
-                [newDict setObject:self.keyMessagesKey forKey:@"DetailLevel"];
-                [detailingKeyMessagesList addObject:newDict];
-            }
-            [self.detailingRowDict setObject:detailingKeyMessagesList forKey:self.keyMessagesKey];
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] restrictKeyMessageDetailingContentFlag]) {
+        NSMutableArray* detailingQAList = [[ArcosCoreData sharedArcosCoreData]detailingQA];
+        if ([detailingQAList count] != 0) {
+            [self.detailingActiveKeyList addObject:self.adoptionLadderKey];
+            [self.detailingRowDict setObject:detailingQAList forKey:self.adoptionLadderKey];
+//            NSPredicate* predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode='KM' and Active=1"];
+//            NSMutableArray* kmObjectsArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
+//            if ([kmObjectsArray count] != 0) {
+//                [self.detailingActiveKeyList addObject:self.keyMessagesKey];
+//                NSMutableArray* detailingKeyMessagesList = [NSMutableArray arrayWithCapacity:[detailingQAList count]];
+//                for (NSMutableDictionary* aDict in detailingQAList) {
+//                    NSMutableDictionary* newDict = [NSMutableDictionary dictionaryWithDictionary:aDict];
+//                    [newDict setObject:self.keyMessagesKey forKey:@"DetailLevel"];
+//                    [detailingKeyMessagesList addObject:newDict];
+//                }
+//                [self.detailingRowDict setObject:detailingKeyMessagesList forKey:self.keyMessagesKey];
+//            }
+            [self keyMessageProcessorWithDataList:detailingQAList];
+        }
+    } else {
+        NSMutableArray* detailingQAList = [[ArcosCoreData sharedArcosCoreData]detailingQAWithSubDescrDetailCode:@"DD"];
+        if ([detailingQAList count] != 0) {
+            [self.detailingActiveKeyList addObject:self.adoptionLadderKey];
+            [self.detailingRowDict setObject:detailingQAList forKey:self.adoptionLadderKey];
+        }
+        NSMutableArray* detailingQAKMList = [[ArcosCoreData sharedArcosCoreData]detailingQAWithSubDescrDetailCode:@"KM"];
+        if ([detailingQAKMList count] != 0) {
+            [self keyMessageProcessorWithDataList:detailingQAKMList];
         }
     }
+    
     NSMutableArray* detailingSamplesList = [[ArcosCoreData sharedArcosCoreData]detailingSamples];
     if ([detailingSamplesList count] != 0) {
         [self.detailingActiveKeyList addObject:self.samplesKey];

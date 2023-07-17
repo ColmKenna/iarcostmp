@@ -244,8 +244,9 @@ typedef enum {
 
 //detailing
 -(NSMutableArray*)detailingQA;
+-(NSMutableArray*)detailingQAWithSubDescrDetailCode:(NSString*)aSubDescrDetailCode;
 -(NSMutableArray*)detailingQAProduct;
--(NSMutableArray*)detailingQADesc;
+-(NSMutableArray*)detailingQADescCheckFlag:(BOOL)aCheckFlag subDescrDetailCode:(NSString*)aSubDescrDetailCode;
 -(NSMutableArray*)detailingSamples;
 -(NSMutableArray*)batchsWithProductIUR:(NSNumber*)anIUR;
 -(NSMutableArray*)detailingRNG;
