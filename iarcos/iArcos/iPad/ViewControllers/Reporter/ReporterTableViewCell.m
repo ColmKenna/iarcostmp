@@ -177,7 +177,7 @@
         self.productTitleLabel.text = @"";
         self.productValueLabel.text = @"";
     }
-    if (![self.productValueLabel.text isEqualToString:@""]) {
+    if (![self.productValueLabel.text isEqualToString:@""] && ![self.productValueLabel.text isEqualToString:@"All"]) {
         self.title.text = [NSString stringWithFormat:@"%@ - %@", [self.reporterHolder Field6], self.productValueLabel.text];
     } else {
         self.title.text = [self.reporterHolder Field6];

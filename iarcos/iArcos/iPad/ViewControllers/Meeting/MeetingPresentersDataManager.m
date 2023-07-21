@@ -101,4 +101,17 @@
     }
 }
 
+- (BOOL)meetingPresenterParentHasShownChildProcessor:(int)aLocationIUR {
+    NSMutableArray* tmpLeafDataList = [self.presentationsHashMap objectForKey:[NSNumber numberWithInt:aLocationIUR]];
+    BOOL resultFlag = NO;
+    for (int i = 0; i < [tmpLeafDataList count]; i++) {
+        ArcosPresenterForMeeting* tmpArcosPresenterForMeeting = [tmpLeafDataList objectAtIndex:i];
+        if (tmpArcosPresenterForMeeting.Shown) {
+            resultFlag = YES;
+            break;
+        }
+    }
+    return resultFlag;
+}
+
 @end

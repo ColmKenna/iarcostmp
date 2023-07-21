@@ -26,6 +26,7 @@
 - (void)dataMeetingPresentersLinkToMeeting:(BOOL)aLinkToMeetingFlag atIndexPath:(NSIndexPath *)anIndexPath;
 - (void)createBasicPresentationsDataWithReturnObject:(ArcosMeetingWithDetailsDownload*)anArcosMeetingWithDetailsDownload;
 - (void)resetBranchData;
+- (BOOL)meetingPresenterParentHasShownChildProcessor:(int)aLocationIUR;
 
 @end
 

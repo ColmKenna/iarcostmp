@@ -13,6 +13,7 @@
 
 - (void)presenterHeaderPressedWithIndexPath:(NSIndexPath*)anIndexpath;
 - (void)meetingPresentersLinkToMeeting:(BOOL)aLinkToMeetingFlag atIndexPath:(NSIndexPath*)anIndexPath;
+- (BOOL)meetingPresenterParentHasShownChild:(int)aLocationIUR;
 
 @end
 

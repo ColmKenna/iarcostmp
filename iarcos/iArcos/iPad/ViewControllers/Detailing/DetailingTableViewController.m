@@ -955,6 +955,11 @@
     } else {
         [tmpPresentationsDict removeObjectForKey:@"data"];
     }
+    [self.tableView reloadData];
+}
+
+- (BOOL)presenterParentHasShownChild:(NSNumber*)aDescrDetailIUR {
+    return [self.detailingDataManager presenterParentHasShownChildProcessor:aDescrDetailIUR];
 }
 
 #pragma mark filling the detailing

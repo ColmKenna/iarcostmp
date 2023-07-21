@@ -12,9 +12,11 @@
 
 @interface DetailingPPHEADERTableCell : DetailingTableCell {
     UILabel* _descLabel;
+    UIButton* _shownActiveButton;
 }
 
 @property(nonatomic, retain) IBOutlet UILabel* descLabel;
+@property(nonatomic, retain) IBOutlet UIButton* shownActiveButton;
 
 @end
 

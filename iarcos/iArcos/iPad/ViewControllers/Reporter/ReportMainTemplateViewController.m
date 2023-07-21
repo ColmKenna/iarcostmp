@@ -49,8 +49,13 @@
     // Do any additional setup after loading the view from its nib.
     [ArcosUtils configEdgesForExtendedLayout:self];
     self.rootView = [ArcosUtils getRootView];
-    self.emailButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(emailButtonPressed:)] autorelease];
-    self.navigationItem.rightBarButtonItem = self.emailButton;
+//    self.emailButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(emailButtonPressed:)] autorelease];
+    if ([self.title containsString:@"["] && [self.title containsString:@"]"]) {
+        
+    } else {
+        self.emailButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"email_all.png"] style:UIBarButtonItemStylePlain target:self action:@selector(emailButtonPressed:)] autorelease];
+        self.navigationItem.rightBarButtonItem = self.emailButton;
+    }    
     
     EmailRecipientTableViewController* emailRecipientTableViewController = [[EmailRecipientTableViewController alloc] initWithNibName:@"EmailRecipientTableViewController" bundle:nil];
     emailRecipientTableViewController.requestSource = EmailRequestSourceReporter;

@@ -139,6 +139,11 @@
 
 - (void)meetingPresentersLinkToMeeting:(BOOL)aLinkToMeetingFlag atIndexPath:(NSIndexPath *)anIndexPath {
     [self.meetingPresentersDataManager dataMeetingPresentersLinkToMeeting:aLinkToMeetingFlag atIndexPath:anIndexPath];
+    [self.tableView reloadData];
+}
+
+- (BOOL)meetingPresenterParentHasShownChild:(int)aLocationIUR {
+    return [self.meetingPresentersDataManager meetingPresenterParentHasShownChildProcessor:aLocationIUR];
 }
 
 @end

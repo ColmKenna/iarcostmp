@@ -17,4 +17,5 @@
 -(UIViewController*)retrieveParentViewController;
 - (void)presenterHeaderPressedWithIndexPath:(NSIndexPath*)anIndexpath;
 - (void)shownButtonPressedWithValue:(BOOL)aValue atIndexPath:(NSIndexPath*)anIndexPath;
+- (BOOL)presenterParentHasShownChild:(NSNumber*)aDescrDetailIUR;
 @end

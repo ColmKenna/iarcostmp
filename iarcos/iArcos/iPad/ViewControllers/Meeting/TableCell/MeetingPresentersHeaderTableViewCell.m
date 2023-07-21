@@ -31,6 +31,11 @@
 
 - (void)configCellWithMeetingPresentersCompositeObject:(MeetingPresentersCompositeObject*)aMeetingPresentersCompositeObject {
     self.fullTitleLabel.text = aMeetingPresentersCompositeObject.presenterData.Title;
+    if ([self.actionDelegate meetingPresenterParentHasShownChild:aMeetingPresentersCompositeObject.presenterData.Locationiur]) {
+        self.shownActiveButton.hidden = NO;
+    } else {
+        self.shownActiveButton.hidden = YES;
+    }
     for (UIGestureRecognizer* recognizer in self.contentView.gestureRecognizers) {
         [self.contentView removeGestureRecognizer:recognizer];
     }

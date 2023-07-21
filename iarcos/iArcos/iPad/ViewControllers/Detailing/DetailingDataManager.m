@@ -300,4 +300,18 @@
     }
 }
 
+- (BOOL)presenterParentHasShownChildProcessor:(NSNumber*)aDescrDetailIUR {
+    NSMutableArray* tmpLeafDataList = [self.presentationsHashMap objectForKey:aDescrDetailIUR];
+    BOOL resultFlag = NO;
+    for (int i = 0; i < [tmpLeafDataList count]; i++) {
+        NSMutableDictionary* tmpPresentationsDict = [tmpLeafDataList objectAtIndex:i];
+        NSNumber* tmpData = [tmpPresentationsDict objectForKey:@"data"];
+        if ([tmpData boolValue]) {
+            resultFlag = YES;
+            break;
+        }
+    }
+    return resultFlag;
+}
+
 @end

@@ -12,6 +12,7 @@
 @synthesize actionDelegate = _actionDelegate;
 @synthesize fullTitleLabel = _fullTitleLabel;
 @synthesize myIndexPath = _myIndexPath;
+@synthesize shownActiveButton = _shownActiveButton;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -27,6 +28,7 @@
 - (void)dealloc {
     self.fullTitleLabel = nil;    
     self.myIndexPath = nil;
+    self.shownActiveButton = nil;
     
     [super dealloc];
 }

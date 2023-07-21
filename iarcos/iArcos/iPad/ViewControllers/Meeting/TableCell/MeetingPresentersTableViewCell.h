@@ -18,14 +18,14 @@
 //    UILabel* _fullTitleLabel;
     UILabel* _memoDetailsLabel;
     UIButton* _shownButton;
-    UIButton* _shownActiveButton;
+//    UIButton* _shownActiveButton;
 //    NSIndexPath* _myIndexPath;
 }
 
 @property(nonatomic, retain) IBOutlet UIImageView* myImageView;
 @property(nonatomic, retain) IBOutlet UILabel* memoDetailsLabel;
 @property(nonatomic, retain) IBOutlet UIButton* shownButton;
-@property(nonatomic, retain) IBOutlet UIButton* shownActiveButton;
+//@property(nonatomic, retain) IBOutlet UIButton* shownActiveButton;
 //@property(nonatomic, retain) NSIndexPath* myIndexPath;
 
 - (void)configCellWithArcosPresenterForMeeting:(ArcosPresenterForMeeting*)anArcosPresenterForMeeting;

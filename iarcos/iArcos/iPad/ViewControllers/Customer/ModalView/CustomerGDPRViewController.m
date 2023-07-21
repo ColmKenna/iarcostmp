@@ -218,7 +218,8 @@
 - (void)gdprSaveProcessor {
     [FileCommon createFolder:@"photos"];
     NSNumber* orderNumber = [[GlobalSharedClass shared] currentTimeStamp];
-    NSString* fileName = [NSString stringWithFormat:@"GDPR_%@.jpg", orderNumber];
+//    NSString* fileName = [NSString stringWithFormat:@"GDPR_%@.jpg", orderNumber];
+    NSString* fileName = [NSString stringWithFormat:@"%@-%d-%d.jpg", [ArcosUtils stringFromDate:[NSDate date] format:@"ddyyMMHHmm"],[self.customerGDPRDataManager.locationIUR intValue], [[self.customerGDPRDataManager.contactDict objectForKey:@"IUR"] intValue]];
     NSString* imageJpgPath = [NSString stringWithFormat:@"%@/%@",[FileCommon photosPath], fileName];
     UIImage* auxImage = [ArcosUtils screenshotFromView:self.view];
     BOOL jpgImageSaved = [UIImageJPEGRepresentation(auxImage, 1.0) writeToFile:imageJpgPath atomically:YES];

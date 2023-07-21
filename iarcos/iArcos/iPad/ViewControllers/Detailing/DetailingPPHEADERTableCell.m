@@ -10,6 +10,7 @@
 
 @implementation DetailingPPHEADERTableCell
 @synthesize descLabel = _descLabel;
+@synthesize shownActiveButton = _shownActiveButton;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -24,6 +25,7 @@
 
 - (void)dealloc {
     self.descLabel = nil;
+    self.shownActiveButton = nil;
     for (UIGestureRecognizer* recognizer in self.contentView.gestureRecognizers) {
         [self.contentView removeGestureRecognizer:recognizer];
     }
@@ -33,6 +35,11 @@
 
 -(void)configCellWithData:(NSMutableDictionary*)theData {
     self.descLabel.text = [ArcosUtils convertNilToEmpty:[theData objectForKey:@"Detail"]];
+    if ([self.delegate presenterParentHasShownChild:[theData objectForKey:@"DescrDetailIUR"]]) {
+        self.shownActiveButton.hidden = NO;
+    } else {
+        self.shownActiveButton.hidden = YES;
+    }
     for (UIGestureRecognizer* recognizer in self.contentView.gestureRecognizers) {
         [self.contentView removeGestureRecognizer:recognizer];
     }

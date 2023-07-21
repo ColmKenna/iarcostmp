@@ -12,7 +12,7 @@
 @synthesize myImageView = _myImageView;
 @synthesize memoDetailsLabel = _memoDetailsLabel;
 @synthesize shownButton = _shownButton;
-@synthesize shownActiveButton = _shownActiveButton;
+//@synthesize shownActiveButton = _shownActiveButton;
 //@synthesize myIndexPath = _myIndexPath;
 
 - (void)awakeFromNib {
@@ -30,7 +30,7 @@
     self.myImageView = nil;
     self.memoDetailsLabel = nil;
     self.shownButton = nil;
-    self.shownActiveButton = nil;
+//    self.shownActiveButton = nil;
 //    self.myIndexPath = nil;
     
     [super dealloc];

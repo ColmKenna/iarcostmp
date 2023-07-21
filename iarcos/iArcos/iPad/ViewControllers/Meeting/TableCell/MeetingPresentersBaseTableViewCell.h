@@ -14,12 +14,13 @@
     id<MeetingPresentersTableViewCellDelegate> _actionDelegate;
     UILabel* _fullTitleLabel;
     NSIndexPath* _myIndexPath;
+    UIButton* _shownActiveButton;
 }
 
 @property(nonatomic, assign) id<MeetingPresentersTableViewCellDelegate> actionDelegate;
 @property(nonatomic, retain) IBOutlet UILabel* fullTitleLabel;
 @property(nonatomic, retain) NSIndexPath* myIndexPath;
-
+@property(nonatomic, retain) IBOutlet UIButton* shownActiveButton;
 
 - (void)configCellWithMeetingPresentersCompositeObject:(MeetingPresentersCompositeObject*)aMeetingPresentersCompositeObject;
 

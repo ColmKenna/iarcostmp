@@ -51,5 +51,6 @@
 - (void)resetDataToShowResultOnlyWhenSent;
 - (void)refreshContactField;
 - (void)resetBranchData;
+- (BOOL)presenterParentHasShownChildProcessor:(NSNumber*)aDescrDetailIUR;
 
 @end

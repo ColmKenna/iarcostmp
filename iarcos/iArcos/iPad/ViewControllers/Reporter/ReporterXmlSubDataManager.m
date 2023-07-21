@@ -70,6 +70,8 @@
 
         [self.displayList addObject:elementDict];
     }
+    NSSortDescriptor* detailsDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Details" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
+    [self.displayList sortUsingDescriptors:[NSArray arrayWithObjects:detailsDescriptor,nil]];
 }
 
 @end

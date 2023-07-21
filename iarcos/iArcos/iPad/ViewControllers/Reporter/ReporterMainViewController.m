@@ -318,11 +318,16 @@
     NSNumber* reportIUR=[NSNumber numberWithInt: [aReporter.Field11 intValue]];
     self.selectedReportCode = [NSString stringWithFormat:@"%@", aReporter.Field5] ;
     NSString* auxTitle = @"";
-    if ([auxCell.productValueLabel.text isEqualToString:@""]) {
-        auxTitle = [NSString stringWithFormat:@"%@", aReporter.Field6];
-    } else {
+    if (![auxCell.productValueLabel.text isEqualToString:@""] && ![auxCell.productValueLabel.text isEqualToString:@"All"]) {
         auxTitle = [NSString stringWithFormat:@"%@ - %@", aReporter.Field6, auxCell.productValueLabel.text];
+    } else {
+        auxTitle = [NSString stringWithFormat:@"%@", aReporter.Field6];
     }
+//    if ([auxCell.productValueLabel.text isEqualToString:@""]) {
+//        auxTitle = [NSString stringWithFormat:@"%@", aReporter.Field6];
+//    } else {
+//        auxTitle = [NSString stringWithFormat:@"%@ - %@", aReporter.Field6, auxCell.productValueLabel.text];
+//    }
     self.reportTitle = [NSString stringWithFormat:@"%@", auxTitle];
     self.reporterFileManager.reportTitle = [NSString stringWithFormat:@"%@", auxTitle];
     NSMutableDictionary* tmpDateDict = [self.reporterMainDataManager.dateDictDisplayList objectAtIndex:indexPath.row];
