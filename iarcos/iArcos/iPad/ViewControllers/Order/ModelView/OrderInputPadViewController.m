@@ -620,7 +620,7 @@
             total = [NSNumber numberWithFloat:([total floatValue] * minUnitPrice / 100)];
         }
     }
-    total = [NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:[total floatValue] * (1.0 - ([self.DiscountField.text floatValue] / 100))]];
+    total = [NSNumber numberWithFloat:[ArcosUtils roundFloatFourDecimal:[total floatValue] * (1.0 - ([self.DiscountField.text floatValue] / 100))]];
     self.ValueField.text=[NSString stringWithFormat:@"%1.2f" ,[total floatValue]];
     return total;    
 }
@@ -991,7 +991,7 @@
             [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"vatAmount"];
         } else {
             NSDictionary* auxDescrDetailDict = [[ArcosCoreData sharedArcosCoreData] descriptionWithIUR:[self.Data objectForKey:@"VCIUR"]];
-            [self.Data setObject:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:[total floatValue] / 100 * [[auxDescrDetailDict objectForKey:@"Dec1"] floatValue]]] forKey:@"vatAmount"];
+            [self.Data setObject:[NSNumber numberWithFloat:[ArcosUtils roundFloatFourDecimal:[total floatValue] / 100 * [[auxDescrDetailDict objectForKey:@"Dec1"] floatValue]]] forKey:@"vatAmount"];
         }
         [self.Data setObject:[NSNumber numberWithBool:YES] forKey: @"IsSelected"];
     }

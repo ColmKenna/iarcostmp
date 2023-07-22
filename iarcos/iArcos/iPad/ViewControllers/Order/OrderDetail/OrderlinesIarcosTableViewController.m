@@ -419,6 +419,7 @@
 - (void)restoreCurrentOrderLine {
     if (self.backupSelectedOrderLine != nil) {
         [self.currentSelectedOrderLine setObject:[self.backupSelectedOrderLine objectForKey:@"LineValue" ]forKey:@"LineValue"];
+        [self.currentSelectedOrderLine setObject:[self.backupSelectedOrderLine objectForKey:@"vatAmount" ]forKey:@"vatAmount"];
         [self.currentSelectedOrderLine setObject:[self.backupSelectedOrderLine objectForKey:@"DiscountPercent" ]forKey:@"DiscountPercent"];
         [self.currentSelectedOrderLine setObject:[self.backupSelectedOrderLine objectForKey:@"Bonus" ]forKey:@"Bonus"];
         [self.currentSelectedOrderLine setObject:[self.backupSelectedOrderLine objectForKey:@"Qty" ]forKey:@"Qty"];
@@ -437,7 +438,7 @@
         totalVAT += [[aDict objectForKey:@"vatAmount"]floatValue];
     }
 
-    [[ArcosCoreData sharedArcosCoreData] updateOrderHeaderTotalGoods:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:totalValue]] withOrderNumber:self.orderNumber totalVat:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:totalVAT]]];
+    [[ArcosCoreData sharedArcosCoreData] updateOrderHeaderTotalGoods:[NSNumber numberWithFloat:[ArcosUtils roundFloatFourDecimal:totalValue]] withOrderNumber:self.orderNumber totalVat:[NSNumber numberWithFloat:[ArcosUtils roundFloatFourDecimal:totalVAT]]];
     [self refreshParentNavController];
 }
 

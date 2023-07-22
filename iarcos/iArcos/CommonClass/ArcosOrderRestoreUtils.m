@@ -109,8 +109,8 @@
         NSMutableDictionary* tempDict = [dataDict objectForKey:tmpKey];
         [tempDict setObject:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:[[tempDict objectForKey:@"DiscountPercent"] floatValue]]] forKey:@"DiscountPercent"];
         [tempDict setObject:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:[[tempDict objectForKey:@"RebatePercent"] floatValue]]] forKey:@"RebatePercent"];
-        [tempDict setObject:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:[[tempDict objectForKey:@"LineValue"] floatValue]]] forKey:@"LineValue"];
-        [tempDict setObject:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:[[tempDict objectForKey:@"vatAmount"] floatValue]]] forKey:@"vatAmount"];
+        [tempDict setObject:[NSNumber numberWithFloat:[ArcosUtils roundFloatFourDecimal:[[tempDict objectForKey:@"LineValue"] floatValue]]] forKey:@"LineValue"];
+        [tempDict setObject:[NSNumber numberWithFloat:[ArcosUtils roundFloatFourDecimal:[[tempDict objectForKey:@"vatAmount"] floatValue]]] forKey:@"vatAmount"];
         if (![ProductFormRowConverter isSelectedWithFormRowDict:tempDict]) {
             continue;
         }

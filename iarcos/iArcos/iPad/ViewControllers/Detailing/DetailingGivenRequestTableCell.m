@@ -68,6 +68,7 @@
         self.requestQantity.text=@"0";
         [self.requestQantity setTextColor:[UIColor blueColor]];
     }
+    [self suppressZeroForGivenRequest];
     
     //add taps action
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
@@ -96,10 +97,10 @@
     }
     
     if (aLabel.tag==0) {
-        self.thePopover=[self.factory CreateDetaillingInputPadWidgetWithProductName:self.label.text WithQty:[NSNumber numberWithInt:[self.givenQantity.text intValue]]];
+        self.thePopover=[self.factory CreateDetaillingInputPadWidgetWithProductName:self.label.text WithQty:[NSNumber numberWithInt:[[ArcosUtils convertBlankToZero:self.givenQantity.text] intValue]]];
     }
     if (aLabel.tag==1) {
-        self.thePopover=[self.factory CreateDetaillingInputPadWidgetWithProductName:self.label.text WithQty:[NSNumber numberWithInt:[self.requestQantity.text intValue]]];
+        self.thePopover=[self.factory CreateDetaillingInputPadWidgetWithProductName:self.label.text WithQty:[NSNumber numberWithInt:[[ArcosUtils convertBlankToZero:self.requestQantity.text] intValue]]];
     }
 
     //[self showWidget];
@@ -155,7 +156,7 @@
         }
             
     }
-    
+    [self suppressZeroForGivenRequest];
     
     
 //    NSLog(@"detailing cell data is %@",self.cellData);
@@ -182,6 +183,15 @@
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
     self.thePopover = nil;
     self.factory.popoverController = nil;
+}
+
+- (void)suppressZeroForGivenRequest {
+    if ([self.givenQantity.text isEqualToString:@"0"]) {
+        self.givenQantity.text = @"";
+    }
+    if ([self.requestQantity.text isEqualToString:@"0"]) {
+        self.requestQantity.text = @"";
+    }
 }
 
 @end

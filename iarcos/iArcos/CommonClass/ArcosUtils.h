@@ -105,6 +105,7 @@
 + (NSMutableDictionary*)addTitleToDict:(NSDictionary*)aDict cellKey:(NSString*)aCellKey titleKey:(NSString*)aTitleKey;
 + (NSString*)removeSubstringFromString:(NSString*)aString substring:(NSString*)aSubstring;
 + (float)roundFloatTwoDecimal:(float)aFloat;
++ (float)roundFloatFourDecimal:(float)aFloat;
 + (UIImage*)screenshotFromView:(UIView*)aView;
 + (void)configDetailsColorWithLabel:(UILabel*)aLabel active:(NSNumber*)anActive stockAvailable:(NSNumber*)aStockAvailable bonusBy:(NSNumber*)aBonusBy;
 + (NSString*)retrieveDefinedIssuesText;

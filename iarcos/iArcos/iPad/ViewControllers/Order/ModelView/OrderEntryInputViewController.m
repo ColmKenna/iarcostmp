@@ -381,7 +381,7 @@
             [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"vatAmount"];
         } else {
             NSDictionary* auxDescrDetailDict = [[ArcosCoreData sharedArcosCoreData] descriptionWithIUR:[self.Data objectForKey:@"VCIUR"]];
-            [self.Data setObject:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:[total floatValue] / 100 * [[auxDescrDetailDict objectForKey:@"Dec1"] floatValue]]] forKey:@"vatAmount"];
+            [self.Data setObject:[NSNumber numberWithFloat:[ArcosUtils roundFloatFourDecimal:[total floatValue] / 100 * [[auxDescrDetailDict objectForKey:@"Dec1"] floatValue]]] forKey:@"vatAmount"];
         }
         [self.Data setObject:[NSNumber numberWithBool:YES] forKey: @"IsSelected"];
     }

@@ -898,6 +898,10 @@
     return roundf(aFloat * 100) / 100;    
 }
 
++ (float)roundFloatFourDecimal:(float)aFloat {
+    return roundf(aFloat * 10000) / 10000;
+}
+
 + (UIImage*)screenshotFromView:(UIView*)aView {
     CGSize size = CGSizeMake(aView.frame.size.width, aView.frame.size.height);
     UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.mainScreen.scale);

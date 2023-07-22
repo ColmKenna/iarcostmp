@@ -157,6 +157,8 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (indexPath.section == self.currentIndexPath.section && indexPath.row == self.currentIndexPath.row) {
         cell.myTextLabel.textColor = [UIColor redColor];
+    } else {
+        cell.myTextLabel.textColor = [UIColor blackColor];
     }
     
     

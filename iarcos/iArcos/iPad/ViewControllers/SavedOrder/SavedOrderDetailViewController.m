@@ -482,7 +482,14 @@
         }
     }else{//call with no order lines
         contactList = [[ArcosCoreData sharedArcosCoreData] contactWithIUR:[cellData objectForKey:@"ContactIUR"]];
-        cell.value.text=@"";
+        if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showTotalVATInvoiceFlag]) {
+            cell.value.text = @"";
+        } else {
+            cell.goodsLabel.text = @"";
+            cell.vatLabel.text = @"";
+            cell.value.text = @"";
+        }
+//        cell.value.text=@"";
         //[cell.name setTextColor:[UIColor purpleColor]];
         //assign icon
         UIImage* auxCTiurImage = nil;
