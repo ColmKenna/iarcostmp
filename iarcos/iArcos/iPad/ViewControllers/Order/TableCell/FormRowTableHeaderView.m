@@ -20,6 +20,7 @@
 //@synthesize udLabel = _udLabel;
 @synthesize maxLabel = _maxLabel;
 @synthesize prevLabel = _prevLabel;
+@synthesize prevNormalLabel = _prevNormalLabel;
 
 - (void)dealloc {
     self.descLabel = nil;
@@ -33,6 +34,7 @@
 //    self.udLabel = nil;
     self.maxLabel = nil;
     self.prevLabel = nil;
+    self.prevNormalLabel = nil;
     
     [super dealloc];
 }

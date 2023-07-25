@@ -20,6 +20,7 @@
 //    UILabel* _udLabel;
     UILabel* _maxLabel;
     UILabel* _prevLabel;
+    UILabel* _prevNormalLabel;
 }
 
 @property(nonatomic, retain) IBOutlet UILabel* descLabel;
@@ -33,5 +34,6 @@
 //@property(nonatomic, retain) IBOutlet UILabel* udLabel;
 @property(nonatomic, retain) IBOutlet UILabel* maxLabel;
 @property(nonatomic, retain) IBOutlet UILabel* prevLabel;
+@property(nonatomic, retain) IBOutlet UILabel* prevNormalLabel;
 
 @end

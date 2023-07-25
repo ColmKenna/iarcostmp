@@ -207,6 +207,7 @@
 {
     [super viewWillAppear:animated];
     self.formRowsTableDataManager.prevStandardOrderPadFlag = NO;
+    self.formRowsTableDataManager.prevNormalStandardOrderPadFlag = NO;
     self.formRowsTableDataManager.currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
     NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.formRowsTableDataManager.currentFormDetailDict objectForKey:@"Details"]];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![orderFormDetails containsString:@"[BD]"]) {
@@ -229,7 +230,22 @@
     } else if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].myDbName] && [orderFormDetails containsString:@"[NB]"]) {
         self.formRowTableCellGeneratorDelegate = [[[FormRowTableCellMyGenerator alloc] init] autorelease];
     } else {
-        self.formRowTableCellGeneratorDelegate = [[[FormRowTableCellNormalGenerator alloc] init] autorelease];
+        NSMutableArray* prevNormalObjectList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrTypeCode:@"SD" descrDetailCode:@"PREVIOUS"];
+        self.formRowsTableDataManager.prevNormalNumber = [NSNumber numberWithInt:0];
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPreviousMonthsInNormalOrderPadFlag] && [prevNormalObjectList count] > 0) {
+            NSDictionary* prevNormalDescrDetailDict = [prevNormalObjectList objectAtIndex:0];
+            NSString* prevNormalDetail = [prevNormalDescrDetailDict objectForKey:@"Detail"];
+            NSNumber* tmpPrevNormalNumber = [ArcosUtils convertStringToNumber:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:prevNormalDetail]]];
+            if ([tmpPrevNormalNumber intValue] >= 0 && [tmpPrevNormalNumber intValue] <= 25) {
+                self.formRowsTableDataManager.prevNormalNumber = [NSNumber numberWithInt:[tmpPrevNormalNumber intValue]];
+            } else {
+                [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Invalid previous months found.\n%@", tmpPrevNormalNumber] title:@"" delegate:nil target:self tag:0 handler:nil];
+            }
+            self.formRowTableCellGeneratorDelegate = [[[FormRowTableCellPrevNormalGenerator alloc] init] autorelease];
+            self.formRowsTableDataManager.prevNormalStandardOrderPadFlag = YES;
+        } else {
+            self.formRowTableCellGeneratorDelegate = [[[FormRowTableCellNormalGenerator alloc] init] autorelease];
+        }
     }
     self.isShowingInStockFlag = [[ArcosConfigDataManager sharedArcosConfigDataManager] showInStockFlag];
     self.isVanSalesEnabledFlag = [[ArcosConfigDataManager sharedArcosConfigDataManager] enableVanSaleFlag];
@@ -361,6 +377,10 @@
         FormRowTableHeaderView* auxPrevHeaderView = (FormRowTableHeaderView*)auxHeaderView;
         auxPrevHeaderView.prevLabel.text = [NSString stringWithFormat:@"%@ Months", self.formRowsTableDataManager.prevNumber];
     }
+    if (self.formRowsTableDataManager.prevNormalStandardOrderPadFlag) {
+        FormRowTableHeaderView* auxPrevHeaderView = (FormRowTableHeaderView*)auxHeaderView;
+        auxPrevHeaderView.prevNormalLabel.text = [NSString stringWithFormat:@"%@ Months", self.formRowsTableDataManager.prevNormalNumber];
+    }
     for (UIGestureRecognizer* recognizer in auxHeaderView.gestureRecognizers) {
         [auxHeaderView removeGestureRecognizer:recognizer];
     }
@@ -463,7 +483,8 @@
     cell.cellDelegate = self;
     [cell configCellWithData:cellData];
     [cell configMatImageWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR productIUR:[cellData objectForKey:@"ProductIUR"]];
-    [cell configPreviousWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR productIUR:[cellData objectForKey:@"ProductIUR"] previousNumber:self.formRowsTableDataManager.prevNumber prevFlag:self.formRowsTableDataManager.prevStandardOrderPadFlag];
+    [cell configPreviousWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR productIUR:[cellData objectForKey:@"ProductIUR"] previousNumber:self.formRowsTableDataManager.prevNumber prevFlag:self.formRowsTableDataManager.prevStandardOrderPadFlag prevLabel:cell.prevLabel];
+    [cell configPreviousWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR productIUR:[cellData objectForKey:@"ProductIUR"] previousNumber:self.formRowsTableDataManager.prevNormalNumber prevFlag:self.formRowsTableDataManager.prevNormalStandardOrderPadFlag prevLabel:cell.prevNormalLabel];
     
     [self.unsortedFormrows replaceObjectAtIndex:indexPath.row withObject:cellData];
     cell.description.text=[cellData objectForKey:@"Details"];

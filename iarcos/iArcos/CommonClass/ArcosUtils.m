@@ -898,6 +898,10 @@
     return roundf(aFloat * 100) / 100;    
 }
 
++ (float)roundFloatThreeDecimal:(float)aFloat {
+    return roundf(aFloat * 1000) / 1000;
+}
+
 + (float)roundFloatFourDecimal:(float)aFloat {
     return roundf(aFloat * 10000) / 10000;
 }

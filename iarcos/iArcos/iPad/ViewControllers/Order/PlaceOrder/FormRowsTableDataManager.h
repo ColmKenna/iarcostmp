@@ -15,12 +15,16 @@
     BOOL _prevStandardOrderPadFlag;
     NSNumber* _prevNumber;
     NSIndexPath* _currentIndexPath;
+    BOOL _prevNormalStandardOrderPadFlag;
+    NSNumber* _prevNormalNumber;
 }
 
 @property(nonatomic, retain) NSDictionary* currentFormDetailDict;
 @property(nonatomic, assign) BOOL prevStandardOrderPadFlag;
 @property(nonatomic, retain) NSNumber* prevNumber;
 @property(nonatomic, retain) NSIndexPath* currentIndexPath;
+@property(nonatomic, assign) BOOL prevNormalStandardOrderPadFlag;
+@property(nonatomic, retain) NSNumber* prevNormalNumber;
 
 - (NSMutableArray*)retrieveTableViewDataSourceWithSearchText:(NSString*)aSearchText orderFormDetails:(NSString*)anOrderFormDetails;
 - (NSMutableArray*)retrievePredicativeTableViewDataSourceWithOrderFormDetails:(NSString*)anOrderFormDetails;

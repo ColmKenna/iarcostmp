@@ -313,6 +313,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConfigDataManager);
     return [self retrieveConfigFlagByIndex:78];
 }
 
+- (BOOL)showPreviousMonthsInNormalOrderPadFlag {
+    return [self retrieveConfigFlagByIndex:79];
+}
+
 - (void)resetSystemCodes:(NSString*)aSystemCodes {
     self.systemCodes = aSystemCodes;
 }

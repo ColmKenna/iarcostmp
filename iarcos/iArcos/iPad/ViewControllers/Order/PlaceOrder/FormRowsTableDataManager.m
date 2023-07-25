@@ -13,11 +13,14 @@
 @synthesize prevStandardOrderPadFlag = _prevStandardOrderPadFlag;
 @synthesize prevNumber = _prevNumber;
 @synthesize currentIndexPath = _currentIndexPath;
+@synthesize prevNormalStandardOrderPadFlag = _prevNormalStandardOrderPadFlag;
+@synthesize prevNormalNumber = _prevNormalNumber;
 
 - (void)dealloc {
     self.currentFormDetailDict = nil;
     self.prevNumber = nil;
     self.currentIndexPath = nil;
+    self.prevNormalNumber = nil;
     
     [super dealloc];
 }

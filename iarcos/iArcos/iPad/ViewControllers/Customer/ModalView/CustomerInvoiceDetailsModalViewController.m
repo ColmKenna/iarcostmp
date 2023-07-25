@@ -13,7 +13,7 @@
 @implementation CustomerInvoiceDetailsModalViewController
 @synthesize animateDelegate = _animateDelegate;
 @synthesize invoiceDetailListView;
-@synthesize tableHeader;
+@synthesize tableHeader = _tableHeader;
 @synthesize displayList;
 @synthesize IUR;
 @synthesize orderHeaderIUR = _orderHeaderIUR;
@@ -201,7 +201,23 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{   
     // custom view for header. will be adjusted to default or specified header height
-    return tableHeader;
+    NSMutableArray* qtyObjectList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrTypeCode:@"SD" descrDetailCode:@"IQTY"];
+    NSString* qtyTitle = @"Qty";
+    if ([qtyObjectList count] > 0) {
+        NSDictionary* qtyDescrDetailDict = [qtyObjectList objectAtIndex:0];
+        NSString* qtyDetail = [qtyDescrDetailDict objectForKey:@"Detail"];
+        qtyTitle = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:qtyDetail]];
+    }
+    NSString* bonTitle = @"Bon";
+    NSMutableArray* bonObjectList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrTypeCode:@"SD" descrDetailCode:@"IBON"];
+    if ([bonObjectList count] > 0) {
+        NSDictionary* bonDescrDetailDict = [bonObjectList objectAtIndex:0];
+        NSString* bonDetail = [bonDescrDetailDict objectForKey:@"Detail"];
+        bonTitle = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:bonDetail]];
+    }
+    self.tableHeader.qtyLabel.text = qtyTitle;
+    self.tableHeader.bonLabel.text = bonTitle;
+    return self.tableHeader;
     
 }
 

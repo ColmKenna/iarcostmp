@@ -11,11 +11,12 @@
 #import "ArcosUtils.h"
 #import "CallGenericServices.h"
 #import "SlideAcrossViewAnimationDelegate.h"
+#import "CustomerInvoiceDetailsTableHeaderView.h"
 
 @interface CustomerInvoiceDetailsModalViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,GetDataGenericDelegate,UITextFieldDelegate,SlideAcrossViewAnimationDelegate> {
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
     IBOutlet UITableView* invoiceDetailListView;
-    IBOutlet UIView* tableHeader;
+    CustomerInvoiceDetailsTableHeaderView* _tableHeader;
     NSMutableArray* displayList;
     NSString* IUR;
     NSString* _orderHeaderIUR;
@@ -60,7 +61,7 @@
 
 @property (nonatomic, assign) id<SlideAcrossViewAnimationDelegate> animateDelegate;
 @property (nonatomic, retain) IBOutlet UITableView* invoiceDetailListView;
-@property (nonatomic, retain) IBOutlet UIView* tableHeader;
+@property (nonatomic, retain) IBOutlet CustomerInvoiceDetailsTableHeaderView* tableHeader;
 @property (nonatomic,retain)  NSMutableArray* displayList;
 @property (nonatomic,retain) NSString* IUR;
 @property (nonatomic,retain) NSString* orderHeaderIUR;

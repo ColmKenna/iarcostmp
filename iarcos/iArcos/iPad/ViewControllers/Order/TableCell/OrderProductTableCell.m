@@ -33,6 +33,7 @@
 //@synthesize udLabel = _udLabel;
 @synthesize maxLabel = _maxLabel;
 @synthesize prevLabel = _prevLabel;
+@synthesize prevNormalLabel = _prevNormalLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -111,6 +112,7 @@
 //    self.udLabel = nil;
     self.maxLabel = nil;
     self.prevLabel = nil;
+    self.prevNormalLabel = nil;
             
     [super dealloc];
 }
@@ -182,8 +184,8 @@
     }
 }
 
-- (void)configPreviousWithLocationIUR:(NSNumber*)aLocationIUR productIUR:(NSNumber*)aProductIUR previousNumber:(NSNumber*)aPreviousNumber prevFlag:(BOOL)aPrevFlag {
-    self.prevLabel.text = @"";
+- (void)configPreviousWithLocationIUR:(NSNumber*)aLocationIUR productIUR:(NSNumber*)aProductIUR previousNumber:(NSNumber*)aPreviousNumber prevFlag:(BOOL)aPrevFlag prevLabel:(UILabel*)aPrevLable {
+    aPrevLable.text = @"";
     if ([aPreviousNumber intValue] == 0) return;
     if (!aPrevFlag) return;
     NSArray* properties = [NSArray arrayWithObjects:@"qty01",@"qty02",@"qty03",@"qty04",@"qty05",@"qty06",@"qty07",@"qty08",@"qty09",@"qty10",@"qty11",@"qty12",@"qty13",@"qty14",@"qty15",@"qty16",@"qty17",@"qty18",@"qty19",@"qty20",@"qty21",@"qty22",@"qty23",@"qty24",@"qty25",nil];
@@ -200,7 +202,7 @@
         for (int i = 0; i < [aPreviousNumber intValue]; i++) {
             prevSum += [[qtyList objectAtIndex:i] intValue];
         }
-        self.prevLabel.text = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", prevSum]];
+        aPrevLable.text = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", prevSum]];
     }
 }
 

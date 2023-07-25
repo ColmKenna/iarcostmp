@@ -897,8 +897,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     
     
     //sync with order header table
-    [[ArcosCoreData sharedArcosCoreData]updateOrderHeaderTotalGoods:[NSNumber numberWithFloat:[ArcosUtils roundFloatFourDecimal:totalValue]] withOrderNumber:self.orderNumber totalVat:[NSNumber numberWithFloat:[ArcosUtils roundFloatFourDecimal:totalVAT]]];
-    [self.delegate totalGoodsUpdateForOrderNumber:self.orderNumber withValue:[NSNumber numberWithFloat:[ArcosUtils roundFloatFourDecimal:totalValue]] totalVat:[NSNumber numberWithFloat:[ArcosUtils roundFloatFourDecimal:totalVAT]]];
+    [[ArcosCoreData sharedArcosCoreData]updateOrderHeaderTotalGoods:[NSNumber numberWithFloat:[ArcosUtils roundFloatThreeDecimal:totalValue]] withOrderNumber:self.orderNumber totalVat:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:totalVAT]]];
+    [self.delegate totalGoodsUpdateForOrderNumber:self.orderNumber withValue:[NSNumber numberWithFloat:[ArcosUtils roundFloatThreeDecimal:totalValue]] totalVat:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:totalVAT]]];
     
     return nil;
     

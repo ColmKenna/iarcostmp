@@ -438,7 +438,7 @@
         totalVAT += [[aDict objectForKey:@"vatAmount"]floatValue];
     }
 
-    [[ArcosCoreData sharedArcosCoreData] updateOrderHeaderTotalGoods:[NSNumber numberWithFloat:[ArcosUtils roundFloatFourDecimal:totalValue]] withOrderNumber:self.orderNumber totalVat:[NSNumber numberWithFloat:[ArcosUtils roundFloatFourDecimal:totalVAT]]];
+    [[ArcosCoreData sharedArcosCoreData] updateOrderHeaderTotalGoods:[NSNumber numberWithFloat:[ArcosUtils roundFloatThreeDecimal:totalValue]] withOrderNumber:self.orderNumber totalVat:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:totalVAT]]];
     [self refreshParentNavController];
 }
 

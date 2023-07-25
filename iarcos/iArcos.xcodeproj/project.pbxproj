@@ -1572,6 +1572,7 @@
 		63FF1A99215BAA2700C64C41 /* FormRowTableCellRrpGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF1A98215BAA2700C64C41 /* FormRowTableCellRrpGenerator.m */; };
 		63FF1A9C215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF1A9B215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m */; };
 		63FF7FFC1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF7FFB1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m */; };
+		790089AB2A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 790089AA2A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.m */; };
 		7903626F29371CA2001425F4 /* ReporterXmlExcelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7903626D29371CA2001425F4 /* ReporterXmlExcelViewController.m */; };
 		7903627029371CA2001425F4 /* ReporterXmlExcelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7903626E29371CA2001425F4 /* ReporterXmlExcelViewController.xib */; };
 		7905C70B25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7905C70A25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m */; };
@@ -1606,6 +1607,7 @@
 		7951AC03282E3FBC00423717 /* ArcosCalendarEventEntryDetailSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7951AC02282E3FBC00423717 /* ArcosCalendarEventEntryDetailSwitchTableViewCell.m */; };
 		7951AC06282E3FD200423717 /* ArcosCalendarEventEntryDetailDateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7951AC05282E3FD200423717 /* ArcosCalendarEventEntryDetailDateTableViewCell.m */; };
 		795A779D2A0E6EE100D65A5F /* FormRowTableCellPrevRrpGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 795A779C2A0E6EE100D65A5F /* FormRowTableCellPrevRrpGenerator.m */; };
+		795CE0D52A6EA53700131610 /* FormRowTableCellPrevNormalGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 795CE0D42A6EA53700131610 /* FormRowTableCellPrevNormalGenerator.m */; };
 		795DC67A27E1D46E00756D2D /* ArcosCalendarTableDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 795DC67927E1D46E00756D2D /* ArcosCalendarTableDataManager.m */; };
 		795EF38F2534543400F8C5ED /* CustomerContactDetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 795EF38D2534543400F8C5ED /* CustomerContactDetailTableCell.m */; };
 		795EF3902534543400F8C5ED /* CustomerContactDetailTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */; };
@@ -4758,6 +4760,8 @@
 		63FF1A9B215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormRowTableCellNormalGenerator.m; sourceTree = "<group>"; };
 		63FF7FFA1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NextCheckoutDeliveryInstructions1TableViewCell.h; sourceTree = "<group>"; };
 		63FF7FFB1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NextCheckoutDeliveryInstructions1TableViewCell.m; sourceTree = "<group>"; };
+		790089A92A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerInvoiceDetailsTableHeaderView.h; sourceTree = "<group>"; };
+		790089AA2A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerInvoiceDetailsTableHeaderView.m; sourceTree = "<group>"; };
 		7903626C29371CA2001425F4 /* ReporterXmlExcelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlExcelViewController.h; sourceTree = "<group>"; };
 		7903626D29371CA2001425F4 /* ReporterXmlExcelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterXmlExcelViewController.m; sourceTree = "<group>"; };
 		7903626E29371CA2001425F4 /* ReporterXmlExcelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReporterXmlExcelViewController.xib; sourceTree = "<group>"; };
@@ -4820,6 +4824,8 @@
 		7951AC05282E3FD200423717 /* ArcosCalendarEventEntryDetailDateTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosCalendarEventEntryDetailDateTableViewCell.m; sourceTree = "<group>"; };
 		795A779B2A0E6EE100D65A5F /* FormRowTableCellPrevRrpGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormRowTableCellPrevRrpGenerator.h; sourceTree = "<group>"; };
 		795A779C2A0E6EE100D65A5F /* FormRowTableCellPrevRrpGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormRowTableCellPrevRrpGenerator.m; sourceTree = "<group>"; };
+		795CE0D32A6EA53700131610 /* FormRowTableCellPrevNormalGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormRowTableCellPrevNormalGenerator.h; sourceTree = "<group>"; };
+		795CE0D42A6EA53700131610 /* FormRowTableCellPrevNormalGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormRowTableCellPrevNormalGenerator.m; sourceTree = "<group>"; };
 		795DC67827E1D46E00756D2D /* ArcosCalendarTableDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosCalendarTableDataManager.h; sourceTree = "<group>"; };
 		795DC67927E1D46E00756D2D /* ArcosCalendarTableDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosCalendarTableDataManager.m; sourceTree = "<group>"; };
 		795EF38C2534543400F8C5ED /* CustomerContactDetailTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerContactDetailTableCell.h; sourceTree = "<group>"; };
@@ -6205,6 +6211,8 @@
 				188C5D1724B2D60200C8E445 /* CustomerTyvLyTableViewHeader.h */,
 				188C5D1824B2D60200C8E445 /* CustomerTyvLyTableViewHeader.m */,
 				79B80A8229F91BDF00859D05 /* CustomerOrderDetailsGoodsVatModalViewController.xib */,
+				790089A92A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.h */,
+				790089AA2A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.m */,
 			);
 			path = ModalView;
 			sourceTree = "<group>";
@@ -6880,6 +6888,8 @@
 				798697D026A67D8100EE8E29 /* FormRowTableCellMyGenerator.m */,
 				795A779B2A0E6EE100D65A5F /* FormRowTableCellPrevRrpGenerator.h */,
 				795A779C2A0E6EE100D65A5F /* FormRowTableCellPrevRrpGenerator.m */,
+				795CE0D32A6EA53700131610 /* FormRowTableCellPrevNormalGenerator.h */,
+				795CE0D42A6EA53700131610 /* FormRowTableCellPrevNormalGenerator.m */,
 			);
 			path = PlaceOrder;
 			sourceTree = "<group>";
@@ -9831,6 +9841,7 @@
 				630B3C9D19F01CB9007B2442 /* LargeSmallL3SearchFormRowDataManager.m in Sources */,
 				630B3B3019F01CB9007B2442 /* PresenterZoomableImageViewController.m in Sources */,
 				18FDE4A123B9FEBA000BD4AA /* UtilitiesSignOutViewController.m in Sources */,
+				795CE0D52A6EA53700131610 /* FormRowTableCellPrevNormalGenerator.m in Sources */,
 				630B3D4519F01CB9007B2442 /* UtilitiesDescriptionDetailViewController.m in Sources */,
 				634A7DDC1C18357300EA0CFD /* DashboardPromotionHeaderView.m in Sources */,
 				1864E7E3248A2F7A001E73DE /* CustomerGroupWholesalerCodeTableViewCell.m in Sources */,
@@ -10705,6 +10716,7 @@
 				630B3BA919F01CB9007B2442 /* CustomerContactTypesDataManager.m in Sources */,
 				639282AE1CC1288F00A5E660 /* UploadWebServiceDataManager.m in Sources */,
 				63A12B651CEF2F8200CF963D /* GetRecordGenericDataManager.m in Sources */,
+				790089AB2A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.m in Sources */,
 				630B346619F0127C007B2442 /* StandardLevel5.m in Sources */,
 				630C99E32110A909007F96C3 /* PresenterBridgeGridViewController.m in Sources */,
 				631477A82121D1CD00DBF9A3 /* PriceChangeBaseTableCell.m in Sources */,
@@ -10975,7 +10987,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.0.16;
+				MARKETING_VERSION = 12.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11032,7 +11044,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.0.16;
+				MARKETING_VERSION = 12.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -11169,7 +11181,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.0.16;
+				MARKETING_VERSION = 12.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

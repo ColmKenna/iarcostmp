@@ -267,7 +267,7 @@
             total = [NSNumber numberWithFloat:([total floatValue] * minUnitPrice / 100)];
         }
     }
-    total = [NSNumber numberWithFloat:[ArcosUtils roundFloatFourDecimal:[total floatValue] * (1.0 - ([[aProductDetailDict objectForKey:@"DiscountPercent"] floatValue] / 100))]];
+    total = [NSNumber numberWithFloat:[ArcosUtils roundFloatThreeDecimal:[total floatValue] * (1.0 - ([[aProductDetailDict objectForKey:@"DiscountPercent"] floatValue] / 100))]];
     return total;
 }
 
