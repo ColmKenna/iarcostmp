@@ -95,7 +95,7 @@
 //    self.inputPopover = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:self.locationIUR];
 //    self.inputPopover.delegate = self;
 //    self.showSeparator = [ProductFormRowConverter showSeparatorWithFormType:@"104"];
-    if ([self.orderLineDetailProductDataManager checkFormIURStandardFlag]) {
+    if ([self.orderLineDetailProductDataManager checkFormIURStandardFlag] && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showFullProductTableAddingLinesFlag]) {
         self.formRowSearchDelegate = [[[FormRowCurrentListSearchDataManager alloc] initWithTarget:self] autorelease];
 //        self.showSeparator = [self.orderLineDetailProductDataManager showSeparatorWithFormIUR:self.orderLineDetailProductDataManager.formIUR];
         [self.orderLineDetailProductDataManager retrieveStandardFormDataList:self.locationIUR packageIUR:[self.vansOrderHeader objectForKey:@"PosteedIUR"]];
@@ -122,7 +122,7 @@
         self.formRowTableCellGeneratorDelegate = [[[FormRowTableCellNormalGenerator alloc] init] autorelease];
     }
     if (self.isNotFirstLoaded) return;
-    if (self.orderLineDetailProductDataManager.standardOrderFormFlag) {
+    if (self.orderLineDetailProductDataManager.standardOrderFormFlag && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showFullProductTableAddingLinesFlag]) {
         [self hideMySearchBar];
     } else {
         [self.mySearchBar becomeFirstResponder];
@@ -134,7 +134,7 @@
     [super viewDidAppear:animated];
     if (self.isNotFirstLoaded) return;
     self.isNotFirstLoaded = YES;
-    if (self.orderLineDetailProductDataManager.standardOrderFormFlag) {
+    if (self.orderLineDetailProductDataManager.standardOrderFormFlag && ![[ArcosConfigDataManager sharedArcosConfigDataManager] showFullProductTableAddingLinesFlag]) {
         [self hideMySearchBar];
     }
 }

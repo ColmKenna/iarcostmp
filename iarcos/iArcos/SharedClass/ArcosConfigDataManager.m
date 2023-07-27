@@ -317,6 +317,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConfigDataManager);
     return [self retrieveConfigFlagByIndex:79];
 }
 
+- (BOOL)showFullProductTableAddingLinesFlag {
+    return [self retrieveConfigFlagByIndex:80];
+}
+
 - (void)resetSystemCodes:(NSString*)aSystemCodes {
     self.systemCodes = aSystemCodes;
 }
