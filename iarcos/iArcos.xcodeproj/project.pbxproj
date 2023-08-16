@@ -10987,7 +10987,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.2;
+				MARKETING_VERSION = 12.3;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11002,8 +11002,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "6bf186ca-3030-49b7-b78a-3246afaeb9fc";
-				PROVISIONING_PROFILE_SPECIFIER = iArcosDevCenter29082022;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = iArcosDevCenter070723;
+				PROVISIONING_PROFILE_SPECIFIER = iArcosDevCenter020823;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = iArcosDevCenter020823;
 			};
 			name = Debug;
 		};
@@ -11018,6 +11018,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: David Kilmartin (Z39Z4X9J9E)";
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = Z39Z4X9J9E;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = Z39Z4X9J9E;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -11044,7 +11045,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.2;
+				MARKETING_VERSION = 12.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -11058,7 +11059,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "b8e1e57a-016f-4a71-9609-ef2a4483e535";
-				PROVISIONING_PROFILE_SPECIFIER = iArcosReleaseCenter31082022;
+				PROVISIONING_PROFILE_SPECIFIER = iArcosReleaseCenter020823;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = iArcosReleaseCenter020823;
 			};
 			name = Release;
 		};
@@ -11181,7 +11183,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.2;
+				MARKETING_VERSION = 12.3;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11196,8 +11198,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4a2d26cb-4c25-4fc4-a9fe-d2be993ec50d";
-				PROVISIONING_PROFILE_SPECIFIER = iArcosDistCenter31082022;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = iArcosDistCenter07072023;
+				PROVISIONING_PROFILE_SPECIFIER = iArcosDistCenter020823;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = iArcosDistCenter020823;
 			};
 			name = AdHoc;
 		};

@@ -42,6 +42,8 @@
     NSString* _pnfDetail;
 //    NSMutableArray* _monthPieCompositeResultList;
     int _monthPieNormalBarCount;
+    int _totalClickTime;
+    int _detailClickTime;
 }
 
 @property(nonatomic, retain) NSMutableArray* tylyBarDisplayList;
@@ -73,6 +75,8 @@
 @property(nonatomic, retain) NSString* pnfDetail;
 //@property(nonatomic, retain) NSMutableArray* monthPieCompositeResultList;
 @property(nonatomic, assign) int monthPieNormalBarCount;
+@property(nonatomic, assign) int totalClickTime;
+@property(nonatomic, assign) int detailClickTime;
 
 - (void)processRawData:(ArcosGenericReturnObject*)result;
 - (void)processMonthPieRawData:(ArcosGenericReturnObject*)result;

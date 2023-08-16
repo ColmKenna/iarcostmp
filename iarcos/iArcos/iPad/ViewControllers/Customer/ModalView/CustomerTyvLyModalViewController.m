@@ -39,6 +39,18 @@
 
 - (void)dealloc
 {
+    for (UIGestureRecognizer* recognizer in self.tableHeader.details.gestureRecognizers) {
+        [self.tableHeader.details removeGestureRecognizer:recognizer];
+    }
+    for (UIGestureRecognizer* recognizer in self.tableHeader.tYTDValue.gestureRecognizers) {
+        [self.tableHeader.tYTDValue removeGestureRecognizer:recognizer];
+    }
+    for (UIGestureRecognizer* recognizer in self.inStockTableHeader.details.gestureRecognizers) {
+        [self.inStockTableHeader.details removeGestureRecognizer:recognizer];
+    }
+    for (UIGestureRecognizer* recognizer in self.inStockTableHeader.tYTDValue.gestureRecognizers) {
+        [self.inStockTableHeader.tYTDValue removeGestureRecognizer:recognizer];
+    }
     self.tableHeader = nil;
     self.inStockTableHeader = nil;
     self.tableHeader2 = nil;    
@@ -121,14 +133,66 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{   
     // custom view for header. will be adjusted to default or specified header height
     if ([self.customerTyvLyDataManager.databaseName isEqualToString:[GlobalSharedClass shared].pxDbName] && [[ArcosConfigDataManager sharedArcosConfigDataManager] retrieveLocationProductMATDataLocallyFlag]) {
+        [self configHeaderEventWithHeader:self.inStockTableHeader];
         return self.inStockTableHeader;
     }
+    [self configHeaderEventWithHeader:self.tableHeader];
     if (self.columnQty == 15) {
         return self.tableHeader;
     }
     return self.tableHeader;
 }
 
+- (void)configHeaderEventWithHeader:(CustomerTyvLyTableViewHeader*)aHeader {
+    for (UIGestureRecognizer* recognizer in aHeader.details.gestureRecognizers) {
+        [aHeader.details removeGestureRecognizer:recognizer];
+    }
+    UITapGestureRecognizer* doubleTapDetails = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleHeaderDetailsDoubleTapGesture:)];
+    doubleTapDetails.numberOfTapsRequired = 2;
+    [aHeader.details addGestureRecognizer:doubleTapDetails];
+    [doubleTapDetails release];
+    
+    for (UIGestureRecognizer* recognizer in aHeader.tYTDValue.gestureRecognizers) {
+        [aHeader.tYTDValue removeGestureRecognizer:recognizer];
+    }
+    UITapGestureRecognizer* doubleTapTYTDValue = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleHeaderTYTDValueDoubleTapGesture:)];
+    doubleTapTYTDValue.numberOfTapsRequired = 2;
+    [aHeader.tYTDValue addGestureRecognizer:doubleTapTYTDValue];
+    [doubleTapTYTDValue release];
+    
+}
+
+- (void)handleHeaderDetailsDoubleTapGesture:(id)sender {
+    UITapGestureRecognizer* recognizer = (UITapGestureRecognizer*)sender;
+    if (recognizer.state == UIGestureRecognizerStateEnded) {        
+        if (self.customerTyvLyDataManager.detailClickTime % 2 == 0) {
+            NSSortDescriptor* brandDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Field16" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
+            [self.customerTyvLyDataManager.displayList sortUsingDescriptors:[NSArray arrayWithObjects:brandDescriptor, nil]];
+        } else {
+            NSSortDescriptor* detailsDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Field2" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
+            [self.customerTyvLyDataManager.displayList sortUsingDescriptors:[NSArray arrayWithObjects:detailsDescriptor, nil]];
+            
+        }
+        [self.tableView reloadData];
+        self.customerTyvLyDataManager.detailClickTime++;
+    }
+}
+
+- (void)handleHeaderTYTDValueDoubleTapGesture:(id)sender {
+    UITapGestureRecognizer* recognizer = (UITapGestureRecognizer*)sender;
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        BOOL ascendingFlag = YES;
+        if (self.customerTyvLyDataManager.totalClickTime % 2 == 0) {
+            
+        } else {
+            ascendingFlag = NO;
+        }
+        NSSortDescriptor* totalDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Field5" ascending:ascendingFlag selector:@selector(localizedStandardCompare:)] autorelease];
+        [self.customerTyvLyDataManager.displayList sortUsingDescriptors:[NSArray arrayWithObjects:totalDescriptor, nil]];
+        [self.tableView reloadData];
+        self.customerTyvLyDataManager.totalClickTime++;
+    }
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 44;

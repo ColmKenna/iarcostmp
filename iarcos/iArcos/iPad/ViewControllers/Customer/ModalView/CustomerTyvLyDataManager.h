@@ -12,10 +12,14 @@
 @interface CustomerTyvLyDataManager : NSObject {
     NSMutableArray* _displayList;
     NSString* _databaseName;
+    int _totalClickTime;
+    int _detailClickTime;
 }
 
 @property(nonatomic, retain) NSMutableArray* displayList;
 @property(nonatomic, retain) NSString* databaseName;
+@property(nonatomic, assign) int totalClickTime;
+@property(nonatomic, assign) int detailClickTime;
 
 - (void)processTyvLyWithLocationIUR:(NSNumber*)aLocationIUR;
 //- (void)addProductInfoToDictionary:(NSMutableDictionary*)aLocationProductMatDict productDict:(NSDictionary*)aProductDict;

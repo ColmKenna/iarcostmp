@@ -38,6 +38,8 @@
 @synthesize pnfDetail = _pnfDetail;
 //@synthesize monthPieCompositeResultList = _monthPieCompositeResultList;
 @synthesize monthPieNormalBarCount = _monthPieNormalBarCount;
+@synthesize totalClickTime = _totalClickTime;
+@synthesize detailClickTime = _detailClickTime;
 
 - (id)init{
     self = [super init];
@@ -65,6 +67,8 @@
         self.pnfDescrDetailCode = @"PRODUCTNF";
         self.pnfDetail = @"Product not found";
         self.monthPieNormalBarCount = 10;
+        self.totalClickTime = 0;
+        self.detailClickTime = 0;
     }
     return self;
 }

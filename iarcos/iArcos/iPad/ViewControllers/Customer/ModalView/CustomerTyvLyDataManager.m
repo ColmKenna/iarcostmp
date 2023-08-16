@@ -16,11 +16,15 @@
 @implementation CustomerTyvLyDataManager
 @synthesize displayList = _displayList;
 @synthesize databaseName = _databaseName;
+@synthesize totalClickTime = _totalClickTime;
+@synthesize detailClickTime = _detailClickTime;
 
 - (instancetype)init {
     self = [super init];
     if (self != nil) {
         self.databaseName = [SettingManager databaseName];
+        self.totalClickTime = 0;
+        self.detailClickTime = 0;
     }
     return self;
 }

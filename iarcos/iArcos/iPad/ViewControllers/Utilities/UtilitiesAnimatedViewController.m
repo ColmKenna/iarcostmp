@@ -124,6 +124,12 @@ static const CGFloat constantColorLookupTable[20][3] =
     if (self.monthTableChartView != nil) { self.monthTableChartView = nil; }
     if (self.monthTableView != nil) { self.monthTableView = nil; }
     if (self.monthTableHeaderView != nil) {
+        for (UIGestureRecognizer* recognizer in self.monthTableHeaderView.labelDetails.gestureRecognizers) {
+            [self.monthTableHeaderView.labelDetails removeGestureRecognizer:recognizer];
+        }
+        for (UIGestureRecognizer* recognizer in self.monthTableHeaderView.label16.gestureRecognizers) {
+            [self.monthTableHeaderView.label16 removeGestureRecognizer:recognizer];
+        }
         self.monthTableHeaderView = nil;
     }
     if (self.chartViewList != nil) { self.chartViewList = nil; }
@@ -1035,6 +1041,13 @@ static const CGFloat constantColorLookupTable[20][3] =
     if (self.animatedDataManager.monthTableFieldNames != nil) {
         UILabel* detailsLabel = (UILabel*)[self.monthTableHeaderView viewWithTag:2];
         detailsLabel.text = @"Details";
+        for (UIGestureRecognizer* recognizer in detailsLabel.gestureRecognizers) {
+            [detailsLabel removeGestureRecognizer:recognizer];
+        }
+        UITapGestureRecognizer* doubleTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleHeaderDoubleTapGesture:)];
+        doubleTap2.numberOfTapsRequired = 2;
+        [detailsLabel addGestureRecognizer:doubleTap2];
+        [doubleTap2 release];
         for (int i = 3; i<= 15; i++) {
             NSString* fieldMethodName = [NSString stringWithFormat:@"Field%d", i];
             SEL selector = NSSelectorFromString(fieldMethodName);
@@ -1049,9 +1062,44 @@ static const CGFloat constantColorLookupTable[20][3] =
             }
         }
         UILabel* totalLabel = (UILabel*)[self.monthTableHeaderView viewWithTag:16];
-        totalLabel.text = @"Total";        
+        totalLabel.text = @"Total";
+        for (UIGestureRecognizer* recognizer in totalLabel.gestureRecognizers) {
+            [totalLabel removeGestureRecognizer:recognizer];
+        }
+        UITapGestureRecognizer* doubleTap16 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleHeaderDoubleTapGesture:)];
+        doubleTap16.numberOfTapsRequired = 2;
+        [totalLabel addGestureRecognizer:doubleTap16];
+        [doubleTap16 release];
     }    
     return self.monthTableHeaderView;    
+}
+
+- (void)handleHeaderDoubleTapGesture:(id)sender {
+    UITapGestureRecognizer* recognizer = (UITapGestureRecognizer*)sender;
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        UILabel* selectedLabel = (UILabel*)recognizer.view;
+        if (selectedLabel.tag == 2) {
+            if (self.animatedDataManager.detailClickTime % 2 == 0) {
+                NSSortDescriptor* brandDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Field20" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
+                [self.animatedDataManager.monthTableDisplayList sortUsingDescriptors:[NSArray arrayWithObjects:brandDescriptor, nil]];
+            } else {
+                NSSortDescriptor* detailsDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Field2" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
+                [self.animatedDataManager.monthTableDisplayList sortUsingDescriptors:[NSArray arrayWithObjects:detailsDescriptor, nil]];
+                
+            }
+            self.animatedDataManager.detailClickTime++;
+            [self.monthTableView reloadData];
+        } else if (selectedLabel.tag == 16) {
+            BOOL ascendingFlag = YES;
+            if (self.animatedDataManager.totalClickTime % 2 != 0) {
+                ascendingFlag = NO;
+            }
+            NSSortDescriptor* totalDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Field16" ascending:ascendingFlag selector:@selector(localizedStandardCompare:)] autorelease];
+            [self.animatedDataManager.monthTableDisplayList sortUsingDescriptors:[NSArray arrayWithObjects:totalDescriptor, nil]];
+            self.animatedDataManager.totalClickTime++;
+            [self.monthTableView reloadData];
+        }
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
