@@ -8,6 +8,7 @@
 
 #import "ReportCallCell.h"
 #import "ArcosUtils.h"
+#import "GlobalSharedClass.h"
 
 @implementation ReportCallCell
 @synthesize name;
@@ -53,8 +54,18 @@
     self.value.text=[ArcosUtils convertToFloatString:[elementDict objectForKey:@"Value"]];
     
     NSString* callDateString=[elementDict objectForKey:@"Date"];
-    
-    self.callDate.text=[callDateString substringWithRange:NSMakeRange(0, 10)];
+    @try {
+        NSString* callDateSubString = [callDateString substringWithRange:NSMakeRange(0, 10)];
+        if ([callDateSubString isEqualToString:@"1990-01-01"]) {
+            self.callDate.text = @"";
+        } else {
+            NSDate* callDateObject = [ArcosUtils dateFromString:[NSString stringWithFormat:@"%@ 12:00:00", callDateSubString] format:[[GlobalSharedClass shared] stdDateTimeFormat]];
+            self.callDate.text = [ArcosUtils stringFromDate:callDateObject format:@"dd-MMM-yy"];
+        }
+    } @catch (NSException *exception) {
+        [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:[ArcosUtils getRootView] tag:0 handler:nil];
+    }
+//    self.callDate.text=[callDateString substringWithRange:NSMakeRange(0, 10)];
     
     self.employee.text=[elementDict objectForKey:@"Employee"];
     

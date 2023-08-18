@@ -47,6 +47,7 @@ static GlobalSharedClass* _shared = nil;
 @synthesize datetimeCalendarFormat = _datetimeCalendarFormat;
 @synthesize utcDateFormat = _utcDateFormat;
 @synthesize stdUtcDateTimeFormat = _stdUtcDateTimeFormat;
+@synthesize stdDateTimeFormat = _stdDateTimeFormat;
 @synthesize ieTimeZone = _ieTimeZone;
 @synthesize orderPadsSize;
 @synthesize noDataFoundMsg = _noDataFoundMsg;
@@ -188,6 +189,7 @@ static GlobalSharedClass* _shared = nil;
         self.datetimeCalendarFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSSSSS";
         self.utcDateFormat = @"yyyy-MM-dd";
         self.stdUtcDateTimeFormat = @"yyyy-MM-dd'T'HH:mm:ss";
+        self.stdDateTimeFormat = @"yyyy-MM-dd HH:mm:ss";
         self.ieTimeZone = @"Europe/Dublin";
         self.orderPadsSize = CGSizeMake(380.0f, 700.0f);
         self.noDataFoundMsg = @"No data found";
@@ -571,6 +573,7 @@ CGFloat RadiansToDegrees(CGFloat radians)
     self.datetimeCalendarFormat = nil;
     self.utcDateFormat = nil;
     self.stdUtcDateTimeFormat = nil;
+    self.stdDateTimeFormat = nil;
     self.ieTimeZone = nil;
     if (self.noDataFoundMsg != nil) { self.noDataFoundMsg = nil; }
     self.packageSelectorName = nil;
