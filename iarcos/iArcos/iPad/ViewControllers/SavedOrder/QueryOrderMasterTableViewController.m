@@ -102,7 +102,8 @@
     self.atomicSqlFieldString = @"select IPADTaskView.TaskIUR,IPADTaskView.LocationIUR,IPADTaskView.Name,IPADTaskView.Address,IPADTaskView.Details,convert(varchar(19),IPADTaskView.StartDate,126) as MyStartDate,IPADTaskView.Status,IPADTaskView.ContactIUR,CONVERT(VARCHAR(10),IPADTaskView.CompletionDate,103) as MyCompletionDate,IPADTaskView.Employee ";
     self.prefixSqlString = [NSString stringWithFormat:@"%@ from IPADTaskView ", self.atomicSqlFieldString];
 
-    self.ownLocationPrefixSqlString = [NSString stringWithFormat:@"%@ from Location INNER JOIN LocEmpLink ON Location.IUR = LocEmpLink.LocationIUR INNER JOIN IPADTaskView ON Location.IUR = IPADTaskView.LocationIUR ", self.atomicSqlFieldString];
+//    self.ownLocationPrefixSqlString = [NSString stringWithFormat:@"%@ from Location INNER JOIN LocEmpLink ON Location.IUR = LocEmpLink.LocationIUR INNER JOIN IPADTaskView ON Location.IUR = IPADTaskView.LocationIUR ", self.atomicSqlFieldString];
+    self.ownLocationPrefixSqlString = [NSString stringWithFormat:@"%@ from Location INNER JOIN IPADTaskView ON Location.IUR = IPADTaskView.LocationIUR ", self.atomicSqlFieldString];
 }
 
 - (void)dealloc {
@@ -203,7 +204,7 @@
     if ([ownLocation boolValue]) {
         NSMutableDictionary* empolyee = [sm getSettingForKeypath:@"PersonalSetting.Personal" atIndex:0];
         NSNumber* empolyeeIUR = [empolyee objectForKey:@"Value"];
-        NSString* ownLocationFilter = [NSString stringWithFormat:@" and (iPadTaskView.EmployeeIUR = %d OR LocEmpLink.EmployeeIUR = %d)", [empolyeeIUR intValue], [empolyeeIUR intValue]];
+        NSString* ownLocationFilter = [NSString stringWithFormat:@" and (iPadTaskView.EmployeeIUR = %d OR (select count(*) from LocEmpLink where LocEmpLink.EmployeeIUR = %d and LocEmpLink.LocationIUR = location.iur) > 0)", [empolyeeIUR intValue], [empolyeeIUR intValue]];
         sqlString = [NSString stringWithFormat:@"%@ %@ %@ order by IPADTaskView.StartDate desc", self.ownLocationPrefixSqlString, suffixSqlString, ownLocationFilter];
     } else {
         sqlString = [NSString stringWithFormat:@"%@ %@ order by IPADTaskView.StartDate desc", self.prefixSqlString, suffixSqlString];
