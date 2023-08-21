@@ -303,7 +303,8 @@ NSString* const SoapRequestProgressKey = @"progress";
 
 - (void)timeoutConnection {
     if (self.timeoutTimer != nil) { [self.timeoutTimer invalidate];}
-    NSError* error = [NSError errorWithDomain:@"SoapRequest" code:13030 userInfo: [NSDictionary dictionaryWithObjectsAndKeys: @"The connection timed out while invoking web service.", NSLocalizedDescriptionKey,nil]];
+//    NSError* error = [NSError errorWithDomain:@"SoapRequest" code:13030 userInfo: [NSDictionary dictionaryWithObjectsAndKeys: @"The connection timed out while invoking web service.", NSLocalizedDescriptionKey,nil]];
+    NSError* error = [NSError errorWithDomain:@"SoapRequest" code:13030 userInfo: [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"No Response from %@. Please check VPN and Internet connection", [SettingManager serviceAddress]], NSLocalizedDescriptionKey,nil]];
     
     [self handleError: error];
     if (conn == nil) return;

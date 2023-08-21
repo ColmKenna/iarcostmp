@@ -36,6 +36,7 @@
 @synthesize accessTimesSectionTitle = _accessTimesSectionTitle;
 @synthesize myCustDict = _myCustDict;
 @synthesize employeeIUR = _employeeIUR;
+@synthesize specialIURFieldNameList = _specialIURFieldNameList;
 
 -(id)init{
     self = [super init];
@@ -55,6 +56,7 @@
         self.constantFieldTypeTranslateDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Profiles",@"IUR",@"Details",@"System.String",@"Settings",@"System.Boolean",self.linksAlias,self.linksAlias,self.accessTimesSectionTitle,self.accessTimesSectionTitle, nil];
         self.isTableViewEditable = NO;
         self.employeeIUR = [SettingManager employeeIUR];
+        self.specialIURFieldNameList = [NSMutableArray arrayWithObjects:@"CUiur", nil];
     }
     return self;
 }
@@ -81,6 +83,7 @@
     self.accessTimesSectionTitle = nil;
     self.myCustDict = nil;
     self.employeeIUR = nil;
+    self.specialIURFieldNameList = nil;
     
     [super dealloc];
 }
@@ -128,6 +131,7 @@
         }
 //        NSLog(@"in cell descrTypeCode is %@", descrTypeCode);
         [dataDict setObject:descrTypeCode forKey:@"descrTypeCode"];
+        [dataDict setObject:fieldName forKey:@"fieldName"];
         
         [self.displayList addObject:dataDict];
         [self.auxFieldTypeDict setObject:[dataArray objectAtIndex:2] forKey:[dataArray objectAtIndex:2]];
@@ -334,6 +338,48 @@
     }
         
     return resDescrDetailCode;
+}
+
+//used after prepareToCreateNewLocation
+- (void)processSpecialIURFieldNameList:(NSMutableArray*)aChangedDataArray {
+    NSMutableArray* specialIURDataDictList = [NSMutableArray arrayWithCapacity:1];
+    for (int i = 0; i < [self.specialIURFieldNameList count]; i++) {
+        NSString* tmpSpecialIURFieldName = [self.specialIURFieldNameList objectAtIndex:i];
+        BOOL isFound = NO;
+        for (NSMutableDictionary* aChangedDataDict in aChangedDataArray) {
+            if ([[aChangedDataDict objectForKey:@"fieldName"] isEqualToString:tmpSpecialIURFieldName]) {
+                isFound = YES;
+                break;
+            }
+        }
+        if (!isFound) {
+            NSMutableArray* iurDictList = [self.originalGroupedDataDict objectForKey:@"IUR"];
+            for (NSMutableDictionary* anIURDict in iurDictList) {
+                if ([[anIURDict objectForKey:@"fieldName"] isEqualToString:tmpSpecialIURFieldName]) {
+                    NSMutableDictionary* newIURDict = [NSMutableDictionary dictionaryWithDictionary:anIURDict];
+                    if ([[ArcosUtils convertNilToEmpty:[anIURDict objectForKey:@"actualContent"]] isEqualToString:@""]) {
+                        [newIURDict setObject:@"0" forKey:@"actualContent"];
+                    }
+                    [specialIURDataDictList addObject:newIURDict];
+                    break;
+                }
+            }
+        }
+    }
+    
+    for (int i = 0; i < [specialIURDataDictList count]; i++) {
+        NSMutableDictionary* cellData = [specialIURDataDictList objectAtIndex:i];
+        [self.createdFieldNameList addObject:[cellData objectForKey:@"fieldName"]];
+        id fieldValue = [cellData objectForKey:@"actualContent"];
+        NSLog(@"special fieldname is %@", [cellData objectForKey:@"fieldName"]);
+        NSString* classType = NSStringFromClass([fieldValue class]);
+        NSLog(@"special NSStringFromClass %@", classType);
+        if ([fieldValue isKindOfClass:[NSNumber class]] || [classType isEqualToString:@"_PFCachedNumber"] || [classType isEqualToString:@"__NSCFNumber"]) {
+            [self.createdFieldValueList addObject:[fieldValue stringValue]];
+        } else {
+            [self.createdFieldValueList addObject:fieldValue];
+        }
+    }
 }
 
 @end

@@ -39,6 +39,7 @@
     NSString* _accessTimesSectionTitle;
     NSMutableDictionary* _myCustDict;
     NSNumber* _employeeIUR;
+    NSMutableArray* _specialIURFieldNameList;
 }
 
 @property(nonatomic,retain) NSMutableDictionary* groupedDataDict;
@@ -65,6 +66,7 @@
 @property(nonatomic,retain) NSString* accessTimesSectionTitle;
 @property(nonatomic,retain) NSMutableDictionary* myCustDict;
 @property(nonatomic,retain) NSNumber* employeeIUR;
+@property(nonatomic,retain) NSMutableArray* specialIURFieldNameList;
 
 -(void)processRawData:(ArcosGenericReturnObject*) result withNumOfFields:(int)numFields;
 -(NSMutableDictionary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath;
@@ -80,5 +82,6 @@
 -(BOOL)deleteLocLocLinkWithIUR:(NSNumber*)anIUR;
 - (NSString*)buildEmailMessageBody;
 - (NSString*)retrieveDescrDetailCodeWithDescrTypeCode:(NSString*)aDescrTypeCode;
+- (void)processSpecialIURFieldNameList:(NSMutableArray*)aChangedDataArray;
 
 @end

@@ -8,6 +8,7 @@
 #import "SoapService.h"
 #import "GlobalSharedClass.h"
 #import "FileCommon.h"
+#import "SettingManager.h"
 
 extern NSString* const SoapRequestDidStartNotification;
 extern NSString* const SoapRequestDidUpdateProgressNotification;

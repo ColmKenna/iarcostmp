@@ -505,15 +505,27 @@
     if (self.currentUpdateButton!=nil) {
         [self.currentUpdateButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     }
-    // open an alert 
-    UIAlertView *alert1 = [[UIAlertView alloc] initWithTitle:@"" 
-                                                    message:@"Download has Completed" delegate:self cancelButtonTitle:@"OK"
-                                          otherButtonTitles: nil];
-    [alert1 show];	
-    [alert1 release];
     
-    
-
+    NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:[SettingManager employeeIUR]];
+    if ([[employeeDict objectForKey:@"HomeNumber"] containsString:@"BLOCKED"]) {        
+        SettingManager* settingManager = [SettingManager setting];
+        NSString* keyPath = @"CompanySetting.Connection";
+        [settingManager updateSettingForKeypath:keyPath atIndex:1 withData:@""];
+        [settingManager updateSettingForKeypath:keyPath atIndex:3 withData:@""];
+        [settingManager saveSetting];
+        UIAlertView *alert1 = [[UIAlertView alloc] initWithTitle:@""
+                                                        message:@"This user account has been Blocked\nContact your Arcos Administrator" delegate:nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert1 show];
+        [alert1 release];
+    } else {
+        // open an alert
+        UIAlertView *alert1 = [[UIAlertView alloc] initWithTitle:@""
+                                                        message:@"Download has Completed" delegate:self cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        [alert1 show];
+        [alert1 release];
+    }
 }
 -(void)switchAllOFF{
     /*

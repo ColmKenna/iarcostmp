@@ -438,6 +438,7 @@
     if ([self.actionType isEqualToString:@"create"]) {//create a new location
         NSLog(@"create a new location.");        
         [customerTypesDataManager prepareToCreateNewLocation:self.changedDataArray];
+        [customerTypesDataManager processSpecialIURFieldNameList:self.changedDataArray];
         arcosCreateRecordObject.FieldNames = customerTypesDataManager.createdFieldNameList;
         arcosCreateRecordObject.FieldValues = customerTypesDataManager.createdFieldValueList;
         [arcosCreateRecordObject.FieldNames addObject:@"EmployeeIUR"];

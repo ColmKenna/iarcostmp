@@ -535,9 +535,10 @@
     NSUInteger replacementLength = [string length];
     NSUInteger rangeLength = range.length;
     NSUInteger newLength = oldLength - rangeLength + replacementLength;
-    NSCharacterSet* nonLetterSet = [[NSCharacterSet letterCharacterSet] invertedSet];
+//    NSCharacterSet* nonLetterSet = [[NSCharacterSet letterCharacterSet] invertedSet];
+    NSCharacterSet* nonalphanumericSet = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
     
-    return ([string stringByTrimmingCharactersInSet:nonLetterSet].length > 0 || [string isEqualToString:@""]) && newLength <= [GlobalSharedClass shared].customerRefMaxLength;
+    return ([string stringByTrimmingCharactersInSet:nonalphanumericSet].length > 0 || [string isEqualToString:@""]) && newLength <= [GlobalSharedClass shared].customerRefMaxLength;
 }
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
