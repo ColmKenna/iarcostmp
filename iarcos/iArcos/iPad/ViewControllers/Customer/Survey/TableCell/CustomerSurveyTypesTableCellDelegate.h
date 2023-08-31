@@ -12,7 +12,7 @@
 
 -(void)inputFinishedWithData:(id)data forIndexpath:(NSIndexPath*)theIndexpath;
 @optional
--(void)popoverShows:(UIPopoverController*)aPopover;
+//-(void)popoverShows:(UIPopoverController*)aPopover;
 -(void)showSurveyDetail;
 - (void)pressPhotoButtonDelegateWithIndexPath:(NSIndexPath*)anIndexpath;
 - (void)pressPreviewButtonDelegateWithIndexPath:(NSIndexPath*)anIndexpath;

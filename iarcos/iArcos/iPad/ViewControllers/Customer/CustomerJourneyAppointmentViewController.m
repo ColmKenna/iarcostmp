@@ -21,7 +21,8 @@
 @synthesize contactTitle = _contactTitle;
 @synthesize contact = _contact;
 @synthesize factory = _factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize currentLabelIndex = _currentLabelIndex;
 
 - (void)viewDidLoad {
@@ -65,8 +66,8 @@
     self.contactTitle = nil;
     self.contact = nil;
     self.factory = nil;
-    self.thePopover = nil;
-    
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     
     [super dealloc];
 }
@@ -89,11 +90,11 @@
     }
     switch (aLabel.tag) {
         case 1: {
-            self.thePopover = [self.factory CreateDateWidgetWithDataSource:WidgetDataSourceNormalDate pickerFormatType:DatePickerFormatForceDateTime];
+            self.globalWidgetViewController = [self.factory CreateDateWidgetWithDataSource:WidgetDataSourceNormalDate pickerFormatType:DatePickerFormatForceDateTime];
         }
             break;
         case 2: {
-            self.thePopover = [self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceCallType];
+            self.globalWidgetViewController = [self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceCallType];
         }
             break;
         case 3: {
@@ -103,16 +104,22 @@
             [miscDataDict setObject:@"Contact" forKey:@"Title"];
             [miscDataDict setObject:[GlobalSharedClass shared].currentSelectedLocationIUR forKey:@"LocationIUR"];
             [miscDataDict setObject:[OrderSharedClass sharedOrderSharedClass].currentCustomerName forKey:@"Name"];
-            self.thePopover = [self.factory CreateTargetGenericCategoryWidgetWithPickerValue:contactList miscDataDict:miscDataDict];
+            self.globalWidgetViewController = [self.factory CreateTargetGenericCategoryWidgetWithPickerValue:contactList miscDataDict:miscDataDict];
         }
             break;
             
         default:
             break;
     }
-    if (self.thePopover != nil) {
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (self.globalWidgetViewController != nil) {
+//        self.thePopover.delegate = self;
+//        [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = aLabel;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = aLabel.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [self presentViewController:self.globalWidgetViewController animated:YES completion:nil];
     }
 }
 
@@ -121,9 +128,10 @@
 }
 
 - (void)operationDone:(id)data {
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+    [self dismissViewControllerAnimated:YES completion:nil];
     switch (self.currentLabelIndex) {
         case 1: {
             self.callDate.text = [ArcosUtils stringFromDate:data format:[GlobalSharedClass shared].datetimehmFormat];
@@ -145,9 +153,13 @@
     }
 }
 
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 
 @end

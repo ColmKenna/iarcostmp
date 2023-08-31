@@ -19,7 +19,7 @@
 @synthesize refreshDelegate = _refreshDelegate;
 @synthesize locationIUR = _locationIUR;
 @synthesize titleTypeIUR = _titleTypeIUR;
-@synthesize globalPopoverController = _globalPopoverController;
+//@synthesize globalPopoverController = _globalPopoverController;
 @synthesize contactTypeIUR = _contactTypeIUR;
 @synthesize fieldValueList = _fieldValueList;
 @synthesize fieldNameList = _fieldNameList;
@@ -57,7 +57,7 @@
     if (self.locationIUR != nil) { self.locationIUR = nil; }     
     
     if (self.titleTypeIUR != nil) { self.titleTypeIUR = nil; }     
-    if (self.globalPopoverController != nil) { self.globalPopoverController = nil; }
+//    if (self.globalPopoverController != nil) { self.globalPopoverController = nil; }
     
     if (self.contactTypeIUR != nil) { self.contactTypeIUR = nil; } 
     if (callGenericServices != nil) { [callGenericServices release]; } 
@@ -288,9 +288,9 @@
 }
 
 #pragma mark popover delegate
--(void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
-    
-}
+//-(void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
+//    
+//}
 
 -(void)setCreateRecordResult:(ArcosGenericClass*) result {
     if (result == nil) {
@@ -340,9 +340,11 @@
 //        [self alertActionCallBack];
 //    }
     if (alertView.tag == 999) {
-        [self.CCLHVC.locationPopover dismissPopoverAnimated:YES];
+//        [self.CCLHVC.locationPopover dismissPopoverAnimated:YES];
+        [self.CCLHVC dismissViewControllerAnimated:YES completion:nil];
     } else if (alertView.tag == 99999) {
-        [self.CCLHVC.locationPopover dismissPopoverAnimated:YES];
+//        [self.CCLHVC.locationPopover dismissPopoverAnimated:YES];
+        [self.CCLHVC dismissViewControllerAnimated:YES completion:nil];
         [self alertActionCallBack];
     } else if (buttonIndex == 0) {
         [self alertActionCallBack];
@@ -687,6 +689,10 @@
     [self.customerContactTypesDataManager updateChangedData:contentString actualContent:actualData withIndexPath:theIndexpath];
 }
 
+- (UIViewController*)retrieveCustomerTypeParentViewController {
+    return self;
+}
+
 - (void)submitChangedDataList:(NSMutableArray*)aChangedDataList {
     if (rowPointer == [aChangedDataList count]) return;
     NSMutableDictionary* dataCell = [aChangedDataList objectAtIndex:rowPointer];
@@ -727,8 +733,9 @@
     BOOL existFlag = [self.customerContactTypesDataManager isLocationExistent:aCustDict];
     if (existFlag) {
         NSString* message = [NSString stringWithFormat:@"The link to %@ already exists.", [aCustDict objectForKey:@"Name"]];
-        [ArcosUtils showDialogBox:message title:@"" delegate:self target:self.CCLHVC.locationPopover.contentViewController tag:999 handler:^(UIAlertAction *action) {
-            [self.CCLHVC.locationPopover dismissPopoverAnimated:YES];
+        [ArcosUtils showDialogBox:message title:@"" delegate:self target:self.CCLHVC.globalNavigationController tag:999 handler:^(UIAlertAction *action) {
+//            [self.CCLHVC.locationPopover dismissPopoverAnimated:YES];
+            [self.CCLHVC dismissViewControllerAnimated:YES completion:nil];
         }];
         return;
     }
@@ -749,7 +756,8 @@
 -(void)setCreateConLocLinkRecordResult:(ArcosGenericClass*) result {
     result = [callGenericServices handleResultErrorProcess:result];
     if (result == nil) {
-        [self.CCLHVC.locationPopover dismissPopoverAnimated:YES];
+//        [self.CCLHVC.locationPopover dismissPopoverAnimated:YES];
+        [self.CCLHVC dismissViewControllerAnimated:YES completion:nil];
         return;
     }
 //    NSLog(@"setCreateConLocLinkRecordResult: %@", result);
@@ -758,7 +766,8 @@
         [[ArcosCoreData sharedArcosCoreData] conLocLinkWithIUR:[ArcosUtils convertStringToNumber:result.Field1] contactIUR:self.contactIUR locationIUR:self.customerContactTypesDataManager.linkLocationIUR];
         [self.customerContactTypesDataManager getLinkData];
         [self.tableView reloadData];
-        [self.CCLHVC.locationPopover dismissPopoverAnimated:YES];
+//        [self.CCLHVC.locationPopover dismissPopoverAnimated:YES];
+        [self.CCLHVC dismissViewControllerAnimated:YES completion:nil];
     } else {
         NSMutableArray* subObjects = result.SubObjects;
         if (subObjects != nil && [subObjects count] > 0) {
@@ -796,8 +805,9 @@
 }
 
 - (void)handleErrorMessage:(NSString*)aMessage {
-    [ArcosUtils showDialogBox:aMessage title:@"" delegate:self target:self.CCLHVC.locationPopover.contentViewController tag:99999 handler:^(UIAlertAction *action) {
-        [self.CCLHVC.locationPopover dismissPopoverAnimated:YES];
+    [ArcosUtils showDialogBox:aMessage title:@"" delegate:self target:self.CCLHVC.globalNavigationController tag:99999 handler:^(UIAlertAction *action) {
+//        [self.CCLHVC.locationPopover dismissPopoverAnimated:YES];
+        [self.CCLHVC dismissViewControllerAnimated:YES completion:nil];
         [self alertActionCallBack];
     }];
 }
@@ -815,6 +825,9 @@
     [self retrieveContactRecordInfo];
     [self.tableView reloadData];
     [self.actionDelegate refreshLocationInfoFromAccessTimesCalendar];
+}
+- (UIViewController*)retrieveCustomerInfoAccessTimesCalendarParentViewController {
+    return self;
 }
 
 @end

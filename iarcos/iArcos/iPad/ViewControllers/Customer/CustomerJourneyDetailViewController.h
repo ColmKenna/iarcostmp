@@ -14,7 +14,7 @@
 
 @interface CustomerJourneyDetailViewController : CustomerBaseDetailViewController <ModelViewDelegate, GenericRefreshParentContentDelegate, CustomerJourneyStartDateDelegate,CheckLocationIURTemplateDelegate>{
     CustomerJourneyDataManager* _customerJourneyDataManager;
-    UIPopoverController* _actionPopoverController;
+//    UIPopoverController* _actionPopoverController;
     CustomerJourneyStartDateViewController* _cjsdvc;
     UIBarButtonItem* _actionButton;
     UINavigationController* _auxNavigationController;
@@ -22,7 +22,7 @@
 }
 
 @property (nonatomic, retain) CustomerJourneyDataManager* customerJourneyDataManager;
-@property (nonatomic, retain) UIPopoverController* actionPopoverController;
+//@property (nonatomic, retain) UIPopoverController* actionPopoverController;
 @property (nonatomic, retain) CustomerJourneyStartDateViewController* cjsdvc;
 @property (nonatomic, retain) UIBarButtonItem* actionButton;
 @property (nonatomic, retain) UINavigationController* auxNavigationController;

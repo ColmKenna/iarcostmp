@@ -21,7 +21,8 @@
 @synthesize displayList;
 @synthesize locationIUR;
 @synthesize factory = _factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize formDetailList = _formDetailList;
 @synthesize formButton;
 @synthesize defaultFormIUR = _defaultFormIUR;
@@ -49,7 +50,8 @@
     if (connectivityCheck != nil) { [connectivityCheck release]; }
     if (callGenericServices != nil) { [callGenericServices release]; }    
     if (self.factory != nil) { self.factory = nil; }
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     if (self.formDetailList != nil) { self.formDetailList = nil; }    
     if (self.formButton != nil) { self.formButton = nil; }           
     if (self.defaultFormIUR != nil) { self.defaultFormIUR = nil; }
@@ -369,14 +371,19 @@
 */
 
 -(void)formPressed:(id)sender {
-    if ([self.thePopover isPopoverVisible]) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    } else {
-        self.thePopover = [self.factory CreateTableWidgetWithData:self.formDetailList withTitle:@"Form" withParentContentString:self.parentContentString];
-        //do show the popover if there is no data
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromBarButtonItem:self.formButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    }    
+//    if ([self.thePopover isPopoverVisible]) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    } else {
+//
+//    }
+    self.globalWidgetViewController = [self.factory CreateTableWidgetWithData:self.formDetailList withTitle:@"Form" withParentContentString:self.parentContentString];
+    //do show the popover if there is no data
+//    self.thePopover.delegate = self;
+//    [self.thePopover presentPopoverFromBarButtonItem:self.formButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+    self.globalWidgetViewController.popoverPresentationController.barButtonItem = self.formButton;
+    self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    [self presentViewController:self.globalWidgetViewController animated:YES completion:nil];
 }
 
 -(NSString*)formDetailDescWithFormIUR:(NSNumber*)anFormIUR {
@@ -391,16 +398,18 @@
 }
 
 -(void)operationDone:(id)data {
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+    [self dismissViewControllerAnimated:YES completion:nil];
     NSLog(@"%@", data);
 }
 
 -(void)dismissPopoverController {
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark ArcosCustomiseAnimationDelegate

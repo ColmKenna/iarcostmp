@@ -484,6 +484,10 @@
 - (NSString*)retrieveParentActionType {
     return self.actionType;
 }
+
+- (UIViewController*)retrieveCustomerTypeParentViewController {
+    return self;
+}
  
 #pragma mark - GetDataGenericDelegate
 -(void)setGetRecordResult:(ArcosGenericReturnObject*) result {
@@ -649,7 +653,8 @@
 
 -(void)setCreateLocLocLinkRecordResult:(ArcosGenericClass*) result {
     result = [callGenericServices handleResultErrorProcess:result];
-    [self.CCLHVC.locationPopover dismissPopoverAnimated:YES];
+//    [self.CCLHVC.locationPopover dismissPopoverAnimated:YES];
+    [self.CCLHVC dismissViewControllerAnimated:YES completion:nil];
     if (result == nil) {
         return;
     }

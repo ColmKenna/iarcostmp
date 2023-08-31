@@ -41,7 +41,7 @@
 #import "FormRowTableHeaderView.h"
 #import "FormRowTableCellPrevNormalGenerator.h"
 
-@interface FormRowsTableViewController : OrderDetailViewController <SelectionPopoverDelegate,ModelViewDelegate,WidgetFactoryDelegate,UISearchBarDelegate, OrderProductTableCellDelegate,UIPopoverControllerDelegate>{
+@interface FormRowsTableViewController : OrderDetailViewController <SelectionPopoverDelegate,ModelViewDelegate,WidgetFactoryDelegate,UISearchBarDelegate, OrderProductTableCellDelegate,UIPopoverPresentationControllerDelegate>{
     id<FormRowsTableViewControllerDelegate> _actionDelegate;
     NSNumber* dividerIUR;
     NSString* dividerName;
@@ -63,13 +63,14 @@
     IBOutlet UIView* headerView;
     
     //selection
-    UIPopoverController* selectionPopover;
-    UIPopoverController* searchPopover;
+//    UIPopoverController* selectionPopover;
+//    UIPopoverController* searchPopover;
     
     BOOL isCellEditable;
     
     //order input popover
-    UIPopoverController* _inputPopover;
+//    UIPopoverController* _inputPopover;
+    WidgetViewController* _globalWidgetViewController;
     WidgetFactory* _factory;
     
     //new array use for new implementation
@@ -114,7 +115,8 @@
 @property(nonatomic,retain) IBOutlet UILabel* discTitleLabel;
 @property(nonatomic,retain) IBOutlet UILabel* bonusTitleLabel;
 @property(nonatomic,retain) IBOutlet UIView* headerView;
-@property(nonatomic,retain) UIPopoverController* inputPopover;
+//@property(nonatomic,retain) UIPopoverController* inputPopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic,retain) WidgetFactory* factory;
 @property(nonatomic,retain) NSMutableArray* unsortedFormrows;
 @property(nonatomic,retain) NSMutableArray* originalUnsortedFormrows;

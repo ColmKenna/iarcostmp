@@ -13,7 +13,7 @@
 
 @implementation CustomerJourneyDetailViewController
 @synthesize customerJourneyDataManager = _customerJourneyDataManager;
-@synthesize actionPopoverController = _actionPopoverController;
+//@synthesize actionPopoverController = _actionPopoverController;
 @synthesize cjsdvc = _cjsdvc;
 @synthesize actionButton = _actionButton;
 @synthesize auxNavigationController = _auxNavigationController;
@@ -30,7 +30,7 @@
 
 - (void)dealloc {
     if (self.customerJourneyDataManager != nil) { self.customerJourneyDataManager = nil; }
-    if (self.actionPopoverController != nil) { self.actionPopoverController = nil; }
+//    if (self.actionPopoverController != nil) { self.actionPopoverController = nil; }
     if (self.cjsdvc != nil) { self.cjsdvc = nil; }
     if (self.actionButton != nil) { self.actionButton = nil; }
     if (self.auxNavigationController != nil) { self.auxNavigationController = nil; }
@@ -63,10 +63,11 @@
     
     self.cjsdvc = [[[CustomerJourneyStartDateViewController alloc] initWithNibName:@"CustomerJourneyStartDateViewController" bundle:nil] autorelease];
     self.cjsdvc.delegate = self;
-    self.auxNavigationController = [[UINavigationController alloc] initWithRootViewController:self.cjsdvc];
+    self.auxNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.cjsdvc] autorelease];
+    self.auxNavigationController.preferredContentSize = CGSizeMake(700.0f, 360.0f);
 
-    self.actionPopoverController = [[[UIPopoverController alloc] initWithContentViewController:self.auxNavigationController] autorelease];
-    self.actionPopoverController.popoverContentSize = CGSizeMake(700.0f, 360.0f);
+//    self.actionPopoverController = [[[UIPopoverController alloc] initWithContentViewController:self.auxNavigationController] autorelease];
+//    self.actionPopoverController.popoverContentSize = CGSizeMake(700.0f, 360.0f);
     self.checkLocationIURTemplateProcessor = [[[CheckLocationIURTemplateProcessor alloc] initWithParentViewController:self] autorelease];
     self.checkLocationIURTemplateProcessor.delegate = self;
 }
@@ -313,16 +314,21 @@
 }
 
 -(void)actionButtonPressed:(id)sender {
-    if ([self.actionPopoverController isPopoverVisible]) {
-        [self.actionPopoverController dismissPopoverAnimated:YES];        
-    } else {        
-        [self.actionPopoverController presentPopoverFromBarButtonItem:self.actionButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];        
-    }
+//    if ([self.actionPopoverController isPopoverVisible]) {
+//        [self.actionPopoverController dismissPopoverAnimated:YES];
+//    } else {
+//        [self.actionPopoverController presentPopoverFromBarButtonItem:self.actionButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//    }
+    self.auxNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    self.auxNavigationController.popoverPresentationController.barButtonItem = self.actionButton;
+    self.auxNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    [self presentViewController:self.auxNavigationController animated:YES completion:nil];
 }
 
 #pragma mark CustomerJourneyStartDateDelegate
 - (void)dismissJourneyStartDatePopoverController {
-    [self.actionPopoverController dismissPopoverAnimated:YES];
+//    [self.actionPopoverController dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)refreshParentContentForJourneyStartDate {

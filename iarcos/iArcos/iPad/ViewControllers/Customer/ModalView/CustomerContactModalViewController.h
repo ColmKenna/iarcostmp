@@ -31,7 +31,7 @@
     id<GenericRefreshParentContentDelegate> _refreshDelegate;
     NSNumber* _locationIUR;
     NSNumber* _titleTypeIUR;
-    UIPopoverController* _globalPopoverController;
+//    UIPopoverController* _globalPopoverController;
     NSNumber* _contactTypeIUR;
     UILabel* currentLabel;
     int currentControlTag;
@@ -77,7 +77,7 @@
 @property (nonatomic, assign) id<GenericRefreshParentContentDelegate> refreshDelegate;
 @property (nonatomic,retain)  NSNumber* locationIUR;
 @property(nonatomic,retain) NSNumber* titleTypeIUR;
-@property(nonatomic,retain) UIPopoverController* globalPopoverController;
+//@property(nonatomic,retain) UIPopoverController* globalPopoverController;
 @property(nonatomic,retain) NSNumber* contactTypeIUR;
 @property(nonatomic,retain) NSMutableArray* fieldValueList;
 @property(nonatomic,retain) NSMutableArray* fieldNameList;

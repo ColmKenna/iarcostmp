@@ -12,7 +12,8 @@
 //@synthesize narrative;
 @synthesize surveyTitle;
 @synthesize factory = _factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -53,30 +54,38 @@
         self.factory.delegate = self;
     }
     
-    self.thePopover = [self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceCustomerSurvey];
-    if (self.thePopover != nil) {
+    self.globalWidgetViewController = [self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceCustomerSurvey];
+    if (self.globalWidgetViewController != nil) {
         //        [self.delegate popoverShows:thePopover];
     }else{
         self.surveyTitle.text = @"No Active Surveys";
     }
     
     //do show the popover if there is no data
-    if (self.thePopover != nil) {
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromRect:surveyTitle.bounds inView:surveyTitle permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (self.globalWidgetViewController != nil) {
+//        self.thePopover.delegate = self;
+//        [self.thePopover presentPopoverFromRect:surveyTitle.bounds inView:surveyTitle permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = self.surveyTitle;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = self.surveyTitle.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [[self.delegate retrieveParentViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
     }
 }
 
 -(void)operationDone:(id)data {
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+    [[self.delegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
     self.surveyTitle.text = [data objectForKey:@"Title"];
 //    NSLog(@"StartDate is %@", [data objectForKey:@"StartDate"]);
 //    NSLog(@"EndDate is %@", [data objectForKey:@"EndDate"]);
     [self.delegate inputFinishedWithData:data forIndexpath:self.indexPath];
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+    self.globalWidgetViewController = nil;
 }
 
 -(void)handleSingleTapGesture4Narrative:(id)sender {
@@ -90,15 +99,20 @@
 //    }
     if (self.surveyTitle != nil) { self.surveyTitle = nil; }
     if (self.factory != nil) { self.factory = nil; }
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     
     [super dealloc];
 }
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 
 @end

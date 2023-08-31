@@ -30,7 +30,8 @@
 @synthesize customerGDPRDataManager = _customerGDPRDataManager;
 @synthesize saveButton = _saveButton;
 @synthesize factory = _factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize callGenericServices = _callGenericServices;
 @synthesize myEmailAddressLabel = _myEmailAddressLabel;
 @synthesize amendContactButton = _amendContactButton;
@@ -308,7 +309,8 @@
     self.customerGDPRDataManager = nil;
     self.saveButton = nil;
     self.factory = nil;
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     self.callGenericServices.delegate = nil;
     self.callGenericServices = nil;
     self.myEmailAddressLabel = nil;
@@ -386,21 +388,29 @@
     [miscDataDict setObject:@"Contact" forKey:@"Title"];
     [miscDataDict setObject:self.customerGDPRDataManager.locationIUR forKey:@"LocationIUR"];
     [miscDataDict setObject:self.customerGDPRDataManager.locationName forKey:@"Name"];
-    self.thePopover = [self.factory CreateTargetGenericCategoryWidgetWithPickerValue:contactList miscDataDict:miscDataDict];
-    if (self.thePopover != nil) {
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromRect:self.tapToSelectContactNameBtn.bounds inView:self.tapToSelectContactNameBtn permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    }
+    self.globalWidgetViewController = [self.factory CreateTargetGenericCategoryWidgetWithPickerValue:contactList miscDataDict:miscDataDict];
+    if (self.globalWidgetViewController != nil) {
+//        self.thePopover.delegate = self;
+//        [self.thePopover presentPopoverFromRect:self.tapToSelectContactNameBtn.bounds inView:self.tapToSelectContactNameBtn permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = self.tapToSelectContactNameBtn;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = self.tapToSelectContactNameBtn.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [self presentViewController:self.globalWidgetViewController animated:YES completion:nil];
+    }    
 }
 
 - (void)operationDone:(id)data {
-    [self.thePopover dismissPopoverAnimated:YES];
+//    [self.thePopover dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     NSString* contactTitle = [data objectForKey:@"Title"];
     [self.tapToSelectContactNameBtn setTitle:contactTitle forState:UIControlStateNormal];
     self.customerGDPRDataManager.contactDict = data;
     self.myEmailAddressLabel.text = [ArcosUtils convertNilToEmpty:[data objectForKey:@"Email"]];
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+    self.globalWidgetViewController = nil;
 }
 
 - (BOOL)allowToShowAddContactButton {
@@ -408,9 +418,13 @@
 }
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 
 - (void)checkDrawingAreaView {

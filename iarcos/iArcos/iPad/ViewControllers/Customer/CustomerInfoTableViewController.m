@@ -52,7 +52,8 @@
 @synthesize customerCoverHomePageImageViewController = _customerCoverHomePageImageViewController;
 @synthesize customerDetailsBuyingGroupDataManager = _customerDetailsBuyingGroupDataManager;
 @synthesize factory = _factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize accountBalanceLabel = _accountBalanceLabel;
 @synthesize callGenericServices = _callGenericServices;
 @synthesize customerTypesDataManager = _customerTypesDataManager;
@@ -278,6 +279,7 @@
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showAccountBalancesFlag] && indexPath.row == self.customerInfoTableDataManager.buyingGroupIndex-1) {
             CustomerInfoButtonCell* aCell = (CustomerInfoButtonCell*)cell;
 //            aCell.cellData = self.aCustDict;
+            aCell.actionDelegate = self;
             aCell.infoTitle.text = [self.customerInfoTableDataManager.custKeyList objectAtIndex:indexPath.row];
             aCell.infoValue.text = [self.aCustDict objectForKey:[self.customerInfoTableDataManager.custKeyList objectAtIndex:indexPath.row]];
             [aCell configCellWithData:self.aCustDict];
@@ -307,6 +309,7 @@
         }
         if ([auxCustKey isEqualToString:self.customerInfoTableDataManager.startTimeLabel]) {
             CustomerInfoStartTimeTableViewCell* auxStartTimeCell = (CustomerInfoStartTimeTableViewCell*)cell;
+            auxStartTimeCell.actionDelegate = self;
             auxStartTimeCell.infoTitle.text = auxCustKey;            
             [auxStartTimeCell configCellWithoutData];
             return auxStartTimeCell;
@@ -794,7 +797,8 @@
     self.customerCoverHomePageImageViewController = nil;
     self.customerDetailsBuyingGroupDataManager = nil;
     self.factory = nil;
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     self.accountBalanceLabel = nil;
     self.callGenericServices.delegate = nil;
     self.callGenericServices = nil;
@@ -1075,19 +1079,26 @@
     [miscDataDict setObject:@"Contact" forKey:@"Title"];
     [miscDataDict setObject:[self.aCustDict objectForKey:@"LocationIUR"] forKey:@"LocationIUR"];
     [miscDataDict setObject:[self.aCustDict objectForKey:@"Name"] forKey:@"Name"];
-    self.thePopover =[self.factory CreateTargetGenericCategoryWidgetWithPickerValue:contactList miscDataDict:miscDataDict];
+    self.globalWidgetViewController =[self.factory CreateTargetGenericCategoryWidgetWithPickerValue:contactList miscDataDict:miscDataDict];
     //do show the popover if there is no data
-    if (self.thePopover!=nil) {
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromRect:self.myTopHeaderLabelView.bounds inView:self.myTopHeaderLabelView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    }
+    if (self.globalWidgetViewController!=nil) {
+//        self.thePopover.delegate = self;
+//        [self.thePopover presentPopoverFromRect:self.myTopHeaderLabelView.bounds inView:self.myTopHeaderLabelView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = self.myTopHeaderLabelView;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = self.myTopHeaderLabelView.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [self presentViewController:self.globalWidgetViewController animated:YES completion:nil];
+    }    
 }
 
 #pragma mark WidgetFactoryDelegate
 -(void)operationDone:(id)data{
-    if (self.thePopover!=nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
+//    if (self.thePopover!=nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+    [self dismissViewControllerAnimated:YES completion:nil];
     switch (self.customerInfoTableDataManager.currentContactPopoverTag) {
         case 1: {
             [GlobalSharedClass shared].currentSelectedContactIUR = [data objectForKey:@"IUR"];
@@ -1129,9 +1140,13 @@
     return YES;
 }
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 
 - (void)processAccountBalanceRecord {
@@ -1239,10 +1254,20 @@
     self.customerInfoTableDataManager.auxLinkedContactCOiur = [aCellDict objectForKey:@"COiur"];
     [self.callGenericServices updateRecord:[NSString stringWithFormat:@"Contact,%d", [[SettingManager employeeIUR] intValue]] iur:[[GlobalSharedClass shared].currentSelectedContactIUR intValue] fieldName:@"linkedContactIUR" newContent:[ArcosUtils convertNumberToIntString:self.customerInfoTableDataManager.auxLinkedContactIUR]];
 }
+- (UIViewController*)retrieveCustomerInfoLinkedToParentViewController {
+    return self;
+}
 
 #pragma mark CustomerInfoAccessTimesCalendarTableViewControllerDelegate
 - (void)refreshLocationInfoFromAccessTimesCalendar {
     [self refresh];
+}
+- (UIViewController*)retrieveCustomerInfoAccessTimesCalendarParentViewController {
+    return self;
+}
+#pragma mark CustomerInfoButtonCellDelegate
+- (UIViewController*)retrieveCustomerInfoButtonParentViewController {
+    return self;
 }
 
 @end

@@ -60,28 +60,28 @@ typedef enum {
 
 
 +(WidgetFactory*)factory;
--(UIPopoverController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource;
--(UIPopoverController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource defaultPickerDate:(NSDate*)aDefaultPickerDate;
--(UIPopoverController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource pickerFormatType:(DatePickerFormatType)aPickerFormatType;
+-(WidgetViewController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource;
+-(WidgetViewController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource defaultPickerDate:(NSDate*)aDefaultPickerDate;
+-(WidgetViewController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource pickerFormatType:(DatePickerFormatType)aPickerFormatType;
 -(UIPopoverController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource pickerFormatType:(DatePickerFormatType)aPickerFormatType defaultPickerDate:(NSDate*)aDefaultPickerDate;
-- (UIPopoverController*)createDateHourMinuteWidgetWithType:(DatePickerHourMinuteWidgetType)aType datePickerValue:(NSDate*)aDatePickerValue minDate:(NSDate*)aMinDate maxDate:(NSDate*)aMaxDate;
+- (WidgetViewController*)createDateHourMinuteWidgetWithType:(DatePickerHourMinuteWidgetType)aType datePickerValue:(NSDate*)aDatePickerValue minDate:(NSDate*)aMinDate maxDate:(NSDate*)aMaxDate;
 
--(UIPopoverController*)CreateCategoryWidgetWithDataSource:(WidgetDataSource)dataSource;
+-(WidgetViewController*)CreateCategoryWidgetWithDataSource:(WidgetDataSource)dataSource;
 -(UIPopoverController*)CreateNumberWidgetWithType:(NumberWidgetType)type;
--(UIPopoverController*)CreateOrderInputPadWidgetWithLocationIUR:(NSNumber*)aLocationIUR;
--(UIPopoverController*)CreateOrderEntryInputWidgetWithLocationIUR:(NSNumber*)aLocationIUR;
--(UIPopoverController*)CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:(NSNumber*)aLocationIUR;
+-(WidgetViewController*)CreateOrderInputPadWidgetWithLocationIUR:(NSNumber*)aLocationIUR;
+-(WidgetViewController*)CreateOrderEntryInputWidgetWithLocationIUR:(NSNumber*)aLocationIUR;
+-(WidgetViewController*)CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:(NSNumber*)aLocationIUR;
 -(UIPopoverController*)CreateDetaillingInputPadWidgetWithProductName:(NSString*)aProductName WithQty:(NSNumber*)aQty;
 -(PickerWidgetViewController*)getSampleBatchesPickerWidget;
 
 -(UIPopoverController*)CreateGenericCategoryWidgetWithDataSource:(WidgetDataSource)dataSource pickerDefaultValue:(NSNumber*)aDefaultIURValue;
 -(UIPopoverController*)CreateGenericCategoryWidgetWithPickerValue:(NSMutableArray*)aPickerValue;
--(UIPopoverController*)CreateGenericCategoryWidgetWithPickerValue:(NSMutableArray*)aPickerValue title:(NSString*)aTitle;
+-(WidgetViewController*)CreateGenericCategoryWidgetWithPickerValue:(NSMutableArray*)aPickerValue title:(NSString*)aTitle;
 -(UIPopoverController*)CreateGenericDynamicCategoryWidgetWithPickerValue:(NSMutableArray*)aPickerValue title:(NSString*)aTitle maxTextLength:(int)aMaxTextLength;
--(UIPopoverController*)CreateTargetGenericCategoryWidgetWithPickerValue:(NSMutableArray*)aPickerValue miscDataDict:(NSMutableDictionary*)aDataDict;
+-(WidgetViewController*)CreateTargetGenericCategoryWidgetWithPickerValue:(NSMutableArray*)aPickerValue miscDataDict:(NSMutableDictionary*)aDataDict;
 -(UIPopoverController*)CreateTargetGenericCategoryWidgetWithUncheckedPickerValue:(NSMutableArray*)aPickerValue miscDataDict:(NSMutableDictionary*)aDataDict;
--(UIPopoverController*)CreateTableWidgetWithData:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentContentString:(NSString*)aParentContentString;
--(UIPopoverController*)CreateTableWidgetWithData:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentContentString:(NSString*)aParentContentString requestSource:(TableWidgetRequestSource)aTableWidgetRequestSource;
+-(WidgetViewController*)CreateTableWidgetWithData:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentContentString:(NSString*)aParentContentString;
+-(WidgetViewController*)CreateTableWidgetWithData:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentContentString:(NSString*)aParentContentString requestSource:(TableWidgetRequestSource)aTableWidgetRequestSource;
 -(UIPopoverController*)CreateTableMSWidgetWithData:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentItemList:(NSMutableArray*)aParentItemList requestSource:(TableMSWidgetRequestSource)aTableMSWidgetRequestSource;
 -(UIPopoverController*)CreateGenericTableMSWidgetWithData:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentItemList:(NSMutableArray*)aParentItemList;
 

@@ -28,7 +28,7 @@ typedef enum {
     CustomerGroupRequestSourceContact
 } CustomerGroupRequestSource;
 
-@interface CustomerGroupViewController : UITableViewController<UISearchBarDelegate,UISplitViewControllerDelegate,WidgetFactoryDelegate, UIPopoverControllerDelegate, CustomerGroupContactTableViewCellDelegate, AccessTimesWidgetViewControllerDelegate, CustomerSelectionListingDelegate> {
+@interface CustomerGroupViewController : UITableViewController<UISearchBarDelegate,UISplitViewControllerDelegate,WidgetFactoryDelegate, CustomerGroupContactTableViewCellDelegate, AccessTimesWidgetViewControllerDelegate, CustomerSelectionListingDelegate, UIPopoverPresentationControllerDelegate> {
     CustomerGroupRequestSource _requestSource;
     id<GenericMasterTemplateDelegate> _myMoveDelegate;
     CustomerGroupDataManager* _customerGroupDataManager;
@@ -47,7 +47,7 @@ typedef enum {
     //navigation bar button
     UISplitViewController *splitViewController;
     
-    UIPopoverController *popoverController;    
+//    UIPopoverController *popoverController;    
     UIBarButtonItem *rootPopoverButtonItem;
 
     UISegmentedControl* _segmentBut;
@@ -61,7 +61,8 @@ typedef enum {
     CustomerBaseDetailViewController* _auxDetailViewController;
     UIImage* _journeyDefaultImage;
     WidgetFactory* _factory;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
     NSString* _listTypeText;
     NSString* _journeyTypeText;
     NSIndexPath* _auxJourneyIndexPath;
@@ -73,7 +74,7 @@ typedef enum {
 @property(nonatomic, assign) id<GenericMasterTemplateDelegate> myMoveDelegate;
 @property (nonatomic, retain) CustomerGroupDataManager* customerGroupDataManager;
 @property (nonatomic, assign) IBOutlet UISplitViewController *splitViewController;
-@property (nonatomic, retain) UIPopoverController *popoverController;
+//@property (nonatomic, retain) UIPopoverController *popoverController;
 @property (nonatomic, retain) UIBarButtonItem *rootPopoverButtonItem;
 
 @property(nonatomic,retain) CustomerListingViewController* myCustomerListingViewController;
@@ -94,7 +95,8 @@ typedef enum {
 @property (nonatomic, retain) CustomerBaseDetailViewController* auxDetailViewController;
 @property (nonatomic, retain) UIImage* journeyDefaultImage;
 @property(nonatomic, retain) WidgetFactory* factory;
-@property(nonatomic, retain) UIPopoverController* thePopover;
+//@property(nonatomic, retain) UIPopoverController* thePopover;
+@property(nonatomic, retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic, retain) NSString* listTypeText;
 @property(nonatomic, retain) NSString* journeyTypeText;
 @property(nonatomic, retain) NSIndexPath* auxJourneyIndexPath;

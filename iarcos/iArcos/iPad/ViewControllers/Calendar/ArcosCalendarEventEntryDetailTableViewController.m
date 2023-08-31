@@ -311,6 +311,10 @@
     */
 }
 
+- (UIViewController*)retrieveCalendarEventEntryDetailParentViewController {
+    return [self.actionDelegate retrieveArcosCalendarEventEntryDetailTemplateViewController];
+}
+
 - (void)deleteEventProcessor {
     [self.HUD show:YES];
     [self.view endEditing:YES];

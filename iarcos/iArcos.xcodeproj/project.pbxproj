@@ -4866,6 +4866,7 @@
 		79A3F8B227F2BFF8001E0972 /* ArcosCalendarTableHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosCalendarTableHeaderView.m; sourceTree = "<group>"; };
 		79A799A526A560BE006A49B8 /* ArcosMyResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosMyResult.h; sourceTree = "<group>"; };
 		79A799A626A560BE006A49B8 /* ArcosMyResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosMyResult.m; sourceTree = "<group>"; };
+		79AA6F502A9DF8750066EE05 /* CustomerInfoButtonCellDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerInfoButtonCellDelegate.h; sourceTree = "<group>"; };
 		79B7227725B52A03007709BF /* ReporterGroupMainTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterGroupMainTableViewController.h; sourceTree = "<group>"; };
 		79B7227825B52A03007709BF /* ReporterGroupMainTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterGroupMainTableViewController.m; sourceTree = "<group>"; };
 		79B7227925B52A03007709BF /* ReporterGroupMainTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReporterGroupMainTableViewController.xib; sourceTree = "<group>"; };
@@ -6518,6 +6519,7 @@
 				795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */,
 				79E2EFEF256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.h */,
 				79E2EFF0256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.m */,
+				79AA6F502A9DF8750066EE05 /* CustomerInfoButtonCellDelegate.h */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -10984,7 +10986,7 @@
 					"$(PROJECT_DIR)/iArcos/MailAPI/include/**",
 				);
 				INFOPLIST_FILE = iArcos/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -10993,7 +10995,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.3.2;
+				MARKETING_VERSION = 12.3.4;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11042,7 +11044,7 @@
 					"$(PROJECT_DIR)/iArcos/MailAPI/include/**",
 				);
 				INFOPLIST_FILE = iArcos/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -11051,7 +11053,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.3.2;
+				MARKETING_VERSION = 12.3.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -11180,7 +11182,7 @@
 					"$(PROJECT_DIR)/iArcos/MailAPI/include/**",
 				);
 				INFOPLIST_FILE = iArcos/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -11189,7 +11191,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.3.2;
+				MARKETING_VERSION = 12.3.4;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

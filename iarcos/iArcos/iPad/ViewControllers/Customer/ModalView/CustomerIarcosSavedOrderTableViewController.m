@@ -31,7 +31,8 @@
 @synthesize remoteButton = _remoteButton;
 @synthesize callGenericServices = _callGenericServices;
 @synthesize factory = _factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize coordinateType = _coordinateType;
 @synthesize HUD = _HUD;
 
@@ -49,7 +50,8 @@
     self.callGenericServices.delegate = nil;
     self.callGenericServices = nil;
     self.factory = nil;
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     self.coordinateType = nil;
     self.HUD = nil;
     
@@ -94,12 +96,16 @@
         self.factory = [WidgetFactory factory];
         self.factory.delegate = self;
     }
-    self.thePopover = [self.factory CreateTableWidgetWithData:self.customerIarcosSavedOrderDataManager.remoteTableDataDictList withTitle:@"Remote" withParentContentString:@"" requestSource:TableWidgetRequestSourceListing];
+    self.globalWidgetViewController = [self.factory CreateTableWidgetWithData:self.customerIarcosSavedOrderDataManager.remoteTableDataDictList withTitle:@"Remote" withParentContentString:@"" requestSource:TableWidgetRequestSourceListing];
     //do show the popover if there is no data
-    if (self.thePopover != nil) {
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromBarButtonItem:self.remoteButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-    }
+//    if (self.thePopover != nil) {
+//        self.thePopover.delegate = self;
+//        [self.thePopover presentPopoverFromBarButtonItem:self.remoteButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+//    }
+    self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+    self.globalWidgetViewController.popoverPresentationController.barButtonItem = self.remoteButton;
+    self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    [self presentViewController:self.globalWidgetViewController animated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -470,17 +476,22 @@
 }
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 
 -(void)dismissPopoverController {
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-        self.thePopover = nil;
-        self.factory.popoverController = nil;
-    }
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//        self.thePopover = nil;
+//        self.factory.popoverController = nil;
+//    }
+    self.globalWidgetViewController = nil;
 }
 
 #pragma mark WidgetFactoryDelegate
@@ -490,11 +501,13 @@
     [self.navigationItem setRightBarButtonItem:allButton];
     [allButton release];
     [self.rcsStackedController popToNavigationController:(UINavigationController*)self.parentViewController animated:YES];
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+    [self dismissViewControllerAnimated:YES completion:nil];
+    self.globalWidgetViewController = nil;
     self.coordinateType = [NSNumber numberWithInt:1];
     self.customerIarcosSavedOrderDataManager.currentNumberOflines = [data objectForKey:@"NumberOflines"];
     self.customerIarcosSavedOrderDataManager.displayList = nil;

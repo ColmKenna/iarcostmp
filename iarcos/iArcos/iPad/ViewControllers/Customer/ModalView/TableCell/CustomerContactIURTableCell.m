@@ -12,7 +12,8 @@
 @synthesize fieldDesc;
 @synthesize contentString;
 @synthesize factory = _factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -35,7 +36,8 @@
     if (self.fieldDesc != nil) { self.fieldDesc = nil; }            
     if (self.contentString != nil) { self.contentString = nil; }            
     if (self.factory != nil) { self.factory = nil; }            
-    if (self.thePopover != nil) { self.thePopover = nil; }
+//    if (self.thePopover != nil) { self.thePopover = nil; }
+    self.globalWidgetViewController = nil;
     
     [super dealloc];
 }
@@ -107,19 +109,25 @@
         self.factory = [WidgetFactory factory];
         self.factory.delegate = self;
     }
-    self.thePopover = [self.factory CreateTableWidgetWithData:aDataList withTitle:aNavBarTitle withParentContentString:[self.cellData objectForKey:@"contentString"]];
+    self.globalWidgetViewController = [self.factory CreateTableWidgetWithData:aDataList withTitle:aNavBarTitle withParentContentString:[self.cellData objectForKey:@"contentString"]];
     //do show the popover if there is no data
-    if (self.thePopover != nil) {
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromRect:self.contentString.bounds inView:self.contentString permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    }
-    
+    if (self.globalWidgetViewController != nil) {
+//        self.thePopover.delegate = self;
+//        [self.thePopover presentPopoverFromRect:self.contentString.bounds inView:self.contentString permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = self.contentString;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = self.contentString.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [[self.delegate retrieveCustomerTypeParentViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
+    }    
 }
 
 -(void)operationDone:(id)data {
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+    [[self.delegate retrieveCustomerTypeParentViewController] dismissViewControllerAnimated:YES completion:nil];
     [self.cellData setObject:[data objectForKey:@"Title"] forKey:@"contentString"];
     [self.cellData setObject:[data objectForKey:@"DescrDetailIUR"] forKey:@"actualContent"];
     self.contentString.text = [data objectForKey:@"Title"];
@@ -127,9 +135,14 @@
 }
 
 -(void)dismissPopoverController {
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+    [[self.delegate retrieveCustomerTypeParentViewController] dismissViewControllerAnimated:YES completion:nil];
+}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 
 @end

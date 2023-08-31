@@ -22,7 +22,8 @@
     NSString* _myFileNamesStr;
     NSIndexPath* _myIndexPath;
     UIBarButtonItem* _deleteBarButton;
-    UIPopoverController* _trashPopover;
+//    UIPopoverController* _trashPopover;
+    CustomerPhotoDeleteActionViewController* _cpdavc;
     UIScrollView* _myScrollView;
     NSMutableArray* _myFileNameList;
     CustomerSurveyPreviewDataManager* _customerSurveyPreviewDataManager;
@@ -34,7 +35,8 @@
 @property(nonatomic, retain) NSString* myFileNamesStr;
 @property(nonatomic, retain) NSIndexPath* myIndexPath;
 @property(nonatomic, retain) UIBarButtonItem* deleteBarButton;
-@property(nonatomic,retain) UIPopoverController* trashPopover;
+//@property(nonatomic,retain) UIPopoverController* trashPopover;
+@property(nonatomic,retain) CustomerPhotoDeleteActionViewController* cpdavc;
 @property(nonatomic, retain) IBOutlet UIScrollView* myScrollView;
 @property(nonatomic, retain) NSMutableArray* myFileNameList;
 @property(nonatomic, retain) CustomerSurveyPreviewDataManager* customerSurveyPreviewDataManager;

@@ -33,10 +33,10 @@
 #import "CustomerWeeklyMainWrapperModalViewController.h"
 #import "CustomerPresenterFilesViewController.h"
 
-@interface CustomerInfoViewController : UIViewController<UIPopoverControllerDelegate,customerPopoverMenuDelegate,CoreLocationControllerDelegate,UIActionSheetDelegate,UITableViewDelegate,UITableViewDataSource,UIGestureRecognizerDelegate,ModelViewDelegate,SlideAcrossViewAnimationDelegate> {
+@interface CustomerInfoViewController : UIViewController<customerPopoverMenuDelegate,CoreLocationControllerDelegate,UIActionSheetDelegate,UITableViewDelegate,UITableViewDataSource,UIGestureRecognizerDelegate,ModelViewDelegate,SlideAcrossViewAnimationDelegate> {
     
     UIBarButtonItem *optionButtom;
-    UIPopoverController *popoverController;
+//    UIPopoverController *popoverController;
     CustomerPopoverMenuViewController* myCustomerPopoverMenuViewController;
     NSMutableDictionary* aCustDict;
     LocationUM *aCustLoc;

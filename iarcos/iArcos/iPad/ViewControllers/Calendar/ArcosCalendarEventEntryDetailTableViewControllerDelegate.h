@@ -15,6 +15,7 @@
 //- (void)refreshCalendarTableViewController;
 - (void)deleteButtonPressedDelegate;
 - (UITableView*)retrieveEventTableView;
+- (UIViewController*)retrieveArcosCalendarEventEntryDetailTemplateViewController;
 
 @end
 

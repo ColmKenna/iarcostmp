@@ -10,11 +10,12 @@
 #import "ArcosCoreData.h"
 
 @implementation CustomerInfoButtonCell
+@synthesize actionDelegate = _actionDelegate;
 @synthesize infoTitle = _infoTitle;
 @synthesize infoValue = _infoValue;
 @synthesize actionBtn = _actionBtn;
 @synthesize cellData = _cellData;
-@synthesize accountDetailPopover = _accountDetailPopover;
+//@synthesize accountDetailPopover = _accountDetailPopover;
 
 - (void)awakeFromNib {
     // Initialization code
@@ -32,23 +33,31 @@
     self.infoValue = nil;
     self.actionBtn = nil;
     self.cellData = nil;
-    self.accountDetailPopover = nil;
+//    self.accountDetailPopover = nil;
     
     [super dealloc];
 }
 
 - (IBAction)showAccountBalanceDetail {
-    if (self.accountDetailPopover != nil) {
-        self.accountDetailPopover = nil;
-    }
+//    if (self.accountDetailPopover != nil) {
+//        self.accountDetailPopover = nil;
+//    }
     CustomerInfoAccountBalanceDetailTableViewController* CIABDTC = [[CustomerInfoAccountBalanceDetailTableViewController alloc] initWithNibName:@"CustomerInfoAccountBalanceDetailTableViewController" bundle:nil];
     CIABDTC.cancelDelegate = self;
     [CIABDTC processRawData:self.cellData];
     UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:CIABDTC];
-    self.accountDetailPopover = [[[UIPopoverController alloc] initWithContentViewController:tmpNavigationController] autorelease];
-    self.accountDetailPopover.delegate = self;
-    self.accountDetailPopover.popoverContentSize = CGSizeMake(410, 290);
-    [self.accountDetailPopover presentPopoverFromRect:self.actionBtn.bounds inView:self.actionBtn permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//    self.accountDetailPopover = [[[UIPopoverController alloc] initWithContentViewController:tmpNavigationController] autorelease];
+//    self.accountDetailPopover.delegate = self;
+//    self.accountDetailPopover.popoverContentSize = CGSizeMake(410, 290);
+//    [self.accountDetailPopover presentPopoverFromRect:self.actionBtn.bounds inView:self.actionBtn permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    tmpNavigationController.preferredContentSize = CGSizeMake(410, 290);
+    tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    tmpNavigationController.popoverPresentationController.sourceView = self.actionBtn;
+    tmpNavigationController.popoverPresentationController.sourceRect = self.actionBtn.bounds;
+    tmpNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    tmpNavigationController.popoverPresentationController.delegate = self;
+    [[self.actionDelegate retrieveCustomerInfoButtonParentViewController] presentViewController:tmpNavigationController animated:YES completion:nil];
+    
     [CIABDTC release];
     CIABDTC = nil;
     [tmpNavigationController release];
@@ -57,10 +66,11 @@
 
 #pragma mark GenericSelectionCancelDelegate
 - (void)didDismissSelectionCancelPopover {
-    if (self.accountDetailPopover != nil && [self.accountDetailPopover isPopoverVisible]) {
-        [self.accountDetailPopover dismissPopoverAnimated:YES];
-        self.accountDetailPopover = nil;
-    }
+//    if (self.accountDetailPopover != nil && [self.accountDetailPopover isPopoverVisible]) {
+//        [self.accountDetailPopover dismissPopoverAnimated:YES];
+//        self.accountDetailPopover = nil;
+//    }
+    [[self.actionDelegate retrieveCustomerInfoButtonParentViewController] dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)configCellWithData:(NSMutableDictionary*)aCustDict {
@@ -74,8 +84,12 @@
 }
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.accountDetailPopover = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.accountDetailPopover = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    
 }
 
 @end

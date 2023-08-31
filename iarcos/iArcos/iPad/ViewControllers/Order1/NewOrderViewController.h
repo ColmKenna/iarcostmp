@@ -38,7 +38,7 @@
     UILabel* _locationName;
     UILabel* _locationAddress;
     UIBarButtonItem* _planogramButton;
-    UIPopoverController* _orderPadsPopover;
+//    UIPopoverController* _orderPadsPopover;
     UIButton* _orderPadsButton;
     OrderBaseTableViewController* _orderBaseTableViewController;
     UIView* _orderBaseContentView;
@@ -65,7 +65,7 @@
 @property(nonatomic, retain) IBOutlet UILabel* locationName;
 @property(nonatomic, retain) IBOutlet UILabel* locationAddress;
 @property(nonatomic, retain) UIBarButtonItem* planogramButton;
-@property(nonatomic, retain) UIPopoverController* orderPadsPopover;
+//@property(nonatomic, retain) UIPopoverController* orderPadsPopover;
 @property(nonatomic, retain) IBOutlet UIButton* orderPadsButton;
 @property(nonatomic, retain) IBOutlet OrderBaseTableViewController* orderBaseTableViewController;
 @property(nonatomic, retain) IBOutlet UIView* orderBaseContentView;

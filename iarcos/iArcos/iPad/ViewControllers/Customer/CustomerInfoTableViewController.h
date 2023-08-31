@@ -44,7 +44,7 @@
 #import "CustomerGDPRViewController.h"
 #import "CustomerInfoStartTimeTableViewCell.h"
 
-@interface CustomerInfoTableViewController : UITableViewController<CustomerOptionCellDelegate,ModelViewDelegate,UITableViewDelegate,UITableViewDataSource,UIGestureRecognizerDelegate,GenericRefreshParentContentDelegate,MFMailComposeViewControllerDelegate,PresentViewControllerDelegate,SlideAcrossViewAnimationDelegate, ArcosCustomiseAnimationDelegate,CustomisePresentViewControllerDelegate,WidgetFactoryDelegate,UIPopoverControllerDelegate,GetDataGenericDelegate, CustomerInfoLinkedToTableViewCellDelegate, CustomerInfoAccessTimesCalendarTableViewControllerDelegate, ArcosMailTableViewControllerDelegate>{
+@interface CustomerInfoTableViewController : UITableViewController<CustomerOptionCellDelegate,ModelViewDelegate,UITableViewDelegate,UITableViewDataSource,UIGestureRecognizerDelegate,GenericRefreshParentContentDelegate,MFMailComposeViewControllerDelegate,PresentViewControllerDelegate,SlideAcrossViewAnimationDelegate, ArcosCustomiseAnimationDelegate,CustomisePresentViewControllerDelegate,WidgetFactoryDelegate,UIPopoverPresentationControllerDelegate,GetDataGenericDelegate, CustomerInfoLinkedToTableViewCellDelegate, CustomerInfoAccessTimesCalendarTableViewControllerDelegate, ArcosMailTableViewControllerDelegate, CustomerInfoButtonCellDelegate>{
     id<GenericRefreshParentContentDelegate> _refreshDelegate;
     NSMutableDictionary* aCustDict;
     NSNumber* custIUR;
@@ -73,7 +73,8 @@
     CustomerCoverHomePageImageViewController* _customerCoverHomePageImageViewController;
     CustomerDetailsEditDataManager* _customerDetailsBuyingGroupDataManager;
     WidgetFactory* _factory;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
     NSString* _accountBalanceLabel;
     CallGenericServices* _callGenericServices;
     CustomerTypesDataManager* _customerTypesDataManager;
@@ -99,7 +100,8 @@
 @property (nonatomic, retain) NSString* locationDefaultContactName;
 @property(nonatomic,retain) MFMailComposeViewController* mailController;
 @property(nonatomic,retain)    WidgetFactory* factory;
-@property(nonatomic,retain) UIPopoverController* thePopover;
+//@property(nonatomic,retain) UIPopoverController* thePopover;
+@property (nonatomic, retain) WidgetViewController* globalWidgetViewController;
 
 @property (nonatomic, retain) CustomerInfoTableDataManager* customerInfoTableDataManager;
 @property (nonatomic, retain) CustomerCoverHomePageImageViewController* customerCoverHomePageImageViewController;

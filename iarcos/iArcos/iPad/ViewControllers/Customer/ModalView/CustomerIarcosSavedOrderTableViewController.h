@@ -28,7 +28,8 @@
     UIBarButtonItem* _remoteButton;
     CallGenericServices* _callGenericServices;
     WidgetFactory* _factory;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
     NSNumber* _coordinateType;
     MBProgressHUD* _HUD;
 }
@@ -42,7 +43,8 @@
 @property (nonatomic,retain) UIBarButtonItem* remoteButton;
 @property (nonatomic,retain) CallGenericServices* callGenericServices;
 @property (nonatomic, retain) WidgetFactory* factory;
-@property (nonatomic, retain) UIPopoverController* thePopover;
+//@property (nonatomic, retain) UIPopoverController* thePopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property (nonatomic, retain) NSNumber* coordinateType;
 @property (nonatomic,retain) MBProgressHUD* HUD;
 

@@ -9,12 +9,14 @@
 #import "CustomerInfoStartTimeTableViewCell.h"
 
 @implementation CustomerInfoStartTimeTableViewCell
+@synthesize actionDelegate = _actionDelegate;
 @synthesize infoTitle = _infoTitle;
 @synthesize infoValue = _infoValue;
 @synthesize actionBtn = _actionBtn;
 @synthesize cellData = _cellData;
 @synthesize widgetFactory = _widgetFactory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -36,7 +38,8 @@
     self.actionBtn = nil;
     self.cellData = nil;
     self.widgetFactory = nil;
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     
     [super dealloc];
 }
@@ -68,29 +71,41 @@
         self.widgetFactory = [WidgetFactory factory];
         self.widgetFactory.delegate = self;
     }
-    self.thePopover = [self.widgetFactory createDateHourMinuteWidgetWithType:DatePickerHourMinuteNormalType datePickerValue:[GlobalSharedClass shared].startRecordingDate minDate:nil maxDate:[NSDate date]];
-    if (self.thePopover != nil) {
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromRect:self.infoValue.bounds inView:self.infoValue permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    }
+    self.globalWidgetViewController = [self.widgetFactory createDateHourMinuteWidgetWithType:DatePickerHourMinuteNormalType datePickerValue:[GlobalSharedClass shared].startRecordingDate minDate:nil maxDate:[NSDate date]];
+//    if (self.thePopover != nil) {
+//        self.thePopover.delegate = self;
+//        [self.thePopover presentPopoverFromRect:self.infoValue.bounds inView:self.infoValue permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//    }
+    self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+    self.globalWidgetViewController.popoverPresentationController.sourceView = self.infoValue;
+    self.globalWidgetViewController.popoverPresentationController.sourceRect = self.infoValue.bounds;
+    self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    self.globalWidgetViewController.popoverPresentationController.delegate = self;
+    [[self.actionDelegate retrieveCustomerInfoButtonParentViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
 }
 
 #pragma mark WidgetFactoryDelegate
 - (void)operationDone:(id)data {
-    [self.thePopover dismissPopoverAnimated:YES];
+//    [self.thePopover dismissPopoverAnimated:YES];
+    [[self.actionDelegate retrieveCustomerInfoButtonParentViewController] dismissViewControllerAnimated:YES completion:nil];
     [GlobalSharedClass shared].startRecordingDate = data;
     self.infoValue.text = [ArcosUtils stringFromDate:data format:[GlobalSharedClass shared].datetimeFormat];
     [self clearPopoverCacheData];
 }
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    [self clearPopoverCacheData];
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
     [self clearPopoverCacheData];
 }
 
 - (void)clearPopoverCacheData {
-    self.thePopover = nil;
-    self.widgetFactory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.widgetFactory.popoverController = nil;
+    self.globalWidgetViewController = nil;
 }
 
 @end

@@ -30,7 +30,7 @@
     BOOL _isNotFirstLoaded;
 //    NSString* _filePath;
     EmailRecipientTableViewController* _emailRecipientTableViewController;
-    UIPopoverController* _emailPopover;
+//    UIPopoverController* _emailPopover;
     UIBarButtonItem* _emailButton;
     MFMailComposeViewController* _mailController;
     UIViewController* _myRootViewController;
@@ -53,7 +53,7 @@
 @property(nonatomic, assign) BOOL isNotFirstLoaded;
 //@property(nonatomic, retain) NSString* filePath;
 @property(nonatomic,retain) EmailRecipientTableViewController* emailRecipientTableViewController;
-@property(nonatomic, retain) UIPopoverController* emailPopover;
+//@property(nonatomic, retain) UIPopoverController* emailPopover;
 @property(nonatomic, retain) UIBarButtonItem* emailButton;
 @property(nonatomic,retain) MFMailComposeViewController* mailController;
 @property(nonatomic,retain) UIViewController* myRootViewController;

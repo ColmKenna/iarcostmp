@@ -244,10 +244,13 @@
      [detailViewController release];
      */
 }
-#pragma mark - OrderDetailTypesTableCellDelegate
+#pragma mark - OrderDetailTypesTableCellDelegate CustomerJourneyStartDateTableCellDelegate
 -(void)inputFinishedWithData:(id)data forIndexpath:(NSIndexPath*)theIndexpath {
     [self.customerJourneyStartDateDataManager inputFinishedWithData:data forIndexpath:theIndexpath];
 }
 
+- (UIViewController*)retrieveCustomerJourneyStartDateParentViewController {
+    return self;
+}
 
 @end

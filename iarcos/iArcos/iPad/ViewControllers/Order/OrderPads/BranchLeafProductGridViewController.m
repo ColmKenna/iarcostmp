@@ -30,7 +30,8 @@
 @synthesize isSlideUpViewShowing = _isSlideUpViewShowing;
 @synthesize pageIndexViewController = _pageIndexViewController;
 @synthesize isPageIndexViewShowing = _isPageIndexViewShowing;
-@synthesize inputPopover = _inputPopover;
+//@synthesize inputPopover = _inputPopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize factory = _factory;
 @synthesize rootView = _rootView;
 @synthesize navigationTitleDelegate = _navigationTitleDelegate;
@@ -72,7 +73,8 @@
         self.leafSmallTemplateViewController = nil;
     }
     if (self.pageIndexViewController != nil) { self.pageIndexViewController = nil; }
-    if (self.inputPopover != nil) { self.inputPopover = nil; }
+//    if (self.inputPopover != nil) { self.inputPopover = nil; }
+    self.globalWidgetViewController = nil;
     if (self.factory != nil) { self.factory = nil; }
     if (self.rootView != nil) { self.rootView = nil; }
     if (self.discountAllowedNumber != nil) { self.discountAllowedNumber = nil; }
@@ -185,11 +187,22 @@
     [self alignPageIndexSubView];
     [self.leafSmallTemplateViewController willAnimateRotationToInterfaceOrientation:interfaceOrientation duration:duration];
     [self.pageIndexViewController willAnimateRotationToInterfaceOrientation:interfaceOrientation duration:duration];
-    if ([self.inputPopover isPopoverVisible]) {
-        [self.inputPopover dismissPopoverAnimated:NO];
-        CGRect aRect = CGRectMake(self.rootView.view.bounds.size.width - 10, self.rootView.view.bounds.size.height - 10, 1, 1);
-        [self.inputPopover presentPopoverFromRect:aRect inView:self.rootView.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
-    }
+//    if ([self.inputPopover isPopoverVisible]) {
+//        [self.inputPopover dismissPopoverAnimated:NO];
+//        CGRect aRect = CGRectMake(self.rootView.view.bounds.size.width - 10, self.rootView.view.bounds.size.height - 10, 1, 1);
+//        [self.inputPopover presentPopoverFromRect:aRect inView:self.rootView.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+//    }
+}
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        if (self.presentedViewController != nil && [self.presentedViewController isKindOfClass:[WidgetViewController class]]) {
+            CGRect aRect = CGRectMake(self.rootView.view.bounds.size.width - 10, self.rootView.view.bounds.size.height - 10, 1, 1);
+            self.globalWidgetViewController.popoverPresentationController.sourceRect = aRect;
+        }
+    }];
 }
 
 - (void)alignSubviewsWillAppear {
@@ -372,16 +385,16 @@
     NSMutableDictionary* productDetailDict = [aSectionArray objectAtIndex:self.branchLeafProductDataManager.selectedIndexPath.row];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
         if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].pxDbName]) {
-            self.inputPopover = [self.factory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            self.globalWidgetViewController = [self.factory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
         } else {
-            self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            self.globalWidgetViewController = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
         }
         
-        WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
-        wvc.Data = productDetailDict;
+//        WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
+        self.globalWidgetViewController.Data = productDetailDict;
     } else {
-        self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
-        OrderInputPadViewController* oipvc = (OrderInputPadViewController*) self.inputPopover.contentViewController;
+        self.globalWidgetViewController = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        OrderInputPadViewController* oipvc = (OrderInputPadViewController*) self.globalWidgetViewController;
         oipvc.Data = productDetailDict;
         oipvc.bonusDealResultDict = [oipvc interpretBonusDeal:[productDetailDict objectForKey:@"BonusDeal"]];
         [self checkQtyByBonusDeal:productDetailDict orderInputPadViewController:oipvc numberBtn:aNumberBtn funcBtn:aFuncBtn];
@@ -393,7 +406,8 @@
             return;
         }
     }
-    self.inputPopover.delegate = self;
+//    self.inputPopover.delegate = self;
+    self.globalWidgetViewController.popoverPresentationController.delegate = self;
     NSNumber* unitsPerPack = [productDetailDict objectForKey:@"UnitsPerPack"];
     if ((aFuncBtn.tag == 2 || aFuncBtn.tag == 3) && aNumberBtn.tag >= [unitsPerPack intValue]) {//spqty or spbon btn
         [ArcosUtils showMsg:[NSString stringWithFormat:@"The value can not be greater or equal to %d.", [unitsPerPack intValue]] delegate:nil];
@@ -431,16 +445,16 @@
     NSMutableDictionary* productDetailDict = [aSectionArray objectAtIndex:self.branchLeafProductDataManager.selectedIndexPath.row];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
         if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].pxDbName]) {
-            self.inputPopover = [self.factory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            self.globalWidgetViewController = [self.factory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
         } else {
-            self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            self.globalWidgetViewController = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
         }
         
-        WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
-        wvc.Data = productDetailDict;
+//        WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
+        self.globalWidgetViewController.Data = productDetailDict;
     } else {
-        self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
-        OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
+        self.globalWidgetViewController = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+        OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.globalWidgetViewController;
         oipvc.Data = productDetailDict;
 //        oipvc.showSeparator = self.showSeparator;
         oipvc.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
@@ -450,8 +464,14 @@
             return;
         }
     }
-    self.inputPopover.delegate = self;
-    [self.inputPopover presentPopoverFromRect:aRect inView:self.rootView.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+//    self.inputPopover.delegate = self;
+//    [self.inputPopover presentPopoverFromRect:aRect inView:self.rootView.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+    self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+    self.globalWidgetViewController.popoverPresentationController.sourceView = self.rootView.view;
+    self.globalWidgetViewController.popoverPresentationController.sourceRect = aRect;
+    self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionDown;
+    self.globalWidgetViewController.popoverPresentationController.delegate = self;
+    [self presentViewController:self.globalWidgetViewController animated:YES completion:nil];
 }
 
 - (void)numberInputPadWithSearchBtn:(NSString*)aKeyword {
@@ -541,7 +561,8 @@
 
 #pragma mark WidgetFactoryDelegate
 -(void)operationDone:(id)data{
-    [self.inputPopover dismissPopoverAnimated:YES];
+//    [self.inputPopover dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     BOOL isSelected = [ProductFormRowConverter isSelectedWithFormRowDict:data];
     [data setObject:[NSNumber numberWithBool:isSelected] forKey:@"IsSelected"];
     [[OrderSharedClass sharedOrderSharedClass] saveOrderLine:data];
@@ -586,6 +607,7 @@
 }
 
 #pragma mark UIPopoverControllerDelegate
+/*
 - (BOOL)popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController {
     if ([popoverController.contentViewController isKindOfClass:[OrderInputPadViewController class]]) {
         OrderInputPadViewController* oipvc = (OrderInputPadViewController*) popoverController.contentViewController;
@@ -595,7 +617,21 @@
         if (![[ArcosUtils convertNilToEmpty:[oipvc.Data objectForKey:@"BonusDeal"]] isEqualToString:@""]) {
             return NO;
         }
-    }    
+    }
+    return YES;
+}*/
+
+#pragma mark UIPopoverPresentationControllerDelegate
+- (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    if ([popoverPresentationController.presentedViewController isKindOfClass:[OrderInputPadViewController class]]) {
+        OrderInputPadViewController* oipvc = (OrderInputPadViewController*)popoverPresentationController.presentedViewController;
+        if ([[oipvc.Data objectForKey:@"RRIUR"] intValue] == -1) {
+            return NO;
+        }
+        if (![[ArcosUtils convertNilToEmpty:[oipvc.Data objectForKey:@"BonusDeal"]] isEqualToString:@""]) {
+            return NO;
+        }
+    }
     return YES;
 }
 

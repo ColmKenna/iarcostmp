@@ -10,17 +10,20 @@
 #import "CustomerBaseTableCell.h"
 #import "WidgetFactory.h"
 
-@interface CustomerContactIURTableCell : CustomerBaseTableCell<WidgetFactoryDelegate, UIPopoverControllerDelegate, UITextFieldDelegate> {
+@interface CustomerContactIURTableCell : CustomerBaseTableCell<WidgetFactoryDelegate, UIPopoverPresentationControllerDelegate, UITextFieldDelegate> {
     UILabel* fieldDesc;
     UITextField* contentString;
     WidgetFactory* _factory;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
 }
 
 @property(nonatomic,retain) IBOutlet UILabel* fieldDesc;
 @property(nonatomic,retain) IBOutlet UITextField* contentString;
 @property(nonatomic,retain) WidgetFactory* factory;
-@property(nonatomic,retain) UIPopoverController* thePopover;
+//@property(nonatomic,retain) UIPopoverController* thePopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
+
 
 -(void)handleSingleTapGesture:(id)sender;
 -(void)processDescrSelectionPopover;

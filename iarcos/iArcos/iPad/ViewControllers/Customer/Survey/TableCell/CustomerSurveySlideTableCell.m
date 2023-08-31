@@ -12,7 +12,8 @@
 //@synthesize narrative;
 @synthesize responseLimits;
 @synthesize factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -34,7 +35,8 @@
 //    if (self.narrative != nil) { self.narrative = nil; }
     if (self.responseLimits != nil) { self.responseLimits = nil; }
     if (self.factory != nil) { self.factory = nil; }
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     
     [super dealloc];
 }
@@ -78,31 +80,41 @@
         self.factory = [WidgetFactory factory];
         self.factory.delegate = self;
     }
-    self.thePopover = [self.factory CreateTableWidgetWithData:tableDataList withTitle:@"ResponseLimits" withParentContentString:self.responseLimits.text];
+    self.globalWidgetViewController = [self.factory CreateTableWidgetWithData:tableDataList withTitle:@"ResponseLimits" withParentContentString:self.responseLimits.text];
     
     //do show the popover if there is no data
-    if (self.thePopover != nil) {
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromRect:self.responseLimits.bounds inView:self.responseLimits permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (self.globalWidgetViewController != nil) {
+//        self.thePopover.delegate = self;
+//        [self.thePopover presentPopoverFromRect:self.responseLimits.bounds inView:self.responseLimits permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = self.responseLimits;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = self.responseLimits.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [[self.delegate retrieveParentViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
     }
 }
 
 -(void)operationDone:(id)data {
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+    [[self.delegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
     self.responseLimits.text = [data objectForKey:@"Title"];
     [self.delegate inputFinishedWithData:[data objectForKey:@"Title"] forIndexpath:self.indexPath];
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+    self.globalWidgetViewController = nil;
 }
 
 -(void)dismissPopoverController {
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-        self.thePopover = nil;
-        self.factory.popoverController = nil;
-    }
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//        self.thePopover = nil;
+//        self.factory.popoverController = nil;
+//    }
+    [[self.delegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
+    self.globalWidgetViewController = nil;
 }
 
 //-(void)handleSingleTapGesture4Narrative:(id)sender {
@@ -110,8 +122,12 @@
 //}
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 @end

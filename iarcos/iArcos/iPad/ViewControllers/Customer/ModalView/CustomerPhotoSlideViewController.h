@@ -26,12 +26,14 @@
     UIScrollView* _myScrollView;
     UIBarButtonItem* _emailButton;
     UIBarButtonItem* _trashButton;
-    UIPopoverController* _emailPopover;
+//    UIPopoverController* _emailPopover;
     UINavigationController* _emailNavigationController;
     MFMailComposeViewController* _mailController;
-    UIPopoverController* _trashPopover;
+//    UIPopoverController* _trashPopover;
+    CustomerPhotoDeleteActionViewController* _cpdavc;
     UIBarButtonItem* _cameraRollButton;
-    UIPopoverController* _cameraRollPopover;
+//    UIPopoverController* _cameraRollPopover;
+    UIImagePickerController* _imagePickerController;
     UINavigationController* _globalNavigationController;
     UIViewController* _rootView;
 }
@@ -43,12 +45,14 @@
 @property(nonatomic, retain) IBOutlet UIScrollView* myScrollView;
 @property(nonatomic, retain) UIBarButtonItem* emailButton;
 @property(nonatomic, retain) UIBarButtonItem* trashButton;
-@property(nonatomic, retain) UIPopoverController* emailPopover;
+//@property(nonatomic, retain) UIPopoverController* emailPopover;
 @property(nonatomic, retain) UINavigationController* emailNavigationController;
 @property(nonatomic,retain) MFMailComposeViewController* mailController;
-@property(nonatomic,retain) UIPopoverController* trashPopover;
+//@property(nonatomic,retain) UIPopoverController* trashPopover;
+@property(nonatomic,retain) CustomerPhotoDeleteActionViewController* cpdavc;
 @property(nonatomic,retain) UIBarButtonItem* cameraRollButton;
-@property(nonatomic,retain) UIPopoverController* cameraRollPopover;
+//@property(nonatomic,retain) UIPopoverController* cameraRollPopover;
+@property(nonatomic,retain) UIImagePickerController* imagePickerController;
 @property(nonatomic,retain) UINavigationController* globalNavigationController;
 @property(nonatomic,retain) UIViewController* rootView;
 

@@ -24,7 +24,7 @@
 #import "PresenterPdfLinkWebViewController.h"
 #import "ArcosMailWrapperViewController.h"
 
-@interface CustomerGDPRViewController : UIViewController <WidgetFactoryDelegate, UIPopoverControllerDelegate, CustomerGDPRTableCellDelegate, GenericRefreshParentContentDelegate, CustomisePresentViewControllerDelegate, CustomerInfoAccessTimesCalendarTableViewControllerDelegate, UIWebViewDelegate, MFMailComposeViewControllerDelegate, ArcosMailTableViewControllerDelegate> {
+@interface CustomerGDPRViewController : UIViewController <WidgetFactoryDelegate, UIPopoverPresentationControllerDelegate, CustomerGDPRTableCellDelegate, GenericRefreshParentContentDelegate, CustomisePresentViewControllerDelegate, CustomerInfoAccessTimesCalendarTableViewControllerDelegate, UIWebViewDelegate, MFMailComposeViewControllerDelegate, ArcosMailTableViewControllerDelegate> {
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
     id<GenericRefreshParentContentDelegate> _refreshDelegate;
     UILabel* _locationNameLabel;
@@ -42,7 +42,8 @@
     CustomerGDPRDataManager* _customerGDPRDataManager;
     UIBarButtonItem* _saveButton;
     WidgetFactory* _factory;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
     CallGenericServices* _callGenericServices;
     UILabel* _myEmailAddressLabel;
     UIButton* _amendContactButton;
@@ -68,7 +69,8 @@
 @property(nonatomic, retain) CustomerGDPRDataManager* customerGDPRDataManager;
 @property(nonatomic, retain) UIBarButtonItem* saveButton;
 @property(nonatomic,retain) WidgetFactory* factory;
-@property(nonatomic,retain) UIPopoverController* thePopover;
+//@property(nonatomic,retain) UIPopoverController* thePopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property (nonatomic,retain) CallGenericServices* callGenericServices;
 @property(nonatomic, retain) IBOutlet UILabel* myEmailAddressLabel;
 @property(nonatomic, retain) IBOutlet UIButton* amendContactButton;

@@ -11,11 +11,12 @@
 #import "WidgetFactory.h"
 #import "CallGenericServices.h"
 
-@interface CustomerIURTableCell : CustomerBaseTableCell <WidgetFactoryDelegate, UIPopoverControllerDelegate, UITextFieldDelegate> {
+@interface CustomerIURTableCell : CustomerBaseTableCell <WidgetFactoryDelegate, UIPopoverPresentationControllerDelegate, UITextFieldDelegate> {
     IBOutlet UILabel* fieldDesc;
     IBOutlet UITextField* contentString;
     WidgetFactory* _factory;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
     NSMutableArray* _masterLocationDisplayList;
     CallGenericServices* _callGenericService;
     NSString* _headQuarterTitle;
@@ -24,7 +25,8 @@
 @property(nonatomic,retain) IBOutlet UILabel* fieldDesc;
 @property(nonatomic,retain) IBOutlet UITextField* contentString;
 @property(nonatomic,retain) WidgetFactory* factory;
-@property(nonatomic,retain) UIPopoverController* thePopover;
+//@property(nonatomic,retain) UIPopoverController* thePopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic,retain) NSMutableArray* masterLocationDisplayList;
 @property(nonatomic, retain) CallGenericServices* callGenericServices;
 @property(nonatomic, retain) NSString* headQuarterTitle;

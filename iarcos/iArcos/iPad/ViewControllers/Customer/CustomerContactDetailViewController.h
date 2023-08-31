@@ -15,7 +15,7 @@
     NSMutableArray* myCustomers;
     NSMutableArray* customerNames;
     CustomerInfoTableViewController* myCustomerInfoViewController;
-    UIPopoverController* groupPopover;
+//    UIPopoverController* groupPopover;
     
     NSMutableArray* sortKeys;
     NSMutableDictionary* _customerSections;

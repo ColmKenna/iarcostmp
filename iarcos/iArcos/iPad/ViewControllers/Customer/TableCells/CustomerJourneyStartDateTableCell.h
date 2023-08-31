@@ -14,6 +14,7 @@
 @protocol CustomerJourneyStartDateTableCellDelegate <NSObject>
 
 -(void)inputFinishedWithData:(id)data forIndexpath:(NSIndexPath*)theIndexpath;
+- (UIViewController*)retrieveCustomerJourneyStartDateParentViewController;
 
 @end
 
@@ -21,7 +22,8 @@
     UILabel* _fieldNameLabel;
     UILabel* _fieldValueLabel;
     WidgetFactory* _widgetFactory;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
     BOOL _isEventSet;
     NSMutableDictionary* _cellData;
     NSIndexPath* _indexPath;
@@ -31,7 +33,8 @@
 @property(nonatomic,retain) IBOutlet UILabel* fieldNameLabel;
 @property(nonatomic,retain) IBOutlet UILabel* fieldValueLabel;
 @property(nonatomic, retain) WidgetFactory* widgetFactory;
-@property(nonatomic, retain) UIPopoverController* thePopover;
+//@property(nonatomic, retain) UIPopoverController* thePopover;
+@property(nonatomic, retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic, assign) BOOL isEventSet;
 @property(nonatomic, retain) NSMutableDictionary* cellData;
 @property(nonatomic, retain) NSIndexPath* indexPath;

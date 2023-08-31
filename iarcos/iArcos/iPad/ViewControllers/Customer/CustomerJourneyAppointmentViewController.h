@@ -13,7 +13,7 @@
 #import "WidgetFactory.h"
 
 
-@interface CustomerJourneyAppointmentViewController : UIViewController <WidgetFactoryDelegate, UIPopoverControllerDelegate> {
+@interface CustomerJourneyAppointmentViewController : UIViewController <WidgetFactoryDelegate, UIPopoverPresentationControllerDelegate> {
     id<ModalPresentViewControllerDelegate> _modalDelegate;
     UILabel* _callDateTitle;
     UILabel* _callDate;
@@ -22,7 +22,8 @@
     UILabel* _contactTitle;
     UILabel* _contact;
     WidgetFactory* _factory;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
     NSInteger _currentLabelIndex;
     
 }
@@ -35,7 +36,8 @@
 @property(nonatomic, retain) IBOutlet UILabel* contactTitle;
 @property(nonatomic, retain) IBOutlet UILabel* contact;
 @property(nonatomic, retain) WidgetFactory* factory;
-@property(nonatomic, retain) UIPopoverController* thePopover;
+//@property(nonatomic, retain) UIPopoverController* thePopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic, assign) NSInteger currentLabelIndex;
 
 @end

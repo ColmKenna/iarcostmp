@@ -12,5 +12,6 @@
 
 //- (void)selectCustomerInfoLinkedToRecord:(UILabel*)aValueLabel;
 - (void)selectCustomerInfoLinkedToRecord:(NSMutableDictionary*)aCellDict;
+- (UIViewController*)retrieveCustomerInfoLinkedToParentViewController;
 
 @end

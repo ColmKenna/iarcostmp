@@ -65,7 +65,7 @@
 - (void)dealloc
 {
     [myCustomerPopoverMenuViewController release];
-    [popoverController release];
+//    [popoverController release];
     [optionButtom release];
     
     [Name release];
@@ -125,8 +125,8 @@
     
     myCustomerPopoverMenuViewController=[[CustomerPopoverMenuViewController alloc]init];
     myCustomerPopoverMenuViewController.delegate=self;
-    popoverController=[[UIPopoverController alloc]initWithContentViewController:myCustomerPopoverMenuViewController];    
-    popoverController.popoverContentSize = myCustomerPopoverMenuViewController.view.bounds.size;
+//    popoverController=[[UIPopoverController alloc]initWithContentViewController:myCustomerPopoverMenuViewController];
+//    popoverController.popoverContentSize = myCustomerPopoverMenuViewController.view.bounds.size;
     optionButtom.enabled=YES;
         
         //[self.view addSubview:toolBar];
@@ -147,11 +147,11 @@
     // e.g. self.myOutlet = nil;
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    if ([popoverController isPopoverVisible]) {
-        
-        [popoverController dismissPopoverAnimated:YES];
-        
-    }
+//    if ([popoverController isPopoverVisible]) {
+//
+//        [popoverController dismissPopoverAnimated:YES];
+//
+//    }
     
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -309,15 +309,15 @@
 }
 -(IBAction)optionSelected:(id)sender{
     NSLog(@"option is selected!");
-    if ([popoverController isPopoverVisible]) {
-        
-        [popoverController dismissPopoverAnimated:YES];
-        
-    } else {
-        
-        [popoverController presentPopoverFromBarButtonItem:optionButtom permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        
-    }
+//    if ([popoverController isPopoverVisible]) {
+//
+//        [popoverController dismissPopoverAnimated:YES];
+//
+//    } else {
+//
+//        [popoverController presentPopoverFromBarButtonItem:optionButtom permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//
+//    }
 }
 -(IBAction)takeOrder:(id)sender{
     //root tab bar
@@ -404,7 +404,7 @@
 }
 //delegate
 -(void)buttonSelectedIndex:(NSInteger)index{
-    [popoverController dismissPopoverAnimated:YES];
+//    [popoverController dismissPopoverAnimated:YES];
     NSLog(@"button selected in delegate");
 //    CustomerInfoViewController* testView=[[CustomerInfoViewController alloc]init];
 //    [self.navigationController pushViewController:testView

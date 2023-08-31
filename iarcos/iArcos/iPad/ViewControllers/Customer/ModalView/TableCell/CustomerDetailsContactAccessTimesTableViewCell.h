@@ -10,13 +10,13 @@
 #import "ArcosCoreData.h"
 #import "CustomerInfoAccessTimesCalendarTableViewController.h"
 
-@interface CustomerDetailsContactAccessTimesTableViewCell : UITableViewCell <GenericSelectionCancelDelegate, CustomerInfoAccessTimesCalendarTableViewControllerDelegate, UIPopoverControllerDelegate>{
+@interface CustomerDetailsContactAccessTimesTableViewCell : UITableViewCell <GenericSelectionCancelDelegate, CustomerInfoAccessTimesCalendarTableViewControllerDelegate, UIPopoverPresentationControllerDelegate>{
     id<CustomerInfoAccessTimesCalendarTableViewControllerDelegate> _actionDelegate;
     UILabel* _infoTitle;
     UILabel* _infoValue;
     UIButton* _actionBtn;
     NSMutableDictionary* _cellData;
-    UIPopoverController* _accessTimesCalendarPopover;
+//    UIPopoverController* _accessTimesCalendarPopover;
     NSString* _typeCode;
 }
 
@@ -25,7 +25,7 @@
 @property(nonatomic, retain) IBOutlet UILabel* infoValue;
 @property(nonatomic, retain) IBOutlet UIButton* actionBtn;
 @property(nonatomic, retain) NSMutableDictionary* cellData;
-@property(nonatomic, retain) UIPopoverController* accessTimesCalendarPopover;
+//@property(nonatomic, retain) UIPopoverController* accessTimesCalendarPopover;
 @property(nonatomic, retain) NSString* typeCode;
 
 - (void)configCellWithData:(NSMutableDictionary*)aCustDict code:(NSString*)aCode;

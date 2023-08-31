@@ -38,7 +38,7 @@
     IBOutlet UIButton* widgetPopPoint;
     UILabel* _currentLabel;
     
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
     
     NSMutableDictionary* orderHeader;
     
@@ -110,7 +110,7 @@
 @property(nonatomic,retain) IBOutlet UITableView* orders;
 @property(nonatomic,retain) IBOutlet UIButton* widgetPopPoint;
 @property(nonatomic,retain) UILabel* currentLabel;
-@property(nonatomic,retain) UIPopoverController* thePopover;
+//@property(nonatomic,retain) UIPopoverController* thePopover;
 @property(nonatomic,retain) NSMutableDictionary* orderHeader;
 
 @property(nonatomic,retain) IBOutlet UITableView* checkoutList;

@@ -27,7 +27,8 @@ typedef enum {
     UIButton* _addLinkButton;
     NSString* _linkTextValue;
     NSMutableArray* _locationList;
-    UIPopoverController* _locationPopover;
+//    UIPopoverController* _locationPopover;
+    UINavigationController* _globalNavigationController;
     id<CustomerContactLinkHeaderViewControllerDelegate> _linkHeaderViewControllerDelegate;
 }
 @property(nonatomic, assign) CustomerContactLinkHeaderRequestSource linkHeaderRequestSource;
@@ -35,7 +36,8 @@ typedef enum {
 @property(nonatomic, retain) IBOutlet UIButton* addLinkButton;
 @property(nonatomic, retain) NSString* linkTextValue;
 @property(nonatomic, retain) NSMutableArray* locationList;
-@property(nonatomic, retain) UIPopoverController* locationPopover;
+@property(nonatomic, retain) UINavigationController* globalNavigationController;
+//@property(nonatomic, retain) UIPopoverController* locationPopover;
 @property(nonatomic, assign) id<CustomerContactLinkHeaderViewControllerDelegate> linkHeaderViewControllerDelegate;
 
 - (IBAction)addLinkPressed:(id)sender;

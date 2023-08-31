@@ -15,7 +15,8 @@
 @synthesize fieldValueLabel = _fieldValueLabel;
 @synthesize fieldTimeValueLabel = _fieldTimeValueLabel;
 @synthesize widgetFactory = _widgetFactory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize currentSelectedLabel = _currentSelectedLabel;
 
 - (void)awakeFromNib {
@@ -40,7 +41,8 @@
     self.fieldValueLabel = nil;
     self.fieldTimeValueLabel = nil;
     self.widgetFactory = nil;
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     self.currentSelectedLabel = nil;
     
     [super dealloc];
@@ -79,15 +81,16 @@
         NSMutableDictionary* fieldDataDict = [self.cellData objectForKey:@"FieldData"];
         switch (tapLabel.tag) {
             case 50: {
-                self.thePopover = [self.widgetFactory CreateDateWidgetWithDataSource:WidgetDataSourceNormalDate defaultPickerDate:[fieldDataDict objectForKey:@"Date"]];
-                self.thePopover.delegate = self;
-                [self.thePopover presentPopoverFromRect:self.currentSelectedLabel.bounds inView:self.currentSelectedLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                self.globalWidgetViewController = [self.widgetFactory CreateDateWidgetWithDataSource:WidgetDataSourceNormalDate defaultPickerDate:[fieldDataDict objectForKey:@"Date"]];
+//                self.thePopover.delegate = self;
+//                [self.thePopover presentPopoverFromRect:self.currentSelectedLabel.bounds inView:self.currentSelectedLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
             }
                 break;
             case 60: {
-                self.thePopover = [self.widgetFactory createDateHourMinuteWidgetWithType:DatePickerHourMinuteAccessTimesType datePickerValue:[fieldDataDict objectForKey:@"Time"] minDate:nil maxDate:nil];
-                self.thePopover.delegate = self;
-                [self.thePopover presentPopoverFromRect:self.currentSelectedLabel.bounds inView:self.currentSelectedLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//                self.thePopover = [self.widgetFactory createDateHourMinuteWidgetWithType:DatePickerHourMinuteAccessTimesType datePickerValue:[fieldDataDict objectForKey:@"Time"] minDate:nil maxDate:nil];
+                self.globalWidgetViewController = [self.widgetFactory createDateHourMinuteWidgetWithType:DatePickerHourMinuteAccessTimesType datePickerValue:[fieldDataDict objectForKey:@"Time"] minDate:nil maxDate:nil];
+//                self.thePopover.delegate = self;
+//                [self.thePopover presentPopoverFromRect:self.currentSelectedLabel.bounds inView:self.currentSelectedLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
             }
                 break;
                 
@@ -95,11 +98,18 @@
                 break;
         }
     }
+    self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+    self.globalWidgetViewController.popoverPresentationController.sourceView = self.currentSelectedLabel;
+    self.globalWidgetViewController.popoverPresentationController.sourceRect = self.currentSelectedLabel.bounds;
+    self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    self.globalWidgetViewController.popoverPresentationController.delegate = self;
+    [[self.actionDelegate retrieveCalendarEventEntryDetailParentViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
 }
 
 #pragma mark WidgetFactoryDelegate
 - (void)operationDone:(id)data {
-    [self.thePopover dismissPopoverAnimated:YES];
+//    [self.thePopover dismissPopoverAnimated:YES];
+    [[self.actionDelegate retrieveCalendarEventEntryDetailParentViewController] dismissViewControllerAnimated:YES completion:nil];
     NSMutableDictionary* fieldDataDict = [self.cellData objectForKey:@"FieldData"];
     switch (self.currentSelectedLabel.tag) {
         case 50: {
@@ -120,13 +130,19 @@
 }
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    [self clearPopoverCacheData];
+//}
+
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
     [self clearPopoverCacheData];
 }
 
 - (void)clearPopoverCacheData {
-    self.thePopover = nil;
-    self.widgetFactory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.widgetFactory.popoverController = nil;
+    self.globalWidgetViewController = nil;
 }
 
 @end

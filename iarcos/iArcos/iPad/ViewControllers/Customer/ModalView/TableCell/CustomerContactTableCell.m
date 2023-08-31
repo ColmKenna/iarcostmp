@@ -71,17 +71,17 @@
     dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:settingType];  
     navigationBarTitle = [[[ArcosCoreData sharedArcosCoreData] descrTypeWithTypeCode:settingType] objectForKey:@"Details"];
     
-    thePopover = [self.factory CreateTableWidgetWithData:dataList withTitle:navigationBarTitle withParentContentString:[self.cellData objectForKey:@"contentString"]];
+//    thePopover = [self.factory CreateTableWidgetWithData:dataList withTitle:navigationBarTitle withParentContentString:[self.cellData objectForKey:@"contentString"]];
     //do show the popover if there is no data
-    if (thePopover != nil) {
-        thePopover.delegate = self;
-        [thePopover presentPopoverFromRect:self.contentString.bounds inView:self.contentString permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    }
+//    if (thePopover != nil) {
+//        thePopover.delegate = self;
+//        [thePopover presentPopoverFromRect:self.contentString.bounds inView:self.contentString permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//    }
 }
 -(void)operationDone:(id)data {
-    if (thePopover != nil) {
-        [thePopover dismissPopoverAnimated:YES];
-    }
+//    if (thePopover != nil) {
+//        [thePopover dismissPopoverAnimated:YES];
+//    }
     if (self.cellData == nil) {
         self.cellData = [NSMutableDictionary dictionary];
     }
@@ -91,9 +91,9 @@
     [self.delegate inputFinishedWithData:[data objectForKey:@"Title"] actualContent:[data objectForKey:@"DescrDetailIUR"] WithIndexPath:self.indexPath];
 }
 -(void)dismissPopoverController {
-    if (thePopover != nil) {
-        [thePopover dismissPopoverAnimated:YES];
-    }
+//    if (thePopover != nil) {
+//        [thePopover dismissPopoverAnimated:YES];
+//    }
 }
 
 -(void)configCellWithData:(NSMutableDictionary*)theData{

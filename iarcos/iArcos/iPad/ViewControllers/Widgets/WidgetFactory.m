@@ -35,8 +35,8 @@
 +(WidgetFactory*)factory{
     return [[[WidgetFactory alloc]init]autorelease];
 }
--(UIPopoverController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource{
-    WidgetViewController*wvc;
+-(WidgetViewController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource{
+    WidgetViewController* wvc = nil;
     switch (dataSource) {
         case WidgetDataSourceNormalDate:
             wvc=[self getDatePickerWidgetWithType:DatePickerNormalDateType];
@@ -51,12 +51,14 @@
             break;
     }
     
-    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
-    self.popoverController.popoverContentSize=wvc.view.frame.size;
+//    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
+//    self.popoverController.popoverContentSize=wvc.view.frame.size;
+    wvc.preferredContentSize = wvc.view.frame.size;
     wvc.delegate=self;
-    return self.popoverController;
+//    return self.popoverController;
+    return wvc;
 }
--(UIPopoverController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource defaultPickerDate:(NSDate*)aDefaultPickerDate {
+-(WidgetViewController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource defaultPickerDate:(NSDate*)aDefaultPickerDate {
     WidgetViewController* wvc = nil;
     switch (dataSource) {
         case WidgetDataSourceNormalDate:
@@ -72,14 +74,16 @@
             break;
     }
     
-    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
-    self.popoverController.popoverContentSize=wvc.view.frame.size;
+//    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
+//    self.popoverController.popoverContentSize=wvc.view.frame.size;
+    wvc.preferredContentSize = wvc.view.frame.size;
     wvc.delegate=self;
-    return self.popoverController;
+//    return self.popoverController;
+    return wvc;
 }
 
--(UIPopoverController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource pickerFormatType:(DatePickerFormatType)aPickerFormatType {
-    WidgetViewController* wvc;
+-(WidgetViewController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource pickerFormatType:(DatePickerFormatType)aPickerFormatType {
+    WidgetViewController* wvc = nil;
     switch (dataSource) {
         case WidgetDataSourceOrderDate:
             wvc=[[[DatePickerWidgetViewController alloc]initWithType:DatePickerOrderDateType pickerFormatType:aPickerFormatType]autorelease];
@@ -91,10 +95,12 @@
             break;
     }
     
-    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
-    self.popoverController.popoverContentSize=wvc.view.frame.size;
+//    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
+//    self.popoverController.popoverContentSize=wvc.view.frame.size;
+    wvc.preferredContentSize = wvc.view.frame.size;
     wvc.delegate=self;
-    return self.popoverController;
+//    return self.popoverController;
+    return wvc;
 }
 
 -(UIPopoverController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource pickerFormatType:(DatePickerFormatType)aPickerFormatType defaultPickerDate:(NSDate*)aDefaultPickerDate {
@@ -119,15 +125,17 @@
     return self.popoverController;
 }
 
-- (UIPopoverController*)createDateHourMinuteWidgetWithType:(DatePickerHourMinuteWidgetType)aType datePickerValue:(NSDate*)aDatePickerValue minDate:(NSDate*)aMinDate maxDate:(NSDate*)aMaxDate {
+- (WidgetViewController*)createDateHourMinuteWidgetWithType:(DatePickerHourMinuteWidgetType)aType datePickerValue:(NSDate*)aDatePickerValue minDate:(NSDate*)aMinDate maxDate:(NSDate*)aMaxDate {
     WidgetViewController* wvc = [[[DatePickerHourMinuteWidgetViewController alloc] initWithType:aType datePickerValue:aDatePickerValue minDate:aMinDate maxDate:aMaxDate] autorelease];
-    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
-    self.popoverController.popoverContentSize = wvc.view.frame.size;
+//    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
+//    self.popoverController.popoverContentSize = wvc.view.frame.size;
+    wvc.preferredContentSize = wvc.view.frame.size;
     wvc.delegate = self;
-    return self.popoverController;
+//    return self.popoverController;
+    return wvc;
 }
 
--(UIPopoverController*)CreateCategoryWidgetWithDataSource:(WidgetDataSource)dataSource{
+-(WidgetViewController*)CreateCategoryWidgetWithDataSource:(WidgetDataSource)dataSource{
     WidgetViewController*wvc = nil;
     switch (dataSource) {
         case WidgetDataSourceOrderStatus:
@@ -179,59 +187,70 @@
             break;
     }
     
-    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
-    self.popoverController.popoverContentSize=wvc.view.frame.size;
+//    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
+//    self.popoverController.popoverContentSize=wvc.view.frame.size;
+    wvc.preferredContentSize = wvc.view.frame.size;
     wvc.delegate=self;
     
     //no data  return nil
     if (!wvc.anyDataSource) {
         return nil;
     }
-    return self.popoverController;
+//    return self.popoverController;
+    return wvc;
 }
 -(UIPopoverController*)CreateNumberWidgetWithType:(NumberWidgetType)type{
     return self.popoverController;
 }
 
--(UIPopoverController*)CreateOrderInputPadWidgetWithLocationIUR:(NSNumber*)aLocationIUR{
+-(WidgetViewController*)CreateOrderInputPadWidgetWithLocationIUR:(NSNumber*)aLocationIUR{
     WidgetViewController* wvc = [[[OrderInputPadViewController alloc]initWithNibName:@"OrderInputPadViewController" bundle:nil]autorelease];
     wvc.locationIUR = aLocationIUR;
-    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
+//    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showMATWithQtyPopoverFlag]) {
-        self.popoverController.popoverContentSize = wvc.view.frame.size;
+//        self.popoverController.popoverContentSize = wvc.view.frame.size;
+        wvc.preferredContentSize = wvc.view.frame.size;
     } else {
 //        self.popoverController.popoverContentSize = [GlobalSharedClass shared].numberPadSize;
-        self.popoverController.popoverContentSize = CGSizeMake(470.0, wvc.view.frame.size.height);
+//        self.popoverController.popoverContentSize = CGSizeMake(470.0, wvc.view.frame.size.height);
+        wvc.preferredContentSize = CGSizeMake(470.0, wvc.view.frame.size.height);
     }
     
     wvc.delegate=self;
-    return self.popoverController;
+//    return self.popoverController;
+    return wvc;
 }
--(UIPopoverController*)CreateOrderEntryInputWidgetWithLocationIUR:(NSNumber*)aLocationIUR {
+-(WidgetViewController*)CreateOrderEntryInputWidgetWithLocationIUR:(NSNumber*)aLocationIUR {
     WidgetViewController* wvc = [[[OrderEntryInputViewController alloc] initWithNibName:@"OrderEntryInputViewController" bundle:nil] autorelease];
     wvc.locationIUR = aLocationIUR;
-    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
+//    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showMATWithQtyPopoverFlag]) {
-        self.popoverController.popoverContentSize = wvc.view.frame.size;
+//        self.popoverController.popoverContentSize = wvc.view.frame.size;
+        wvc.preferredContentSize = wvc.view.frame.size;
     } else {
-        self.popoverController.popoverContentSize = CGSizeMake(470.0, wvc.view.frame.size.height);
+//        self.popoverController.popoverContentSize = CGSizeMake(470.0, wvc.view.frame.size.height);
+        wvc.preferredContentSize = CGSizeMake(470.0, wvc.view.frame.size.height);
     }
     
     wvc.delegate=self;
-    return self.popoverController;
+//    return self.popoverController;
+    return wvc;
 }
--(UIPopoverController*)CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:(NSNumber*)aLocationIUR {
+-(WidgetViewController*)CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:(NSNumber*)aLocationIUR {
     WidgetViewController* wvc = [[[OrderEntryInputRightHandSideGridViewController alloc] initWithNibName:@"OrderEntryInputRightHandSideGridViewController" bundle:nil] autorelease];
     wvc.locationIUR = aLocationIUR;
-    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
+//    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showMATWithQtyPopoverFlag]) {
-        self.popoverController.popoverContentSize = wvc.view.frame.size;
+//        self.popoverController.popoverContentSize = wvc.view.frame.size;
+        wvc.preferredContentSize = wvc.view.frame.size;
     } else {
-        self.popoverController.popoverContentSize = CGSizeMake(598.0, wvc.view.frame.size.height);
+//        self.popoverController.popoverContentSize = CGSizeMake(598.0, wvc.view.frame.size.height);
+        wvc.preferredContentSize = CGSizeMake(598.0, wvc.view.frame.size.height);
     }
     
     wvc.delegate=self;
-    return self.popoverController;
+//    return self.popoverController;
+    return wvc;
 }
 
 -(UIPopoverController*)CreateDetaillingInputPadWidgetWithProductName:(NSString*)aProductName WithQty:(NSNumber*)aQty{
@@ -298,11 +317,11 @@
 }
 
 -(UIPopoverController*)CreateGenericCategoryWidgetWithPickerValue:(NSMutableArray*)aPickerValue {
-    WidgetViewController* wvc;
-    wvc = [[[PickerWidgetViewController alloc] initWithPickerValue:aPickerValue] autorelease];
+    WidgetViewController* wvc = [[[PickerWidgetViewController alloc] initWithPickerValue:aPickerValue] autorelease];
     
     self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
     self.popoverController.popoverContentSize=wvc.view.frame.size;
+//    wvc.preferredContentSize = wvc.view.frame.size;
     wvc.delegate=self;
     
     //no data  return nil
@@ -310,21 +329,23 @@
         return nil;
     }
     return self.popoverController;
+//    return wvc;
 }
 
--(UIPopoverController*)CreateGenericCategoryWidgetWithPickerValue:(NSMutableArray*)aPickerValue title:(NSString*)aTitle {
-    WidgetViewController* wvc;
-    wvc = [[[PickerWidgetViewController alloc] initWithPickerValue:aPickerValue title:aTitle] autorelease];
+-(WidgetViewController*)CreateGenericCategoryWidgetWithPickerValue:(NSMutableArray*)aPickerValue title:(NSString*)aTitle {
+    WidgetViewController* wvc = [[[PickerWidgetViewController alloc] initWithPickerValue:aPickerValue title:aTitle] autorelease];
     
-    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
-    self.popoverController.popoverContentSize=wvc.view.frame.size;
+//    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
+//    self.popoverController.popoverContentSize=wvc.view.frame.size;
+    wvc.preferredContentSize = wvc.view.frame.size;
     wvc.delegate=self;
     
     //no data  return nil
     if (!wvc.anyDataSource) {
         return nil;
     }
-    return self.popoverController;
+//    return self.popoverController;
+    return wvc;
 }
 
 -(UIPopoverController*)CreateGenericDynamicCategoryWidgetWithPickerValue:(NSMutableArray*)aPickerValue title:(NSString*)aTitle maxTextLength:(int)aMaxTextLength {
@@ -343,17 +364,18 @@
     return self.popoverController;
 }
 
--(UIPopoverController*)CreateTargetGenericCategoryWidgetWithPickerValue:(NSMutableArray*)aPickerValue miscDataDict:(NSMutableDictionary*)aDataDict{
-    PickerWidgetViewController* wvc;
-    wvc = [[[PickerWidgetViewController alloc] initWithPickerValue:aPickerValue miscDataDict:aDataDict delegate:self] autorelease];
+-(WidgetViewController*)CreateTargetGenericCategoryWidgetWithPickerValue:(NSMutableArray*)aPickerValue miscDataDict:(NSMutableDictionary*)aDataDict{
+    WidgetViewController* wvc = [[[PickerWidgetViewController alloc] initWithPickerValue:aPickerValue miscDataDict:aDataDict delegate:self] autorelease];
     
     //no data  return nil
-    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
-    self.popoverController.popoverContentSize=wvc.view.frame.size;
+//    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
+//    self.popoverController.popoverContentSize=wvc.view.frame.size;
+    wvc.preferredContentSize = wvc.view.frame.size;
     if (!wvc.anyDataSource) {
         return nil;
     }
-    return self.popoverController;
+//    return self.popoverController;
+    return wvc;
 }
 
 -(UIPopoverController*)CreateTargetGenericCategoryWidgetWithUncheckedPickerValue:(NSMutableArray*)aPickerValue miscDataDict:(NSMutableDictionary*)aDataDict {
@@ -374,17 +396,17 @@
     return nil;
 
 }
--(UIPopoverController*)CreateTableWidgetWithData:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentContentString:(NSString*)aParentContentString {
+-(WidgetViewController*)CreateTableWidgetWithData:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentContentString:(NSString*)aParentContentString {
     
-    WidgetViewController* wvc;
-    wvc = [[[TableWidgetViewController alloc] initWithDataList:aDataList withTitle:aTitle withParentContentString:aParentContentString] autorelease];    
+    WidgetViewController* wvc = [[[TableWidgetViewController alloc] initWithDataList:aDataList withTitle:aTitle withParentContentString:aParentContentString] autorelease];
     
-    self.popoverController=[[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
+//    self.popoverController=[[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
     CGSize size = CGSizeMake(320, 748);
     if ([aTitle isEqualToString:@"Head Quarter"]) {
         size = CGSizeMake(640, 748);
     }
-    self.popoverController.popoverContentSize = size;
+//    self.popoverController.popoverContentSize = size;
+    wvc.preferredContentSize = size;
     
     wvc.delegate=self;
     
@@ -392,14 +414,14 @@
     if (!wvc.anyDataSource) {
         return nil;
     }
-    return self.popoverController;
+//    return self.popoverController;
+    return wvc;
 }
 
--(UIPopoverController*)CreateTableWidgetWithData:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentContentString:(NSString*)aParentContentString requestSource:(TableWidgetRequestSource)aTableWidgetRequestSource {
-    WidgetViewController* wvc;
-    wvc = [[[TableWidgetViewController alloc] initWithDataList:aDataList withTitle:aTitle withParentContentString:aParentContentString requestSource:aTableWidgetRequestSource] autorelease];
+-(WidgetViewController*)CreateTableWidgetWithData:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentContentString:(NSString*)aParentContentString requestSource:(TableWidgetRequestSource)aTableWidgetRequestSource {
+    WidgetViewController* wvc = [[[TableWidgetViewController alloc] initWithDataList:aDataList withTitle:aTitle withParentContentString:aParentContentString requestSource:aTableWidgetRequestSource] autorelease];
     
-    self.popoverController=[[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
+//    self.popoverController=[[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
     CGSize size = CGSizeMake(320, 748);
     if ([aTitle isEqualToString:@"Head Quarter"]) {
         size = CGSizeMake(640, 748);
@@ -407,15 +429,16 @@
     if (aTableWidgetRequestSource == TableWidgetRequestSourceListing) {
         size = CGSizeMake(320.0, 240.0);
     }
-    self.popoverController.popoverContentSize = size;
-    
+//    self.popoverController.popoverContentSize = size;
+    wvc.preferredContentSize = size;
     wvc.delegate=self;
     
     //no data  return nil
     if (!wvc.anyDataSource) {
         return nil;
     }
-    return self.popoverController;
+//    return self.popoverController;
+    return wvc;
 }
 
 -(UIPopoverController*)CreateTableMSWidgetWithData:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentItemList:(NSMutableArray*)aParentItemList requestSource:(TableMSWidgetRequestSource)aTableMSWidgetRequestSource {

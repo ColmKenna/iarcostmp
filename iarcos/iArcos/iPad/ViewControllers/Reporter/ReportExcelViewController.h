@@ -22,7 +22,7 @@
     ReporterFileManager* _reporterFileManager;
     UIBarButtonItem* _emailButton;
     UIBarButtonItem* _previewButton;
-    UIPopoverController* _emailPopover;
+//    UIPopoverController* _emailPopover;
     UINavigationController* _emailNavigationController;
     MFMailComposeViewController* _mailController;
     UINavigationController* _globalNavigationController;
@@ -33,7 +33,7 @@
 @property (nonatomic,retain) ReporterFileManager* reporterFileManager;
 @property(nonatomic,retain) UIBarButtonItem* emailButton;
 @property(nonatomic,retain) UIBarButtonItem* previewButton;
-@property(nonatomic, retain) UIPopoverController* emailPopover;
+//@property(nonatomic, retain) UIPopoverController* emailPopover;
 @property(nonatomic, retain) UINavigationController* emailNavigationController;
 @property(nonatomic,retain) MFMailComposeViewController* mailController;
 @property(nonatomic, retain) UINavigationController* globalNavigationController;

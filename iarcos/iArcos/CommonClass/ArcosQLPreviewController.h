@@ -20,7 +20,7 @@
 @end
 
 @interface ArcosQLPreviewController : QLPreviewController <EmailRecipientDelegate, MFMailComposeViewControllerDelegate, QLPreviewControllerDelegate> {
-    UIPopoverController* _emailPopover;
+//    UIPopoverController* _emailPopover;
     UINavigationController* _emailNavigationController;
     MFMailComposeViewController* _mailController;
     UIBarButtonItem* _emailButton;
@@ -30,7 +30,7 @@
     BOOL _isNotNeedToShowPdfButton;
 }
 
-@property(nonatomic, retain) UIPopoverController* emailPopover;
+//@property(nonatomic, retain) UIPopoverController* emailPopover;
 @property(nonatomic, retain) UINavigationController* emailNavigationController;
 @property(nonatomic,retain) MFMailComposeViewController* mailController;
 @property(nonatomic,retain) UIBarButtonItem* emailButton;

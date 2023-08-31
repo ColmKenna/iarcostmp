@@ -22,7 +22,7 @@
 @synthesize locationName = _locationName;
 @synthesize locationAddress = _locationAddress;
 @synthesize planogramButton = _planogramButton;
-@synthesize orderPadsPopover = _orderPadsPopover;
+//@synthesize orderPadsPopover = _orderPadsPopover;
 @synthesize orderPadsButton = _orderPadsButton;
 @synthesize orderBaseTableViewController = _orderBaseTableViewController;
 @synthesize orderBaseContentView = _orderBaseContentView;
@@ -54,12 +54,14 @@
 }
 
 - (void)dealloc {
+    [self.globalNavigationController willMoveToParentViewController:nil];
     [[self.orderBaseTableContentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.globalNavigationController removeFromParentViewController];
     if (self.tableNavigationBar != nil) { self.tableNavigationBar = nil; }
     if (self.locationName != nil) { self.locationName = nil; }
     if (self.locationAddress != nil) { self.locationAddress = nil; }
     self.planogramButton = nil;
-    if (self.orderPadsPopover != nil) { self.orderPadsPopover = nil; }
+//    if (self.orderPadsPopover != nil) { self.orderPadsPopover = nil; }
     if (self.orderPadsButton != nil) { self.orderPadsButton = nil; }    
     if (self.orderBaseTableViewController != nil) { self.orderBaseTableViewController = nil; }
     if (self.orderBaseContentView != nil) { self.orderBaseContentView = nil; }
@@ -107,9 +109,10 @@
     self.orderPadsNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.fdtvc] autorelease];
     self.fdtvc.delegate = self;
     self.fdtvc.dividerDelegate = self;
+    self.orderPadsNavigationController.preferredContentSize = [[GlobalSharedClass shared] orderPadsSize];
     
-    self.orderPadsPopover = [[[UIPopoverController alloc]initWithContentViewController:self.orderPadsNavigationController] autorelease];
-    self.orderPadsPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
+//    self.orderPadsPopover = [[[UIPopoverController alloc]initWithContentViewController:self.orderPadsNavigationController] autorelease];
+//    self.orderPadsPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
     self.myRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
     self.myNewOrderDataManager = [[[NewOrderDataManager alloc] init] autorelease];
 }
@@ -241,10 +244,10 @@
 }
 
 - (void)packageButtonPressed {
-    if (self.orderPadsPopover != nil && [self.orderPadsPopover isPopoverVisible]) {
-        [self.orderPadsPopover dismissPopoverAnimated:NO];
-        return;
-    }
+//    if (self.orderPadsPopover != nil && [self.orderPadsPopover isPopoverVisible]) {
+//        [self.orderPadsPopover dismissPopoverAnimated:NO];
+//        return;
+//    }
     PackageTableViewController* PTVC = [[PackageTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     if ([PTVC.packageDataManager.displayList count] == 0) {
         [ArcosUtils showDialogBox:@"Selected Location does not have any Packages setup" title:@"" delegate:nil target:self tag:0 handler:nil];
@@ -390,7 +393,7 @@
     // Return YES for supported orientations    
 	return YES;
 }
-
+/*
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     if (self.orderPadsPopover != nil) {
         if ([self.orderPadsPopover isPopoverVisible]) {
@@ -422,6 +425,16 @@
             break;
         }
     }
+}
+*/
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self layoutMySubviews];
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        
+    }];
 }
 
 - (void)printButtonPressed:(id)sender {
@@ -472,10 +485,10 @@
     
     return;
      */
-    if (self.orderPadsPopover != nil && [self.orderPadsPopover isPopoverVisible]) {
-        [self.orderPadsPopover dismissPopoverAnimated:NO];
-        return;
-    }
+//    if (self.orderPadsPopover != nil && [self.orderPadsPopover isPopoverVisible]) {
+//        [self.orderPadsPopover dismissPopoverAnimated:NO];
+//        return;
+//    }
     /*
     if (self.orderPadsPopover == nil) {        
         self.fdtvc = [[FormDetailTableViewController alloc]initWithNibName:@"FormDetailTableViewController" bundle:nil];
@@ -492,7 +505,11 @@
     if (self.fdtvc.frdtvc != nil) {
         [self.fdtvc.frdtvc.formRowDividerTableView reloadData];
     }
-    [self.orderPadsPopover presentPopoverFromBarButtonItem:self.orderPadsBarButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+//    [self.orderPadsPopover presentPopoverFromBarButtonItem:self.orderPadsBarButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    self.orderPadsNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    self.orderPadsNavigationController.popoverPresentationController.barButtonItem = self.orderPadsBarButton;
+    self.orderPadsNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    [self presentViewController:self.orderPadsNavigationController animated:YES completion:nil];
 }
 
 #pragma mark - FormDetailDelegate
@@ -502,8 +519,11 @@
     [[OrderSharedClass sharedOrderSharedClass] insertFormIUR:[cellData objectForKey:@"IUR"]];
     [OrderSharedClass sharedOrderSharedClass].currentSelectionIUR = nil;
 //    NSLog(@"didSelectFormDetailRow subviews count: %d", [[self.orderBaseTableContentView subviews] count]);
+    [self.globalNavigationController willMoveToParentViewController:nil];
     [[self.orderBaseTableContentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    [self.orderPadsPopover dismissPopoverAnimated:YES];
+    [self.globalNavigationController removeFromParentViewController];    
+//    [self.orderPadsPopover dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 //    NSLog(@"didSelectFormDetailRow is: %@", cellData);
     NSString* details = [cellData objectForKey:@"Details"];
     NSRange aMATRange = [details rangeOfString:@"[MAT]"];
@@ -553,8 +573,8 @@
                 self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:BLPGVC] autorelease];
                 [BLPGVC release];
                 if ([BLPGVC.branchLeafProductDataManager.leafChildrenList count] == 0) break;
-                self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
-                [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
+//                self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
+//                [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
             } else {
                 BranchLargeSmallSlideViewController* blssvc = [[BranchLargeSmallSlideViewController alloc] initWithNibName:@"BranchLargeSmallSlideViewController" bundle:nil];
                 blssvc.formType = formType;
@@ -562,8 +582,8 @@
                 blssvc.navigationTitleDelegate = self;
                 self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:blssvc] autorelease];
                 [blssvc release];
-                self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
-                [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
+//                self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
+//                [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
             }
         }
             break;
@@ -575,8 +595,8 @@
             l3sfrtvc.navigationTitleDelegate = self;
             self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:l3sfrtvc] autorelease];
             [l3sfrtvc release];
-            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
-            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
+//            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
+//            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
         }
             break;
         case 8:
@@ -587,14 +607,18 @@
             tbilctvc.navigationTitleDelegate = self;
             self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:tbilctvc] autorelease];
             [tbilctvc release];
-            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
-            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
+//            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
+//            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
         }
             break;
         default:
             [self createBlankOrderPad];
             break;
-    }    
+    }
+    self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
+    [self addChildViewController:self.globalNavigationController];
+    [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
+    [self.globalNavigationController didMoveToParentViewController:self];
 //    if ([self.globalNavigationController.viewControllers count] == 1) {
 //        self.navigationItem.leftBarButtonItem = nil;
 //        [self resetNavigationTitleToBeginStatus];
@@ -617,7 +641,9 @@
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:SOPMTVC] autorelease];
     [SOPMTVC release];
     self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
+    [self addChildViewController:self.globalNavigationController];
     [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
+    [self.globalNavigationController didMoveToParentViewController:self];
 } 
 
 - (UIViewController*)retrieveCurrentViewController {
@@ -640,12 +666,16 @@
     tmpfrtvc.backButtonDelegate = self;
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:tmpfrtvc] autorelease];
     [tmpfrtvc release];
-    self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
-    [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
+//    self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
+//    [self addChildViewController:self.globalNavigationController];
+//    [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
+//    [self.globalNavigationController didMoveToParentViewController:self];
 }
 
-- (void)removeSubviewInOrderPadTemplate {    
+- (void)removeSubviewInOrderPadTemplate {
+    [self.globalNavigationController willMoveToParentViewController:nil];
     [[self.orderBaseTableContentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.globalNavigationController removeFromParentViewController];
 }
 
 - (void)didSelectFormRowDividerRow:(NSDictionary *)cellData formIUR:(NSNumber *)aFormIUR{
@@ -654,7 +684,8 @@
     [[OrderSharedClass sharedOrderSharedClass] insertFormIUR:aFormIUR];
     [[self.orderBaseTableContentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     NSDictionary* currentFormDetailRecordDict = [self.fdtvc.formDetailDataManager formDetailRecordDictWithIUR:aFormIUR];    
-    [self.orderPadsPopover dismissPopoverAnimated:YES];    
+//    [self.orderPadsPopover dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 //    NSLog(@"didSelectFormRowDividerRow is: %@", cellData);    
     NSNumber* sequenceDivider = [cellData objectForKey:@"SequenceDivider"];
     NSString* details = [cellData objectForKey:@"Details"];
@@ -692,9 +723,9 @@
 }
 
 - (void)checkout:(id)sender {
-    if (self.orderPadsPopover != nil && [self.orderPadsPopover isPopoverVisible]) {
-        [self.orderPadsPopover dismissPopoverAnimated:NO];              
-    }
+//    if (self.orderPadsPopover != nil && [self.orderPadsPopover isPopoverVisible]) {
+//        [self.orderPadsPopover dismissPopoverAnimated:NO];
+//    }
 //    CheckoutViewController* cvc = [[CheckoutViewController alloc] initWithNibName:@"CheckoutViewController" bundle:nil];
 //    cvc.title = @"Checkout";
 //    [self.navigationController pushViewController:cvc animated:YES];
@@ -769,16 +800,16 @@
             matfrtvc.backButtonDelegate = self;
             self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:matfrtvc] autorelease];
             [matfrtvc release];
-            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
-            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
+//            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
+//            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
         }
             break;
         case 102: {
             ImageFormRowsTableViewController* ifrtvc = [[ImageFormRowsTableViewController alloc] initWithNibName:@"ImageFormRowsTableViewController" bundle:nil];
             self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:ifrtvc] autorelease];
             [ifrtvc release];
-            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
-            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
+//            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
+//            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
         }
             break;
         case 104: {
@@ -790,8 +821,8 @@
             tmpfrtvc.backButtonDelegate = self;
             self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:tmpfrtvc] autorelease];
             [tmpfrtvc release];
-            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
-            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
+//            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
+//            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
         }
             break;
         case 105: {
@@ -805,8 +836,8 @@
             tmpfrtvc.backButtonDelegate = self;
             self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:tmpfrtvc] autorelease];
             [tmpfrtvc release];
-            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
-            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
+//            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
+//            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
         }
             break;
         case 202: {
@@ -814,8 +845,8 @@
             lifrsvc.backButtonDelegate = self;
             self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:lifrsvc] autorelease];
             [lifrsvc release];
-            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
-            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
+//            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
+//            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
         }
             break;
             
@@ -824,8 +855,8 @@
             lsifrsvc.backButtonDelegate = self;
             self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:lsifrsvc] autorelease];
             [lsifrsvc release];
-            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
-            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
+//            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
+//            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
         }
             break;
             
@@ -834,8 +865,8 @@
             lsl3sfrsvc.backButtonDelegate = self;
             self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:lsl3sfrsvc] autorelease];
             [lsl3sfrsvc release];
-            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
-            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
+//            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
+//            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
         }
             break;
             
@@ -845,8 +876,8 @@
             lsfdsvc.backButtonDelegate = self;
             self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:lsfdsvc] autorelease];
             [lsfdsvc release];
-            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
-            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
+//            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
+//            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
         }
             break;
         
@@ -860,8 +891,8 @@
             BLPGVC.leafSmallTemplateViewController.leafSmallTemplateDataManager.displayList = [NSMutableArray arrayWithArray:BLPGVC.branchLeafProductDataManager.leafChildrenList];
             self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:BLPGVC] autorelease];
             [BLPGVC release];
-            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
-            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
+//            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
+//            [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
         }
             break;
             

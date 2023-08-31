@@ -14,7 +14,8 @@
 @synthesize addLinkButton = _addLinkButton;
 @synthesize linkTextValue = _linkTextValue;
 @synthesize locationList = _locationList;
-@synthesize locationPopover = _locationPopover;
+//@synthesize locationPopover = _locationPopover;
+@synthesize globalNavigationController = _globalNavigationController;
 @synthesize linkHeaderViewControllerDelegate = _linkHeaderViewControllerDelegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -31,7 +32,8 @@
     if (self.addLinkButton != nil) { self.addLinkButton = nil; }
     if (self.linkTextValue != nil) { self.linkTextValue = nil; }
     if (self.locationList != nil) { self.locationList = nil; }    
-    if (self.locationPopover != nil) { self.locationPopover = nil; }        
+//    if (self.locationPopover != nil) { self.locationPopover = nil; }
+    self.globalNavigationController = nil;
     
     [super dealloc];
 }
@@ -107,30 +109,37 @@
 }
 
 - (IBAction)addLinkPressed:(id)sender {
-    if (self.locationPopover != nil) {
-        self.locationPopover = nil;
-    }
+//    if (self.locationPopover != nil) {
+//        self.locationPopover = nil;
+//    }
     
     CustomerSelectionListingTableViewController* CSLTVC = [[CustomerSelectionListingTableViewController alloc] initWithNibName:@"CustomerSelectionListingTableViewController" bundle:nil];
     CSLTVC.selectionDelegate = self;
     CSLTVC.isNotShowingAllButton = YES;
-    UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:CSLTVC];    
-    self.locationPopover = [[[UIPopoverController alloc] initWithContentViewController:tmpNavigationController] autorelease];    
-    self.locationPopover.popoverContentSize = CGSizeMake(700, 700);    
-    [self.locationPopover presentPopoverFromRect:self.addLinkButton.bounds inView:self.addLinkButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:CSLTVC] autorelease];
+//    self.locationPopover = [[[UIPopoverController alloc] initWithContentViewController:tmpNavigationController] autorelease];
+//    self.locationPopover.popoverContentSize = CGSizeMake(700, 700);
+//    [self.locationPopover presentPopoverFromRect:self.addLinkButton.bounds inView:self.addLinkButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    self.globalNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    self.globalNavigationController.popoverPresentationController.sourceView = self.addLinkButton;
+    self.globalNavigationController.popoverPresentationController.sourceRect = self.addLinkButton.bounds;
+    self.globalNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+//    self.globalWidgetViewController.popoverPresentationController.delegate = self;
+    [self presentViewController:self.globalNavigationController animated:YES completion:nil];
     
     [CSLTVC resetCustomer:self.locationList];
     [CSLTVC release];
     CSLTVC = nil;
-    [tmpNavigationController release];
-    tmpNavigationController = nil;
+//    [tmpNavigationController release];
+//    tmpNavigationController = nil;
 }
 
 #pragma mark CustomerSelectionListingDelegate
 - (void)didDismissSelectionPopover {
-    if (self.locationPopover != nil && [self.locationPopover isPopoverVisible]) {
-        [self.locationPopover dismissPopoverAnimated:YES];
-    }    
+//    if (self.locationPopover != nil && [self.locationPopover isPopoverVisible]) {
+//        [self.locationPopover dismissPopoverAnimated:YES];
+//    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didSelectCustomerSelectionListingRecord:(NSMutableDictionary*)aCustDict {

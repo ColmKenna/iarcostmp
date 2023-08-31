@@ -21,7 +21,7 @@
 #import "ProductDetailViewController.h"
 @class ArcosRootViewController;
 
-@interface BranchLeafProductGridViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, NumberInputPadViewDelegate, LeafSmallTemplatePageIndexDelegate, LeafSmallTemplateViewItemDelegate,WidgetFactoryDelegate, BranchLeafProductGridListTableViewCellDelegate, UIPopoverControllerDelegate> {
+@interface BranchLeafProductGridViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, NumberInputPadViewDelegate, LeafSmallTemplatePageIndexDelegate, LeafSmallTemplateViewItemDelegate,WidgetFactoryDelegate, BranchLeafProductGridListTableViewCellDelegate, UIPopoverPresentationControllerDelegate> {
     UIScrollView* _baseScrollContentView;
     NumberInputPadViewController* _numberInputPadViewController;
     BOOL _isNumberInputPadViewShowing;
@@ -32,7 +32,8 @@
     BOOL _isSlideUpViewShowing;
     LeafSmallTemplatePageIndexViewController* _pageIndexViewController;
     BOOL _isPageIndexViewShowing;
-    UIPopoverController* _inputPopover;
+//    UIPopoverController* _inputPopover;
+    WidgetViewController* _globalWidgetViewController;
     WidgetFactory* _factory;
     ArcosRootViewController* _rootView;
     id<BranchLeafProductNavigationTitleDelegate> _navigationTitleDelegate;
@@ -52,7 +53,8 @@
 @property(nonatomic, assign) BOOL isSlideUpViewShowing;
 @property(nonatomic, retain) LeafSmallTemplatePageIndexViewController* pageIndexViewController;
 @property(nonatomic, assign) BOOL isPageIndexViewShowing;
-@property(nonatomic, retain) UIPopoverController* inputPopover;
+//@property(nonatomic, retain) UIPopoverController* inputPopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic, retain) WidgetFactory* factory;
 @property(nonatomic, retain) ArcosRootViewController* rootView;
 @property(nonatomic, assign) id<BranchLeafProductNavigationTitleDelegate> navigationTitleDelegate;

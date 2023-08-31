@@ -80,6 +80,7 @@
     [super viewDidAppear:animated];
     [ArcosUtils maskTemplateViewWithView:self.eventTemplateView];
     [ArcosUtils maskTemplateViewWithView:self.listingTemplateView];
+    self.HUD.frame = self.navigationController.view.frame;
 }
 
 - (void)cancelPressed {
@@ -321,6 +322,10 @@
 
 - (UITableView*)retrieveEventTableView {
     return self.eventTableView;
+}
+
+- (UIViewController*)retrieveArcosCalendarEventEntryDetailTemplateViewController {
+    return self;
 }
 
 @end

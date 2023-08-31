@@ -310,9 +310,9 @@
         [self.customerSurveyDataManager updateChangedData:[ArcosUtils convertToString:data] withIndexPath:theIndexpath];
     }    
 }
--(void)popoverShows:(UIPopoverController*)aPopover {
+//-(void)popoverShows:(UIPopoverController*)aPopover {
 //    tablecellPopover = aPopover;
-}
+//}
 -(void)showSurveyDetail {
     if (self.customerSurveyDataManager.surveyDict != nil) {
         NSString* message = [NSString stringWithFormat:@"%@ from %@ to %@", [self.customerSurveyDataManager.surveyDict objectForKey:@"Narrative"], [ArcosUtils stringFromDate:[self.customerSurveyDataManager.surveyDict objectForKey:@"StartDate"] format:@"dd/MM/yyyy"], [ArcosUtils stringFromDate:[self.customerSurveyDataManager.surveyDict objectForKey:@"EndDate"] format:@"dd/MM/yyyy"]];

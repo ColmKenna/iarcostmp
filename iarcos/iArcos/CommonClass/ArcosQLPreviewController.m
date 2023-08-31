@@ -9,7 +9,7 @@
 #import "ArcosQLPreviewController.h"
 
 @implementation ArcosQLPreviewController
-@synthesize emailPopover = _emailPopover;
+//@synthesize emailPopover = _emailPopover;
 @synthesize emailNavigationController = _emailNavigationController;
 @synthesize mailController = _mailController;
 @synthesize emailButton = _emailButton;
@@ -19,7 +19,7 @@
 @synthesize isNotNeedToShowPdfButton = _isNotNeedToShowPdfButton;
 
 - (void)dealloc {
-    if (self.emailPopover != nil) { self.emailPopover = nil; }
+//    if (self.emailPopover != nil) { self.emailPopover = nil; }
     if (self.emailNavigationController != nil) { self.emailNavigationController = nil; }
     if (self.mailController != nil) { self.mailController = nil; }
     if (self.emailButton != nil) { self.emailButton = nil; }
@@ -37,7 +37,7 @@
     emailRecipientTableViewController.requestSource = EmailRequestSourceReporter;
     emailRecipientTableViewController.recipientDelegate = self;
     self.emailNavigationController = [[[UINavigationController alloc] initWithRootViewController:emailRecipientTableViewController] autorelease];  
-    self.emailPopover = [[[UIPopoverController alloc]initWithContentViewController:self.emailNavigationController] autorelease];
+//    self.emailPopover = [[[UIPopoverController alloc]initWithContentViewController:self.emailNavigationController] autorelease];
     [emailRecipientTableViewController release];
         
 }
@@ -75,9 +75,9 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
-        [self.emailPopover dismissPopoverAnimated:YES];
-    }
+//    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
+//        [self.emailPopover dismissPopoverAnimated:YES];
+//    }
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -93,11 +93,11 @@
 }
 
 -(void)emailButtonPressed:(id)sender {
-    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
-        [self.emailPopover dismissPopoverAnimated:YES];
-        return;
-    }
-    [self.emailPopover presentPopoverFromBarButtonItem:self.emailButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];        
+//    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
+//        [self.emailPopover dismissPopoverAnimated:YES];
+//        return;
+//    }
+//    [self.emailPopover presentPopoverFromBarButtonItem:self.emailButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
 -(void)previewButtonPressed:(id)sender {
@@ -110,7 +110,7 @@
 
 - (void)didSelectEmailRecipientRow:(NSDictionary*)cellData {
     if (![ArcosEmailValidator checkCanSendMailStatus]) return;
-    [self.emailPopover dismissPopoverAnimated:YES];
+//    [self.emailPopover dismissPopoverAnimated:YES];
     self.mailController = [[[MFMailComposeViewController alloc] init] autorelease];
     self.mailController.mailComposeDelegate = self;
     NSString* email = [cellData objectForKey:@"Email"];

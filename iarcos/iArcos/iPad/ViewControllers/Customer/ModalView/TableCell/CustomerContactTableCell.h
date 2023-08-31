@@ -10,10 +10,10 @@
 #import "CustomerContactBaseTableCell.h"
 #import "WidgetFactory.h"
 
-@interface CustomerContactTableCell : CustomerContactBaseTableCell <WidgetFactoryDelegate, UIPopoverControllerDelegate> {
+@interface CustomerContactTableCell : CustomerContactBaseTableCell <WidgetFactoryDelegate> {
     IBOutlet UITextField* contentString;
     WidgetFactory* _factory;
-    UIPopoverController* thePopover;
+//    UIPopoverController* thePopover;
 }
 
 @property(nonatomic,retain) IBOutlet UITextField* contentString;

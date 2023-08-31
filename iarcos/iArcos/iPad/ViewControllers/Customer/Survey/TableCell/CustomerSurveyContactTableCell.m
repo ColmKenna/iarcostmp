@@ -12,7 +12,8 @@
 //@synthesize narrative;
 @synthesize contactTitle;
 @synthesize factory = _factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -61,30 +62,38 @@
     [miscDataDict setObject:@"Contact" forKey:@"Title"];
     [miscDataDict setObject:self.locationIUR forKey:@"LocationIUR"];
     [miscDataDict setObject:self.locationName forKey:@"Name"];
-    self.thePopover =[self.factory CreateTargetGenericCategoryWidgetWithPickerValue:contactList miscDataDict:miscDataDict];
+    self.globalWidgetViewController =[self.factory CreateTargetGenericCategoryWidgetWithPickerValue:contactList miscDataDict:miscDataDict];
 //    thePopover = [self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceContact];
-    if (self.thePopover != nil) {
+    if (self.globalWidgetViewController != nil) {
 //        [self.delegate popoverShows:thePopover];
     }else{
         self.contactTitle.text = @"No contact found";
     }
     
     //do show the popover if there is no data
-    if (self.thePopover != nil) {
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromRect:contactTitle.bounds inView:contactTitle permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (self.globalWidgetViewController != nil) {
+//        self.thePopover.delegate = self;
+//        [self.thePopover presentPopoverFromRect:contactTitle.bounds inView:contactTitle permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = self.contactTitle;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = self.contactTitle.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [[self.delegate retrieveParentViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
     }
     
 }
 
 -(void)operationDone:(id)data {
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+    [[self.delegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
     self.contactTitle.text = [data objectForKey:@"Title"];
     [self.delegate inputFinishedWithData:data forIndexpath:self.indexPath];
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+    self.globalWidgetViewController = nil;
 }
 
 -(BOOL)allowToShowAddContactButton {
@@ -96,15 +105,20 @@
 //    if (self.narrative != nil) { self.narrative = nil; }
     if (self.contactTitle != nil) { self.contactTitle = nil; }
     if (self.factory != nil) { self.factory = nil; }
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     
     [super dealloc];
 }
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 
 @end

@@ -25,7 +25,8 @@
 @synthesize endTimeContentLabel = _endTimeContentLabel;
 @synthesize weekDayDictList = _weekDayDictList;
 @synthesize widgetFactory = _widgetFactory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize myTitle = _myTitle;
 @synthesize currentSelectedLabel = _currentSelectedLabel;
 @synthesize weekDayCellDict = _weekDayCellDict;
@@ -87,7 +88,8 @@
     self.endTimeContentLabel = nil;
     self.weekDayDictList = nil;
     self.widgetFactory = nil;
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     self.myTitle = nil;
     self.currentSelectedLabel = nil;
     self.auxDefaultKey = nil;
@@ -114,25 +116,29 @@
 
 - (void)handleWeekDaySingleTapGesture:(id)sender {
     self.currentSelectedLabel = self.weekDayLabel;
-    self.thePopover = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:self.weekDayDictList title:@"Day"];
+//    self.thePopover = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:self.weekDayDictList title:@"Day"];
+    self.globalWidgetViewController = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:self.weekDayDictList title:@"Day"];
     [self showPopoverProcessor];
 }
 
 - (void)handleStartTimeSingleTapGesture:(id)sender {
     self.currentSelectedLabel = self.startTimeContentLabel;
-    self.thePopover = [self.widgetFactory createDateHourMinuteWidgetWithType:DatePickerHourMinuteAccessTimesType datePickerValue:self.startTimeCellDate minDate:nil maxDate:self.endTimeCellDate];
+//    self.thePopover = [self.widgetFactory createDateHourMinuteWidgetWithType:DatePickerHourMinuteAccessTimesType datePickerValue:self.startTimeCellDate minDate:nil maxDate:self.endTimeCellDate];
+    self.globalWidgetViewController = [self.widgetFactory createDateHourMinuteWidgetWithType:DatePickerHourMinuteAccessTimesType datePickerValue:self.startTimeCellDate minDate:nil maxDate:self.endTimeCellDate];
     [self showPopoverProcessor];
 }
 
 - (void)handleEndTimeSingleTapGesture:(id)sender {
     self.currentSelectedLabel = self.endTimeContentLabel;
-    self.thePopover = [self.widgetFactory createDateHourMinuteWidgetWithType:DatePickerHourMinuteAccessTimesType datePickerValue:self.endTimeCellDate minDate:self.startTimeCellDate maxDate:nil];
+//    self.thePopover = [self.widgetFactory createDateHourMinuteWidgetWithType:DatePickerHourMinuteAccessTimesType datePickerValue:self.endTimeCellDate minDate:self.startTimeCellDate maxDate:nil];
+    self.globalWidgetViewController = [self.widgetFactory createDateHourMinuteWidgetWithType:DatePickerHourMinuteAccessTimesType datePickerValue:self.endTimeCellDate minDate:self.startTimeCellDate maxDate:nil];
     [self showPopoverProcessor];
 }
 
 #pragma mark WidgetFactoryDelegate
 - (void)operationDone:(id)data {
-    [self.thePopover dismissPopoverAnimated:YES];
+//    [self.thePopover dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     switch (self.currentSelectedLabel.tag) {
         case 1: {
             [self clearAllWeekDayDefaultFlag];
@@ -160,9 +166,10 @@
 }
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    
-}
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    
+//}
+
 
 - (NSMutableDictionary*)retrieveWeekDayDictWithDay:(int)aDay {
     NSMutableDictionary* auxResultWeekDayDict = nil;
@@ -178,10 +185,15 @@
 }
 
 - (void)showPopoverProcessor {
-    if (self.thePopover != nil) {
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromRect:self.currentSelectedLabel.bounds inView:self.currentSelectedLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    }
+//    if (self.thePopover != nil) {
+//        self.thePopover.delegate = self;
+//        [self.thePopover presentPopoverFromRect:self.currentSelectedLabel.bounds inView:self.currentSelectedLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//    }
+    self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+    self.globalWidgetViewController.popoverPresentationController.sourceView = self.currentSelectedLabel;
+    self.globalWidgetViewController.popoverPresentationController.sourceRect = self.currentSelectedLabel.bounds;
+    self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    [self presentViewController:self.globalWidgetViewController animated:YES completion:nil];
 }
 
 - (NSDate*)retrieveQuarterlyDate:(NSDate*)aDate {

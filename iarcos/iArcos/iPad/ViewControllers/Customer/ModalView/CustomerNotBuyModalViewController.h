@@ -30,7 +30,8 @@
     ConnectivityCheck* connectivityCheck;
 //    MBProgressHUD* HUD;
     WidgetFactory* _factory;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
     NSMutableArray* _formDetailList;
     UIBarButtonItem* formButton;
     NSNumber* _defaultFormIUR;
@@ -48,7 +49,8 @@
 @property (nonatomic,retain)  NSMutableArray* displayList;
 @property (nonatomic,retain)  NSNumber* locationIUR;
 @property(nonatomic,retain) WidgetFactory* factory;
-@property(nonatomic,retain) UIPopoverController* thePopover;
+//@property(nonatomic,retain) UIPopoverController* thePopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic,retain) NSMutableArray* formDetailList;    
 @property(nonatomic,retain) UIBarButtonItem* formButton;
 @property(nonatomic,retain) NSNumber* defaultFormIUR;

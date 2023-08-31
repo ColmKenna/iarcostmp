@@ -20,7 +20,7 @@
 @synthesize requestSource = _requestSource;
 @synthesize myMoveDelegate = _myMoveDelegate;
 @synthesize customerGroupDataManager = _customerGroupDataManager;
-@synthesize popoverController, splitViewController, rootPopoverButtonItem;
+@synthesize splitViewController, rootPopoverButtonItem;
 
 @synthesize myCustomerListingViewController;
 //@synthesize searchBar;
@@ -39,7 +39,8 @@
 @synthesize auxDetailViewController = _auxDetailViewController;
 @synthesize journeyDefaultImage = _journeyDefaultImage;
 @synthesize factory = _factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize listTypeText = _listTypeText;
 @synthesize journeyTypeText = _journeyTypeText;
 @synthesize auxJourneyIndexPath = _auxJourneyIndexPath;
@@ -87,7 +88,7 @@
 //    [groupSelections release];
 //    [searchBar release];
     self.customerGroupDataManager = nil;
-    self.popoverController = nil;
+//    self.popoverController = nil;
     self.rootPopoverButtonItem = nil;
     self.myCustomerListingViewController = nil;
     self.groupType = nil;
@@ -105,7 +106,8 @@
     self.auxDetailViewController = nil;
     if (self.journeyDefaultImage != nil) { self.journeyDefaultImage = nil; }
     self.factory = nil;
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     self.auxJourneyIndexPath = nil;
     self.tableCellFactory = nil;
     self.accessTimesWidgetViewController = nil;
@@ -424,10 +426,17 @@
         self.factory = [WidgetFactory factory];
         self.factory.delegate = self;
     }
-    self.thePopover = [self.factory CreateTableWidgetWithData:aDataList withTitle:aTitle withParentContentString:aParentContentString requestSource:TableWidgetRequestSourceMasterContact];
-    if (self.thePopover != nil) {
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+//    self.thePopover = [self.factory CreateTableWidgetWithData:aDataList withTitle:aTitle withParentContentString:aParentContentString requestSource:TableWidgetRequestSourceMasterContact];
+    self.globalWidgetViewController = [self.factory CreateTableWidgetWithData:aDataList withTitle:aTitle withParentContentString:aParentContentString requestSource:TableWidgetRequestSourceMasterContact];
+    if (self.globalWidgetViewController != nil) {
+//        self.thePopover.delegate = self;
+//        [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = aLabel;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = aLabel.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [self presentViewController:self.globalWidgetViewController animated:YES completion:nil];
     }
 }
 
@@ -436,11 +445,22 @@
     self.accessTimesWidgetViewController = [[[AccessTimesWidgetViewController alloc] initWithNibName:@"AccessTimesWidgetViewController" bundle:nil] autorelease];
     self.accessTimesWidgetViewController.actionDelegate = self;
     UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:self.accessTimesWidgetViewController];
-    self.thePopover = [[[UIPopoverController alloc] initWithContentViewController:tmpNavigationController] autorelease];
+    tmpNavigationController.preferredContentSize = CGSizeMake(self.accessTimesWidgetViewController.view.bounds.size.width, self.accessTimesWidgetViewController.view.bounds.size.height);
+    // + tmpNavigationController.navigationBar.frame.size.height
+    tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    tmpNavigationController.popoverPresentationController.sourceView = aLabel;
+    tmpNavigationController.popoverPresentationController.sourceRect = aLabel.bounds;
+    tmpNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    tmpNavigationController.popoverPresentationController.delegate = self;
+    [self presentViewController:tmpNavigationController animated:YES completion:nil];
     [tmpNavigationController release];
-    self.thePopover.popoverContentSize = CGSizeMake(self.accessTimesWidgetViewController.view.bounds.size.width, self.accessTimesWidgetViewController.view.bounds.size.height + tmpNavigationController.navigationBar.frame.size.height);
-    self.thePopover.delegate = self;
-    [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//    self.thePopover = [[[UIPopoverController alloc] initWithContentViewController:tmpNavigationController] autorelease];
+    
+//    self.thePopover.popoverContentSize = CGSizeMake(self.accessTimesWidgetViewController.view.bounds.size.width, self.accessTimesWidgetViewController.view.bounds.size.height + tmpNavigationController.navigationBar.frame.size.height);
+//    self.thePopover.delegate = self;
+//    [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    
+    
 }
 - (void)selectCustomerGroupNotSeenRecord:(UILabel*)aLabel indexPath:(NSIndexPath*)anIndexPath {
     self.customerGroupDataManager.currentIndexPath = anIndexPath;
@@ -448,12 +468,18 @@
         self.factory = [WidgetFactory factory];
         self.factory.delegate = self;
     }
-    self.thePopover = [self.factory CreateDateWidgetWithDataSource:WidgetDataSourceNormalDate];
-    
-    if (self.thePopover != nil) {
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
-    }
+//    self.thePopover = [self.factory CreateDateWidgetWithDataSource:WidgetDataSourceNormalDate];
+    self.globalWidgetViewController = [self.factory CreateDateWidgetWithDataSource:WidgetDataSourceNormalDate];
+    self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+    self.globalWidgetViewController.popoverPresentationController.sourceView = aLabel;
+    self.globalWidgetViewController.popoverPresentationController.sourceRect = aLabel.bounds;
+    self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionLeft;
+    self.globalWidgetViewController.popoverPresentationController.delegate = self;
+    [self presentViewController:self.globalWidgetViewController animated:YES completion:nil];
+//    if (self.thePopover != nil) {
+//        self.thePopover.delegate = self;
+//        [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+//    }
 }
 - (void)selectCustomerGroupBuyingGroupRecord:(UILabel*)aLabel indexPath:(NSIndexPath*)anIndexPath {    
     self.customerGroupDataManager.currentIndexPath = anIndexPath;
@@ -463,11 +489,19 @@
     CustomerSelectionListingTableViewController* CSLTVC = [[CustomerSelectionListingTableViewController alloc] initWithNibName:@"CustomerSelectionListingTableViewController" bundle:nil];
     CSLTVC.selectionDelegate = self;
     CSLTVC.isNotShowingAllButton = YES;
-    UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:CSLTVC];    
-    self.thePopover = [[[UIPopoverController alloc] initWithContentViewController:tmpNavigationController] autorelease];
-    self.thePopover.delegate = self;
-    self.thePopover.popoverContentSize = CGSizeMake(700, 700);    
-    [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:CSLTVC];
+    
+//    self.thePopover = [[[UIPopoverController alloc] initWithContentViewController:tmpNavigationController] autorelease];
+//    self.thePopover.delegate = self;
+//    self.thePopover.popoverContentSize = CGSizeMake(700, 700);
+//    [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    tmpNavigationController.preferredContentSize = CGSizeMake(700, 700);
+    tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    tmpNavigationController.popoverPresentationController.sourceView = aLabel;
+    tmpNavigationController.popoverPresentationController.sourceRect = aLabel.bounds;
+    tmpNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    tmpNavigationController.popoverPresentationController.delegate = self;
+    [self presentViewController:tmpNavigationController animated:YES completion:nil];
     
     [CSLTVC resetCustomer:CCLHVC.locationList];
     [CSLTVC release];
@@ -483,20 +517,22 @@
 }
 #pragma mark CustomerSelectionListingDelegate
 - (void)didDismissSelectionPopover {
-    if (self.thePopover != nil && [self.thePopover isPopoverVisible]) {
-        [self.thePopover dismissPopoverAnimated:YES];
-        self.thePopover = nil;
-    }    
+//    if (self.thePopover != nil && [self.thePopover isPopoverVisible]) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//        self.thePopover = nil;
+//    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didSelectCustomerSelectionListingRecord:(NSMutableDictionary*)aCustDict {
     NSMutableDictionary* auxAnswerDict = [self.customerGroupDataManager processBuyingGroupResult:aCustDict];
     [self.customerGroupDataManager inputFinishedWithData:auxAnswerDict indexPath:self.customerGroupDataManager.currentIndexPath];
     [self.tableView reloadData];
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-        self.thePopover = nil;
-    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//        self.thePopover = nil;
+//    }
 }
 #pragma mark AccessTimesWidgetViewControllerDelegate
 - (void)accessTimesOperationDone:(NSMutableDictionary *)aWeekDayDict startTime:(NSDate *)aStartTime endTime:(NSDate *)anEndTime {
@@ -504,12 +540,15 @@
     
     [self.customerGroupDataManager inputFinishedWithData:tmpAnswerDict indexPath:self.customerGroupDataManager.currentIndexPath];
     [self.tableView reloadData];
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-        self.factory.popoverController = nil;
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//        self.factory.popoverController = nil;
+//        self.accessTimesWidgetViewController = nil;
+//        self.thePopover = nil;
+//    }
+    [self dismissViewControllerAnimated:YES completion:^{
         self.accessTimesWidgetViewController = nil;
-        self.thePopover = nil;
-    }
+    }];
 }
 
 #pragma mark WidgetViewControllerDelegate
@@ -522,27 +561,40 @@
     
     [self.customerGroupDataManager inputFinishedWithData:data indexPath:self.customerGroupDataManager.currentIndexPath];
     [self.tableView reloadData];
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-        self.factory.popoverController = nil;
+    [self dismissViewControllerAnimated:YES completion:^{
+        self.globalWidgetViewController = nil;
         self.accessTimesWidgetViewController = nil;
-        self.thePopover = nil;
-    }
+    }];
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//        self.factory.popoverController = nil;
+//        self.accessTimesWidgetViewController = nil;
+//        self.thePopover = nil;
+//    }
 }
 -(void)dismissPopoverController {
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-        self.factory.popoverController = nil;
+    [self dismissViewControllerAnimated:YES completion:^{
         self.accessTimesWidgetViewController = nil;
-        self.thePopover = nil;
-    }
+        self.globalWidgetViewController = nil;
+    }];
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//        self.factory.popoverController = nil;
+//        self.accessTimesWidgetViewController = nil;
+//        self.thePopover = nil;
+//    }
 }
 
 #pragma mark 
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+//    self.accessTimesWidgetViewController = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
     self.accessTimesWidgetViewController = nil;
+    self.globalWidgetViewController = nil;
 }
 
 - (void)processJourneyWithIndexPath:(NSIndexPath*)anIndexPath {

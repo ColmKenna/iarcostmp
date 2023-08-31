@@ -11,14 +11,15 @@
 #import "CustomerInfoLinkedToTableViewCellDelegate.h"
 #import "WidgetFactory.h"
 
-@interface CustomerInfoLinkedToTableViewCell : UITableViewCell <WidgetFactoryDelegate, UIPopoverControllerDelegate>{
+@interface CustomerInfoLinkedToTableViewCell : UITableViewCell <WidgetFactoryDelegate, UIPopoverPresentationControllerDelegate>{
     id<CustomerInfoLinkedToTableViewCellDelegate> _actionDelegate;
     UILabel* _infoTitle;
     UILabel* _infoValue;
     UIButton* _actionBtn;
     NSMutableDictionary* _cellData;
     WidgetFactory* _factory;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
 }
 
 @property(nonatomic,assign) id<CustomerInfoLinkedToTableViewCellDelegate> actionDelegate;
@@ -27,7 +28,8 @@
 @property(nonatomic,retain) IBOutlet UIButton* actionBtn;
 @property(nonatomic,retain) NSMutableDictionary* cellData;
 @property(nonatomic,retain) WidgetFactory* factory;
-@property(nonatomic,retain) UIPopoverController* thePopover;
+//@property(nonatomic,retain) UIPopoverController* thePopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 
 - (void)configCellWithData:(NSMutableDictionary*)aCustDict;
 - (IBAction)showContactListPopover;

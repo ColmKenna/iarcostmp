@@ -10,17 +10,19 @@
 #import "CustomerSurveyBaseTableCell.h"
 #import "WidgetFactory.h"
 
-@interface CustomerSurveyContactTableCell : CustomerSurveyBaseTableCell<WidgetFactoryDelegate, UIPopoverControllerDelegate> {
+@interface CustomerSurveyContactTableCell : CustomerSurveyBaseTableCell<WidgetFactoryDelegate, UIPopoverPresentationControllerDelegate> {
 //    UILabel* narrative;
     IBOutlet UILabel* contactTitle;
     WidgetFactory* _factory;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
 }
 
 //@property(nonatomic, retain) IBOutlet UILabel* narrative;
 @property(nonatomic, retain) IBOutlet UILabel* contactTitle;
 @property(nonatomic, retain) WidgetFactory* factory;
-@property(nonatomic, retain) UIPopoverController* thePopover;
+//@property(nonatomic, retain) UIPopoverController* thePopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 
 -(void)handleSingleTapGesture:(id)sender;
 

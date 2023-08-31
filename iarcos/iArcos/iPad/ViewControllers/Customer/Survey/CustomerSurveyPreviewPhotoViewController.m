@@ -22,7 +22,8 @@
 @synthesize myFileNamesStr = _myFileNamesStr;
 @synthesize myIndexPath = _myIndexPath;
 @synthesize deleteBarButton = _deleteBarButton;
-@synthesize trashPopover = _trashPopover;
+//@synthesize trashPopover = _trashPopover;
+@synthesize cpdavc = _cpdavc;
 @synthesize myScrollView = _myScrollView;
 @synthesize myFileNameList = _myFileNameList;
 @synthesize customerSurveyPreviewDataManager = _customerSurveyPreviewDataManager;
@@ -55,11 +56,12 @@
     [cameraBarButton release];
     self.navigationItem.rightBarButtonItems = buttonList;
     
-    CustomerPhotoDeleteActionViewController* cpdavc = [[CustomerPhotoDeleteActionViewController alloc] initWithNibName:@"CustomerPhotoDeleteActionViewController" bundle:nil];
-    cpdavc.actionDelegate = self;
-    self.trashPopover = [[[UIPopoverController alloc] initWithContentViewController:cpdavc] autorelease];
-    self.trashPopover.popoverContentSize = cpdavc.view.frame.size;
-    [cpdavc release];
+    self.cpdavc = [[[CustomerPhotoDeleteActionViewController alloc] initWithNibName:@"CustomerPhotoDeleteActionViewController" bundle:nil] autorelease];
+    self.cpdavc.actionDelegate = self;
+    self.cpdavc.preferredContentSize = self.cpdavc.view.frame.size;
+//    self.trashPopover = [[[UIPopoverController alloc] initWithContentViewController:cpdavc] autorelease];
+//    self.trashPopover.popoverContentSize = cpdavc.view.frame.size;
+//    [cpdavc release];
     [self.customerSurveyPreviewDataManager createPhotoSlideBasicDataWithAnswer:self.myFileNamesStr];
     [self.customerSurveyPreviewDataManager createPhotoSlideViewItemData];
 }
@@ -69,7 +71,8 @@
     self.myFileNamesStr = nil;
     self.myIndexPath = nil;
     self.deleteBarButton = nil;
-    self.trashPopover = nil;
+//    self.trashPopover = nil;
+    self.cpdavc = nil;
     self.myScrollView = nil;
     self.myFileNameList = nil;
     self.customerSurveyPreviewDataManager = nil;
@@ -136,17 +139,17 @@
 }
 
 - (void)doneButtonPressed:(id)sender {
-    if (self.trashPopover != nil && [self.trashPopover isPopoverVisible]) {
-        [self.trashPopover dismissPopoverAnimated:YES];
-    }
+//    if (self.trashPopover != nil && [self.trashPopover isPopoverVisible]) {
+//        [self.trashPopover dismissPopoverAnimated:YES];
+//    }
     [self.myDelegate didDismissCustomisePresentView];
 }
 
 - (void)cameraButtonPressed:(id)sender {
-    if (self.trashPopover != nil && [self.trashPopover isPopoverVisible]) {
-        [self.trashPopover dismissPopoverAnimated:YES];
-        return;
-    }
+//    if (self.trashPopover != nil && [self.trashPopover isPopoverVisible]) {
+//        [self.trashPopover dismissPopoverAnimated:YES];
+//        return;
+//    }
     //check is camera avaliable
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
         [ArcosUtils showDialogBox:@"No camera available" title:[GlobalSharedClass shared].errorTitle delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
@@ -195,16 +198,21 @@
 }
 
 - (void)deleteButtonPressed:(id)sender {
-    if (self.trashPopover != nil && [self.trashPopover isPopoverVisible]) {
-        [self.trashPopover dismissPopoverAnimated:YES];
-        return;
-    }
-    [self.trashPopover presentPopoverFromBarButtonItem:self.deleteBarButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+//    if (self.trashPopover != nil && [self.trashPopover isPopoverVisible]) {
+//        [self.trashPopover dismissPopoverAnimated:YES];
+//        return;
+//    }
+//    [self.trashPopover presentPopoverFromBarButtonItem:self.deleteBarButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    self.cpdavc.modalPresentationStyle = UIModalPresentationPopover;
+    self.cpdavc.popoverPresentationController.barButtonItem = self.deleteBarButton;
+    self.cpdavc.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    [self presentViewController:self.cpdavc animated:YES completion:nil];
 }
 
 #pragma mark CustomerPhotoDeleteActionViewControllerDelegate
 - (void)didPressDeleteButton:(int)aTag {
-    [self.trashPopover dismissPopoverAnimated:YES];
+//    [self.trashPopover dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 //    if (self.myImageView.image == nil) return;
     /*come back later
     [UIView beginAnimations:@"CurlUp" context:nil];

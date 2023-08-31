@@ -24,12 +24,14 @@
 @synthesize myScrollView = _myScrollView;
 @synthesize emailButton = _emailButton;
 @synthesize trashButton = _trashButton;
-@synthesize emailPopover = _emailPopover;
+//@synthesize emailPopover = _emailPopover;
 @synthesize emailNavigationController = _emailNavigationController;
 @synthesize mailController = _mailController;
-@synthesize trashPopover = _trashPopover;
+//@synthesize trashPopover = _trashPopover;
+@synthesize cpdavc = _cpdavc;
 @synthesize cameraRollButton = _cameraRollButton;
-@synthesize cameraRollPopover = _cameraRollPopover;
+//@synthesize cameraRollPopover = _cameraRollPopover;
+@synthesize imagePickerController = _imagePickerController;
 @synthesize globalNavigationController = _globalNavigationController;
 @synthesize rootView = _rootView;
 
@@ -51,12 +53,14 @@
     if (self.myScrollView != nil) { self.myScrollView = nil; }
     if (self.emailButton != nil) { self.emailButton = nil; }
     if (self.trashButton != nil) { self.trashButton = nil; }    
-    if (self.emailPopover != nil) { self.emailPopover = nil; }   
+//    if (self.emailPopover != nil) { self.emailPopover = nil; }
     if (self.emailNavigationController != nil) { self.emailNavigationController = nil; }
     if (self.mailController != nil) { self.mailController = nil; }
-    if (self.trashPopover != nil) { self.trashPopover = nil; }
+//    if (self.trashPopover != nil) { self.trashPopover = nil; }
+    self.cpdavc = nil;
     if (self.cameraRollButton != nil) { self.cameraRollButton = nil; }
-    if (self.cameraRollPopover != nil) { self.cameraRollPopover = nil; }
+//    if (self.cameraRollPopover != nil) { self.cameraRollPopover = nil; }
+    self.imagePickerController = nil;
     self.globalNavigationController = nil;
     self.rootView = nil;
     
@@ -105,14 +109,16 @@
     emailRecipientTableViewController.requestSource = EmailRequestSourcePhoto;
     emailRecipientTableViewController.recipientDelegate = self;
     self.emailNavigationController = [[[UINavigationController alloc] initWithRootViewController:emailRecipientTableViewController] autorelease];
+    self.emailNavigationController.preferredContentSize = [[GlobalSharedClass shared] orderPadsSize];
     [emailRecipientTableViewController release];
-    self.emailPopover = [[[UIPopoverController alloc]initWithContentViewController:self.emailNavigationController] autorelease];
-    self.emailPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
-    CustomerPhotoDeleteActionViewController* cpdavc = [[CustomerPhotoDeleteActionViewController alloc] initWithNibName:@"CustomerPhotoDeleteActionViewController" bundle:nil];
-    cpdavc.actionDelegate = self;
-    self.trashPopover = [[[UIPopoverController alloc] initWithContentViewController:cpdavc] autorelease];
-    self.trashPopover.popoverContentSize = cpdavc.view.frame.size;
-    [cpdavc release];
+//    self.emailPopover = [[[UIPopoverController alloc]initWithContentViewController:self.emailNavigationController] autorelease];
+//    self.emailPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
+    self.cpdavc = [[[CustomerPhotoDeleteActionViewController alloc] initWithNibName:@"CustomerPhotoDeleteActionViewController" bundle:nil] autorelease];
+    self.cpdavc.actionDelegate = self;
+    self.cpdavc.preferredContentSize = self.cpdavc.view.frame.size;
+//    self.trashPopover = [[[UIPopoverController alloc] initWithContentViewController:cpdavc] autorelease];
+//    self.trashPopover.popoverContentSize = cpdavc.view.frame.size;
+//    [cpdavc release];
     [ArcosUtils configEdgesForExtendedLayout:self];
     self.rootView = [ArcosUtils getRootView];
     
@@ -125,10 +131,10 @@
     // e.g. self.myOutlet = nil;
     if (self.emailButton != nil) { self.emailButton = nil; }
     if (self.trashButton != nil) { self.trashButton = nil; }    
-    if (self.emailPopover != nil) { self.emailPopover = nil; }   
+//    if (self.emailPopover != nil) { self.emailPopover = nil; }
     if (self.emailNavigationController != nil) { self.emailNavigationController = nil; }
     if (self.mailController != nil) { self.mailController = nil; }
-    if (self.trashPopover != nil) { self.trashPopover = nil; }
+//    if (self.trashPopover != nil) { self.trashPopover = nil; }
     if (self.customerPhotoSlideDataManager != nil) { self.customerPhotoSlideDataManager = nil; }    
 }
 
@@ -200,18 +206,18 @@
 }
 
 - (BOOL)validateHiddenPopovers {
-    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
-        [self.emailPopover dismissPopoverAnimated:YES];
-        return NO;
-    }
-    if (self.trashPopover != nil && [self.trashPopover isPopoverVisible]) {
-        [self.trashPopover dismissPopoverAnimated:YES];
-        return NO;
-    }
-    if (self.cameraRollPopover != nil && [self.cameraRollPopover isPopoverVisible]) {
-        [self.cameraRollPopover dismissPopoverAnimated:YES];
-        return NO;
-    }
+//    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
+//        [self.emailPopover dismissPopoverAnimated:YES];
+//        return NO;
+//    }
+//    if (self.trashPopover != nil && [self.trashPopover isPopoverVisible]) {
+//        [self.trashPopover dismissPopoverAnimated:YES];
+//        return NO;
+//    }
+//    if (self.cameraRollPopover != nil && [self.cameraRollPopover isPopoverVisible]) {
+//        [self.cameraRollPopover dismissPopoverAnimated:YES];
+//        return NO;
+//    }
     return YES;
 }
 
@@ -262,7 +268,11 @@
 //        return;
 //    }
     if (![self validateHiddenPopovers]) return;
-    [self.emailPopover presentPopoverFromBarButtonItem:self.emailButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+//    [self.emailPopover presentPopoverFromBarButtonItem:self.emailButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    self.emailNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    self.emailNavigationController.popoverPresentationController.barButtonItem = self.emailButton;
+    self.emailNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    [self presentViewController:self.emailNavigationController animated:YES completion:nil];
 }
 
 -(void)trashButtonPressed:(id)sender {
@@ -276,7 +286,11 @@
 //        return;
 //    }
     if (![self validateHiddenPopovers]) return;
-    [self.trashPopover presentPopoverFromBarButtonItem:self.trashButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+//    [self.trashPopover presentPopoverFromBarButtonItem:self.trashButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    self.cpdavc.modalPresentationStyle = UIModalPresentationPopover;
+    self.cpdavc.popoverPresentationController.barButtonItem = self.trashButton;
+    self.cpdavc.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    [self presentViewController:self.cpdavc animated:YES completion:nil];
 }
 
 -(void)cameraRollPressed:(id)sender {
@@ -285,17 +299,21 @@
 //        return;
 //    }
     if (![self validateHiddenPopovers]) return;
-    UIImagePickerController* imagePickerController = [[UIImagePickerController alloc] init];
+    self.imagePickerController = [[[UIImagePickerController alloc] init] autorelease];
     if (![ArcosUtils systemVersionGreaterThanSeven]) {
-        imagePickerController.navigationBar.barStyle = UIBarStyleBlack;
+        self.imagePickerController.navigationBar.barStyle = UIBarStyleBlack;
     }
-    imagePickerController.delegate = self;
-    imagePickerController.modalPresentationStyle = UIModalPresentationCurrentContext;
-    imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-    imagePickerController.mediaTypes = @[(NSString*)kUTTypeImage];
-    self.cameraRollPopover = [[[UIPopoverController alloc] initWithContentViewController:imagePickerController] autorelease];
-    [imagePickerController release];
-    [self.cameraRollPopover presentPopoverFromBarButtonItem:self.cameraRollButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    self.imagePickerController.delegate = self;
+//    self.imagePickerController.modalPresentationStyle = UIModalPresentationCurrentContext;
+    self.imagePickerController.modalPresentationStyle = UIModalPresentationPopover;
+    self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    self.imagePickerController.mediaTypes = @[(NSString*)kUTTypeImage];
+    self.imagePickerController.popoverPresentationController.barButtonItem = self.cameraRollButton;
+    self.imagePickerController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    [self presentViewController:self.imagePickerController animated:YES completion:nil];
+//    self.cameraRollPopover = [[[UIPopoverController alloc] initWithContentViewController:imagePickerController] autorelease];
+//    [imagePickerController release];
+//    [self.cameraRollPopover presentPopoverFromBarButtonItem:self.cameraRollButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 #pragma mark UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
@@ -310,27 +328,31 @@
         BOOL jpgImageSaved = [UIImageJPEGRepresentation(image, 1.0) writeToFile:imageJpgPath atomically:YES];
         if (jpgImageSaved) {
             [[ArcosCoreData sharedArcosCoreData] insertCollectedWithLocationIUR:self.locationIUR comments:fileName iUR:[NSNumber numberWithInt:0] date:[NSDate date]];
-            [ArcosUtils showDialogBox:@"The photo has been saved." title:@"" delegate:self target:self.cameraRollPopover.contentViewController tag:88 handler:^(UIAlertAction *action) {
-                [self.cameraRollPopover dismissPopoverAnimated:YES];
+            [ArcosUtils showDialogBox:@"The photo has been saved." title:@"" delegate:self target:self.imagePickerController tag:88 handler:^(UIAlertAction *action) {
+//                [self.cameraRollPopover dismissPopoverAnimated:YES];
+                [self dismissViewControllerAnimated:YES completion:nil];
             }];
             [self redisplayPhoto];
         } else {
-            [ArcosUtils showDialogBox:@"The photo has not been saved." title:[GlobalSharedClass shared].errorTitle delegate:self target:self.cameraRollPopover.contentViewController tag:88 handler:^(UIAlertAction *action) {
-                [self.cameraRollPopover dismissPopoverAnimated:YES];
-                self.cameraRollPopover = nil;
+            [ArcosUtils showDialogBox:@"The photo has not been saved." title:[GlobalSharedClass shared].errorTitle delegate:self target:self.imagePickerController tag:88 handler:^(UIAlertAction *action) {
+//                [self.cameraRollPopover dismissPopoverAnimated:YES];
+//                self.cameraRollPopover = nil;
+                [self dismissViewControllerAnimated:YES completion:nil];
             }];
         }
     }
     @catch (NSException *exception) {
-        [ArcosUtils showDialogBox:[exception reason] title:[GlobalSharedClass shared].errorTitle delegate:self target:self.cameraRollPopover.contentViewController tag:88 handler:^(UIAlertAction *action) {
-            [self.cameraRollPopover dismissPopoverAnimated:YES];
-            self.cameraRollPopover = nil;
+        [ArcosUtils showDialogBox:[exception reason] title:[GlobalSharedClass shared].errorTitle delegate:self target:self.imagePickerController tag:88 handler:^(UIAlertAction *action) {
+//            [self.cameraRollPopover dismissPopoverAnimated:YES];
+//            self.cameraRollPopover = nil;
+            [self dismissViewControllerAnimated:YES completion:nil];
         }];
     }
 }
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [self.cameraRollPopover dismissPopoverAnimated:YES];
-    self.cameraRollPopover = nil;
+//    [self.cameraRollPopover dismissPopoverAnimated:YES];
+//    self.cameraRollPopover = nil;
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
@@ -410,7 +432,8 @@
         [UIView animateWithDuration:0.3f animations:^{
             self.globalNavigationController.view.frame = parentNavigationRect;
         } completion:^(BOOL finished){
-            [self.emailPopover dismissPopoverAnimated:YES];
+//            [self.emailPopover dismissPopoverAnimated:YES];
+            [self dismissViewControllerAnimated:YES completion:nil];
         }];
         return;
     }
@@ -443,11 +466,12 @@
         }
         [self.mailController setToRecipients:toRecipients];
         [self.mailController setSubject:self.title];
-        [self.emailPopover.contentViewController presentViewController:self.mailController animated:YES completion:nil];
+        [self.emailNavigationController presentViewController:self.mailController animated:YES completion:nil];
     }
     @catch (NSException *exception) {
-        [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:self target:self.emailPopover.contentViewController tag:99 handler:^(UIAlertAction *action) {
-            [self.emailPopover dismissPopoverAnimated:YES];
+        [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:self target:self.emailNavigationController tag:99 handler:^(UIAlertAction *action) {
+//            [self.emailPopover dismissPopoverAnimated:YES];
+            [self dismissViewControllerAnimated:YES completion:nil];
         }];
     }
 }
@@ -504,17 +528,20 @@
 }
 
 - (void)alertViewCallBack {
-    [self.emailPopover.contentViewController dismissViewControllerAnimated:YES completion:^ {
+    [self.emailNavigationController dismissViewControllerAnimated:YES completion:^ {
         self.mailController = nil;
-        [self.emailPopover dismissPopoverAnimated:YES];
+//        [self.emailPopover dismissPopoverAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 
 - (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 99) {
-        [self.emailPopover dismissPopoverAnimated:YES];
+//        [self.emailPopover dismissPopoverAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
     } else if (alertView.tag == 88) {
-        [self.cameraRollPopover dismissPopoverAnimated:YES];
+//        [self.cameraRollPopover dismissPopoverAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
     } else {
         [self alertViewCallBack];
     }
@@ -524,7 +551,8 @@
 #pragma mark - CustomerPhotoDeleteActionViewControllerDelegate
 - (void)didPressDeleteButton:(int)aTag {
 //    NSLog(@"didPressDeleteButton: %d", aTag);
-    [self.trashPopover dismissPopoverAnimated:YES];
+//    [self.trashPopover dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     if ([self.customerPhotoSlideDataManager.displayList count] > 0) {
         NSUInteger displayListCount = [self.customerPhotoSlideDataManager.displayList count];
         PresenterSlideViewItemController* aPSVIC = (PresenterSlideViewItemController*)[self.customerPhotoSlideDataManager.slideViewItemList objectAtIndex:self.customerPhotoSlideDataManager.currentPage];

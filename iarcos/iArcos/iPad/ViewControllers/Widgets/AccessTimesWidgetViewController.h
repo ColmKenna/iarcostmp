@@ -21,7 +21,8 @@
     UILabel* _endTimeContentLabel;
     NSMutableArray* _weekDayDictList;
     WidgetFactory* _widgetFactory;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
     NSString* _myTitle;
     UILabel* _currentSelectedLabel;
     NSMutableDictionary* _weekDayCellDict;
@@ -38,7 +39,8 @@
 @property(nonatomic, retain) IBOutlet UILabel* endTimeContentLabel;
 @property(nonatomic, retain) NSMutableArray* weekDayDictList;
 @property(nonatomic, retain) WidgetFactory* widgetFactory;
-@property(nonatomic, retain) UIPopoverController* thePopover;
+//@property(nonatomic, retain) UIPopoverController* thePopover;
+@property(nonatomic, retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic, retain) NSString* myTitle;
 @property(nonatomic, retain) UILabel* currentSelectedLabel;
 @property(nonatomic, retain) NSMutableDictionary* weekDayCellDict;

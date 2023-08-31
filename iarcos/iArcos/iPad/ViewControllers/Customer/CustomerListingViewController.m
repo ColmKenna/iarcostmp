@@ -476,9 +476,9 @@
     [self resetList:tableData];
     
     //dismiss the popover
-    if (groupPopover!=nil&&[groupPopover isPopoverVisible]) {
-        [groupPopover dismissPopoverAnimated:YES];
-    }
+//    if (groupPopover!=nil&&[groupPopover isPopoverVisible]) {
+//        [groupPopover dismissPopoverAnimated:YES];
+//    }
     
     //back to the root view
     [self.navigationController popToRootViewControllerAnimated:YES];

@@ -45,7 +45,7 @@
 @synthesize  orders;
 @synthesize  widgetPopPoint;
 @synthesize currentLabel = _currentLabel;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
 @synthesize  orderHeader;
 @synthesize checkoutList;
 @synthesize headerView;
@@ -156,7 +156,7 @@
     self.templateView = nil;
     self.rootView = nil;
     self.widgetFactory = nil;
-    self.thePopover = nil;
+//    self.thePopover = nil;
     self.orderHeader = nil;
     self.sortedOrderKeys = nil;
     self.orderLines = nil;
@@ -423,11 +423,11 @@
 {
     // Return YES for supported orientations
     //repostition the pop over
-    if (self.thePopover!=nil) {
-        if ([self.thePopover isPopoverVisible]) {
-            [self.thePopover presentPopoverFromRect:self.widgetPopPoint.bounds inView:self.widgetPopPoint permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-        }
-    }
+//    if (self.thePopover!=nil) {
+//        if ([self.thePopover isPopoverVisible]) {
+//            [self.thePopover presentPopoverFromRect:self.widgetPopPoint.bounds inView:self.widgetPopPoint permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+//        }
+//    }
 	return YES;
 }
 
@@ -449,7 +449,7 @@
 -(void)showWidget{
     //facotry testing
 //    UIPopoverController* popover;
-    
+    /*
     
     if (self.currentLabel!=nil) {
         switch (currentControlTag) {
@@ -511,10 +511,12 @@
             [self.thePopover presentPopoverFromRect:self.currentLabel.bounds inView:self.currentLabel permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
         }
     }
-    
+    */
 }
 //taps action
+
 -(void)handleSingleTapGesture:(id)sender{
+    /*
     UITapGestureRecognizer* reconizer=(UITapGestureRecognizer*)sender;
     UILabel* aLabel=(UILabel*)reconizer.view;
     self.currentLabel=aLabel;
@@ -543,6 +545,7 @@
     
     //check current Geo location
     [self stampLocation];
+     */
 }
 #pragma mark - Table view data source
 
@@ -870,9 +873,9 @@ else{//No order line inputed yet
     }else{
         [self fillOrderDetailData:data];
     }
-    if ([self.thePopover isPopoverVisible]) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
+//    if ([self.thePopover isPopoverVisible]) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
 }
 
 - (void)operationDoneFromOrderLine:(id)data {
@@ -955,9 +958,9 @@ else{//No order line inputed yet
     [formatter release];
 }
 #pragma mark popover delegate
--(void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
-    [self needHighlightCurrentLabel:NO];
-}
+//-(void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
+//    [self needHighlightCurrentLabel:NO];
+//}
 #pragma mark text view delegate
 - (void)shiftViewUp{
 
@@ -1167,9 +1170,9 @@ else{//No order line inputed yet
     NSString* barcode = [userInfo objectForKey:@"BarCode"];
     NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.checkoutDataManager.currentFormDetailDict objectForKey:@"Details"]];
     NSMutableArray* productList = [self.checkoutDataManager productWithDescriptionKeyword:barcode orderFormDetails:orderFormDetails];
-    if ([self.thePopover isPopoverVisible]) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
+//    if ([self.thePopover isPopoverVisible]) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
     if ([productList count] > 0) {
         currentControlTag = 888;
         [self showNumberPadPopoverWithData:[productList objectAtIndex:0]];
@@ -1180,6 +1183,7 @@ else{//No order line inputed yet
 }
 
 -(void)showNumberPadPopoverWithData:(NSMutableDictionary*)aCellDict {
+    /*
     CGRect aRect = CGRectMake(self.rootView.view.bounds.size.width - 10, self.rootView.view.bounds.size.height - 10, 1, 1);
     BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
     
@@ -1189,6 +1193,7 @@ else{//No order line inputed yet
     oipvc.Data = aCellDict;
     oipvc.showSeparator = showSeparator;
     [self.thePopover presentPopoverFromRect:aRect inView:self.rootView.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+     */
 }
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {

@@ -13,5 +13,6 @@
 - (void)refreshLocationInfoFromAccessTimesCalendar;
 @optional
 - (void)closeCalendarPopoverViewController;
+- (UIViewController*)retrieveCustomerInfoAccessTimesCalendarParentViewController;
 
 @end
