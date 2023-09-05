@@ -29,7 +29,7 @@ typedef enum {
     NSMutableArray* detailingSelections;
     NSMutableArray* detailingSelectionNames;
     DetailingTableCellFactory* cellFactory;
-    UIPopoverController* _tablecellPopover;
+//    UIPopoverController* _tablecellPopover;
     NSMutableDictionary* orderHeader;
     ArcosArrayOfCallTran* calltrans;
     NSNumber* orderNumber;
@@ -52,7 +52,7 @@ typedef enum {
 @property(nonatomic,retain)    NSMutableArray* detailingSelections;
 @property(nonatomic,retain)   NSMutableArray* detailingSelectionNames;
 @property(nonatomic,retain) DetailingTableCellFactory* cellFactory;
-@property(nonatomic,retain) UIPopoverController* tablecellPopover;
+//@property(nonatomic,retain) UIPopoverController* tablecellPopover;
 @property(nonatomic,retain) NSMutableDictionary* orderHeader;
 @property(nonatomic,retain) ArcosArrayOfCallTran* calltrans;
 @property(nonatomic,retain)     NSNumber* orderNumber;

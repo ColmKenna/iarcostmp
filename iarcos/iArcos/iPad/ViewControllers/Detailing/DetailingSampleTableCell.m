@@ -18,7 +18,8 @@
 @synthesize qantity;
 @synthesize batch;
 @synthesize factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -94,33 +95,40 @@
     }
     
     if (aLabel.tag==0) {
-        self.thePopover=[self.factory CreateDetaillingInputPadWidgetWithProductName:self.label.text WithQty:[NSNumber numberWithInt:[self.qantity.text intValue]]];
+        self.globalWidgetViewController=[self.factory CreateDetaillingInputPadWidgetWithProductName:self.label.text WithQty:[NSNumber numberWithInt:[self.qantity.text intValue]]];
     }
     if (aLabel.tag==1) {
         self.factory.tempData=[self.cellData objectForKey:@"IUR"];
-        self.thePopover=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceDetaillingBatch];
+        self.globalWidgetViewController=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceDetaillingBatch];
 //        NSLog(@"IUR touched %d to look for batche",(NSInteger) self.factory.tempData);
     }
     
     //[self showWidget];
     //popover is shown
-    if (self.thePopover!=nil) {
-        [self.delegate popoverShows:self.thePopover];
-    }
+//    if (self.thePopover!=nil) {
+//        [self.delegate popoverShows:self.thePopover];
+//    }
     
     //do show the popover if there is no data
-    if (self.thePopover!=nil) {
-        self.thePopover.delegate=self;
-        [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (self.globalWidgetViewController!=nil) {
+//        self.thePopover.delegate=self;
+//        [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = aLabel;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = aLabel.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [[self.delegate retrieveParentViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
     }
 
 }
 #pragma mark widget factory delegate
 -(void)operationDone:(id)data{
 //    NSLog(@"pad input the data %@",data);
-    if (self.thePopover!=nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
+//    if (self.thePopover!=nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+    [[self.delegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
     
     NSMutableDictionary* SAData=[self.cellData objectForKey:@"data"];
     if (SAData==nil) {
@@ -143,8 +151,9 @@
         NSMutableDictionary* batchData= [SAData objectForKey:@"Batch"];
         if (batchData==nil) {//check any batch selected
             [self.delegate inputFinishedWithData:SAData forIndexpath:self.indexPath];
-            self.thePopover = nil;
-            self.factory.popoverController = nil;
+//            self.thePopover = nil;
+//            self.factory.popoverController = nil;
+            self.globalWidgetViewController = nil;
             [self showPopupWithLabel:self.batch];
             return;
         }
@@ -167,8 +176,9 @@
     
     //send the data back (bad fit)
     [self.delegate inputFinishedWithData:SAData forIndexpath:self.indexPath];
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+    self.globalWidgetViewController = nil;
 }
 - (void)dealloc
 {
@@ -176,15 +186,20 @@
     if (self.qantity != nil) { self.qantity = nil; }
     if (self.batch != nil) { self.batch = nil; }
     if (self.factory != nil) { self.factory = nil; }
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
             
     [super dealloc];
 }
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 
 @end

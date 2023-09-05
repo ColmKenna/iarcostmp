@@ -30,7 +30,7 @@
 @synthesize detailingSelections;
 @synthesize detailingSelectionNames;
 @synthesize cellFactory;
-@synthesize tablecellPopover = _tablecellPopover;
+//@synthesize tablecellPopover = _tablecellPopover;
 @synthesize orderHeader;
 @synthesize calltrans;
 @synthesize orderNumber;
@@ -70,7 +70,7 @@
     self.detailingSelections = nil;
     self.detailingSelectionNames = nil;
     self.cellFactory = nil;
-    self.tablecellPopover = nil;
+//    self.tablecellPopover = nil;
     self.orderHeader = nil;
     self.calltrans = nil;
     self.orderNumber = nil;
@@ -291,8 +291,8 @@
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 										 duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:interfaceOrientation duration:duration];
-    if(self.tablecellPopover!=nil)
-        [self.tablecellPopover dismissPopoverAnimated:NO];
+//    if(self.tablecellPopover!=nil)
+//        [self.tablecellPopover dismissPopoverAnimated:NO];
     [self.tableView reloadData];
 }
 
@@ -919,9 +919,9 @@
 -(void)invalidDataForIndexpath:(NSString*)theIndexpath{
     
 }
--(void)popoverShows:(UIPopoverController*)aPopover{
-//    self.tablecellPopover=aPopover;
-}
+//-(void)popoverShows:(UIPopoverController*)aPopover{
+////    self.tablecellPopover=aPopover;
+//}
 -(UIViewController*)retrieveParentViewController {
     return self;
 }

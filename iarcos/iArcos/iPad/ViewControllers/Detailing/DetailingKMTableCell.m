@@ -13,7 +13,8 @@
 @synthesize label;
 @synthesize statusLabel;
 @synthesize factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize kmCellData = _kmCellData;
 @synthesize answerObjectList = _answerObjectList;
 @synthesize answerSegmentedControl = _answerSegmentedControl;
@@ -104,18 +105,24 @@
     if (descrTypeDict != nil) {
         titleString = [descrTypeDict objectForKey:@"Details"];
     }
-    self.thePopover = [self.factory CreateGenericCategoryWidgetWithPickerValue:self.answerObjectList title:titleString];
+    self.globalWidgetViewController = [self.factory CreateGenericCategoryWidgetWithPickerValue:self.answerObjectList title:titleString];
     //    thePopover=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceDetaillingQA];
     
     //popover is shown
-    if (self.thePopover!=nil) {
-        [self.delegate popoverShows:self.thePopover];
-    }
+//    if (self.thePopover!=nil) {
+//        [self.delegate popoverShows:self.thePopover];
+//    }
     
     //do show the popover if there is no data
-    if (self.thePopover!=nil) {
-        self.thePopover.delegate=self;
-        [self.thePopover presentPopoverFromRect:self.statusLabel.bounds inView:self.statusLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (self.globalWidgetViewController!=nil) {
+//        self.thePopover.delegate=self;
+//        [self.thePopover presentPopoverFromRect:self.statusLabel.bounds inView:self.statusLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = self.statusLabel;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = self.statusLabel.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [[self.delegate retrieveParentViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
     }
 }
 
@@ -126,10 +133,10 @@
     self.cellData=data;
     
     //    NSLog(@"widget pick the data %@",data);
-    if (self.thePopover!=nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
-    
+//    if (self.thePopover!=nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+    [[self.delegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
     //set the label text  (bad fit)
     NSString* labelText=[(NSMutableDictionary*)data objectForKey:@"Detail"];
     self.statusLabel.text=labelText;
@@ -137,8 +144,9 @@
     [self.statusLabel setTextColor:[UIColor redColor]];
     //send the data back (bad fit)
     [self.delegate inputFinishedWithData:data forIndexpath:self.indexPath];
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+    self.globalWidgetViewController = nil;
 }
 
 - (NSString*)reuseIdentifier {
@@ -150,7 +158,8 @@
     if (self.label != nil) { self.label = nil; }
     if (self.statusLabel != nil) { self.statusLabel = nil; }
     if (self.factory != nil) { self.factory = nil; }
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     self.kmCellData = nil;
     self.answerObjectList = nil;
     self.answerSegmentedControl = nil;
@@ -159,9 +168,13 @@
 }
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 
 - (IBAction)segmentedValueChange:(id)sender {

@@ -15,7 +15,8 @@
 @synthesize Contact;
 @synthesize Memo;
 @synthesize factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 //@synthesize cellData;
 @synthesize orderDateTitle = _orderDateTitle;
 @synthesize callTypeTitle = _callTypeTitle;
@@ -245,7 +246,7 @@
     */
     switch (aLabel.tag) {
         case 0: {
-            self.thePopover=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceCallType];
+            self.globalWidgetViewController=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceCallType];
         }
             break;
         case 1: {
@@ -255,32 +256,32 @@
             [miscDataDict setObject:@"Contact" forKey:@"Title"];
             [miscDataDict setObject:self.locationIUR forKey:@"LocationIUR"];
             [miscDataDict setObject:self.locationName forKey:@"Name"];
-            self.thePopover =[self.factory CreateTargetGenericCategoryWidgetWithPickerValue:contactList miscDataDict:miscDataDict];
+            self.globalWidgetViewController =[self.factory CreateTargetGenericCategoryWidgetWithPickerValue:contactList miscDataDict:miscDataDict];
         }
             break;
         case 2: {
             if (self.orderNumber == nil) {
-                self.thePopover = [self.factory CreateDateWidgetWithDataSource:WidgetDataSourceOrderDate pickerFormatType:DatePickerFormatDateTime];
+                self.globalWidgetViewController = [self.factory CreateDateWidgetWithDataSource:WidgetDataSourceOrderDate pickerFormatType:DatePickerFormatDateTime];
             } else {
                 NSDate* tmpOrderDate = [self.cellData valueForKeyPath:@"data.OrderDate"];
-                self.thePopover = [self.factory CreateDateWidgetWithDataSource:WidgetDataSourceOrderDate pickerFormatType:DatePickerFormatDateTime defaultPickerDate:tmpOrderDate];
+                self.globalWidgetViewController = [self.factory CreateDateWidgetWithDataSource:WidgetDataSourceOrderDate pickerFormatType:DatePickerFormatDateTime defaultPickerDate:tmpOrderDate];
             }
         }
             break;
         case 3: {
-            self.thePopover = [self.factory CreateDateWidgetWithDataSource:2 defaultPickerDate:[ArcosUtils dateFromString:self.dueDateContent.text format:[GlobalSharedClass shared].dateFormat]];
+            self.globalWidgetViewController = [self.factory CreateDateWidgetWithDataSource:2 defaultPickerDate:[ArcosUtils dateFromString:self.dueDateContent.text format:[GlobalSharedClass shared].dateFormat]];
         }
             break;
         case 4: {
             NSMutableArray* descrDetailList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:@"TY"];
             NSDictionary* descrTypeDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"TY"];
             NSString* myTitle = [ArcosUtils convertNilToEmpty:[descrTypeDict objectForKey:@"Details"]];
-            self.thePopover = [self.factory CreateGenericCategoryWidgetWithPickerValue:descrDetailList title:myTitle];
+            self.globalWidgetViewController = [self.factory CreateGenericCategoryWidgetWithPickerValue:descrDetailList title:myTitle];
         }
             break;
         case 5: {
             NSMutableArray* employeeList = [[ArcosCoreData sharedArcosCoreData] allEmployee];
-            self.thePopover = [self.factory CreateGenericCategoryWidgetWithPickerValue:employeeList title:@"Employee"];
+            self.globalWidgetViewController = [self.factory CreateGenericCategoryWidgetWithPickerValue:employeeList title:@"Employee"];
         }
             break;
             
@@ -290,8 +291,8 @@
     
     //[self showWidget];
     //popover is shown
-    if (self.thePopover!=nil) {
-        [self.delegate popoverShows:self.thePopover];
+    if (self.globalWidgetViewController!=nil) {
+//        [self.delegate popoverShows:self.thePopover];
     }else{
         if (aLabel.tag == 1) {
             self.Contact.text=@"No contact found";
@@ -307,9 +308,15 @@
     }
     
     //do show the popover if there is no data
-    if (self.thePopover!=nil) {
-        self.thePopover.delegate=self;
-        [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (self.globalWidgetViewController!=nil) {
+//        self.thePopover.delegate=self;
+//        [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = aLabel;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = aLabel.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [[self.delegate retrieveParentViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
     }
     
     
@@ -317,10 +324,10 @@
 #pragma mark widget factory delegate
 -(void)operationDone:(id)data{
 //    NSLog(@"widget pick the data %@",data);
-    if (self.thePopover!=nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
-    
+//    if (self.thePopover!=nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+    [[self.delegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
     //save the data to the cell data dictionary
     
     NSMutableDictionary* MData=[self.cellData objectForKey:@"data"];
@@ -367,8 +374,9 @@
 
    // NSLog(@"detailing cell data is %@",self.cellData);
     [self.delegate inputFinishedWithData:MData forIndexpath:self.indexPath];
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+    self.globalWidgetViewController = nil;
 }
 
 -(BOOL)allowToShowAddContactButton {
@@ -445,7 +453,8 @@
     if (self.Contact != nil) { self.Contact = nil; }
     if (self.Memo != nil) { self.Memo = nil; }
     if (self.factory != nil) { self.factory = nil; }
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     self.orderDateTitle = nil;
     self.callTypeTitle = nil;
     self.contactTitle = nil;
@@ -507,9 +516,13 @@
 }
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 
 - (OrderHeader*)retrieveLastCallWithContactIUR:(NSNumber*)aContactIUR {

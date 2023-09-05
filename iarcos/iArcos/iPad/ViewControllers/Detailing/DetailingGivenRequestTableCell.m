@@ -14,7 +14,8 @@
 @synthesize givenQantity;
 @synthesize requestQantity;
 @synthesize factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize givenTitle;
 @synthesize requestTitle;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -97,33 +98,38 @@
     }
     
     if (aLabel.tag==0) {
-        self.thePopover=[self.factory CreateDetaillingInputPadWidgetWithProductName:self.label.text WithQty:[NSNumber numberWithInt:[[ArcosUtils convertBlankToZero:self.givenQantity.text] intValue]]];
+        self.globalWidgetViewController=[self.factory CreateDetaillingInputPadWidgetWithProductName:self.label.text WithQty:[NSNumber numberWithInt:[[ArcosUtils convertBlankToZero:self.givenQantity.text] intValue]]];
     }
     if (aLabel.tag==1) {
-        self.thePopover=[self.factory CreateDetaillingInputPadWidgetWithProductName:self.label.text WithQty:[NSNumber numberWithInt:[[ArcosUtils convertBlankToZero:self.requestQantity.text] intValue]]];
+        self.globalWidgetViewController=[self.factory CreateDetaillingInputPadWidgetWithProductName:self.label.text WithQty:[NSNumber numberWithInt:[[ArcosUtils convertBlankToZero:self.requestQantity.text] intValue]]];
     }
 
     //[self showWidget];
     //popover is shown
-    if (self.thePopover!=nil) {
-        [self.delegate popoverShows:self.thePopover];
-    }
+//    if (self.thePopover!=nil) {
+//        [self.delegate popoverShows:self.thePopover];
+//    }
     
     //do show the popover if there is no data
-    if (self.thePopover!=nil) {
-        self.thePopover.delegate=self;
-        [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
-    }
-    
+//    if (self.thePopover!=nil) {
+//        self.thePopover.delegate=self;
+//        [self.thePopover presentPopoverFromRect:aLabel.bounds inView:aLabel permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+//    }
+    self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+    self.globalWidgetViewController.popoverPresentationController.sourceView = aLabel;
+    self.globalWidgetViewController.popoverPresentationController.sourceRect = aLabel.bounds;
+    self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionDown;
+    self.globalWidgetViewController.popoverPresentationController.delegate = self;
+    [[self.delegate retrieveParentViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
     
 }
 #pragma mark widget factory delegate
 -(void)operationDone:(id)data{
 //    NSLog(@"pad input the data %@",data);
-    if (self.thePopover!=nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
-    
+//    if (self.thePopover!=nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+    [[self.delegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
     NSMutableDictionary* GRData=[self.cellData objectForKey:@"data"];
     if (GRData==nil) {
         GRData=[NSMutableDictionary dictionary];
@@ -163,8 +169,9 @@
     
     //send the data back (bad fit)
     [self.delegate inputFinishedWithData:GRData forIndexpath:self.indexPath];
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+    self.globalWidgetViewController = nil;
 }
 - (void)dealloc
 {
@@ -172,7 +179,8 @@
     if (self.givenQantity != nil) { self.givenQantity = nil; } 
     if (self.requestQantity != nil) { self.requestQantity = nil; }
     if (self.factory != nil) { self.factory = nil; }
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     self.givenTitle = nil;
     self.requestTitle = nil;
     
@@ -180,9 +188,13 @@
 }
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 
 - (void)suppressZeroForGivenRequest {

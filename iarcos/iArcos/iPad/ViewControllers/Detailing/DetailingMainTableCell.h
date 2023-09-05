@@ -12,7 +12,7 @@
 #import "WidgetFactory.h"
 #import "ArcosConfigDataManager.h"
 
-@interface DetailingMainTableCell : DetailingTableCell<WidgetFactoryDelegate,UIPopoverControllerDelegate,UITextViewDelegate> {
+@interface DetailingMainTableCell : DetailingTableCell<WidgetFactoryDelegate,UIPopoverPresentationControllerDelegate,UITextViewDelegate> {
     UILabel* OrderDate;
     IBOutlet UILabel* CallType;
     IBOutlet UILabel* Contact;
@@ -22,7 +22,8 @@
 
     //widget factory
     WidgetFactory* factory;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
     
     UILabel* _orderDateTitle;
     UILabel* _callTypeTitle;
@@ -51,7 +52,8 @@
 @property(nonatomic,retain) IBOutlet UILabel* Contact;
 @property(nonatomic,retain) IBOutlet UITextView* Memo;
 @property(nonatomic,retain)    WidgetFactory* factory;
-@property(nonatomic,retain) UIPopoverController* thePopover;
+//@property(nonatomic,retain) UIPopoverController* thePopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 //@property(nonatomic,retain) NSMutableDictionary* cellData;
 
 @property(nonatomic,retain) IBOutlet UILabel* orderDateTitle;

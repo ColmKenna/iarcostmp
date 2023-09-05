@@ -11,7 +11,7 @@
 #import "DetailingTableCell.h"
 
 
-@interface DetailingSampleTableCell : DetailingTableCell <WidgetFactoryDelegate,UIPopoverControllerDelegate> {
+@interface DetailingSampleTableCell : DetailingTableCell <WidgetFactoryDelegate,UIPopoverPresentationControllerDelegate> {
     IBOutlet UILabel* label;
     IBOutlet UILabel* qantity;
     IBOutlet UILabel* batch;
@@ -20,13 +20,14 @@
     
     //widget factory
     WidgetFactory* factory;
-    UIPopoverController* _thePopover;
-    
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
 }
 @property(nonatomic,retain) IBOutlet UILabel* label;
 @property(nonatomic,retain) IBOutlet UILabel* qantity;
 @property(nonatomic,retain) IBOutlet UILabel* batch;
 @property(nonatomic,retain)    WidgetFactory* factory;
-@property(nonatomic,retain) UIPopoverController* thePopover;
+//@property(nonatomic,retain) UIPopoverController* thePopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 
 @end
