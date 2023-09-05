@@ -10,7 +10,8 @@
 
 @implementation OrderDetailDateTableCell
 @synthesize widgetFactory = _widgetFactory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize fieldNameLabel = _fieldNameLabel;
 @synthesize fieldValueLabel = _fieldValueLabel;
 @synthesize isEventSet = _isEventSet;
@@ -33,7 +34,8 @@
 
 - (void)dealloc {
     if (self.widgetFactory != nil) { self.widgetFactory = nil; }
-    if (self.thePopover != nil) { self.thePopover = nil; }
+//    if (self.thePopover != nil) { self.thePopover = nil; }
+    self.globalWidgetViewController = nil;
     if (self.fieldNameLabel != nil) { self.fieldNameLabel = nil; }
     if (self.fieldValueLabel != nil) { self.fieldValueLabel = nil; }                
     
@@ -65,15 +67,25 @@
     }
 //    NSLog(@"%@",self.cellData);
     NSNumber* writeType = [self.cellData objectForKey:@"WriteType"];
-    self.thePopover = [self.widgetFactory CreateDateWidgetWithDataSource:[writeType intValue] defaultPickerDate:[self.cellData objectForKey:@"FieldData"]];
-    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    self.globalWidgetViewController = [self.widgetFactory CreateDateWidgetWithDataSource:[writeType intValue] defaultPickerDate:[self.cellData objectForKey:@"FieldData"]];
+//    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+    self.globalWidgetViewController.popoverPresentationController.sourceView = self.fieldValueLabel;
+    self.globalWidgetViewController.popoverPresentationController.sourceRect = self.fieldValueLabel.bounds;
+    self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    self.globalWidgetViewController.popoverPresentationController.delegate = self;
+    [[self.delegate retrieveParentViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
 }
 
 -(void)operationDone:(id)data {
-    [self.thePopover dismissPopoverAnimated:YES];
+//    [self.thePopover dismissPopoverAnimated:YES];
+    [[self.delegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
     self.fieldValueLabel.text = [ArcosUtils stringFromDate:data format:[GlobalSharedClass shared].dateFormat];
     [self.delegate inputFinishedWithData:data forIndexpath:self.indexPath];
 }
-
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
+}
 
 @end

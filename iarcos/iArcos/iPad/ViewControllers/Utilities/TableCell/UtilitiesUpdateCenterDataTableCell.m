@@ -17,7 +17,8 @@
 @synthesize downloadRecordQty = _downloadRecordQty;
 @synthesize indexPath = _indexPath;
 @synthesize factory = _factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize delegate = _delegate;
 @synthesize sectionTitle = _sectionTitle;
 
@@ -46,7 +47,8 @@
     if (self.downloadRecordQty != nil) { self.downloadRecordQty = nil; }
     if (self.indexPath != nil) { self.indexPath = nil; }
     if (self.factory != nil) { self.factory = nil; }
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
 //    if (self.delegate != nil) { self.delegate = nil; }
     self.sectionTitle = nil;
     
@@ -84,36 +86,51 @@
         self.factory = [WidgetFactory factory];
         self.factory.delegate = self;
     }
-    self.thePopover = [self.factory CreateTableWidgetWithData:tableDataList withTitle:[NSString stringWithFormat:@"%@Mode",self.sectionTitle] withParentContentString:self.downloadModeName.text];
+    self.globalWidgetViewController = [self.factory CreateTableWidgetWithData:tableDataList withTitle:[NSString stringWithFormat:@"%@Mode",self.sectionTitle] withParentContentString:self.downloadModeName.text];
     
     //do show the popover if there is no data
-    if (self.thePopover != nil) {
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromRect:self.downloadModeName.bounds inView:self.downloadModeName permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (self.globalWidgetViewController != nil) {
+//        self.thePopover.delegate = self;
+//        [self.thePopover presentPopoverFromRect:self.downloadModeName.bounds inView:self.downloadModeName permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = self.downloadModeName;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = self.downloadModeName.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [[self.delegate retrieveUtilitiesUpdateCenterParentViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
     }
 }
 
 -(void)operationDone:(id)data {
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+    [[self.delegate retrieveUtilitiesUpdateCenterParentViewController] dismissViewControllerAnimated:YES completion:nil];
     self.downloadModeName.text = [data objectForKey:@"Title"];
     [self.delegate inputFinishedWithData:data forIndexpath:self.indexPath];
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+    self.globalWidgetViewController = nil;
 }
 
 -(void)dismissPopoverController {
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-        self.thePopover = nil;
-        self.factory.popoverController = nil;
-    }
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//        self.thePopover = nil;
+//        self.factory.popoverController = nil;
+//    }
+    [[self.delegate retrieveUtilitiesUpdateCenterParentViewController] dismissViewControllerAnimated:YES completion:^ {
+        self.globalWidgetViewController = nil;
+    }];
 }
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 
 @end

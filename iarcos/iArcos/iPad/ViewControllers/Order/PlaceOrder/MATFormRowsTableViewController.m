@@ -19,7 +19,8 @@
 @synthesize customiseTableHeaderView = _customiseTableHeaderView;
 @synthesize matFormRowsDataManager = _matFormRowsDataManager;
 @synthesize widgetFactory = _widgetFactory;
-@synthesize inputPopover = _inputPopover;
+//@synthesize inputPopover = _inputPopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize isServiceCalled = _isServiceCalled;
 @synthesize startDate = _startDate;
 @synthesize endDate = _endDate;
@@ -65,7 +66,8 @@
     }
     if (self.matFormRowsDataManager != nil) { self.matFormRowsDataManager = nil; }
     if (self.widgetFactory != nil) { self.widgetFactory = nil; }
-    self.inputPopover = nil;
+//    self.inputPopover = nil;
+    self.globalWidgetViewController = nil;
     if (self.startDate != nil) { self.startDate = nil; }
     if (self.endDate != nil) { self.endDate = nil; }
     self.mySearchBar = nil;
@@ -170,7 +172,7 @@
     NSLog(@"shouldAutorotateToInterfaceOrientation");
 	return YES;
 }
-
+/*
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     //repositioning the popover when rotation finished
     if ([self.inputPopover isPopoverVisible]) {
@@ -178,6 +180,17 @@
         CGRect aRect = CGRectMake(self.rootView.view.bounds.size.width - 10, self.rootView.view.bounds.size.height - 10, 1, 1);
         [self.inputPopover presentPopoverFromRect:aRect inView:self.rootView.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
     }
+}*/
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        if (self.presentedViewController != nil && [self.presentedViewController isKindOfClass:[WidgetViewController class]]) {
+            CGRect aRect = CGRectMake(self.rootView.view.bounds.size.width - 10, self.rootView.view.bounds.size.height - 10, 1, 1);
+            self.globalWidgetViewController.popoverPresentationController.sourceRect = aRect;
+        }
+    }];
 }
 
 #pragma mark - Table view data source
@@ -447,16 +460,17 @@
 //        BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
             if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].pxDbName]) {
-                self.inputPopover = [self.widgetFactory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+                self.globalWidgetViewController = [self.widgetFactory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
             } else {
-                self.inputPopover = [self.widgetFactory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+                self.globalWidgetViewController = [self.widgetFactory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
             }
             
-            WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
-            wvc.Data = cellFormRowData;
+//            WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
+            self.globalWidgetViewController.Data = cellFormRowData;
         } else {
-            self.inputPopover = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
-            OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
+            self.globalWidgetViewController = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            OrderInputPadViewController* oipvc = (OrderInputPadViewController*)self.globalWidgetViewController;
+//            OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
             oipvc.Data=cellFormRowData;
 //            oipvc.showSeparator = showSeparator;
             oipvc.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
@@ -466,8 +480,14 @@
                 return;
             }
         }
-        self.inputPopover.delegate = self;
-        [self.inputPopover presentPopoverFromRect:aRect inView:self.rootView.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+//        self.inputPopover.delegate = self;
+//        [self.inputPopover presentPopoverFromRect:aRect inView:self.rootView.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = self.rootView.view;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = aRect;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionDown;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [self presentViewController:self.globalWidgetViewController animated:YES completion:nil];
     }
 }
 
@@ -523,7 +543,8 @@
 //input popover delegate
 -(void)operationDone:(id)data {
 //    NSLog(@"Check Out mat input is done! with value %@", data);  
-    [self.inputPopover dismissPopoverAnimated:YES];
+//    [self.inputPopover dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 //    [[OrderSharedClass sharedOrderSharedClass]syncAllSelectionsWithRowData:data];
     [[OrderSharedClass sharedOrderSharedClass] saveOrderLine:data];    
     [self.tableView reloadData];
@@ -602,6 +623,7 @@
 }
 
 #pragma mark UIPopoverControllerDelegate
+/*
 - (BOOL)popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController {
     if ([popoverController.contentViewController isKindOfClass:[OrderInputPadViewController class]]) {
         OrderInputPadViewController* oipvc = (OrderInputPadViewController*) popoverController.contentViewController;
@@ -612,6 +634,19 @@
             return NO;
         }
     }    
+    return YES;
+}*/
+#pragma mark UIPopoverPresentationControllerDelegate
+- (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    if ([popoverPresentationController.presentedViewController isKindOfClass:[OrderInputPadViewController class]]) {
+        OrderInputPadViewController* oipvc = (OrderInputPadViewController*)popoverPresentationController.presentedViewController;
+        if ([[oipvc.Data objectForKey:@"RRIUR"] intValue] == -1) {
+            return NO;
+        }
+        if (![[ArcosUtils convertNilToEmpty:[oipvc.Data objectForKey:@"BonusDeal"]] isEqualToString:@""]) {
+            return NO;
+        }
+    }
     return YES;
 }
 

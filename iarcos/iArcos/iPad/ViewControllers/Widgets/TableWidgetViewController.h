@@ -33,7 +33,8 @@ typedef enum {
     IBOutlet UINavigationBar* tableNavigationBar;
     IBOutlet UINavigationItem* tableNavigationItem;
     EmailRecipientTableViewController* _emailRecipientTableViewController;
-    UIPopoverController* _emailPopover;
+//    UIPopoverController* _emailPopover;
+    UINavigationController* _emailNavigationController;
     UIBarButtonItem* _emailButton;
     NSIndexPath* _currentIndexPath;
     UITableView* _myTableView;
@@ -46,7 +47,8 @@ typedef enum {
 @property(nonatomic, retain) IBOutlet UINavigationBar* tableNavigationBar;
 @property(nonatomic, retain) IBOutlet UINavigationItem* tableNavigationItem;
 @property(nonatomic,retain) EmailRecipientTableViewController* emailRecipientTableViewController;
-@property(nonatomic, retain) UIPopoverController* emailPopover;
+//@property(nonatomic, retain) UIPopoverController* emailPopover;
+@property(nonatomic, retain) UINavigationController* emailNavigationController;
 @property(nonatomic, retain) UIBarButtonItem* emailButton;
 @property(nonatomic, retain) NSIndexPath* currentIndexPath;
 @property(nonatomic, retain) IBOutlet UITableView* myTableView;

@@ -27,12 +27,13 @@
 
 @end
 
-@interface OrderLineDetailProductTableViewController : UITableViewController<UISearchBarDelegate, WidgetFactoryDelegate, UIActionSheetDelegate, OrderProductTableCellDelegate, UIPopoverControllerDelegate> {
+@interface OrderLineDetailProductTableViewController : UITableViewController<UISearchBarDelegate, WidgetFactoryDelegate, UIActionSheetDelegate, OrderProductTableCellDelegate, UIPopoverPresentationControllerDelegate> {
     UISearchBar* _mySearchBar;
     id<PresentViewControllerDelegate> _delegate;
     OrderLineDetailProductDataManager* _orderLineDetailProductDataManager;
     UIViewController* _rootView;
-    UIPopoverController* _inputPopover;
+//    UIPopoverController* _inputPopover;
+    WidgetViewController* _globalWidgetViewController;
     WidgetFactory* _widgetFactory;
     BOOL _showSeparator;
     BOOL _isNotFirstLoaded;
@@ -47,7 +48,8 @@
 @property (nonatomic, retain) id<PresentViewControllerDelegate> delegate;
 @property (nonatomic, retain) OrderLineDetailProductDataManager* orderLineDetailProductDataManager;
 @property (nonatomic, retain) UIViewController* rootView;
-@property (nonatomic, retain) UIPopoverController* inputPopover;
+//@property (nonatomic, retain) UIPopoverController* inputPopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property (nonatomic, retain) WidgetFactory* widgetFactory;
 @property (nonatomic, assign) BOOL showSeparator;
 @property (nonatomic, assign) BOOL isNotFirstLoaded;

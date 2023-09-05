@@ -24,7 +24,7 @@
 #import "MATFormRowsTableHeaderView.h"
 #import "OrderPadFooterViewDataManager.h"
 
-@interface MATFormRowsTableViewController : OrderBaseTableViewController<WidgetFactoryDelegate, SlideAcrossViewAnimationDelegate, MATCheckoutViewDelegate, UISearchBarDelegate, UIPopoverControllerDelegate> {
+@interface MATFormRowsTableViewController : OrderBaseTableViewController<WidgetFactoryDelegate, SlideAcrossViewAnimationDelegate, MATCheckoutViewDelegate, UISearchBarDelegate, UIPopoverPresentationControllerDelegate> {
     NSNumber* _locationIUR;
     id<ModelViewDelegate> _modelDelegate;
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
@@ -35,7 +35,8 @@
     MATFormRowsTableHeaderView* _customiseTableHeaderView;
     MATFormRowsDataManager* _matFormRowsDataManager;
     WidgetFactory* _widgetFactory;
-    UIPopoverController* _inputPopover;
+//    UIPopoverController* _inputPopover;
+    WidgetViewController* _globalWidgetViewController;
     BOOL _isServiceCalled;
     NSDate* _startDate;
     NSDate* _endDate;
@@ -58,7 +59,8 @@
 @property(nonatomic, retain) MATFormRowsTableHeaderView* customiseTableHeaderView;
 @property(nonatomic, retain) MATFormRowsDataManager* matFormRowsDataManager;
 @property(nonatomic, retain) WidgetFactory* widgetFactory;
-@property(nonatomic, retain) UIPopoverController* inputPopover;
+//@property(nonatomic, retain) UIPopoverController* inputPopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic, assign) BOOL isServiceCalled;
 @property(nonatomic, retain) NSDate* startDate;
 @property(nonatomic, retain) NSDate* endDate;

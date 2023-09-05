@@ -241,9 +241,9 @@
 -(void)invalidDataForIndexpath:(NSString*)theIndexpath{
     
 }
--(void)popoverShows:(UIPopoverController*)aPopover{
-
-}
+//-(void)popoverShows:(UIPopoverController*)aPopover{
+//
+//}
 
 -(void)cancelPressed {
     [self.delegate dismissPopoverController];

@@ -17,14 +17,15 @@
 #import "MATFormRowsTableHeaderView.h"
 #import "OrderPadFooterViewDataManager.h"
 
-@interface StandardOrderPadMatTableViewController : UITableViewController<WidgetFactoryDelegate, UIPopoverControllerDelegate> {
+@interface StandardOrderPadMatTableViewController : UITableViewController<WidgetFactoryDelegate, UIPopoverPresentationControllerDelegate> {
     id<OrderFormNavigationControllerBackButtonDelegate> _backButtonDelegate;
     StandardOrderPadMatDataManager* _standardOrderPadMatDataManager;
     FormRowsTableViewController* _formRowsTableViewController;
     MATFormRowsTableViewController* _mATFormRowsTableViewController;
     BOOL _isShowingInStockFlag;
     BOOL _isVanSalesEnabledFlag;
-    UIPopoverController* _inputPopover;
+//    UIPopoverController* _inputPopover;
+    WidgetViewController* _globalWidgetViewController;
     WidgetFactory* _factory;
     StandardOrderPadMatHeaderView* _standardOrderPadMatHeaderView;
     UISearchBar* _mySearchBar;
@@ -39,7 +40,8 @@
 @property(nonatomic, retain) MATFormRowsTableViewController* mATFormRowsTableViewController;
 @property(nonatomic, assign) BOOL isShowingInStockFlag;
 @property(nonatomic, assign) BOOL isVanSalesEnabledFlag;
-@property(nonatomic, retain) UIPopoverController* inputPopover;
+//@property(nonatomic, retain) UIPopoverController* inputPopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic, retain) WidgetFactory* factory;
 @property(nonatomic, retain) IBOutlet StandardOrderPadMatHeaderView* standardOrderPadMatHeaderView;
 @property(nonatomic, retain) IBOutlet UISearchBar* mySearchBar;

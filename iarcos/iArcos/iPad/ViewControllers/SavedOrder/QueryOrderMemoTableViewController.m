@@ -224,6 +224,10 @@
     return [self.queryOrderMemoDataManager getFieldNameWithIndexPath:theIndexpath];
 }
 
+- (UIViewController*)retrieveCustomerTypeParentViewController {
+    return self;
+}
+
 -(void)savePressed:(id)sender {
     [self.view endEditing:YES];
     if (![self.actionType isEqualToString:@"create"]) {

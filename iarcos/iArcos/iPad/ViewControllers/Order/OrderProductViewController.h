@@ -25,7 +25,7 @@
 -(void)totalGoodsUpdateForOrderNumber:(NSNumber *)orderNumber withValue:(NSNumber *)totalGoods totalVat:(NSNumber*)aTotalVat;
 @end
 
-@interface OrderProductViewController : OrderDetailViewController <SelectionPopoverDelegate,ModelViewDelegate,WidgetFactoryDelegate,UIActionSheetDelegate, PresentViewControllerDelegate, OrderLineDetailProductDelegate, UIPopoverControllerDelegate>{
+@interface OrderProductViewController : OrderDetailViewController <SelectionPopoverDelegate,ModelViewDelegate,WidgetFactoryDelegate,UIActionSheetDelegate, PresentViewControllerDelegate, OrderLineDetailProductDelegate, UIPopoverPresentationControllerDelegate>{
     UILabel* _descTitleLabel;
     UILabel* _qtyTitleLabel;
     UILabel* _valueTitleLabel;
@@ -40,7 +40,8 @@
     NSMutableDictionary* backupSelectedOrderLine;
 
     //order input popover
-    UIPopoverController* _inputPopover;
+//    UIPopoverController* _inputPopover;
+    WidgetViewController* _globalWidgetViewController;
     WidgetFactory* factory;
     
     //delegate
@@ -79,7 +80,8 @@
 @property (nonatomic,retain)  NSMutableDictionary* currentSelectedOrderLine;
 @property (nonatomic,retain)  NSMutableDictionary* backupSelectedOrderLine;
 
-@property(nonatomic,retain) UIPopoverController* inputPopover;
+//@property(nonatomic,retain) UIPopoverController* inputPopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic,retain) WidgetFactory* factory;
 
 @property(nonatomic,assign)  id<OrderProductViewControllerDelegate> delegate;

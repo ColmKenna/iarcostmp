@@ -12,7 +12,7 @@
 -(void)editStartForIndexpath:(NSIndexPath*)theIndexpath;
 -(void)inputFinishedWithData:(id)data forIndexpath:(NSIndexPath*)theIndexpath;
 -(void)invalidDataForIndexpath:(NSString*)theIndexpath;
--(void)popoverShows:(UIPopoverController*)aPopover;
+//-(void)popoverShows:(UIPopoverController*)aPopover;
 @optional
 -(UIViewController*)retrieveParentViewController;
 - (void)presenterHeaderPressedWithIndexPath:(NSIndexPath*)anIndexpath;

@@ -64,7 +64,7 @@
 @synthesize monthRequiredTitleLabel;
 @synthesize yearRequiredTitleLabel;
 
-@synthesize targetPopoverController = _targetPopoverController;
+//@synthesize targetPopoverController = _targetPopoverController;
 @synthesize ohtstvc = _ohtstvc;
 @synthesize setTargetButton = _setTargetButton;
 @synthesize settingManager = _settingManager;
@@ -144,7 +144,7 @@
         yearlySymbolTextAnnotation = nil;
     }
     if (self.ohtstvc != nil) { self.ohtstvc = nil; }
-    if (self.targetPopoverController != nil) { self.targetPopoverController = nil; }             
+//    if (self.targetPopoverController != nil) { self.targetPopoverController = nil; }
     
         
     if (self.setTargetButton != nil) { self.setTargetButton = nil; }
@@ -180,9 +180,9 @@
     [self.navigationItem setRightBarButtonItem:self.setTargetButton];
     self.ohtstvc = [[[OrderHeaderTotalSetTargetViewController alloc] initWithNibName:@"OrderHeaderTotalSetTargetViewController" bundle:nil] autorelease];
     self.ohtstvc.delegate = self;
-
-    self.targetPopoverController = [[[UIPopoverController alloc] initWithContentViewController:self.ohtstvc] autorelease];
-    self.targetPopoverController.popoverContentSize = CGSizeMake(700.0f, 360.0f);
+    self.ohtstvc.preferredContentSize = CGSizeMake(700.0f, 360.0f);
+//    self.targetPopoverController = [[[UIPopoverController alloc] initWithContentViewController:self.ohtstvc] autorelease];
+//    self.targetPopoverController.popoverContentSize = CGSizeMake(700.0f, 360.0f);
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backPressed:)];
     [self.navigationItem setLeftBarButtonItem:backButton];
@@ -294,9 +294,9 @@
 }
 
 -(void)backPressed:(id)sender {
-    if ([self.targetPopoverController isPopoverVisible]) {        
-        [self.targetPopoverController dismissPopoverAnimated:YES];        
-    }
+//    if ([self.targetPopoverController isPopoverVisible]) {        
+//        [self.targetPopoverController dismissPopoverAnimated:YES];        
+//    }
 //    [self.delegate didDismissModalView];
     [self.presentDelegate didDismissPresentView];
 }
@@ -1031,17 +1031,22 @@
 }
 
 - (void)setTargetPressed:(id)sender {
-    if ([self.targetPopoverController isPopoverVisible]) {        
-        [self.targetPopoverController dismissPopoverAnimated:YES];        
-    } else {        
-        [self.targetPopoverController presentPopoverFromBarButtonItem:self.setTargetButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];        
-    }
+//    if ([self.targetPopoverController isPopoverVisible]) {
+//        [self.targetPopoverController dismissPopoverAnimated:YES];
+//    } else {
+//        [self.targetPopoverController presentPopoverFromBarButtonItem:self.setTargetButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//    }
+    self.ohtstvc.modalPresentationStyle = UIModalPresentationPopover;
+    self.ohtstvc.popoverPresentationController.barButtonItem = self.setTargetButton;
+    self.ohtstvc.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    [self presentViewController:self.ohtstvc animated:YES completion:nil];
 }
 
 - (void)dismissPopoverController {
-    if ([self.targetPopoverController isPopoverVisible]) {        
-        [self.targetPopoverController dismissPopoverAnimated:YES];
-    }
+//    if ([self.targetPopoverController isPopoverVisible]) {
+//        [self.targetPopoverController dismissPopoverAnimated:YES];
+//    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)refreshParentContent {

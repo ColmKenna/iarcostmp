@@ -55,7 +55,7 @@ typedef enum {
     CallGenericServices* _callGenericServices;
     UIBarButtonItem* _addButton;
     UIBarButtonItem* _emailButton;
-    UIPopoverController* _emailPopover;
+//    UIPopoverController* _emailPopover;
     UINavigationController* _emailNavigationController;
     NSMutableArray* _rightBarButtonItemList;
     QueryOrderTaskTableViewController* _queryOrderTaskTableViewController;
@@ -88,7 +88,7 @@ typedef enum {
 @property(nonatomic, retain) CallGenericServices* callGenericServices;
 @property(nonatomic, retain) UIBarButtonItem* addButton;
 @property(nonatomic, retain) UIBarButtonItem* emailButton;
-@property(nonatomic, retain) UIPopoverController* emailPopover;
+//@property(nonatomic, retain) UIPopoverController* emailPopover;
 @property(nonatomic, retain) UINavigationController* emailNavigationController;
 @property(nonatomic, retain) NSMutableArray* rightBarButtonItemList;
 @property(nonatomic, retain) QueryOrderTaskTableViewController* queryOrderTaskTableViewController;

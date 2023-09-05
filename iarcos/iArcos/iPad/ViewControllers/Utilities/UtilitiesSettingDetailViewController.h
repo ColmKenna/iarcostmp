@@ -17,7 +17,7 @@
     SettingManager* settingManager;
     NSArray* settingGroups;
     SettingTableCellFactory* cellFactory;
-    UIPopoverController* _tablecellPopover;
+//    UIPopoverController* _tablecellPopover;
     UIBarButtonItem* _saveButton;
     
     //manager password
@@ -29,7 +29,7 @@
 @property(nonatomic,retain) SettingManager* settingManager;
 @property(nonatomic,retain) NSArray* settingGroups;
 @property(nonatomic,retain)    SettingTableCellFactory* cellFactory;
-@property(nonatomic,retain) UIPopoverController* tablecellPopover;
+//@property(nonatomic,retain) UIPopoverController* tablecellPopover;
 @property(nonatomic,retain) UIBarButtonItem* saveButton;
 -(void)updateValue:(id)data ForIndexpath:(NSIndexPath*)indexPath;
 @end

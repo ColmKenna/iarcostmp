@@ -11,9 +11,10 @@
 #import "WidgetFactory.h"
 #import "CheckoutDataManager.h"
 
-@interface OrderDetailWriteLabelTableCell : OrderDetailBaseTableCell<WidgetFactoryDelegate> {
+@interface OrderDetailWriteLabelTableCell : OrderDetailBaseTableCell<WidgetFactoryDelegate, UIPopoverPresentationControllerDelegate> {
     WidgetFactory* _widgetFactory;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
     UILabel* _fieldNameLabel;
     UILabel* _fieldValueLabel;
     BOOL _isEventSet;
@@ -21,7 +22,8 @@
 }
 
 @property(nonatomic, retain) WidgetFactory* widgetFactory;
-@property(nonatomic, retain) UIPopoverController* thePopover;
+//@property(nonatomic, retain) UIPopoverController* thePopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic, retain) IBOutlet UILabel* fieldNameLabel;
 @property(nonatomic, retain) IBOutlet UILabel* fieldValueLabel;
 @property(nonatomic, assign) BOOL isEventSet;

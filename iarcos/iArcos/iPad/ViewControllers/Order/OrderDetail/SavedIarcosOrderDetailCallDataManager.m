@@ -23,7 +23,7 @@
     [self.sectionTitleList addObject:sectionTitle];
     NSMutableArray* contactDisplayList = [NSMutableArray arrayWithCapacity:4];
     NSMutableDictionary* contactDict = [NSMutableDictionary dictionaryWithDictionary:[self.orderHeader objectForKey:@"contact"]];
-    [contactDict setObject:[self.orderHeader objectForKey:@"contactText"] forKey:self.titleKey];
+    [contactDict setObject:[ArcosUtils convertNilToEmpty:[self.orderHeader objectForKey:@"contactText"]] forKey:self.titleKey];
     NSMutableDictionary* contactCellDict = [self createWriteCellDataWithCellKey:@"contact" fieldNameLabel:@"Contact" writeType:[NSNumber numberWithInt:7] fieldData:contactDict];
     [contactCellDict setObject:[self.orderHeader objectForKey:@"LocationIUR"] forKey:@"LocationIUR"];
     

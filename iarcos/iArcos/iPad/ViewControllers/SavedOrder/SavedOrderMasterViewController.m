@@ -10,7 +10,7 @@
 #import "ArcosSplitViewController.h"
 
 @implementation SavedOrderMasterViewController
-@synthesize popoverController, splitViewController, rootPopoverButtonItem;
+@synthesize splitViewController, rootPopoverButtonItem;
 @synthesize tableRows;
 @synthesize currentIndexPath;
 @synthesize savedOrderMasterDataManager = _savedOrderMasterDataManager;
@@ -297,7 +297,7 @@
     [self selectOnIndexPath:self.currentIndexPath];
 }
 #pragma mark - Split view controller delegate
-
+/*
 - (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
     
     // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.
@@ -319,7 +319,7 @@
     [detailViewController invalidateRootPopoverButtonItem:rootPopoverButtonItem];
     self.popoverController = nil;
     self.rootPopoverButtonItem = nil;
-}
+}*/
 
 #pragma mark saved order detail view delegate
 -(void)needRefresh{

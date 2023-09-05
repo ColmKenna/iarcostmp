@@ -26,7 +26,7 @@
 #import "CallGenericServices.h"
 
 
-@interface OrderDetailTableViewController : UITableViewController<OrderDetailTypesTableCellDelegate, EmailRecipientDelegate, MFMailComposeViewControllerDelegate, OrderProductViewControllerDelegate, WidgetFactoryDelegate, UIPopoverControllerDelegate,ModalPresentViewControllerDelegate,ArcosMailTableViewControllerDelegate,GetDataGenericDelegate> {
+@interface OrderDetailTableViewController : UITableViewController<OrderDetailTypesTableCellDelegate, EmailRecipientDelegate, MFMailComposeViewControllerDelegate, OrderProductViewControllerDelegate, WidgetFactoryDelegate, UIPopoverPresentationControllerDelegate,ModalPresentViewControllerDelegate,ArcosMailTableViewControllerDelegate,GetDataGenericDelegate> {
     UIBarButtonItem* _actionBarButton;
     UIBarButtonItem* _emailButton;
     UIBarButtonItem* _saveButton;
@@ -35,7 +35,7 @@
     OrderDetailTableCellFactory* _tableCellFactory;
     EmailRecipientTableViewController* _emailRecipientTableViewController;
     UINavigationController* _emailNavigationController;
-    UIPopoverController* _emailPopover;
+//    UIPopoverController* _emailPopover;
     id<OrderDetailEmailActionDelegate> _emailActionDelegate;
     MFMailComposeViewController* _mailController;
     BOOL _isContactDetailShowed;
@@ -45,7 +45,8 @@
     NSMutableDictionary* _savedOrderDetailCellData;
     NSMutableDictionary* _defaultOrderSentStatusDict;
     WidgetFactory* _factory;
-    UIPopoverController* _actionPopover;
+//    UIPopoverController* _actionPopover;
+    WidgetViewController* _globalWidgetViewController;
     RepeatOrderDataManager* _repeatOrderDataManager;
     UINavigationController* _globalNavigationController;
     UIViewController* _rootView;
@@ -60,7 +61,7 @@
 @property(nonatomic, retain) OrderDetailTableCellFactory* tableCellFactory;
 @property(nonatomic, retain) EmailRecipientTableViewController* emailRecipientTableViewController;
 @property(nonatomic, retain) UINavigationController* emailNavigationController;
-@property(nonatomic, retain) UIPopoverController* emailPopover;
+//@property(nonatomic, retain) UIPopoverController* emailPopover;
 @property(nonatomic,retain) id<OrderDetailEmailActionDelegate> emailActionDelegate;
 @property(nonatomic,retain) MFMailComposeViewController* mailController;
 @property(nonatomic,assign) BOOL isContactDetailShowed;
@@ -70,7 +71,8 @@
 @property(nonatomic,retain) NSMutableDictionary* savedOrderDetailCellData;
 @property(nonatomic,retain) NSMutableDictionary* defaultOrderSentStatusDict;
 @property(nonatomic,retain) WidgetFactory* factory;
-@property(nonatomic,retain) UIPopoverController* actionPopover;
+//@property(nonatomic,retain) UIPopoverController* actionPopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic,retain) RepeatOrderDataManager* repeatOrderDataManager;
 @property(nonatomic,retain) UINavigationController* globalNavigationController;
 @property(nonatomic,retain) UIViewController* rootView;

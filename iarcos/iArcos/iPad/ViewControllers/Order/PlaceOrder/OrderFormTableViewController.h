@@ -31,7 +31,7 @@
     
     UISplitViewController *splitViewController;
     
-    UIPopoverController *popoverController;    
+//    UIPopoverController *popoverController;
     UIBarButtonItem *rootPopoverButtonItem;
     
     //header view outlet
@@ -63,7 +63,7 @@
 
 @property (nonatomic, assign) IBOutlet UISplitViewController *splitViewController;
 
-@property (nonatomic, retain) UIPopoverController *popoverController;
+//@property (nonatomic, retain) UIPopoverController *popoverController;
 @property (nonatomic, retain) UIBarButtonItem *rootPopoverButtonItem;
 //header view outlet
 @property (nonatomic, retain) OrderTableViewHeader* orderTableViewHeader;

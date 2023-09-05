@@ -10,20 +10,21 @@
 #import "SettingInputCell.h"
 #import "WidgetFactory.h"
 
-@interface SettingSelectionInputCell : SettingInputCell<WidgetFactoryDelegate,UIPopoverControllerDelegate> {
+@interface SettingSelectionInputCell : SettingInputCell<WidgetFactoryDelegate,UIPopoverPresentationControllerDelegate> {
     
     IBOutlet UILabel* label;
     IBOutlet UILabel* statusLabel;
     
     //widget factory
     WidgetFactory* factory;
-    UIPopoverController* _thePopover;
-
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
 }
 @property(nonatomic,retain) IBOutlet UILabel* label;
 @property(nonatomic,retain) IBOutlet UILabel* statusLabel;
 @property(nonatomic,retain)    WidgetFactory* factory;
-@property(nonatomic,retain) UIPopoverController* thePopover;
+//@property(nonatomic,retain) UIPopoverController* thePopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 
 
 -(void)valueChange:(id)data;

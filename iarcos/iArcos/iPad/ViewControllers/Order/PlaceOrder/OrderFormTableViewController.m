@@ -21,7 +21,7 @@
 @synthesize frtvc;
 @synthesize currentIndexPath;
 //code from master
-@synthesize popoverController, splitViewController, rootPopoverButtonItem;
+@synthesize splitViewController, rootPopoverButtonItem;
 @synthesize orderTableViewHeader;
 @synthesize arcosCustomiseAnimation = _arcosCustomiseAnimation;
 @synthesize globalNavigationController = _globalNavigationController;
@@ -39,7 +39,7 @@
 
 - (void)dealloc
 {
-    [popoverController release];
+//    [popoverController release];
     [rootPopoverButtonItem release];
     [orderTableViewHeader release];
     [ myGroups release];
@@ -469,7 +469,7 @@
 }
 
 #pragma mark - Split view controller delegate
-
+/*
 - (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
     
     // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.
@@ -497,7 +497,7 @@
     NSLog(@"show the split view in form view");
 
 }
-
+*/
 -(BOOL)showMATFormRow:(NSString*)aGroupName {
     NSRange range = [aGroupName rangeOfString:@"Dynamic"];
     if (range.length > 0) {

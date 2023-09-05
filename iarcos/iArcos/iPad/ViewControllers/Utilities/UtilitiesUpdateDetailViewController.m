@@ -41,9 +41,9 @@
 @synthesize alert;
 
 //@synthesize downloadTableCells = _downloadTableCells;
-@synthesize datePickerPopover = _datePickerPopover;
-@synthesize callDatePickerPopover = _callDatePickerPopover;
-@synthesize responsePickerPopover = _responsePickerPopover;
+//@synthesize datePickerPopover = _datePickerPopover;
+//@synthesize callDatePickerPopover = _callDatePickerPopover;
+//@synthesize responsePickerPopover = _responsePickerPopover;
 @synthesize utilitiesUpdateDetailDataManager = _utilitiesUpdateDetailDataManager;
 @synthesize updateCenterTableCellFactory = _updateCenterTableCellFactory;
 @synthesize uploadProcessCenter = _uploadProcessCenter;
@@ -80,9 +80,9 @@
     
     [connectivityCheck release];
 //    if (self.downloadTableCells != nil) { self.downloadTableCells = nil; }
-    self.datePickerPopover = nil;
-    if (self.callDatePickerPopover != nil) { self.callDatePickerPopover = nil; }
-    self.responsePickerPopover = nil;
+//    self.datePickerPopover = nil;
+//    if (self.callDatePickerPopover != nil) { self.callDatePickerPopover = nil; }
+//    self.responsePickerPopover = nil;
     if (self.utilitiesUpdateDetailDataManager != nil) { self.utilitiesUpdateDetailDataManager = nil; }
     if (self.updateCenterTableCellFactory != nil) { self.updateCenterTableCellFactory = nil; }
     self.uploadProcessCenter.webServiceProcessor.utilitiesUpdateDetailViewController = nil;
@@ -562,24 +562,27 @@
 -(void)utilitiesDateSelectedForm:(NSDate*)start To:(NSDate*)end {
     updateCenter.orderStartDate = start;
     updateCenter.orderEndDate = end;
-    [self.datePickerPopover dismissPopoverAnimated:YES];
-    self.datePickerPopover = nil;
+//    [self.datePickerPopover dismissPopoverAnimated:YES];
+//    self.datePickerPopover = nil;
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UtilitiesCallDateRangePickerDelegate
 -(void)utilitiesCallDateSelectedForm:(NSDate*)start To:(NSDate*)end {
     updateCenter.callStartDate = start;
     updateCenter.callEndDate = end;
-    [self.callDatePickerPopover dismissPopoverAnimated:YES];
-    self.callDatePickerPopover = nil;
+//    [self.callDatePickerPopover dismissPopoverAnimated:YES];
+//    self.callDatePickerPopover = nil;
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - TwoDatePickerWidgetDelegate
 - (void)dateSelectedFromDate:(NSDate*)aStartDate ToDate:(NSDate*)anEndDate {
     updateCenter.responseStartDate = aStartDate;
     updateCenter.responseEndDate = anEndDate;
-    [self.responsePickerPopover dismissPopoverAnimated:YES];
-    self.responsePickerPopover = nil;
+//    [self.responsePickerPopover dismissPopoverAnimated:YES];
+//    self.responsePickerPopover = nil;
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)ProgressViewWithValue:(float)aProgressValue {
@@ -608,7 +611,7 @@
 - (void)GotErrorWithResourcesFile:(NSError *)anError {
     [ArcosUtils showMsg:[anError localizedDescription] delegate:nil];
 }
-
+#pragma mark UtilitiesUpdateCenterDataTableCellDelegate
 -(void)inputFinishedWithData:(id)data forIndexpath:(NSIndexPath*)theIndexpath {    
     [self.utilitiesUpdateDetailDataManager inputFinishedWithData:data forIndexpath:theIndexpath];
     NSString* tableName = [self.utilitiesUpdateDetailDataManager.tableNameList objectAtIndex:theIndexpath.row];
@@ -631,10 +634,16 @@
 //            UODRP.orderStartDate = tmpOrderStartDate;
 //            UODRP.orderEndDate = tmpOrderEndDate;
 //        }
-        self.datePickerPopover = [[[UIPopoverController alloc]initWithContentViewController:UODRP] autorelease];
+        UODRP.preferredContentSize = CGSizeMake(328, 500);
+        UODRP.modalPresentationStyle = UIModalPresentationPopover;
+        UODRP.popoverPresentationController.sourceView = self.view;
+        UODRP.popoverPresentationController.sourceRect = orderTableViewCell.frame;
+        UODRP.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        [self presentViewController:UODRP animated:YES completion:nil];
+//        self.datePickerPopover = [[[UIPopoverController alloc]initWithContentViewController:UODRP] autorelease];
         [UODRP release];
-        self.datePickerPopover.popoverContentSize = CGSizeMake(328, 500);
-        [self.datePickerPopover presentPopoverFromRect:orderTableViewCell.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//        self.datePickerPopover.popoverContentSize = CGSizeMake(328, 500);
+//        [self.datePickerPopover presentPopoverFromRect:orderTableViewCell.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 //        } else {
 //            [self.datePickerPopover presentPopoverFromRect:orderTableViewCell.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 //        }
@@ -656,10 +665,16 @@
 //            UCDRP.callStartDate = tmpCallStartDate;
 //            UCDRP.callEndDate = tmpCallEndDate;
 //        }
-        self.callDatePickerPopover = [[[UIPopoverController alloc]initWithContentViewController:UCDRP] autorelease];
+//        self.callDatePickerPopover = [[[UIPopoverController alloc]initWithContentViewController:UCDRP] autorelease];
+        UCDRP.preferredContentSize = CGSizeMake(328, 500);
+        UCDRP.modalPresentationStyle = UIModalPresentationPopover;
+        UCDRP.popoverPresentationController.sourceView = self.view;
+        UCDRP.popoverPresentationController.sourceRect = callTableViewCell.frame;
+        UCDRP.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        [self presentViewController:UCDRP animated:YES completion:nil];
         [UCDRP release];
-        self.callDatePickerPopover.popoverContentSize = CGSizeMake(328, 500);
-        [self.callDatePickerPopover presentPopoverFromRect:callTableViewCell.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//        self.callDatePickerPopover.popoverContentSize = CGSizeMake(328, 500);
+//        [self.callDatePickerPopover presentPopoverFromRect:callTableViewCell.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 //        } else {
 //            [self.callDatePickerPopover presentPopoverFromRect:callTableViewCell.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 //        }
@@ -670,11 +685,21 @@
         TDPWVC.delegate = self;
         TDPWVC.startDate = updateCenter.responseStartDate;
         TDPWVC.endDate = updateCenter.responseEndDate;
-        self.responsePickerPopover = [[[UIPopoverController alloc]initWithContentViewController:TDPWVC] autorelease];
+//        self.responsePickerPopover = [[[UIPopoverController alloc]initWithContentViewController:TDPWVC] autorelease];
+        TDPWVC.preferredContentSize = CGSizeMake(328, 500);
+        TDPWVC.modalPresentationStyle = UIModalPresentationPopover;
+        TDPWVC.popoverPresentationController.sourceView = self.view;
+        TDPWVC.popoverPresentationController.sourceRect = responseTableViewCell.frame;
+        TDPWVC.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        [self presentViewController:TDPWVC animated:YES completion:nil];
         [TDPWVC release];
-        self.responsePickerPopover.popoverContentSize = CGSizeMake(328, 500);
-        [self.responsePickerPopover presentPopoverFromRect:responseTableViewCell.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//        self.responsePickerPopover.popoverContentSize = CGSizeMake(328, 500);
+//        [self.responsePickerPopover presentPopoverFromRect:responseTableViewCell.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
+}
+
+- (UIViewController*)retrieveUtilitiesUpdateCenterParentViewController {
+    return self;
 }
 
 -(void)buildUpdateCenterSelectorList {

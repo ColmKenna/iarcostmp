@@ -22,14 +22,14 @@
 #import "RepeatOrderDataManager.h"
 #import "CustomerInvoiceDetailsModalViewController.h"
 
-@interface SavedIarcosOrderDetailTableViewController : UITableViewController<OrderDetailTypesTableCellDelegate,EmailRecipientDelegate,MFMailComposeViewControllerDelegate,GetDataGenericDelegate, CustomisePresentViewControllerDelegate, WidgetFactoryDelegate, UIPopoverControllerDelegate, ModalPresentViewControllerDelegate, ArcosMailTableViewControllerDelegate, SlideAcrossViewAnimationDelegate> {
+@interface SavedIarcosOrderDetailTableViewController : UITableViewController<OrderDetailTypesTableCellDelegate,EmailRecipientDelegate,MFMailComposeViewControllerDelegate,GetDataGenericDelegate, CustomisePresentViewControllerDelegate, WidgetFactoryDelegate, UIPopoverPresentationControllerDelegate, ModalPresentViewControllerDelegate, ArcosMailTableViewControllerDelegate, SlideAcrossViewAnimationDelegate> {
     UIBarButtonItem* _actionBarButton;
     UIBarButtonItem* _emailButton;
     UIBarButtonItem* _saveButton;
     NSMutableArray* _rightBarButtonItemList;
     EmailRecipientTableViewController* _emailRecipientTableViewController;
     UINavigationController* _emailNavigationController;
-    UIPopoverController* _emailPopover;
+//    UIPopoverController* _emailPopover;
     id<OrderDetailEmailActionDelegate> _emailActionDelegate;
     SavedIarcosOrderDetailDataManager* _savedIarcosOrderDetailDataManager;
     NSMutableDictionary* _savedOrderDetailCellData;
@@ -47,7 +47,8 @@
     NSNumber* _coordinateType;
     CallGenericServices* _callGenericServices;
     WidgetFactory* _factory;
-    UIPopoverController* _actionPopover;
+//    UIPopoverController* _actionPopover;
+    WidgetViewController* _globalWidgetViewController;
     RepeatOrderDataManager* _repeatOrderDataManager;
     UINavigationController* _globalNavigationController;
     UIViewController* _rootView;
@@ -58,7 +59,7 @@
 @property(nonatomic, retain) NSMutableArray* rightBarButtonItemList;
 @property(nonatomic, retain) EmailRecipientTableViewController* emailRecipientTableViewController;
 @property(nonatomic, retain) UINavigationController* emailNavigationController;
-@property(nonatomic, retain) UIPopoverController* emailPopover;
+//@property(nonatomic, retain) UIPopoverController* emailPopover;
 @property(nonatomic,retain) id<OrderDetailEmailActionDelegate> emailActionDelegate;
 @property(nonatomic, retain) SavedIarcosOrderDetailDataManager* savedIarcosOrderDetailDataManager;
 @property(nonatomic, retain) NSMutableDictionary* savedOrderDetailCellData;
@@ -75,7 +76,8 @@
 @property (nonatomic, retain) NSNumber* coordinateType;
 @property (nonatomic,retain) CallGenericServices* callGenericServices;
 @property(nonatomic,retain) WidgetFactory* factory;
-@property(nonatomic,retain) UIPopoverController* actionPopover;
+//@property(nonatomic,retain) UIPopoverController* actionPopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic,retain) RepeatOrderDataManager* repeatOrderDataManager;
 @property(nonatomic,retain) UINavigationController* globalNavigationController;
 @property(nonatomic,retain) UIViewController* rootView;

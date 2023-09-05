@@ -13,7 +13,7 @@
 #import "ArcosAuxiliaryDataProcessor.h"
 #import "ArcosMailWrapperViewController.h"
 
-@interface NewPresenterViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIPopoverControllerDelegate,MFMailComposeViewControllerDelegate, EmailRecipientDelegate, ArcosMailTableViewControllerDelegate>{
+@interface NewPresenterViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIPopoverPresentationControllerDelegate,MFMailComposeViewControllerDelegate, EmailRecipientDelegate, ArcosMailTableViewControllerDelegate>{
     PresenterRequestSource _parentPresenterRequestSource;
 //    IBOutlet UINavigationBar* navbar;
     IBOutlet UITableView* myTableView;
@@ -25,7 +25,8 @@
     UIBarButtonItem* _typeButton;
     UIBarButtonItem* _emailButton;
     EmailRecipientTableViewController* _emailRecipientTableViewController;
-    UIPopoverController* _emailPopover;
+//    UIPopoverController* _emailPopover;
+    UINavigationController* _emailNavigationController;
 //    WidgetFactory* _factory;
 //    UIPopoverController* _thePopover;
     NSString* _currentTypeTitle;
@@ -45,7 +46,8 @@
 @property(nonatomic,retain) UIBarButtonItem* typeButton;
 @property(nonatomic,retain) UIBarButtonItem* emailButton;
 @property(nonatomic,retain) EmailRecipientTableViewController* emailRecipientTableViewController;
-@property(nonatomic, retain) UIPopoverController* emailPopover;
+//@property(nonatomic, retain) UIPopoverController* emailPopover;
+@property(nonatomic, retain) UINavigationController* emailNavigationController;
 //@property(nonatomic,retain) WidgetFactory* factory;
 //@property(nonatomic,retain) UIPopoverController* thePopover;
 @property(nonatomic,retain) NSString* currentTypeTitle;

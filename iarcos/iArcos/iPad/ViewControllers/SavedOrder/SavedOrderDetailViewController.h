@@ -39,8 +39,8 @@
     NSMutableArray* displayList;
     NSIndexPath* currentSelectDeleteIndexPath;
     NSMutableDictionary* currentSelectOrderHeader;
-    UIPopoverController* selectionPopover;
-    UIPopoverController* searchPopover;
+//    UIPopoverController* selectionPopover;
+//    UIPopoverController* searchPopover;
     
     BOOL isCellEditable;
     

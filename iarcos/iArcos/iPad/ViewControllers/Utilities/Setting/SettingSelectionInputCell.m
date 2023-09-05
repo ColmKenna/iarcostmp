@@ -13,7 +13,8 @@
 @synthesize label;
 @synthesize statusLabel;
 @synthesize factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -70,44 +71,50 @@
     
         switch (self.indexPath.row) {
             case 0:
-                self.thePopover=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceLocationType];
+                self.globalWidgetViewController=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceLocationType];
                 break;
             case 1:
-                self.thePopover=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceContactType];
+                self.globalWidgetViewController=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceContactType];
                 
                 break;
             case 2:
-                self.thePopover=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceCallType];
+                self.globalWidgetViewController=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceCallType];
                 
                 break;
             case 3:
-                self.thePopover=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceOrderStatus];
+                self.globalWidgetViewController=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceOrderStatus];
                 
                 break;
             case 4:
-                self.thePopover=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceOrderType];
+                self.globalWidgetViewController=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceOrderType];
                 
                 break;
             case 5:
-                self.thePopover=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceOrderStatus];
+                self.globalWidgetViewController=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceOrderStatus];
                 break;
             case 6:
-                self.thePopover=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceLocationType];
+                self.globalWidgetViewController=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceLocationType];
                 break;
             case 7:
-                self.thePopover=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceFormType];
+                self.globalWidgetViewController=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceFormType];
                 break;
             case 8:
-                self.thePopover=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceMemoType];
+                self.globalWidgetViewController=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceMemoType];
                 break;
             default:
                 break;
         }
         //do show the popover if there is no data
 //        self.thePopover=popover;
-        if (self.thePopover!=nil) {
-            self.thePopover.delegate=self;
-            [self.thePopover presentPopoverFromRect:self.statusLabel.bounds inView:self.statusLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        if (self.globalWidgetViewController!=nil) {
+//            self.thePopover.delegate=self;
+//            [self.thePopover presentPopoverFromRect:self.statusLabel.bounds inView:self.statusLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+            self.globalWidgetViewController.popoverPresentationController.sourceView = self.statusLabel;
+            self.globalWidgetViewController.popoverPresentationController.sourceRect = self.statusLabel.bounds;
+            self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+            self.globalWidgetViewController.popoverPresentationController.delegate = self;
+            [[self.delegate retrieveParentViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
         }
     
 }
@@ -121,16 +128,17 @@
     }
     [self showWidget];
     //popover is shown
-    if (self.thePopover!=nil) {
+//    if (self.thePopover!=nil) {
 //        [self.delegate popoverShows:self.thePopover];
-    }
+//    }
 }
 - (void)dealloc
 {
     if (self.label != nil) { self.label = nil; }
     if (self.statusLabel != nil) { self.statusLabel = nil; } 
     if (self.factory != nil) { self.factory = nil; }
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     
     [super dealloc];
 }
@@ -138,10 +146,10 @@
 #pragma mark widget factory delegate
 -(void)operationDone:(id)data{
 //    NSLog(@"widget pick the data %@",data);
-    if (self.thePopover!=nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
-    
+//    if (self.thePopover!=nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+    [[self.delegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
     //set the label text  (bad fit)
     NSString* labelText=[(NSMutableDictionary*)data objectForKey:@"Detail"];
 //    if (labelText==nil) {
@@ -155,12 +163,17 @@
 //        value=[(NSMutableDictionary*)data objectForKey:@"LocationIUR"];
 //    }
     [self valueChange:value];
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+    self.globalWidgetViewController = nil;
 }
 
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 @end

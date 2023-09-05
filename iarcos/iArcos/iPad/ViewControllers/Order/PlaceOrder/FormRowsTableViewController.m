@@ -628,7 +628,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         
     } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        NSLog(@"ax %@", self.presentedViewController);
         if (self.presentedViewController != nil && [self.presentedViewController isKindOfClass:[WidgetViewController class]]) {
             CGRect aRect = CGRectMake(self.rootView.view.bounds.size.width - 10, self.rootView.view.bounds.size.height - 10, 1, 1);
             self.globalWidgetViewController.popoverPresentationController.sourceRect = aRect;

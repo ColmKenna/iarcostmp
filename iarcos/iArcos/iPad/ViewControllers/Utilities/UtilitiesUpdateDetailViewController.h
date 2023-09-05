@@ -58,9 +58,9 @@
     ConnectivityCheck* connectivityCheck;
     
 //    NSMutableArray* _downloadTableCells;
-    UIPopoverController* _datePickerPopover;
-    UIPopoverController* _callDatePickerPopover;
-    UIPopoverController* _responsePickerPopover;
+//    UIPopoverController* _datePickerPopover;
+//    UIPopoverController* _callDatePickerPopover;
+//    UIPopoverController* _responsePickerPopover;
     UtilitiesUpdateDetailDataManager* _utilitiesUpdateDetailDataManager;
     UpdateCenterTableCellFactory* _updateCenterTableCellFactory;
     UploadProcessCenter* _uploadProcessCenter;
@@ -89,9 +89,9 @@
 @property (nonatomic,retain) UIAlertView* alert;
 
 //@property(nonatomic,retain) NSMutableArray* downloadTableCells;
-@property(nonatomic,retain) UIPopoverController* datePickerPopover;
-@property(nonatomic,retain) UIPopoverController* callDatePickerPopover;
-@property(nonatomic,retain) UIPopoverController* responsePickerPopover;
+//@property(nonatomic,retain) UIPopoverController* datePickerPopover;
+//@property(nonatomic,retain) UIPopoverController* callDatePickerPopover;
+//@property(nonatomic,retain) UIPopoverController* responsePickerPopover;
 @property(nonatomic,retain) UtilitiesUpdateDetailDataManager* utilitiesUpdateDetailDataManager;
 @property(nonatomic,retain) UpdateCenterTableCellFactory* updateCenterTableCellFactory;
 @property(nonatomic,retain) UploadProcessCenter* uploadProcessCenter;

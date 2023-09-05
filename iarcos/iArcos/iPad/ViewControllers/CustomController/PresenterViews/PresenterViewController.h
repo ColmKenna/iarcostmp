@@ -25,7 +25,7 @@ typedef enum {
     PresenterRequestSourceSubMenu = 0,
     PresenterRequestSourceMainMenu
 } PresenterRequestSource;
-@interface PresenterViewController : UIViewController<FileDownloadCenterDelegate,UIActionSheetDelegate,WidgetFactoryDelegate, EmailRecipientDelegate, MFMailComposeViewControllerDelegate,UIAlertViewDelegate,ArcosMailTableViewControllerDelegate,CustomisePartialPresentViewControllerDelegate, FormRowsTableViewControllerDelegate, UIPopoverControllerDelegate>{
+@interface PresenterViewController : UIViewController<FileDownloadCenterDelegate,UIActionSheetDelegate,WidgetFactoryDelegate, EmailRecipientDelegate, MFMailComposeViewControllerDelegate,UIAlertViewDelegate,ArcosMailTableViewControllerDelegate,CustomisePartialPresentViewControllerDelegate, FormRowsTableViewControllerDelegate, UIPopoverPresentationControllerDelegate>{
     PresenterRequestSource _presenterRequestSource;
     FileDownloadCenter* fileDownloadCenter;
     NSMutableArray* files;
@@ -33,10 +33,12 @@ typedef enum {
     NSMutableDictionary* currentFile;
     
     //order input popover
-    UIPopoverController* _inputPopover;
+//    UIPopoverController* _inputPopover;
+    WidgetViewController* _globalWidgetViewController;
     WidgetFactory* _factory;
     EmailRecipientTableViewController* _emailRecipientTableViewController;
-    UIPopoverController* _emailPopover;
+//    UIPopoverController* _emailPopover;
+    UINavigationController* _emailNavigationController;
     UIBarButtonItem* _emailButton;
     
     int _rowPointer;
@@ -58,10 +60,12 @@ typedef enum {
 @property(nonatomic,retain)    NSMutableArray* files;
 @property(nonatomic,retain) NSNumber* fileType;
 @property(nonatomic,retain)     NSMutableDictionary* currentFile;
-@property(nonatomic,retain) UIPopoverController* inputPopover;
+//@property(nonatomic,retain) UIPopoverController* inputPopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic,retain) WidgetFactory* factory;
 @property(nonatomic,retain) EmailRecipientTableViewController* emailRecipientTableViewController;
-@property(nonatomic, retain) UIPopoverController* emailPopover;
+//@property(nonatomic, retain) UIPopoverController* emailPopover;
+@property(nonatomic, retain) UINavigationController* emailNavigationController;
 @property(nonatomic, retain) UIBarButtonItem* emailButton;
 @property(nonatomic, assign) int rowPointer;
 @property(nonatomic, retain) NSMutableArray* candidateRemovedFileList;

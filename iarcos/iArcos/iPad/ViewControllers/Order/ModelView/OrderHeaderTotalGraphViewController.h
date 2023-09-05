@@ -80,7 +80,7 @@
     CPTPlotSpaceAnnotation* symbolTextAnnotation;
     CPTPlotSpaceAnnotation* yearlySymbolTextAnnotation;
     
-    UIPopoverController* _targetPopoverController;
+//    UIPopoverController* _targetPopoverController;
     OrderHeaderTotalSetTargetViewController* _ohtstvc;
     UIBarButtonItem* _setTargetButton;
     
@@ -144,7 +144,7 @@
 @property(nonatomic, retain) IBOutlet UILabel* monthRequiredTitleLabel;
 @property(nonatomic, retain) IBOutlet UILabel* yearRequiredTitleLabel;
 
-@property(nonatomic, retain) UIPopoverController* targetPopoverController;
+//@property(nonatomic, retain) UIPopoverController* targetPopoverController;
 @property(nonatomic, retain) OrderHeaderTotalSetTargetViewController* ohtstvc;
 @property(nonatomic, retain) UIBarButtonItem* setTargetButton;
 @property(nonatomic, retain) SettingManager* settingManager;

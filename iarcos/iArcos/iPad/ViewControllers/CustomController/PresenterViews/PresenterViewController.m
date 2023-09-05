@@ -22,10 +22,12 @@
 @synthesize files;
 @synthesize fileType = _fileType;
 @synthesize currentFile;
-@synthesize inputPopover = _inputPopover;
+//@synthesize inputPopover = _inputPopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize factory = _factory;
 @synthesize emailRecipientTableViewController = _emailRecipientTableViewController;
-@synthesize emailPopover = _emailPopover;
+//@synthesize emailPopover = _emailPopover;
+@synthesize emailNavigationController = _emailNavigationController;
 @synthesize emailButton = _emailButton;
 @synthesize rowPointer = _rowPointer;
 @synthesize candidateRemovedFileList = _candidateRemovedFileList;
@@ -125,9 +127,9 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    if ([self.emailPopover isPopoverVisible]) {
-        [self.emailPopover dismissPopoverAnimated:YES];
-    }
+//    if ([self.emailPopover isPopoverVisible]) {
+//        [self.emailPopover dismissPopoverAnimated:YES];
+//    }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
         if (self.frwvc != nil) {
             [self didDismissCustomisePartialPresentView];
@@ -160,10 +162,11 @@
     self.emailRecipientTableViewController.locationIUR = [GlobalSharedClass shared].currentSelectedLocationIUR;
     self.emailRecipientTableViewController.requestSource = EmailRequestSourcePresenter;
     self.emailRecipientTableViewController.recipientDelegate = self;
-    UINavigationController* emailNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.emailRecipientTableViewController] autorelease];
-    self.emailPopover = [[[UIPopoverController alloc]initWithContentViewController:emailNavigationController] autorelease];
+    self.emailNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.emailRecipientTableViewController] autorelease];
+    self.emailNavigationController.preferredContentSize = [[GlobalSharedClass shared] orderPadsSize];
+//    self.emailPopover = [[[UIPopoverController alloc]initWithContentViewController:emailNavigationController] autorelease];
     
-    self.emailPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
+//    self.emailPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
 }
 
 - (BOOL)emailButtonPressed:(id)sender {
@@ -171,9 +174,13 @@
 //        [self.emailPopover dismissPopoverAnimated:YES];
 //        return;
 //    }
-    if (![self validateHiddenPopovers]) return NO;
+//    if (![self validateHiddenPopovers]) return NO;
     [self createEmailPopoverProcessor];    
-    [self.emailPopover presentPopoverFromBarButtonItem:self.emailButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+//    [self.emailPopover presentPopoverFromBarButtonItem:self.emailButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    self.emailNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    self.emailNavigationController.popoverPresentationController.barButtonItem = self.emailButton;
+    self.emailNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    [self presentViewController:self.emailNavigationController animated:YES completion:nil];
     return YES;
 }
 
@@ -267,7 +274,8 @@
 -(void)operationDone:(id)data{
 //    NSLog(@"presenter input is done! with value %@",data);
     
-    [self.inputPopover dismissPopoverAnimated:YES];
+//    [self.inputPopover dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 //    [[OrderSharedClass sharedOrderSharedClass]syncAllSelectionsWithRowData:data];
     [self saveOrderToTheCart:data];
     
@@ -312,10 +320,12 @@
     self.files = nil;
     self.fileType = nil;
     self.currentFile = nil;
-    self.inputPopover = nil;
+//    self.inputPopover = nil;
+    self.globalWidgetViewController = nil;
     self.factory = nil;
     if (self.emailRecipientTableViewController != nil) { self.emailRecipientTableViewController = nil; }
-    if (self.emailPopover != nil) { self.emailPopover = nil; }
+//    if (self.emailPopover != nil) { self.emailPopover = nil; }
+    self.emailNavigationController = nil;
     if (self.emailButton != nil) { self.emailButton = nil; }
     self.candidateRemovedFileList = nil;
     self.removedFileList = nil;
@@ -368,16 +378,17 @@
 //        BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
             if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].pxDbName]) {
-                self.inputPopover = [self.factory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+                self.globalWidgetViewController = [self.factory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
             } else {
-                self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+                self.globalWidgetViewController = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
             }
             
-            WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
-            wvc.Data = formRow;
+//            WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
+            self.globalWidgetViewController.Data = formRow;
         } else {
-            self.inputPopover=[self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
-            OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
+            self.globalWidgetViewController=[self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            OrderInputPadViewController* oipvc = (OrderInputPadViewController*)self.globalWidgetViewController;
+//            OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
             oipvc.Data=formRow;
 //            oipvc.showSeparator = showSeparator;
             oipvc.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
@@ -387,9 +398,14 @@
                 return;
             }
         }
-        self.inputPopover.delegate = self;
+//        self.inputPopover.delegate = self;
                
-        [self.inputPopover presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+//        [self.inputPopover presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.barButtonItem = button;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [self presentViewController:self.globalWidgetViewController animated:YES completion:nil];
         
     } else {//product group
 //        ![Lxcode isEqualToString:@""]&&
@@ -457,16 +473,17 @@
 //        BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
             if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].pxDbName]) {
-                self.inputPopover = [self.factory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+                self.globalWidgetViewController = [self.factory CreateOrderEntryInputRightHandSideWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
             } else {
-                self.inputPopover = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+                self.globalWidgetViewController = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
             }
             
-            WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
-            wvc.Data = formRow;
+//            WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
+            self.globalWidgetViewController.Data = formRow;
         } else {
-            self.inputPopover=[self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
-            OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
+            self.globalWidgetViewController=[self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            OrderInputPadViewController* oipvc = (OrderInputPadViewController*)self.globalWidgetViewController;
+//            OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.inputPopover.contentViewController;
             oipvc.Data=formRow;
 //            oipvc.showSeparator = showSeparator;
             oipvc.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
@@ -476,8 +493,13 @@
                 return;
             }
         }
-        self.inputPopover.delegate = self;
-        [self.inputPopover presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+//        self.inputPopover.delegate = self;
+//        [self.inputPopover presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.barButtonItem = button;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [self presentViewController:self.globalWidgetViewController animated:YES completion:nil];
         
     } else {//product group
         //![Lxcode isEqualToString:@""]&&
@@ -617,7 +639,8 @@
 
 #pragma mark - EmailRecipientDelegate
 - (void)didSelectEmailRecipientRow:(NSDictionary*)cellData {    
-    [self.emailPopover dismissPopoverAnimated:YES];
+//    [self.emailPopover dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     self.auxEmailCellData = cellData;
     self.rowPointer = 0;
     self.removedFileList = [NSMutableArray array];
@@ -817,11 +840,12 @@
     [UIView animateWithDuration:0.3f animations:^{
         self.globalNavigationController.view.frame = parentNavigationRect;
     } completion:^(BOOL finished){
-        if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
-            [self.emailPopover dismissPopoverAnimated:YES];
-            self.emailPopover = nil;
-            return;
-        }
+//        if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
+//            [self.emailPopover dismissPopoverAnimated:YES];
+//            self.emailPopover = nil;
+//            return;
+//        }
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 
@@ -878,6 +902,7 @@
 }
 
 #pragma mark UIPopoverControllerDelegate
+/*
 - (BOOL)popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController {
     if ([popoverController.contentViewController isKindOfClass:[OrderInputPadViewController class]]) {
         OrderInputPadViewController* oipvc = (OrderInputPadViewController*) popoverController.contentViewController;
@@ -889,13 +914,26 @@
         }
     }    
     return YES;
+}*/
+#pragma mark UIPopoverPresentationControllerDelegate
+- (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    if ([popoverPresentationController.presentedViewController isKindOfClass:[OrderInputPadViewController class]]) {
+        OrderInputPadViewController* oipvc = (OrderInputPadViewController*)popoverPresentationController.presentedViewController;
+        if ([[oipvc.Data objectForKey:@"RRIUR"] intValue] == -1) {
+            return NO;
+        }
+        if (![[ArcosUtils convertNilToEmpty:[oipvc.Data objectForKey:@"BonusDeal"]] isEqualToString:@""]) {
+            return NO;
+        }
+    }
+    return YES;
 }
 
 - (BOOL)validateHiddenPopovers {
-    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
-        [self.emailPopover dismissPopoverAnimated:YES];
-        return NO;
-    }
+//    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
+//        [self.emailPopover dismissPopoverAnimated:YES];
+//        return NO;
+//    }
     return YES;
 }
 

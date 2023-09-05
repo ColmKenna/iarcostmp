@@ -10,7 +10,8 @@
 
 @implementation OrderDetailWriteLabelTableCell
 @synthesize widgetFactory = _widgetFactory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize fieldNameLabel = _fieldNameLabel;
 @synthesize fieldValueLabel = _fieldValueLabel;
 @synthesize isEventSet = _isEventSet;
@@ -34,7 +35,8 @@
 
 - (void)dealloc {
     if (self.widgetFactory != nil) { self.widgetFactory = nil; }
-    if (self.thePopover != nil) { self.thePopover = nil; }
+//    if (self.thePopover != nil) { self.thePopover = nil; }
+    self.globalWidgetViewController = nil;
     if (self.fieldNameLabel != nil) { self.fieldNameLabel = nil; }
     if (self.fieldValueLabel != nil) { self.fieldValueLabel = nil; }
     self.checkoutDataManager = nil;
@@ -81,11 +83,11 @@
         if ([objectList count] > 0) {
             dataList = objectList;            
         }
-        self.thePopover = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:dataList title:@"Contact"];
+        self.globalWidgetViewController = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:dataList title:@"Contact"];
     } else if (sender == nil && [cellKey isEqualToString:@"status"]) {
         NSNumber* orderSendStatus = [SettingManager defaultOrderSentStatus];
-        self.thePopover = [self.widgetFactory CreateGenericCategoryWidgetWithDataSource:WidgetDataSourceOrderStatus pickerDefaultValue:orderSendStatus];
-        PickerWidgetViewController* pwvc = (PickerWidgetViewController*)self.thePopover.contentViewController;
+        self.globalWidgetViewController = [self.widgetFactory CreateGenericCategoryWidgetWithDataSource:WidgetDataSourceOrderStatus pickerDefaultValue:orderSendStatus];
+        PickerWidgetViewController* pwvc = (PickerWidgetViewController*)self.globalWidgetViewController;
         for (int i = 0; i < [pwvc.pickerData count]; i++) {
             NSMutableDictionary* aDict = [pwvc.pickerData objectAtIndex:i];
             if ([[aDict objectForKey:@"DescrDetailIUR"] isEqualToNumber:orderSendStatus]) {
@@ -103,22 +105,36 @@
         NSMutableArray* accountNoList = [self.checkoutDataManager getAccountNoList:locationIUR fromLocationIUR:fromLocationIUR];
         NSMutableDictionary* miscDataDict = [self.checkoutDataManager getAcctNoMiscDataDict:locationIUR fromLocationIUR:fromLocationIUR];
 
-        self.thePopover=[self.widgetFactory CreateTargetGenericCategoryWidgetWithUncheckedPickerValue:accountNoList miscDataDict:miscDataDict];
+        self.globalWidgetViewController=[self.widgetFactory CreateTargetGenericCategoryWidgetWithUncheckedPickerValue:accountNoList miscDataDict:miscDataDict];
     } else {
         NSNumber* writeType = [self.cellData objectForKey:@"WriteType"];
-        self.thePopover = [self.widgetFactory CreateCategoryWidgetWithDataSource:[writeType intValue]];
+        self.globalWidgetViewController = [self.widgetFactory CreateCategoryWidgetWithDataSource:[writeType intValue]];
     }
     
-    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    if (self.thePopover == nil) {
+//    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (self.globalWidgetViewController != nil) {
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = self.fieldValueLabel;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = self.fieldValueLabel.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [[self.delegate retrieveParentViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
+    }
+    if (self.globalWidgetViewController == nil) {
         self.fieldValueLabel.text = [GlobalSharedClass shared].unassignedText;
     }
 }
 
 -(void)operationDone:(id)data {
-    [self.thePopover dismissPopoverAnimated:YES];
+//    [self.thePopover dismissPopoverAnimated:YES];
+    [[self.delegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
     self.fieldValueLabel.text = [data objectForKey:@"Title"];
     [self.delegate inputFinishedWithData:data forIndexpath:self.indexPath];
+}
+
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 
 -(BOOL)allowToShowAddContactButton {

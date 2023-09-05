@@ -19,7 +19,7 @@
 @synthesize tableCellFactory = _tableCellFactory;
 @synthesize emailRecipientTableViewController = _emailRecipientTableViewController;
 @synthesize emailNavigationController = _emailNavigationController;
-@synthesize emailPopover = _emailPopover;
+//@synthesize emailPopover = _emailPopover;
 @synthesize emailActionDelegate = _emailActionDelegate;
 @synthesize mailController = _mailController;
 @synthesize isContactDetailShowed = _isContactDetailShowed;
@@ -29,7 +29,8 @@
 @synthesize savedOrderDetailCellData = _savedOrderDetailCellData;
 @synthesize defaultOrderSentStatusDict = _defaultOrderSentStatusDict;
 @synthesize factory = _factory;
-@synthesize actionPopover = _actionPopover;
+//@synthesize actionPopover = _actionPopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize repeatOrderDataManager = _repeatOrderDataManager;
 @synthesize globalNavigationController = _globalNavigationController;
 @synthesize rootView = _rootView;
@@ -53,7 +54,7 @@
     if (self.tableCellFactory != nil) { self.tableCellFactory = nil; }
     if (self.emailRecipientTableViewController != nil) { self.emailRecipientTableViewController = nil; }
     if (self.emailNavigationController != nil) { self.emailNavigationController = nil; }
-    if (self.emailPopover != nil) { self.emailPopover = nil; }
+//    if (self.emailPopover != nil) { self.emailPopover = nil; }
     if (self.emailActionDelegate != nil) { self.emailActionDelegate = nil; }
     if (self.mailController != nil) { self.mailController = nil; }       
     if (self.contactControlTableCell != nil) { self.contactControlTableCell = nil; }
@@ -61,7 +62,8 @@
     if (self.savedOrderDetailCellData != nil) { self.savedOrderDetailCellData = nil; }                
     if (self.defaultOrderSentStatusDict != nil) { self.defaultOrderSentStatusDict = nil; }
     self.factory = nil;
-    self.actionPopover = nil;
+//    self.actionPopover = nil;
+    self.globalWidgetViewController = nil;
     self.repeatOrderDataManager = nil;
     self.globalNavigationController = nil;
     self.rootView = nil;
@@ -137,9 +139,9 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    if ([self.emailPopover isPopoverVisible]) {
-        [self.emailPopover dismissPopoverAnimated:YES];
-    }
+//    if ([self.emailPopover isPopoverVisible]) {
+//        [self.emailPopover dismissPopoverAnimated:YES];
+//    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -325,27 +327,35 @@
         self.factory = [WidgetFactory factory];
         self.factory.delegate = self;
     }
-    self.actionPopover = [self.factory CreateTableWidgetWithData:self.orderDetailDataManager.actionTableDataDictList withTitle:@"" withParentContentString:@"" requestSource:TableWidgetRequestSourceListing];
-    if (self.actionPopover != nil) {
-        self.actionPopover.delegate = self;
-        [self.actionPopover presentPopoverFromBarButtonItem:self.actionBarButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    self.globalWidgetViewController = [self.factory CreateTableWidgetWithData:self.orderDetailDataManager.actionTableDataDictList withTitle:@"" withParentContentString:@"" requestSource:TableWidgetRequestSourceListing];
+    if (self.globalWidgetViewController != nil) {
+//        self.actionPopover.delegate = self;
+//        [self.actionPopover presentPopoverFromBarButtonItem:self.actionBarButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.barButtonItem = self.actionBarButton;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+        [self presentViewController:self.globalWidgetViewController animated:YES completion:nil];
     }
 }
 
 -(void)emailButtonPressed:(id)sender {
     NSLog(@"emailButtonPressed");
-    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
-        [self.emailPopover dismissPopoverAnimated:YES];
-        return;
-    }
-    [self.emailPopover presentPopoverFromBarButtonItem:self.actionBarButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+//    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
+//        [self.emailPopover dismissPopoverAnimated:YES];
+//        return;
+//    }
+//    [self.emailPopover presentPopoverFromBarButtonItem:self.actionBarButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    self.emailNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    self.emailNavigationController.popoverPresentationController.barButtonItem = self.actionBarButton;
+    self.emailNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    [self presentViewController:self.emailNavigationController animated:YES completion:nil];
 }
 
 -(void)saveButtonPressed:(id)sender {
-    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
-        [self.emailPopover dismissPopoverAnimated:YES];
-        return;
-    }
+//    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
+//        [self.emailPopover dismissPopoverAnimated:YES];
+//        return;
+//    }
     [self.view endEditing:YES];
     NSString* requestSourceText = nil;
     if ([[self.orderDetailDataManager.orderHeader objectForKey:@"NumberOflines"] intValue] > 0) {
@@ -408,8 +418,9 @@
     }
     self.emailRecipientTableViewController.recipientDelegate = self;
     self.emailNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.emailRecipientTableViewController] autorelease];
-    self.emailPopover = [[[UIPopoverController alloc]initWithContentViewController:self.emailNavigationController] autorelease];
-    self.emailPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
+    self.emailNavigationController.preferredContentSize = [[GlobalSharedClass shared] orderPadsSize];
+//    self.emailPopover = [[[UIPopoverController alloc]initWithContentViewController:self.emailNavigationController] autorelease];
+//    self.emailPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
 }
 
 #pragma mark - OrderDetailTypesTableCellDelegate
@@ -598,13 +609,15 @@
         [UIView animateWithDuration:0.3f animations:^{
             self.globalNavigationController.view.frame = parentNavigationRect;
         } completion:^(BOOL finished){
-            [self.emailPopover dismissPopoverAnimated:YES];
+//            [self.emailPopover dismissPopoverAnimated:YES];
+            [self dismissViewControllerAnimated:YES completion:nil];
         }];
         return;
     }
     
     if (![ArcosEmailValidator checkCanSendMailStatus]) return;
-    [self.emailPopover dismissPopoverAnimated:YES];
+//    [self.emailPopover dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     //    if (self.mailController != nil) { self.mailController = nil; }
     
     MFMailComposeViewController* mailComposeViewController = [[MFMailComposeViewController alloc] init];
@@ -724,13 +737,18 @@
 #pragma mark WidgetFactoryDelegate
 
 - (void)operationDone:(id)data {
-    [self.actionPopover dismissPopoverAnimated:NO];
-    self.actionPopover = nil;
-    self.factory.popoverController = nil;
+//    [self.actionPopover dismissPopoverAnimated:NO];
+//    self.actionPopover = nil;
+//    self.factory.popoverController = nil;
+    [self dismissViewControllerAnimated:YES completion:nil];
     NSMutableDictionary* auxDataDict = (NSMutableDictionary*)data;
     switch ([[auxDataDict objectForKey:@"ActionType"] intValue]) {
         case 1: {
-            [self.emailPopover presentPopoverFromBarButtonItem:self.actionBarButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+//            [self.emailPopover presentPopoverFromBarButtonItem:self.actionBarButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+            self.emailNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+            self.emailNavigationController.popoverPresentationController.barButtonItem = self.actionBarButton;
+            self.emailNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+            [self presentViewController:self.emailNavigationController animated:YES completion:nil];
         }            
             break;
         case 2: {
@@ -755,16 +773,21 @@
 }
 
 -(void)dismissPopoverController {
-    [self.actionPopover dismissPopoverAnimated:YES];
-    self.actionPopover = nil;
-    self.factory.popoverController = nil;
-    [self.emailPopover dismissPopoverAnimated:YES];
+//    [self.actionPopover dismissPopoverAnimated:YES];
+//    self.actionPopover = nil;
+//    self.factory.popoverController = nil;
+//    [self.emailPopover dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.actionPopover = nil;
-    self.factory.popoverController = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.actionPopover = nil;
+//    self.factory.popoverController = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 
 - (void)yesActionPressedProcessor {    

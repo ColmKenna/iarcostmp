@@ -16,7 +16,7 @@
 @synthesize  settingManager;
 @synthesize  settingGroups;
 @synthesize cellFactory;
-@synthesize tablecellPopover = _tablecellPopover;
+//@synthesize tablecellPopover = _tablecellPopover;
 @synthesize saveButton = _saveButton;
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -33,7 +33,7 @@
     self.settingGroups = nil;
     self.saveButton = nil;
     self.cellFactory = nil;
-    self.tablecellPopover = nil;
+//    self.tablecellPopover = nil;
     [super dealloc];
 }
 
@@ -119,8 +119,8 @@
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 										 duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:interfaceOrientation duration:duration];
-        if(self.tablecellPopover!=nil)
-            [self.tablecellPopover dismissPopoverAnimated:NO];
+//        if(self.tablecellPopover!=nil)
+//            [self.tablecellPopover dismissPopoverAnimated:NO];
 }
 
 #pragma mark - Table view data source
@@ -309,9 +309,12 @@
 -(void)invalidDataForIndexpath:(NSString*)theIndexpath{
     
 }
--(void)popoverShows:(UIPopoverController*)aPopover{
-    self.tablecellPopover=aPopover;
+-(UIViewController*)retrieveParentViewController {
+    return self;
 }
+//-(void)popoverShows:(UIPopoverController*)aPopover{
+//    self.tablecellPopover=aPopover;
+//}
 #pragma mark alert view delegate
 - (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
 {

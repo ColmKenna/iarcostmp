@@ -242,6 +242,10 @@
     return [self.queryOrderTaskDataManager getFieldNameWithIndexPath:theIndexpath];
 }
 
+- (UIViewController*)retrieveCustomerTypeParentViewController {
+    return self;
+}
+
 -(void)savePressed:(id)sender {
     [self.view endEditing:YES];
     if (![self.queryOrderTaskDataManager checkAllowedStringField:@"Details" cellDictList:[self.queryOrderTaskDataManager.groupedDataDict objectForKey:@"System.String"]]) {

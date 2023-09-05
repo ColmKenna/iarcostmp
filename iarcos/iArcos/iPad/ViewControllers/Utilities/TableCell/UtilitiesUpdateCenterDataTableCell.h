@@ -12,10 +12,11 @@
 @protocol UtilitiesUpdateCenterDataTableCellDelegate <NSObject>
 
 -(void)inputFinishedWithData:(id)data forIndexpath:(NSIndexPath*)theIndexpath;
+- (UIViewController*)retrieveUtilitiesUpdateCenterParentViewController;
     
 @end
 
-@interface UtilitiesUpdateCenterDataTableCell : UITableViewCell<WidgetFactoryDelegate,UIPopoverControllerDelegate> {
+@interface UtilitiesUpdateCenterDataTableCell : UITableViewCell<WidgetFactoryDelegate,UIPopoverPresentationControllerDelegate> {
     UIImageView* _icon;
     UILabel* _tableName;
     UILabel* _downloadDate;
@@ -24,7 +25,8 @@
     UILabel* _downloadRecordQty;
     NSIndexPath* _indexPath;
     WidgetFactory* _factory;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
     id<UtilitiesUpdateCenterDataTableCellDelegate> _delegate;
     NSString* _sectionTitle;
 }
@@ -37,7 +39,8 @@
 @property (nonatomic, retain) IBOutlet UILabel* downloadRecordQty;
 @property (nonatomic, retain) NSIndexPath* indexPath;
 @property (nonatomic, retain) WidgetFactory* factory;
-@property (nonatomic, retain) UIPopoverController* thePopover;
+//@property (nonatomic, retain) UIPopoverController* thePopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property (nonatomic, assign) id<UtilitiesUpdateCenterDataTableCellDelegate> delegate;
 @property (nonatomic, retain) NSString* sectionTitle;
 

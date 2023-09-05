@@ -128,7 +128,11 @@
 - (BOOL)emailAllBarButtonPressed:(id)sender {
     if (![self validateHiddenPopovers]) return NO;
     [self createEmailPopoverProcessor];
-    [self.emailPopover presentPopoverFromBarButtonItem:self.emailAllBarButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+//    [self.emailPopover presentPopoverFromBarButtonItem:self.emailAllBarButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    self.emailNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    self.emailNavigationController.popoverPresentationController.barButtonItem = self.emailAllBarButton;
+    self.emailNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    [self presentViewController:self.emailNavigationController animated:YES completion:nil];
     self.emailButtonAddressSelectDelegate = [[[EmailAllButtonAddressSelectDataManager alloc] initWithTarget:self] autorelease];
     return YES;
 }
@@ -477,7 +481,8 @@
 }
 
 - (void)emailOneDidSelectEmailRecipientRow:(NSDictionary*)cellData {
-    [self.emailPopover dismissPopoverAnimated:YES];
+//    [self.emailPopover dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     self.auxEmailCellData = cellData;
     self.rowPointer = 0;
     self.removedFileList = [NSMutableArray array];
