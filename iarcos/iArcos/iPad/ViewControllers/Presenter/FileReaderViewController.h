@@ -15,7 +15,7 @@
     NSMutableDictionary* theData;
     
     //order input popover
-    UIPopoverController* inputPopover;
+//    UIPopoverController* inputPopover;
     WidgetFactory* factory;
 }
 @property(nonatomic,retain) IBOutlet UIWebView* fileContentView;

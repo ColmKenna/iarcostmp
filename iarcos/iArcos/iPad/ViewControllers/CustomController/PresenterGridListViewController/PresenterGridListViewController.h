@@ -14,7 +14,7 @@
     NSMutableArray* sortedResource;
     NSMutableArray* theResource;
     
-    UIPopoverController* groupPopover;
+//    UIPopoverController* groupPopover;
     FileReaderViewController* myFileReader;
     
     NSString* groupType;

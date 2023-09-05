@@ -10,7 +10,7 @@
 
 
 @implementation SplitViewCommonMasterViewController
-@synthesize popoverController, splitViewController, rootPopoverButtonItem;
+@synthesize splitViewController, rootPopoverButtonItem;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -64,7 +64,7 @@
 	return YES;
 }
 #pragma mark - Split view controller delegate
-
+/*
 - (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
     
     // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.
@@ -86,6 +86,6 @@
     [detailViewController invalidateRootPopoverButtonItem:rootPopoverButtonItem];
     self.popoverController = nil;
     self.rootPopoverButtonItem = nil;
-}
+}*/
 
 @end

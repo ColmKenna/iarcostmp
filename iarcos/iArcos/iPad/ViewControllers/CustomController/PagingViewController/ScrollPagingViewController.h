@@ -22,12 +22,12 @@
     BOOL pageControlUsed;
     
     //split view
-    UIPopoverController* groupPopover;
+//    UIPopoverController* groupPopover;
     
     NSMutableDictionary* theData;
     
     //order input popover
-    UIPopoverController* inputPopover;
+//    UIPopoverController* inputPopover;
     WidgetFactory* factory;
     
     //groupType

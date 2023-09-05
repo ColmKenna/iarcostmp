@@ -92,10 +92,10 @@
     //input popover
     factory=[WidgetFactory factory];
     factory.delegate=self;
-    inputPopover=[factory CreateOrderInputPadWidgetWithLocationIUR:nil];
+//    inputPopover=[factory CreateOrderInputPadWidgetWithLocationIUR:nil];
 }
 - (void)viewWillDisappear:(BOOL)animated{
-    [inputPopover dismissPopoverAnimated:NO];
+//    [inputPopover dismissPopoverAnimated:NO];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -429,10 +429,10 @@
             formRow=[[OrderSharedClass sharedOrderSharedClass]syncRowWithCurrentCart:formRow];
             //[[OrderSharedClass sharedOrderSharedClass]syncAllSelectionsWithRowData:formRow];
             
-            OrderInputPadViewController* oipvc=(OrderInputPadViewController*) inputPopover.contentViewController;
-            oipvc.Data=formRow;
-            
-            [inputPopover presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+//            OrderInputPadViewController* oipvc=(OrderInputPadViewController*) inputPopover.contentViewController;
+//            oipvc.Data=formRow;
+//
+//            [inputPopover presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
             
         }else if(![L5code isEqualToString:@""]&&[ProductIUR intValue]<=0){//product group
             //NSMutableDictionary* formRows=[NSMutableDictionary dictionary];
@@ -492,7 +492,7 @@
 -(void)operationDone:(id)data{
     NSLog(@"input is done! with value %@",data);
     
-    [inputPopover dismissPopoverAnimated:YES];
+//    [inputPopover dismissPopoverAnimated:YES];
     [[OrderSharedClass sharedOrderSharedClass]syncAllSelectionsWithRowData:data];
     [self saveOrderToTheCart:data];
     

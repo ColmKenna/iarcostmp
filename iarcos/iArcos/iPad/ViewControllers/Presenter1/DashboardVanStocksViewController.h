@@ -16,7 +16,7 @@
 #import "DashboardVanStocksDetailViewController.h"
 @class ArcosRootViewController;
 
-@interface DashboardVanStocksViewController : UIViewController <PresentViewControllerDelegate, UITableViewDelegate, UITableViewDataSource, DashboardVanStocksDetailTableViewControllerDelegate, UIPopoverControllerDelegate> {
+@interface DashboardVanStocksViewController : UIViewController <PresentViewControllerDelegate, UITableViewDelegate, UITableViewDataSource, DashboardVanStocksDetailTableViewControllerDelegate> {
     DashboardVanStocksHeaderView* _dashboardVanStocksHeaderView;
     CallGenericServices* _callGenericServices;
     DashboardVanStocksDataManager* _dashboardVanStocksDataManager;
@@ -28,7 +28,7 @@
     NSTimer* _saveRecordTimer;
     HorizontalBlueSeparatorUILabel* _mainCellSeparator;
     UIButton* _orderButton;
-    UIPopoverController* _inputPopover;
+//    UIPopoverController* _inputPopover;
 //    DashboardVanStocksDetailTableViewController* _dvsdtvc;
     DashboardVanStocksDetailViewController* _dvsdvc;
 }
@@ -44,7 +44,7 @@
 @property(nonatomic,retain) NSTimer* saveRecordTimer;
 @property(nonatomic,retain) IBOutlet HorizontalBlueSeparatorUILabel* mainCellSeparator;
 @property(nonatomic,retain) IBOutlet UIButton* orderButton;
-@property(nonatomic,retain) UIPopoverController* inputPopover;
+//@property(nonatomic,retain) UIPopoverController* inputPopover;
 //@property(nonatomic,retain) DashboardVanStocksDetailTableViewController* dvsdtvc;
 @property(nonatomic,retain) DashboardVanStocksDetailViewController* dvsdvc;
 

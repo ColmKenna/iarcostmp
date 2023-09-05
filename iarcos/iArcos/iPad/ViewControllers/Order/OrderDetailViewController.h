@@ -11,7 +11,7 @@
 #import "SubstitutableDetailViewController.h"
 
 @interface OrderDetailViewController : UITableViewController<UISplitViewControllerDelegate,SubstitutableDetailViewController> {
-    UIPopoverController* groupPopover;
+//    UIPopoverController* groupPopover;
     
 //    IBOutlet UITableViewCell* tableViewCell;
     

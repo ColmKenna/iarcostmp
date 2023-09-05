@@ -24,7 +24,7 @@
 
 - (void)dealloc
 {
-    [selectionPopover release];
+//    [selectionPopover release];
     [super dealloc];
 }
 
@@ -68,8 +68,8 @@
     SelectionPopoverViewController* spvc=[[SelectionPopoverViewController alloc]initWithNibName:@"SelectionPopoverViewController" bundle:nil];
     spvc.delegate=self;
     
-    selectionPopover=[[UIPopoverController alloc]initWithContentViewController:spvc];
-    selectionPopover.popoverContentSize=CGSizeMake(130, 150);
+//    selectionPopover=[[UIPopoverController alloc]initWithContentViewController:spvc];
+//    selectionPopover.popoverContentSize=CGSizeMake(130, 150);
     
     [spvc release];
 }
@@ -87,7 +87,7 @@
 	return YES;
 }
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    [selectionPopover dismissPopoverAnimated:YES];
+//    [selectionPopover dismissPopoverAnimated:YES];
 }
 #pragma mark - Table view data source
 
@@ -185,7 +185,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     self.tableData=newList;
     [self.tableView reloadData];
     
-    [selectionPopover dismissPopoverAnimated:YES];
+//    [selectionPopover dismissPopoverAnimated:YES];
 }
 -(void)clearAllSelections{
 
@@ -204,7 +204,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
             break;
         case 1:
             
-            [selectionPopover presentPopoverFromRect:segment.bounds inView:segment permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//            [selectionPopover presentPopoverFromRect:segment.bounds inView:segment permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
             break;
             
         default:

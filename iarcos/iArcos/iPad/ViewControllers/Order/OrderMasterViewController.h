@@ -20,7 +20,7 @@
     
     UISplitViewController *splitViewController;
     
-    UIPopoverController *popoverController;    
+//    UIPopoverController *popoverController;
     UIBarButtonItem *rootPopoverButtonItem;
     
     NSArray* tableRows;
@@ -38,7 +38,7 @@
 
 @property (nonatomic, assign) IBOutlet UISplitViewController *splitViewController;
 
-@property (nonatomic, retain) UIPopoverController *popoverController;
+//@property (nonatomic, retain) UIPopoverController *popoverController;
 @property (nonatomic, retain) UIBarButtonItem *rootPopoverButtonItem;
 
 @property (nonatomic, retain) IBOutlet UIView* headerView;

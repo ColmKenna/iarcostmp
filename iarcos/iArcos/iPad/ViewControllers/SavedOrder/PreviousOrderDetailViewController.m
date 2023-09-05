@@ -57,8 +57,8 @@
     SelectionPopoverViewController* spvc=[[SelectionPopoverViewController alloc]initWithNibName:@"SelectionPopoverViewController" bundle:nil];
     spvc.delegate=self;
     
-    selectionPopover=[[UIPopoverController alloc]initWithContentViewController:spvc];
-    selectionPopover.popoverContentSize=CGSizeMake(130, 150);
+//    selectionPopover=[[UIPopoverController alloc]initWithContentViewController:spvc];
+//    selectionPopover.popoverContentSize=CGSizeMake(130, 150);
     
     //load data
     NSNumber* locationIUR=[GlobalSharedClass shared].currentSelectedLocationIUR;
@@ -104,7 +104,7 @@
 	return YES;
 }
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    [selectionPopover dismissPopoverAnimated:YES];
+//    [selectionPopover dismissPopoverAnimated:YES];
 }
 
 #pragma mark - Table view data source
@@ -309,7 +309,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     self.tableData=newList;
     [self.tableView reloadData];
     
-    [selectionPopover dismissPopoverAnimated:YES];
+//    [selectionPopover dismissPopoverAnimated:YES];
 }
 -(void)clearAllSelections{
     
@@ -323,7 +323,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     self.tableData =[[ArcosCoreData sharedArcosCoreData]allOrdersWithSortKey:@"OrderDate" withLocationIUR:locationIUR];
     
     [self.tableView reloadData];
-    [selectionPopover dismissPopoverAnimated:YES];
+//    [selectionPopover dismissPopoverAnimated:YES];
 }
 
 
@@ -338,7 +338,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
             break;
         case 1:
             
-            [selectionPopover presentPopoverFromRect:segment.bounds inView:segment permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//            [selectionPopover presentPopoverFromRect:segment.bounds inView:segment permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
             break;
             
         default:
@@ -370,7 +370,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     //[[self parentViewController].view addSubview:ohvc.view];
     [ohvc release];
     
-    [selectionPopover dismissPopoverAnimated:YES];
+//    [selectionPopover dismissPopoverAnimated:YES];
    
 }
 -(void)showOrderDetail:(NSMutableDictionary*)theDate{

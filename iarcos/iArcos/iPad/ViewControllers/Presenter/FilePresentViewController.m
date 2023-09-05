@@ -164,6 +164,7 @@
 
 #pragma mark - delgate
 //the master view controller will be hidden
+/*
 - (void)splitViewController:(UISplitViewController*)svc
      willHideViewController:(UIViewController *)aViewController
           withBarButtonItem:(UIBarButtonItem*)barButtonItem
@@ -175,7 +176,7 @@
     
     barButtonItem.title = @"Files";
     self.navigationItem.leftBarButtonItem=barButtonItem;
-}
+}*/
 //the master view will be shown again
 - (void)splitViewController:(UISplitViewController*)svc
      willShowViewController:(UIViewController *)aViewController
@@ -185,12 +186,13 @@
 }
 
 // the master view controller will be displayed in a popover
+/*
 - (void)splitViewController:(UISplitViewController*)svc
           popoverController:(UIPopoverController*)pc
   willPresentViewController:(UIViewController *)aViewController {
 
     
-}
+}*/
 //icon press event
 -(void)gridItemPressed:(id)sender{
     GalleryItem* anItem=(GalleryItem*)sender;

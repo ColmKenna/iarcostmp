@@ -17,8 +17,8 @@
 
 @interface PreviousOrderDetailViewController : OrderDetailViewController<SelectionPopoverDelegate,ModelViewDelegate>{
     NSMutableArray* tableData;
-    UIPopoverController* selectionPopover;
-    UIPopoverController* searchPopover;
+//    UIPopoverController* selectionPopover;
+//    UIPopoverController* searchPopover;
     IBOutlet UIView* headerView;
 
 }

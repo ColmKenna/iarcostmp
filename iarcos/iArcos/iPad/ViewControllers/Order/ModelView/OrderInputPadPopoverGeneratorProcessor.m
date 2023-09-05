@@ -10,7 +10,7 @@
 
 @implementation OrderInputPadPopoverGeneratorProcessor
 
-- (UIPopoverController*)createOrderPopoverWithLocationIUR:(NSNumber*)aLocationIUR factory:(WidgetFactory*)aWidgetFactory {
+- (WidgetViewController*)createOrderPopoverWithLocationIUR:(NSNumber*)aLocationIUR factory:(WidgetFactory*)aWidgetFactory {
     return [aWidgetFactory CreateOrderInputPadWidgetWithLocationIUR:aLocationIUR];
 }
 

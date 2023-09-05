@@ -11,7 +11,7 @@
 
 @protocol OrderPopoverGeneratorProcessorDelegate <NSObject>
 
-- (UIPopoverController*)createOrderPopoverWithLocationIUR:(NSNumber*)aLocationIUR factory:(WidgetFactory*)aWidgetFactory;
+- (WidgetViewController*)createOrderPopoverWithLocationIUR:(NSNumber*)aLocationIUR factory:(WidgetFactory*)aWidgetFactory;
 
 @end
 

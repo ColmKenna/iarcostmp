@@ -14,7 +14,7 @@
 #import "FileCommon.h"
 
 @interface FilePresentViewController : GridViewController <UISplitViewControllerDelegate,PresenterDetailViewProtocol>{
-    UIPopoverController* groupPopover;
+//    UIPopoverController* groupPopover;
     
     FileReaderViewController* myFileReader;
     

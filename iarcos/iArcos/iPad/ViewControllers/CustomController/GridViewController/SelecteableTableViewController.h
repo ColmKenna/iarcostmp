@@ -12,8 +12,8 @@
 #import "SelectedableTableCell.h"
 @interface SelecteableTableViewController : UITableViewController <SelectionPopoverDelegate,ModelViewDelegate> {
     NSMutableArray* tableData;
-    UIPopoverController* selectionPopover;
-    UIPopoverController* searchPopover;
+//    UIPopoverController* selectionPopover;
+//    UIPopoverController* searchPopover;
     
     BOOL isCellEditable;
 

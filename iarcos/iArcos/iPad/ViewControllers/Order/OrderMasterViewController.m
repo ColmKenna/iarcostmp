@@ -12,7 +12,7 @@
 #import "OrderSharedClass.h"
 @implementation OrderMasterViewController
 //@synthesize myOrderDetailViewController;
-@synthesize popoverController, splitViewController, rootPopoverButtonItem;
+@synthesize splitViewController, rootPopoverButtonItem;
 @synthesize headerView;
 @synthesize locationName;
 @synthesize locationPhone;
@@ -29,7 +29,7 @@
 
 - (void)dealloc
 {
-    [popoverController release];
+//    [popoverController release];
     [rootPopoverButtonItem release];
     [tableRows release];
     [headerView release];
@@ -242,9 +242,9 @@
     [viewControllers release];
     
     // Dismiss the popover if it's present.
-    if (popoverController != nil) {
-        [popoverController dismissPopoverAnimated:YES];
-    }
+//    if (popoverController != nil) {
+//        [popoverController dismissPopoverAnimated:YES];
+//    }
     
     // Configure the new view controller's popover button (after the view has been displayed and its toolbar/navigation bar has been created).
     if (rootPopoverButtonItem != nil) {
@@ -278,7 +278,7 @@
 }
 
 #pragma mark - Split view controller delegate
-
+/*
 - (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
     
     // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.
@@ -306,7 +306,7 @@
     NSLog(@"order master view need show the splite view!");
 
 }
-
+*/
 //actions
 - (IBAction)allOnHeaderViewPressed:(id)sender{
     [GlobalSharedClass shared].currentSelectedLocationIUR=nil;

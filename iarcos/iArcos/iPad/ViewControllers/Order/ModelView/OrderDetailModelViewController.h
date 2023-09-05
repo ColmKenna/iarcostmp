@@ -37,7 +37,7 @@
     IBOutlet UITableView* orders;
     IBOutlet UIButton* widgetPopPoint;
     UILabel* currentLabel;
-    UIPopoverController* thePopover;
+//    UIPopoverController* thePopover;
     NSMutableDictionary* orderHeader;
     int currentControlTag;
     //location controller

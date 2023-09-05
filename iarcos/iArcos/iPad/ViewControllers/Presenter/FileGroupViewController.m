@@ -13,7 +13,7 @@
 
 
 @implementation FileGroupViewController
-@synthesize popoverController, splitViewController, rootPopoverButtonItem;
+@synthesize splitViewController, rootPopoverButtonItem;
 
 @synthesize myGroups;
 @synthesize currentGroupType;
@@ -140,7 +140,7 @@
     cell.textLabel.text = [aProduct objectForKey:@"description"];
     
     //testing images
-    UIImage* productThumb;
+    UIImage* productThumb = nil;
     
     if (![aGroupName isEqualToString:@"All"]) {
         productThumb=[[ArcosCoreData sharedArcosCoreData]thumbWithIUR:[aProduct objectForKey:@"ImageIUR"]];
@@ -203,7 +203,7 @@
     NSMutableDictionary* aGroup=[self.myGroups objectForKey:aGroupName];
     NSNumber* groupIUR=[aGroup objectForKey:@"IUR"];
     NSString* groupType=[aGroup objectForKey:@"GroupType"];
-    NSMutableArray* iconResurces;
+    NSMutableArray* iconResurces = nil;
     
     //load the resurce depend on the group type 
     if ([groupType isEqualToString:@"FileType"]) {
@@ -220,7 +220,7 @@
     [self resetDetailviewContent];
 }
 #pragma mark - Split view controller delegate
-
+/*
 - (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
     // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.
     barButtonItem.title = @"Documents";
@@ -250,7 +250,7 @@
     [detailViewController invalidateRootPopoverButtonItem:rootPopoverButtonItem];
     self.popoverController = nil;
     self.rootPopoverButtonItem = nil;
-}
+}*/
 //segment buttons action
 -(void)segmentAction:(id)sender{
     UISegmentedControl* segment=(UISegmentedControl*)sender;

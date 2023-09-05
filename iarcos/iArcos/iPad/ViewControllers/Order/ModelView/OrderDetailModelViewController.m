@@ -303,7 +303,7 @@
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {    
     NSString *message;
-    UIAlertView *v;
+    UIAlertView *v = nil;
     // Notifies users about errors associated with the interface
     switch (result) {
         case MFMailComposeResultCancelled:
@@ -342,6 +342,7 @@
     // display an error
     NSLog(@"Email sending error message %@ ", message);
 	[self becomeFirstResponder];
+    /*
     [self dismissViewControllerAnimated:YES completion:^{
         if (emailAction == 2 && [message isEqualToString:@"Sent Email OK"]) {
             NSNumber* orderSendStatus = [SettingManager defaultOrderSentStatus];
@@ -376,7 +377,7 @@
             }
         }
     }];
-    
+    */
     
 }
 #pragma tap action
@@ -389,11 +390,11 @@
     if (self.isEditable) {        
 //        NSLog(@"label %d tap",aLabel.tag);
         [self showWidget];
-        if (thePopover!=nil) {
-            [self needHighlightCurrentLabel:YES];
-        }else{
-            currentLabel.text=@"NONE";
-        }
+//        if (thePopover!=nil) {
+//            [self needHighlightCurrentLabel:YES];
+//        }else{
+//            currentLabel.text=@"NONE";
+//        }
         
     }
     
@@ -403,6 +404,7 @@
 //show widget
 -(void)showWidget{
     //facotry testing
+    /*
     UIPopoverController* popover;
     
     
@@ -443,7 +445,7 @@
             [popover presentPopoverFromRect:currentLabel.bounds inView:currentLabel permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
         }
     }
-    
+    */
 }
 //hightlight current label
 -(void)needHighlightCurrentLabel:(BOOL)need{
@@ -464,9 +466,9 @@
     NSLog(@"operation is done from delegate--%@",data);
 
     [self fillOrderDetailData:data];
-    if ([thePopover isPopoverVisible]) {
-        [thePopover dismissPopoverAnimated:YES];
-    }
+//    if ([thePopover isPopoverVisible]) {
+//        [thePopover dismissPopoverAnimated:YES];
+//    }
 }
 -(void)fillOrderDetailData:(id)data{
     NSDateFormatter* formatter=[[NSDateFormatter alloc]init];
@@ -512,9 +514,9 @@
     [formatter release];
 }
 #pragma mark popover delegate
--(void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
-    [self needHighlightCurrentLabel:NO];
-}
+//-(void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
+//    [self needHighlightCurrentLabel:NO];
+//}
 #pragma mark shift the view
 - (void)shiftViewUp{
     

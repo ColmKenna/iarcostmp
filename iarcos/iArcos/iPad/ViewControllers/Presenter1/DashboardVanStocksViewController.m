@@ -25,7 +25,7 @@
 @synthesize saveRecordTimer = _saveRecordTimer;
 @synthesize mainCellSeparator = _mainCellSeparator;
 @synthesize orderButton = _orderButton;
-@synthesize inputPopover = _inputPopover;
+//@synthesize inputPopover = _inputPopover;
 //@synthesize dvsdtvc = _dvsdtvc;
 @synthesize dvsdvc = _dvsdvc;
 
@@ -61,7 +61,7 @@
 //    self.dvsdtvc = nil;
     self.dvsdvc = nil;
     self.globalNavigationController = nil;
-    self.inputPopover = nil;
+//    self.inputPopover = nil;
     
     [super dealloc];
 }
@@ -77,9 +77,9 @@
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    if ([self.inputPopover isPopoverVisible]) {
-        [self.inputPopover dismissPopoverAnimated:NO];
-    }
+//    if ([self.inputPopover isPopoverVisible]) {
+//        [self.inputPopover dismissPopoverAnimated:NO];
+//    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -168,14 +168,14 @@
     self.dvsdvc.presentDelegate = self;
     self.dvsdvc.cellData = [self.dashboardVanStocksDataManager.displayList objectAtIndex:indexPath.row];    
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.dvsdvc] autorelease];
-    self.inputPopover = [[[UIPopoverController alloc] initWithContentViewController:self.globalNavigationController] autorelease];
-    self.inputPopover.delegate = self;
-    self.inputPopover.popoverContentSize = self.dvsdvc.view.frame.size;
-    CGRect aRect = CGRectMake(self.rootView.view.bounds.size.width - 10, self.rootView.view.bounds.size.height, 1, 1);
+//    self.inputPopover = [[[UIPopoverController alloc] initWithContentViewController:self.globalNavigationController] autorelease];
+//    self.inputPopover.delegate = self;
+//    self.inputPopover.popoverContentSize = self.dvsdvc.view.frame.size;
+//    CGRect aRect = CGRectMake(self.rootView.view.bounds.size.width - 10, self.rootView.view.bounds.size.height, 1, 1);
 //    self.dvsdtvc.cellData = [self.dashboardVanStocksDataManager.displayList objectAtIndex:indexPath.row];
     
     
-    [self.inputPopover presentPopoverFromRect:aRect inView:self.rootView.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+//    [self.inputPopover presentPopoverFromRect:aRect inView:self.rootView.view permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
 }
 
 #pragma mark PresentViewControllerDelegate
@@ -294,22 +294,23 @@
 - (void)didDismissDashboardVanStocksDetailTableViewController {
     [self.dashboardVanStocksDataManager retrieveStockOnOrderProducts];
     [self.vanStockTableView reloadData];
-    [self.inputPopover dismissPopoverAnimated:YES];    
+//    [self.inputPopover dismissPopoverAnimated:YES];
     self.dvsdvc.presentDelegate = nil;
     self.dvsdvc = nil;
     self.globalNavigationController = nil;
-    self.inputPopover.delegate = nil;
-    self.inputPopover = nil;
+//    self.inputPopover.delegate = nil;
+//    self.inputPopover = nil;
 }
 
 #pragma mark UIPopoverControllerDelegate
+/*
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {    
     self.dvsdvc.presentDelegate = nil;
     self.dvsdvc = nil;
     self.globalNavigationController = nil;
     self.inputPopover.delegate = nil;
     self.inputPopover = nil;
-}
+}*/
 
 
 @end
