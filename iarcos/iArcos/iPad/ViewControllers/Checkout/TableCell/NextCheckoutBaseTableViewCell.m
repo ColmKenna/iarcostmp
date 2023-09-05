@@ -15,7 +15,8 @@
 @synthesize fieldValueLabel = _fieldValueLabel;
 @synthesize cellData = _cellData;
 @synthesize widgetFactory = _widgetFactory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize indexPath = _indexPath;
 
 - (void)dealloc {
@@ -24,7 +25,8 @@
     self.fieldValueLabel = nil;
     self.cellData = nil;
     self.widgetFactory = nil;
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     self.indexPath = nil;
     
     [super dealloc];
@@ -47,13 +49,27 @@
 }
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    [self clearPopoverCacheData];
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
     [self clearPopoverCacheData];
 }
 
 - (void)clearPopoverCacheData {
-    self.thePopover = nil;
-    self.widgetFactory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.widgetFactory.popoverController = nil;
+    self.globalWidgetViewController = nil;
+}
+
+- (void)showPopoverProcessor {
+    self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+    self.globalWidgetViewController.popoverPresentationController.sourceView = self.fieldValueLabel;
+    self.globalWidgetViewController.popoverPresentationController.sourceRect = self.fieldValueLabel.bounds;
+    self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    self.globalWidgetViewController.popoverPresentationController.delegate = self;
+    [[self.baseDelegate retrieveMainViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
 }
 
 @end

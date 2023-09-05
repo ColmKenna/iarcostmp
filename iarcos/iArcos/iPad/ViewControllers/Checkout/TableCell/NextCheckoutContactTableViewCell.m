@@ -39,13 +39,17 @@
         [miscDataDict setObject:[NSNumber numberWithInt:0] forKey:@"LocationIUR"];
     }
     [miscDataDict setObject:[[OrderSharedClass sharedOrderSharedClass] currentCustomerName] forKey:@"Name"];
-    self.thePopover = [self.widgetFactory CreateTargetGenericCategoryWidgetWithPickerValue:contactList miscDataDict:miscDataDict];
-    self.thePopover.delegate = self;
-    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    self.globalWidgetViewController = [self.widgetFactory CreateTargetGenericCategoryWidgetWithPickerValue:contactList miscDataDict:miscDataDict];
+//    self.thePopover.delegate = self;
+//    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (self.globalWidgetViewController != nil) {
+        [self showPopoverProcessor];
+    }
 }
 
 -(void)operationDone:(id)data {
-    [self.thePopover dismissPopoverAnimated:YES];
+//    [self.thePopover dismissPopoverAnimated:YES];
+    [[self.baseDelegate retrieveMainViewController] dismissViewControllerAnimated:YES completion:nil];
     self.fieldValueLabel.text = [data objectForKey:@"Title"];
     
     [self.baseDelegate inputFinishedWithData:data forIndexPath:self.indexPath];

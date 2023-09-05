@@ -42,13 +42,17 @@
     NSMutableArray* descrDetailList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:@"TY"];
     NSDictionary* descrTypeDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"TY"];
     NSString* myTitle = [ArcosUtils convertNilToEmpty:[descrTypeDict objectForKey:@"Details"]];
-    self.thePopover = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:descrDetailList title:myTitle];
-    self.thePopover.delegate = self;
-    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    self.globalWidgetViewController = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:descrDetailList title:myTitle];
+//    self.thePopover.delegate = self;
+//    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (self.globalWidgetViewController != nil) {
+        [self showPopoverProcessor];
+    }
 }
 
 -(void)operationDone:(id)data {
-    [self.thePopover dismissPopoverAnimated:YES];
+//    [self.thePopover dismissPopoverAnimated:YES];
+    [[self.baseDelegate retrieveMainViewController] dismissViewControllerAnimated:YES completion:nil];
     self.fieldValueLabel.text = [data objectForKey:@"Title"];
     [self.baseDelegate inputFinishedWithData:[data objectForKey:@"DescrDetailIUR"] forIndexPath:self.indexPath index:[self.cellData objectForKey:@"Index"]];
     [self clearPopoverCacheData];

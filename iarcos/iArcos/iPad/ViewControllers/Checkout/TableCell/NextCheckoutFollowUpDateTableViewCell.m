@@ -33,13 +33,15 @@
         self.widgetFactory = [WidgetFactory factory];
         self.widgetFactory.delegate = self;
     }
-    self.thePopover = [self.widgetFactory CreateDateWidgetWithDataSource:2 defaultPickerDate:[ArcosUtils dateFromString:self.fieldValueLabel.text format:[GlobalSharedClass shared].dateFormat]];
-    self.thePopover.delegate = self;
-    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    self.globalWidgetViewController = [self.widgetFactory CreateDateWidgetWithDataSource:2 defaultPickerDate:[ArcosUtils dateFromString:self.fieldValueLabel.text format:[GlobalSharedClass shared].dateFormat]];
+//    self.thePopover.delegate = self;
+//    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [self showPopoverProcessor];
 }
 
 -(void)operationDone:(id)data {
-    [self.thePopover dismissPopoverAnimated:YES];
+//    [self.thePopover dismissPopoverAnimated:YES];
+    [[self.baseDelegate retrieveMainViewController] dismissViewControllerAnimated:YES completion:nil];
     self.fieldValueLabel.text = [ArcosUtils stringFromDate:data format:[GlobalSharedClass shared].dateFormat];
     [self.baseDelegate inputFinishedWithData:self.fieldValueLabel.text forIndexPath:self.indexPath index:[self.cellData objectForKey:@"Index"]];
     [self clearPopoverCacheData];

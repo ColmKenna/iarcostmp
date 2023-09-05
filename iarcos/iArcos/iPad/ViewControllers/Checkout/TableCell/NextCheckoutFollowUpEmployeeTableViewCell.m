@@ -43,13 +43,17 @@
         self.widgetFactory.delegate = self;
     }
     NSMutableArray* employeeList = [[ArcosCoreData sharedArcosCoreData] allEmployee];
-    self.thePopover = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:employeeList title:@"Employee"];
-    self.thePopover.delegate = self;
-    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    self.globalWidgetViewController = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:employeeList title:@"Employee"];
+//    self.thePopover.delegate = self;
+//    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (self.globalWidgetViewController != nil) {
+        [self showPopoverProcessor];
+    }
 }
 
 -(void)operationDone:(id)data {
-    [self.thePopover dismissPopoverAnimated:YES];
+//    [self.thePopover dismissPopoverAnimated:YES];
+    [[self.baseDelegate retrieveMainViewController] dismissViewControllerAnimated:YES completion:nil];
     self.fieldValueLabel.text = [data objectForKey:@"Title"];
     [self.baseDelegate inputFinishedWithData:[data objectForKey:@"IUR"] forIndexPath:self.indexPath index:[self.cellData objectForKey:@"Index"]];
     [self clearPopoverCacheData];

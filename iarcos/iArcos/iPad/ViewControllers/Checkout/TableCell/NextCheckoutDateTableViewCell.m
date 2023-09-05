@@ -39,13 +39,15 @@
         self.widgetFactory.delegate = self;
     }
     NSNumber* writableType = [self.cellData objectForKey:@"WritableType"];
-    self.thePopover = [self.widgetFactory CreateDateWidgetWithDataSource:[writableType intValue] defaultPickerDate:[self.cellData objectForKey:@"FieldData"]];
-    self.thePopover.delegate = self;
-    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    self.globalWidgetViewController = [self.widgetFactory CreateDateWidgetWithDataSource:[writableType intValue] defaultPickerDate:[self.cellData objectForKey:@"FieldData"]];
+//    self.thePopover.delegate = self;
+//    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [self showPopoverProcessor];
 }
 
 -(void)operationDone:(id)data {
-    [self.thePopover dismissPopoverAnimated:YES];
+//    [self.thePopover dismissPopoverAnimated:YES];
+    [[self.baseDelegate retrieveMainViewController] dismissViewControllerAnimated:YES completion:nil];
     self.fieldValueLabel.text = [ArcosUtils stringFromDate:data format:[GlobalSharedClass shared].dateFormat];
     [self.baseDelegate inputFinishedWithData:data forIndexPath:self.indexPath];
     [self clearPopoverCacheData];

@@ -20,7 +20,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "ModalPresentViewControllerDelegate.h"
 
-@interface NextCheckoutViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, NextCheckoutOrderInfoDelegate, CoreLocationControllerDelegate, WidgetFactoryDelegate, AVAudioPlayerDelegate, CustomisePresentViewControllerDelegate,ModalPresentViewControllerDelegate,UIPopoverControllerDelegate>{
+@interface NextCheckoutViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, NextCheckoutOrderInfoDelegate, CoreLocationControllerDelegate, WidgetFactoryDelegate, AVAudioPlayerDelegate, CustomisePresentViewControllerDelegate,ModalPresentViewControllerDelegate,UIPopoverPresentationControllerDelegate>{
     UITableView* _orderInfoTableView;
     LeftBorderUILabel* _tableDivider;
     UITableView* _orderlinesTableView;
@@ -34,7 +34,8 @@
     NextCheckoutOrderInfoTableViewController* _orderInfoTableViewController;
     CoreLocationController* _CLController;
     CheckoutDataManager* _checkoutDataManager;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
     WidgetFactory* _widgetFactory;
     ArcosRootViewController* _myRootViewController;
     AVAudioPlayer* _myAVAudioPlayer;
@@ -55,7 +56,8 @@
 @property(nonatomic, retain) NextCheckoutOrderInfoTableViewController* orderInfoTableViewController;
 @property(nonatomic, retain) CoreLocationController* CLController;
 @property(nonatomic, retain) CheckoutDataManager* checkoutDataManager;
-@property(nonatomic, retain) UIPopoverController* thePopover;
+//@property(nonatomic, retain) UIPopoverController* thePopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic, retain) WidgetFactory* widgetFactory;
 @property(nonatomic, retain) ArcosRootViewController* myRootViewController;
 @property(nonatomic,retain) AVAudioPlayer* myAVAudioPlayer;
