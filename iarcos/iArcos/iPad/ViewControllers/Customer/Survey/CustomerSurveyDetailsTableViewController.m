@@ -20,7 +20,7 @@
 @synthesize customerSurveyDetailsDataManager = _customerSurveyDetailsDataManager;
 @synthesize cellFactory = _cellFactory;
 @synthesize emailButton = _emailButton;
-@synthesize emailPopover = _emailPopover;
+//@synthesize emailPopover = _emailPopover;
 @synthesize emailNavigationController = _emailNavigationController;
 @synthesize rightBarButtonItemList = _rightBarButtonItemList;
 @synthesize mailController = _mailController;
@@ -40,8 +40,9 @@
     emailRecipientTableViewController.recipientDelegate = self;
     self.emailNavigationController = [[[UINavigationController alloc] initWithRootViewController:emailRecipientTableViewController] autorelease];
     [emailRecipientTableViewController release];
-    self.emailPopover = [[[UIPopoverController alloc]initWithContentViewController:self.emailNavigationController] autorelease];
-    self.emailPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
+//    self.emailPopover = [[[UIPopoverController alloc]initWithContentViewController:self.emailNavigationController] autorelease];
+//    self.emailPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
+    self.emailNavigationController.preferredContentSize = [[GlobalSharedClass shared] orderPadsSize];
     self.rightBarButtonItemList = [NSMutableArray arrayWithObjects:self.emailButton, nil];
     [self.navigationItem setRightBarButtonItems:self.rightBarButtonItemList];
     self.myRootViewController = [ArcosUtils getRootView];
@@ -72,11 +73,15 @@
 }
 
 - (void)emailButtonPressed:(id)sender {
-    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
-        [self.emailPopover dismissPopoverAnimated:YES];
-        return;
-    }
-    [self.emailPopover presentPopoverFromBarButtonItem:self.emailButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+//    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
+//        [self.emailPopover dismissPopoverAnimated:YES];
+//        return;
+//    }
+//    [self.emailPopover presentPopoverFromBarButtonItem:self.emailButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    self.emailNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    self.emailNavigationController.popoverPresentationController.barButtonItem = self.emailButton;
+    self.emailNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    [self presentViewController:self.emailNavigationController animated:YES completion:nil];
 }
 
 #pragma mark - EmailRecipientDelegate
@@ -103,11 +108,13 @@
         [UIView animateWithDuration:0.3f animations:^{
             self.globalNavigationController.view.frame = parentNavigationRect;
         } completion:^(BOOL finished){
-            [self.emailPopover dismissPopoverAnimated:YES];
+//            [self.emailPopover dismissPopoverAnimated:YES];
+            [self dismissViewControllerAnimated:YES completion:nil];
         }];
         return;
     }
-    [self.emailPopover dismissPopoverAnimated:YES];
+//    [self.emailPopover dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     if (![ArcosEmailValidator checkCanSendMailStatus]) return;    
     
     self.mailController = [[[MFMailComposeViewController alloc] init] autorelease];
@@ -184,7 +191,7 @@
     self.customerSurveyDetailsDataManager = nil;
     self.cellFactory = nil;
     self.emailButton = nil;
-    self.emailPopover = nil;
+//    self.emailPopover = nil;
     self.emailNavigationController = nil;
     self.rightBarButtonItemList = nil;
     self.mailController = nil;
@@ -311,6 +318,10 @@
     auxCellData.Field6 = aData;
     
     [self.callGenericServices genericUpdateRecord:@"Response" iur:[[ArcosUtils convertStringToNumber:[ArcosUtils trim:auxCellData.Field7]] intValue] fieldName:self.customerSurveyDetailsDataManager.editFieldName newContent:aData action:@selector(setBooleanGenericUpdateRecordResult:) target:self];
+}
+
+- (UIViewController*)retrieveCustomerSurveyDetailsParentViewController {
+    return self;
 }
 
 - (void)setGenericUpdateRecordResult:(ArcosGenericReturnObject*)result {

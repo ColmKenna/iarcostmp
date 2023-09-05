@@ -12,5 +12,6 @@
 
 - (void)inputFinishedWithData:(id)data forIndexPath:(NSIndexPath*)theIndexPath;
 - (void)booleanInputFinishedWithData:(id)data forIndexPath:(NSIndexPath*)theIndexPath;
+- (UIViewController*)retrieveCustomerSurveyDetailsParentViewController;
 
 @end

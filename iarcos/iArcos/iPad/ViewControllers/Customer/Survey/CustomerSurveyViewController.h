@@ -24,7 +24,7 @@
     CustomerSurveyDataManager* _customerSurveyDataManager;
     CustomerSurveyTableCellFactory* cellFactory;
     IBOutlet UITableView* surveyListView; 
-    UIPopoverController* tablecellPopover;
+//    UIPopoverController* tablecellPopover;
     CustomerSurveySlideTableView* csstv;
     NSNumber* locationIUR;
     NSString* _locationName;

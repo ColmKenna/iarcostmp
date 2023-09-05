@@ -12,7 +12,7 @@
 @synthesize narrative = _narrative;
 @synthesize response = _response;
 @synthesize factory = _factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -29,7 +29,7 @@
     self.narrative = nil;
     self.response = nil;
     self.factory = nil;
-    self.thePopover = nil;
+//    self.thePopover = nil;
     
     [super dealloc];
 }

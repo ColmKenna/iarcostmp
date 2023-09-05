@@ -12,7 +12,8 @@
 //@synthesize narrative;
 @synthesize responseLimits;
 @synthesize factory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -88,51 +89,65 @@
         self.factory = [WidgetFactory factory];
         self.factory.delegate = self;
     }
-    self.thePopover = [self.factory CreateGenericDynamicCategoryWidgetWithPickerValue:pickerData title:@"ResponseLimits" maxTextLength:maxTextLength];
-    if (self.thePopover != nil) {
+    self.globalWidgetViewController = [self.factory CreateGenericDynamicCategoryWidgetWithPickerValue:pickerData title:@"ResponseLimits" maxTextLength:maxTextLength];
+    if (self.globalWidgetViewController != nil) {
         //        [self.delegate popoverShows:thePopover];
     }else{
 //        self.contactTitle.text = @"No contact found";
     }
     
     //do show the popover if there is no data
-    if (self.thePopover != nil) {
+    if (self.globalWidgetViewController != nil) {
         int times = 1;
         if (maxTextLength <= [GlobalSharedClass shared].popoverMinimumWidth) {
-            self.thePopover.popoverContentSize = CGSizeMake(self.thePopover.popoverContentSize.width / 2.0, self.thePopover.popoverContentSize.height);
+//            self.thePopover.popoverContentSize = CGSizeMake(self.thePopover.popoverContentSize.width / 2.0, self.thePopover.popoverContentSize.height);
+            self.globalWidgetViewController.preferredContentSize = CGSizeMake(self.globalWidgetViewController.preferredContentSize.width / 2.0, self.globalWidgetViewController.preferredContentSize.height);
         } else if (maxTextLength <= [GlobalSharedClass shared].popoverMediumWidth) {
             times = (int)[GlobalSharedClass shared].popoverMediumWidth * 1.0 / [GlobalSharedClass shared].popoverMinimumWidth;
-            self.thePopover.popoverContentSize = CGSizeMake(self.thePopover.popoverContentSize.width / 2.0 * times, self.thePopover.popoverContentSize.height);
+//            self.thePopover.popoverContentSize = CGSizeMake(self.thePopover.popoverContentSize.width / 2.0 * times, self.thePopover.popoverContentSize.height);
+            self.globalWidgetViewController.preferredContentSize = CGSizeMake(self.globalWidgetViewController.preferredContentSize.width / 2.0 * times, self.globalWidgetViewController.preferredContentSize.height);
         } else if(maxTextLength <= [GlobalSharedClass shared].popoverLargeWidth) {
             times = (int)[GlobalSharedClass shared].popoverLargeWidth * 1.0 / [GlobalSharedClass shared].popoverMinimumWidth;
-            self.thePopover.popoverContentSize = CGSizeMake(self.thePopover.popoverContentSize.width / 2.0 * times, self.thePopover.popoverContentSize.height);
+//            self.thePopover.popoverContentSize = CGSizeMake(self.thePopover.popoverContentSize.width / 2.0 * times, self.thePopover.popoverContentSize.height);
+            self.globalWidgetViewController.preferredContentSize = CGSizeMake(self.globalWidgetViewController.preferredContentSize.width / 2.0 * times,  self.globalWidgetViewController.preferredContentSize.height);
         } else if (maxTextLength <= [GlobalSharedClass shared].popoverMaximumWidth) {
             times = (int)[GlobalSharedClass shared].popoverMaximumWidth * 1.0 / [GlobalSharedClass shared].popoverMinimumWidth;
-            self.thePopover.popoverContentSize = CGSizeMake(self.thePopover.popoverContentSize.width / 2.0 * times, self.thePopover.popoverContentSize.height);
+//            self.thePopover.popoverContentSize = CGSizeMake(self.thePopover.popoverContentSize.width / 2.0 * times, self.thePopover.popoverContentSize.height);
+            self.globalWidgetViewController.preferredContentSize = CGSizeMake(self.globalWidgetViewController.preferredContentSize.width / 2.0 * times, self.globalWidgetViewController.preferredContentSize.height);
         } else {
             times = (int)[GlobalSharedClass shared].popoverMaximumWidth * 1.0 / [GlobalSharedClass shared].popoverMinimumWidth;
-            self.thePopover.popoverContentSize = CGSizeMake(self.thePopover.popoverContentSize.width / 2.0 * times, self.thePopover.popoverContentSize.height);
+//            self.thePopover.popoverContentSize = CGSizeMake(self.thePopover.popoverContentSize.width / 2.0 * times, self.thePopover.popoverContentSize.height);
+            self.globalWidgetViewController.preferredContentSize = CGSizeMake(self.globalWidgetViewController.preferredContentSize.width / 2.0 * times, self.globalWidgetViewController.preferredContentSize.height);
         }
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromRect:self.responseLimits.bounds inView:self.responseLimits permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//        self.thePopover.delegate = self;
+//        [self.thePopover presentPopoverFromRect:self.responseLimits.bounds inView:self.responseLimits permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = self.responseLimits;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = self.responseLimits.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [[self.delegate retrieveParentViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
     }
 }
 
 -(void)operationDone:(id)data {
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+    [[self.delegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
     self.responseLimits.text = [data objectForKey:@"Title"];
     [self.delegate inputFinishedWithData:[data objectForKey:@"Title"] forIndexpath:self.indexPath];
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+    self.globalWidgetViewController = nil;
 }
 
 -(void)dealloc {
 //    if (self.narrative != nil) { self.narrative = nil; }
     if (self.responseLimits != nil) { self.responseLimits = nil; }
     if (self.factory != nil) { self.factory = nil; }
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     
     [super dealloc];
 }
@@ -142,8 +157,12 @@
 //}
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.thePopover = nil;
-    self.factory.popoverController = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.thePopover = nil;
+//    self.factory.popoverController = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 @end

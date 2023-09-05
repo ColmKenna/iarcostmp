@@ -24,7 +24,7 @@
     CustomerSurveyDetailsDataManager* _customerSurveyDetailsDataManager;
     CustomerSurveyDetailsTableCellFactory* _cellFactory;
     UIBarButtonItem* _emailButton;
-    UIPopoverController* _emailPopover;
+//    UIPopoverController* _emailPopover;
     UINavigationController* _emailNavigationController;
     NSMutableArray* _rightBarButtonItemList;
     MFMailComposeViewController* _mailController;
@@ -38,7 +38,7 @@
 @property(nonatomic, retain) CustomerSurveyDetailsDataManager* customerSurveyDetailsDataManager;
 @property(nonatomic, retain) CustomerSurveyDetailsTableCellFactory* cellFactory;
 @property(nonatomic, retain) UIBarButtonItem* emailButton;
-@property(nonatomic, retain) UIPopoverController* emailPopover;
+//@property(nonatomic, retain) UIPopoverController* emailPopover;
 @property(nonatomic, retain) UINavigationController* emailNavigationController;
 @property(nonatomic, retain) NSMutableArray* rightBarButtonItemList;
 @property(nonatomic,retain) MFMailComposeViewController* mailController;
