@@ -12,6 +12,7 @@
 @protocol MeetingAttendeesEmployeesHeaderViewControllerDelegate <NSObject>
 
 - (void)meetingAttendeesEmployeesOperationDone:(NSMutableArray*)selectedEmployeeList;
+- (UIViewController*)retrieveMeetingAttendeesEmployeesParentViewController;
 
 @end
 

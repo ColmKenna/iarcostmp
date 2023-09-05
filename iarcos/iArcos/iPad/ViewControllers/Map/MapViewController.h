@@ -28,9 +28,9 @@
     CustomerInfoTableViewController* myCustomerInfoViewController;
     IBOutlet MKMapView *myMapView;
     BOOL isMyLocationCentered;
-    UIPopoverController *annotationPopoverController;
-    MapPopoverViewController* currentPopoverView;
-    MKAnnotationView* popoverAnnotationView;
+//    UIPopoverController *annotationPopoverController;
+    MapPopoverViewController* _currentPopoverView;
+    MKAnnotationView* _popoverAnnotationView;
    
     NSMutableArray* annotations;
     //for testing
@@ -54,13 +54,15 @@
     IBOutlet UIActivityIndicatorView* indicator;
     
     //date picker popover
-    UIPopoverController* datePickerPopover;
-    UIPopoverController* _stockistPopoverController;
+//    UIPopoverController* datePickerPopover;
+//    UIPopoverController* _stockistPopoverController;
     StockistParentTableViewController* _stockistParentTableViewController;
     CoreLocationController *CLController;
 }
 @property (nonatomic, retain) IBOutlet MKMapView *myMapView;
-@property (nonatomic,retain)  UIPopoverController *annotationPopoverController;
+//@property (nonatomic,retain)  UIPopoverController *annotationPopoverController;
+@property (nonatomic,retain) MapPopoverViewController* currentPopoverView;
+@property (nonatomic,retain) MKAnnotationView* popoverAnnotationView;
 @property (nonatomic,retain)     NSMutableArray* annotations;
 @property (nonatomic,retain) NSMutableArray* orders;
 @property (nonatomic,retain) UINavigationController* globalNavigationController;
@@ -70,7 +72,7 @@
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView* indicator;
 @property (nonatomic, retain) NSDate* orderStartDate;
 @property (nonatomic, retain) NSDate* orderEndDate;
-@property (nonatomic, retain) UIPopoverController* stockistPopoverController;
+//@property (nonatomic, retain) UIPopoverController* stockistPopoverController;
 @property (nonatomic, retain) StockistParentTableViewController* stockistParentTableViewController;
 @property (nonatomic, retain) CoreLocationController *CLController;
 -(void)centerUserLocation;

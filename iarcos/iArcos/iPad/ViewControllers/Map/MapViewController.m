@@ -19,7 +19,9 @@
 
 @implementation MapViewController
 @synthesize myMapView;
-@synthesize annotationPopoverController;
+//@synthesize annotationPopoverController;
+@synthesize currentPopoverView = _currentPopoverView;
+@synthesize popoverAnnotationView = _popoverAnnotationView;
 @synthesize locTrackString;
 @synthesize annotations;
 @synthesize orders;
@@ -28,7 +30,7 @@
 @synthesize indicator;
 @synthesize orderEndDate;
 @synthesize orderStartDate;
-@synthesize stockistPopoverController = _stockistPopoverController;
+//@synthesize stockistPopoverController = _stockistPopoverController;
 @synthesize stockistParentTableViewController = _stockistParentTableViewController;
 @synthesize CLController;
 
@@ -47,8 +49,10 @@
     [self.myMapView.userLocation removeObserver:self forKeyPath:@"location"];
     [self.myMapView removeFromSuperview]; // release crashes app
     [myCustomerInfoViewController release];
-    [annotationPopoverController release];
-    [currentPopoverView release];
+//    [annotationPopoverController release];
+//    [currentPopoverView release];
+    self.currentPopoverView = nil;
+    self.popoverAnnotationView = nil;
     [annotations release];
     
     [locTrackString release];
@@ -62,10 +66,10 @@
     [orders release];
     self.orders=nil;
 //    [arcosCustomiseAnimation release];
-    [datePickerPopover release];
+//    [datePickerPopover release];
     [orderStartDate release];
     [orderEndDate release];
-    if (self.stockistPopoverController != nil) { self.stockistPopoverController = nil; }
+//    if (self.stockistPopoverController != nil) { self.stockistPopoverController = nil; }
     if (self.stockistParentTableViewController != nil) { self.stockistParentTableViewController = nil; }
     self.CLController = nil;
     
@@ -144,10 +148,10 @@
     [self.myMapView setRegion:region];
 
     //set the popover view
-    currentPopoverView= [[MapPopoverViewController alloc] init];
-    currentPopoverView.delegate=self;
+    self.currentPopoverView= [[[MapPopoverViewController alloc] init] autorelease];
+    self.currentPopoverView.delegate=self;
     
-    annotationPopoverController=[[UIPopoverController alloc]initWithContentViewController:currentPopoverView];
+//    annotationPopoverController=[[UIPopoverController alloc]initWithContentViewController:currentPopoverView];
 
     
     //init a connectivity check
@@ -205,14 +209,14 @@
     
 	return YES;
 }
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+//- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
     //dissmiss the popover when rotation begin
-    [annotationPopoverController dismissPopoverAnimated:NO];
-    if (self.stockistPopoverController != nil && [self.stockistPopoverController isPopoverVisible]) {
-        [self.stockistPopoverController dismissPopoverAnimated:YES];
-    }    
-}
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+//    [annotationPopoverController dismissPopoverAnimated:NO];
+//    if (self.stockistPopoverController != nil && [self.stockistPopoverController isPopoverVisible]) {
+//        [self.stockistPopoverController dismissPopoverAnimated:YES];
+//    }
+//}
+//- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
     //repositioning the popover when rotation finished
 //    if (annotationPopoverController!=nil&&currentPopoverView!=nil&&popoverAnnotationView!=nil) {
 //        if (annotationPopoverController.popoverVisible) {
@@ -220,8 +224,8 @@
 //        }
 //
 //    }
-    [self dissmissThePopoverView];
-}
+//    [self dissmissThePopoverView];
+//}
 
 
 #pragma mark - Map delegate
@@ -310,31 +314,38 @@
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
         
     [mapView deselectAnnotation:view.annotation animated:YES];
-    currentPopoverView.annotaion=view.annotation;
+    self.currentPopoverView.annotaion=view.annotation;
     
     
     
     //NSArray *passThroughViews=[NSArray arrayWithObject:self.myMapView];
     //poc.passthroughViews=passThroughViews;
     //hold ref to popover in an ivar
-    popoverAnnotationView=view;
+    self.popoverAnnotationView=view;
     
     //set size depend on annotation type
     if ([view.annotation isKindOfClass:[AddressAnnotation class]]) {
        AddressAnnotation* anno=(AddressAnnotation*)view.annotation;
         if (anno.type!=TouchDropAddressAnnotation) {
-            annotationPopoverController.popoverContentSize = CGSizeMake(170, 274);
+//            annotationPopoverController.popoverContentSize = CGSizeMake(170, 274);
+            self.currentPopoverView.preferredContentSize = CGSizeMake(170, 274);
         }else{
-            annotationPopoverController.popoverContentSize = CGSizeMake(170, 224);//180
+//            annotationPopoverController.popoverContentSize = CGSizeMake(170, 224);//180
+            self.currentPopoverView.preferredContentSize = CGSizeMake(170, 224);
         }
     }else{
-       annotationPopoverController.popoverContentSize = CGSizeMake(170, 164);//120
+//       annotationPopoverController.popoverContentSize = CGSizeMake(170, 164);//120
+        self.currentPopoverView.preferredContentSize = CGSizeMake(170, 164);
     }
     
     
     //show the popover next to the annotation view (pin)
-    [annotationPopoverController presentPopoverFromRect:view.bounds inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-                                     
+//    [annotationPopoverController presentPopoverFromRect:view.bounds inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    self.currentPopoverView.modalPresentationStyle = UIModalPresentationPopover;
+    self.currentPopoverView.popoverPresentationController.sourceView = view;
+    self.currentPopoverView.popoverPresentationController.sourceRect = view.bounds;
+    self.currentPopoverView.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    [self presentViewController:self.currentPopoverView animated:YES completion:nil];
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
@@ -361,10 +372,10 @@
 -(void)handleMapMove:(UIGestureRecognizer*)gestureRecognizer{
     NSLog(@"map is moving");
     
-    if (annotationPopoverController!=nil) {
-        [annotationPopoverController presentPopoverFromRect:popoverAnnotationView.bounds inView:popoverAnnotationView permittedArrowDirections:UIPopoverArrowDirectionLeft animated:NO];
-        
-    }
+//    if (annotationPopoverController!=nil) {
+//        [annotationPopoverController presentPopoverFromRect:self.popoverAnnotationView.bounds inView:self.popoverAnnotationView permittedArrowDirections:UIPopoverArrowDirectionLeft animated:NO];
+//
+//    }
     
 }
 //map popover delegate
@@ -430,14 +441,22 @@
     self.stockistParentTableViewController.childDelegate = self;
     UINavigationController* stockistNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.stockistParentTableViewController] autorelease];
     
-    self.stockistPopoverController = [[[UIPopoverController alloc] initWithContentViewController:stockistNavigationController] autorelease];
-    [self.stockistPopoverController presentPopoverFromRect:popoverAnnotationView.bounds inView:popoverAnnotationView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//    self.stockistPopoverController = [[[UIPopoverController alloc] initWithContentViewController:stockistNavigationController] autorelease];
+//    [self.stockistPopoverController presentPopoverFromRect:self.popoverAnnotationView.bounds inView:self.popoverAnnotationView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    stockistNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    stockistNavigationController.popoverPresentationController.sourceView = self.popoverAnnotationView;
+    stockistNavigationController.popoverPresentationController.sourceRect = self.popoverAnnotationView.bounds;
+    stockistNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    [self.currentPopoverView presentViewController:stockistNavigationController animated:YES completion:nil];
+    
 }
 
 #pragma mark StockistChildTableViewDelegate
 - (void)didSelectStockistChildWithCellData:(NSDictionary *)aCellData {
-    [self.stockistPopoverController dismissPopoverAnimated:YES];
-    [annotationPopoverController dismissPopoverAnimated:YES];
+//    [self.stockistPopoverController dismissPopoverAnimated:YES];
+//    [annotationPopoverController dismissPopoverAnimated:YES];
+    [self.currentPopoverView dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
     int level = 0;
     NSString* descrTypeCode = [aCellData objectForKey:@"DescrTypeCode"];
     NSString* descrDetailCode = [aCellData objectForKey:@"DescrDetailCode"];
@@ -448,7 +467,7 @@
     }
     int employeeIUR = [[SettingManager employeeIUR] intValue];
     //[ArcosUtils dateFromString:@"30/04/2012" format:[GlobalSharedClass shared].dateFormat]
-    [callGenericServices genericGetStockistWithEmployeeiur:employeeIUR longtitude:currentPopoverView.annotaion.coordinate.longitude latitude:currentPopoverView.annotaion.coordinate.latitude distance:currentPopoverView.radiusSlider.value areacode:@"" areaiur:0 level:level levelcode:descrDetailCode AsOfDate:[NSDate date] action:@selector(setGetStockistDataResult:) target:self];
+    [callGenericServices genericGetStockistWithEmployeeiur:employeeIUR longtitude:self.currentPopoverView.annotaion.coordinate.longitude latitude:self.currentPopoverView.annotaion.coordinate.latitude distance:self.currentPopoverView.radiusSlider.value areacode:@"" areaiur:0 level:level levelcode:descrDetailCode AsOfDate:[NSDate date] action:@selector(setGetStockistDataResult:) target:self];
 }
 
 - (void)setGetStockistDataResult:(ArcosGenericReturnObject*)result {
@@ -512,17 +531,24 @@
             }
             
             
-            [self dissmissThePopoverView];
-            if (datePickerPopover==nil) {
-                OrderDateRangePicker* ODRP=[[OrderDateRangePicker alloc]initWithNibName:@"OrderDateRangePicker" bundle:nil];
-                ODRP.delegate=self;
-                datePickerPopover=[[UIPopoverController alloc]initWithContentViewController:ODRP];
-                [ODRP release];
-                datePickerPopover.popoverContentSize=CGSizeMake(328, 500);
-                [datePickerPopover presentPopoverFromRect:segment.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-            }else{
-                [datePickerPopover presentPopoverFromRect:segment.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-            }
+//            [self dissmissThePopoverView];
+//            if (datePickerPopover==nil) {
+//
+//            }else{
+//                [datePickerPopover presentPopoverFromRect:segment.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+//            }
+            OrderDateRangePicker* ODRP=[[OrderDateRangePicker alloc]initWithNibName:@"OrderDateRangePicker" bundle:nil];
+            ODRP.delegate=self;
+//            datePickerPopover=[[UIPopoverController alloc]initWithContentViewController:ODRP];
+            ODRP.preferredContentSize = CGSizeMake(328, 500);
+            ODRP.modalPresentationStyle = UIModalPresentationPopover;
+            ODRP.popoverPresentationController.sourceView = self.view;
+            ODRP.popoverPresentationController.sourceRect = segment.frame;
+            ODRP.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+            [self presentViewController:ODRP animated:YES completion:nil];
+            [ODRP release];
+//            datePickerPopover.popoverContentSize=CGSizeMake(328, 500);
+//            [datePickerPopover presentPopoverFromRect:segment.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
             [self orderOption];
             
         }
@@ -573,7 +599,7 @@
 -(void)removePinOnMap:(AddressAnnotation*)anno{
     [myMapView removeAnnotation:anno];
     [annotations removeObject:anno];
-    [annotationPopoverController dismissPopoverAnimated:YES];
+//    [annotationPopoverController dismissPopoverAnimated:YES];
 }
 -(void)clearPins{
     for (AddressAnnotation* anno in self.annotations) {
@@ -586,11 +612,12 @@
     
 }
 -(void)dissmissThePopoverView{
-    if (currentPopoverView!=nil) {
-        [annotationPopoverController dismissPopoverAnimated:NO];
-        [datePickerPopover dismissPopoverAnimated:NO];
+    if (self.currentPopoverView!=nil) {
+//        [annotationPopoverController dismissPopoverAnimated:NO];
+//        [datePickerPopover dismissPopoverAnimated:NO];
         //[currentPopoverView release];
     }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)findLocationsAroundAnnotation:(AddressAnnotation*)anno withRadius:(NSInteger)radius{
     
@@ -717,7 +744,8 @@
     self.orderStartDate=start;
     
     [self clearPins];
-    [datePickerPopover dismissPopoverAnimated:YES];
+//    [datePickerPopover dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     [connectivityCheck asyncStart];
 }
 

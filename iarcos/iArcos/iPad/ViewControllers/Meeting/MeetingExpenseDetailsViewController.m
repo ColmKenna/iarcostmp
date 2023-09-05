@@ -98,5 +98,8 @@
 - (void)inputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath {
     [self.meetingExpenseDetailsDataManager dataInputFinishedWithData:aData atIndexPath:anIndexPath];
 }
+- (UIViewController*)retrieveMeetingExpenseDetailsParentViewController {
+    return self;
+}
 
 @end

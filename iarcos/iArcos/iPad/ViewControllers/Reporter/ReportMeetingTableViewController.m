@@ -168,5 +168,8 @@
 - (void)inputFinishedWithData:(id)aContentString actualData:(id)anActualData indexPath:(NSIndexPath*)anIndexPath {
     [self.reportMeetingDataManager inputFinishedWithData:aContentString actualData:anActualData indexPath:anIndexPath];
 }
+- (UIViewController*)retrieveGetRecordGenericTypeParentViewController {
+    return self;
+}
 
 @end

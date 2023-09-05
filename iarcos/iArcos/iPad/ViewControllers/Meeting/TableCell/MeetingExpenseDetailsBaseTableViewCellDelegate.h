@@ -11,6 +11,7 @@
 @protocol MeetingExpenseDetailsBaseTableViewCellDelegate <NSObject>
 
 - (void)inputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath;
+- (UIViewController*)retrieveMeetingExpenseDetailsParentViewController;
 
 @end
 

@@ -22,7 +22,7 @@
 @synthesize configDict = _configDict;
 @synthesize reporterFileManager = _reporterFileManager;
 @synthesize emailButton = _emailButton;
-@synthesize emailPopover = _emailPopover;
+//@synthesize emailPopover = _emailPopover;
 @synthesize emailNavigationController = _emailNavigationController;
 @synthesize mailController = _mailController;
 @synthesize tableName = _tableName;
@@ -49,7 +49,7 @@
     if (self.configDict != nil) { self.configDict = nil; }
     if (self.reporterFileManager != nil) { self.reporterFileManager = nil; }
     if (self.emailButton != nil) { self.emailButton = nil; }
-    if (self.emailPopover != nil) { self.emailPopover = nil; }
+//    if (self.emailPopover != nil) { self.emailPopover = nil; }
     if (self.emailNavigationController != nil) { self.emailNavigationController = nil; }
     if (self.mailController != nil) { self.mailController = nil; }        
     if (self.tableName != nil) { self.tableName = nil; }
@@ -86,7 +86,7 @@
     emailRecipientTableViewController.requestSource = EmailRequestSourceReporter;
     emailRecipientTableViewController.recipientDelegate = self;
     self.emailNavigationController = [[[UINavigationController alloc] initWithRootViewController:emailRecipientTableViewController] autorelease];  
-    self.emailPopover = [[[UIPopoverController alloc]initWithContentViewController:self.emailNavigationController] autorelease];
+//    self.emailPopover = [[[UIPopoverController alloc]initWithContentViewController:self.emailNavigationController] autorelease];
     [emailRecipientTableViewController release];
     self.emailButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(emailButtonPressed:)] autorelease];
     self.navigationItem.rightBarButtonItem = self.emailButton;
@@ -117,9 +117,9 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
-        [self.emailPopover dismissPopoverAnimated:YES];
-    }
+//    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
+//        [self.emailPopover dismissPopoverAnimated:YES];
+//    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -200,16 +200,22 @@
 }
 
 -(void)emailButtonPressed:(id)sender {
-    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
-        [self.emailPopover dismissPopoverAnimated:YES];
-        return;
-    }
-    [self.emailPopover presentPopoverFromBarButtonItem:self.emailButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];        
+//    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
+//        [self.emailPopover dismissPopoverAnimated:YES];
+//        return;
+//    }
+//    [self.emailPopover presentPopoverFromBarButtonItem:self.emailButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    self.emailNavigationController.preferredContentSize = [[GlobalSharedClass shared] orderPadsSize];
+    self.emailNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    self.emailNavigationController.popoverPresentationController.barButtonItem = self.emailButton;
+    self.emailNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    [self presentViewController:self.emailNavigationController animated:YES completion:nil];
 }
 
 - (void)didSelectEmailRecipientRow:(NSDictionary*)cellData {
     if (![ArcosEmailValidator checkCanSendMailStatus]) return;
-    [self.emailPopover dismissPopoverAnimated:YES];
+//    [self.emailPopover dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     if (self.mailController != nil) { self.mailController = nil; }    
     self.mailController = [[[MFMailComposeViewController alloc] init] autorelease];
     self.mailController.mailComposeDelegate = self;

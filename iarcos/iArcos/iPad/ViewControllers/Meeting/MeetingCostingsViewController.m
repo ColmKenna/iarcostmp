@@ -204,6 +204,10 @@
     [self.meetingCostingsDataManager dataMeetingBaseInputFinishedWithData:aData atIndexPath:anIndexPath];
 }
 
+- (UIViewController*)retrieveMeetingMainViewController {
+    return self;
+}
+
 - (void)reloadCustomiseTableView {
     [self.budgetTableView reloadData];
     [self.expensesTableView reloadData];

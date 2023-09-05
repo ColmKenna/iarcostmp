@@ -28,7 +28,7 @@
 @synthesize factory = _factory;
 @synthesize optionList;
 @synthesize sortList;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
 @synthesize globalNavigationController = _globalNavigationController;
 @synthesize rootView = _rootView;
 @synthesize callGenericServices = _callGenericServices;
@@ -294,54 +294,54 @@
 
 #pragma mark option popover delegate
 -(void)option:(id)sender{
-    UIBarButtonItem* button=(UIBarButtonItem*)sender;
-    
-    NSLog(@"option press!");
-    if ([self.thePopover isPopoverVisible]) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    } else {
-        self.thePopover = [self.factory CreateTableWidgetWithData:self.optionList withTitle:@"Sub Totals" withParentContentString:@"Options"];
-        //do show the popover if there is no data
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    } 
+//    UIBarButtonItem* button=(UIBarButtonItem*)sender;
+//
+//    NSLog(@"option press!");
+//    if ([self.thePopover isPopoverVisible]) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    } else {
+//        self.thePopover = [self.factory CreateTableWidgetWithData:self.optionList withTitle:@"Sub Totals" withParentContentString:@"Options"];
+//        //do show the popover if there is no data
+//        self.thePopover.delegate = self;
+//        [self.thePopover presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//    }
 }
 #pragma mark sort popover delegate
 -(void)sort:(id)sender{
-    UIBarButtonItem* button=(UIBarButtonItem*)sender;
-    
-    NSLog(@"sort press!");
-    if ([self.thePopover isPopoverVisible]) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    } else {
-        self.thePopover = [self.factory CreateTableWidgetWithData:self.sortList withTitle:@"Sort Options" withParentContentString:@"Sort Options"];
-        //do show the popover if there is no data
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        
-    } 
+//    UIBarButtonItem* button=(UIBarButtonItem*)sender;
+//
+//    NSLog(@"sort press!");
+//    if ([self.thePopover isPopoverVisible]) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    } else {
+//        self.thePopover = [self.factory CreateTableWidgetWithData:self.sortList withTitle:@"Sort Options" withParentContentString:@"Sort Options"];
+//        //do show the popover if there is no data
+//        self.thePopover.delegate = self;
+//        [self.thePopover presentPopoverFromBarButtonItem:button permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//
+//    }
 }
 -(void)operationDone:(id)data {
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
-//    NSLog(@"%@", data);
-    
-    if ([[data objectForKey:@"PopoverCellType"]isEqualToString:@"Sort"]) {
-        [self sortByFiledName:[data objectForKey:@"Title"]];
-    }else if ([[data objectForKey:@"PopoverCellType"]isEqualToString:@"SubTable"]) {
-        NSString* link=[data objectForKey:@"LinkIUR"];
-        
-        if ([link isEqualToString:self.nullStr]) {
-            self.DisplayList=self.MainData;
-        }else{
-            self.DisplayList=[self recordWithLink:link];
-        }
-    }
-    
-    
-    
-    [self.tableView reloadData];
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+////    NSLog(@"%@", data);
+//
+//    if ([[data objectForKey:@"PopoverCellType"]isEqualToString:@"Sort"]) {
+//        [self sortByFiledName:[data objectForKey:@"Title"]];
+//    }else if ([[data objectForKey:@"PopoverCellType"]isEqualToString:@"SubTable"]) {
+//        NSString* link=[data objectForKey:@"LinkIUR"];
+//
+//        if ([link isEqualToString:self.nullStr]) {
+//            self.DisplayList=self.MainData;
+//        }else{
+//            self.DisplayList=[self recordWithLink:link];
+//        }
+//    }
+//
+//
+//
+//    [self.tableView reloadData];
 }
 
 - (void)sortWithLinkIUR:(NSString*)aLinkIUR {
@@ -377,9 +377,9 @@
 }
 
 -(void)dismissPopoverController {
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
 }
 
 
@@ -660,7 +660,7 @@
     if (self.optionList != nil) { self.optionList = nil; }
     self.headerView = nil;
     if (self.factory != nil) { self.factory = nil; }
-    self.thePopover = nil;
+//    self.thePopover = nil;
     
     [cellFactory release];
     self.globalNavigationController = nil;

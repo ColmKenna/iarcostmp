@@ -22,7 +22,7 @@
 @property(nonatomic,retain) IBOutlet UIDatePicker* endDate;
 @property(nonatomic,retain) IBOutlet UILabel* startDateLabel;
 @property(nonatomic,retain) IBOutlet UILabel* endDateLabel;
-@property(nonatomic,retain) IBOutlet id<OrderDateRangePickerDelegate>delegate;
+@property(nonatomic,assign) id<OrderDateRangePickerDelegate>delegate;
 
 -(IBAction)datePicked:(id)sender;
 -(IBAction)search:(id)sender;

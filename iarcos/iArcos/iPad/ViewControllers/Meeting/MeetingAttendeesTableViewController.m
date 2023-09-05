@@ -130,6 +130,10 @@
     
 }
 
+- (UIViewController*)retrieveMeetingMainViewController {
+    return self;
+}
+
 - (void)meetingAttendeeEmployeeSelectFinishedWithData:(id)aData atIndexPath:(NSIndexPath *)anIndexPath {
     self.meetingAttendeesDataManager.currentSelectedCellData = aData;
     self.meetingAttendeesDataManager.currentSelectedDeleteIndexPath = anIndexPath;
@@ -217,6 +221,10 @@
     [currentEmployeeList sortUsingDescriptors:[NSArray arrayWithObjects:foreNameDescriptor,nil]];
     [self.meetingAttendeesDataManager.groupedDataDict setObject:currentEmployeeList forKey:self.meetingAttendeesDataManager.employeeTitle];
     [self.tableView reloadData];
+}
+
+- (UIViewController*)retrieveMeetingAttendeesEmployeesParentViewController {
+    return self;
 }
 
 #pragma mark MeetingAttendeesContactsHeaderViewControllerDelegate

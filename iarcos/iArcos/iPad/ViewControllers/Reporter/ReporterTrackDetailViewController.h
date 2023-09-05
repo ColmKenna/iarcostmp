@@ -27,7 +27,7 @@
     NSDictionary* _configDict;
     ReporterFileManager* _reporterFileManager;
     UIBarButtonItem* _emailButton;
-    UIPopoverController* _emailPopover;
+//    UIPopoverController* _emailPopover;
     UINavigationController* _emailNavigationController;
     MFMailComposeViewController* _mailController;
     NSString* _tableName;
@@ -47,7 +47,7 @@
 @property(nonatomic, retain) NSDictionary* configDict;
 @property (nonatomic,retain) ReporterFileManager* reporterFileManager;
 @property(nonatomic,retain) UIBarButtonItem* emailButton;
-@property(nonatomic, retain) UIPopoverController* emailPopover;
+//@property(nonatomic, retain) UIPopoverController* emailPopover;
 @property(nonatomic, retain) UINavigationController* emailNavigationController;
 @property(nonatomic,retain) MFMailComposeViewController* mailController;
 @property(nonatomic, retain) NSString* tableName;

@@ -13,7 +13,8 @@
 @synthesize fieldValueTextField = _fieldValueTextField;
 @synthesize searchButton = _searchButton;
 @synthesize widgetFactory = _widgetFactory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -31,7 +32,8 @@
     self.fieldValueTextField = nil;
     self.searchButton = nil;
     self.widgetFactory = nil;
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     
     [super dealloc];
 }
@@ -55,26 +57,40 @@
     }
     
     NSMutableArray* employeeList = [[ArcosCoreData sharedArcosCoreData] allEmployee];
-    self.thePopover = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:employeeList title:@"Employee"];
-    [self.thePopover presentPopoverFromRect:self.searchButton.bounds inView:self.searchButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    self.globalWidgetViewController = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:employeeList title:@"Employee"];
+//    [self.thePopover presentPopoverFromRect:self.searchButton.bounds inView:self.searchButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (self.globalWidgetViewController != nil) {
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = self.searchButton;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = self.searchButton.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [[self.actionDelegate retrieveMeetingMainViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
+    }
 }
 
 #pragma mark WidgetFactoryDelegate
 - (void)operationDone:(id)data {
-    [self.thePopover dismissPopoverAnimated:YES];
+//    [self.thePopover dismissPopoverAnimated:YES];
+    [[self.actionDelegate retrieveMeetingMainViewController] dismissViewControllerAnimated:YES completion:nil];
     self.fieldValueTextField.text = [data objectForKey:@"Title"];
     [self.actionDelegate meetingBaseInputFinishedWithData:data atIndexPath:self.myIndexPath];
     [self clearPopoverCacheData];
 }
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    [self clearPopoverCacheData];
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
     [self clearPopoverCacheData];
 }
 
 - (void)clearPopoverCacheData {
-    self.thePopover = nil;
-    self.widgetFactory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.widgetFactory.popoverController = nil;
+    self.globalWidgetViewController = nil;
 }
 
 @end

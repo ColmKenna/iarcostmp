@@ -104,6 +104,10 @@
     [self.meetingMiscDataManager dataMeetingBaseInputFinishedWithData:aData atIndexPath:anIndexPath];
 }
 
+- (UIViewController*)retrieveMeetingMainViewController {
+    return self;
+}
+
 - (void)reloadCustomiseTableView {
     [self.tableView reloadData];
 }

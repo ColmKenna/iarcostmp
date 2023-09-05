@@ -50,13 +50,22 @@
     NSMutableArray* descrDetailList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:@"EX"];
     NSDictionary* descrTypeDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"EX"];
     NSString* myTitle = [ArcosUtils convertNilToEmpty:[descrTypeDict objectForKey:@"Details"]];
-    self.thePopover = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:descrDetailList title:myTitle];
-    self.thePopover.delegate = self;
-    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    self.globalWidgetViewController = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:descrDetailList title:myTitle];
+//    self.thePopover.delegate = self;
+//    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (self.globalWidgetViewController != nil) {
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = self.fieldValueLabel;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = self.fieldValueLabel.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [[self.baseDelegate retrieveMeetingExpenseDetailsParentViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
+    }
 }
 
 - (void)operationDone:(id)data {
-    [self.thePopover dismissPopoverAnimated:YES];
+//    [self.thePopover dismissPopoverAnimated:YES];
+    [[self.baseDelegate retrieveMeetingExpenseDetailsParentViewController] dismissViewControllerAnimated:YES completion:nil];
     self.fieldValueLabel.text = [data objectForKey:@"Title"];
     [self.baseDelegate inputFinishedWithData:data atIndexPath:self.myIndexPath];
     [self clearPopoverCacheData];

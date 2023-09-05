@@ -75,13 +75,17 @@
     
     return cell;
 }
-
+#pragma mark MeetingBaseTableViewCellDelegate
 - (NSMutableDictionary*)retrieveHeadOfficeDataObjectDict {
     return self.meetingObjectivesDataManager.headOfficeDataObjectDict;
 }
 
 - (void)meetingBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath {
     [self.meetingObjectivesDataManager dataMeetingBaseInputFinishedWithData:aData atIndexPath:anIndexPath];
+}
+
+- (UIViewController*)retrieveMeetingMainViewController {
+    return self;
 }
 
 - (void)reloadCustomiseTableView {

@@ -96,7 +96,12 @@
 }
 
 -(void)dealloc{
+    self.startDate = nil;
+    self.endDate = nil;
+    self.startDateLabel = nil;
+    self.endDateLabel = nil;
+    
     [super dealloc];
-    self.delegate=nil;
+//    self.delegate=nil;
 }
 @end

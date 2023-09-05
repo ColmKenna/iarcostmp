@@ -22,7 +22,7 @@
 - (void)reloadReporterTableView;
 @end
 
-@interface ReporterTableViewCell : UITableViewCell<TwoDatePickerWidgetDelegate, CustomerSelectionListingDelegate,UIPopoverControllerDelegate,WidgetFactoryDelegate, ProductSelectionListingDelegate> {
+@interface ReporterTableViewCell : UITableViewCell<TwoDatePickerWidgetDelegate, CustomerSelectionListingDelegate,UIPopoverPresentationControllerDelegate,WidgetFactoryDelegate, ProductSelectionListingDelegate> {
     UIButton* _mainButton;
     UIImageView* _subBgImage;
     UIImageView* _dividerImage;
@@ -35,7 +35,8 @@
     UILabel* _startDateLabel;
     UILabel* _endDateLabel;
     BOOL _isEventSet;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
+    WidgetViewController* _globalWidgetViewController;
     UILabel* _startDateTitleLabel;
     UILabel* _endDateTitleLabel;
     NSIndexPath* _indexPath;
@@ -46,7 +47,7 @@
     UIButton* _locationBgButton;
     UILabel* _locationTitleLabel;
     UILabel* _locationLabel;
-    UIPopoverController* _locationPopover;
+//    UIPopoverController* _locationPopover;
     NSMutableArray* _locationList;
     UILabel* _sortByTitleLabel;
     UILabel* _sortByValueLabel;
@@ -70,7 +71,8 @@
 @property(nonatomic,retain) IBOutlet UILabel* startDateLabel;
 @property(nonatomic,retain) IBOutlet UILabel* endDateLabel;
 @property(nonatomic,assign) BOOL isEventSet;
-@property(nonatomic, retain) UIPopoverController* thePopover;
+//@property(nonatomic, retain) UIPopoverController* thePopover;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic, retain) IBOutlet UILabel* startDateTitleLabel;
 @property(nonatomic, retain) IBOutlet UILabel* endDateTitleLabel;
 @property(nonatomic, retain) NSIndexPath* indexPath;
@@ -81,7 +83,7 @@
 @property(nonatomic, retain) IBOutlet UIButton* locationBgButton;
 @property(nonatomic, retain) IBOutlet UILabel* locationTitleLabel;
 @property(nonatomic, retain) IBOutlet UILabel* locationLabel;
-@property(nonatomic, retain) UIPopoverController* locationPopover;
+//@property(nonatomic, retain) UIPopoverController* locationPopover;
 @property(nonatomic, retain) NSMutableArray* locationList;
 @property(nonatomic, retain) IBOutlet UILabel* sortByTitleLabel;
 @property(nonatomic, retain) IBOutlet UILabel* sortByValueLabel;

@@ -21,7 +21,8 @@
 @synthesize startDateLabel = _startDateLabel;
 @synthesize endDateLabel = _endDateLabel;
 @synthesize isEventSet = _isEventSet;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize startDateTitleLabel = _startDateTitleLabel;
 @synthesize endDateTitleLabel = _endDateTitleLabel;
 @synthesize indexPath = _indexPath;
@@ -32,7 +33,7 @@
 @synthesize locationBgButton = _locationBgButton;
 @synthesize locationTitleLabel = _locationTitleLabel;
 @synthesize locationLabel = _locationLabel;
-@synthesize locationPopover = _locationPopover;
+//@synthesize locationPopover = _locationPopover;
 @synthesize locationList = _locationList;
 @synthesize sortByTitleLabel = _sortByTitleLabel;
 @synthesize sortByValueLabel = _sortByValueLabel;
@@ -72,7 +73,8 @@
     if (self.bgImageView != nil) { self.bgImageView = nil; }
     if (self.startDateLabel != nil) { self.startDateLabel = nil; }      
     if (self.endDateLabel != nil) { self.endDateLabel = nil; }
-    if (self.thePopover != nil) { self.thePopover = nil; }
+//    if (self.thePopover != nil) { self.thePopover = nil; }
+    self.globalWidgetViewController = nil;
     if (self.startDateTitleLabel != nil) { self.startDateTitleLabel = nil; }
     if (self.endDateTitleLabel != nil) { self.endDateTitleLabel = nil; }
     if (self.indexPath != nil) { self.indexPath = nil; }
@@ -83,7 +85,7 @@
     if (self.locationBgButton != nil) { self.locationBgButton = nil; }    
     if (self.locationTitleLabel != nil) { self.locationTitleLabel = nil; }
     if (self.locationLabel != nil) { self.locationLabel = nil; }
-    if (self.locationPopover != nil) { self.locationPopover = nil; }
+//    if (self.locationPopover != nil) { self.locationPopover = nil; }
     if (self.locationList != nil) { self.locationList = nil; }
     self.sortByTitleLabel = nil;
     self.sortByValueLabel = nil;
@@ -182,12 +184,12 @@
     } else {
         self.title.text = [self.reporterHolder Field6];
     }
-    if (self.thePopover != nil && ![self.thePopover isPopoverVisible]) {
-        self.thePopover = nil;
-    }
-    if (self.locationPopover != nil && ![self.locationPopover isPopoverVisible]) {
-        self.locationPopover = nil;
-    }
+//    if (self.thePopover != nil && ![self.thePopover isPopoverVisible]) {
+//        self.thePopover = nil;
+//    }
+//    if (self.locationPopover != nil && ![self.locationPopover isPopoverVisible]) {
+//        self.locationPopover = nil;
+//    }
 }
 
 - (void)handleProductSingleTapGesture:(id)sender {
@@ -243,9 +245,9 @@
 }
 
 - (void)handleSortBySingleTapGesture:(id)sender {
-    if (self.thePopover != nil) {
-        self.thePopover = nil;
-    }
+//    if (self.thePopover != nil) {
+//        self.thePopover = nil;
+//    }
     NSArray* sortByArray = [[ArcosUtils trim:[ArcosUtils convertNilToEmpty:self.reporterHolder.Field15]] componentsSeparatedByString:@"|"];
     NSMutableArray* pickerData = [NSMutableArray arrayWithCapacity:[sortByArray count]];
     for (int i = 0; i < [sortByArray count]; i++) {
@@ -258,36 +260,51 @@
         self.widgetFactory = [WidgetFactory factory];
         self.widgetFactory.delegate = self;
     }
-    self.thePopover = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:pickerData title:@"Sort By"];
-    if (self.thePopover != nil) {
-        self.thePopover.delegate = self;
-        [self.thePopover presentPopoverFromRect:self.sortByValueLabel.bounds inView:self.sortByValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    self.globalWidgetViewController = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:pickerData title:@"Sort By"];
+    if (self.globalWidgetViewController != nil) {
+//        self.thePopover.delegate = self;
+//        [self.thePopover presentPopoverFromRect:self.sortByValueLabel.bounds inView:self.sortByValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = self.sortByValueLabel;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = self.sortByValueLabel.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [[self.delegate retrieveReporterTableViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
     }
 }
 
 -(void)operationDone:(id)data {
-    if (self.thePopover != nil) {
-        [self.thePopover dismissPopoverAnimated:YES];
-    }
+//    if (self.thePopover != nil) {
+//        [self.thePopover dismissPopoverAnimated:YES];
+//    }
+    [[self.delegate retrieveReporterTableViewController] dismissViewControllerAnimated:YES completion:nil];
     self.sortByValueLabel.text = [data objectForKey:@"Title"];
     [self.dateDict setObject:[data objectForKey:@"Title"] forKey:@"SortBy"];
-    self.thePopover = nil;
-    self.widgetFactory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.widgetFactory.popoverController = nil;
+    self.globalWidgetViewController = nil;
 }
 
 -(void)handleSingleTapGesture:(id)sender {
-    if (self.thePopover != nil) {
-        self.thePopover = nil;
-    }
+//    if (self.thePopover != nil) {
+//        self.thePopover = nil;
+//    }
     TwoDatePickerWidgetViewController* TDPWVC = [[TwoDatePickerWidgetViewController alloc] initWithNibName:@"TwoDatePickerWidgetViewController" bundle:nil];
     TDPWVC.delegate = self;
     TDPWVC.startDate = [self.dateDict objectForKey:@"StartDate"];
     TDPWVC.endDate = [self.dateDict objectForKey:@"EndDate"];
-    self.thePopover = [[[UIPopoverController alloc] initWithContentViewController:TDPWVC] autorelease];
-    self.thePopover.popoverContentSize = CGSizeMake(328, 500);
-    self.thePopover.delegate = self;
+    TDPWVC.preferredContentSize = CGSizeMake(328, 500);
+    TDPWVC.modalPresentationStyle = UIModalPresentationPopover;
+    TDPWVC.popoverPresentationController.sourceView = self.startDateLabel;
+    TDPWVC.popoverPresentationController.sourceRect = self.startDateLabel.bounds;
+    TDPWVC.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+//    TDPWVC.popoverPresentationController.delegate = self;
+    [[self.delegate retrieveReporterTableViewController] presentViewController:TDPWVC animated:YES completion:nil];
+//    self.thePopover = [[[UIPopoverController alloc] initWithContentViewController:TDPWVC] autorelease];
+//    self.thePopover.popoverContentSize = CGSizeMake(328, 500);
+//    self.thePopover.delegate = self;
     [TDPWVC release];
-    [self.thePopover presentPopoverFromRect:self.startDateLabel.bounds inView:self.startDateLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//    [self.thePopover presentPopoverFromRect:self.startDateLabel.bounds inView:self.startDateLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 #pragma mark TwoDatePickerWidgetDelegate
 - (void)dateSelectedFromDate:(NSDate*)aStartDate ToDate:(NSDate*)anEndDate {
@@ -295,22 +312,29 @@
     self.startDateLabel.text = [ArcosUtils stringFromDate:aStartDate format:[GlobalSharedClass shared].dateFormat];
     self.endDateLabel.text = [ArcosUtils stringFromDate:anEndDate format:[GlobalSharedClass shared].dateFormat];
     [self.delegate dateSelectedFromDate:aStartDate ToDate:anEndDate indexPath:self.indexPath];
-    [self.thePopover dismissPopoverAnimated:YES];
-    self.thePopover = nil;
+//    [self.thePopover dismissPopoverAnimated:YES];
+//    self.thePopover = nil;
+    [[self.delegate retrieveReporterTableViewController] dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)handleLocationSingleTapGesture:(id)sender {
-    if (self.locationPopover != nil) {
-        self.locationPopover = nil;
-    }    
+//    if (self.locationPopover != nil) {
+//        self.locationPopover = nil;
+//    }    
     CustomerSelectionListingTableViewController* CSLTVC = [[CustomerSelectionListingTableViewController alloc] initWithNibName:@"CustomerSelectionListingTableViewController" bundle:nil];
     CSLTVC.selectionDelegate = self;
     CSLTVC.isNotShowingAllButton = NO;
     UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:CSLTVC];
-    self.locationPopover = [[[UIPopoverController alloc] initWithContentViewController:tmpNavigationController] autorelease];    
-    self.locationPopover.popoverContentSize = CGSizeMake(700, 700);
-    self.locationPopover.delegate = self;
-    [self.locationPopover presentPopoverFromRect:self.locationLabel.bounds inView:self.locationLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    tmpNavigationController.preferredContentSize = CGSizeMake(700, 700);
+//    self.locationPopover = [[[UIPopoverController alloc] initWithContentViewController:tmpNavigationController] autorelease];
+//    self.locationPopover.popoverContentSize = CGSizeMake(700, 700);
+//    self.locationPopover.delegate = self;
+//    [self.locationPopover presentPopoverFromRect:self.locationLabel.bounds inView:self.locationLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    tmpNavigationController.popoverPresentationController.sourceView = self.locationLabel;
+    tmpNavigationController.popoverPresentationController.sourceRect = self.locationLabel.bounds;
+    tmpNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    [[self.delegate retrieveReporterTableViewController] presentViewController:tmpNavigationController animated:YES completion:nil];
     
     [CSLTVC resetCustomer:self.locationList];
     [CSLTVC release];
@@ -321,10 +345,11 @@
 
 #pragma mark CustomerSelectionListingDelegate
 - (void)didDismissSelectionPopover {
-    if (self.locationPopover != nil && [self.locationPopover isPopoverVisible]) {
-        [self.locationPopover dismissPopoverAnimated:YES];
-        self.locationPopover = nil;
-    }    
+//    if (self.locationPopover != nil && [self.locationPopover isPopoverVisible]) {
+//        [self.locationPopover dismissPopoverAnimated:YES];
+//        self.locationPopover = nil;
+//    }
+    [[self.delegate retrieveReporterTableViewController] dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didSelectCustomerSelectionListingRecord:(NSMutableDictionary*)aCustDict {
@@ -334,9 +359,13 @@
     [self didDismissSelectionPopover];
 }
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    self.locationPopover = nil;
-    self.thePopover = nil;
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    self.locationPopover = nil;
+//    self.thePopover = nil;
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    self.globalWidgetViewController = nil;
 }
 
 @end

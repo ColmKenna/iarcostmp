@@ -23,7 +23,7 @@
 #import "ProductDetailViewController.h"
 #import "ReportOrderHeaderView.h"
 
-@interface ReportTableViewController : UITableViewController<UIPopoverControllerDelegate,WidgetFactoryDelegate,ModelViewDelegate,SlideAcrossViewAnimationDelegate, CustomisePresentViewControllerDelegate,GetDataGenericDelegate,MFMailComposeViewControllerDelegate,ArcosMailTableViewControllerDelegate,PresentViewControllerDelegate>{
+@interface ReportTableViewController : UITableViewController<WidgetFactoryDelegate,ModelViewDelegate,SlideAcrossViewAnimationDelegate, CustomisePresentViewControllerDelegate,GetDataGenericDelegate,MFMailComposeViewControllerDelegate,ArcosMailTableViewControllerDelegate,PresentViewControllerDelegate>{
     CXMLDocument* ReportDocument;
     NSMutableArray* DisplayList;
     NSMutableArray* MainData;
@@ -38,7 +38,7 @@
     WidgetFactory* _factory;
     NSMutableArray* optionList;
     NSMutableArray* sortList;
-    UIPopoverController* _thePopover;
+//    UIPopoverController* _thePopover;
     
     //UIView animation
     UINavigationController* _globalNavigationController;
@@ -65,7 +65,7 @@
 @property(nonatomic,retain) WidgetFactory* factory;
 @property (nonatomic,retain)  NSMutableArray* optionList;
 @property(nonatomic,retain) NSMutableArray* sortList;
-@property (nonatomic,retain) UIPopoverController* thePopover;
+//@property (nonatomic,retain) UIPopoverController* thePopover;
 
 @property (nonatomic, retain) UINavigationController* globalNavigationController;
 @property (nonatomic, retain) UIViewController* rootView;

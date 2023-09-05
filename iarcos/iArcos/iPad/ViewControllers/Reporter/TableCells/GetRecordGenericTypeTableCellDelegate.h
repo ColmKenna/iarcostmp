@@ -11,5 +11,6 @@
 @protocol GetRecordGenericTypeTableCellDelegate <NSObject>
 
 - (void)inputFinishedWithData:(id)aContentString actualData:(id)anActualData indexPath:(NSIndexPath*)anIndexPath;
+- (UIViewController*)retrieveGetRecordGenericTypeParentViewController;
 
 @end

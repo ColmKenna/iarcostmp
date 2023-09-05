@@ -12,7 +12,8 @@
 @synthesize fieldNameLabel = _fieldNameLabel;
 @synthesize fieldValueLabel = _fieldValueLabel;
 @synthesize widgetFactory = _widgetFactory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -28,9 +29,10 @@
 - (void)dealloc {
     self.fieldNameLabel = nil;
     self.fieldValueLabel = nil;
-    self.widgetFactory.popoverController = nil;
+//    self.widgetFactory.popoverController = nil;
     self.widgetFactory = nil;
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     
     [super dealloc];
 }
@@ -57,26 +59,40 @@
     NSMutableArray* descrDetailList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode];
     NSDictionary* descrTypeDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:descrTypeCode];
     NSString* myTitle = [ArcosUtils convertNilToEmpty:[descrTypeDict objectForKey:@"Details"]];
-    self.thePopover = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:descrDetailList title:myTitle];
-    self.thePopover.delegate = self;
-    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    self.globalWidgetViewController = [self.widgetFactory CreateGenericCategoryWidgetWithPickerValue:descrDetailList title:myTitle];
+//    self.thePopover.delegate = self;
+//    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (self.globalWidgetViewController != nil) {
+        self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
+        self.globalWidgetViewController.popoverPresentationController.sourceView = self.fieldValueLabel;
+        self.globalWidgetViewController.popoverPresentationController.sourceRect = self.fieldValueLabel.bounds;
+        self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        self.globalWidgetViewController.popoverPresentationController.delegate = self;
+        [[self.actionDelegate retrieveMeetingMainViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
+    }
 }
 
 - (void)operationDone:(id)data {
-    [self.thePopover dismissPopoverAnimated:YES];
+//    [self.thePopover dismissPopoverAnimated:YES];
+    [[self.actionDelegate retrieveMeetingMainViewController] dismissViewControllerAnimated:YES completion:nil];
     self.fieldValueLabel.text = [data objectForKey:@"Title"];
     [self.actionDelegate meetingBaseInputFinishedWithData:data atIndexPath:self.myIndexPath];
     [self clearPopoverCacheData];
 }
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    [self clearPopoverCacheData];
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
     [self clearPopoverCacheData];
 }
 
 - (void)clearPopoverCacheData {
-    self.thePopover = nil;
-    self.widgetFactory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.widgetFactory.popoverController = nil;
+    self.globalWidgetViewController = nil;
 }
 
 

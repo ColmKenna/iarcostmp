@@ -29,7 +29,7 @@
     NSArray* _objectViewControllerList;
     NSDictionary* _layoutDict;
     UIBarButtonItem* _emailButton;
-    UIPopoverController* _emailPopover;
+//    UIPopoverController* _emailPopover;
     UINavigationController* _emailNavigationController;
     ReporterXmlExcelViewController* _reporterXmlExcelViewController;
     UIViewController* _rootView;
@@ -48,7 +48,7 @@
 @property(nonatomic, retain) NSArray* objectViewControllerList;
 @property(nonatomic, retain) NSDictionary* layoutDict;
 @property(nonatomic,retain) UIBarButtonItem* emailButton;
-@property(nonatomic, retain) UIPopoverController* emailPopover;
+//@property(nonatomic, retain) UIPopoverController* emailPopover;
 @property(nonatomic, retain) UINavigationController* emailNavigationController;
 @property(nonatomic, retain) ReporterXmlExcelViewController* reporterXmlExcelViewController;
 @property(nonatomic, retain) UIViewController* rootView;

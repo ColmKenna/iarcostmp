@@ -13,7 +13,8 @@
 @synthesize cellData = _cellData;
 @synthesize myIndexPath = _myIndexPath;
 @synthesize widgetFactory = _widgetFactory;
-@synthesize thePopover = _thePopover;
+//@synthesize thePopover = _thePopover;
+@synthesize globalWidgetViewController = _globalWidgetViewController;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -29,9 +30,10 @@
 - (void)dealloc {
     self.cellData = nil;
     self.myIndexPath = nil;
-    self.widgetFactory.popoverController = nil;
+//    self.widgetFactory.popoverController = nil;
     self.widgetFactory = nil;
-    self.thePopover = nil;
+//    self.thePopover = nil;
+    self.globalWidgetViewController = nil;
     
     [super dealloc];
 }
@@ -41,13 +43,18 @@
 }
 
 #pragma mark UIPopoverControllerDelegate
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+//    [self clearPopoverCacheData];
+//}
+#pragma mark UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
     [self clearPopoverCacheData];
 }
 
 - (void)clearPopoverCacheData {
-    self.thePopover = nil;
-    self.widgetFactory.popoverController = nil;
+//    self.thePopover = nil;
+//    self.widgetFactory.popoverController = nil;
+    self.globalWidgetViewController = nil;
 }
 
 @end
