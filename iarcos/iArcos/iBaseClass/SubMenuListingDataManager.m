@@ -25,7 +25,8 @@
     if (locationStatusDict != nil) {
         self.lsCodeType = [locationStatusDict objectForKey:@"CodeType"];
         if ([self.lsCodeType intValue] != 0) {
-            [ArcosUtils showMsg:[ArcosUtils convertNilToEmpty:[locationStatusDict objectForKey:@"Tooltip"]] delegate:nil];
+//            [ArcosUtils showMsg:[ArcosUtils convertNilToEmpty:[locationStatusDict objectForKey:@"Tooltip"]] delegate:nil];
+            [ArcosUtils showDialogBox:[ArcosUtils convertNilToEmpty:[locationStatusDict objectForKey:@"Tooltip"]] title:@"" target:[ArcosUtils getRootView] handler:nil];
         }
     }
 }
@@ -34,7 +35,8 @@
     NSString* tmpLocationCode = [self.locationCellData objectForKey:@"LocationCode"];
     NSString* locationCode = [tmpLocationCode uppercaseString];
     if (locationCode != nil && [locationCode hasPrefix:@"HQ:"]) {
-        [ArcosUtils showMsg:@"Order Entry disabled for Head Office accounts" delegate:nil];
+//        [ArcosUtils showMsg:@"Order Entry disabled for Head Office accounts" delegate:nil];
+        [ArcosUtils showDialogBox:@"Order Entry disabled for Head Office accounts" title:@"" target:[ArcosUtils getRootView] handler:nil];
         return NO;
     }
     return YES;
@@ -45,7 +47,8 @@
     if (descDict != nil) {
         NSNumber* codeType = [descDict objectForKey:@"CodeType"];
         if ([codeType intValue] != 0) {
-            [ArcosUtils showMsg:[ArcosUtils convertNilToEmpty:[descDict objectForKey:@"Tooltip"] ]delegate:nil];
+//            [ArcosUtils showMsg:[ArcosUtils convertNilToEmpty:[descDict objectForKey:@"Tooltip"] ]delegate:nil];
+            [ArcosUtils showDialogBox:[ArcosUtils convertNilToEmpty:[descDict objectForKey:@"Tooltip"]] title:@"" target:[ArcosUtils getRootView] handler:nil];
         }
         if ([codeType intValue] == 2) {
             return NO;
@@ -57,7 +60,8 @@
 - (void)dialUpNumberProcessor:(NSMutableDictionary*)aCellData {
     NSString* dialupNumberContent = [aCellData objectForKey:@"DialupNumber"];
     if (dialupNumberContent != nil && ![dialupNumberContent isEqualToString:@""]) {
-        [ArcosUtils showMsg:dialupNumberContent delegate:nil];
+//        [ArcosUtils showMsg:dialupNumberContent delegate:nil];
+        [ArcosUtils showDialogBox:dialupNumberContent title:@"" target:[ArcosUtils getRootView] handler:nil];
     }
 }
 
@@ -66,7 +70,8 @@
     if (dialupNumberContent != nil && ![dialupNumberContent isEqualToString:@""]) {
         NSRange myRange = [dialupNumberContent rangeOfString:@"["];
         if (myRange.location != NSNotFound) {
-            [ArcosUtils showMsg:@"ORDER ENTRY RESTRICTED" delegate:nil];
+//            [ArcosUtils showMsg:@"ORDER ENTRY RESTRICTED" delegate:nil];
+            [ArcosUtils showDialogBox:@"ORDER ENTRY RESTRICTED" title:@"" target:[ArcosUtils getRootView] handler:nil];
             return NO;
         }
     }

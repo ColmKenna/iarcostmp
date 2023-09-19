@@ -44,6 +44,7 @@
 @synthesize subMenuListingDataManager = _subMenuListingDataManager;
 @synthesize locationCoordinateCaptured = _locationCoordinateCaptured;
 @synthesize appointmentTitle = _appointmentTitle;
+@synthesize imagePicker = _imagePicker;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -109,6 +110,7 @@
     [self deleteAllObjectsCreated];
     self.CLController = nil;
     self.subMenuListingDataManager = nil;
+    self.imagePicker = nil;
     
     [super dealloc];
 }
@@ -424,41 +426,42 @@
     [self.CLController stop];
     
 }
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 99) {
-        self.locationCoordinateCaptured = NO;
-    }
-}
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    if (alertView.tag == 99) {
+//        self.locationCoordinateCaptured = NO;
+//    }
+//}
 
 -(void)addPhoto{
     [FileCommon createFolder:@"photos"];
     //check is camera avaliable
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
         
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[GlobalSharedClass shared].errorTitle
-                                                        message:@"No camera available"
-                                                       delegate:nil cancelButtonTitle:@"Ok"
-                                              otherButtonTitles:nil];
-        [alert show];
-        [alert release];
+//        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[GlobalSharedClass shared].errorTitle
+//                                                        message:@"No camera available"
+//                                                       delegate:nil cancelButtonTitle:@"Ok"
+//                                              otherButtonTitles:nil];
+//        [alert show];
+//        [alert release];
+        [ArcosUtils showDialogBox:@"No camera available" title:[GlobalSharedClass shared].errorTitle target:self handler:nil];
         return;
         
     }
     // Create image picker controller
-    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    self.imagePicker = [[[UIImagePickerController alloc] init] autorelease];
     
     // Set source to the camera
-    imagePicker.sourceType =  UIImagePickerControllerSourceTypeCamera;
+    self.imagePicker.sourceType =  UIImagePickerControllerSourceTypeCamera;
     
     // Delegate is self
-    imagePicker.delegate = self;
+    self.imagePicker.delegate = self;
     
     // Allow editing of image ?
-    imagePicker.allowsEditing = NO;
+    self.imagePicker.allowsEditing = NO;
     
     // Show image picker
-    [[self.subMenuDelegate retrieveMasterViewController] presentViewController:imagePicker animated:YES completion:nil];
-    [imagePicker release];
+    [[self.subMenuDelegate retrieveMasterViewController] presentViewController:self.imagePicker animated:YES completion:nil];
+//    [imagePicker release];
     
 }
 
@@ -486,7 +489,7 @@
         [[self.subMenuDelegate retrieveMasterViewController].view endEditing:YES];
         UITextField* myTextField = [tmpDialogBox.textFields objectAtIndex:0];
         [self processTextFieldFileName:myTextField.text didFinishPickingMediaWithInfo:info];
-        [[self.subMenuDelegate retrieveMasterViewController] dismissViewControllerAnimated:YES completion:nil];
+//        [[self.subMenuDelegate retrieveMasterViewController] dismissViewControllerAnimated:YES completion:nil];
     }];
     UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
         [[self.subMenuDelegate retrieveMasterViewController] dismissViewControllerAnimated:YES completion:nil];
@@ -506,7 +509,7 @@
 
 - (void)processTextFieldFileName:(NSString*)aTextFieldFileName didFinishPickingMediaWithInfo:(NSDictionary*)info {
     UIImage* image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    
+    BOOL alertShowedFlag = NO;
     // Save image
     //    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
     @try {
@@ -522,11 +525,22 @@
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
             [[ArcosCoreData sharedArcosCoreData] insertCollectedWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR comments:fileName iUR:[NSNumber numberWithInt:0] date:[NSDate date]];
         } else {
-            [ArcosUtils showMsg:-1 message:@"The photo has not been saved." delegate:nil];
+//            [ArcosUtils showMsg:-1 message:@"The photo has not been saved." delegate:nil];
+            alertShowedFlag = YES;
+            [ArcosUtils showDialogBox:@"The photo has not been saved." title:[ArcosUtils retrieveTitleWithCode:-1] target:self.imagePicker handler:^(UIAlertAction *action) {
+                [[self.subMenuDelegate retrieveMasterViewController] dismissViewControllerAnimated:YES completion:nil];
+            }];
         }
     }
     @catch (NSException *exception) {
-        [ArcosUtils showMsg:[exception reason] delegate:nil];
+//        [ArcosUtils showMsg:[exception reason] delegate:nil];
+        alertShowedFlag = YES;
+        [ArcosUtils showDialogBox:[exception reason] title:@"" target:self.imagePicker handler:^(UIAlertAction *action) {
+            [[self.subMenuDelegate retrieveMasterViewController] dismissViewControllerAnimated:YES completion:nil];
+        }];
+    }
+    if (!alertShowedFlag) {
+        [[self.subMenuDelegate retrieveMasterViewController] dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
@@ -543,23 +557,31 @@
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
-    UIAlertView *alert;
-    
+//    UIAlertView *alert;
+    NSString* myMessage = @"";
+    NSString* myTitle = @"";
     // Unable to save the image
-    if (error)
-        alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                           message:@"Unable to save image to Photo Album."
-                                          delegate:nil cancelButtonTitle:@"Ok"
-                                 otherButtonTitles:nil];
-    else // All is well
-        alert = [[UIAlertView alloc] initWithTitle:@"Success"
-                                           message:@"Image saved to Photo Album."
-                                          delegate:nil cancelButtonTitle:@"Ok"
-                                 otherButtonTitles:nil];
-    [alert show];
-    [alert release];
-    
-    [[self.subMenuDelegate retrieveMasterViewController] dismissViewControllerAnimated:YES completion:nil];
+    if (error) {
+        myMessage = @"Unable to save image to Photo Album.";
+        myTitle = @"Error";
+    } else {
+        myMessage = @"Image saved to Photo Album.";
+        myTitle = @"Success";
+    }
+//        alert = [[UIAlertView alloc] initWithTitle:@"Error"
+//                                           message:@"Unable to save image to Photo Album."
+//                                          delegate:nil cancelButtonTitle:@"Ok"
+//                                 otherButtonTitles:nil];
+//    else // All is well
+//        alert = [[UIAlertView alloc] initWithTitle:@"Success"
+//                                           message:@"Image saved to Photo Album."
+//                                          delegate:nil cancelButtonTitle:@"Ok"
+//                                 otherButtonTitles:nil];
+//    [alert show];
+//    [alert release];
+    [ArcosUtils showDialogBox:myMessage title:myTitle target:self handler:^(UIAlertAction *action) {
+        [[self.subMenuDelegate retrieveMasterViewController] dismissViewControllerAnimated:YES completion:nil];
+    }];
 }
 
 - (void)selectBottomRecordByTitle:(NSString*)aTitle {

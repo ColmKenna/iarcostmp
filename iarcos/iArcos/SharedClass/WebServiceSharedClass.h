@@ -33,6 +33,7 @@
 -(void)ResourceStatusTextWithValue:(NSString*)aValue;
 - (void)GotFailWithErrorResourcesFileDelegate:(NSError *)anError;
 - (void)GotErrorWithResourcesFile:(NSError *)anError;
+- (UIViewController*)retrieveWebServiceParentViewController;
 @end
 
 @interface WebServiceSharedClass : NSObject <PaginatedUpdateCenterDelegate,ResourcesUpdateCenterDelegate,SaveRecordUpdateCenterDelegate,BatchedUpdateCenterDelegate, RemoveRecordProcessorDelegate> {

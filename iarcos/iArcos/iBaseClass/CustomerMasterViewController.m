@@ -352,7 +352,8 @@
  * @param result contains the error code
  */
 -(void) onError:(SKTRESULT) result {
-    [ArcosUtils showMsg:[NSString stringWithFormat:@"Scanner is reporting an error:%ld",result] delegate:nil];
+//    [ArcosUtils showMsg:[NSString stringWithFormat:@"Scanner is reporting an error:%ld",result] delegate:nil];
+    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Scanner is reporting an error:%ld",result] title:@"" target:self handler:nil];
 }
 
 /**
@@ -364,7 +365,8 @@
     if(SKTSUCCESS(result)){
         
     } else {
-        [ArcosUtils showMsg:[NSString stringWithFormat:@"Error initializing Scanner:%ld",result] delegate:nil];
+//        [ArcosUtils showMsg:[NSString stringWithFormat:@"Error initializing Scanner:%ld",result] delegate:nil];
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Error initializing Scanner:%ld",result] title:@"" target:self handler:nil];
     }
 }
 
@@ -382,7 +384,8 @@
  * @param result contains the retrieval error code
  */
 -(void) onErrorRetrievingScanObject:(SKTRESULT) result {
-    [ArcosUtils showMsg:[NSString stringWithFormat:@"Error retrieving Barcode:%ld", result] delegate:nil];
+//    [ArcosUtils showMsg:[NSString stringWithFormat:@"Error retrieving Barcode:%ld", result] delegate:nil];
+    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Error retrieving Barcode:%ld", result] title:@"" target:self handler:nil];
 }
 
 /**

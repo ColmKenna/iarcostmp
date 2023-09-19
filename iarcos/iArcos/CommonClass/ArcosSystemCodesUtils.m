@@ -24,11 +24,13 @@
 + (id)handleResultErrorProcess:(id)result {
     if ([result isKindOfClass:[SoapFault class]]) {
         SoapFault* aSoapFault = (SoapFault*)result;
-        [ArcosUtils showMsg:[aSoapFault faultString] delegate:nil];
+//        [ArcosUtils showMsg:[aSoapFault faultString] delegate:nil];
+        [ArcosUtils showDialogBox:[aSoapFault faultString] title:@"" target:[ArcosUtils getRootView] handler:nil];
         return nil;
     } else if ([result isKindOfClass:[NSError class]]) {
         NSError* anError = (NSError*)result;
-        [ArcosUtils showMsg:[anError localizedDescription] delegate:nil];
+//        [ArcosUtils showMsg:[anError localizedDescription] delegate:nil];
+        [ArcosUtils showDialogBox:[anError localizedDescription] title:@"" target:[ArcosUtils getRootView] handler:nil];
         return nil;
     }
     return result;
@@ -44,7 +46,8 @@
         return NO;
     }
     @catch (NSException *exception) {
-        [ArcosUtils showMsg:[exception reason] delegate:nil];
+//        [ArcosUtils showMsg:[exception reason] delegate:nil];
+        [ArcosUtils showDialogBox:[exception reason] title:@"" target:[ArcosUtils getRootView] handler:nil];
         return NO;
     }
 }

@@ -181,7 +181,8 @@
 - (void)didFinishLoadingResourcesFileDelegate:(NSError *)anError {
     self.isResourceLoadingFinished = YES;
     if (anError != nil) {
-        [ArcosUtils showMsg:[anError localizedDescription] delegate:nil];
+//        [ArcosUtils showMsg:[anError localizedDescription] delegate:nil];
+        [ArcosUtils showDialogBox:[anError localizedDescription] title:@"" target:[ArcosUtils getRootView] handler:nil];
     } else {
         self.sucessfulFileCount++; 
     }

@@ -532,7 +532,10 @@
             fileText = @"files";
         }
         NSString* errorMsg = [NSString stringWithFormat:@"The following %@ cannot be located:\n%@", fileText , [self.resourcesUpdateCenter.errorMsgList componentsJoinedByString:@"\n"]];
-        [ArcosUtils showMsg:errorMsg title:@"" delegate:self tag:100];
+//        [ArcosUtils showMsg:errorMsg title:@"" delegate:self tag:100];
+        [ArcosUtils showDialogBox:errorMsg title:@"" delegate:nil target:[self.delegate retrieveWebServiceParentViewController] tag:100 handler:^(UIAlertAction *action) {
+            self.isLoadingFinished = YES;
+        }];
     } else {
         self.isLoadingFinished = YES;
     }
@@ -604,7 +607,8 @@
             }
         }
         @catch (NSException *exception) {
-            [ArcosUtils showMsg:[exception reason] delegate:nil];
+//            [ArcosUtils showMsg:[exception reason] delegate:nil];
+            [ArcosUtils showDialogBox:[exception reason] title:@"" target:[self.delegate retrieveWebServiceParentViewController] handler:nil];
         }
     }
     self.isPaginatedLoadingFinished = YES;
@@ -1957,11 +1961,11 @@
 }
 
 #pragma mark - UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 100) {
-        self.isLoadingFinished = YES;
-    }
-}
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    if (alertView.tag == 100) {
+//        self.isLoadingFinished = YES;
+//    }
+//}
 #pragma mark ResourcesUpdateCenterDelegate
 -(void)resourcesUpdateCompleted:(int)anOverallFileCount {
 //    if ([self.resourcesUpdateCenter.errorMsgList count] > 0) {

@@ -109,7 +109,7 @@
 }
 
 - (void)didSelectEmailRecipientRow:(NSDictionary*)cellData {
-    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
+//    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
 //    [self.emailPopover dismissPopoverAnimated:YES];
     self.mailController = [[[MFMailComposeViewController alloc] init] autorelease];
     self.mailController.mailComposeDelegate = self;
@@ -140,7 +140,7 @@
 #pragma mark - MFMailComposeViewControllerDelegate
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {    
     NSString* message = nil;
-    UIAlertView* v = nil;
+//    UIAlertView* v = nil;
     // Notifies users about errors associated with the interface
     switch (result) {
         case MFMailComposeResultCancelled:
@@ -161,9 +161,9 @@
             
         case MFMailComposeResultFailed: {
             message = @"Failed to Send Email";
-            v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: self cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
-            [v show];
-            [v release];
+//            v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: self cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
+//            [v show];
+//            [v release];
         }            
             break;
             

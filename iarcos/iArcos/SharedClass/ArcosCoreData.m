@@ -4622,7 +4622,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
                     [self insertCollectedWithLocationIUR:aLocationIUR comments:auxFileName iUR:[aQuestionDict objectForKey:@"IUR"] date:[ArcosUtils addMinutes:-i date:[NSDate date]]];
                     CompositeErrorResult* auxCompositeErrorResult = [self.arcosDescriptionTrManager copySurveyFileToPhotosWithFileName:auxFileName];
                     if (!auxCompositeErrorResult.successFlag) {
-                        [ArcosUtils showMsg:auxCompositeErrorResult.errorMsg delegate:nil];
+//                        [ArcosUtils showMsg:auxCompositeErrorResult.errorMsg delegate:nil];
+                        [ArcosUtils showDialogBox:auxCompositeErrorResult.errorMsg title:@"" target:[ArcosUtils getRootView] handler:nil];
                     }
                 }                
             }
@@ -4642,7 +4643,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
                 [self insertCollectedWithLocationIUR:aLocationIUR comments:auxFileName iUR:[aQuestionDict objectForKey:@"IUR"] date:[ArcosUtils addMinutes:-i date:[NSDate date]]];
                 CompositeErrorResult* aCompositeErrorResult = [self.arcosDescriptionTrManager copySurveyFileToPhotosWithFileName:auxFileName];
                 if (!aCompositeErrorResult.successFlag) {
-                    [ArcosUtils showMsg:aCompositeErrorResult.errorMsg delegate:nil];
+//                    [ArcosUtils showMsg:aCompositeErrorResult.errorMsg delegate:nil];
+                    [ArcosUtils showDialogBox:aCompositeErrorResult.errorMsg title:@"" target:[ArcosUtils getRootView] handler:nil];
                 }
             }            
         }

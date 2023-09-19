@@ -36,7 +36,7 @@
     natural_t mem_total = mem_used + mem_free;
     NSLog(@"used: %u free: %u total: %u", mem_used, mem_free, mem_total);
     NSLog(@"used: %@ free: %@ total: %@", [HumanReadableDataSizeHelper humanReadableSizeFromBytes:[NSNumber numberWithLongLong:mem_used] useSiPrefixes:YES useSiMultiplier:NO], [HumanReadableDataSizeHelper humanReadableSizeFromBytes:[NSNumber numberWithLongLong:mem_free] useSiPrefixes:YES useSiMultiplier:NO], [HumanReadableDataSizeHelper humanReadableSizeFromBytes:[NSNumber numberWithLongLong:mem_total] useSiPrefixes:YES useSiMultiplier:NO]);
-    [ArcosUtils showMsg:[NSString stringWithFormat:@"used: %@ free: %@ total: %@", [HumanReadableDataSizeHelper humanReadableSizeFromBytes:[NSNumber numberWithLongLong:mem_used] useSiPrefixes:YES useSiMultiplier:NO], [HumanReadableDataSizeHelper humanReadableSizeFromBytes:[NSNumber numberWithLongLong:mem_free] useSiPrefixes:YES useSiMultiplier:NO], [HumanReadableDataSizeHelper humanReadableSizeFromBytes:[NSNumber numberWithLongLong:mem_total] useSiPrefixes:YES useSiMultiplier:NO]] delegate:nil];
+//    [ArcosUtils showMsg:[NSString stringWithFormat:@"used: %@ free: %@ total: %@", [HumanReadableDataSizeHelper humanReadableSizeFromBytes:[NSNumber numberWithLongLong:mem_used] useSiPrefixes:YES useSiMultiplier:NO], [HumanReadableDataSizeHelper humanReadableSizeFromBytes:[NSNumber numberWithLongLong:mem_free] useSiPrefixes:YES useSiMultiplier:NO], [HumanReadableDataSizeHelper humanReadableSizeFromBytes:[NSNumber numberWithLongLong:mem_total] useSiPrefixes:YES useSiMultiplier:NO]] delegate:nil];
 }
 
 - (NSMutableDictionary*)retrieveSystemMemory {

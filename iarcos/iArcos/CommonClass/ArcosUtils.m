@@ -53,48 +53,84 @@
     return [aField isEqualToString:[GlobalSharedClass shared].unassignedText] ? @"" : aField;
 }
 
-+ (void)showMsg:(int)errorCode message:(NSString*)message delegate:(id)delegate {
-    NSString* titleMsg = (errorCode == 0) ? @"" : [GlobalSharedClass shared].errorTitle;
-    UIAlertView *v = [[UIAlertView alloc] initWithTitle: titleMsg message: message delegate: delegate cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
-    [v show];
-    [v release];
+//+ (void)showMsg:(int)errorCode message:(NSString*)message delegate:(id)delegate {
+//    NSString* titleMsg = (errorCode == 0) ? @"" : [GlobalSharedClass shared].errorTitle;
+//    UIAlertView *v = [[UIAlertView alloc] initWithTitle: titleMsg message: message delegate: delegate cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
+//    [v show];
+//    [v release];
+//}
+
+//+ (void)showMsg:(NSString*)message title:(NSString*)title delegate:(id)delegate {
+//    UIAlertView *v = [[UIAlertView alloc] initWithTitle: title message: message delegate: delegate cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
+//    [v show];
+//    [v release];
+//}
+
+//+ (void)showMsg:(NSString*)message title:(NSString*)title delegate:(id)delegate tag:(int)aTag {
+//    UIAlertView* v = [[UIAlertView alloc] initWithTitle: title message: message delegate: delegate cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
+//    v.tag = aTag;
+//    [v show];
+//    [v release];
+//}
+
++ (NSString*)retrieveTitleWithCode:(int)aCode {
+    NSString* titleMsg = (aCode == 0) ? @"" : [GlobalSharedClass shared].errorTitle;
+    return titleMsg;
 }
 
-+ (void)showMsg:(NSString*)message title:(NSString*)title delegate:(id)delegate {
-    UIAlertView *v = [[UIAlertView alloc] initWithTitle: title message: message delegate: delegate cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
-    [v show];
-    [v release];
-}
-
-+ (void)showMsg:(NSString*)message title:(NSString*)title delegate:(id)delegate tag:(int)aTag {
-    UIAlertView* v = [[UIAlertView alloc] initWithTitle: title message: message delegate: delegate cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
-    v.tag = aTag;
-    [v show];
-    [v release];
++ (void)showDialogBox:(NSString*)message title:(NSString*)title target:(UIViewController*)aTarget handler:(void (^)(UIAlertAction* action))handler {
+    UIViewController* myArcosRootViewController = [self getRootView];
+    UIAlertController* tmpDialogBox = [self createDialogBox:message title:title handler:handler];
+    if (myArcosRootViewController.presentedViewController == nil) {
+//            NSLog(@"a1");
+        [myArcosRootViewController presentViewController:tmpDialogBox animated:YES completion:nil];
+    } else if (aTarget != nil && aTarget.presentedViewController == nil) {
+//            NSLog(@"a2");
+        [aTarget presentViewController:tmpDialogBox animated:YES completion:nil];
+    } else {
+        
+    }
 }
 
 + (void)showDialogBox:(NSString*)message title:(NSString*)title delegate:(id)delegate target:(UIViewController*)aTarget tag:(int)aTag handler:(void (^)(UIAlertAction* action))handler {
-    if ([UIAlertController class]) {
-        UIViewController* myArcosRootViewController = [self getRootView];
-        UIAlertController* tmpDialogBox = [self createDialogBox:message title:title handler:handler];
-        if (myArcosRootViewController.presentedViewController == nil) {
+    UIViewController* myArcosRootViewController = [self getRootView];
+    UIAlertController* tmpDialogBox = [self createDialogBox:message title:title handler:handler];
+    if (myArcosRootViewController.presentedViewController == nil) {
 //            NSLog(@"a1");
-            [myArcosRootViewController presentViewController:tmpDialogBox animated:YES completion:nil];
-        } else if (aTarget != nil && aTarget.presentedViewController == nil) {
+        [myArcosRootViewController presentViewController:tmpDialogBox animated:YES completion:nil];
+    } else if (aTarget != nil && aTarget.presentedViewController == nil) {
 //            NSLog(@"a2");
-            [aTarget presentViewController:tmpDialogBox animated:YES completion:nil];
-        } else {
-//            NSLog(@"a3");
-            UIAlertView* v = [[UIAlertView alloc] initWithTitle:title message:message delegate:delegate cancelButtonTitle:@"OK" otherButtonTitles: nil, nil];
-            v.tag = aTag;
-            [v show];
-            [v release];
-        }
+        [aTarget presentViewController:tmpDialogBox animated:YES completion:nil];
     } else {
-        UIAlertView* v = [[UIAlertView alloc] initWithTitle:title message:message delegate:delegate cancelButtonTitle:@"OK" otherButtonTitles: nil, nil];
-        v.tag = aTag;
-        [v show];
-        [v release];
+//            NSLog(@"a3");
+//            UIAlertView* v = [[UIAlertView alloc] initWithTitle:title message:message delegate:delegate cancelButtonTitle:@"OK" otherButtonTitles: nil, nil];
+//            v.tag = aTag;
+//            [v show];
+//            [v release];
+    }
+//    if ([UIAlertController class]) {
+        
+//    } else {
+//        UIAlertView* v = [[UIAlertView alloc] initWithTitle:title message:message delegate:delegate cancelButtonTitle:@"OK" otherButtonTitles: nil, nil];
+//        v.tag = aTag;
+//        [v show];
+//        [v release];
+//    }
+}
+
++ (void)showTwoBtnsDialogBox:(NSString*)message title:(NSString*)title target:(UIViewController*)aTarget lBtnText:(NSString*)lBtnText rBtnText:(NSString*)rBtnText lBtnHandler:(void (^)(UIAlertAction* action))lBtnHandler rBtnHandler:(void (^)(UIAlertAction* action))rBtnHandler {
+    UIAlertController* tmpDialogBox = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* lBtnAction = [UIAlertAction actionWithTitle:lBtnText style:UIAlertActionStyleDefault handler:lBtnHandler];
+    [tmpDialogBox addAction:lBtnAction];
+    UIAlertAction* rBtnAction = [UIAlertAction actionWithTitle:rBtnText style:UIAlertActionStyleDefault handler:rBtnHandler];
+    [tmpDialogBox addAction:rBtnAction];
+    UIViewController* myArcosRootViewController = [self getRootView];
+    if (myArcosRootViewController.presentedViewController == nil) {
+        [myArcosRootViewController presentViewController:tmpDialogBox animated:YES completion:nil];
+    } else if (aTarget != nil && aTarget.presentedViewController == nil) {
+        [aTarget presentViewController:tmpDialogBox animated:YES completion:nil];
+    } else {
+        
     }
 }
 
@@ -110,10 +146,10 @@
     } else if (aTarget != nil && aTarget.presentedViewController == nil) {
         [aTarget presentViewController:tmpDialogBox animated:YES completion:nil];
     } else {
-        UIAlertView* v = [[UIAlertView alloc] initWithTitle:title message:message delegate:delegate cancelButtonTitle:lBtnText otherButtonTitles:rBtnText, nil];
-        v.tag = aTag;
-        [v show];
-        [v release];
+//        UIAlertView* v = [[UIAlertView alloc] initWithTitle:title message:message delegate:delegate cancelButtonTitle:lBtnText otherButtonTitles:rBtnText, nil];
+//        v.tag = aTag;
+//        [v show];
+//        [v release];
     }
 }
 
@@ -147,11 +183,11 @@
     return (aDate == nil) ? [NSNull null] : aDate;
 }
 
-+ (void)showMsg:(NSString*)message delegate:(id)delegate {
-    UIAlertView *v = [[UIAlertView alloc] initWithTitle: @"" message: message delegate: delegate cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
-    [v show];
-    [v release];
-}
+//+ (void)showMsg:(NSString*)message delegate:(id)delegate {
+//    UIAlertView *v = [[UIAlertView alloc] initWithTitle: @"" message: message delegate: delegate cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
+//    [v show];
+//    [v release];
+//}
 
 + (NSString*)convertToString:(id)data {
     return [NSString stringWithFormat:@"%@", data];

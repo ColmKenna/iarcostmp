@@ -42,6 +42,7 @@
     CoreLocationController* _CLController;
     SubMenuListingDataManager* _subMenuListingDataManager;
     BOOL _locationCoordinateCaptured;
+    UIImagePickerController* _imagePicker;
 }
 
 @property(nonatomic, retain) NewOrderViewController* myNewOrderViewController;
@@ -66,5 +67,6 @@
 @property(nonatomic, retain) CoreLocationController* CLController;
 @property(nonatomic, retain) SubMenuListingDataManager* subMenuListingDataManager;
 @property(nonatomic, assign) BOOL locationCoordinateCaptured;
+@property(nonatomic, retain) UIImagePickerController* imagePicker;
 
 @end

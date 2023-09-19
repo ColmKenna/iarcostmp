@@ -133,6 +133,8 @@ static GlobalSharedClass* _shared = nil;
 //@synthesize currentSelectedPackage = _currentSelectedPackage;
 @synthesize currentSelectedPackageIUR = _currentSelectedPackageIUR;
 @synthesize packageViewCount = _packageViewCount;
+@synthesize noMailAcctMsg = _noMailAcctMsg;
+@synthesize noMailAcctTitle = _noMailAcctTitle;
 
 +(GlobalSharedClass*)shared 
 {
@@ -269,6 +271,8 @@ static GlobalSharedClass* _shared = nil;
         self.myAppBlueColor = [UIColor colorWithRed:0.0 green:150.0/255.0 blue:214.0/255.0 alpha:1.0];
         self.mySystemBlueColor = [UIColor colorWithRed:0.0 green:132.0/255.0 blue:254.0/255.0 alpha:1.0];
         self.packageViewCount = 0;
+        self.noMailAcctMsg = @"Please set up a Mail account in order to send email";
+        self.noMailAcctTitle = @"No Mail Account";
 	}
     
 	return self;
@@ -633,6 +637,8 @@ CGFloat RadiansToDegrees(CGFloat radians)
     self.mySystemBlueColor = nil;
 //    self.currentSelectedPackage = nil;
     self.currentSelectedPackageIUR = nil;
+    self.noMailAcctMsg = nil;
+    self.noMailAcctTitle = nil;
     
     [super dealloc];
 }

@@ -24,6 +24,7 @@
 - (void)ResourceStatusTextWithValue:(NSString*)aValue;
 - (void)GotFailWithErrorResourcesFileDelegate:(NSError *)anError;
 - (void)GotErrorWithResourcesFile:(NSError *)anError;
+- (UIViewController*)retrieveUpdateCenterParentViewController;
 @end
 
 @interface UpdateCenter : NSObject <WebServiceSharedClassDelegate>{

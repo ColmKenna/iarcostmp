@@ -151,6 +151,8 @@ typedef enum {
     UIColor* _mySystemBlueColor;
     NSNumber* _currentSelectedPackageIUR;
     int _packageViewCount;
+    NSString* _noMailAcctMsg;
+    NSString* _noMailAcctTitle;
 }
 
 +(GlobalSharedClass*)shared;
@@ -275,6 +277,8 @@ typedef enum {
 //@property (nonatomic,retain) NSMutableDictionary* currentSelectedPackage;
 @property (nonatomic,retain) NSNumber* currentSelectedPackageIUR;
 @property (nonatomic,assign) int packageViewCount;
+@property (nonatomic,retain) NSString* noMailAcctMsg;
+@property (nonatomic,retain) NSString* noMailAcctTitle;
 
 //usful functions
 - (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber;

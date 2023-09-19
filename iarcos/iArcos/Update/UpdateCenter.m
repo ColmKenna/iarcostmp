@@ -278,4 +278,8 @@
     [self.delegate GotErrorWithResourcesFile:anError];
 }
 
+- (UIViewController*)retrieveWebServiceParentViewController {
+    return [self.delegate retrieveUpdateCenterParentViewController];
+}
+
 @end
