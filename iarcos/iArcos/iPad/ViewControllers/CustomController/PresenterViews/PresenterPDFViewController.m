@@ -191,7 +191,7 @@
             self.mailController.mailComposeDelegate = self;
             
             [self.mailController setToRecipients:toRecipients];
-            [self.arcosRootViewController presentViewController:self.mailController animated:YES completion:nil];
+            [self presentViewController:self.mailController animated:YES completion:nil];
         } else {
             [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Invalid scheme found.\n%@", [[request URL] absoluteString]] title:@"" delegate:nil target:self tag:0 handler:nil];
         }
@@ -260,18 +260,18 @@
     if (result != MFMailComposeResultFailed) {
         [self alertViewCallBack];
     } else {
-        [ArcosUtils showDialogBox:message title:title delegate:self target:controller tag:99 handler:^(UIAlertAction *action) {
+        [ArcosUtils showDialogBox:message title:title target:controller handler:^(UIAlertAction *action) {
             [self alertViewCallBack];
         }];
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    [self alertViewCallBack];
-}
+//- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+//    [self alertViewCallBack];
+//}
 
 - (void)alertViewCallBack {
-    [self.arcosRootViewController dismissViewControllerAnimated:YES completion:^ {
+    [self dismissViewControllerAnimated:YES completion:^ {
         self.mailController = nil;
     }];
 }

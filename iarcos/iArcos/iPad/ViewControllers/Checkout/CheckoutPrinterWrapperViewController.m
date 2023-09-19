@@ -405,9 +405,9 @@
 }
 
 #pragma mark UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    [self emailButtonPressed:nil];
-}
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    [self emailButtonPressed:nil];
+//}
 
 - (void)performReceiptPrintingTask {
     EAAccessoryManager* manager = [EAAccessoryManager sharedAccessoryManager];

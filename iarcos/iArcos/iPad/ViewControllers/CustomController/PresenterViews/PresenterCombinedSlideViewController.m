@@ -464,21 +464,21 @@
 }
 
 #pragma mark - UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if ([self.emailButtonAddressSelectDelegate isKindOfClass:[EmailAllButtonAddressSelectDataManager class]]) {
-        [self emailAllAlertView:alertView clickedButtonAtIndex:buttonIndex];
-    } else if ([self.emailButtonAddressSelectDelegate isKindOfClass:[EmailOneButtonAddressSelectDataManager class]]) {
-        [self emailOneAlertView:alertView clickedButtonAtIndex:buttonIndex];
-    }
-}
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    if ([self.emailButtonAddressSelectDelegate isKindOfClass:[EmailAllButtonAddressSelectDataManager class]]) {
+//        [self emailAllAlertView:alertView clickedButtonAtIndex:buttonIndex];
+//    } else if ([self.emailButtonAddressSelectDelegate isKindOfClass:[EmailOneButtonAddressSelectDataManager class]]) {
+//        [self emailOneAlertView:alertView clickedButtonAtIndex:buttonIndex];
+//    }
+//}
 
 - (void)emailAllDidSelectEmailRecipientRow:(NSDictionary*)cellData {
     [super didSelectEmailRecipientRow:cellData];
 }
 
-- (void)emailAllAlertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    [super alertView:alertView clickedButtonAtIndex:buttonIndex];
-}
+//- (void)emailAllAlertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    [super alertView:alertView clickedButtonAtIndex:buttonIndex];
+//}
 
 - (void)emailOneDidSelectEmailRecipientRow:(NSDictionary*)cellData {
 //    [self.emailPopover dismissPopoverAnimated:YES];
@@ -498,7 +498,7 @@
         [self processSelectEmailRecipientRow:self.auxEmailCellData dataList:emailDataList];
     }
 }
-
+/*
 - (void)emailOneAlertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag != 36) return;
     if (buttonIndex == [alertView cancelButtonIndex]) {
@@ -515,5 +515,5 @@
         [self processSelectEmailRecipientRow:self.auxEmailCellData dataList:emailDataList];
     }
 }
-
+*/
 @end

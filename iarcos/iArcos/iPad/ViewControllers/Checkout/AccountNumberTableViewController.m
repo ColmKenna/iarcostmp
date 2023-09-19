@@ -147,12 +147,12 @@
 }
 
 #pragma mark UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == 0){
-        //Code that will run after you press ok button
-        [self alertActionCallBack];
-    }
-}
+//-(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+//    if(buttonIndex == 0){
+//        //Code that will run after you press ok button
+//        [self alertActionCallBack];
+//    }
+//}
 
 #pragma mark - Table view data source
 

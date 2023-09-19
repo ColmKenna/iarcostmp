@@ -228,7 +228,8 @@
             self.checkoutDataManager.isNotFirstTimeCustomerMsg = YES;
             int topxNum = [ArcosUtils convertNSUIntegerToUnsignedInt:[self.checkoutDataManager.topxList count]];
             if (topxNum > 0) {
-                [ArcosUtils showMsg:[NSString stringWithFormat:@"%d top %d products have been excluded from order.", topxNum, self.checkoutDataManager.topxNumber] delegate:nil];
+//                [ArcosUtils showMsg:[NSString stringWithFormat:@"%d top %d products have been excluded from order.", topxNum, self.checkoutDataManager.topxNumber] delegate:nil];
+                [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%d top %d products have been excluded from order.", topxNum, self.checkoutDataManager.topxNumber] title:@"" target:self handler:nil];
             }
         }
     } else {
@@ -239,7 +240,8 @@
         if (!self.checkoutDataManager.isNotFirstTimeCompanyMsg) {
             self.checkoutDataManager.isNotFirstTimeCompanyMsg = YES;
             if (self.checkoutDataManager.flaggedProductsNumber > 0) {
-                [ArcosUtils showMsg:[NSString stringWithFormat:@"%d flagged products have been excluded from order.", self.checkoutDataManager.flaggedProductsNumber] delegate:nil];
+//                [ArcosUtils showMsg:[NSString stringWithFormat:@"%d flagged products have been excluded from order.", self.checkoutDataManager.flaggedProductsNumber] delegate:nil];
+                [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%d flagged products have been excluded from order.", self.checkoutDataManager.flaggedProductsNumber] title:@"" target:self handler:nil];
             }
         }
     }
@@ -492,6 +494,7 @@
 }
 
 #pragma marks alert delegate
+/*
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (alertView.tag==88) {
         int itemIndex = [self.myRootViewController.customerMasterViewController.customerMasterDataManager retrieveIndexByTitle:[GlobalSharedClass shared].customerText];
@@ -512,7 +515,7 @@
         }
     }
 }
-
+*/
 #pragma mark NextCheckoutOrderInfoDelegate
 
 - (UIView*)retrieveOrderInfoHeaderView:(NSInteger)aSection {

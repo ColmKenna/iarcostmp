@@ -46,13 +46,13 @@
     [self.globalNavigationController.view setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.customiseTemplateView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(0)-[AuxFormRows]-(0)-|" options:0 metrics:0 views:self.layoutDict]];
     [self.customiseTemplateView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[AuxFormRows]-(0)-|" options:0 metrics:0 views:self.layoutDict]];
-    UIBezierPath* maskPath = [UIBezierPath bezierPathWithRoundedRect:self.customiseTemplateView.bounds byRoundingCorners:(UIRectCornerTopLeft|UIRectCornerTopRight) cornerRadii:CGSizeMake(10.0f, 10.0f)];
-    
-    CAShapeLayer* maskLayer = [[CAShapeLayer alloc] init];
-    maskLayer.frame = self.customiseTemplateView.bounds;
-    maskLayer.path = maskPath.CGPath;
-    self.customiseTemplateView.layer.mask = maskLayer;
-    [maskLayer release];
+//    UIBezierPath* maskPath = [UIBezierPath bezierPathWithRoundedRect:self.customiseTemplateView.bounds byRoundingCorners:(UIRectCornerTopLeft|UIRectCornerTopRight) cornerRadii:CGSizeMake(10.0f, 10.0f)];
+//    
+//    CAShapeLayer* maskLayer = [[CAShapeLayer alloc] init];
+//    maskLayer.frame = self.customiseTemplateView.bounds;
+//    maskLayer.path = maskPath.CGPath;
+//    self.customiseTemplateView.layer.mask = maskLayer;
+//    [maskLayer release];
 }
 
 - (void)dealloc {

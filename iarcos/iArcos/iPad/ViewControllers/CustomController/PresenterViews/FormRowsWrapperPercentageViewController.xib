@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
-    <device id="ipad9_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14109"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -22,20 +19,18 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oJQ-Qp-jqB">
-                    <rect key="frame" x="32" y="256" width="704" height="768"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="704" id="La3-th-Asm"/>
-                    </constraints>
+                    <rect key="frame" x="38.5" y="256" width="691" height="768"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="oJQ-Qp-jqB" firstAttribute="width" secondItem="GdF-l4-g19" secondAttribute="width" multiplier="0.9" id="N6X-xc-CLO"/>
                 <constraint firstItem="oJQ-Qp-jqB" firstAttribute="centerX" secondItem="GdF-l4-g19" secondAttribute="centerX" id="Xcp-6d-Y6x"/>
                 <constraint firstAttribute="bottom" secondItem="oJQ-Qp-jqB" secondAttribute="bottom" id="ezr-L3-97f"/>
                 <constraint firstItem="oJQ-Qp-jqB" firstAttribute="height" secondItem="GdF-l4-g19" secondAttribute="height" multiplier="0.75" id="mh7-Ip-i8Q"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-159" y="59"/>
+            <point key="canvasLocation" x="-116.34146341463415" y="30"/>
         </view>
     </objects>
 </document>

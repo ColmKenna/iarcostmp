@@ -204,13 +204,14 @@
     
     //check any customer 
     if ([GlobalSharedClass shared].currentSelectedLocationIUR ==nil){     
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"No Customer selected!" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
-                                                        otherButtonTitles:nil];
-        actionSheet.tag=0;
-        actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-        [actionSheet showInView:self.parentViewController.view];
+//        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"No Customer selected!" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
+//                                                        otherButtonTitles:nil];
+//        actionSheet.tag=0;
+//        actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//        [actionSheet showInView:self.parentViewController.view];
 //        [actionSheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
-        [actionSheet release];
+//        [actionSheet release];
+        [ArcosUtils showDialogBox:@"No Customer selected!" title:@"" delegate:nil target:self tag:0 handler:nil];
         return;
     }
     //no form
@@ -220,12 +221,13 @@
             [OrderSharedClass sharedOrderSharedClass].currentFormIUR = defaultFormIUR;
             [[OrderSharedClass sharedOrderSharedClass] insertFormIUR:defaultFormIUR];
         } else {
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"No Form selected!" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
-                                                            otherButtonTitles:nil];
-            actionSheet.tag=0;
-            actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-            [actionSheet showInView:self.parentViewController.view];
-            [actionSheet release];
+//            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"No Form selected!" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
+//                                                            otherButtonTitles:nil];
+//            actionSheet.tag=0;
+//            actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//            [actionSheet showInView:self.parentViewController.view];
+//            [actionSheet release];
+            [ArcosUtils showDialogBox:@"No Form selected!" title:@"" delegate:nil target:self tag:0 handler:nil];
             return;
         }
     }
@@ -354,13 +356,14 @@
         
         //check is product already in the current selected form
         if (!isProductInCurrentForm) {
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Product is not in the current selected form!" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
-                                                            otherButtonTitles:nil];
-            actionSheet.tag=0;
-            actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-            [actionSheet showInView:self.parentViewController.view];
-//            [actionSheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
-            [actionSheet release];
+//            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Product is not in the current selected form!" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
+//                                                            otherButtonTitles:nil];
+//            actionSheet.tag=0;
+//            actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//            [actionSheet showInView:self.parentViewController.view];
+////            [actionSheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
+//            [actionSheet release];
+            [ArcosUtils showDialogBox:@"Product is not in the current selected form!" title:@"" delegate:nil target:self tag:0 handler:nil];
             return;
         }
         
@@ -446,7 +449,8 @@
                     }
                 }
                 if ([products count] == 0) {
-                    [ArcosUtils showMsg:@"Please Check for Active Product Group Assignments." delegate:nil];
+//                    [ArcosUtils showMsg:@"Please Check for Active Product Group Assignments." delegate:nil];
+                    [ArcosUtils showDialogBox:@"Please Check for Active Product Group Assignments." title:@"" delegate:nil target:self tag:0 handler:nil];
                     return;
                 }            
             }
@@ -521,7 +525,8 @@
                 }                        
             }
             if ([products count] == 0) {
-                [ArcosUtils showMsg:@"Please Check for Active Product Group Assignments." delegate:nil];
+//                [ArcosUtils showMsg:@"Please Check for Active Product Group Assignments." delegate:nil];
+                [ArcosUtils showDialogBox:@"Please Check for Active Product Group Assignments." title:@"" delegate:nil target:self tag:0 handler:nil];
                 return;
             }
         }        
@@ -576,12 +581,14 @@
             
         }];
     }else{
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"No data found" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
-                                                        otherButtonTitles:nil];
-        actionSheet.tag=0;
-        actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-        [actionSheet showInView:self.parentViewController.view];
-        [actionSheet release];
+//        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"No data found" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
+//                                                        otherButtonTitles:nil];
+//        actionSheet.tag=0;
+//        actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//        [actionSheet showInView:self.parentViewController.view];
+//        [actionSheet release];
+        [ArcosUtils showDialogBox:@"No data found" title:@"" delegate:nil target:self tag:0 handler:nil];
+        
     }
 }
 #pragma mark FormRowsTableViewControllerDelegate
@@ -618,17 +625,20 @@
 - (void)checkFileSizeWithIndex:(int)aRowPointer {
     NSMutableDictionary* tmpPresenterProduct = [self.candidateRemovedFileList objectAtIndex:aRowPointer];
     NSString* message = [NSString stringWithFormat:@"Are you sure to attach %@ which is %@?", [tmpPresenterProduct objectForKey:@"Name"], [tmpPresenterProduct objectForKey:@"fileSize"]];
-    UIAlertView* v = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
-    v.tag = 36;
-    [v show];
-    [v release];
-}
-#pragma mark - UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag != 36) return;
-    if (buttonIndex == [alertView cancelButtonIndex]) {
+//    UIAlertView* v = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+//    v.tag = 36;
+//    [v show];
+//    [v release];
+    void (^yesActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        [self checkFileSizeProcessor];
+    };
+    void (^noActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
         [self.removedFileList addObject:[self.candidateRemovedFileList objectAtIndex:self.rowPointer]];
-    }
+        [self checkFileSizeProcessor];
+    };
+    [ArcosUtils showTwoBtnsDialogBox:message title:@"" target:self lBtnText:@"NO" rBtnText:@"YES" lBtnHandler:noActionHandler rBtnHandler:yesActionHandler];
+}
+- (void)checkFileSizeProcessor {
     self.rowPointer++;
     if (self.rowPointer != [self.candidateRemovedFileList count]) {
         [self checkFileSizeWithIndex:self.rowPointer];
@@ -636,26 +646,50 @@
         [self processSelectEmailRecipientRow:self.auxEmailCellData dataList:self.files];
     }
 }
+#pragma mark - UIAlertViewDelegate
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    if (alertView.tag != 36) return;
+//    if (buttonIndex == [alertView cancelButtonIndex]) {
+//        [self.removedFileList addObject:[self.candidateRemovedFileList objectAtIndex:self.rowPointer]];
+//    }
+//    self.rowPointer++;
+//    if (self.rowPointer != [self.candidateRemovedFileList count]) {
+//        [self checkFileSizeWithIndex:self.rowPointer];
+//    } else {
+//        [self processSelectEmailRecipientRow:self.auxEmailCellData dataList:self.files];
+//    }
+//}
 
 #pragma mark - EmailRecipientDelegate
 - (void)didSelectEmailRecipientRow:(NSDictionary*)cellData {    
 //    [self.emailPopover dismissPopoverAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
-    self.auxEmailCellData = cellData;
-    self.rowPointer = 0;
-    self.removedFileList = [NSMutableArray array];
-    [self getOverSizeFileListFromDataList:self.files];
-    if ([self.candidateRemovedFileList count] > 0) {
-        [self checkFileSizeWithIndex:self.rowPointer];
-    } else {
-        [self processSelectEmailRecipientRow:self.auxEmailCellData dataList:self.files];
-    }
+    [self dismissViewControllerAnimated:YES completion:^ {
+        self.auxEmailCellData = cellData;
+        self.rowPointer = 0;
+        self.removedFileList = [NSMutableArray array];
+        [self getOverSizeFileListFromDataList:self.files];
+        if ([self.candidateRemovedFileList count] > 0) {
+            [self checkFileSizeWithIndex:self.rowPointer];
+        } else {
+            [self processSelectEmailRecipientRow:self.auxEmailCellData dataList:self.files];
+        }
+    }];
+//    self.auxEmailCellData = cellData;
+//    self.rowPointer = 0;
+//    self.removedFileList = [NSMutableArray array];
+//    [self getOverSizeFileListFromDataList:self.files];
+//    if ([self.candidateRemovedFileList count] > 0) {
+//        [self checkFileSizeWithIndex:self.rowPointer];
+//    } else {
+//        [self processSelectEmailRecipientRow:self.auxEmailCellData dataList:self.files];
+//    }
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
     NSString* message = nil;
     NSString* title = nil;
-    UIAlertView* v = nil;
+//    UIAlertView* v = nil;
+    BOOL alertShowedFlag = NO;
     switch (result) {
         case MFMailComposeResultSent: {            
             message = @"Sent Email OK";
@@ -664,21 +698,28 @@
 //            v = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
 //            [v show];
 //            [v release];
+            
         }
             break;
             
         case MFMailComposeResultFailed: {
             message = [error localizedDescription];
-            v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: nil cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
-            [v show];
-            [v release];
+//            v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: nil cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
+//            [v show];
+//            [v release];
+            alertShowedFlag = YES;
+            [ArcosUtils showDialogBox:message title:@"Error !" delegate:nil target:controller tag:0 handler:^(UIAlertAction *action) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
         }            
             break;
             
         default:
             break;
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (!alertShowedFlag) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (NSString*)getMimeTypeWithFileName:(NSString*)aFileName {
@@ -733,7 +774,7 @@
         [self smtpMailView:cellData dataList:aDataList];
         return;
     }
-    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
+    if (![ArcosEmailValidator checkCanSendMailStatus:self]) return;
     MFMailComposeViewController* mailComposeViewController = [[MFMailComposeViewController alloc] init];
     mailComposeViewController.mailComposeDelegate = self;
     NSString* emailAddress = [cellData objectForKey:@"Email"];

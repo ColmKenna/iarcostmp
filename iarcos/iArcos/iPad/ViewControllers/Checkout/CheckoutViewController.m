@@ -278,12 +278,12 @@
         self.CustomerRef.userInteractionEnabled=NO;
         
         // open an alert 
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning" 
-                                                        message:@"Please select a customer!" delegate:self cancelButtonTitle:@"OK"
-                                              otherButtonTitles: nil];
-        alert.tag=88;
-        [alert show];	
-        [alert release];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
+//                                                        message:@"Please select a customer!" delegate:self cancelButtonTitle:@"OK"
+//                                              otherButtonTitles: nil];
+//        alert.tag=88;
+//        [alert show];
+//        [alert release];
     }
 }
 - (void)viewWillAppear:(BOOL)animated{
@@ -302,7 +302,7 @@
             self.checkoutDataManager.isNotFirstTimeCustomerMsg = YES;
             int topxNum = [ArcosUtils convertNSUIntegerToUnsignedInt:[self.checkoutDataManager.topxList count]];
             if (topxNum > 0) {
-                [ArcosUtils showMsg:[NSString stringWithFormat:@"%d top %d products have been excluded from order.", topxNum, self.checkoutDataManager.topxNumber] delegate:nil];
+//                [ArcosUtils showMsg:[NSString stringWithFormat:@"%d top %d products have been excluded from order.", topxNum, self.checkoutDataManager.topxNumber] delegate:nil];
             }
         }
     } else {
@@ -313,7 +313,7 @@
         if (!self.checkoutDataManager.isNotFirstTimeCompanyMsg) {
             self.checkoutDataManager.isNotFirstTimeCompanyMsg = YES;
             if (self.checkoutDataManager.flaggedProductsNumber > 0) {
-                [ArcosUtils showMsg:[NSString stringWithFormat:@"%d flagged products have been excluded from order.", self.checkoutDataManager.flaggedProductsNumber] delegate:nil];
+//                [ArcosUtils showMsg:[NSString stringWithFormat:@"%d flagged products have been excluded from order.", self.checkoutDataManager.flaggedProductsNumber] delegate:nil];
             }
         }
     }
@@ -816,6 +816,7 @@ else{//No order line inputed yet
 }
 #pragma action sheet delegate
 //action sheet delegate
+/*
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
 //    NSLog(@"action sheet click in index %d",buttonIndex);
 
@@ -848,7 +849,7 @@ else{//No order line inputed yet
             break;
     }
 }
-
+*/
 #pragma mark widget delegate
 -(void)operationDone:(id)data{
 //    NSLog(@"operation is done from delegate--%@",data);
@@ -1078,13 +1079,11 @@ else{//No order line inputed yet
     
 }
 #pragma marks alert delegate
+/*
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (alertView.tag==88) {//no customer alert
         //root tab bar
-        /*
-        ArcosAppDelegate_iPad *delegate = [[UIApplication sharedApplication] delegate];
-        UITabBarController* tabbar=(UITabBarController*) delegate.mainTabbarController;
-        */
+        
         //redirct to the customer pad
 //        self.rootView.selectedIndex=1;
         int itemIndex = [self.rootView.customerMasterViewController.customerMasterDataManager retrieveIndexByTitle:[GlobalSharedClass shared].customerText];
@@ -1098,7 +1097,7 @@ else{//No order line inputed yet
         [self saveButtonCallBack];
     }
 }
-
+*/
 -(void)backPressed:(id)sender {
     [self.navigationController popViewControllerAnimated:NO];
 //    [self.delegate dismissUIViewAnimation];

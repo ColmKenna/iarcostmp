@@ -152,7 +152,8 @@
 //    [self.indicatorView stopAnimating];
     [self.HUD hide:YES];
     if ([error code] != NSURLErrorCancelled) {
-        [ArcosUtils showMsg:[error localizedDescription] delegate:nil];
+//        [ArcosUtils showMsg:[error localizedDescription] delegate:nil];
+        [ArcosUtils showDialogBox:[error localizedDescription] title:@"" target:self handler:nil];
     }    
 }
 
