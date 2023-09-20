@@ -325,14 +325,24 @@
 - (void)savePressed:(id)sender {
     if ([self.orderLineDetailProductDataManager.orderLineOrderCart count] == 0) {
         NSString* tmpTitleText = @"Deleting all order lines will delete the order header.";
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:tmpTitleText
-                                                                 delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete"
-                                                        otherButtonTitles:@"Cancel",nil];
-        
-        actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-        [actionSheet showInView:self.navigationController.view];
-//        [actionSheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
-        [actionSheet release];
+//        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:tmpTitleText
+//                                                                 delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete"
+//                                                        otherButtonTitles:@"Cancel",nil];
+//
+//        actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//        [actionSheet showInView:self.navigationController.view];
+////        [actionSheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
+//        [actionSheet release];
+        void (^lBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+            
+        };
+        void (^rBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+            BOOL resultFlag = [[ArcosCoreData sharedArcosCoreData] deleteOrderHeaderWithOrderNumber:self.orderLineDetailProductDataManager.orderNumber];
+            if (resultFlag) {
+                [self.saveDelegate didDeleteAllOrderlinesFinish];
+            }
+        };
+        [ArcosUtils showTwoBtnsDialogBox:tmpTitleText title:@"" target:self lBtnText:@"Cancel" rBtnText:@"Delete" lBtnHandler:lBtnActionHandler rBtnHandler:rBtnActionHandler];
     } else {
         [[ArcosCoreData sharedArcosCoreData] saveOrderLineWithOrderNumber:self.orderLineDetailProductDataManager.orderNumber withOrderlines:self.orderLineDetailProductDataManager.orderLineOrderCart];
         [self.saveDelegate didSaveOrderlinesFinish];        
@@ -340,6 +350,7 @@
 }
 
 //action sheet delegate
+/*
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{    
     switch (buttonIndex) {
         case 1://cancel button do nothing
@@ -355,7 +366,7 @@
             break;
     }
 }
-
+*/
 #pragma mark - search bar delegate
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
 //    self.mySearchBar.showsCancelButton = YES;

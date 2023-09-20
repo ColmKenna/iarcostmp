@@ -15,6 +15,7 @@
 @implementation MeetingAttachmentsHeaderViewController
 @synthesize actionDelegate = _actionDelegate;
 @synthesize addButton = _addButton;
+@synthesize imagePicker = _imagePicker;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -23,6 +24,7 @@
 
 - (void)dealloc {
     self.addButton = nil;
+    self.imagePicker = nil;
     
     [super dealloc];
 }
@@ -30,29 +32,30 @@
 - (IBAction)addButtonPressed:(id)sender {
     [FileCommon createFolder:@"photos"];
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[GlobalSharedClass shared].errorTitle
-                                                        message:@"No camera available"
-                                                       delegate:nil cancelButtonTitle:@"Ok"
-                                              otherButtonTitles:nil];
-        [alert show];
-        [alert release];
+//        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[GlobalSharedClass shared].errorTitle
+//                                                        message:@"No camera available"
+//                                                       delegate:nil cancelButtonTitle:@"Ok"
+//                                              otherButtonTitles:nil];
+//        [alert show];
+//        [alert release];
+        [ArcosUtils showDialogBox:@"No camera available" title:[GlobalSharedClass shared].errorTitle target:self handler:nil];
         return;
     }
     // Create image picker controller
-    UIImagePickerController* imagePicker = [[UIImagePickerController alloc] init];
+    self.imagePicker = [[[UIImagePickerController alloc] init] autorelease];
     
     // Set source to the camera
-    imagePicker.sourceType =  UIImagePickerControllerSourceTypeCamera;
+    self.imagePicker.sourceType =  UIImagePickerControllerSourceTypeCamera;
     
     // Delegate is self
-    imagePicker.delegate = self;
+    self.imagePicker.delegate = self;
     
     // Allow editing of image ?
-    imagePicker.allowsEditing = NO;
+    self.imagePicker.allowsEditing = NO;
     
     // Show image picker
-    [[self.actionDelegate retrieveParentViewController] presentViewController:imagePicker animated:YES completion:nil];
-    [imagePicker release];
+    [[self.actionDelegate retrieveParentViewController] presentViewController:self.imagePicker animated:YES completion:nil];
+//    [imagePicker release];
 }
 
 #pragma mark image piker delegate
@@ -63,7 +66,7 @@
         [[self.actionDelegate retrieveParentViewController].view endEditing:YES];
         UITextField* myTextField = [tmpDialogBox.textFields objectAtIndex:0];
         [self processTextFieldFileName:myTextField.text didFinishPickingMediaWithInfo:info];
-        [[self.actionDelegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
+//        [[self.actionDelegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
     }];
     UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
         [[self.actionDelegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
@@ -83,7 +86,7 @@
 
 - (void)processTextFieldFileName:(NSString*)aTextFieldFileName didFinishPickingMediaWithInfo:(NSDictionary*)info {
     UIImage* image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    
+    BOOL alertShowedFlag = NO;
     @try {
         NSNumber* fileSequenceNumber = [GlobalSharedClass shared].currentTimeStamp;
         NSString* fileName = [NSString stringWithFormat:@"%@.jpg", fileSequenceNumber];
@@ -96,11 +99,22 @@
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
             [self.actionDelegate addMeetingAttachmentsRecordWithFileName:fileName];
         } else {
-            [ArcosUtils showMsg:-1 message:@"The photo has not been saved." delegate:nil];
+//            [ArcosUtils showMsg:-1 message:@"The photo has not been saved." delegate:nil];
+            alertShowedFlag = YES;
+            [ArcosUtils showDialogBox:@"The photo has not been saved." title:[ArcosUtils retrieveTitleWithCode:-1] target:self.imagePicker handler:^(UIAlertAction *action) {
+                [[self.actionDelegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
+            }];
         }
     }
     @catch (NSException *exception) {
-        [ArcosUtils showMsg:[exception reason] delegate:nil];
+//        [ArcosUtils showMsg:[exception reason] delegate:nil];
+        alertShowedFlag = YES;
+        [ArcosUtils showDialogBox:[exception reason] title:@"" target:self.imagePicker handler:^(UIAlertAction *action) {
+            [[self.actionDelegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
+        }];
+    }
+    if (!alertShowedFlag) {
+        [[self.actionDelegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
     }
 }
 

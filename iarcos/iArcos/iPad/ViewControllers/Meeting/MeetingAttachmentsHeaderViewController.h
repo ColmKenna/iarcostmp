@@ -13,10 +13,12 @@
 @interface MeetingAttachmentsHeaderViewController : UIViewController <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate> {
     id<MeetingAttachmentsHeaderViewControllerDelegate> _actionDelegate;
     UIButton* _addButton;
+    UIImagePickerController* _imagePicker;
 }
 
 @property(nonatomic, assign) id<MeetingAttachmentsHeaderViewControllerDelegate> actionDelegate;
 @property(nonatomic, retain) IBOutlet UIButton* addButton;
+@property(nonatomic, retain) UIImagePickerController* imagePicker;
 
 - (IBAction)addButtonPressed:(id)sender;
 

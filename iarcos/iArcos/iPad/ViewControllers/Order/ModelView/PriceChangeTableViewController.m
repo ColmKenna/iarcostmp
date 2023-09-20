@@ -67,7 +67,8 @@
 //    NSLog(@"abc12 %@", [myNewPriceDict objectForKey:@"FieldData"]);
     NSString* myNewPrice = [myNewPriceDict objectForKey:@"FieldData"];
     if ([myNewPrice isEqualToString:@""]) {
-        [ArcosUtils showMsg:@"Please enter a special price" delegate:nil];
+//        [ArcosUtils showMsg:@"Please enter a special price" delegate:nil];
+        [ArcosUtils showDialogBox:@"Please enter a special price" title:@"" target:self handler:nil];
         return;
     }
     [self.delegate saveButtonWithNewPrice:[ArcosUtils convertStringToDecimalNumber:myNewPrice]];

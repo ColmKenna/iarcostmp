@@ -209,14 +209,14 @@
             [self.navigationController pushViewController:oftvc animated:YES];
         }else{
             // open a dialog
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Plese select a customer first!"
-                                                                     delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Select Customer"
-                                                            otherButtonTitles:@"Cancel",nil];
-            
-            actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-            
-            [actionSheet showInView:self.parentViewController.parentViewController.view];
-            [actionSheet release];
+//            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Plese select a customer first!"
+//                                                                     delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Select Customer"
+//                                                            otherButtonTitles:@"Cancel",nil];
+//
+//            actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//
+//            [actionSheet showInView:self.parentViewController.parentViewController.view];
+//            [actionSheet release];
         }
         [oftvc release];
         
@@ -256,12 +256,13 @@
     [navigationController_detail release];
 }
 //action sheet delegate
+/*
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
 //    NSLog(@"action sheet click in index %d",buttonIndex);
     //root tab bar
-    /*
-    ArcosAppDelegate_iPad *delegate = [[UIApplication sharedApplication] delegate];
-    */
+    
+//    ArcosAppDelegate_iPad *delegate = [[UIApplication sharedApplication] delegate];
+    
     UITabBarController* tabbar=(UITabBarController*) [ArcosUtils getRootView];
     
     switch (buttonIndex) {
@@ -276,7 +277,7 @@
             break;
     }
 }
-
+*/
 #pragma mark - Split view controller delegate
 /*
 - (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {

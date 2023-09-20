@@ -691,7 +691,8 @@
     NSNumber* unitsPerPack = [self.Data objectForKey:@"UnitsPerPack"];
 //    NSLog(@"unitsPerPack: %d", [unitsPerPack intValue]);
     if ([splitPacksStringNumberValue intValue] >= [unitsPerPack intValue]) {
-        [ArcosUtils showMsg:[NSString stringWithFormat:@"The value can not be greater or equal to %d.", [unitsPerPack intValue]] delegate:nil];
+//        [ArcosUtils showMsg:[NSString stringWithFormat:@"The value can not be greater or equal to %d.", [unitsPerPack intValue]] delegate:nil];
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"The value can not be greater or equal to %d.", [unitsPerPack intValue]] title:@"" target:self handler:nil];
         return NO;
     }
     
@@ -932,7 +933,8 @@
         if (unitsPerPackInteger > 1) {
             int qtyInteger = [qty intValue];
             if (qtyInteger % unitsPerPackInteger != 0) {
-                [ArcosUtils showMsg:[NSString stringWithFormat:@"Stock can only be ordered in multiples of %d", unitsPerPackInteger] delegate:nil];
+//                [ArcosUtils showMsg:[NSString stringWithFormat:@"Stock can only be ordered in multiples of %d", unitsPerPackInteger] delegate:nil];
+                [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Stock can only be ordered in multiples of %d", unitsPerPackInteger] title:@"" target:self handler:nil];
                 return;
             }
         }
@@ -1224,7 +1226,8 @@
     self.DiscountField.hidden = !aFlag;
 }
 - (void)showBonusFocusCheckMinimumMsg:(int)aBonusValue {
-    [ArcosUtils showMsg:[NSString stringWithFormat:@"Bonus is restricted to %d for %d\n Minimum order qty of %d\nBonus allowed %d", [[self.Data objectForKey:@"BonusGiven"] intValue], [[self.Data objectForKey:@"BonusRequired"] intValue], [[self.Data objectForKey:@"BonusMinimum"] intValue], aBonusValue] delegate:nil];
+//    [ArcosUtils showMsg:[NSString stringWithFormat:@"Bonus is restricted to %d for %d\n Minimum order qty of %d\nBonus allowed %d", [[self.Data objectForKey:@"BonusGiven"] intValue], [[self.Data objectForKey:@"BonusRequired"] intValue], [[self.Data objectForKey:@"BonusMinimum"] intValue], aBonusValue] delegate:nil];
+    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Bonus is restricted to %d for %d\n Minimum order qty of %d\nBonus allowed %d", [[self.Data objectForKey:@"BonusGiven"] intValue], [[self.Data objectForKey:@"BonusRequired"] intValue], [[self.Data objectForKey:@"BonusMinimum"] intValue], aBonusValue] title:@"" target:self handler:nil];
 }
 
 - (NSMutableDictionary*)interpretBonusDeal:(NSString*)aBonusDeal {

@@ -187,12 +187,13 @@
 }
 
 #pragma mark - UIAlertViewDelegate
+/*
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex != [alertView cancelButtonIndex] && alertView.tag == 100) {
         [self deleteAttachmentsProcessor];
     }
 }
-
+*/
 #pragma mark ModalPresentViewControllerDelegate
 - (void)didDismissModalPresentViewController {
     [self dismissViewControllerAnimated:YES completion:nil];

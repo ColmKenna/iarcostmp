@@ -235,7 +235,7 @@
 //added by Richard
 //This is for location email button.
 -(IBAction)emailButtonPressed:(id)sender {
-    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
+    if (![ArcosEmailValidator checkCanSendMailStatus:self]) return;
     emailAction = 1;
     
     self.mailController = [[[MFMailComposeViewController alloc] init]autorelease]; 
@@ -258,7 +258,7 @@
     [self presentViewController:self.mailController animated:YES completion:nil];    
 }
 -(IBAction)wholesalerEmailButtonPressed:(id)sender {
-    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
+    if (![ArcosEmailValidator checkCanSendMailStatus:self]) return;
     NSLog(@"Wholesaler email button is pressed.");
     emailAction = 2;
     self.mailController = [[[MFMailComposeViewController alloc] init]autorelease]; 
@@ -278,7 +278,7 @@
     [self presentViewController:self.mailController animated:YES completion:nil];
 }
 -(IBAction)contactEmailButtonPressed:(id)sender {
-    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
+    if (![ArcosEmailValidator checkCanSendMailStatus:self]) return;
     emailAction = 3;
     self.mailController = [[[MFMailComposeViewController alloc] init]autorelease];                            
     self.mailController.mailComposeDelegate = self;
@@ -303,7 +303,7 @@
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {    
     NSString *message;
-    UIAlertView *v = nil;
+//    UIAlertView *v = nil;
     // Notifies users about errors associated with the interface
     switch (result) {
         case MFMailComposeResultCancelled:
@@ -319,18 +319,18 @@
             if (emailAction == 2) {//email to wholesaler 
                 
             } else {                
-                v = [[UIAlertView alloc] initWithTitle:@"App Email" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                [v show];
-                [v release];
+//                v = [[UIAlertView alloc] initWithTitle:@"App Email" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//                [v show];
+//                [v release];
             }
         }            
             break;
             
         case MFMailComposeResultFailed: {
             message = @"Failed to Send Email";
-            v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: self cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
-            [v show];
-            [v release];
+//            v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: self cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
+//            [v show];
+//            [v release];
         }            
             break;
             

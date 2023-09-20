@@ -231,15 +231,15 @@
     NSDictionary* configDict = [[ArcosCoreData sharedArcosCoreData] configWithIUR:[NSNumber numberWithInt:0]];
     return [configDict objectForKey:@"StandardLocationCode"];
 }
-
+/*
 -(BOOL)checkCanSendMailStatus {
     if (![MFMailComposeViewController canSendMail]) {
-        UIAlertView *v = [[UIAlertView alloc] initWithTitle: @"No Mail Account" message: @"Please set up a Mail account in order to send email" delegate: nil cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
-        [v show];
-        [v release];
+//        UIAlertView *v = [[UIAlertView alloc] initWithTitle: @"No Mail Account" message: @"Please set up a Mail account in order to send email" delegate: nil cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
+//        [v show];
+//        [v release];
         return NO;
     }
     return YES;
-}
+}*/
 
 @end

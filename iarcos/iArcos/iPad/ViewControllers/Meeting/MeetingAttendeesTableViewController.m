@@ -173,6 +173,7 @@
 }
 
 #pragma mark - UIAlertViewDelegate
+/*
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex != [alertView cancelButtonIndex] && alertView.tag == 100) {
         [self deleteContactProcessor];
@@ -181,7 +182,7 @@
         [self deleteEmployeeProcessor];
     }
 }
-
+*/
 /*
 #pragma mark - Table view delegate
 

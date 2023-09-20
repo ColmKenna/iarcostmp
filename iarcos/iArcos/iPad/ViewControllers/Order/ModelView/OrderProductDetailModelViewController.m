@@ -234,11 +234,11 @@
         [self.delegate didDismissModalView];
     }else{
         // open an alert with just an OK button
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Input Error" 
-                                                        message:@"Please give a valid value!" delegate:self cancelButtonTitle:@"OK"
-                                              otherButtonTitles: nil];
-        [alert show];	
-        [alert release];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Input Error" 
+//                                                        message:@"Please give a valid value!" delegate:self cancelButtonTitle:@"OK"
+//                                              otherButtonTitles: nil];
+//        [alert show];	
+//        [alert release];
     }
     
 }

@@ -253,19 +253,25 @@
     BOOL isSuccess = [self.settingManager saveSetting];
     BOOL isExtendedSuccessful = [self.extendedSettingManager saveSetting];
     if (isSuccess && isExtendedSuccessful) {
-        [ArcosUtils showMsg:@"Target is saved." delegate:self];        
+//        [ArcosUtils showMsg:@"Target is saved." delegate:self];
+        [ArcosUtils showDialogBox:@"Target is saved." title:@"" target:self handler:^(UIAlertAction *action) {
+            [self.delegate refreshParentContent];
+            [self.delegate dismissPopoverController];
+        }];
     } else {
-        [ArcosUtils showMsg:@"Fail to save the Target." delegate:nil];
+//        [ArcosUtils showMsg:@"Fail to save the Target." delegate:nil];
+        [ArcosUtils showDialogBox:@"Fail to save the Target." title:@"" target:self handler:nil];
     }    
 }
 
 #pragma mark UIAlertViewDelegate
+/*
 -(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
     if(buttonIndex == 0){
         //Code that will run after you press ok button        
         [self.delegate refreshParentContent];
         [self.delegate dismissPopoverController];
     }
-}
+}*/
 
 @end

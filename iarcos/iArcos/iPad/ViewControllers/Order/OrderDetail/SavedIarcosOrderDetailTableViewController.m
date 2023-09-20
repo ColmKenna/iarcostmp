@@ -541,12 +541,12 @@
 }
 
 #pragma mark UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == 0 && alertView.tag == 999999){
-        //Code that will run after you press ok button
-        [self saveButtonCallBack];
-    }
-}
+//-(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+//    if(buttonIndex == 0 && alertView.tag == 999999){
+//        //Code that will run after you press ok button
+//        [self saveButtonCallBack];
+//    }
+//}
 
 #pragma mark - EmailRecipientDelegate
 - (void)didSelectEmailRecipientRow:(NSDictionary*)cellData {
@@ -600,7 +600,13 @@
         }];
         return;
     }
-    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
+    if (![MFMailComposeViewController canSendMail]) {
+        [self dismissViewControllerAnimated:YES completion:^ {
+            [ArcosUtils showDialogBox:[GlobalSharedClass shared].noMailAcctMsg title:[GlobalSharedClass shared].noMailAcctTitle delegate:nil target:self tag:0 handler:nil];
+        }];
+        return;
+    }
+//    if (![ArcosEmailValidator checkCanSendMailStatus:self]) return;
 //    [self.emailPopover dismissPopoverAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
     
@@ -628,9 +634,13 @@
 //        return;
 //    }
     if (result.ErrorModel.Code >= 0) {
-        self.savedIarcosOrderDetailDataManager.taskObjectList = result.ArrayOfData;        
+        self.savedIarcosOrderDetailDataManager.taskObjectList = result.ArrayOfData;
     } else if(result.ErrorModel.Code < 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:self];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:self];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self.emailNavigationController handler:^(UIAlertAction *action) {
+            [self didSelectEmailRecipientRowProcessor:self.savedIarcosOrderDetailDataManager.selectedEmailRecipientDict taskData:self.savedIarcosOrderDetailDataManager.taskObjectList];
+        }];
+        return;
     }
     [self didSelectEmailRecipientRowProcessor:self.savedIarcosOrderDetailDataManager.selectedEmailRecipientDict taskData:self.savedIarcosOrderDetailDataManager.taskObjectList];
 }
@@ -638,7 +648,7 @@
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
     NSString* message = nil;
     NSString* title = nil;
-    UIAlertView* v = nil;
+//    UIAlertView* v = nil;
     // Notifies users about errors associated with the interface
     switch (result) {
         case MFMailComposeResultCancelled:
@@ -653,17 +663,18 @@
             message = @"Sent Email OK";
             title = @"App Email";
             [self mailComposeResultMessageProcessor:&message title:&title];
-            v = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [v show];
-            [v release];
+//            v = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//            [v show];
+//            [v release];
         }
             break;
             
         case MFMailComposeResultFailed: {
             message = @"Failed to Send Email";
-            v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: self cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
-            [v show];
-            [v release];
+            title = @"Error !";
+//            v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: self cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
+//            [v show];
+//            [v release];
         }
             break;
             
@@ -671,15 +682,31 @@
             message = @"Result: not sent";
             break;
     }
-    
+    if (result == MFMailComposeResultSent || result == MFMailComposeResultFailed) {
+        [ArcosUtils showDialogBox:message title:title target:controller handler:^(UIAlertAction *action) {
+            [self mailDismissViewControllerProcessor:result];
+        }];
+    } else {
+        [self mailDismissViewControllerProcessor:result];
+    }
     // display an error
 //    NSLog(@"Email sending error message %@ ", message);
+//    [self dismissViewControllerAnimated:YES completion:^{
+//        BOOL successFlag = NO;
+//        if (result == MFMailComposeResultSent) {
+//            successFlag = YES;
+//        }
+//        [self dismissEmailEndProcessor:successFlag];
+//    }];
+}
+
+- (void)mailDismissViewControllerProcessor:(MFMailComposeResult)result {
     [self dismissViewControllerAnimated:YES completion:^{
         BOOL successFlag = NO;
         if (result == MFMailComposeResultSent) {
             successFlag = YES;
         }
-        [self dismissEmailEndProcessor:successFlag];        
+        [self dismissEmailEndProcessor:successFlag];
     }];
 }
 
@@ -718,7 +745,8 @@
         [self createEmailRecipientTableViewController:self.savedOrderDetailCellData];
         [self.tableView reloadData];
     } else if(result.ErrorModel.Code <= 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 
@@ -734,7 +762,8 @@
         [self createEmailRecipientTableViewController:self.savedOrderDetailCellData];
         [self.tableView reloadData];
     } else if(result.ErrorModel.Code <= 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 
@@ -773,36 +802,45 @@
 //    [self.actionPopover dismissPopoverAnimated:NO];
 //    self.actionPopover = nil;
 //    self.factory.popoverController = nil;
-    [self dismissViewControllerAnimated:YES completion:nil];
-    NSMutableDictionary* auxDataDict = (NSMutableDictionary*)data;
-    switch ([[auxDataDict objectForKey:@"ActionType"] intValue]) {
-        case 1: {
-//            [self.emailPopover presentPopoverFromBarButtonItem:self.actionBarButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-            self.emailNavigationController.modalPresentationStyle = UIModalPresentationPopover;
-            self.emailNavigationController.popoverPresentationController.barButtonItem = self.actionBarButton;
-            self.emailNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
-            [self presentViewController:self.emailNavigationController animated:YES completion:nil];
-        }            
-            break;
-        case 2: {
-            NSMutableDictionary* statusDict = [[SettingManager setting] getSettingForKeypath:@"CompanySetting.Default Types" atIndex:3];
-            NSDictionary* orderStatusDescDict = [[ArcosCoreData sharedArcosCoreData] descriptionWithIURActive:[statusDict objectForKey:@"Value"]];
-            self.repeatOrderDataManager.orderStatusIUR = [statusDict objectForKey:@"Value"];
-            NSString* orderStatusDescDetail = [orderStatusDescDict objectForKey:@"Detail"];
-            
-            if (orderStatusDescDetail == nil || [orderStatusDescDetail isEqualToString:@""]) {
-                orderStatusDescDetail = @"Undefined";
+    [self dismissViewControllerAnimated:YES completion:^ {
+        NSMutableDictionary* auxDataDict = (NSMutableDictionary*)data;
+        switch ([[auxDataDict objectForKey:@"ActionType"] intValue]) {
+            case 1: {
+    //            [self.emailPopover presentPopoverFromBarButtonItem:self.actionBarButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+                self.emailNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+                self.emailNavigationController.popoverPresentationController.barButtonItem = self.actionBarButton;
+                self.emailNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+                [self presentViewController:self.emailNavigationController animated:YES completion:nil];
             }
-            NSString* message = [NSString stringWithFormat:@"Do you want to generate a new %@ order", orderStatusDescDetail];
-            UIAlertView* v = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"YES" otherButtonTitles:@"NO", nil];
-            v.tag = 36;
-            [v show];
-            [v release];
+                break;
+            case 2: {
+                NSMutableDictionary* statusDict = [[SettingManager setting] getSettingForKeypath:@"CompanySetting.Default Types" atIndex:3];
+                NSDictionary* orderStatusDescDict = [[ArcosCoreData sharedArcosCoreData] descriptionWithIURActive:[statusDict objectForKey:@"Value"]];
+                self.repeatOrderDataManager.orderStatusIUR = [statusDict objectForKey:@"Value"];
+                NSString* orderStatusDescDetail = [orderStatusDescDict objectForKey:@"Detail"];
+                
+                if (orderStatusDescDetail == nil || [orderStatusDescDetail isEqualToString:@""]) {
+                    orderStatusDescDetail = @"Undefined";
+                }
+                NSString* message = [NSString stringWithFormat:@"Do you want to generate a new %@ order", orderStatusDescDetail];
+    //            UIAlertView* v = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"YES" otherButtonTitles:@"NO", nil];
+    //            v.tag = 36;
+    //            [v show];
+    //            [v release];
+                void (^lBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+                    [self yesActionPressedProcessor];
+                };
+                void (^rBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+                    
+                };
+                [ArcosUtils showTwoBtnsDialogBox:message title:@"" target:self lBtnText:@"YES" rBtnText:@"NO" lBtnHandler:lBtnActionHandler rBtnHandler:rBtnActionHandler];
+            }
+                break;
+            default:
+                break;
         }
-            break;            
-        default:
-            break;
-    }    
+    }];
+        
 }
 
 -(void)dismissPopoverController {
@@ -843,13 +881,13 @@
 }
 
 #pragma mark - UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag != 36) return;
-    if (buttonIndex == [alertView cancelButtonIndex]) {//yes action        
-        [self yesActionPressedProcessor];
-    } else {//no action
-    }    
-}
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    if (alertView.tag != 36) return;
+//    if (buttonIndex == [alertView cancelButtonIndex]) {//yes action
+//        [self yesActionPressedProcessor];
+//    } else {//no action
+//    }
+//}
 
 #pragma mark - SlideAcrossViewAnimationDelegate
 -(void)dismissSlideAcrossViewAnimation {

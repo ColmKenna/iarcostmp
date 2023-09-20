@@ -24,6 +24,6 @@
 -(NSString*)buildEmailMessageWithController;
 -(NSString*)employeeName;
 -(NSString*)companyName;
--(BOOL)checkCanSendMailStatus;
+//-(BOOL)checkCanSendMailStatus;
 
 @end
