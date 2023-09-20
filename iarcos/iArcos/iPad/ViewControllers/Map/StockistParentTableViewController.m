@@ -190,7 +190,8 @@
 - (void)getStockistParentData {
     [self getDefaultStockistParentData];
     if ([self.displayList count] == 0) {
-        [ArcosUtils showMsg:@"Please create the Level Description." delegate:nil];
+//        [ArcosUtils showMsg:@"Please create the Level Description." delegate:nil];
+        [ArcosUtils showDialogBox:@"Please create the Level Description." title:@"" target:self handler:nil];
     }    
 }
 

@@ -580,11 +580,11 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
-- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 99) {
-        [self alertViewCallBack];
-    }
-}
+//- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+//    if (alertView.tag == 99) {
+//        [self alertViewCallBack];
+//    }
+//}
 -(BOOL)checkBasicInfo{
     //chek the order header items
 //    NSMutableDictionary* basicInfo=[[self.detailingSelections objectAtIndex:0]objectAtIndex:0];
@@ -879,18 +879,26 @@
     
     if (anyCall) {
         // open a dialog
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"You have detailing in progress! Do you want to delete current detailing?"
-                                                                 delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
-                                                        otherButtonTitles:@"Cancel",nil];
-        
-        actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-        [actionSheet showInView:self.view];
-//        [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
-        [actionSheet release];
+//        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"You have detailing in progress! Do you want to delete current detailing?"
+//                                                                 delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
+//                                                        otherButtonTitles:@"Cancel",nil];
+//
+//        actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//        [actionSheet showInView:self.view];
+////        [actionSheet showFromBarButtonItem:self.navigationItem.leftBarButtonItem animated:YES];
+//        [actionSheet release];
+        void (^okActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+            [self.navigationController popViewControllerAnimated:YES];
+        };
+        void (^cancelActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+            
+        };
+        [ArcosUtils showTwoBtnsDialogBox:@"You have detailing in progress! Do you want to delete current detailing?" title:@"" target:self lBtnText:@"Cancel" rBtnText:@"OK" lBtnHandler:cancelActionHandler rBtnHandler:okActionHandler];
     }else{
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
+/*
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     switch (buttonIndex) {
         case 1://cancel button do nothing
@@ -903,7 +911,7 @@
         default:
             break;
     }
-}
+}*/
 #pragma mark setting input cell delegate
 -(void)editStartForIndexpath:(NSIndexPath*)theIndexpath{
     //[self showAuthorizeWarning];

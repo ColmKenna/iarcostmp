@@ -24,6 +24,7 @@
 -(void)setCreateRecordResult:(ArcosGenericClass*) result;
 -(void)setCreateMultipleRecordsResult:(NSMutableArray*) result;
 //-(void)setGetCustomerDataResult:(ArcosGenericReturnObject*) result;
+- (UIViewController*)retrieveCallGenericServicesParentViewController;
 @end
 
 

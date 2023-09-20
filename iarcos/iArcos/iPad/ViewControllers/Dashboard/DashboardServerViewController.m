@@ -213,7 +213,8 @@
             }
         }
         @catch (NSException *exception) {
-            [ArcosUtils showMsg:[exception reason] delegate:nil];
+//            [ArcosUtils showMsg:[exception reason] delegate:nil];
+            [ArcosUtils showDialogBox:[exception reason] title:@"" target:self handler:nil];
         }
     }
     self.dashboardServerDataManager.rowPointer++;

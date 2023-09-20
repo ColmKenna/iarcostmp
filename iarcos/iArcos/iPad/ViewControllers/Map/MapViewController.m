@@ -455,19 +455,21 @@
 - (void)didSelectStockistChildWithCellData:(NSDictionary *)aCellData {
 //    [self.stockistPopoverController dismissPopoverAnimated:YES];
 //    [annotationPopoverController dismissPopoverAnimated:YES];
-    [self.currentPopoverView dismissViewControllerAnimated:YES completion:nil];
-    [self dismissViewControllerAnimated:YES completion:nil];
-    int level = 0;
-    NSString* descrTypeCode = [aCellData objectForKey:@"DescrTypeCode"];
-    NSString* descrDetailCode = [aCellData objectForKey:@"DescrDetailCode"];
-    if ([descrTypeCode length] == 2) {
-        NSString* lastChar = [descrTypeCode substringFromIndex:1];
-        NSNumber* lastCharNumber = [ArcosUtils convertStringToNumber:lastChar];
-        level = [lastCharNumber intValue];
-    }
-    int employeeIUR = [[SettingManager employeeIUR] intValue];
-    //[ArcosUtils dateFromString:@"30/04/2012" format:[GlobalSharedClass shared].dateFormat]
-    [callGenericServices genericGetStockistWithEmployeeiur:employeeIUR longtitude:self.currentPopoverView.annotaion.coordinate.longitude latitude:self.currentPopoverView.annotaion.coordinate.latitude distance:self.currentPopoverView.radiusSlider.value areacode:@"" areaiur:0 level:level levelcode:descrDetailCode AsOfDate:[NSDate date] action:@selector(setGetStockistDataResult:) target:self];
+    [self.currentPopoverView dismissViewControllerAnimated:YES completion:^ {
+        [self dismissViewControllerAnimated:YES completion:^ {
+            int level = 0;
+            NSString* descrTypeCode = [aCellData objectForKey:@"DescrTypeCode"];
+            NSString* descrDetailCode = [aCellData objectForKey:@"DescrDetailCode"];
+            if ([descrTypeCode length] == 2) {
+                NSString* lastChar = [descrTypeCode substringFromIndex:1];
+                NSNumber* lastCharNumber = [ArcosUtils convertStringToNumber:lastChar];
+                level = [lastCharNumber intValue];
+            }
+            int employeeIUR = [[SettingManager employeeIUR] intValue];
+            //[ArcosUtils dateFromString:@"30/04/2012" format:[GlobalSharedClass shared].dateFormat]
+            [callGenericServices genericGetStockistWithEmployeeiur:employeeIUR longtitude:self.currentPopoverView.annotaion.coordinate.longitude latitude:self.currentPopoverView.annotaion.coordinate.latitude distance:self.currentPopoverView.radiusSlider.value areacode:@"" areaiur:0 level:level levelcode:descrDetailCode AsOfDate:[NSDate date] action:@selector(setGetStockistDataResult:) target:self];
+        }];
+    }];
 }
 
 - (void)setGetStockistDataResult:(ArcosGenericReturnObject*)result {
@@ -476,9 +478,11 @@
         return;
     }
     if (result.ErrorModel.Code < 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     } else if(result.ErrorModel.Code == 0) {
-        [ArcosUtils showMsg:@"No data available" delegate:nil];
+//        [ArcosUtils showMsg:@"No data available" delegate:nil];
+        [ArcosUtils showDialogBox:@"No data available" title:@"" target:self handler:nil];
     } else if(result.ErrorModel.Code > 0) {
         NSMutableArray* dataList = result.ArrayOfData;
         for (int i = 0; i < [dataList count]; i++) {
@@ -684,7 +688,8 @@
     } else {
         [check stop];
         //        [activityIndicator stopAnimating];
-        [ArcosUtils showMsg:check.errorString  delegate:nil];
+//        [ArcosUtils showMsg:check.errorString  delegate:nil];
+        [ArcosUtils showDialogBox:check.errorString title:@"" target:self handler:nil];
     }        
 }
 
@@ -700,7 +705,8 @@
         self.orders = result.ArrayOfData;
         [self dropOrderPins];
     } else if(result.ErrorModel.Code <= 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:self];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:self];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 
@@ -745,8 +751,9 @@
     
     [self clearPins];
 //    [datePickerPopover dismissPopoverAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
-    [connectivityCheck asyncStart];
+    [self dismissViewControllerAnimated:YES completion:^ {
+        [connectivityCheck asyncStart];
+    }];
 }
 
 -(void)stampLocation {

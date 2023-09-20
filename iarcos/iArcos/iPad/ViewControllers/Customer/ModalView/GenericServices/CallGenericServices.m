@@ -55,6 +55,18 @@
 }
 
 -(id)handleResultErrorProcess:(id)result {
+    UIViewController* myArcosRootViewController = [ArcosUtils getRootView];
+    UIViewController* myTarget = nil;
+    if (myArcosRootViewController.presentedViewController == nil) {
+        myTarget = myArcosRootViewController;
+    } else {
+        if ([self.delegate respondsToSelector:@selector(retrieveCallGenericServicesParentViewController)]) {
+            UIViewController* myParentViewController = [self.delegate retrieveCallGenericServicesParentViewController];
+            if (myParentViewController != nil && myParentViewController.presentedViewController == nil) {
+                myTarget = myParentViewController;
+            }
+        }
+    }
     if (self.showingLoading && self.isNotRecursion) {
         [self.HUD hide:YES];
     }    
@@ -67,7 +79,7 @@
 //        v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: nil cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
 //        [v show];
 //        [v release];
-        [ArcosUtils showDialogBox:message title:@"Error !" target:[ArcosUtils getRootView] handler:nil];
+        [ArcosUtils showDialogBox:message title:@"Error !" target:myTarget handler:nil];
         [self.HUD hide:YES];
         return nil;
     } else if ([result isKindOfClass:[SoapFault class]]) {
@@ -77,7 +89,7 @@
 //        v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: nil cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
 //        [v show];
 //        [v release];
-        [ArcosUtils showDialogBox:message title:@"Error !" target:[ArcosUtils getRootView] handler:nil];
+        [ArcosUtils showDialogBox:message title:@"Error !" target:myTarget handler:nil];
         [self.HUD hide:YES];
         return nil;
     }

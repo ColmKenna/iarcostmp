@@ -144,6 +144,10 @@
     NSLog(@"result: %@", result);
 }
 
+- (UIViewController*)retrieveCallGenericServicesParentViewController {
+    return self;
+}
+
 #pragma mark - Table view data source
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 44;
