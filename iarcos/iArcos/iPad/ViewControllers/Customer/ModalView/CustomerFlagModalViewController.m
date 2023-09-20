@@ -260,7 +260,8 @@
         [self.customerFlagDataManager processRawData:result.ArrayOfData];
         [self.tableView reloadData];
     } else if(result.ErrorModel.Code < 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 
@@ -268,7 +269,8 @@
     [self.customerFlagDataManager getChangedDataList];
 //    NSLog(@"changedDataList is %@", self.customerFlagDataManager.changedDataList);
     if ([self.customerFlagDataManager.changedDataList count] == 0) {
-        [ArcosUtils showMsg:@"There is no change." delegate:nil];
+//        [ArcosUtils showMsg:@"There is no change." delegate:nil];
+        [ArcosUtils showDialogBox:@"There is no change." title:@"" target:self handler:nil];
         return;
     }
     [self.callGenericServices createMultipleRecords:@"Flag" records:self.customerFlagDataManager.changedDataList];
@@ -278,16 +280,19 @@
     if (result == nil) {
         return;
     }
-    [ArcosUtils showMsg:@"Completed" delegate:self];
+//    [ArcosUtils showMsg:@"Completed" delegate:self];
+    [ArcosUtils showDialogBox:@"Completed" title:@"" target:self handler:^(UIAlertAction *action) {
+        [self.rcsStackedController popTopNavigationController:YES];
+    }];
 }
 
 #pragma mark UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == 0){  
-        //Code that will run after you press ok button 
-//        [self.navigationController popViewControllerAnimated:YES];
-        [self.rcsStackedController popTopNavigationController:YES];
-    }
-}
+//-(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+//    if(buttonIndex == 0){  
+//        //Code that will run after you press ok button 
+////        [self.navigationController popViewControllerAnimated:YES];
+//        [self.rcsStackedController popTopNavigationController:YES];
+//    }
+//}
 
 @end

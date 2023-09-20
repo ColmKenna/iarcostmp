@@ -189,7 +189,8 @@
                             //                        NSError* tmpError = nil;
                             CompositeErrorResult* tmpCompositeErrorResult = [FileCommon testCopyItemAtPath:srcFilePath toPath:descFilePath];
                             if (!tmpCompositeErrorResult.successFlag) {
-                                [ArcosUtils showMsg:tmpCompositeErrorResult.errorMsg delegate:nil];
+//                                [ArcosUtils showMsg:tmpCompositeErrorResult.errorMsg delegate:nil];
+                                [ArcosUtils showDialogBox:tmpCompositeErrorResult.errorMsg title:@"" target:[ArcosUtils getRootView] handler:nil];
                             }
                         }                        
                     }

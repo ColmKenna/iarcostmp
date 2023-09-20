@@ -171,7 +171,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     // Access the uncropped image from info dictionary
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    
+    BOOL alertShowedFlag = NO;
     // Save image
     @try {        
         NSString* auxFileName = [NSString stringWithFormat:@"%@.jpg",[GlobalSharedClass shared].currentTimeStamp];
@@ -188,9 +188,15 @@
         }
     }
     @catch (NSException *exception) {
-        [ArcosUtils showMsg:[exception reason] delegate:nil];
+//        [ArcosUtils showMsg:[exception reason] delegate:nil];
+        alertShowedFlag = YES;
+        [ArcosUtils showDialogBox:[exception reason] title:@"" target:picker handler:^(UIAlertAction *action) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }];
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (!alertShowedFlag) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }    
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {

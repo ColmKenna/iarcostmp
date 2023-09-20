@@ -308,7 +308,8 @@
         [self.callDetailListView reloadData];
         
     } else if(result.ErrorModel.Code <= 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:self];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:self];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
         
     }
 //    [activityIndicator stopAnimating];    

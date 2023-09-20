@@ -20,7 +20,7 @@
 #import "CustomerSurveyPreviewPhotoViewController.h"
 #import "CustomerSurveySectionHeader.h"
 
-@interface CustomerSurveyViewController : UITableViewController<CustomerSurveyTypesTableCellDelegate, CustomerSurveySlideDelegate,UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,CustomisePresentViewControllerDelegate, CustomerSurveyPreviewPhotoDelegate,UITableViewDataSource, UITableViewDelegate> {
+@interface CustomerSurveyViewController : UITableViewController<CustomerSurveyTypesTableCellDelegate, CustomerSurveySlideDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,CustomisePresentViewControllerDelegate, CustomerSurveyPreviewPhotoDelegate,UITableViewDataSource, UITableViewDelegate> {
     CustomerSurveyDataManager* _customerSurveyDataManager;
     CustomerSurveyTableCellFactory* cellFactory;
     IBOutlet UITableView* surveyListView; 

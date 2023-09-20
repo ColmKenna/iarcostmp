@@ -169,7 +169,7 @@
 
 //        [self.myWebView stringByEvaluatingJavaScriptFromString:@"document.body.style.zoom = 5.0;"];
     } else if(result.ErrorMsg.Code <= 0) {
-        [ArcosUtils showMsg:result.ErrorMsg.Code message:result.ErrorMsg.Message delegate:self];    
+//        [ArcosUtils showMsg:result.ErrorMsg.Code message:result.ErrorMsg.Message delegate:self];    
     }
 }
 

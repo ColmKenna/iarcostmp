@@ -59,7 +59,8 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField {
 //    NSLog(@"textFieldDidEndEditing");
     if (![self.responseLimits.text isEqualToString:@""] && ![ArcosValidator isInteger:self.responseLimits.text]) {
-        [ArcosUtils showMsg:-1 message:[NSString stringWithFormat:@"%@ is only allowed to input an integer.", self.narrative.text] delegate:nil];
+//        [ArcosUtils showMsg:-1 message:[NSString stringWithFormat:@"%@ is only allowed to input an integer.", self.narrative.text] delegate:nil];
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@ is only allowed to input an integer.", self.narrative.text] title:[ArcosUtils retrieveTitleWithCode:-1] target:[self.delegate retrieveParentViewController] handler:nil];
     }
     NSString* returnValue = self.responseLimits.text;
     if ([self.responseLimits.text isEqualToString:@""]) {

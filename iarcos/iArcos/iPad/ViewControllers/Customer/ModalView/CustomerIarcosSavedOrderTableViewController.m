@@ -207,11 +207,18 @@
         locationName = [[aLocaiton objectAtIndex:0] objectForKey:@"Name"];
     }
     
-    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"Are you sure you want to delete the %@ for %@",requestSourceText,locationName] delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete" otherButtonTitles:@"Cancel",nil];
-    
-    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-    [actionSheet showInView:self.view];
-    [actionSheet release];
+//    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"Are you sure you want to delete the %@ for %@",requestSourceText,locationName] delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete" otherButtonTitles:@"Cancel",nil];
+//
+//    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//    [actionSheet showInView:self.view];
+//    [actionSheet release];
+    void (^deleteActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        [self deleteCurrentOrderHeader];
+    };
+    void (^cancelActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        
+    };
+    [ArcosUtils showTwoBtnsDialogBox:[NSString stringWithFormat:@"Are you sure you want to delete the %@ for %@",requestSourceText,locationName] title:@"" target:self lBtnText:@"Cancel" rBtnText:@"Delete" lBtnHandler:cancelActionHandler rBtnHandler:deleteActionHandler];
 }
 
 - (void)deleteCurrentOrderHeader {
@@ -287,6 +294,7 @@
 }
 
 #pragma mark UIActionSheetDelegate
+/*
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     switch (buttonIndex) {
         case 1://cancel button do nothing
@@ -298,7 +306,7 @@
             break;
     }
 }
-
+*/
 #pragma mark CustomerIarcosSavedOrderDelegate
 - (void)sendPressedForCell:(CustomerIarcosSavedOrderTableCell *)cell {
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] recordPresenterTransactionFlag]) {
@@ -325,7 +333,8 @@
     }
     
     if (!isSuccess) {
-        [ArcosUtils showMsg:[NSString stringWithFormat: @"Something is wrong with order sending! (%@) You might try it again later!",reason] title:@"Warning" delegate:nil];
+//        [ArcosUtils showMsg:[NSString stringWithFormat: @"Something is wrong with order sending! (%@) You might try it again later!",reason] title:@"Warning" delegate:nil];
+        [ArcosUtils showDialogBox:[NSString stringWithFormat: @"Something is wrong with order sending! (%@) You might try it again later!",reason] title:@"Warning" target:self handler:nil];
         
         [self needSealTheCellWithOrderNumber:orderNumber need:NO];
         
@@ -343,14 +352,16 @@
 -(void)ServerFaultWithOrderNumber:(NSNumber*)orderNumber {
     NSString* reason=@"Server Fault";
     
-    [ArcosUtils showMsg:[NSString stringWithFormat: @"Something is wrong with order sending! (%@) You might try it again later!",reason] title:@"Warning" delegate:nil];
+//    [ArcosUtils showMsg:[NSString stringWithFormat: @"Something is wrong with order sending! (%@) You might try it again later!",reason] title:@"Warning" delegate:nil];
+    [ArcosUtils showDialogBox:[NSString stringWithFormat: @"Something is wrong with order sending! (%@) You might try it again later!",reason] title:@"Warning" target:self handler:nil];
     //stop all animations
     [self stopAllCellAnimation];
 }
 -(void)timeOutForOrderNumber:(NSNumber*)orderNumber {
     [self stopCellAnimationWithOrderNumber:orderNumber withStatus:NO];
     
-    [ArcosUtils showMsg:@"Time out for the order sending" title:@"Warning" delegate:nil];
+//    [ArcosUtils showMsg:@"Time out for the order sending" title:@"Warning" delegate:nil];
+    [ArcosUtils showDialogBox:@"Time out for the order sending" title:@"Warning" target:self handler:nil];
 }
 -(void)allOrdersDone:(NSNumber*)totalOrderSent {
     if (self.HUD != nil) {
@@ -367,7 +378,8 @@
             tmpMsg = [NSString stringWithFormat:@"%@ (photos also sent)", tmpMsg];
         }
     }
-    [ArcosUtils showMsg:tmpMsg title:@"Message" delegate:nil];
+//    [ArcosUtils showMsg:tmpMsg title:@"Message" delegate:nil];
+    [ArcosUtils showDialogBox:tmpMsg title:@"Message" target:self handler:nil];
     [self refreshTheList];
     if (self.customerIarcosSavedOrderDataManager.sendingSuccessFlag) {
         [self processNextNavControllerAfterSending:self.customerIarcosSavedOrderDataManager.sendingOrderNumber];
@@ -385,7 +397,8 @@
 }
 
 - (void)orderSenderErrorOccurredLocalNewItemsSending:(NSString *)anErrorMsg {
-    [ArcosUtils showMsg:anErrorMsg title:[GlobalSharedClass shared].errorTitle delegate:nil];
+//    [ArcosUtils showMsg:anErrorMsg title:[GlobalSharedClass shared].errorTitle delegate:nil];
+    [ArcosUtils showDialogBox:anErrorMsg title:[GlobalSharedClass shared].errorTitle target:self handler:nil];
 }
 
 - (void)checkConnection {
@@ -403,7 +416,8 @@
         [self.customerIarcosSavedOrderDataManager normaliseData];
         [self.senderCenter startSend];
     }else{
-        [ArcosUtils showMsg:check.errorString title:@"Warning" delegate:nil];
+//        [ArcosUtils showMsg:check.errorString title:@"Warning" delegate:nil];
+        [ArcosUtils showDialogBox:check.errorString title:@"Warning" target:self handler:nil];
         //remove all orders from center
         [self.senderCenter abandonAll];
         //refresh the talbe
@@ -567,7 +581,8 @@
     if (result.ErrorModel.Code > 0) {
         [self.customerIarcosSavedOrderDataManager processRemoteOrderRawData:result.ArrayOfData];
     } else if(result.ErrorModel.Code <= 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
     [self.tableView reloadData];
 }
@@ -578,7 +593,8 @@
     if (result.ErrorModel.Code > 0) {
         [self.customerIarcosSavedOrderDataManager processRemoteCallRawData:result.ArrayOfData];
     } else if(result.ErrorModel.Code <= 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
     [self.tableView reloadData];
 }

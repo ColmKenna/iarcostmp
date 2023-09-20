@@ -334,13 +334,13 @@
             tabbar.selectedIndex=3;
         }else{
             // open a dialog
-            NSString* currentCustomerName=[[OrderSharedClass sharedOrderSharedClass]currentCustomerName];
+//            NSString* currentCustomerName=[[OrderSharedClass sharedOrderSharedClass]currentCustomerName];
             
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"Your have an order in progress for %@!",currentCustomerName] delegate:self cancelButtonTitle:nil destructiveButtonTitle:[NSString stringWithFormat: @"Switch to %@",[aCustDict objectForKey:@"Name"]] otherButtonTitles:[NSString stringWithFormat:@"Finish for %@",currentCustomerName ],nil];
-            
-            actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-            [actionSheet showInView:self.view];
-            [actionSheet release];
+//            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"Your have an order in progress for %@!",currentCustomerName] delegate:self cancelButtonTitle:nil destructiveButtonTitle:[NSString stringWithFormat: @"Switch to %@",[aCustDict objectForKey:@"Name"]] otherButtonTitles:[NSString stringWithFormat:@"Finish for %@",currentCustomerName ],nil];
+//
+//            actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//            [actionSheet showInView:self.view];
+//            [actionSheet release];
         }
     }else{
         //clear all orders
@@ -365,11 +365,10 @@
     
 }
 //action sheet delegate
+/*
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
 //    NSLog(@"action sheet click in index %d",buttonIndex);
-    /*
-    ArcosAppDelegate_iPad *delegate = [[UIApplication sharedApplication] delegate];
-    */
+    
     UITabBarController* tabbar=(UITabBarController*) [ArcosUtils getRootView];
     
     switch (buttonIndex) {
@@ -401,7 +400,7 @@
     }
     
 
-}
+}*/
 //delegate
 -(void)buttonSelectedIndex:(NSInteger)index{
 //    [popoverController dismissPopoverAnimated:YES];

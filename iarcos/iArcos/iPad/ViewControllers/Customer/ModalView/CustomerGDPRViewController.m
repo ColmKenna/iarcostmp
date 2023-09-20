@@ -605,9 +605,9 @@
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    [self alertViewCallBack];
-}
+//- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+//    [self alertViewCallBack];
+//}
 
 - (void)alertViewCallBack {
     [self.rootView dismissViewControllerAnimated:YES completion:^ {

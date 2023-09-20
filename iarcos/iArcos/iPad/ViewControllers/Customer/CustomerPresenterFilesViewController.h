@@ -15,7 +15,7 @@
 #import "NSData+MD5.h"
 #import "SlideAcrossViewAnimationDelegate.h"
 
-@interface CustomerPresenterFilesViewController : UITableViewController <UIActionSheetDelegate>{
+@interface CustomerPresenterFilesViewController : UITableViewController {
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
     NSArray* _presenterFileList;
     IBOutlet UIView* tableHeader;

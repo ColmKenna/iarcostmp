@@ -50,11 +50,13 @@
     //sample data format Apples|Oranges|300|600
     //new sample data format 300|600|Apples|Oranges
     if ([responseLimitsArray count] != 4) {
-        [ArcosUtils showMsg:[NSString stringWithFormat:@"%@ is not correctly configured.", self.narrative.text] delegate:nil];
+//        [ArcosUtils showMsg:[NSString stringWithFormat:@"%@ is not correctly configured.", self.narrative.text] delegate:nil];
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@ is not correctly configured.", self.narrative.text] title:@"" target:[self.delegate retrieveParentViewController] handler:nil];
         return;
     }
     if (![ArcosValidator isDecimalWithUnlimitedPlaces:[responseLimitsArray objectAtIndex:0]] || ![ArcosValidator isDecimalWithUnlimitedPlaces:[responseLimitsArray objectAtIndex:1]]) {
-        [ArcosUtils showMsg:[NSString stringWithFormat:@"%@ is not correctly configured.", self.narrative.text] delegate:nil];
+//        [ArcosUtils showMsg:[NSString stringWithFormat:@"%@ is not correctly configured.", self.narrative.text] delegate:nil];
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@ is not correctly configured.", self.narrative.text] title:@"" target:[self.delegate retrieveParentViewController] handler:nil];
         return;
     }
     NSNumber* lowRange = [ArcosUtils convertStringToNumber:[ArcosUtils trim:[responseLimitsArray objectAtIndex:0]]];

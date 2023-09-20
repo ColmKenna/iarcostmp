@@ -154,7 +154,8 @@
             [self.typeList addObject:[NSNumber numberWithInt:1]];
         }
     } else if(result.ErrorModel.Code < 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
     [self processHeightList];
     [self.tableView reloadData];
@@ -190,7 +191,8 @@
             [self.typeList addObject:[NSNumber numberWithInt:2]];
         }
     } else if(result.ErrorModel.Code < 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
     if (result.ErrorModel.Code >= 0) {
         [self processHeightList];
@@ -220,7 +222,8 @@
     if ([[UIApplication sharedApplication] canOpenURL:myURL]) {
         [[UIApplication sharedApplication] openURL:myURL];
     } else {
-        [ArcosUtils showMsg:[NSString stringWithFormat:@"can not open %@", myURL] delegate:nil];
+//        [ArcosUtils showMsg:[NSString stringWithFormat:@"can not open %@", myURL] delegate:nil];
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"can not open %@", myURL] title:@"" target:self handler:nil];
     }
 }
 

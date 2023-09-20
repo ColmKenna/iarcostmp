@@ -44,7 +44,8 @@
         BOOL isConnected = [self.connectivityCheck syncStart];
 //        NSLog(@"isConnected %d", isConnected);
         if (!isConnected) {            
-            [ArcosUtils showMsg:-1 message:self.connectivityCheck.errorString delegate:nil];
+//            [ArcosUtils showMsg:-1 message:self.connectivityCheck.errorString delegate:nil];
+            [ArcosUtils showDialogBox:self.connectivityCheck.errorString title:[ArcosUtils retrieveTitleWithCode:-1] target:[ArcosUtils getRootView] handler:nil];
             return NO;            
         }
         self.HUD.labelText = @"Loading";    
@@ -57,24 +58,26 @@
     if (self.showingLoading && self.isNotRecursion) {
         [self.HUD hide:YES];
     }    
-    NSString *message;
-    UIAlertView *v;
+    NSString* message = @"";
+//    UIAlertView *v;
     if ([result isKindOfClass:[NSError class]]) {
         NSError* anError = (NSError*)result;
         message = [anError localizedDescription];
 //        NSLog(@"NSError class %@", message);
-        v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: nil cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
-        [v show];
-        [v release];
+//        v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: nil cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
+//        [v show];
+//        [v release];
+        [ArcosUtils showDialogBox:message title:@"Error !" target:[ArcosUtils getRootView] handler:nil];
         [self.HUD hide:YES];
         return nil;
     } else if ([result isKindOfClass:[SoapFault class]]) {
 //        NSLog(@"SoapFault class2");
         SoapFault* anSoapFault = (SoapFault*)result;
         message = [anSoapFault faultString];
-        v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: nil cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
-        [v show];
-        [v release];
+//        v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: nil cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
+//        [v show];
+//        [v release];
+        [ArcosUtils showDialogBox:message title:@"Error !" target:[ArcosUtils getRootView] handler:nil];
         [self.HUD hide:YES];
         return nil;
     }

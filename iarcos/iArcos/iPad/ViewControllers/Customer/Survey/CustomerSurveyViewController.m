@@ -316,7 +316,8 @@
 -(void)showSurveyDetail {
     if (self.customerSurveyDataManager.surveyDict != nil) {
         NSString* message = [NSString stringWithFormat:@"%@ from %@ to %@", [self.customerSurveyDataManager.surveyDict objectForKey:@"Narrative"], [ArcosUtils stringFromDate:[self.customerSurveyDataManager.surveyDict objectForKey:@"StartDate"] format:@"dd/MM/yyyy"], [ArcosUtils stringFromDate:[self.customerSurveyDataManager.surveyDict objectForKey:@"EndDate"] format:@"dd/MM/yyyy"]];
-        [ArcosUtils showMsg:message delegate:nil];
+//        [ArcosUtils showMsg:message delegate:nil];
+        [ArcosUtils showDialogBox:message title:@"" target:self handler:nil];
     }
     
 }
@@ -351,7 +352,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     // Access the uncropped image from info dictionary
     UIImage* image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    
+    BOOL alertShowedFlag = NO;
     // Save image
     @try {
         NSString* fileName = [NSString stringWithFormat:@"%@.jpg",[GlobalSharedClass shared].currentTimeStamp];
@@ -363,9 +364,15 @@
         }
     }
     @catch (NSException *exception) {
-        [ArcosUtils showMsg:[exception reason] delegate:nil];
+//        [ArcosUtils showMsg:[exception reason] delegate:nil];
+        alertShowedFlag = YES;
+        [ArcosUtils showDialogBox:[exception reason] title:@"" target:picker handler:^(UIAlertAction *action) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }];
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (!alertShowedFlag) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -526,13 +533,13 @@
 }
 
 #pragma mark UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == 0){  
-        //Code that will run after you press ok button 
-//        [self.navigationController popViewControllerAnimated:YES];
-        [self alertViewCallBack];
-    }
-}
+//-(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+//    if(buttonIndex == 0){  
+//        //Code that will run after you press ok button 
+////        [self.navigationController popViewControllerAnimated:YES];
+//        [self alertViewCallBack];
+//    }
+//}
 
 - (void)alertViewCallBack {
     self.isFirstLoadedFlag = YES;

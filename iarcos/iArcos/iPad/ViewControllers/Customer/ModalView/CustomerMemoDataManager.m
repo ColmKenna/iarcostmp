@@ -116,7 +116,8 @@
             }
         }
         @catch (NSException *exception) {
-            [ArcosUtils showMsg:[exception reason] delegate:nil];
+//            [ArcosUtils showMsg:[exception reason] delegate:nil];
+            [ArcosUtils showDialogBox:[exception reason] title:@"" target:[ArcosUtils getRootView] handler:nil];
         }
     } else if ([self.displayList count] == 0) {
         self.displayList = [NSMutableArray arrayWithCapacity:1];

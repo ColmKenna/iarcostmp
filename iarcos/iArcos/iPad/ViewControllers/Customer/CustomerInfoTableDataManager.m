@@ -262,7 +262,8 @@
     if (self.locationStatusDict != nil) {
         self.codeType = [self.locationStatusDict objectForKey:@"CodeType"];
         if ([self.codeType intValue] != 0) {
-            [ArcosUtils showMsg:[ArcosUtils convertNilToEmpty:[self.locationStatusDict objectForKey:@"Tooltip"]] delegate:nil];
+//            [ArcosUtils showMsg:[ArcosUtils convertNilToEmpty:[self.locationStatusDict objectForKey:@"Tooltip"]] delegate:nil];
+            [ArcosUtils showDialogBox:[ArcosUtils convertNilToEmpty:[self.locationStatusDict objectForKey:@"Tooltip"]] title:@"" target:[ArcosUtils getRootView] handler:nil];
         }
     }
 }

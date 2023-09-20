@@ -438,7 +438,7 @@
         return;
     }
     
-    if (![ArcosEmailValidator checkCanSendMailStatus:self]) return;
+    if (![ArcosEmailValidator checkCanSendMailStatus:self.emailNavigationController]) return;
 //    [self.emailPopover dismissPopoverAnimated:YES];
     self.mailController = [[[MFMailComposeViewController alloc] init] autorelease];
     self.mailController.mailComposeDelegate = self;
@@ -534,7 +534,7 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
-
+/*
 - (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 99) {
 //        [self.emailPopover dismissPopoverAnimated:YES];
@@ -547,7 +547,7 @@
     }
     
 }
-
+*/
 #pragma mark - CustomerPhotoDeleteActionViewControllerDelegate
 - (void)didPressDeleteButton:(int)aTag {
 //    NSLog(@"didPressDeleteButton: %d", aTag);

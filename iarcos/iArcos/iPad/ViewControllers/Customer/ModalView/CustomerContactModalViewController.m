@@ -334,6 +334,7 @@
 }
 
 #pragma mark UIAlertViewDelegate
+/*
 -(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
 //    if(buttonIndex == 0){
 //        //Code that will run after you press ok button
@@ -351,7 +352,7 @@
     }
     
 }
-
+*/
 #pragma mark - Table view data source
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -532,10 +533,25 @@
      if (editingStyle == UITableViewCellEditingStyleDelete) {         
          NSMutableDictionary* cellData = [self.customerContactTypesDataManager.linksLocationList objectAtIndex:indexPath.row];
          self.customerContactTypesDataManager.currentLinkIndexPathRow = indexPath.row;
-         UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"Are you sure you want to remove link to %@", [cellData objectForKey:@"Name"]] delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Remove" otherButtonTitles:@"Cancel", nil];
-         [actionSheet showInView:self.view];
-//         [actionSheet showFromRect:[ArcosUtils fromRect4ActionSheet:[self.tableView cellForRowAtIndexPath:indexPath]] inView:self.view animated:YES];
-         [actionSheet release];
+//         UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"Are you sure you want to remove link to %@", [cellData objectForKey:@"Name"]] delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Remove" otherButtonTitles:@"Cancel", nil];
+//         [actionSheet showInView:self.view];
+////         [actionSheet showFromRect:[ArcosUtils fromRect4ActionSheet:[self.tableView cellForRowAtIndexPath:indexPath]] inView:self.view animated:YES];
+//         [actionSheet release];
+         void (^removeActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+             if ([self.customerContactTypesDataManager.linksLocationList count] == 1) {
+                 [ArcosUtils showDialogBox:@"You can not remove the link as the contact needs at least one link." title:@"" target:self handler:^(UIAlertAction *action) {
+                     
+                 }];
+                 return;
+             }
+             NSMutableDictionary* linkLocDict = [self.customerContactTypesDataManager.linksLocationList objectAtIndex:self.customerContactTypesDataManager.currentLinkIndexPathRow];
+             callGenericServices.isNotRecursion = YES;
+             [callGenericServices genericDeleteRecord:@"ConLocLink" iur:[[linkLocDict objectForKey:@"LocLinkIUR"] intValue] action:@selector(setDeleteRecordDataResult:) target:self];
+         };
+         void (^cancelActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+             
+         };
+         [ArcosUtils showTwoBtnsDialogBox:[NSString stringWithFormat:@"Are you sure you want to remove link to %@", [cellData objectForKey:@"Name"]] title:@"" target:self lBtnText:@"Cancel" rBtnText:@"Remove" lBtnHandler:cancelActionHandler rBtnHandler:removeActionHandler];
      }     
  }
 
@@ -557,6 +573,7 @@
 }
 
 #pragma mark UIActionSheetDelegate
+/*
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{    
     switch (buttonIndex) {
         case 1://cancel button do nothing
@@ -577,7 +594,7 @@
             break;
     }
 }
-
+*/
 #pragma mark setDeleteRecordDataResult
 -(void)setDeleteRecordDataResult:(ArcosErrorModel*)result {
     result = [callGenericServices handleResultErrorProcess:result];
@@ -590,7 +607,7 @@
         [self.customerContactTypesDataManager getLinkData];
         [self.tableView reloadData];
     } else {
-        [ArcosUtils showDialogBox:result.Message title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+        [ArcosUtils showDialogBox:result.Message title:@"" target:self handler:^(UIAlertAction *action) {
             
         }];
     }

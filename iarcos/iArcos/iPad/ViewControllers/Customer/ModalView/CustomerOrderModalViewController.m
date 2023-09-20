@@ -338,7 +338,7 @@
         self.displayList = result.ArrayOfData;
         [self.tableView reloadData];        
     } else if(result.ErrorModel.Code <= 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:self];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:self];
     }
 //    [activityIndicator stopAnimating];
 }

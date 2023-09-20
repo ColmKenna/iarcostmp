@@ -288,7 +288,13 @@
         }];
         return;
     }
-    if (![ArcosEmailValidator checkCanSendMailStatus:self]) return;
+    if (![MFMailComposeViewController canSendMail]) {
+        [self dismissViewControllerAnimated:NO completion:^ {
+            [ArcosUtils showDialogBox:[GlobalSharedClass shared].noMailAcctMsg title:[GlobalSharedClass shared].noMailAcctTitle target:self handler:nil];
+        }];
+        return;
+    }
+//    if (![ArcosEmailValidator checkCanSendMailStatus:self]) return;
 //    [self.emailPopover dismissPopoverAnimated:NO];
     [self dismissViewControllerAnimated:NO completion:nil];
     self.mailController = [[[MFMailComposeViewController alloc] init] autorelease];
@@ -404,14 +410,14 @@
     }];
 }
 
-- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 99) {
-//        [self.emailPopover dismissPopoverAnimated:YES];
-        [self dismissViewControllerAnimated:YES completion:nil];
-    } else {
-        [self alertViewCallBack];
-    }
-}
+//- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+//    if (alertView.tag == 99) {
+////        [self.emailPopover dismissPopoverAnimated:YES];
+//        [self dismissViewControllerAnimated:YES completion:nil];
+//    } else {
+//        [self alertViewCallBack];
+//    }
+//}
 
 - (void)alignSubviews {
     self.myScrollView.contentSize = CGSizeMake([self.viewItemControllerList count] * self.myScrollView.bounds.size.width, self.myScrollView.bounds.size.height);

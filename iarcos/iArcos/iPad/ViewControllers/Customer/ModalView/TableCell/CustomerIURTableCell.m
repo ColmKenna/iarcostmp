@@ -140,7 +140,8 @@
         }
         [self processDescrSelectionCenter:self.headQuarterTitle dataList:self.masterLocationDisplayList];
     } else if(result.ErrorModel.Code <= 0) {        
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:[self.delegate retrieveCustomerTypeParentViewController] handler:nil];
     }
 }
 

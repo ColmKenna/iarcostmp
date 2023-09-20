@@ -114,9 +114,14 @@
         return;
     }
 //    [self.emailPopover dismissPopoverAnimated:YES];
+//    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
+    if (![MFMailComposeViewController canSendMail]) {
+        [self dismissViewControllerAnimated:YES completion:^ {
+            [ArcosUtils showDialogBox:[GlobalSharedClass shared].noMailAcctMsg title:[GlobalSharedClass shared].noMailAcctTitle delegate:nil target:self tag:0 handler:nil];
+        }];
+        return;
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
-    if (![ArcosEmailValidator checkCanSendMailStatus]) return;    
-    
     self.mailController = [[[MFMailComposeViewController alloc] init] autorelease];
     self.mailController.mailComposeDelegate = self;
     

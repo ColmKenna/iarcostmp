@@ -25,7 +25,7 @@
 #import "CustomerDetailsContactAccessTimesTableViewCell.h"
 #import "CustomerAccessTimesUtils.h"
 
-@interface CustomerContactModalViewController : UITableViewController <UIPopoverControllerDelegate, GetDataGenericDelegate, UIAlertViewDelegate, UITextFieldDelegate, CustomerContactInputDelegate,CustomerTypeTableCellDelegate, CustomerContactLinkHeaderViewControllerDelegate, UIActionSheetDelegate, CustomerInfoAccessTimesCalendarTableViewControllerDelegate> {
+@interface CustomerContactModalViewController : UITableViewController <UIPopoverControllerDelegate, GetDataGenericDelegate, UITextFieldDelegate, CustomerContactInputDelegate,CustomerTypeTableCellDelegate, CustomerContactLinkHeaderViewControllerDelegate, CustomerInfoAccessTimesCalendarTableViewControllerDelegate> {
     id<CustomisePresentViewControllerDelegate> _myDelegate;
     id<ModelViewDelegate> _delegate;
     id<GenericRefreshParentContentDelegate> _refreshDelegate;

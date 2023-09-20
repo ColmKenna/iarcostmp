@@ -108,7 +108,8 @@
     */
     [self.customerJourneyStartDateDataManager getChangedDataList];
     if ([self.customerJourneyStartDateDataManager.changedDataList count] <= 0) {
-        [ArcosUtils showMsg:@"There is no change." delegate:nil];
+//        [ArcosUtils showMsg:@"There is no change." delegate:nil];
+        [ArcosUtils showDialogBox:@"There is no change." title:@"" target:self handler:nil];
         return;
     }
     NSMutableDictionary* cellDataDict = [self.customerJourneyStartDateDataManager.changedDataList objectAtIndex:0];
@@ -134,7 +135,8 @@
         [self.delegate refreshParentContentForJourneyStartDate];
         [self cancelPressed:nil];
     } else if(result.ErrorModel.Code <= 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }    
 }
 

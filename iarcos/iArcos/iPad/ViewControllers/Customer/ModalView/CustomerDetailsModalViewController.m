@@ -330,13 +330,23 @@
         // Delete the row from the data source
         NSMutableDictionary* cellData = [customerTypesDataManager.linksLocationList objectAtIndex:indexPath.row];
         customerTypesDataManager.currentLinkIndexPathRow = indexPath.row;
-        UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"Are you sure you want to remove link to %@", [cellData objectForKey:@"Name"]] delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Remove" otherButtonTitles:@"Cancel", nil];
-        [actionSheet showInView:self.view];
-        [actionSheet release];
+//        UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"Are you sure you want to remove link to %@", [cellData objectForKey:@"Name"]] delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Remove" otherButtonTitles:@"Cancel", nil];
+//        [actionSheet showInView:self.view];
+//        [actionSheet release];
+        void (^removeActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+            NSMutableDictionary* linkLocDict = [customerTypesDataManager.linksLocationList objectAtIndex:customerTypesDataManager.currentLinkIndexPathRow];
+            callGenericServices.isNotRecursion = YES;
+            [callGenericServices genericDeleteRecord:@"LocLocLink" iur:[[linkLocDict objectForKey:@"LocLocLinkIUR"] intValue] action:@selector(setDeleteRecordDataResult:) target:self];
+        };
+        void (^cancelActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+            
+        };
+        [ArcosUtils showTwoBtnsDialogBox:[NSString stringWithFormat:@"Are you sure you want to remove link to %@", [cellData objectForKey:@"Name"]] title:@"" target:self lBtnText:@"Cancel" rBtnText:@"Remove" lBtnHandler:cancelActionHandler rBtnHandler:removeActionHandler];
     }
 }
 
 #pragma mark UIActionSheetDelegate
+/*
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     switch (buttonIndex) {
         case 1://cancel button do nothing
@@ -352,7 +362,7 @@
             break;
     }
 }
-
+*/
 #pragma mark setDeleteRecordDataResult
 -(void)setDeleteRecordDataResult:(ArcosErrorModel*)result {
     result = [callGenericServices handleResultErrorProcess:result];
@@ -366,7 +376,8 @@
         [self.tableView reloadData];
         [self.refreshDelegate refreshParentContentByEdit];
     } else {
-        [ArcosUtils showMsg:-1 message:result.Message delegate:nil];
+//        [ArcosUtils showMsg:-1 message:result.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.Message title:[ArcosUtils retrieveTitleWithCode:-1] target:self handler:nil];
     }
 }
 
@@ -500,7 +511,8 @@
 //        NSLog(@"customerTypesDataManager.groupedDataDict %@", customerTypesDataManager.groupedDataDict);
         [self.detailsListView reloadData];
     } else if(result.ErrorModel.Code < 0 || [result.ArrayOfData count] == 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];        
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:-1] target:self handler:nil];
     }  
 }
 
@@ -591,12 +603,12 @@
 }
 
 #pragma mark UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == 0){  
-        //Code that will run after you press ok button 
-        [self alertViewCallBack];
-    }
-}
+//-(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+//    if(buttonIndex == 0){  
+//        //Code that will run after you press ok button 
+//        [self alertViewCallBack];
+//    }
+//}
 
 //connectivity notification back
 /**
@@ -632,7 +644,8 @@
 - (void)didSelectCustomerSelectionListingRecord:(NSMutableDictionary*)aCustDict {
     BOOL existFlag = [customerTypesDataManager isLocationExistent:aCustDict];
     if (existFlag) {
-        [ArcosUtils showMsg:[NSString stringWithFormat:@"The link to %@ already exists.", [aCustDict objectForKey:@"Name"]] delegate:nil];
+//        [ArcosUtils showMsg:[NSString stringWithFormat:@"The link to %@ already exists.", [aCustDict objectForKey:@"Name"]] delegate:nil];
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"The link to %@ already exists.", [aCustDict objectForKey:@"Name"]] title:@"" target:self handler:nil];
         return;
     }
     customerTypesDataManager.fromLocationIUR = [aCustDict objectForKey:@"LocationIUR"];
@@ -668,9 +681,11 @@
         NSMutableArray* subObjects = result.SubObjects;
         if (subObjects != nil && [subObjects count] > 0) {
             ArcosGenericClass* errorArcosGenericClass = [subObjects objectAtIndex:0];
-            [ArcosUtils showMsg:-1 message:[errorArcosGenericClass Field2] delegate:nil];
+//            [ArcosUtils showMsg:-1 message:[errorArcosGenericClass Field2] delegate:nil];
+            [ArcosUtils showDialogBox:[errorArcosGenericClass Field2] title:[ArcosUtils retrieveTitleWithCode:-1] target:self handler:nil];
         } else {
-            [ArcosUtils showMsg:-1 message:@"The operation could not be completed." delegate:nil];
+//            [ArcosUtils showMsg:-1 message:@"The operation could not be completed." delegate:nil];
+            [ArcosUtils showDialogBox:@"The operation could not be completed." title:[ArcosUtils retrieveTitleWithCode:-1] target:self handler:nil];
         }
     }
 }

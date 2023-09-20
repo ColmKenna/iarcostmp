@@ -17,7 +17,7 @@
 #import "UIViewController+ArcosStackedController.h"
 #import "ArcosConfigDataManager.h"
 
-@interface CustomerMemoModalViewController : UITableViewController <GetDataGenericDelegate, CustomerMemoInputDelegate, UIAlertViewDelegate>{
+@interface CustomerMemoModalViewController : UITableViewController <GetDataGenericDelegate, CustomerMemoInputDelegate>{
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
     IBOutlet UITableView* memoListView;    
     NSMutableArray* displayList;

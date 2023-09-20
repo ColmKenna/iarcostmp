@@ -180,7 +180,8 @@
         cell.date.text = ([cellData Field1] == nil) ? @"" : [[cellData Field1] substringToIndex:10];
     }
     @catch (NSException *exception) {
-        [ArcosUtils showMsg:[exception reason] delegate:nil];
+//        [ArcosUtils showMsg:[exception reason] delegate:nil];
+        [ArcosUtils showDialogBox:[exception reason] title:@"" target:self handler:nil];
     }
     
     cell.contact.text = [cellData Field2];
@@ -278,8 +279,8 @@
         
         [self.tableView reloadData];        
     } else if(result.ErrorModel.Code < 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
-        
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 
@@ -360,12 +361,12 @@
 }
 
 #pragma mark UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == 0){
-        //Code that will run after you press ok button 
-        [self closePressed:nil];
-    }
-}
+//-(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+//    if(buttonIndex == 0){
+//        //Code that will run after you press ok button 
+//        [self closePressed:nil];
+//    }
+//}
 
 -(void)setCreateRecordResult:(ArcosGenericClass*) result {
     callGenericServices.isNotRecursion = YES;

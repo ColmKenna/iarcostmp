@@ -220,13 +220,13 @@
      [detailViewController release];
      */
     self.globalIndexPath = indexPath;
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure to delete the file?"
-                                                             delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete"
-                                                    otherButtonTitles:@"Cancel",nil];
-    
-    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-    [actionSheet showInView:self.view];
-    [actionSheet release];
+//    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure to delete the file?"
+//                                                             delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete"
+//                                                    otherButtonTitles:@"Cancel",nil];
+//
+//    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//    [actionSheet showInView:self.view];
+//    [actionSheet release];
 }
 
 -(void)closePressed:(id)sender {
@@ -235,6 +235,7 @@
 }
 
 //action sheet delegate
+/*
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
 //    NSLog(@"action sheet click in index %d",buttonIndex);
 //    NSLog(@"tag is %d", [actionSheet tag]);
@@ -261,7 +262,7 @@
             break;
     }
 }
-
+*/
 - (void)createDisplayList {
     self.displayList = [NSMutableArray array];
     NSString* presenterFilePath = [FileCommon presenterPath];
@@ -285,13 +286,13 @@
 }
 
 - (void)deleteAllPressed:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure to delete all these files?"
-                                                             delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete"
-                                                    otherButtonTitles:@"Cancel",nil];
-    
-    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-    actionSheet.tag = 9;
-    [actionSheet showInView:self.view];
-    [actionSheet release];
+//    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure to delete all these files?"
+//                                                             delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete"
+//                                                    otherButtonTitles:@"Cancel",nil];
+//    
+//    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//    actionSheet.tag = 9;
+//    [actionSheet showInView:self.view];
+//    [actionSheet release];
 }
 @end
