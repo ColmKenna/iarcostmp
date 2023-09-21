@@ -248,14 +248,14 @@
     rowPointer++;
     [self updateDescrDetailRecord];
 }
-
+/*
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(buttonIndex == 0){
         //Code that will run after you press ok button
         [self.refreshDelegate refreshParentContent];
         [self backPressed:nil];
     }
-}
+}*/
 
 - (void)submitProcessCenter {
     if ([self.dataManager isNewRecord]) {

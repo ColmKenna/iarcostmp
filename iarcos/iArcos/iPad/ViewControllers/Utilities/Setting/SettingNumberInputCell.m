@@ -8,6 +8,7 @@
 
 #import "SettingNumberInputCell.h"
 #import "GlobalSharedClass.h"
+#import "ArcosUtils.h"
 
 @implementation SettingNumberInputCell
 @synthesize label;
@@ -35,11 +36,12 @@
     UITextField* tf=(UITextField*)sender;
     if (![[GlobalSharedClass shared]isNumeric:tf.text]) {
         // open an alert
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning" 
-                                                        message:@"The input is not valid" delegate:self cancelButtonTitle:@"OK"
-                                              otherButtonTitles: nil];
-        [alert show];	
-        [alert release];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning" 
+//                                                        message:@"The input is not valid" delegate:self cancelButtonTitle:@"OK"
+//                                              otherButtonTitles: nil];
+//        [alert show];	
+//        [alert release];
+        [ArcosUtils showDialogBox:@"The input is not valid" title:@"Warning" target:[self.delegate retrieveParentViewController] handler:nil];
     }else{
         [self.delegate inputFinishedWithData:[NSNumber numberWithInt:[tf.text intValue]] forIndexpath:self.indexPath];
     }

@@ -310,12 +310,14 @@ static const CGFloat constantColorLookupTable[20][3] =
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] retrieveLocationProductMATDataLocallyFlag]) {
         [self.animatedDataManager tableDataFromLocalWithLocationIUR:self.locationIUR];
         if ([self.animatedDataManager.monthTableDisplayList count] == 0) {
-            [ArcosUtils showMsg:@"No data found" delegate:nil];
+//            [ArcosUtils showMsg:@"No data found" delegate:nil];
+            [ArcosUtils showDialogBox:@"No data found" title:@"" target:self handler:nil];
             return;
         }
         [self.animatedDataManager barDataFromLocalWithLocationIUR:self.locationIUR];
         if ([self.animatedDataManager.tylyBarDisplayList count] == 0) {
-            [ArcosUtils showMsg:@"No data found" delegate:nil];
+//            [ArcosUtils showMsg:@"No data found" delegate:nil];
+            [ArcosUtils showDialogBox:@"No data found" title:@"" target:self handler:nil];
             return;
         }
         int localPieLevel = 5;
@@ -333,7 +335,8 @@ static const CGFloat constantColorLookupTable[20][3] =
         }
         [self.animatedDataManager pieDataFromLocalWithLocationIUR:self.locationIUR levelNumber:localPieLevel];
         if ([self.animatedDataManager.monthPieDisplayList count] == 0) {
-            [ArcosUtils showMsg:@"No data found" delegate:nil];
+//            [ArcosUtils showMsg:@"No data found" delegate:nil];
+            [ArcosUtils showDialogBox:@"No data found" title:@"" target:self handler:nil];
             return;
         }
         [self setLineGetCustomerDataResult:nil];
@@ -970,7 +973,8 @@ static const CGFloat constantColorLookupTable[20][3] =
         [self.callGenericServices genericGetCustomerData:[self.locationIUR intValue] startDate:[ArcosUtils dateFromString:[ArcosUtils stringFromDate:[NSDate date] format:[GlobalSharedClass shared].datetimeFormat] format:[GlobalSharedClass shared].datetimeFormat] endDate:[ArcosUtils dateFromString:[ArcosUtils stringFromDate:[NSDate date] format:[GlobalSharedClass shared].datetimeFormat] format:[GlobalSharedClass shared].datetimeFormat] type:@"MATQTY" level:6 action:@selector(setTableGetCustomerDataResult:) target:self];
     } else if(result.ErrorModel.Code <= 0) {
         [self.callGenericServices.HUD hide:YES];
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 
@@ -1000,7 +1004,8 @@ static const CGFloat constantColorLookupTable[20][3] =
         [self.callGenericServices genericGetCustomerData:[self.locationIUR intValue] startDate:[ArcosUtils dateFromString:[ArcosUtils stringFromDate:[NSDate date] format:[GlobalSharedClass shared].datetimeFormat] format:[GlobalSharedClass shared].datetimeFormat] endDate:[ArcosUtils dateFromString:[ArcosUtils stringFromDate:[NSDate date] format:[GlobalSharedClass shared].datetimeFormat] format:[GlobalSharedClass shared].datetimeFormat] type:@"MATQTY" level:pieLevel action:@selector(setPieGetCustomerDataResult:) target:self];
     } else if(result.ErrorModel.Code <= 0) {
         [self.callGenericServices.HUD hide:YES];
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 
@@ -1015,7 +1020,8 @@ static const CGFloat constantColorLookupTable[20][3] =
 //        [self.callGenericServices genericGetCustomerData:[self.locationIUR intValue] startDate:[ArcosUtils dateFromString:[ArcosUtils stringFromDate:[NSDate date] format:[GlobalSharedClass shared].datetimeFormat] format:[GlobalSharedClass shared].datetimeFormat] endDate:[ArcosUtils dateFromString:[ArcosUtils stringFromDate:[NSDate date] format:[GlobalSharedClass shared].datetimeFormat] format:[GlobalSharedClass shared].datetimeFormat] type:@"MATQTY" level:5 action:@selector(setLineGetCustomerDataResult:) target:self];
     } else if(result.ErrorModel.Code <= 0) {
         [self.callGenericServices.HUD hide:YES];
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 
@@ -1030,7 +1036,8 @@ static const CGFloat constantColorLookupTable[20][3] =
         [self.animatedDataManager processLineRawData:result];
         [self drawAllViews];
     } else if(result.ErrorModel.Code <= 0) {        
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 
@@ -1057,7 +1064,8 @@ static const CGFloat constantColorLookupTable[20][3] =
                 headerCellLabel.text = [fieldName substringToIndex:3];
             }
             @catch (NSException *exception) {
-                [ArcosUtils showMsg:-1 message:[NSString stringWithFormat:@"%@%@", [exception name], [exception reason]] delegate:nil];
+//                [ArcosUtils showMsg:-1 message:[NSString stringWithFormat:@"%@%@", [exception name], [exception reason]] delegate:nil];
+                [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@%@", [exception name], [exception reason]] title:[ArcosUtils retrieveTitleWithCode:-1] target:self handler:nil];
                 break;
             }
         }

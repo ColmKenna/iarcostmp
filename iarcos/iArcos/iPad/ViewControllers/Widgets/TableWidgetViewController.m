@@ -128,7 +128,13 @@
 }
 
 - (void)didSelectEmailRecipientRow:(NSDictionary*)cellData {
-    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
+    if (![MFMailComposeViewController canSendMail]) {
+        [self dismissViewControllerAnimated:NO completion:^ {
+            [ArcosUtils showDialogBox:[GlobalSharedClass shared].noMailAcctMsg title:[GlobalSharedClass shared].noMailAcctTitle target:self handler:nil];
+        }];
+        return;
+    }
+//    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
 //    [self.emailPopover dismissPopoverAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
     NSMutableDictionary* cellDict = [self.displayList objectAtIndex:self.currentIndexPath.row];

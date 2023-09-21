@@ -246,7 +246,8 @@
         return;
     }
     if (![MFMailComposeViewController canSendMail]) {        
-        [ArcosUtils showMsg:@"Please set up a Mail account in order to send email" title:@"No Mail Account" delegate:nil];
+//        [ArcosUtils showMsg:@"Please set up a Mail account in order to send email" title:@"No Mail Account" delegate:nil];
+        [ArcosUtils showDialogBox:[GlobalSharedClass shared].noMailAcctMsg title:[GlobalSharedClass shared].noMailAcctTitle target:self handler:nil];
         return;
     }
     self.mailController = [[[MFMailComposeViewController alloc] init] autorelease];
@@ -259,7 +260,8 @@
 //        [self.mailController setToRecipients:[NSArray arrayWithObject:@"Richard@stratait.ie"]];
         [self presentViewController:self.mailController animated:YES completion:nil];
     } else {
-        [ArcosUtils showMsg:@"The file does not exist." delegate:nil];
+//        [ArcosUtils showMsg:@"The file does not exist." delegate:nil];
+        [ArcosUtils showDialogBox:@"The file does not exist." title:@"" target:self handler:nil];
     }    
 }
 
@@ -278,7 +280,8 @@
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
     NSString* message = nil;
-    UIAlertView* v = nil;
+//    UIAlertView* v = nil;
+    BOOL alertShowedFlag = NO;
     // Notifies users about errors associated with the interface
     switch (result) {
         case MFMailComposeResultCancelled:
@@ -299,9 +302,13 @@
             
         case MFMailComposeResultFailed: {
             message = @"Failed to Send Email";
-            v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: self cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
-            [v show];
-            [v release];
+//            v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: self cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
+//            [v show];
+//            [v release];
+            alertShowedFlag = YES;
+            [ArcosUtils showDialogBox:message title:@"Error !" delegate:nil target:controller tag:0 handler:^(UIAlertAction *action) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
         }            
             break;
             
@@ -309,11 +316,12 @@
             message = @"Result: not sent";
             break;
     }
-    
     // display an error
     NSLog(@"Email sending error message %@ ", message);
 	[self becomeFirstResponder];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (!alertShowedFlag) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 #pragma mark - clear table delegate
 

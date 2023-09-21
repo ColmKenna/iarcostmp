@@ -316,6 +316,7 @@
 //    self.tablecellPopover=aPopover;
 //}
 #pragma mark alert view delegate
+/*
 - (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
 {
 	if (buttonIndex != [alertView cancelButtonIndex]&&alertView.tag==88888)
@@ -329,7 +330,7 @@
         [self.tableView reloadData];
         isAdvanceSettingChanged=NO;
     }
-}
+}*/
 
 - (void)processTextFieldPassword:(NSString*)aTextFieldPassword {
     NSString* passcode = [[GlobalSharedClass shared] currentPasscode];

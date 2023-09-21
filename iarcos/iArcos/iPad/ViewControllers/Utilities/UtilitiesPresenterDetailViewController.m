@@ -219,17 +219,32 @@
      [detailViewController release];
      */
     self.globalIndexPath = indexPath;
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure to delete the file?"
-                                                             delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete"
-                                                    otherButtonTitles:@"Cancel",nil];
-    
-    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-    [actionSheet showInView:self.view];
-//    [actionSheet showFromRect:[ArcosUtils fromRect4ActionSheet:[self.tableView cellForRowAtIndexPath:indexPath]] inView:self.view animated:YES];
-    [actionSheet release];
+//    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure to delete the file?"
+//                                                             delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete"
+//                                                    otherButtonTitles:@"Cancel",nil];
+//
+//    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//    [actionSheet showInView:self.view];
+////    [actionSheet showFromRect:[ArcosUtils fromRect4ActionSheet:[self.tableView cellForRowAtIndexPath:indexPath]] inView:self.view animated:YES];
+//    [actionSheet release];
+    void (^lBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        [self.tableView deselectRowAtIndexPath:self.globalIndexPath animated:YES];
+    };
+    void (^rBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        NSFileManager* fileManager = [NSFileManager defaultManager];
+        NSError* error = nil;
+        NSMutableDictionary* cellData = [self.displayList objectAtIndex:self.globalIndexPath.row];
+        NSString* filePath = [NSString stringWithFormat:@"%@/%@",[FileCommon presenterPath], [cellData objectForKey:@"fileName"]];
+        NSLog(@"the deleted file path is %@", filePath);
+        [fileManager removeItemAtPath:filePath error:&error];
+        [self createDisplayList];
+        [self.tableView reloadData];
+    };
+    [ArcosUtils showTwoBtnsDialogBox:@"Are you sure to delete the file?" title:@"" target:self lBtnText:@"Cancel" rBtnText:@"Delete" lBtnHandler:lBtnActionHandler rBtnHandler:rBtnActionHandler];
 }
 
 //action sheet delegate
+/*
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
 //    NSLog(@"action sheet click in index %d",buttonIndex);
 //    NSLog(@"tag is %d", [actionSheet tag]);
@@ -260,7 +275,7 @@
             break;
     }
 }
-
+*/
 - (void)createDisplayList {
     self.displayList = [NSMutableArray array];
     NSString* presenterFilePath = [FileCommon presenterPath];
@@ -317,14 +332,23 @@
 }
 
 - (void)deleteAllPressed:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure to delete all these files?"
-                                                             delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete"
-                                                    otherButtonTitles:@"Cancel",nil];
-    
-    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-    actionSheet.tag = 9;
-    [actionSheet showInView:self.view];
-//    [actionSheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
-    [actionSheet release];
+//    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure to delete all these files?"
+//                                                             delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete"
+//                                                    otherButtonTitles:@"Cancel",nil];
+//
+//    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//    actionSheet.tag = 9;
+//    [actionSheet showInView:self.view];
+////    [actionSheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
+//    [actionSheet release];
+    void (^lBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        
+    };
+    void (^rBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        [FileCommon removeAllFileUnderPresenterPath];
+        [self createDisplayList];
+        [self.tableView reloadData];
+    };
+    [ArcosUtils showTwoBtnsDialogBox:@"Are you sure to delete all these files?" title:@"" target:self lBtnText:@"Cancel" rBtnText:@"Delete" lBtnHandler:lBtnActionHandler rBtnHandler:rBtnActionHandler];
 }
 @end

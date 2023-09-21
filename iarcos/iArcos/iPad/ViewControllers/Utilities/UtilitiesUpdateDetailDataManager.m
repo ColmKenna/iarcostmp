@@ -100,7 +100,6 @@
 //        NSString* tableName = [dataDict objectForKey:@"TableName"];
 //        [self.tableNameList addObject:tableName];
 //    }
-    
     @try {
         //should be synced when there is a new table added.
         self.dataTableNameRelatedEntityDict = [NSMutableDictionary dictionaryWithCapacity:[self.tableNameList count]];
@@ -124,10 +123,11 @@
         [self.dataTableNameRelatedEntityDict setObject:[NSArray arrayWithObject:[GlobalSharedClass shared].responseSelectorName] forKey:@"Response"];
         [self.genericNameRelatedEntityDict setObject:self.dataTableNameRelatedEntityDict forKey:self.downloadSectionTitle];
 //        NSLog(@"self.tableNameList: %@", self.tableNameList);
-//        NSLog(@"self.dataTableNameRelatedEntityDict is:%@", self.dataTableNameRelatedEntityDict);
+//        NSLog(@"self.dataTableNameRelatedEntityDict is:%@", self.dataTableNameRelatedEntityDict);        
     }
     @catch (NSException *exception) {
-        [ArcosUtils showMsg:[exception reason] delegate:nil];
+//        [ArcosUtils showMsg:[exception reason] delegate:nil];
+        [ArcosUtils showDialogBox:[exception reason] title:@"" target:[ArcosUtils getRootView] handler:nil];
     }    
 }
 

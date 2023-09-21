@@ -317,30 +317,31 @@
 
 -(void)clearTablePressed:(id)sender {
     NSLog(@"clearTablePressed");
-    if ([UIAlertController class]) {
-        __weak typeof(self) weakSelf = self;
-        UIAlertController* tmpDialogBox = [UIAlertController alertControllerWithTitle:@"" message:@"Please Enter Manager Password!\n" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction* okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
-            UITextField* myTextField = [tmpDialogBox.textFields objectAtIndex:0];
-            [weakSelf processTextFieldPassword:myTextField.text];
-        }];
-        UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){}];
-        
-        [tmpDialogBox addAction:cancelAction];
-        [tmpDialogBox addAction:okAction];
-        [tmpDialogBox addTextFieldWithConfigurationHandler:^(UITextField* textField) {
-            textField.secureTextEntry = true;
-        }];
-        [weakSelf presentViewController:tmpDialogBox animated:YES completion:nil];
-    } else {
-        AlertPrompt *prompt = [AlertPrompt alloc];
-        prompt = [prompt initWithTitle:@"Please Enter Manager Password!\n\n" message:nil delegate:self cancelButtonTitle:@"Cancel" okButtonTitle:@"OK"];
-        prompt.tag=88888;
-        [prompt show];
-        [prompt release];
-    }
+    __weak typeof(self) weakSelf = self;
+    UIAlertController* tmpDialogBox = [UIAlertController alertControllerWithTitle:@"" message:@"Please Enter Manager Password!\n" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
+        UITextField* myTextField = [tmpDialogBox.textFields objectAtIndex:0];
+        [weakSelf processTextFieldPassword:myTextField.text];
+    }];
+    UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){}];
+    
+    [tmpDialogBox addAction:cancelAction];
+    [tmpDialogBox addAction:okAction];
+    [tmpDialogBox addTextFieldWithConfigurationHandler:^(UITextField* textField) {
+        textField.secureTextEntry = true;
+    }];
+    [weakSelf presentViewController:tmpDialogBox animated:YES completion:nil];
+//    if ([UIAlertController class]) {
+//
+//    } else {
+//        AlertPrompt *prompt = [AlertPrompt alloc];
+//        prompt = [prompt initWithTitle:@"Please Enter Manager Password!\n\n" message:nil delegate:self cancelButtonTitle:@"Cancel" okButtonTitle:@"OK"];
+//        prompt.tag=88888;
+//        [prompt show];
+//        [prompt release];
+//    }
 }
-
+/*
 - (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
 {
 	if (buttonIndex != [alertView cancelButtonIndex]&&alertView.tag==88888)
@@ -353,7 +354,7 @@
         [self closePressed:nil];
     }
 }
-
+*/
 -(void)clearGlobalNavigationController {
     self.globalNavigationController = nil;
 }
@@ -404,7 +405,7 @@
     [fileContent writeToFile:self.filePath atomically:YES encoding:NSUTF8StringEncoding error:&fileError];
     [fileContent release];
     if (fileError != nil) {
-        [ArcosUtils showDialogBox:[fileError localizedDescription] title:[GlobalSharedClass shared].errorTitle delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+        [ArcosUtils showDialogBox:[fileError localizedDescription] title:[GlobalSharedClass shared].errorTitle target:self handler:^(UIAlertAction *action) {
             
         }];
         return;
@@ -438,10 +439,14 @@
         return;
     }
     
-    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
+    if (![MFMailComposeViewController canSendMail]) {
+        [ArcosUtils showDialogBox:[GlobalSharedClass shared].noMailAcctMsg title:[GlobalSharedClass shared].noMailAcctTitle target:self handler:nil];
+        return;
+    }
+//    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
     self.mailController = [[[MFMailComposeViewController alloc] init] autorelease];
     self.mailController.mailComposeDelegate = self;
-    
+    BOOL alertShowedFlag = NO;
     @try {
         if ([FileCommon fileExistAtPath:self.filePath]) {
             [self.mailController setSubject:fileName];
@@ -449,17 +454,21 @@
             [self.mailController addAttachmentData:data mimeType:@"application/csv" fileName:fileName];
             [FileCommon removeFileAtPath:self.filePath];
         } else {
+            alertShowedFlag = YES;
             [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@ does not exist.",fileName] title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
-                
+                [self presentViewController:self.mailController animated:YES completion:nil];
             }];
         }
     }
     @catch (NSException *exception) {
-        [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
-            
+        alertShowedFlag = YES;
+        [ArcosUtils showDialogBox:[exception reason] title:@"" target:self handler:^(UIAlertAction *action) {
+            [self presentViewController:self.mailController animated:YES completion:nil];
         }];
     }
-    [self presentViewController:self.mailController animated:YES completion:nil];    
+    if (!alertShowedFlag) {
+        [self presentViewController:self.mailController animated:YES completion:nil];
+    }
 }
 
 #pragma mark ArcosMailTableViewControllerDelegate
@@ -493,9 +502,9 @@
             
         case MFMailComposeResultFailed: {
             message = @"Failed to Send Email";
-            [ArcosUtils showDialogBox:message title:@"Error !" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
-                
-            }];
+//            [ArcosUtils showDialogBox:message title:@"Error !" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+//
+//            }];
         }            
             break;
             
@@ -509,7 +518,7 @@
     if (result != MFMailComposeResultFailed) {
         [self alertViewCallBack];
     } else {
-        [ArcosUtils showDialogBox:message title:@"" delegate:nil target:controller tag:0 handler:^(UIAlertAction *action) {
+        [ArcosUtils showDialogBox:message title:@"" target:controller handler:^(UIAlertAction *action) {
             [self alertViewCallBack];
         }];
     }    

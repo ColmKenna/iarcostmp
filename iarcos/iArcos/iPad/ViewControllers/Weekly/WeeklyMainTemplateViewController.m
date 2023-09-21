@@ -181,7 +181,8 @@
         [self.weeklyDayPartsViewController reloadDayPartsData];
     } else if(result.ErrorModel.Code <= 0) {
         if (result.ErrorModel.Code < 0) {
-            [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//            [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+            [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
         }
         [self.weeklyMainTemplateDataManager createBasicData];
         [self.weeklyMainTemplateDataManager assignDefaultDayPartsAfterBasicData];
@@ -514,14 +515,14 @@
 }
 
 #pragma mark UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 99) {
-        [self alertViewCallBack];
-    }
-    if (alertView.tag == 77) {
-        [self saveButtonCallBack];
-    }
-}
+//- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+//    if (alertView.tag == 99) {
+//        [self alertViewCallBack];
+//    }
+//    if (alertView.tag == 77) {
+//        [self saveButtonCallBack];
+//    }
+//}
 
 -(void)updateWeeklyRecord {
     if (self.weeklyMainTemplateDataManager.rowPointer == [self.weeklyMainTemplateDataManager.updatedFieldNameList count]) return;

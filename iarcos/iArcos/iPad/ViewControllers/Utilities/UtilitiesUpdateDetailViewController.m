@@ -38,7 +38,7 @@
 //@synthesize progressBar;
 //@synthesize updateStatus;
 @synthesize switches;
-@synthesize alert;
+//@synthesize alert;
 
 //@synthesize downloadTableCells = _downloadTableCells;
 //@synthesize datePickerPopover = _datePickerPopover;
@@ -76,7 +76,7 @@
 //    self.branchProgressBar = nil;
 //    self.progressBar = nil;
 //    self.updateStatus = nil;
-    self.alert = nil;
+//    self.alert = nil;
     
     [connectivityCheck release];
 //    if (self.downloadTableCells != nil) { self.downloadTableCells = nil; }
@@ -299,13 +299,14 @@
             }
         }
     }else{
-        if ([self.alert isVisible]){
-            [self.alert dismissWithClickedButtonIndex:0 animated:NO];
-        }
-        self.alert = [[[UIAlertView alloc] initWithTitle:@"Warning" 
-                                                 message:connectivityCheck.errorString  delegate:self cancelButtonTitle:@"OK"
-                                       otherButtonTitles: nil]autorelease];
-        [self.alert show];
+//        if ([self.alert isVisible]){
+//            [self.alert dismissWithClickedButtonIndex:0 animated:NO];
+//        }
+//        self.alert = [[[UIAlertView alloc] initWithTitle:@"Warning"
+//                                                 message:connectivityCheck.errorString  delegate:self cancelButtonTitle:@"OK"
+//                                       otherButtonTitles: nil]autorelease];
+//        [self.alert show];
+        [ArcosUtils showDialogBox:connectivityCheck.errorString title:@"Warning" target:self handler:nil];
         
         //change the color of button back to normal
         if (self.currentUpdateButton!=nil) {
@@ -488,11 +489,12 @@
     }
     
     // open an alert 
-    UIAlertView *alert1 = [[UIAlertView alloc] initWithTitle:@"Warning" 
-                                                     message:[NSString stringWithFormat: @"Server Fault! %@ Please try again later!",errorDesc] delegate:self cancelButtonTitle:@"OK"
-                                           otherButtonTitles: nil];
-    [alert1 show];	
-    [alert1 release];
+//    UIAlertView *alert1 = [[UIAlertView alloc] initWithTitle:@"Warning"
+//                                                     message:[NSString stringWithFormat: @"Server Fault! %@ Please try again later!",errorDesc] delegate:self cancelButtonTitle:@"OK"
+//                                           otherButtonTitles: nil];
+//    [alert1 show];
+//    [alert1 release];
+    [ArcosUtils showDialogBox:[NSString stringWithFormat: @"Server Fault! %@ Please try again later!",errorDesc] title:@"Warning" target:self handler:nil];
 }
 
 
@@ -513,18 +515,20 @@
         [settingManager updateSettingForKeypath:keyPath atIndex:1 withData:@""];
         [settingManager updateSettingForKeypath:keyPath atIndex:3 withData:@""];
         [settingManager saveSetting];
-        UIAlertView *alert1 = [[UIAlertView alloc] initWithTitle:@""
-                                                        message:@"This user account has been Blocked\nContact your Arcos Administrator" delegate:nil cancelButtonTitle:@"OK"
-                                              otherButtonTitles: nil];
-        [alert1 show];
-        [alert1 release];
+//        UIAlertView *alert1 = [[UIAlertView alloc] initWithTitle:@""
+//                                                        message:@"This user account has been Blocked\nContact your Arcos Administrator" delegate:nil cancelButtonTitle:@"OK"
+//                                              otherButtonTitles: nil];
+//        [alert1 show];
+//        [alert1 release];
+        [ArcosUtils showDialogBox:@"This user account has been Blocked\nContact your Arcos Administrator" title:@"" delegate:nil target:self tag:0 handler:nil];
     } else {
         // open an alert
-        UIAlertView *alert1 = [[UIAlertView alloc] initWithTitle:@""
-                                                        message:@"Download has Completed" delegate:self cancelButtonTitle:@"OK"
-                                              otherButtonTitles: nil];
-        [alert1 show];
-        [alert1 release];
+//        UIAlertView *alert1 = [[UIAlertView alloc] initWithTitle:@""
+//                                                        message:@"Download has Completed" delegate:self cancelButtonTitle:@"OK"
+//                                              otherButtonTitles: nil];
+//        [alert1 show];
+//        [alert1 release];
+        [ArcosUtils showDialogBox:@"Download has Completed" title:@"" delegate:nil target:self tag:0 handler:nil];
     }
 }
 -(void)switchAllOFF{
@@ -551,11 +555,12 @@
     }
     
     // open an alert 
-    UIAlertView *alert1 = [[UIAlertView alloc] initWithTitle:@"Warning" 
-                                                     message:self.updateStatusTableCell.updateStatus.text delegate:self cancelButtonTitle:@"OK"
-                                           otherButtonTitles: nil];
-    [alert1 show];	
-    [alert1 release];
+//    UIAlertView *alert1 = [[UIAlertView alloc] initWithTitle:@"Warning"
+//                                                     message:self.updateStatusTableCell.updateStatus.text delegate:self cancelButtonTitle:@"OK"
+//                                           otherButtonTitles: nil];
+//    [alert1 show];
+//    [alert1 release];
+    [ArcosUtils showDialogBox:self.updateStatusTableCell.updateStatus.text title:@"Warning" target:self handler:nil];
 }
 
 #pragma mark - UtilitiesOrderDateRangePickerDelegate
@@ -605,11 +610,17 @@
     if (self.currentUpdateButton!=nil) {
         [self.currentUpdateButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     }
-    [ArcosUtils showMsg:[anError localizedDescription] delegate:nil];
+//    [ArcosUtils showMsg:[anError localizedDescription] delegate:nil];
+    [ArcosUtils showDialogBox:[anError localizedDescription] title:@"" target:self handler:nil];
 }
 
 - (void)GotErrorWithResourcesFile:(NSError *)anError {
-    [ArcosUtils showMsg:[anError localizedDescription] delegate:nil];
+//    [ArcosUtils showMsg:[anError localizedDescription] delegate:nil];
+    [ArcosUtils showDialogBox:[anError localizedDescription] title:@"" target:self handler:nil];
+}
+
+- (UIViewController*)retrieveUpdateCenterParentViewController {
+    return self;
 }
 #pragma mark UtilitiesUpdateCenterDataTableCellDelegate
 -(void)inputFinishedWithData:(id)data forIndexpath:(NSIndexPath*)theIndexpath {    
@@ -819,7 +830,8 @@
 
 - (void)savePressed {
     [self.utilitiesUpdateDetailDataManager savePressed];
-    [ArcosUtils showMsg:@"Download modes are saved." delegate:nil];
+//    [ArcosUtils showMsg:@"Download modes are saved." delegate:nil];
+    [ArcosUtils showDialogBox:@"Download modes are saved." title:@"" delegate:nil target:self tag:0 handler:nil];
 }
 
 - (void)buildUploadSelectorList {

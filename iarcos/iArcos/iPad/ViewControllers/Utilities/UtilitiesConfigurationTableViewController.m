@@ -62,7 +62,8 @@
 - (void)savePressed {
     [self.utilitiesConfigurationDataManager retrieveChangedList];
     if ([self.utilitiesConfigurationDataManager.changedList count] == 0) {
-        [ArcosUtils showMsg:@"There is no change." delegate:nil];
+//        [ArcosUtils showMsg:@"There is no change." delegate:nil];
+        [ArcosUtils showDialogBox:@"There is no change." title:@"" target:self handler:nil];
         return;
     }
     __weak typeof(self) weakSelf = self;

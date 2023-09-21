@@ -52,7 +52,7 @@
     
     //debug variable
     BOOL needVPNCheck;
-    UIAlertView* alert;
+//    UIAlertView* alert;
     
     //connectivity check
     ConnectivityCheck* connectivityCheck;
@@ -86,7 +86,7 @@
 //@property(nonatomic,retain)IBOutlet UIProgressView* branchProgressBar;
 //@property(nonatomic,retain)IBOutlet UIProgressView* progressBar;
 //@property(nonatomic,retain)IBOutlet UILabel* updateStatus;
-@property (nonatomic,retain) UIAlertView* alert;
+//@property (nonatomic,retain) UIAlertView* alert;
 
 //@property(nonatomic,retain) NSMutableArray* downloadTableCells;
 //@property(nonatomic,retain) UIPopoverController* datePickerPopover;
