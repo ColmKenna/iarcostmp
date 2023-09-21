@@ -95,7 +95,8 @@
 - (void)addButtonPressed:(id)sender {
     NSIndexPath* taskSelectedIndexPath = [self.delegate getMasterTaskSelectedRow];
     if (taskSelectedIndexPath == nil) {
-        [ArcosUtils showMsg:@"Please select a task." delegate:nil];
+//        [ArcosUtils showMsg:@"Please select a task." delegate:nil];
+        [ArcosUtils showDialogBox:@"Please select a task." title:@"" target:self handler:nil];
         return;
     }
     NSNumber* taskLocationIUR = [self.delegate getMasterTaskLocationIUR];
@@ -219,7 +220,8 @@
         self.displayList = result.ArrayOfData;
     } else if(result.ErrorModel.Code <= 0) {
         self.displayList = [NSMutableArray arrayWithCapacity:0];
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
     [self processHeightList];
     [self.tableView reloadData];

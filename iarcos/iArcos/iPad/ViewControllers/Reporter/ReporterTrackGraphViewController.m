@@ -416,7 +416,8 @@
         [self.reporterTrackGraphDataManager processRawData:result.ArrayOfData];        
         [self constructStackedBarChart];
     } else if(result.ErrorModel.Code <= 0) {        
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:@"" target:self handler:nil];
     }    
 }
 

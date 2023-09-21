@@ -163,7 +163,13 @@
         return;
     }
     
-    if (![ArcosEmailValidator checkCanSendMailStatus:self]) return;
+    if (![MFMailComposeViewController canSendMail]) {
+        [self dismissViewControllerAnimated:YES completion:^ {
+            [ArcosUtils showDialogBox:[GlobalSharedClass shared].noMailAcctMsg title:[GlobalSharedClass shared].noMailAcctTitle target:self handler:nil];
+        }];
+        return;
+    }
+//    if (![ArcosEmailValidator checkCanSendMailStatus:self]) return;
 //    [self.emailPopover dismissPopoverAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
     self.mailController = [[[MFMailComposeViewController alloc] init] autorelease];
@@ -232,9 +238,9 @@
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    [self alertViewCallBack];
-}
+//- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+//    [self alertViewCallBack];
+//}
 
 - (void)alertViewCallBack {
     [self dismissViewControllerAnimated:YES completion:^ {

@@ -481,13 +481,14 @@
                 [FileCommon removeAllFileUnderPresenterPath];
                 [activateAppStatusManager saveActivateAppStatus];
                 NSString* message = @"Activation has completed. Please reboot the app and go to Utilities->UpdateCenter to download data.";
-                if ([UIAlertController class]) {
-                    UIAlertController* tmpDialogBox = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
-                    [[ArcosUtils getRootView] presentViewController:tmpDialogBox animated:YES completion:nil];
-                } else {
-                    UIAlertView* myAlertView = [[[UIAlertView alloc] initWithTitle:@"" message:message delegate:nil cancelButtonTitle:nil otherButtonTitles: nil, nil] autorelease];
-                    [myAlertView show];
-                }
+                UIAlertController* tmpDialogBox = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
+                [[ArcosUtils getRootView] presentViewController:tmpDialogBox animated:YES completion:nil];
+//                if ([UIAlertController class]) {
+//
+//                } else {
+//                    UIAlertView* myAlertView = [[[UIAlertView alloc] initWithTitle:@"" message:message delegate:nil cancelButtonTitle:nil otherButtonTitles: nil, nil] autorelease];
+//                    [myAlertView show];
+//                }
             }
                 break;
                 
@@ -498,9 +499,9 @@
     [self.activateActivityIndicatorView stopAnimating];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    [self.presentDelegate didDismissPresentView];
-}
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    [self.presentDelegate didDismissPresentView];
+//}
 
 - (void)layoutMySubviews {
 //    self.templateUIView.frame = CGRectMake(0.0, self.templateScrollView.frame.size.height / 2.0 - self.templateUIView.frame.size.height / 2.0, self.templateUIView.frame.size.width, self.templateUIView.frame.size.height);

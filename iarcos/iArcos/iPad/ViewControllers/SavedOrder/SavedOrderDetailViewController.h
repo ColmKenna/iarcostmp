@@ -44,7 +44,7 @@
     
     BOOL isCellEditable;
     
-    UIAlertView* alert;
+//    UIAlertView* alert;
     
     NSInteger orderDisplayType;
     NSNumber* locationIUR;
@@ -80,7 +80,7 @@
 @property (nonatomic,assign)  id<SavedOrderDetailViewDelegate>delegate;
 @property (nonatomic,retain)     NSMutableArray* orderQueue;
 @property (nonatomic,retain) OrderSenderCenter* senderCenter;
-@property (nonatomic,retain) UIAlertView* alert;
+//@property (nonatomic,retain) UIAlertView* alert;
 @property (nonatomic,assign) NSInteger orderDisplayType;
 @property (nonatomic,retain) NSNumber* locationIUR;
 @property (nonatomic,retain) NSNumber* lastOrderNumber;

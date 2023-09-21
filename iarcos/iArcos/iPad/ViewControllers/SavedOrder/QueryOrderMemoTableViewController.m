@@ -202,7 +202,8 @@
         [self.queryOrderMemoDataManager processRawData:result actionType:self.actionType];
         [self.tableView reloadData];
     } else if(result.ErrorModel.Code < 0 || [result.ArrayOfData count] == 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 
@@ -352,12 +353,12 @@
 }
 
 #pragma mark UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == 0){
-        //Code that will run after you press ok button
-        [self cancelPressed:nil];
-    }
-}
+//-(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+//    if(buttonIndex == 0){
+//        //Code that will run after you press ok button
+//        [self cancelPressed:nil];
+//    }
+//}
 
 -(void)endOnSaveAction {
     [self.refreshDelegate refreshParentContent];

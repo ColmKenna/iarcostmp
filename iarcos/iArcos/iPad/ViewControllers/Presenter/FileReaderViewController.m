@@ -91,26 +91,26 @@
 #pragma mark order product
 //order product
 -(void)orderProduct:(id)sender{
-    UIBarButtonItem* button=(UIBarButtonItem*)sender;
+//    UIBarButtonItem* button=(UIBarButtonItem*)sender;
     
     //check any customer 
     if ([GlobalSharedClass shared].currentSelectedLocationIUR ==nil){     
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"No customer selected!" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
-                                                        otherButtonTitles:nil];
-        actionSheet.tag=0;
-        actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-        [actionSheet showInView:self.parentViewController.view];
-        [actionSheet release];
+//        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"No customer selected!" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
+//                                                        otherButtonTitles:nil];
+//        actionSheet.tag=0;
+//        actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//        [actionSheet showInView:self.parentViewController.view];
+//        [actionSheet release];
         return;
     }
     //no form
     if (![[OrderSharedClass sharedOrderSharedClass]anyForm]) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"No Form selected!" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
-                                                        otherButtonTitles:nil];
-        actionSheet.tag=0;
-        actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-        [actionSheet showInView:self.parentViewController.view];
-        [actionSheet release];
+//        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"No Form selected!" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
+//                                                        otherButtonTitles:nil];
+//        actionSheet.tag=0;
+//        actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//        [actionSheet showInView:self.parentViewController.view];
+//        [actionSheet release];
         return;
     }
     
@@ -128,12 +128,12 @@
             
             //check is product already in the current selected form
             if (!isProductInCurrentForm) {
-                UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Product is not in current selected form!" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
-                                                                otherButtonTitles:nil];
-                actionSheet.tag=0;
-                actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-                [actionSheet showInView:self.parentViewController.view];
-                [actionSheet release];
+//                UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Product is not in current selected form!" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
+//                                                                otherButtonTitles:nil];
+//                actionSheet.tag=0;
+//                actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//                [actionSheet showInView:self.parentViewController.view];
+//                [actionSheet release];
                 return;
             }
             
@@ -179,12 +179,12 @@
                     [self.navigationController pushViewController:formRowsView animated:YES];
                     [formRowsView release];
                 }else{
-                    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"None product is not in current selected form!" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
-                                                                    otherButtonTitles:nil];
-                    actionSheet.tag=0;
-                    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-                    [actionSheet showInView:self.parentViewController.view];
-                    [actionSheet release];
+//                    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"None product is not in current selected form!" delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"OK"
+//                                                                    otherButtonTitles:nil];
+//                    actionSheet.tag=0;
+//                    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//                    [actionSheet showInView:self.parentViewController.view];
+//                    [actionSheet release];
                     return;
                 }
                 

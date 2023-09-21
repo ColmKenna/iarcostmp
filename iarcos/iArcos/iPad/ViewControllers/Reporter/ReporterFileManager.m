@@ -68,7 +68,8 @@
     NSData* result = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&anError];
 //    NSLog(@"synchronousDownloadFileWithURL statusCode: %d", [response statusCode]);
     if (404 == [response statusCode]) {
-        [ArcosUtils showMsg:@"404 - File or directory not found." delegate:nil];
+//        [ArcosUtils showMsg:@"404 - File or directory not found." delegate:nil];
+        [ArcosUtils showDialogBox:@"404 - File or directory not found." title:@"" target:[ArcosUtils getRootView] handler:nil];
         return NO;
     }
     if (nil != result && 200 == [response statusCode]) {
@@ -76,7 +77,8 @@
         [result writeToFile:tmpFilePath atomically:YES];
         return YES;
     }
-    [ArcosUtils showMsg:[anError localizedDescription] delegate:nil];
+//    [ArcosUtils showMsg:[anError localizedDescription] delegate:nil];
+    [ArcosUtils showDialogBox:[anError localizedDescription] title:@"" target:[ArcosUtils getRootView] handler:nil];
     return NO;
 }
 

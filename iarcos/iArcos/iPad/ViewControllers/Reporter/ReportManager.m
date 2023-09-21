@@ -65,12 +65,17 @@
 -(void)wsrXmlBackFromService:(id)result {
     id newResult = [ArcosSystemCodesUtils handleResultErrorProcess:result];
     if (newResult == nil) {
+        [self.delegate reportDocumentGeneratedWithErrorOccured];
         return;
     }
     NSString* xmlFilePath = [NSString stringWithFormat:@"%@/%@", [FileCommon reporterPath],self.xmlFileName];
     [FileCommon removeFileAtPath:xmlFilePath];
 //    NSLog(@"xmlFilePath: %@", xmlFilePath);
-    [ArcosSystemCodesUtils convertBase64ToPhysicalFile:newResult filePath:xmlFilePath];
+    BOOL fileCreatedFlag = [ArcosSystemCodesUtils convertBase64ToPhysicalFile:newResult filePath:xmlFilePath];
+    if (!fileCreatedFlag) {
+        [self.delegate reportDocumentGeneratedWithErrorOccured];
+        return;
+    }
 //    ArcosGetFromResourcesResult* arcosGetFromResourcesResult = (ArcosGetFromResourcesResult*)newResult;
 //    if (arcosGetFromResourcesResult.ErrorModel.Code > 0) {
 //        [arcosGetFromResourcesResult.FileContents writeToFile:xmlFilePath atomically:YES];

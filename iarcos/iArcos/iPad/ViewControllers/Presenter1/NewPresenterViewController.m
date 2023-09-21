@@ -59,16 +59,16 @@
 - (void)dealloc
 {
     self.myTableView = nil;
-//    [testingData release];
+    //    [testingData release];
     self.currentSelectedCellIndexPath = nil;
-    self.presenterProducts = nil;    
+    self.presenterProducts = nil;
     self.typeButton = nil;
     self.emailButton = nil;
     self.emailRecipientTableViewController = nil;
-//    self.emailPopover = nil;
-    self.emailNavigationController = nil;    
-//    self.factory = nil;
-//    if (self.thePopover != nil) { self.thePopover = nil; }
+    //    self.emailPopover = nil;
+    self.emailNavigationController = nil;
+    //    self.factory = nil;
+    //    if (self.thePopover != nil) { self.thePopover = nil; }
     self.currentTypeTitle = nil;
     self.currentDescrDetailIUR = nil;
     self.dataList = nil;
@@ -97,12 +97,12 @@
     
     //set the navigation bar preproties
     //self.navbar.topItem.title=@"Presenter";
-//    self.navbar.tintColor=[UIColor brownColor];
-//    [[ArcosAuxiliaryDataProcessor sharedArcosAuxiliaryDataProcessor] runTransaction];
+    //    self.navbar.tintColor=[UIColor brownColor];
+    //    [[ArcosAuxiliaryDataProcessor sharedArcosAuxiliaryDataProcessor] runTransaction];
     //set the tableview properties
     self.myNewPresenterDataManager = [[[NewPresenterDataManager alloc] init] autorelease];
     self.currentTypeTitle = @"All";
-//    self.currentDescrDetailIUR = [NSNumber numberWithInt:0];
+    //    self.currentDescrDetailIUR = [NSNumber numberWithInt:0];
     self.myTableView.backgroundColor=[UIColor colorWithRed:239/256.0f green:235/256.0f blue:229/256.0f alpha:1.0f];
     self.myTableView.sectionHeaderHeight = 5;
     self.myTableView.sectionFooterHeight = 5;
@@ -110,7 +110,7 @@
     
     //create a presenter folder
     [FileCommon createFolder:@"presenter"];
-//    [self cleanInactivePresenterSandbox];
+    //    [self cleanInactivePresenterSandbox];
     [self cleanInactiveFilesInPresenterSandbox];
     self.rootView = (ArcosRootViewController*)[ArcosUtils getRootView];
     //testing
@@ -118,11 +118,11 @@
 }
 
 - (void)emailButtonPressed:(id)sender {
-//    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
-//        [self.emailPopover dismissPopoverAnimated:YES];
-//        self.emailPopover = nil;
-//        return;
-//    }
+    //    if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
+    //        [self.emailPopover dismissPopoverAnimated:YES];
+    //        self.emailPopover = nil;
+    //        return;
+    //    }
     self.emailRecipientTableViewController = [[[EmailRecipientTableViewController alloc] initWithNibName:@"EmailRecipientTableViewController" bundle:nil] autorelease];
     self.emailRecipientTableViewController.locationIUR = [GlobalSharedClass shared].currentSelectedLocationIUR;
     self.emailRecipientTableViewController.requestSource = EmailRequestSourcePresenter;
@@ -133,20 +133,20 @@
     self.emailNavigationController.popoverPresentationController.barButtonItem = self.emailButton;
     self.emailNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
     [self presentViewController:self.emailNavigationController animated:YES completion:nil];
-//    self.emailPopover = [[[UIPopoverController alloc]initWithContentViewController:emailNavigationController] autorelease];
-//    self.emailPopover.delegate = self;
-//    self.emailPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
+    //    self.emailPopover = [[[UIPopoverController alloc]initWithContentViewController:emailNavigationController] autorelease];
+    //    self.emailPopover.delegate = self;
+    //    self.emailPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
     
-//    [self.emailPopover presentPopoverFromBarButtonItem:self.emailButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    //    [self.emailPopover presentPopoverFromBarButtonItem:self.emailButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-//    if (self.isNotFirstLoaded) return;
-//    if ([self.presenterProducts count] == 1) {
-//        [self.myTableView.delegate tableView:self.myTableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-//    }
-//    self.isNotFirstLoaded = YES;
+    //    if (self.isNotFirstLoaded) return;
+    //    if ([self.presenterProducts count] == 1) {
+    //        [self.myTableView.delegate tableView:self.myTableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    //    }
+    //    self.isNotFirstLoaded = YES;
 }
 
 - (void)typeButtonPressed:(id)sender {
@@ -172,7 +172,7 @@
     
     [rightButtonList addObject:self.emailButton];
     [self.navigationItem setRightBarButtonItems:rightButtonList];
-    //fill the presenter products    
+    //fill the presenter products
     self.presenterProducts=[[ArcosCoreData sharedArcosCoreData]presenterParentProducts:self.currentDescrDetailIUR];
     
     //refresh the table
@@ -213,7 +213,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-	return YES;
+    return YES;
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
@@ -232,7 +232,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-
+    
     return  [self.presenterProducts count];
 }
 
@@ -247,16 +247,16 @@
 //}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    static NSString *CellIdentifier = @"PresenterTableViewCell";
-//    
-//    UITableViewCell *cell =(UITableViewCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    if (cell == nil) {
-//        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-//    }
+    //    static NSString *CellIdentifier = @"PresenterTableViewCell";
+    //
+    //    UITableViewCell *cell =(UITableViewCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    //    if (cell == nil) {
+    //        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    //    }
     NSString *CellIdentifier = @"PresenterTableViewCell";
     
     PresenterTableViewCell *cell=(PresenterTableViewCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-	if(cell == nil) {
+    if(cell == nil) {
         NSArray* nibContents = [[NSBundle mainBundle] loadNibNamed:@"CustomTableViewCells" owner:self options:nil];
         
         for (id nibItem in nibContents) {
@@ -264,11 +264,11 @@
             if ([nibItem isKindOfClass:[PresenterTableViewCell class]] && [[(PresenterTableViewCell *)nibItem reuseIdentifier] isEqualToString: @"PresenterTableViewCell"]) {
                 cell= (PresenterTableViewCell *) nibItem;
                 break;
-            }    
+            }
             
         }
         
-	}
+    }
     
     //fill the data for cell
     NSMutableDictionary* aPresentProduct=[self.presenterProducts objectAtIndex:indexPath.row];
@@ -291,7 +291,7 @@
     if (anImage==nil) {
         anImage=[UIImage imageNamed:@"iArcos_72.png"];
     }
-//    cell.mainImage.image=anImage;
+    //    cell.mainImage.image=anImage;
     [cell.mainButton setImage:anImage forState:UIControlStateNormal];
     
     NSNumber* onPromotion = [aPresentProduct objectForKey:@"OnPromotion"];
@@ -319,8 +319,8 @@
 //  11 TXT  Simple text file
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
-//    NSLog(@"selected cell at index %d",indexPath.row);
+    
+    //    NSLog(@"selected cell at index %d",indexPath.row);
     self.currentSelectedCellIndexPath=indexPath;
     //cell select color
     UIImage* anImage=[UIImage imageNamed:@"tableview_strech_highlight.png"];
@@ -328,7 +328,7 @@
     cell.bgImageView.image=[anImage stretchableImageWithLeftCapWidth:30 topCapHeight:0];
     
     NSMutableDictionary* aPresentProduct=[self.presenterProducts objectAtIndex:indexPath.row];
-
+    
     NSMutableDictionary* myResultDict = [self retrievePresenterViewControllerResult:aPresentProduct];
     PresenterViewController* PVC = [myResultDict objectForKey:@"MyPresenterViewController"];
     if (PVC==nil) {
@@ -337,50 +337,50 @@
         cell.bgImageView.image=[anImage stretchableImageWithLeftCapWidth:30 topCapHeight:0];
         return;
     }else{
-//        PVC.files=presenterChildren;
-//        PVC.fileType = fileType;
-//        PVC.files = [myResultDict objectForKey:@"Data"];
-//        PVC.fileType = [myResultDict objectForKey:@"FileType"];
-//        PVC.presenterRequestSource = self.parentPresenterRequestSource;
+        //        PVC.files=presenterChildren;
+        //        PVC.fileType = fileType;
+        //        PVC.files = [myResultDict objectForKey:@"Data"];
+        //        PVC.fileType = [myResultDict objectForKey:@"FileType"];
+        //        PVC.presenterRequestSource = self.parentPresenterRequestSource;
         [self.navigationController pushViewController:PVC animated:YES];
-//        [PVC release];
+        //        [PVC release];
     }
     
 }
 
 /*
-- (void)cleanInactivePresenterSandbox {    
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"parentIUR = 0 and Active = 0"];
-    NSArray* sortDescNames = [NSArray arrayWithObjects:@"displaySequence",nil];
-    NSMutableArray* objectsArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"Presenter" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:[NSNumber numberWithBool:NO]];
-    if ([objectsArray count] > 0) {
-        NSMutableArray* parentIurList = [NSMutableArray array];
-        NSMutableArray* fileNameList = [NSMutableArray array];
-        for (NSDictionary* anObject in objectsArray) {
-            [parentIurList addObject:[anObject objectForKey:@"IUR"]];
-            NSString* fileName = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[anObject objectForKey:@"Name"]]];
-            if (![fileName isEqualToString:@""]) {
-                [fileNameList addObject:fileName];
-            }
-        }
-        NSPredicate* innerPredicate = [NSPredicate predicateWithFormat:@"parentIUR in %@", parentIurList];
-        NSMutableArray* innerObjectsArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"Presenter" withPropertiesToFetch:nil withPredicate:innerPredicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:[NSNumber numberWithBool:NO]];
-        if ([innerObjectsArray count] > 0) {
-            for (NSDictionary* anInnerObject in innerObjectsArray) {
-                NSString* innerFileName = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[anInnerObject objectForKey:@"Name"]]];
-                if (![innerFileName isEqualToString:@""]) {
-                    [fileNameList addObject:innerFileName];
-                }
-            }
-        }
-        for (int i = 0; i < [fileNameList count]; i++) {
-            NSString* tmpFileName = [fileNameList objectAtIndex:i];
-            NSString* filePath = [self getFilePathWithFileName:tmpFileName];
-            [FileCommon removeFileAtPath:filePath];
-        }
-    }    
-}
-*/
+ - (void)cleanInactivePresenterSandbox {
+ NSPredicate* predicate = [NSPredicate predicateWithFormat:@"parentIUR = 0 and Active = 0"];
+ NSArray* sortDescNames = [NSArray arrayWithObjects:@"displaySequence",nil];
+ NSMutableArray* objectsArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"Presenter" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:[NSNumber numberWithBool:NO]];
+ if ([objectsArray count] > 0) {
+ NSMutableArray* parentIurList = [NSMutableArray array];
+ NSMutableArray* fileNameList = [NSMutableArray array];
+ for (NSDictionary* anObject in objectsArray) {
+ [parentIurList addObject:[anObject objectForKey:@"IUR"]];
+ NSString* fileName = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[anObject objectForKey:@"Name"]]];
+ if (![fileName isEqualToString:@""]) {
+ [fileNameList addObject:fileName];
+ }
+ }
+ NSPredicate* innerPredicate = [NSPredicate predicateWithFormat:@"parentIUR in %@", parentIurList];
+ NSMutableArray* innerObjectsArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"Presenter" withPropertiesToFetch:nil withPredicate:innerPredicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:[NSNumber numberWithBool:NO]];
+ if ([innerObjectsArray count] > 0) {
+ for (NSDictionary* anInnerObject in innerObjectsArray) {
+ NSString* innerFileName = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[anInnerObject objectForKey:@"Name"]]];
+ if (![innerFileName isEqualToString:@""]) {
+ [fileNameList addObject:innerFileName];
+ }
+ }
+ }
+ for (int i = 0; i < [fileNameList count]; i++) {
+ NSString* tmpFileName = [fileNameList objectAtIndex:i];
+ NSString* filePath = [self getFilePathWithFileName:tmpFileName];
+ [FileCommon removeFileAtPath:filePath];
+ }
+ }
+ }
+ */
 
 - (void)cleanInactiveFilesInPresenterSandbox {
     NSArray* sortDescNames = [NSArray arrayWithObjects:@"displaySequence",nil];
@@ -391,7 +391,7 @@
     NSError* error = nil;
     NSArray* fileNameList = [fileManager contentsOfDirectoryAtPath:presenterFilePath error:&error];
     NSMutableDictionary* fileHashTable = [NSMutableDictionary dictionaryWithCapacity:[fileNameList count]];
-//    NSLog(@"ax %@", fileNameList);
+    //    NSLog(@"ax %@", fileNameList);
     NSMutableDictionary* exceptionFileNameHashTable = [NSMutableDictionary dictionary];
     [exceptionFileNameHashTable setObject:[NSNumber numberWithBool:YES] forKey:@".DS_Store"];
     for (int i = 0; i < [fileNameList count]; i++) {
@@ -409,13 +409,13 @@
     }
     NSArray* auxKeyList = [fileHashTable allKeys];
     for (int i = 0; i < [auxKeyList count]; i++) {
-        NSString* auxKey = [auxKeyList objectAtIndex:i];        
+        NSString* auxKey = [auxKeyList objectAtIndex:i];
         if ([exceptionFileNameHashTable objectForKey:auxKey] != nil) continue;
         NSNumber* auxActive = [fileHashTable objectForKey:auxKey];
         if (![auxActive boolValue]) {
             NSString* filePath = [self getFilePathWithFileName:auxKey];
             [FileCommon removeFileAtPath:filePath];
-//            NSLog(@"%@ removed", auxKey);
+            //            NSLog(@"%@ removed", auxKey);
         }
     }
 }
@@ -441,31 +441,38 @@
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
     NSString* message = nil;
+    BOOL alertShowedFlag = NO;
     switch (result) {
         case MFMailComposeResultSent: {
             message = @"Sent Email OK";
-//            [ArcosUtils showMsg:message title:@"App Email" delegate:nil];
+            //            [ArcosUtils showMsg:message title:@"App Email" delegate:nil];
         }
             break;
             
         case MFMailComposeResultFailed: {
             message = [error localizedDescription];
-            [ArcosUtils showMsg:message title:@"Error !" delegate:nil];
+            alertShowedFlag = YES;
+//            [ArcosUtils showMsg:message title:@"Error !" delegate:nil];
+            [ArcosUtils showDialogBox:message title:@"Error !" target:controller handler:^(UIAlertAction *action) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
         }
             break;
             
         default:
             break;
     }
-    [self.emailNavigationController dismissViewControllerAnimated:YES completion:nil];
+    if (!alertShowedFlag) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (void)processSelectEmailRecipientRow:(NSDictionary*)cellData dataList:(NSMutableArray*)resultList groupName:(NSString*)aGroupName {
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {        
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
         [self smtpMailView:cellData dataList:resultList groupName:aGroupName];
         return;
     }
-    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
+    if (![ArcosEmailValidator checkCanSendMailStatus:self]) return;
     MFMailComposeViewController* mailComposeViewController = [[MFMailComposeViewController alloc] init];
     mailComposeViewController.mailComposeDelegate = self;
     NSString* emailAddress = [cellData objectForKey:@"Email"];
@@ -502,9 +509,9 @@
     }
     [mailComposeViewController setMessageBody:msgBodyString isHTML:NO];
     [mailComposeViewController setSubject:[NSString stringWithFormat:@"Presenter for %@",aGroupName]];
-    [self.emailNavigationController presentViewController:mailComposeViewController animated:YES completion:nil];
+    [self presentViewController:mailComposeViewController animated:YES completion:nil];
     [mailComposeViewController release];
-//    [self dismissPopoverController];
+    //    [self dismissPopoverController];
 }
 
 - (NSData*)retrieveNSDataWithFileName:(NSString*)aFileName {
@@ -514,14 +521,14 @@
         if ([self.myNewPresenterDataManager isFileInRemovedList:aFileName]) {
             return resultNSData;
         }
-        resultNSData = [NSData dataWithContentsOfFile:filePath];        
+        resultNSData = [NSData dataWithContentsOfFile:filePath];
     }
     return resultNSData;
 }
 
 - (void)smtpMailView:(NSDictionary*)cellData dataList:(NSMutableArray*)resultList groupName:(NSString*)aGroupName {
     ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
-//    amwvc.myDelegate = self;
+    //    amwvc.myDelegate = self;
     amwvc.mailDelegate = self;
     NSString* emailAddress = [cellData objectForKey:@"Email"];
     if (emailAddress != nil && ![emailAddress isEqualToString:@""]) {
@@ -539,7 +546,7 @@
             switch (customizedFileType) {
                 case 1: {
                     [msgBodyString appendString:@"\n"];
-                    [msgBodyString appendString:[tmpPresenterProduct objectForKey:@"URL"]];                    
+                    [msgBodyString appendString:[tmpPresenterProduct objectForKey:@"URL"]];
                 }
                     break;
                 case 2: {
@@ -549,7 +556,7 @@
                         continue;
                     }
                     [msgBodyString appendString:@"\n"];
-                    [msgBodyString appendString:fileName];                    
+                    [msgBodyString appendString:fileName];
                     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
                         [amwvc.attachmentList addObject:[ArcosAttachmentContainer attachmentWithData:auxNSData fileName:fileName]];
                     } else {
@@ -561,7 +568,7 @@
                 default:
                     break;
             }
-        }        
+        }
     }
     amwvc.bodyText = msgBodyString;
     amwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
@@ -575,11 +582,11 @@
     [UIView animateWithDuration:0.3f animations:^{
         self.globalNavigationController.view.frame = parentNavigationRect;
     } completion:^(BOOL finished){
-//        if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
-//            [self.emailPopover dismissPopoverAnimated:YES];
-//            self.emailPopover = nil;
-//            return;
-//        }
+        //        if (self.emailPopover != nil && [self.emailPopover isPopoverVisible]) {
+        //            [self.emailPopover dismissPopoverAnimated:YES];
+        //            self.emailPopover = nil;
+        //            return;
+        //        }
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
@@ -587,13 +594,31 @@
 - (void)checkFileSizeWithIndex:(int)aRowPointer {
     NSMutableDictionary* tmpPresenterProduct = [self.myNewPresenterDataManager.candidateRemovedFileList objectAtIndex:aRowPointer];
     NSString* message = [NSString stringWithFormat:@"Are you sure to attach %@ which is %@?", [tmpPresenterProduct objectForKey:@"Name"], [tmpPresenterProduct objectForKey:@"fileSize"]];
-    UIAlertView* v = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
-    v.tag = 36;
-    [v show];
-    [v release];
+    //    UIAlertView* v = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
+    //    v.tag = 36;
+    //    [v show];
+    //    [v release];
+    void (^yesActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        [self checkFileSizeProcessor];
+    };
+    void (^noActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        [self.myNewPresenterDataManager.removedFileList addObject:[self.myNewPresenterDataManager.candidateRemovedFileList objectAtIndex:self.myNewPresenterDataManager.rowPointer]];
+        [self checkFileSizeProcessor];
+    };
+    [ArcosUtils showTwoBtnsDialogBox:message title:@"" target:self lBtnText:@"NO" rBtnText:@"YES" lBtnHandler:noActionHandler rBtnHandler:yesActionHandler];
+}
+
+- (void)checkFileSizeProcessor {
+    self.myNewPresenterDataManager.rowPointer++;
+    if (self.myNewPresenterDataManager.rowPointer != [self.myNewPresenterDataManager.candidateRemovedFileList count]) {
+        [self checkFileSizeWithIndex:self.myNewPresenterDataManager.rowPointer];
+    } else {
+        [self processSelectEmailRecipientRow:self.myNewPresenterDataManager.auxEmailCellData dataList:self.myNewPresenterDataManager.resultFileList groupName:self.myNewPresenterDataManager.groupName];
+    }
 }
 
 #pragma mark - UIAlertViewDelegate
+/*
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag != 36) return;
     if (buttonIndex == [alertView cancelButtonIndex]) {
@@ -606,10 +631,12 @@
         [self processSelectEmailRecipientRow:self.myNewPresenterDataManager.auxEmailCellData dataList:self.myNewPresenterDataManager.resultFileList groupName:self.myNewPresenterDataManager.groupName];
     }
 }
-
+*/
 #pragma mark EmailRecipientDelegate
 - (void)didSelectEmailRecipientRow:(NSDictionary *)cellData {
-    [self emailPressedFromTablePopoverRow:cellData groupName:[cellData objectForKey:@"Title"]];
+    [self dismissViewControllerAnimated:YES completion:^ {
+        [self emailPressedFromTablePopoverRow:cellData groupName:[cellData objectForKey:@"Title"]];
+    }];
 }
 
 /*

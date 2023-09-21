@@ -220,7 +220,8 @@
         [self.queryOrderTaskDataManager processRawData:result actionType:self.actionType];
         [self.tableView reloadData];
     } else if(result.ErrorModel.Code < 0 || [result.ArrayOfData count] == 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 
@@ -415,12 +416,12 @@
 }
 
 #pragma mark UIAlertViewDelegate
--(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == 0){
-        //Code that will run after you press ok button
-        [self alertViewCallBack];
-    }
-}
+//-(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+//    if(buttonIndex == 0){
+//        //Code that will run after you press ok button
+//        [self alertViewCallBack];
+//    }
+//}
 
 -(void)endOnSaveAction {
     if ([self.actionType isEqualToString:@"create"]) {
@@ -463,7 +464,8 @@
         [self.tableView reloadData];
     } else if(result.ErrorModel.Code <= 0) {
         self.queryOrderTaskDataManager.memoDisplayList = [NSMutableArray array];
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 

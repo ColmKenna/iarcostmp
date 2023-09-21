@@ -165,7 +165,8 @@
          
     } else if(result.ErrorModel.Code <= 0) {   
         [self.callGenericServices.HUD hide:YES];
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }    
 }
 
@@ -188,14 +189,16 @@
 
 - (void)didFailWithErrorReporterFileDelegate:(NSError *)anError {
     [self.callGenericServices.HUD hide:YES];
-    [ArcosUtils showMsg:[anError localizedDescription] delegate:nil];
+//    [ArcosUtils showMsg:[anError localizedDescription] delegate:nil];
+    [ArcosUtils showDialogBox:[anError localizedDescription] title:@"" target:self handler:nil];
 }
 
 #pragma mark - UIWebViewDelegate
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {    
     if ([error code] != NSURLErrorCancelled) {
-        [ArcosUtils showMsg:[error localizedDescription] delegate:nil];
+//        [ArcosUtils showMsg:[error localizedDescription] delegate:nil];
+        [ArcosUtils showDialogBox:[error localizedDescription] title:@"" target:self handler:nil];
     }    
 }
 
@@ -213,7 +216,13 @@
 }
 
 - (void)didSelectEmailRecipientRow:(NSDictionary*)cellData {
-    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
+    if (![MFMailComposeViewController canSendMail]) {
+        [self dismissViewControllerAnimated:YES completion:^ {
+            [ArcosUtils showDialogBox:[GlobalSharedClass shared].noMailAcctMsg title:[GlobalSharedClass shared].noMailAcctTitle target:self handler:nil];
+        }];
+        return;
+    }
+//    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
 //    [self.emailPopover dismissPopoverAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
     if (self.mailController != nil) { self.mailController = nil; }    
@@ -236,7 +245,8 @@
 #pragma mark - MFMailComposeViewControllerDelegate
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {    
     NSString* message = nil;
-    UIAlertView* v = nil;
+    BOOL alertShowedFlag = NO;
+//    UIAlertView* v = nil;
     // Notifies users about errors associated with the interface
     switch (result) {
         case MFMailComposeResultCancelled:
@@ -257,9 +267,13 @@
             
         case MFMailComposeResultFailed: {
             message = @"Failed to Send Email";
-            v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: self cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
-            [v show];
-            [v release];
+//            v = [[UIAlertView alloc] initWithTitle: @"Error !" message: message delegate: self cancelButtonTitle: @"OK" otherButtonTitles: nil, nil];
+//            [v show];
+//            [v release];
+            alertShowedFlag = YES;
+            [ArcosUtils showDialogBox:message title:@"Error !" delegate:nil target:controller tag:0 handler:^(UIAlertAction *action) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
         }            
             break;
             
@@ -270,7 +284,9 @@
     
     // display an error
     NSLog(@"Email sending error message %@ ", message);
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (!alertShowedFlag) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 @end

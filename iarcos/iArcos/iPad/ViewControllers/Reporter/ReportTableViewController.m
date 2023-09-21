@@ -723,7 +723,8 @@
         [mailController setMessageBody:body isHTML:YES];
         [self.rootView presentViewController:mailController animated:YES completion:nil];
     } else if(result.ErrorModel.Code < 0 || [result.ArrayOfData count] == 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 
@@ -777,9 +778,9 @@
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    [self alertViewCallBack];
-}
+//- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+//    [self alertViewCallBack];
+//}
 
 - (void)alertViewCallBack {
     [self.rootView dismissViewControllerAnimated:YES completion:^ {

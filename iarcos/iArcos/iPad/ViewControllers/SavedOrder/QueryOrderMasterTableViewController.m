@@ -340,7 +340,8 @@
         self.displayList = result.ArrayOfData;
     } else if(result.ErrorModel.Code <= 0) {
         self.displayList = [NSMutableArray arrayWithCapacity:0];
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
     [self processHeightList];
     [self.tableView reloadData];
@@ -515,7 +516,8 @@
 - (void)didSelectEmailRecipientRow:(NSDictionary*)cellData {
     NSIndexPath* currentSelectedIndexPath = self.tableView.indexPathForSelectedRow;
     if (currentSelectedIndexPath == nil) {
-        [ArcosUtils showMsg:@"Please select a task" delegate:nil];
+//        [ArcosUtils showMsg:@"Please select a task" delegate:nil];
+        [ArcosUtils showDialogBox:@"Please select a task" title:@"" target:self.emailNavigationController handler:nil];
         return;
     }
     NSString* body = @"";
@@ -524,9 +526,12 @@
     ArcosGenericClass* arcosGenericClass = [self.displayList objectAtIndex:currentSelectedIndexPath.row];
     @try {
         body = [self.queryOrderEmailProcessCenter buildEmailMessageWithTaskObject:arcosGenericClass memoDataList:[self.delegate getQueryOrderDetailDataList]];
+        
     }
     @catch (NSException *exception) {
-        [ArcosUtils showMsg:[exception reason] delegate:nil];
+//        [ArcosUtils showMsg:[exception reason] delegate:nil];
+        [ArcosUtils showDialogBox:[exception reason] title:@"" target:self.emailNavigationController handler:nil];
+        return;
     }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
         ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
@@ -554,23 +559,36 @@
         return;
     }    
     
-    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
+    if (![MFMailComposeViewController canSendMail]) {
+        [self dismissViewControllerAnimated:YES completion:^ {
+            [ArcosUtils showDialogBox:[GlobalSharedClass shared].noMailAcctMsg title:[GlobalSharedClass shared].noMailAcctTitle target:self handler:nil];
+        }];
+        return;
+    }
+//    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
 //    [self.emailPopover dismissPopoverAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
     
-    self.mailController = [[[MFMailComposeViewController alloc] init] autorelease];
-    self.mailController.mailComposeDelegate = self;
-    
-    @try {
-        [self.mailController setMessageBody:body isHTML:YES];
-    }
-    @catch (NSException *exception) {
-        [ArcosUtils showMsg:[exception reason] delegate:nil];
-    }
-    
-    [self.mailController setToRecipients:toRecipients];
-    [self.mailController setSubject:[NSString stringWithFormat:@"%@ %@", arcosGenericClass.Field3, arcosGenericClass.Field4]];
-    [self.myRootViewController presentViewController:self.mailController animated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^ {
+        BOOL alertShowedFlag = NO;
+        self.mailController = [[[MFMailComposeViewController alloc] init] autorelease];
+        self.mailController.mailComposeDelegate = self;
+        @try {
+            [self.mailController setMessageBody:body isHTML:YES];
+            [self.mailController setToRecipients:toRecipients];
+            [self.mailController setSubject:[NSString stringWithFormat:@"%@ %@", arcosGenericClass.Field3, arcosGenericClass.Field4]];
+            
+        }
+        @catch (NSException *exception) {
+    //        [ArcosUtils showMsg:[exception reason] delegate:nil];
+            alertShowedFlag = YES;
+            [ArcosUtils showDialogBox:[exception reason] title:@"" target:self handler:^(UIAlertAction *action) {
+                [self.myRootViewController presentViewController:self.mailController animated:YES completion:nil];
+            }];
+        }
+        if (!alertShowedFlag) {
+            [self.myRootViewController presentViewController:self.mailController animated:YES completion:nil];
+        }
+    }];
 }
 
 #pragma mark - MFMailComposeViewControllerDelegate
@@ -605,15 +623,15 @@
     if (result != MFMailComposeResultFailed) {
         [self alertViewCallBack];
     } else {
-        [ArcosUtils showDialogBox:message title:title delegate:self target:controller tag:99 handler:^(UIAlertAction *action) {
+        [ArcosUtils showDialogBox:message title:title target:controller handler:^(UIAlertAction *action) {
             [self alertViewCallBack];
         }];
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    [self alertViewCallBack];
-}
+//- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
+//    [self alertViewCallBack];
+//}
 
 - (void)alertViewCallBack {
     [self.myRootViewController dismissViewControllerAnimated:YES completion:^ {

@@ -397,8 +397,8 @@
         [self.tableView reloadData];
         isReportSet=YES;
     } else if(result.ErrorModel.Code <= 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
-        
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 
@@ -424,8 +424,8 @@
         [self.tableView reloadData]; 
         isReportSet=YES;
     } else if(result.ErrorModel.Code <= 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
-        
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 #pragma mark reprot manager delegate
@@ -473,9 +473,13 @@
 }
 
 -(void)reportDocumentGeneratedWithError:(NSString*)error{
-    [ArcosUtils showMsg:error title:@"Error" delegate:nil];
+//    [ArcosUtils showMsg:error title:@"Error" delegate:nil];
+    [ArcosUtils showDialogBox:error title:@"Error" delegate:nil target:self tag:0 handler:nil];
     [self.HUD hide:YES];
 //    [self.HUD removeFromSuperview];
+}
+-(void)reportDocumentGeneratedWithErrorOccured {
+    [self.HUD hide:YES];
 }
 
 -(void)reportExcelDocumentGeneratedWithServerFilePath:(NSString*)aServerFilePath fileName:(NSString*)aFileName pdfServerFilePath:(NSString *)aPdfServerFilePath pdfFileName:(NSString *)aPdfFileName {
@@ -531,7 +535,8 @@
 
 - (void)didFailWithErrorReporterFileDelegate:(NSError *)anError {
     [self.HUD hide:YES];
-    [ArcosUtils showMsg:[anError localizedDescription] delegate:nil];
+//    [ArcosUtils showMsg:[anError localizedDescription] delegate:nil];
+    [ArcosUtils showDialogBox:[anError localizedDescription] title:@"" target:self handler:nil];
 }
 
 #pragma mark Preview Controller

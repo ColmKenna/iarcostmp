@@ -17,6 +17,7 @@
 -(void)reportXMLDocumentGenerated:(CXMLDocument*)doc;
 -(void)reportExcelDocumentGenerated:(NSString*)doc;
 -(void)reportDocumentGeneratedWithError:(NSString*)error;
+-(void)reportDocumentGeneratedWithErrorOccured;
 -(void)reportExcelDocumentGeneratedWithServerFilePath:(NSString*)aServerFilePath fileName:(NSString*)aFileName pdfServerFilePath:(NSString*)aPdfServerFilePath pdfFileName:(NSString*)aPdfFileName;
 @end
 

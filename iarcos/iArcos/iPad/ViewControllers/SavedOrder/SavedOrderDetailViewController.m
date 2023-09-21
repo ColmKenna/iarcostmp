@@ -45,7 +45,7 @@
 @synthesize delegate;
 @synthesize orderQueue;
 @synthesize senderCenter;
-@synthesize alert;
+//@synthesize alert;
 @synthesize orderDisplayType;
 @synthesize locationIUR;
 @synthesize lastOrderNumber = _lastOrderNumber;
@@ -88,7 +88,7 @@
     self.orderQueue = nil;
     self.senderCenter.delegate = nil;
     self.senderCenter = nil;
-    self.alert = nil;
+//    self.alert = nil;
     self.locationIUR = nil;
     connectivityCheck.delegate = nil;
     [connectivityCheck release];
@@ -1007,13 +1007,20 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         locationName=[[aLocaiton objectAtIndex:0] objectForKey:@"Name"];
     }
     
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"Are you sure you want to delete order for %@",locationName]
-                                                             delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete"
-                                                    otherButtonTitles:@"Cancel",nil];
-    
-    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-    [actionSheet showInView:self.view];
-    [actionSheet release];
+//    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"Are you sure you want to delete order for %@",locationName]
+//                                                             delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete"
+//                                                    otherButtonTitles:@"Cancel",nil];
+//
+//    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//    [actionSheet showInView:self.view];
+//    [actionSheet release];
+    void (^lBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        
+    };
+    void (^rBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        [self deleteCurrentOrderHeader];
+    };
+    [ArcosUtils showTwoBtnsDialogBox:[NSString stringWithFormat:@"Are you sure you want to delete order for %@",locationName] title:@"" target:self lBtnText:@"Cancel" rBtnText:@"Delete" lBtnHandler:lBtnActionHandler rBtnHandler:rBtnActionHandler];
 }
 -(void)updateOrderHeaderWithOrderNumber:(NSNumber*)orderNumber withNewOrderNumber:(NSNumber *)newOrderNumber{
     for (int i=0; i<[self.displayList count]; i++) {
@@ -1050,6 +1057,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 //action sheet delegate
+/*
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
 //    NSLog(@"action sheet click in index %d",buttonIndex);
     
@@ -1063,7 +1071,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         default:
             break;
     }
-}
+}*/
 -(void)deleteCurrentOrderHeader{
 
     //delete
@@ -1177,7 +1185,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                                      otherButtonTitles: nil]autorelease];
             [self.alert show];
          */
-        [ArcosUtils showMsg:[NSString stringWithFormat: @"Something is wrong with order sending! (%@) You might try it again later!",reason] title:@"Warning" delegate:nil];
+//        [ArcosUtils showMsg:[NSString stringWithFormat: @"Something is wrong with order sending! (%@) You might try it again later!",reason] title:@"Warning" delegate:nil];
+        [ArcosUtils showDialogBox:[NSString stringWithFormat: @"Something is wrong with order sending! (%@) You might try it again later!",reason] title:@"Warning" target:self handler:nil];
         
         [self needCealTheCellWithOrderNumber:orderNumber need:NO];
         
@@ -1221,7 +1230,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                                    otherButtonTitles: nil]autorelease];
     [self.alert show];
     */
-    [ArcosUtils showMsg:[NSString stringWithFormat: @"Something is wrong with order sending! (%@) You might try it again later!",reason] title:@"Warning" delegate:nil];
+//    [ArcosUtils showMsg:[NSString stringWithFormat: @"Something is wrong with order sending! (%@) You might try it again later!",reason] title:@"Warning" delegate:nil];
+    [ArcosUtils showDialogBox:[NSString stringWithFormat: @"Something is wrong with order sending! (%@) You might try it again later!",reason] title:@"Warning" target:self handler:nil];
     //stop all animations
     [self stopAllCellAnimation];
 }
@@ -1237,7 +1247,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                                  otherButtonTitles: nil]autorelease];
     [self.alert show];
      */
-    [ArcosUtils showMsg:@"Time out for the order sending" title:@"Warning" delegate:nil];
+//    [ArcosUtils showMsg:@"Time out for the order sending" title:@"Warning" delegate:nil];
+    [ArcosUtils showDialogBox:@"Time out for the order sending" title:@"Warning" target:self handler:nil];
 }
 
 -(void)sendPressedForCell:(SavedOrderTableCell *)cell{
@@ -1281,7 +1292,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                                        otherButtonTitles: nil]autorelease];
         [self.alert show];
          */
-        [ArcosUtils showMsg:check.errorString title:@"Warning" delegate:nil];
+//        [ArcosUtils showMsg:check.errorString title:@"Warning" delegate:nil];
+        [ArcosUtils showDialogBox:check.errorString title:@"Warning" target:self handler:nil];
         //remove all orders from center
         [senderCenter abandonAll];
         //refresh the talbe
@@ -1315,7 +1327,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
             tmpMsg = [NSString stringWithFormat:@"%@ (photos also sent)", tmpMsg];
         }
     }
-    [ArcosUtils showMsg:tmpMsg title:@"Message" delegate:nil];
+//    [ArcosUtils showMsg:tmpMsg title:@"Message" delegate:nil];
+    [ArcosUtils showDialogBox:tmpMsg title:@"Message" target:self handler:nil];
     [self refreshTheList];
 //    [self.tableView reloadData];
     
@@ -1330,7 +1343,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [self.HUD show:YES];
 }
 - (void)orderSenderErrorOccurredLocalNewItemsSending:(NSString *)anErrorMsg {
-    [ArcosUtils showMsg:anErrorMsg title:[GlobalSharedClass shared].errorTitle delegate:nil];
+//    [ArcosUtils showMsg:anErrorMsg title:[GlobalSharedClass shared].errorTitle delegate:nil];
+    [ArcosUtils showDialogBox:anErrorMsg title:[GlobalSharedClass shared].errorTitle target:self handler:nil];
 }
 //-(void)startSendOrder:(id)aData{
 //    NSMutableDictionary* aDict=(NSMutableDictionary*)aData;
@@ -1341,9 +1355,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 //    [self needCealTheCellWithOrderNumber:orderNumber need:YES];
 //}
 #pragma mark alert view delegate
--(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
-
-}
+//-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
+//
+//}
 - (void)animatedPressed:(id)sender {    
 //    [ArcosXMLParser doXMLParse:@"testxmldoc" deserializeTo:[[ArcosGenericReturnObject alloc] autorelease]];
     CustomerAnalyzeModalViewController* camvc =[[CustomerAnalyzeModalViewController alloc]initWithNibName:@"CustomerAnalyzeModalViewController" bundle:nil];            
