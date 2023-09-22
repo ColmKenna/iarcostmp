@@ -334,7 +334,7 @@
 }
 
 - (void)scrollBehindSearchSection {
-    [self.tableView setContentOffset:CGPointMake(0, 44) animated:YES];
+    [self.tableView setContentOffset:CGPointMake(0, self.mySearchBar.frame.size.height) animated:YES];
 }
 
 @end

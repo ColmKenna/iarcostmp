@@ -117,7 +117,8 @@
     if ([tmpActiveL3L5ProductList count] == 0) {
         self.displayList = [NSMutableArray array];
         self.descrDetailList = [NSMutableArray array];
-        [ArcosUtils showMsg:@"Please Check for Active Product Assignments." delegate:nil];
+//        [ArcosUtils showMsg:@"Please Check for Active Product Assignments." delegate:nil];
+        [ArcosUtils showDialogBox:@"Please Check for Active Product Assignments." title:@"" target:[ArcosUtils getRootView] handler:nil];
         return;
     }
     NSSortDescriptor* descriptor = [[[NSSortDescriptor alloc] initWithKey:@"L3CodeIUR" ascending:YES] autorelease];

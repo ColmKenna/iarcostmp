@@ -522,7 +522,7 @@
     }
     NSString* body = @"";
     NSString* email = [cellData objectForKey:@"Email"];
-    NSArray* toRecipients = [NSArray arrayWithObjects:email, nil];
+    NSMutableArray* toRecipients = [NSMutableArray arrayWithObjects:email, nil];
     ArcosGenericClass* arcosGenericClass = [self.displayList objectAtIndex:currentSelectedIndexPath.row];
     @try {
         body = [self.queryOrderEmailProcessCenter buildEmailMessageWithTaskObject:arcosGenericClass memoDataList:[self.delegate getQueryOrderDetailDataList]];
@@ -538,6 +538,8 @@
 //        amwvc.myDelegate = self;
         amwvc.mailDelegate = self;
         amwvc.bodyText = body;
+        amwvc.toRecipients = toRecipients;
+        amwvc.subjectText = [NSString stringWithFormat:@"%@ %@", arcosGenericClass.Field3, arcosGenericClass.Field4];
         amwvc.isHTML = YES;
         amwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
         self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:amwvc] autorelease];

@@ -343,12 +343,15 @@
     [ArcosUtils processRotationEvent:self.orderBaseTableContentView tabBarHeight:0.0f navigationController:self.navigationController];
     [self layoutMySubviews];
     if ([GlobalSharedClass shared].currentSelectedLocationIUR == nil) {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Warning" 
-                                                        message:@"Please select a customer!" delegate:self cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        alert.tag = 88;
-        [alert show];
-        [alert release];
+//        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Warning"
+//                                                        message:@"Please select a customer!" delegate:self cancelButtonTitle:@"OK"
+//                                              otherButtonTitles:nil];
+//        alert.tag = 88;
+//        [alert show];
+//        [alert release];
+        [ArcosUtils showDialogBox:@"Please select a customer!" title:@"Warning" target:self handler:^(UIAlertAction *action) {
+            [self alertViewButtonProcessor];
+        }];
         return;
     } 
     if (self.isNotFirstLoaded) {
@@ -523,8 +526,13 @@
     [[self.orderBaseTableContentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self.globalNavigationController removeFromParentViewController];    
 //    [self.orderPadsPopover dismissPopoverAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:NO completion:^ {
+        [self didSelectFormDetailRowProcessor:cellData];
+    }];
 //    NSLog(@"didSelectFormDetailRow is: %@", cellData);
+}
+
+- (void)didSelectFormDetailRowProcessor:(NSDictionary*)cellData {
     NSString* details = [cellData objectForKey:@"Details"];
     NSRange aMATRange = [details rangeOfString:@"[MAT]"];
     if (aMATRange.location != NSNotFound) {
@@ -551,7 +559,7 @@
         case 2:
         case 3: {
             [self traditionalOrderPadSelection:formTypeNumber cellData:cellData];
-        }            
+        }
             break;
         case 4:
         case 5: {
@@ -683,10 +691,15 @@
     [self configRightBarButtons];
     [[OrderSharedClass sharedOrderSharedClass] insertFormIUR:aFormIUR];
     [[self.orderBaseTableContentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    NSDictionary* currentFormDetailRecordDict = [self.fdtvc.formDetailDataManager formDetailRecordDictWithIUR:aFormIUR];    
 //    [self.orderPadsPopover dismissPopoverAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
-//    NSLog(@"didSelectFormRowDividerRow is: %@", cellData);    
+    [self dismissViewControllerAnimated:NO completion:^ {
+        [self didSelectFormRowDividerRowProcessor:cellData formIUR:aFormIUR];
+    }];
+//    NSLog(@"didSelectFormRowDividerRow is: %@", cellData);
+}
+
+- (void)didSelectFormRowDividerRowProcessor:(NSDictionary *)cellData formIUR:(NSNumber *)aFormIUR {
+    NSDictionary* currentFormDetailRecordDict = [self.fdtvc.formDetailDataManager formDetailRecordDictWithIUR:aFormIUR];
     NSNumber* sequenceDivider = [cellData objectForKey:@"SequenceDivider"];
     NSString* details = [cellData objectForKey:@"Details"];
     [OrderSharedClass sharedOrderSharedClass].currentSelectionIUR =sequenceDivider;
@@ -751,19 +764,23 @@
 }
 
 #pragma marks alert delegate
+/*
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (alertView.tag == 88|| alertView.tag == 888) {//no customer alert        
         //root tab bar
-        /*
-        ArcosAppDelegate_iPad* delegate = [[UIApplication sharedApplication] delegate];
-        UITabBarController* tabbar = (UITabBarController*) delegate.mainTabbarController;
-        */
+        
         //redirct to the customer pad
 //        MainTabbarViewController* myRootViewController = (MainTabbarViewController*)[ArcosUtils getRootView];
         int itemIndex = [self.myRootViewController.customerMasterViewController.customerMasterDataManager retrieveIndexByTitle:[GlobalSharedClass shared].customerText];
         self.myRootViewController.customerMasterViewController.currentIndexPath = [NSIndexPath indexPathForRow:itemIndex inSection:0];
         [self.myRootViewController.customerMasterViewController selectCustomerMasterTopViewWithIndexPath:[NSIndexPath indexPathForRow:itemIndex inSection:0]];
     }
+}
+*/
+- (void)alertViewButtonProcessor {
+    int itemIndex = [self.myRootViewController.customerMasterViewController.customerMasterDataManager retrieveIndexByTitle:[GlobalSharedClass shared].customerText];
+    self.myRootViewController.customerMasterViewController.currentIndexPath = [NSIndexPath indexPathForRow:itemIndex inSection:0];
+    [self.myRootViewController.customerMasterViewController selectCustomerMasterTopViewWithIndexPath:[NSIndexPath indexPathForRow:itemIndex inSection:0]];
 }
 
 - (void)backPressed:(id)sender {
@@ -806,6 +823,7 @@
             break;
         case 102: {
             ImageFormRowsTableViewController* ifrtvc = [[ImageFormRowsTableViewController alloc] initWithNibName:@"ImageFormRowsTableViewController" bundle:nil];
+            ifrtvc.backButtonDelegate = self;
             self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:ifrtvc] autorelease];
             [ifrtvc release];
 //            self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;

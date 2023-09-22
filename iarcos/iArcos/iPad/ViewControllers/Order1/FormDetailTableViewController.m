@@ -21,11 +21,11 @@
 @synthesize formDetailDataManager = _formDetailDataManager;
 @synthesize delegate = _delegate;
 @synthesize dividerDelegate = _dividerDelegate;
-@synthesize theActionSheet = _theActionSheet;
+//@synthesize theActionSheet = _theActionSheet;
 @synthesize currentIndexPath = _currentIndexPath;
 @synthesize formDetailTableView = _formDetailTableView;
 @synthesize frdtvc = _frdtvc;
-@synthesize theAlertView = _theAlertView;
+//@synthesize theAlertView = _theAlertView;
 @synthesize emailButton = _emailButton;
 @synthesize standardOrderFormEmailButton = _standardOrderFormEmailButton;
 @synthesize isBusy = _isBusy;
@@ -48,11 +48,11 @@
     if (self.formDetailDataManager != nil) { self.formDetailDataManager = nil; }
 //    if (self.delegate != nil) { self.delegate = nil; }
 //    if (self.dividerDelegate != nil) { self.dividerDelegate = nil; }
-    if (self.theActionSheet != nil) { self.theActionSheet = nil; }
+//    if (self.theActionSheet != nil) { self.theActionSheet = nil; }
     if (self.currentIndexPath != nil) { self.currentIndexPath = nil; }
     if (self.formDetailTableView != nil) { self.formDetailTableView = nil; }
     if (self.frdtvc != nil) { self.frdtvc = nil; }
-    self.theAlertView = nil;
+//    self.theAlertView = nil;
     self.emailButton = nil;
     self.standardOrderFormEmailButton = nil;
     self.filePath = nil;
@@ -289,9 +289,16 @@
             self.theActionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
             [self.theActionSheet showInView:[ArcosUtils getRootView].view];
             */
-            self.theAlertView = [[[UIAlertView alloc] initWithTitle:@"" message:@"The current order pad is restricted!\n Do you want to delete the current order?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil] autorelease];
-            self.theAlertView.tag = 999;
-            [self.theAlertView show];
+//            self.theAlertView = [[[UIAlertView alloc] initWithTitle:@"" message:@"The current order pad is restricted!\n Do you want to delete the current order?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil] autorelease];
+//            self.theAlertView.tag = 999;
+//            [self.theAlertView show];
+            void (^okActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+                [self okButtonProcessor];
+            };
+            void (^cancelActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+                
+            };
+            [ArcosUtils showTwoBtnsDialogBox:@"The current order pad is restricted!\n Do you want to delete the current order?" title:@"" delegate:nil target:self tag:0 lBtnText:@"Cancel" rBtnText:@"OK" lBtnHandler:cancelActionHandler rBtnHandler:okActionHandler];
             return NO;
         }
         NSString* aPrintDeliveryDocket = [aCellData objectForKey:@"PrintDeliveryDocket"];
@@ -304,17 +311,32 @@
             self.theActionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
             [self.theActionSheet showInView:[ArcosUtils getRootView].view];
             */
-            self.theAlertView = [[[UIAlertView alloc] initWithTitle:@"" message:@"The order pad which you want to select is restricted!\n Do you want to delete the current order?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil] autorelease];
-            self.theAlertView.tag = 999;
-            [self.theAlertView show];
+//            self.theAlertView = [[[UIAlertView alloc] initWithTitle:@"" message:@"The order pad which you want to select is restricted!\n Do you want to delete the current order?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil] autorelease];
+//            self.theAlertView.tag = 999;
+//            [self.theAlertView show];
+            void (^okActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+                [self okButtonProcessor];
+            };
+            void (^cancelActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+                
+            };
+            [ArcosUtils showTwoBtnsDialogBox:@"The order pad which you want to select is restricted!\n Do you want to delete the current order?" title:@"" delegate:nil target:self tag:0 lBtnText:@"Cancel" rBtnText:@"OK" lBtnHandler:cancelActionHandler rBtnHandler:okActionHandler];
             return NO;
         }
     }
     return YES;
 }
 
+- (void)okButtonProcessor {
+    [[OrderSharedClass sharedOrderSharedClass] clearCurrentOrder];
+    [FileCommon removeFileAtPath:[FileCommon orderRestorePlistPath]];
+    [self.delegate removeSubviewInOrderPadTemplate];
+    NSDictionary* cellData = [self.formDetailDataManager.displayList objectAtIndex:self.currentIndexPath.row];
+    [self selectFormDetailRowAction:cellData];
+}
 
 #pragma mark UIAlertViewDelegate
+/*
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 77) {
         [self alertViewCallBack];
@@ -353,7 +375,7 @@
         }
     }
 }
-
+*/
 - (void)selectFormDetailRowAction:(NSDictionary*)aCellData {
 //    NSNumber* formDetailIUR = [aCellData objectForKey:@"IUR"];
 //    NSString* printDeliveryDocket = [aCellData objectForKey:@"PrintDeliveryDocket"];
@@ -549,7 +571,11 @@
         [amwvc release];        
         return;
     }
-    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
+//    if (![ArcosEmailValidator checkCanSendMailStatus]) return;
+    if (![MFMailComposeViewController canSendMail]) {
+        [ArcosUtils showDialogBox:[GlobalSharedClass shared].noMailAcctMsg title:[GlobalSharedClass shared].noMailAcctTitle target:self handler:nil];
+        return;
+    }
     MFMailComposeViewController* mfMailComposeViewController =[[MFMailComposeViewController alloc] init];
     mfMailComposeViewController.mailComposeDelegate = self;
     @try {
@@ -559,11 +585,13 @@
                 [mfMailComposeViewController addAttachmentData:data mimeType:@"application/csv" fileName:fileName];
             }            
         } else {
-            [ArcosUtils showMsg:[NSString stringWithFormat:@"%@ does not exist.",fileName] delegate:nil];
+//            [ArcosUtils showMsg:[NSString stringWithFormat:@"%@ does not exist.",fileName] delegate:nil];
+            [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@ does not exist.",fileName] title:@"" delegate:nil target:self tag:0 handler:nil];
         }
     }
     @catch (NSException *exception) {
-        [ArcosUtils showMsg:[exception reason] delegate:nil];
+//        [ArcosUtils showMsg:[exception reason] delegate:nil];
+        [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:self tag:0 handler:nil];
     }
     [mfMailComposeViewController setSubject:fileName];
     [self presentViewController:mfMailComposeViewController animated:YES completion:nil];

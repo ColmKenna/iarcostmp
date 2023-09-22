@@ -21,11 +21,11 @@
     FormDetailDataManager* _formDetailDataManager;
     id<FormDetailDelegate> _delegate;
     id<FormRowDividerDelegate> _dividerDelegate;
-    UIActionSheet* _theActionSheet;
+//    UIActionSheet* _theActionSheet;
     NSIndexPath* _currentIndexPath;
     UITableView* _formDetailTableView;
     FormRowDividerTableViewController* _frdtvc;
-    UIAlertView* _theAlertView;
+//    UIAlertView* _theAlertView;
     UIBarButtonItem* _emailButton;
     UIBarButtonItem* _standardOrderFormEmailButton;
     BOOL _isBusy;
@@ -38,11 +38,11 @@
 @property(nonatomic, retain) FormDetailDataManager* formDetailDataManager;
 @property(nonatomic, assign) id<FormDetailDelegate> delegate;
 @property(nonatomic, assign) id<FormRowDividerDelegate> dividerDelegate;
-@property(nonatomic, retain) UIActionSheet* theActionSheet;
+//@property(nonatomic, retain) UIActionSheet* theActionSheet;
 @property(nonatomic, retain) NSIndexPath* currentIndexPath;
 @property(nonatomic, retain) IBOutlet UITableView* formDetailTableView;
 @property(nonatomic, retain) FormRowDividerTableViewController* frdtvc;
-@property(nonatomic, retain) UIAlertView* theAlertView;
+//@property(nonatomic, retain) UIAlertView* theAlertView;
 @property(nonatomic, retain) UIBarButtonItem* emailButton;
 @property(nonatomic, retain) UIBarButtonItem* standardOrderFormEmailButton;
 @property(nonatomic, assign) BOOL isBusy;
