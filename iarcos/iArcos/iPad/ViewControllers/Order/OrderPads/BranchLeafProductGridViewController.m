@@ -86,7 +86,8 @@
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    [ArcosUtils showMsg:@"System running low on memory, please close some other apps." delegate:nil];
+//    [ArcosUtils showMsg:@"System running low on memory, please close some other apps." delegate:nil];
+    [ArcosUtils showDialogBox:@"System running low on memory, please close some other apps." title:@"" target:self handler:nil];
     // Release any cached data, images, etc that aren't in use.
 }
 
@@ -410,7 +411,8 @@
     self.globalWidgetViewController.popoverPresentationController.delegate = self;
     NSNumber* unitsPerPack = [productDetailDict objectForKey:@"UnitsPerPack"];
     if ((aFuncBtn.tag == 2 || aFuncBtn.tag == 3) && aNumberBtn.tag >= [unitsPerPack intValue]) {//spqty or spbon btn
-        [ArcosUtils showMsg:[NSString stringWithFormat:@"The value can not be greater or equal to %d.", [unitsPerPack intValue]] delegate:nil];
+//        [ArcosUtils showMsg:[NSString stringWithFormat:@"The value can not be greater or equal to %d.", [unitsPerPack intValue]] delegate:nil];
+        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"The value can not be greater or equal to %d.", [unitsPerPack intValue]] title:@"" target:self handler:nil];
         return;
     }
     

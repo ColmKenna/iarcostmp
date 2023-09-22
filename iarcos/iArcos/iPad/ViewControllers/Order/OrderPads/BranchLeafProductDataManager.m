@@ -206,7 +206,8 @@
         }
     }
     if ([self.leafChildrenList count] == 0) {
-        [ArcosUtils showMsg:@"Please Check for Active Product Group Assignments." delegate:nil];
+//        [ArcosUtils showMsg:@"Please Check for Active Product Group Assignments." delegate:nil];
+        [ArcosUtils showDialogBox:@"Please Check for Active Product Group Assignments." title:@"" target:[ArcosUtils getRootView] handler:nil];
     }
 //    NSLog(@"%@", self.leafChildrenList);
 }

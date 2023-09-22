@@ -25,7 +25,7 @@
     [super dealloc];
 }
 
-- (NSMutableArray*)getBranchLeafData:(NSString*)aBranchDescrTypeCode leafDescrTypeCode:(NSString*)anLeafDescrTypeCode branchLxCode:(NSString*)aBranchLxCode leafLxCode:(NSString*)anLeafLxCode {    
+- (NSMutableArray*)getBranchLeafData:(NSString*)aBranchDescrTypeCode leafDescrTypeCode:(NSString*)anLeafDescrTypeCode branchLxCode:(NSString*)aBranchLxCode leafLxCode:(NSString*)anLeafLxCode {
     NSMutableArray* tmpDisplayList = [[ArcosCoreData  sharedArcosCoreData] descrDetailWithDescrCodeType:aBranchDescrTypeCode parentCode:nil];
 //    NSLog(@"tmpDisplayList: %@", tmpDisplayList);
     
@@ -68,7 +68,8 @@
     }
 //    NSLog(@"tmpActiveBranchLeafProductList: %@", tmpActiveBranchLeafProductList);
     if ([tmpActiveBranchLeafProductList count] == 0) {        
-        [ArcosUtils showMsg:@"Please Check for Active Product Group Assignments." delegate:nil];
+//        [ArcosUtils showMsg:@"Please Check for Active Product Group Assignments." delegate:nil];
+        [ArcosUtils showDialogBox:@"Please Check for Active Product Group Assignments." title:@"" target:[ArcosUtils getRootView] handler:nil];
         return [NSMutableArray array];
     }
     NSSortDescriptor* descriptor = [[[NSSortDescriptor alloc] initWithKey:@"BranchCodeIUR" ascending:YES] autorelease];

@@ -782,7 +782,12 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 //    NSLog(@"input is done! with value %@",data);
     
 //    [self.inputPopover dismissPopoverAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^ {
+        [self operationDoneProcessor:data];
+    }];
+        
+}
+- (void)operationDoneProcessor:(id)data {
     if ([self.globalWidgetViewController isKindOfClass:[PickerWidgetViewController class]]) {
         NSNumber* descrDetailIUR = [data objectForKey:@"DescrDetailIUR"];
         NSMutableArray* productIURList = [NSMutableArray arrayWithCapacity:[self.displayList count]];
@@ -819,7 +824,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 //        [self.tableView reloadData];
         [self orderLinesTotal];
     }
-    
 }
 - (void)deleteOrderLineFromCellDeleteButton:(NSMutableDictionary*)data {
 //    self.backupSelectedOrderLine = data;
@@ -836,16 +840,26 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
     }
     self.currentSelectedOrderLine=data;
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:title
-                                                             delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete"
-                                                    otherButtonTitles:@"Cancel",nil];
-    
-    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-    [actionSheet showInView:self.view];
-//    [actionSheet showFromRect:[ArcosUtils fromRect4ActionSheet:[self.tableView cellForRowAtIndexPath:self.currentSelectedIndexPath]] inView:self.view animated:YES];
-    [actionSheet release];
+//    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:title
+//                                                             delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete"
+//                                                    otherButtonTitles:@"Cancel",nil];
+//
+//    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//    [actionSheet showInView:self.view];
+////    [actionSheet showFromRect:[ArcosUtils fromRect4ActionSheet:[self.tableView cellForRowAtIndexPath:self.currentSelectedIndexPath]] inView:self.view animated:YES];
+//    [actionSheet release];
+    void (^lBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        [self restoreCurrentOrderLine];
+        [self orderLinesTotal];
+    };
+    void (^rBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        [self deleteCurrentOrderLine];
+        [self orderLinesTotal];
+    };
+    [ArcosUtils showTwoBtnsDialogBox:title title:@"" target:self lBtnText:@"Cancel" rBtnText:@"Delete" lBtnHandler:lBtnActionHandler rBtnHandler:rBtnActionHandler];
 }
 //action sheet delegate
+/*
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
 //    NSLog(@"action sheet click in index %d",buttonIndex);
     
@@ -862,7 +876,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     }
     
     [self orderLinesTotal];
-}
+}*/
 -(void)deleteCurrentOrderLine{
     if ([self.tableData count]==1) {
         [self.delegate deleteOrderHeaderWithOrderNnumber:[self.currentSelectedOrderLine objectForKey:@"OrderNumber"]];
