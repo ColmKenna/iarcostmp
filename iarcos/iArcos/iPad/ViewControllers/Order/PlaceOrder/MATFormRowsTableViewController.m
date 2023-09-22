@@ -80,7 +80,8 @@
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    [ArcosUtils showMsg:@"System running low on memory, please close some other apps." delegate:nil];
+//    [ArcosUtils showMsg:@"System running low on memory, please close some other apps." delegate:nil];
+    [ArcosUtils showDialogBox:@"System running low on memory, please close some other apps." title:@"" target:self handler:nil];
     // Release any cached data, images, etc that aren't in use.
 }
 
@@ -219,7 +220,8 @@
                 headerCellLabel.text = [fieldName substringToIndex:3];
             }
             @catch (NSException *exception) {
-                [ArcosUtils showMsg:-1 message:[NSString stringWithFormat:@"%@%@", [exception name], [exception reason]] delegate:nil];
+//                [ArcosUtils showMsg:-1 message:[NSString stringWithFormat:@"%@%@", [exception name], [exception reason]] delegate:nil];
+                [ArcosUtils showDialogBox:[NSString stringWithFormat:@"%@%@", [exception name], [exception reason]] title:[ArcosUtils retrieveTitleWithCode:-1] target:self handler:nil];
                 break;
             }
         }
@@ -536,7 +538,8 @@
 //        NSLog(@"inner mat: %f", innerExecuteTime);
         self.isServiceCalled = YES;
     } else if(result.ErrorModel.Code <= 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 

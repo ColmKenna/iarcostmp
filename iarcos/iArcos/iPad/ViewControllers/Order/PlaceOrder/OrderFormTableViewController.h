@@ -38,7 +38,7 @@
     OrderTableViewHeader* orderTableViewHeader;
     
     //action sheet
-    UIActionSheet *theActionSheet;
+//    UIActionSheet *theActionSheet;
     
     //current indexpath
     NSIndexPath* currentIndexPath;

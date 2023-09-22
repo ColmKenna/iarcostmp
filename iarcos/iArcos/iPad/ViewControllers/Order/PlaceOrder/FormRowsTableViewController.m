@@ -135,7 +135,8 @@
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    [ArcosUtils showMsg:@"System running low on memory, please close some other apps." delegate:nil];
+//    [ArcosUtils showMsg:@"System running low on memory, please close some other apps." delegate:nil];
+    [ArcosUtils showDialogBox:@"System running low on memory, please close some other apps." title:@"" target:self handler:nil];
     // Release any cached data, images, etc that aren't in use.
 }
 

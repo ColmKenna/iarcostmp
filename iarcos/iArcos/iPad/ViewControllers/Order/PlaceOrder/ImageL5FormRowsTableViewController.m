@@ -292,15 +292,17 @@
             [self.navigationController pushViewController:formRowsView animated:YES];
             [formRowsView release];
         }else{
-            UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:@"No product found in the current selected form." delegate:nil cancelButtonTitle:nil destructiveButtonTitle:@"OK" otherButtonTitles:nil];
-            actionSheet.tag = 0;
-            actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-            [actionSheet showInView:self.parentViewController.view];
-            [actionSheet release];
+//            UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:@"No product found in the current selected form." delegate:nil cancelButtonTitle:nil destructiveButtonTitle:@"OK" otherButtonTitles:nil];
+//            actionSheet.tag = 0;
+//            actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//            [actionSheet showInView:self.parentViewController.view];
+//            [actionSheet release];
+            [ArcosUtils showDialogBox:@"No product found in the current selected form." title:@"" target:self handler:nil];
             return;
         }
     } else {
-        [ArcosUtils showMsg:@"No data found" delegate:nil];
+//        [ArcosUtils showMsg:@"No data found" delegate:nil];
+        [ArcosUtils showDialogBox:@"No data found" title:@"" target:self handler:nil];
     }
     
 }

@@ -14,6 +14,7 @@
 #import "SlideAcrossViewAnimationDelegate.h"
 
 @interface ImageFormRowsTableViewController : UITableViewController<ImageFormRowsDelegate, SlideAcrossViewAnimationDelegate, UISearchBarDelegate> {
+    id<OrderFormNavigationControllerBackButtonDelegate> _backButtonDelegate;
     NSNumber* _locationIUR;
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
     ImageFormRowsDataManager* _imageFormRowsDataManager;
@@ -25,6 +26,7 @@
     BOOL _isNotFirstLoaded;
 }
 
+@property(nonatomic, assign) id<OrderFormNavigationControllerBackButtonDelegate> backButtonDelegate;
 @property(nonatomic, retain) NSNumber* locationIUR;
 @property(nonatomic, assign) id<SlideAcrossViewAnimationDelegate> animateDelegate;
 @property(nonatomic, retain) ImageFormRowsDataManager* imageFormRowsDataManager;

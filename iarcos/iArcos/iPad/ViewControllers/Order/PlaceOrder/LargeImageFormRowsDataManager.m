@@ -70,7 +70,8 @@
     //    NSLog(@"l4l5ActiveProductList: %d", [l4l5ActiveProductList count]);
     if ([l4l5ActiveProductList count] == 0) {
         self.displayList = [NSMutableArray array];
-        [ArcosUtils showMsg:@"Please Check for Active Product Group Assignments." delegate:nil];
+//        [ArcosUtils showMsg:@"Please Check for Active Product Group Assignments." delegate:nil];
+        [ArcosUtils showDialogBox:@"Please Check for Active Product Group Assignments." title:@"" target:[ArcosUtils getRootView] handler:nil];
         return;
     }
     NSSortDescriptor* descriptor = [[[NSSortDescriptor alloc] initWithKey:@"L4CodeIUR" ascending:YES] autorelease];

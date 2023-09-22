@@ -298,11 +298,13 @@
         }
         @catch (NSException *exception) {
             [self.callGenericServices.HUD hide:YES];
-            [ArcosUtils showMsg:[exception reason] delegate:nil];
+//            [ArcosUtils showMsg:[exception reason] delegate:nil];
+            [ArcosUtils showDialogBox:[exception reason] title:@"" target:self handler:nil];
         }        
     } else if(result.ErrorModel.Code <= 0) {
         [self.callGenericServices.HUD hide:YES];
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 
@@ -380,7 +382,8 @@
         [self.productDetailDataManager processProductLocationRawData:result.ArrayOfData];
         [self.codeTableView reloadData];
     } else if (result.ErrorModel.Code <= 0) {
-        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+//        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
     }
 }
 

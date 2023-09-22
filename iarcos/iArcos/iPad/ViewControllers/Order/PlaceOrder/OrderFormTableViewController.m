@@ -302,6 +302,7 @@
     }else{
         [OrderSharedClass sharedOrderSharedClass].currentFormIUR=nil;
         // open a dialog
+        /*
         if (theActionSheet!=nil) {
             [theActionSheet dismissWithClickedButtonIndex:8 animated:NO];
             [theActionSheet release];
@@ -314,12 +315,14 @@
         theActionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
         
         [theActionSheet showInView:self.parentViewController.parentViewController.view];
+         */
         //[actionSheet release];
     }
     
     [[OrderSharedClass sharedOrderSharedClass]debugOrderForm];
 }
 //action sheet delegate
+/*
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
 //    NSLog(@"action sheet click in index %d",buttonIndex);
     if (actionSheet.tag==0) {//select form action
@@ -350,9 +353,9 @@
     }
     if (actionSheet.tag==1) {//select customer action
         //root tab bar
-        /*
-        ArcosAppDelegate_iPad *delegate = [[UIApplication sharedApplication] delegate];
-        */
+        
+//        ArcosAppDelegate_iPad *delegate = [[UIApplication sharedApplication] delegate];
+        
         UITabBarController* tabbar=(UITabBarController*) [ArcosUtils getRootView];
         
         switch (buttonIndex) {
@@ -374,7 +377,7 @@
     
     [[OrderSharedClass sharedOrderSharedClass]debugOrderForm];
 
-}
+}*/
 //addtional funcitons
 -(void)sortGroups{
     //release the old selections
@@ -559,6 +562,7 @@
         if (![[OrderSharedClass sharedOrderSharedClass]isFormExist:name]) {//attempt to use other form
             // open a dialog
             if ([[OrderSharedClass sharedOrderSharedClass]anyOrderLine]) {
+                /*
                 if (theActionSheet!=nil) {
                     [theActionSheet dismissWithClickedButtonIndex:8 animated:NO];
                     [theActionSheet release];
@@ -570,6 +574,7 @@
                 theActionSheet.tag=0;
                 theActionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
                 [theActionSheet showInView:self.parentViewController.parentViewController.view];
+                 */
                 //[theActionSheet release];
             }else{
                 NSLog(@"form existed and have orderline.");
