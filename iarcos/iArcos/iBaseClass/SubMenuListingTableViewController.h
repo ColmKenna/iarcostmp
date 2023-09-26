@@ -19,7 +19,7 @@
 #import "MainPresenterTableViewController.h"
 #import "CustomerJourneyAppointmentViewController.h"
 
-@interface SubMenuListingTableViewController : SubMenuTableViewController<SubMenuTableViewControllerDelegate, CoreLocationControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,ModalPresentViewControllerDelegate> {
+@interface SubMenuListingTableViewController : SubMenuTableViewController<SubMenuTableViewControllerDelegate, CoreLocationControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,ModalPresentViewControllerDelegate,SubMenuListingDataManagerDelegate> {
     NewOrderViewController* _myNewOrderViewController;
     UINavigationController* _myNewOrderNavigationController;
     DetailingTableViewController* _detailingTableViewController;

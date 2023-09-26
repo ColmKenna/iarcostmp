@@ -52,6 +52,7 @@
     if (self) {
         // Custom initialization
         self.subMenuListingDataManager = [[[SubMenuListingDataManager alloc] init] autorelease];
+        self.subMenuListingDataManager.delegate = self;
         self.orderTitle = @"Order";
         self.presenterTitle = @"Presenter";
         self.callTitle = @"Call";
@@ -82,6 +83,11 @@
         self.CLController.delegate = self;
     }
     return self;
+}
+
+#pragma mark SubMenuListingDataManagerDelegate
+- (UIViewController*)retrieveSubMenuListingDataManagerParentViewController {
+    return [self.subMenuDelegate retrieveMasterViewController];
 }
 
 - (void)viewDidLoad
@@ -202,11 +208,22 @@
     if ([self.subMenuListingDataManager.lsCodeType intValue] == 2) return;
     NSMutableDictionary* cellDict = [self.displayList objectAtIndex:anIndexPath.row];
     NSString* myTitle = [cellDict objectForKey:@"Title"];
+    self.subMenuListingDataManager.errorMessage = nil;
     if ([myTitle isEqualToString:self.orderTitle]) {
         if (![self.subMenuListingDataManager checkLocationCode]) return;
         if (![self.subMenuListingDataManager checkCreditStatus]) return;
         if (![self.subMenuListingDataManager checkDialUpNumber]) return;
     }
+    if (self.subMenuListingDataManager.errorMessage != nil) {
+        [ArcosUtils showDialogBox:self.subMenuListingDataManager.errorMessage title:@"" target:[self.subMenuDelegate retrieveMasterViewController] handler:^(UIAlertAction *action) {
+            [self didSelectSubMenuListingRowProcessor:anIndexPath cellData:cellDict title:myTitle];
+        }];
+    } else {
+        [self didSelectSubMenuListingRowProcessor:anIndexPath cellData:cellDict title:myTitle];
+    }
+}
+
+- (void)didSelectSubMenuListingRowProcessor:(NSIndexPath *)anIndexPath cellData:(NSMutableDictionary*)cellDict title:(NSString*)myTitle {
     self.currentIndexPath = anIndexPath;
     [self selectCurrentIndexPathRow:anIndexPath];
     if ([myTitle isEqualToString:self.mapTitle]) {
@@ -228,7 +245,7 @@
                 [self leaveCoordinateProcessor];
             };
             [ArcosUtils showThreeBtnsDialogBox:[NSString stringWithFormat:@"Co-ordinates already set for %@. Please choose from following", [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Name"]]] title:@"" delegate:nil target:[self.subMenuDelegate retrieveMasterViewController] tag:0 lBtnText:@"Remove" rBtnText:@"Reset" thirdBtnText:@"Leave" lBtnHandler:removeActionHandler rBtnHandler:resetActionHandler thirdBtnHandler:leaveActionHandler];
-        }        
+        }
         return;
     }
     if ([myTitle isEqualToString:self.photosTitle]) {

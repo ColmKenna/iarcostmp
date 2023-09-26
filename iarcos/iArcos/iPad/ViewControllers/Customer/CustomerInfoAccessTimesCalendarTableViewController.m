@@ -82,6 +82,9 @@
         }];
     }
 }
+- (UIViewController*)retrieveCallGenericServicesParentViewController {
+    return self;
+}
 
 - (void)dealloc {
     self.calendarHeaderView = nil;

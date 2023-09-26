@@ -854,7 +854,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     };
     void (^rBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
         [self deleteCurrentOrderLine];
-        [self orderLinesTotal];
+//        [self orderLinesTotal];
     };
     [ArcosUtils showTwoBtnsDialogBox:title title:@"" target:self lBtnText:@"Cancel" rBtnText:@"Delete" lBtnHandler:lBtnActionHandler rBtnHandler:rBtnActionHandler];
 }
@@ -889,6 +889,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     if ([self.tableData count] == 0) {
 //        [self.navigationController popToRootViewControllerAnimated:YES];
         [self popToSavedOrderDetailViewController];
+    } else {
+        [self orderLinesTotal];
     }
 }
 -(void)restoreCurrentOrderLine{

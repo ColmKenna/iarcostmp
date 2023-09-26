@@ -22,7 +22,8 @@
 #import "RepeatOrderDataManager.h"
 #import "CustomerInvoiceDetailsModalViewController.h"
 
-@interface SavedIarcosOrderDetailTableViewController : UITableViewController<OrderDetailTypesTableCellDelegate,EmailRecipientDelegate,MFMailComposeViewControllerDelegate,GetDataGenericDelegate, CustomisePresentViewControllerDelegate, WidgetFactoryDelegate, UIPopoverPresentationControllerDelegate, ModalPresentViewControllerDelegate, ArcosMailTableViewControllerDelegate, SlideAcrossViewAnimationDelegate> {
+@interface SavedIarcosOrderDetailTableViewController : UITableViewController<OrderDetailTypesTableCellDelegate,EmailRecipientDelegate,MFMailComposeViewControllerDelegate,GetDataGenericDelegate, CustomisePresentViewControllerDelegate, WidgetFactoryDelegate, UIPopoverPresentationControllerDelegate, ModalPresentViewControllerDelegate, ArcosMailTableViewControllerDelegate, SlideAcrossViewAnimationDelegate, OrderlinesIarcosTableViewControllerDelegate> {
+    id<OrderlinesIarcosTableViewControllerDelegate> _orderlinesIarcosTableViewControllerDelegate;
     UIBarButtonItem* _actionBarButton;
     UIBarButtonItem* _emailButton;
     UIBarButtonItem* _saveButton;
@@ -53,6 +54,7 @@
     UINavigationController* _globalNavigationController;
     UIViewController* _rootView;
 }
+@property(nonatomic, assign) id<OrderlinesIarcosTableViewControllerDelegate> orderlinesIarcosTableViewControllerDelegate;
 @property(nonatomic, retain) UIBarButtonItem* actionBarButton;
 @property(nonatomic, retain) UIBarButtonItem* emailButton;
 @property(nonatomic, retain) UIBarButtonItem* saveButton;

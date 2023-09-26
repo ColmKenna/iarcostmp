@@ -257,12 +257,24 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSMutableDictionary* cellData = [self.customerIarcosSavedOrderDataManager.displayList objectAtIndex:indexPath.row];
     SavedIarcosOrderDetailTableViewController* SIODTVC = [[SavedIarcosOrderDetailTableViewController alloc] initWithNibName:@"SavedIarcosOrderDetailTableViewController" bundle:nil];
+    SIODTVC.orderlinesIarcosTableViewControllerDelegate = self;
     SIODTVC.savedOrderDetailCellData = cellData;
     SIODTVC.coordinateType = self.coordinateType;
     UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:SIODTVC];
     [self.rcsStackedController pushNavigationController:tmpNavigationController fromNavigationController:(UINavigationController *)self.parentViewController animated:YES];
     [SIODTVC release];
     [tmpNavigationController release];
+}
+
+#pragma mark OrderlinesIarcosTableViewControllerDelegate
+-(void)deleteIarcosOrderHeaderWithOrderNumber:(NSNumber*)anOrderNumber {
+    
+}
+-(void)totalGoodsUpdateIarcosForOrderNumber:(NSNumber*)anOrderNumber withValue:(NSNumber*)aTotalGoods totalVat:(NSNumber*)aTotalVat {
+    [self refreshTheList];
+}
+- (void)refreshCustomerIarcosSavedOrderDataList {
+    [self refreshTheList];
 }
 
 - (void)editTable:(id)sender {

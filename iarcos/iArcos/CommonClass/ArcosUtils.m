@@ -79,43 +79,33 @@
 }
 
 + (void)showDialogBox:(NSString*)message title:(NSString*)title target:(UIViewController*)aTarget handler:(void (^)(UIAlertAction* action))handler {
-    UIViewController* myArcosRootViewController = [self getRootView];
-    UIAlertController* tmpDialogBox = [self createDialogBox:message title:title handler:handler];
-    if (myArcosRootViewController.presentedViewController == nil) {
-//            NSLog(@"a1");
-        [myArcosRootViewController presentViewController:tmpDialogBox animated:YES completion:nil];
-    } else if (aTarget != nil && aTarget.presentedViewController == nil) {
-//            NSLog(@"a2");
-        [aTarget presentViewController:tmpDialogBox animated:YES completion:nil];
-    } else {
-        
-    }
+    [self showDialogBoxProcessor:message title:title target:aTarget handler:handler];
 }
 
 + (void)showDialogBox:(NSString*)message title:(NSString*)title delegate:(id)delegate target:(UIViewController*)aTarget tag:(int)aTag handler:(void (^)(UIAlertAction* action))handler {
+//    UIViewController* myArcosRootViewController = [self getRootView];
+//    UIAlertController* tmpDialogBox = [self createDialogBox:message title:title handler:handler];
+//    if (myArcosRootViewController.presentedViewController == nil) {
+//        [myArcosRootViewController presentViewController:tmpDialogBox animated:YES completion:nil];
+//    } else if (aTarget != nil && aTarget.presentedViewController == nil) {
+//        [aTarget presentViewController:tmpDialogBox animated:YES completion:nil];
+//    } else {
+//    }
+    [self showDialogBoxProcessor:message title:title target:aTarget handler:handler];
+}
+
++ (void)showDialogBoxProcessor:(NSString*)message title:(NSString*)title target:(UIViewController*)aTarget handler:(void (^)(UIAlertAction* action))handler {
     UIViewController* myArcosRootViewController = [self getRootView];
     UIAlertController* tmpDialogBox = [self createDialogBox:message title:title handler:handler];
     if (myArcosRootViewController.presentedViewController == nil) {
-//            NSLog(@"a1");
+        NSLog(@"root target");
         [myArcosRootViewController presentViewController:tmpDialogBox animated:YES completion:nil];
     } else if (aTarget != nil && aTarget.presentedViewController == nil) {
-//            NSLog(@"a2");
+        NSLog(@"self target");
         [aTarget presentViewController:tmpDialogBox animated:YES completion:nil];
     } else {
-//            NSLog(@"a3");
-//            UIAlertView* v = [[UIAlertView alloc] initWithTitle:title message:message delegate:delegate cancelButtonTitle:@"OK" otherButtonTitles: nil, nil];
-//            v.tag = aTag;
-//            [v show];
-//            [v release];
+        NSLog(@"target not available");
     }
-//    if ([UIAlertController class]) {
-        
-//    } else {
-//        UIAlertView* v = [[UIAlertView alloc] initWithTitle:title message:message delegate:delegate cancelButtonTitle:@"OK" otherButtonTitles: nil, nil];
-//        v.tag = aTag;
-//        [v show];
-//        [v release];
-//    }
 }
 
 + (void)showTwoBtnsDialogBox:(NSString*)message title:(NSString*)title target:(UIViewController*)aTarget lBtnText:(NSString*)lBtnText rBtnText:(NSString*)rBtnText lBtnHandler:(void (^)(UIAlertAction* action))lBtnHandler rBtnHandler:(void (^)(UIAlertAction* action))rBtnHandler {

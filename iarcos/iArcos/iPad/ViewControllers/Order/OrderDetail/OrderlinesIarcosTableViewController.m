@@ -20,6 +20,7 @@
 @end
 
 @implementation OrderlinesIarcosTableViewController
+@synthesize delegate = _delegate;
 @synthesize isCellEditable = _isCellEditable;
 @synthesize formIUR = _formIUR;
 @synthesize orderNumber = _orderNumber;
@@ -290,7 +291,12 @@
 #pragma mark WidgetFactoryDelegate
 -(void)operationDone:(id)data {
 //    [self.inputPopover dismissPopoverAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^ {
+        [self operationDoneProcessor:data];
+    }];
+}
+
+- (void)operationDoneProcessor:(id)data {
     if ([self.globalWidgetViewController isKindOfClass:[PickerWidgetViewController class]]) {
         NSNumber* descrDetailIUR = [data objectForKey:@"DescrDetailIUR"];
         NSMutableArray* productIURList = [NSMutableArray arrayWithCapacity:[self.displayList count]];
@@ -379,6 +385,7 @@
 
 - (void)didDeleteAllOrderlinesFinish {
     [self didDismissPresentView];
+    [self.delegate refreshCustomerIarcosSavedOrderDataList];
     [self popToIarcosSavedOrderDetailViewController];
 }
 
@@ -387,8 +394,8 @@
     if (numOfViewControllers >= 3) {
         UINavigationController* topNavigationController = [self.rcsStackedController.rcsViewControllers objectAtIndex:numOfViewControllers - 3];
         [self.rcsStackedController popToNavigationController:topNavigationController animated:YES];
-        UIViewController* topViewController = [topNavigationController.viewControllers objectAtIndex:0];
-        [topViewController viewWillAppear:YES];
+//        UIViewController* topViewController = [topNavigationController.viewControllers objectAtIndex:0];
+//        [topViewController viewWillAppear:YES];
     }
 }
 
@@ -406,15 +413,24 @@
         
     }
     self.currentSelectedOrderLine = data;
-    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:title
-                                                             delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete"
-                                                    otherButtonTitles:@"Cancel",nil];
-    
-    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-    [actionSheet showInView:self.view];
-    [actionSheet release];
+//    UIActionSheet* actionSheet = [[UIActionSheet alloc] initWithTitle:title
+//                                                             delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"Delete"
+//                                                    otherButtonTitles:@"Cancel",nil];
+//
+//    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+//    [actionSheet showInView:self.view];
+//    [actionSheet release];
+    void (^lBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        [self restoreCurrentOrderLine];
+        [self calculateOrderLinesTotal];
+    };
+    void (^rBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        [self deleteCurrentOrderLine];
+//        [self calculateOrderLinesTotal];
+    };
+    [ArcosUtils showTwoBtnsDialogBox:title title:@"" target:self lBtnText:@"Cancel" rBtnText:@"Delete" lBtnHandler:lBtnActionHandler rBtnHandler:rBtnActionHandler];
 }
-
+/*
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     switch (buttonIndex) {
         case 1://cancel button do nothing
@@ -429,7 +445,7 @@
     
     [self calculateOrderLinesTotal];
 }
-
+*/
 - (void)deleteCurrentOrderLine {
     if ([self.displayList count] == 1) {
         [[ArcosCoreData sharedArcosCoreData] deleteOrderHeaderWithOrderNumber:[self.currentSelectedOrderLine objectForKey:@"OrderNumber"]];
@@ -437,10 +453,12 @@
         [[ArcosCoreData sharedArcosCoreData]deleteOrderLine:self.currentSelectedOrderLine];
     }
     [self.displayList removeObject:self.currentSelectedOrderLine];
+    [self.tableView reloadData];
     if ([self.displayList count] == 0) {
+        [self.delegate refreshCustomerIarcosSavedOrderDataList];
         [self popToIarcosSavedOrderDetailViewController];
     } else {
-        [self.tableView reloadData];
+        [self calculateOrderLinesTotal];
     }
 }
 
@@ -467,7 +485,8 @@
     }
 
     [[ArcosCoreData sharedArcosCoreData] updateOrderHeaderTotalGoods:[NSNumber numberWithFloat:[ArcosUtils roundFloatThreeDecimal:totalValue]] withOrderNumber:self.orderNumber totalVat:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:totalVAT]]];
-    [self refreshParentNavController];
+//    [self refreshParentNavController];
+    [self.delegate totalGoodsUpdateIarcosForOrderNumber:self.orderNumber withValue:[NSNumber numberWithFloat:[ArcosUtils roundFloatThreeDecimal:totalValue]] totalVat:[NSNumber numberWithFloat:[ArcosUtils roundFloatTwoDecimal:totalVAT]]];
 }
 
 - (void)refreshParentNavController {
@@ -476,7 +495,7 @@
         for (int i = 1; i <= 2; i++) {
             UINavigationController* prevNavigationController = [self.rcsStackedController previousNavControllerWithCurrentIndex:currentIndex step:i];
             UIViewController* prevViewController = [prevNavigationController.viewControllers objectAtIndex:0];
-            [prevViewController viewWillAppear:YES];
+            [prevViewController viewWillAppear:NO];
         }
     }
 }

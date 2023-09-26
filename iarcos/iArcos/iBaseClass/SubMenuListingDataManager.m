@@ -9,13 +9,15 @@
 #import "SubMenuListingDataManager.h"
 
 @implementation SubMenuListingDataManager
+@synthesize delegate = _delegate;
 @synthesize locationCellData = _locationCellData;
 @synthesize lsCodeType = _lsCodeType;
-
+@synthesize errorMessage = _errorMessage;
 
 - (void)dealloc {
     self.locationCellData = nil;
     self.lsCodeType = nil;
+    self.errorMessage = nil;
     
     [super dealloc];
 }
@@ -48,7 +50,8 @@
         NSNumber* codeType = [descDict objectForKey:@"CodeType"];
         if ([codeType intValue] != 0) {
 //            [ArcosUtils showMsg:[ArcosUtils convertNilToEmpty:[descDict objectForKey:@"Tooltip"] ]delegate:nil];
-            [ArcosUtils showDialogBox:[ArcosUtils convertNilToEmpty:[descDict objectForKey:@"Tooltip"]] title:@"" target:[ArcosUtils getRootView] handler:nil];
+            self.errorMessage = [ArcosUtils convertNilToEmpty:[descDict objectForKey:@"Tooltip"]];
+//            [ArcosUtils showDialogBox:[ArcosUtils convertNilToEmpty:[descDict objectForKey:@"Tooltip"]] title:@"" target:[ArcosUtils getRootView] handler:nil];
         }
         if ([codeType intValue] == 2) {
             return NO;

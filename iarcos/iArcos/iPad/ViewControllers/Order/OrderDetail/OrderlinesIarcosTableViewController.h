@@ -17,7 +17,14 @@
 #import "ProductDetailViewController.h"
 #import "OrderLineDetailProductTableViewController.h"
 
+@protocol OrderlinesIarcosTableViewControllerDelegate
+-(void)deleteIarcosOrderHeaderWithOrderNumber:(NSNumber*)anOrderNumber;
+-(void)totalGoodsUpdateIarcosForOrderNumber:(NSNumber*)anOrderNumber withValue:(NSNumber*)aTotalGoods totalVat:(NSNumber*)aTotalVat;
+- (void)refreshCustomerIarcosSavedOrderDataList;
+@end
+
 @interface OrderlinesIarcosTableViewController : UITableViewController<WidgetFactoryDelegate,PresentViewControllerDelegate,OrderLineDetailProductDelegate,UIActionSheetDelegate,UIPopoverPresentationControllerDelegate> {
+    id<OrderlinesIarcosTableViewControllerDelegate> _delegate;
     BOOL _isCellEditable;
     NSNumber* _formIUR;
     NSNumber* _orderNumber;
@@ -36,6 +43,7 @@
     BOOL _viewPresentingFlag;
 }
 
+@property(nonatomic, assign) id<OrderlinesIarcosTableViewControllerDelegate> delegate;
 @property(nonatomic, assign) BOOL isCellEditable;
 @property(nonatomic, retain) NSNumber* formIUR;
 @property(nonatomic, retain) NSNumber* orderNumber;

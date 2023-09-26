@@ -15,6 +15,7 @@
 @end
 
 @implementation SavedIarcosOrderDetailTableViewController
+@synthesize orderlinesIarcosTableViewControllerDelegate = _orderlinesIarcosTableViewControllerDelegate;
 @synthesize actionBarButton = _actionBarButton;
 @synthesize emailButton = _emailButton;
 @synthesize saveButton = _saveButton;
@@ -115,6 +116,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+//    if ([self.coordinateType intValue] == 1) return;
+//    [self loadSavedOrderDetailCellData:self.savedOrderDetailCellData];
+    [self refreshTheList];
+}
+
+- (void)refreshTheList {
     if ([self.coordinateType intValue] == 1) return;
     [self loadSavedOrderDetailCellData:self.savedOrderDetailCellData];
 }
@@ -366,6 +373,7 @@
     NSMutableDictionary* formTypeDict = [self.savedIarcosOrderDetailDataManager.orderHeader objectForKey:@"formType"];
     
     OrderlinesIarcosTableViewController* oitvc = [[OrderlinesIarcosTableViewController alloc] initWithStyle:UITableViewStylePlain];
+    oitvc.delegate = self;
     oitvc.isCellEditable = ![isSealed boolValue];
     oitvc.orderNumber = orderNumber;
     oitvc.formIUR = [formTypeDict objectForKey:@"IUR"];
@@ -377,6 +385,18 @@
     [self.rcsStackedController pushNavigationController:tmpNavigationController fromNavigationController:(UINavigationController*)self.parentViewController animated:YES];
     [oitvc release];
     [tmpNavigationController release];
+}
+
+#pragma mark OrderlinesIarcosTableViewControllerDelegate
+-(void)deleteIarcosOrderHeaderWithOrderNumber:(NSNumber*)anOrderNumber {
+    [self.orderlinesIarcosTableViewControllerDelegate deleteIarcosOrderHeaderWithOrderNumber:anOrderNumber];
+}
+-(void)totalGoodsUpdateIarcosForOrderNumber:(NSNumber*)anOrderNumber withValue:(NSNumber*)aTotalGoods totalVat:(NSNumber*)aTotalVat {
+    [self refreshTheList];
+    [self.orderlinesIarcosTableViewControllerDelegate totalGoodsUpdateIarcosForOrderNumber:anOrderNumber withValue:aTotalGoods totalVat:aTotalVat];
+}
+- (void)refreshCustomerIarcosSavedOrderDataList {
+    [self.orderlinesIarcosTableViewControllerDelegate refreshCustomerIarcosSavedOrderDataList];
 }
 
 -(void)showRemoteOrderlineDetailsDelegate {
@@ -874,8 +894,9 @@
     [ArcosUtils showDialogBox:@"New order created" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
         int currentIndex = [self.rcsStackedController indexOfMyNavigationController:(UINavigationController *)self.parentViewController];
         UINavigationController* prevNavigationController = [self.rcsStackedController previousNavControllerWithCurrentIndex:currentIndex step:1];
-        UIViewController* prevViewController = [prevNavigationController.viewControllers objectAtIndex:0];
-        [prevViewController viewWillAppear:YES];
+        [self.orderlinesIarcosTableViewControllerDelegate refreshCustomerIarcosSavedOrderDataList];
+//        UIViewController* prevViewController = [prevNavigationController.viewControllers objectAtIndex:0];
+//        [prevViewController viewWillAppear:YES];
         [self.rcsStackedController popToNavigationController:prevNavigationController animated:YES];
     }];
 }

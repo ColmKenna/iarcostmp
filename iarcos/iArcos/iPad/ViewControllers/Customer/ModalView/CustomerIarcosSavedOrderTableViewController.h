@@ -17,7 +17,7 @@
 #import "SavedOrderPresenterTranDataManager.h"
 #import "ArcosDateRangeProcessor.h"
 
-@interface CustomerIarcosSavedOrderTableViewController : UITableViewController <UIActionSheetDelegate, CustomerIarcosSavedOrderDelegate,OrderSenderCenterDelegate,ConnectivityDelegate,GetDataGenericDelegate,UIPopoverControllerDelegate,WidgetFactoryDelegate>{
+@interface CustomerIarcosSavedOrderTableViewController : UITableViewController <UIActionSheetDelegate, CustomerIarcosSavedOrderDelegate,OrderSenderCenterDelegate,ConnectivityDelegate,GetDataGenericDelegate,UIPopoverControllerDelegate,WidgetFactoryDelegate, OrderlinesIarcosTableViewControllerDelegate>{
     NSNumber* _locationIUR;
     NSNumber* _locationDefaultContactIUR;
     CustomerIarcosSavedOrderDataManager* _customerIarcosSavedOrderDataManager;
