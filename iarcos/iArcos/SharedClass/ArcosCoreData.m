@@ -5081,7 +5081,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator ;
     if (coordinator != nil)
     {
-        __addManagedObjectContext = [[NSManagedObjectContext alloc] init];
+        __addManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         [__addManagedObjectContext setPersistentStoreCoordinator:coordinator];
     }
     return __addManagedObjectContext;
@@ -5095,7 +5095,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator ;
     if (coordinator != nil)
     {
-        __deleteManagedObjectContext = [[NSManagedObjectContext alloc] init];
+        __deleteManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         [__deleteManagedObjectContext setPersistentStoreCoordinator:coordinator];
     }
     return __deleteManagedObjectContext;
@@ -5109,7 +5109,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator ;
     if (coordinator != nil)
     {
-        __fetchManagedObjectContext = [[NSManagedObjectContext alloc] init];
+        __fetchManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         [__fetchManagedObjectContext setPersistentStoreCoordinator:coordinator];
     }
     return __fetchManagedObjectContext;
@@ -5123,7 +5123,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator ;
     if (coordinator != nil)
     {
-        __editManagedObjectContext = [[NSManagedObjectContext alloc] init];
+        __editManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         [__editManagedObjectContext setPersistentStoreCoordinator:coordinator];
     }
     return __editManagedObjectContext;
@@ -5137,7 +5137,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator ;
     if (coordinator != nil)
     {
-        __importManagedObjectContext = [[NSManagedObjectContext alloc] init];
+        __importManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         [__importManagedObjectContext setPersistentStoreCoordinator:coordinator];
     }
     return __importManagedObjectContext;

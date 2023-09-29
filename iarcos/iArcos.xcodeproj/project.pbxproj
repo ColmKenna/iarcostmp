@@ -10995,7 +10995,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.3.10;
+				MARKETING_VERSION = 12.3.11;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11006,6 +11006,7 @@
 					"-lxml2",
 					"-lc++",
 					"-ObjC",
+					"-ld_classic",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -11053,7 +11054,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.3.10;
+				MARKETING_VERSION = 12.3.11;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -11063,6 +11064,7 @@
 					"-lxml2",
 					"-lc++",
 					"-ObjC",
+					"-ld_classic",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -11191,7 +11193,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.3.10;
+				MARKETING_VERSION = 12.3.11;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11202,6 +11204,7 @@
 					"-lxml2",
 					"-lc++",
 					"-ObjC",
+					"-ld_classic",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";

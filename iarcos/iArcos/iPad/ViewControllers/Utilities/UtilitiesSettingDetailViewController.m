@@ -273,11 +273,11 @@
         }];
         [weakSelf presentViewController:tmpDialogBox animated:YES completion:nil];
     } else {
-        AlertPrompt *prompt = [AlertPrompt alloc];
-        prompt = [prompt initWithTitle:@"Please Enter Manager Password!\n\n" message:nil delegate:self cancelButtonTitle:@"Cancel" okButtonTitle:@"OK"];
-        prompt.tag=88888;
-        [prompt show];
-        [prompt release];
+//        AlertPrompt *prompt = [AlertPrompt alloc];
+//        prompt = [prompt initWithTitle:@"Please Enter Manager Password!\n\n" message:nil delegate:self cancelButtonTitle:@"Cancel" okButtonTitle:@"OK"];
+//        prompt.tag=88888;
+//        [prompt show];
+//        [prompt release];
     }
 }
 #pragma mark - Table view delegate
