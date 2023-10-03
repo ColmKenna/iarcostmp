@@ -1273,7 +1273,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 
 - (NSMutableArray*)lastOrderWithOrderNumber:(NSNumber*)anIUR {
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"OrderNumber = %d",[anIUR intValue]];
-    NSArray* properties = [NSArray arrayWithObjects:@"OrderNumber", @"OrderDate",@"Points",@"DeliveryDate",@"TotalGoods",@"LocationIUR",@"OrderHeaderIUR",@"EnteredDate",@"NumberOflines",@"OSiur",@"FormIUR",@"ContactIUR",@"WholesaleIUR",nil];
+    NSArray* properties = [NSArray arrayWithObjects:@"OrderNumber", @"OrderDate",@"Points",@"DeliveryDate",@"TotalGoods",@"LocationIUR",@"OrderHeaderIUR",@"EnteredDate",@"NumberOflines",@"OSiur",@"FormIUR",@"ContactIUR",@"WholesaleIUR",@"TotalVat",nil];
     NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"OrderHeader" withPropertiesToFetch:properties  withPredicate:predicate withSortDescNames:nil withResulType:NSDictionaryResultType needDistinct:NO ascending:[NSNumber numberWithBool:NO]];
     return objectsArray;
 }

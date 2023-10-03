@@ -297,10 +297,19 @@
             }
         }
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] forceEnterCusRefOnCheckoutFlag] && [[ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"custRef"]] isEqualToString:@""]) {
-            [ArcosUtils showDialogBox:@"Please enter a customer reference" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
-            return;
+            int lP20 = 0;
+            NSMutableArray* refLocationList = [[ArcosCoreData sharedArcosCoreData] locationWithIURWithoutCheck:[GlobalSharedClass shared].currentSelectedLocationIUR];
+            if (refLocationList != nil && [refLocationList count] > 0) {
+                NSDictionary* refLocationDict = [refLocationList objectAtIndex:0];
+                lP20 = [[refLocationDict objectForKey:@"lP20"] intValue];
+            }
+            if (lP20 != 0) {
+                [ArcosUtils showDialogBox:@"Please enter a customer reference" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
+                return;
+            }
         }
         //save the order
+        /*
         NSMutableDictionary* auxOrderType = [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"type"];
         if (auxOrderType == nil) {
             [ArcosUtils showDialogBox:@"Please select an order type" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
@@ -322,11 +331,48 @@
             [self checkTotalOrderValueProcessor];
         } else {
             [self checkoutSaveProcessor];
-        }                
+        }
+         */
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] confirmOrderDetailsAtCheckoutFlag]) {
+            void (^lBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+                
+            };
+            void (^rBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+                [self enableVanSaleProcessor];
+            };            
+            [ArcosUtils showTwoBtnsDialogBox:[NSString stringWithFormat:@"€%@",[ArcosUtils convertNilToEmpty:[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"totalGoodsText"]]] title:@"Confirm Value" target:self lBtnText:@"Adjust" rBtnText:@"Save" lBtnHandler:lBtnActionHandler rBtnHandler:rBtnActionHandler];
+        } else {
+            [self enableVanSaleProcessor];
+        }
     } else{
         [ArcosUtils showDialogBox:@"Order has no lines,please Re-enter or use 'new call!'" title:@"Warning" delegate:self target:self tag:888 handler:^(UIAlertAction *action) {
             [self backPressed:nil];
         }];
+    }
+}
+
+- (void)enableVanSaleProcessor {
+    NSMutableDictionary* auxOrderType = [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"type"];
+    if (auxOrderType == nil) {
+        [ArcosUtils showDialogBox:@"Please select an order type" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
+        return;
+    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableVanSaleFlag] && ![[auxOrderType objectForKey:@"DescrDetailCode"] isEqualToString:[GlobalSharedClass shared].vansCode]) {
+        void (^continueActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] checkTotalOrderValueFlag]) {
+                [self checkTotalOrderValueProcessor];
+            } else {
+                [self checkoutSaveProcessor];
+            }
+        };
+        void (^cancelActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+            
+        };
+        [ArcosUtils showTwoBtnsDialogBox:@"Order type is not set as van sales. Do you want to continue" title:@"Warning" delegate:nil target:self tag:0 lBtnText:@"Cancel" rBtnText:@"Continue" lBtnHandler:cancelActionHandler rBtnHandler:continueActionHandler];
+    } else if ([[ArcosConfigDataManager sharedArcosConfigDataManager] checkTotalOrderValueFlag]) {
+        [self checkTotalOrderValueProcessor];
+    } else {
+        [self checkoutSaveProcessor];
     }
 }
 

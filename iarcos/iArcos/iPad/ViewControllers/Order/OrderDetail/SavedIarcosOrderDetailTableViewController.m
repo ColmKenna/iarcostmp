@@ -544,8 +544,17 @@
         return;
     }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] forceEnterCusRefOnCheckoutFlag] && [[self.savedIarcosOrderDetailDataManager.orderHeader objectForKey:@"NumberOflines"] intValue] > 0 && [[ArcosUtils trim:[self.savedIarcosOrderDetailDataManager.orderHeader objectForKey:@"custRef"]] isEqualToString:@""]) {
-        [ArcosUtils showDialogBox:@"Please enter a customer reference" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
-        return;
+        NSNumber* refLocationIUR = [self.savedOrderDetailCellData objectForKey:@"LocationIUR"];
+        int lP20 = 0;
+        NSMutableArray* refLocationList = [[ArcosCoreData sharedArcosCoreData] locationWithIURWithoutCheck:refLocationIUR];
+        if (refLocationList != nil && [refLocationList count] > 0) {
+            NSDictionary* refLocationDict = [refLocationList objectAtIndex:0];
+            lP20 = [[refLocationDict objectForKey:@"lP20"] intValue];
+        }
+        if (lP20 != 0) {
+            [ArcosUtils showDialogBox:@"Please enter a customer reference" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
+            return;
+        }
     }
     BOOL resultFlag = [self.savedIarcosOrderDetailDataManager saveTheOrderHeader];
     
@@ -811,9 +820,11 @@
 -(void)saveButtonCallBack {
     int currentIndex = [self.rcsStackedController indexOfMyNavigationController:(UINavigationController *)self.parentViewController];
     UINavigationController* prevNavigationController = [self.rcsStackedController previousNavControllerWithCurrentIndex:currentIndex step:1];
-    UIViewController* prevViewController = [prevNavigationController.viewControllers objectAtIndex:0];
-    [prevViewController viewWillAppear:YES];
-    [self.rcsStackedController popTopNavigationController:YES];
+    [self.orderlinesIarcosTableViewControllerDelegate refreshCustomerIarcosSavedOrderDataList];
+//    UIViewController* prevViewController = [prevNavigationController.viewControllers objectAtIndex:0];
+//    [prevViewController viewWillAppear:YES];
+//    [self.rcsStackedController popTopNavigationController:YES];
+    [self.rcsStackedController popToNavigationController:prevNavigationController animated:YES];
 }
 
 #pragma mark WidgetFactoryDelegate

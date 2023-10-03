@@ -194,7 +194,7 @@
     
 //    NSString* whereClause_2 = [NSString stringWithFormat:@"WHERE LocEmpLink_1.EmployeeIUR = %d AND (Location_2.Active = 1 %@)", anEmpolyeeIUR, activeFilterLocation_2];
     
-    NSString* selectStatement = @"SELECT IUR, LocationCode, Name, ShortName, Address1, Address2, Address3, Address4, PhoneNumber, FaxNumber, CCiur, TCiur, CSiur, LTiur, LSiur, LP01,Latitude, Longitude, Active, MasterLocationIUR, ImageIUR, Email, Password, RouteNumber, OutstandingBalance, AgedAmount1, AgedAmount2, AgedAmount3, AgedAmount4,LP02,LP03,LP04,LP05,LP06,LP07,LP08,LP09,LP10,AccessTimes,PGIUR,PriceOverride,CUiur,DialupNumber,Address5,Competitor3";
+    NSString* selectStatement = @"SELECT IUR, LocationCode, Name, ShortName, Address1, Address2, Address3, Address4, PhoneNumber, FaxNumber, CCiur, TCiur, CSiur, LTiur, LSiur, LP01,Latitude, Longitude, Active, MasterLocationIUR, ImageIUR, Email, Password, RouteNumber, OutstandingBalance, AgedAmount1, AgedAmount2, AgedAmount3, AgedAmount4,LP02,LP03,LP04,LP05,LP06,LP07,LP08,LP09,LP10,AccessTimes,PGIUR,PriceOverride,CUiur,DialupNumber,Address5,Competitor3,LP20";
 
     NSString* fromStatement = @"";
     if ([downloadMode intValue] == 1 && [isDownloaded boolValue]) {//1:Partial

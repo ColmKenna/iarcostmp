@@ -374,9 +374,19 @@
         }];
         return;
     }
+    
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] forceEnterCusRefOnCheckoutFlag] && [[self.orderDetailDataManager.orderHeader objectForKey:@"NumberOflines"] intValue] > 0 && [[ArcosUtils trim:[self.orderDetailDataManager.orderHeader objectForKey:@"custRef"]] isEqualToString:@""]) {
-        [ArcosUtils showDialogBox:@"Please enter a customer reference" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
-        return;
+        NSNumber* refLocationIUR = [self.orderDetailDataManager.savedOrderDetailCellData objectForKey:@"LocationIUR"];
+        int lP20 = 0;
+        NSMutableArray* refLocationList = [[ArcosCoreData sharedArcosCoreData] locationWithIURWithoutCheck:refLocationIUR];
+        if (refLocationList != nil && [refLocationList count] > 0) {
+            NSDictionary* refLocationDict = [refLocationList objectAtIndex:0];
+            lP20 = [[refLocationDict objectForKey:@"lP20"] intValue];
+        }
+        if (lP20 != 0) {
+            [ArcosUtils showDialogBox:@"Please enter a customer reference" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
+            return;
+        }
     }
     BOOL resultFlag = [self.orderDetailDataManager saveTheOrderHeader];
     

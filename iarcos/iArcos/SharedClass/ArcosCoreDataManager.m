@@ -370,6 +370,7 @@
     Location.DialupNumber = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field43]];
     Location.Address5            =    [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field44]];
     Location.Competitor3 = [ArcosUtils convertStringToNumber:anObject.Field45];
+    Location.lP20                =    [ArcosUtils convertStringToNumber:anObject.Field46];
     
     return Location;
 }
@@ -428,6 +429,7 @@
     Location.DialupNumber = [ArcosUtils convertToString:[aFieldList objectAtIndex:42]];
     Location.Address5            =    [ArcosUtils convertToString:[aFieldList objectAtIndex:43]];
     Location.Competitor3         =    [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:44]];
+    Location.lP20 = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:45]];
     
     return Location;
 }

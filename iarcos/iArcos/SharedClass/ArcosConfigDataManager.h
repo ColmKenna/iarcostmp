@@ -91,6 +91,7 @@
 - (BOOL)restrictKeyMessageDetailingContentFlag;
 - (BOOL)showPreviousMonthsInNormalOrderPadFlag;
 - (BOOL)showFullProductTableAddingLinesFlag;
+- (BOOL)confirmOrderDetailsAtCheckoutFlag;
 - (void)resetSystemCodes:(NSString*)aSystemCodes;
 - (void)persistentSystemCodes;
 
