@@ -49,6 +49,8 @@
 @synthesize arcosCalendarTableViewController = _arcosCalendarTableViewController;
 @synthesize calendarNavigationController = _calendarNavigationController;
 @synthesize calendarText = _calendarText;
+@synthesize flagsMainTemplateViewController = _flagsMainTemplateViewController;
+@synthesize flagsText = _flagsText;
 
 - (id)init{
     self = [super init];
@@ -58,6 +60,7 @@
         self.targetText = @"Target";
         self.meetingText = @"Meeting";
         self.calendarText = @"Calendar";
+        self.flagsText = @"Flags";
 //        self.mainNewPresenterViewController = [[[NewPresenterViewController alloc] initWithNibName:@"NewPresenterViewController" bundle:nil] autorelease];
 //        self.mainNewPresenterViewController.parentPresenterRequestSource = PresenterRequestSourceMainMenu;
 //        self.mainNewPresenterNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.mainNewPresenterViewController] autorelease];
@@ -146,6 +149,7 @@
         self.meetingNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.meetingMainTemplateViewController] autorelease];
         self.arcosCalendarTableViewController = [[[ArcosCalendarTableViewController alloc] initWithNibName:@"ArcosCalendarTableViewController" bundle:nil] autorelease];
         self.calendarNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.arcosCalendarTableViewController] autorelease];
+        self.flagsMainTemplateViewController = [[[FlagsMainTemplateViewController alloc] initWithNibName:@"FlagsMainTemplateViewController" bundle:nil] autorelease];
         
 //        NSMutableDictionary* dashboardCellData = [self createItemCellData:self.dashboardText imageFile:@"Dashboard.png" myCustomController:self.templateDashboardViewController];
         NSMutableDictionary* dashboardCellData = [self createItemCellData:self.dashboardText imageFile:@"Dashboard.png" myCustomController:self.dashboardServerNavigationController];
@@ -163,7 +167,7 @@
         NSMutableDictionary* targetCellData = [self createItemCellData:self.targetText imageFile:@"Target.png" myCustomController:self.targetNavigationController];
         NSMutableDictionary* meetingCellData = [self createItemCellData:self.meetingText imageFile:@"Meeting.png" myCustomController:self.meetingNavigationController];
         NSMutableDictionary* calendarCellData = [self createItemCellData:self.calendarText imageFile:@"Calendar.png" myCustomController:self.calendarNavigationController];
-        
+        NSMutableDictionary* flagsCellData = [self createItemCellData:self.flagsText imageFile:@"loc_con_flags.png" myCustomController:self.flagsMainTemplateViewController];
         
         
         //dashboardMainTemplateCellData,
@@ -174,6 +178,9 @@
         }
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showMeetingFlag]) {
             [self.displayList addObject:meetingCellData];
+        }
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showLocationContactFlagsItemFlag]) {
+            [self.displayList addObject:flagsCellData];
         }
         [self.displayList addObject:calendarCellData];
         [self.displayList addObject:presenterCellData];
@@ -211,6 +218,8 @@
     self.arcosCalendarTableViewController = nil;
     self.calendarNavigationController = nil;
     self.calendarText = nil;
+    self.flagsMainTemplateViewController = nil;
+    self.flagsText = nil;
     
     [super dealloc];
 }

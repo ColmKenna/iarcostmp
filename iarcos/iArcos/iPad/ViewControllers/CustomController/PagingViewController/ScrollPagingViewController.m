@@ -366,7 +366,7 @@
 #pragma mark order product
 //order product
 -(void)orderProduct:(id)sender{
-    UIBarButtonItem* button=(UIBarButtonItem*)sender;
+//    UIBarButtonItem* button=(UIBarButtonItem*)sender;
     
     //check any customer 
     if ([GlobalSharedClass shared].currentSelectedLocationIUR ==nil){     

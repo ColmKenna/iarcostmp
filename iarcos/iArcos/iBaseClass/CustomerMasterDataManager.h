@@ -27,6 +27,7 @@
 #import "ReporterGroupMainTableViewController.h"
 #import "DashboardServerViewController.h"
 #import "ArcosCalendarTableViewController.h"
+#import "FlagsMainTemplateViewController.h"
 
 @interface CustomerMasterDataManager : NSObject {
     NSMutableArray* _displayList;
@@ -65,6 +66,8 @@
     ArcosCalendarTableViewController* _arcosCalendarTableViewController;
     UINavigationController* _calendarNavigationController;
     NSString* _calendarText;
+    FlagsMainTemplateViewController* _flagsMainTemplateViewController;
+    NSString* _flagsText;
 }
 
 @property(nonatomic, retain) NSMutableArray* displayList;
@@ -103,6 +106,8 @@
 @property(nonatomic, retain) ArcosCalendarTableViewController* arcosCalendarTableViewController;
 @property(nonatomic, retain) UINavigationController* calendarNavigationController;
 @property(nonatomic, retain) NSString* calendarText;
+@property(nonatomic, retain) FlagsMainTemplateViewController* flagsMainTemplateViewController;
+@property(nonatomic, retain) NSString* flagsText;
 
 - (NSMutableDictionary*)createItemCellData:(NSString*)title imageFile:(NSString*)imageFile;
 - (NSMutableDictionary*)createItemCellData:(NSString*)title imageFile:(NSString*)imageFile myCustomController:(UIViewController*)aViewController;

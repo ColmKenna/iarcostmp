@@ -130,7 +130,7 @@
 }
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
     
-    NSNumber* orderNumber=[[self.tableData objectAtIndex:indexPath.row]objectForKey:@"OrderNumber"];
+//    NSNumber* orderNumber=[[self.tableData objectAtIndex:indexPath.row]objectForKey:@"OrderNumber"];
 //    NSMutableArray* orderLines=[[ArcosCoreData sharedArcosCoreData]allOrderLinesWithOrderNumber:orderNumber withSortKey:@"LineValue" locationIUR:nil];
     NSMutableArray* orderLines = nil;
     

@@ -325,6 +325,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConfigDataManager);
     return [self retrieveConfigFlagByIndex:81];
 }
 
+- (BOOL)showLocationContactFlagsItemFlag {
+    return [self retrieveConfigFlagByIndex:82];
+}
+
 - (void)resetSystemCodes:(NSString*)aSystemCodes {
     self.systemCodes = aSystemCodes;
 }

@@ -92,6 +92,7 @@
 - (BOOL)showPreviousMonthsInNormalOrderPadFlag;
 - (BOOL)showFullProductTableAddingLinesFlag;
 - (BOOL)confirmOrderDetailsAtCheckoutFlag;
+- (BOOL)showLocationContactFlagsItemFlag;
 - (void)resetSystemCodes:(NSString*)aSystemCodes;
 - (void)persistentSystemCodes;
 
