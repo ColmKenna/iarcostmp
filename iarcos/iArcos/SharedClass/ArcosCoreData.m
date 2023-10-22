@@ -4952,6 +4952,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     return nil;
 }
 
+- (NSMutableArray*)retrieveContactFlagData {
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode='CF' and Active = 1"];
+    NSArray* sortDescNames = [NSArray arrayWithObjects:@"Detail",nil];
+    NSArray* properties = [NSArray arrayWithObjects:@"DescrDetailIUR",@"Detail",nil];
+    
+    NSMutableArray* objectArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:properties withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
+    NSMutableArray* contactFlagDictList = [NSMutableArray arrayWithCapacity:[objectArray count]];
+    for (NSDictionary* tmpDict in objectArray) {
+        NSMutableDictionary* resultDict = [NSMutableDictionary dictionaryWithDictionary:tmpDict];
+        if ([tmpDict objectForKey:@"Detail"] == nil) {
+            [resultDict setObject:@"Not Defined" forKey:@"Title"];
+        }else{
+            [resultDict setObject:[tmpDict objectForKey:@"Detail"] forKey:@"Title"];
+        }
+        [contactFlagDictList addObject:resultDict];
+    }
+    
+    return contactFlagDictList;
+}
+
 #pragma mark Generic method
 -(NSNumber*)recordQtyWithEntityName:(NSString*)anEntityName predicate:(NSPredicate*)aPredicate {
     NSMutableArray* objectsArray = [self fetchRecordsWithEntity:anEntityName withPropertiesToFetch:nil  withPredicate:aPredicate withSortDescNames:nil withResulType:NSCountResultType needDistinct:NO ascending:nil];

@@ -46,6 +46,7 @@ typedef enum {
 -(BOOL)allowToShowAddContactButton;
 -(void)emailPressedFromTablePopoverRow:(NSDictionary*)cellData groupName:(NSString*)aGroupName;
 -(BOOL)allowToShowAddAccountNoButton;
+- (BOOL)allowToShowAddContactFlagButton;
 @end
 
 @interface WidgetFactory : NSObject <WidgetViewControllerDelegate>{

@@ -303,6 +303,12 @@
 	- (SoapRequest*) UpdateDeliveryDateOnOrder: (id) target action: (SEL) action CompanyIUR: (int) CompanyIUR email: (NSString*) email orderheaderiur: (int) orderheaderiur deliverDate: (NSDate*) deliverDate;
 	-(SoapRequest*)UpdateDeliveryDateOnOrderWithProgress:(SoapRequestProgressBlock)progressBlock CompanyIUR: (int) CompanyIUR email: (NSString*) email orderheaderiur: (int) orderheaderiur deliverDate: (NSDate*) deliverDate completion:(SoapRequestCompletionBlock)completionBlock;
 
+	// Returns ArcosGenericReturnObject*
+	/*  */
+	- (SoapRequest*) GlobalFlagAssignment: (id <SoapDelegate>) handler type: (NSString*) type addremoveoption: (NSString*) addremoveoption flagiur: (int) flagiur iurs: (NSString*) iurs employeeiur: (int) employeeiur;
+	- (SoapRequest*) GlobalFlagAssignment: (id) target action: (SEL) action type: (NSString*) type addremoveoption: (NSString*) addremoveoption flagiur: (int) flagiur iurs: (NSString*) iurs employeeiur: (int) employeeiur;
+	-(SoapRequest*)GlobalFlagAssignmentWithProgress:(SoapRequestProgressBlock)progressBlock type: (NSString*) type addremoveoption: (NSString*) addremoveoption flagiur: (int) flagiur iurs: (NSString*) iurs employeeiur: (int) employeeiur completion:(SoapRequestCompletionBlock)completionBlock;
+
 	// Returns NSMutableArray*
 	/*  */
 	- (SoapRequest*) ListAllInCopiedXMLFiles: (id <SoapDelegate>) handler;

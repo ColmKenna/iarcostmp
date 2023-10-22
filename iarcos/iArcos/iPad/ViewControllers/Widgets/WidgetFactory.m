@@ -507,7 +507,9 @@
 -(BOOL)allowToShowAddAccountNoButton {
     return [self.delegate allowToShowAddAccountNoButton];
 }
-
+- (BOOL)allowToShowAddContactFlagButton {
+    return [self.delegate allowToShowAddContactFlagButton];
+}
 
 -(void)dealloc{
 //    if (self.popoverController != nil) { self.popoverController = nil;}

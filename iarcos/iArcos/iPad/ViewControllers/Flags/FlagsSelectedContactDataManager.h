@@ -7,13 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "ArcosCoreData.h"
 
 @interface FlagsSelectedContactDataManager : NSObject {
     NSMutableArray* _displayList;
+    NSMutableArray* _contactFlagDictList;
 }
 
 @property(nonatomic,retain) NSMutableArray* displayList;
+@property(nonatomic,retain) NSMutableArray* contactFlagDictList;
+
+- (NSMutableArray*)retrieveContactFlagData;
 
 @end
 

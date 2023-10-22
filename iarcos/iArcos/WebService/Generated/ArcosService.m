@@ -1131,6 +1131,43 @@
 		return _request;
 	}
 
+	// Returns ArcosGenericReturnObject*
+	/*  */
+	- (SoapRequest*) GlobalFlagAssignment: (id <SoapDelegate>) handler type: (NSString*) type addremoveoption: (NSString*) addremoveoption flagiur: (int) flagiur iurs: (NSString*) iurs employeeiur: (int) employeeiur
+	{
+		return [self GlobalFlagAssignment: handler action: nil type: type addremoveoption: addremoveoption flagiur: flagiur iurs: iurs employeeiur: employeeiur];
+	}
+
+	- (SoapRequest*) GlobalFlagAssignment: (id) _target action: (SEL) _action type: (NSString*) type addremoveoption: (NSString*) addremoveoption flagiur: (int) flagiur iurs: (NSString*) iurs employeeiur: (int) employeeiur
+		{
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		[_params addObject: [[[SoapParameter alloc] initWithValue: type forName: @"type"] autorelease]];
+		[_params addObject: [[[SoapParameter alloc] initWithValue: addremoveoption forName: @"addremoveoption"] autorelease]];
+		[_params addObject: [[[SoapParameter alloc] initWithValue: [NSNumber numberWithInt: flagiur] forName: @"flagiur"] autorelease]];
+		[_params addObject: [[[SoapParameter alloc] initWithValue: iurs forName: @"iurs"] autorelease]];
+		[_params addObject: [[[SoapParameter alloc] initWithValue: [NSNumber numberWithInt: employeeiur] forName: @"employeeiur"] autorelease]];
+		NSString* _envelope = [Soap createEnvelope: @"GlobalFlagAssignment" forNamespace: self.namespace withParameters: _params withHeaders: self.headers];
+		SoapRequest* _request = [SoapRequest create: _target action: _action service: self soapAction: @"http://www.strataarcos.com/GlobalFlagAssignment" postData: _envelope deserializeTo: [[ArcosGenericReturnObject alloc] autorelease]];
+		[_request send];
+		return _request;
+	}
+
+	-(SoapRequest*)GlobalFlagAssignmentWithProgress:(SoapRequestProgressBlock)progressBlock type: (NSString*) type addremoveoption: (NSString*) addremoveoption flagiur: (int) flagiur iurs: (NSString*) iurs employeeiur: (int) employeeiur completion:(SoapRequestCompletionBlock)completionBlock {
+		NSMutableArray* _params = [NSMutableArray array];
+		
+		[_params addObject: [[[SoapParameter alloc] initWithValue: type forName: @"type"] autorelease]];
+		[_params addObject: [[[SoapParameter alloc] initWithValue: addremoveoption forName: @"addremoveoption"] autorelease]];
+		[_params addObject: [[[SoapParameter alloc] initWithValue: [NSNumber numberWithInt: flagiur] forName: @"flagiur"] autorelease]];
+		[_params addObject: [[[SoapParameter alloc] initWithValue: iurs forName: @"iurs"] autorelease]];
+		[_params addObject: [[[SoapParameter alloc] initWithValue: [NSNumber numberWithInt: employeeiur] forName: @"employeeiur"] autorelease]];
+		NSString* _envelope = [Soap createEnvelope:@"GlobalFlagAssignment" forNamespace:self.namespace withParameters:_params withHeaders:self.headers];
+		SoapRequest* _request = [SoapRequest createWithService:self soapAction:@"http://www.strataarcos.com/GlobalFlagAssignment" postData:_envelope deserializeTo:[[ArcosGenericReturnObject alloc] autorelease] completionBlock:completionBlock];
+		_request.progressBlock = progressBlock;
+		[_request send];
+		return _request;
+	}
+
 	// Returns NSMutableArray*
 	/*  */
 	- (SoapRequest*) ListAllInCopiedXMLFiles: (id <SoapDelegate>) handler

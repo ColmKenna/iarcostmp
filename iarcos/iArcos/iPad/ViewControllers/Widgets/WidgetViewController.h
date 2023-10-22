@@ -16,6 +16,7 @@
 -(BOOL)allowToShowAddContactButton;
 -(void)emailPressedFromTablePopoverRow:(NSDictionary*)cellData groupName:(NSString*)aGroupName;
 -(BOOL)allowToShowAddAccountNoButton;
+- (BOOL)allowToShowAddContactFlagButton;
 @end
 
 @interface WidgetViewController : UIViewController {

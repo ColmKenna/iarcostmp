@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "MBProgressHUD.h"
 
 @protocol FlagsSelectedContactTableViewControllerDelegate <NSObject>
 - (void)didSelectFlagsSelectedContactRecord:(NSMutableDictionary*)aContactDict;
+- (MBProgressHUD*)retrieveProgressHUDFromParentViewController;
+- (UIViewController*)retrieveSelectedContactParentViewController;
 @end
 

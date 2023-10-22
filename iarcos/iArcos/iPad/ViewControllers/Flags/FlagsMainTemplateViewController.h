@@ -11,6 +11,7 @@
 #import "FlagsContactTableViewController.h"
 #import "FlagsSelectedContactTableViewController.h"
 #import "FlagsMainTemplateDataManager.h"
+#import "MBProgressHUD.h"
 
 @interface FlagsMainTemplateViewController : UIViewController <FlagsLocationTableViewControllerDelegate, FlagsContactTableViewControllerDelegate, FlagsSelectedContactTableViewControllerDelegate>{
     UIView* _locationViewHolder;
@@ -27,6 +28,7 @@
     UINavigationController* _flagsSelectedContactNavigationController;
     NSDictionary* _layoutDict;
     FlagsMainTemplateDataManager* _flagsMainTemplateDataManager;
+    MBProgressHUD* _HUD;
 }
 
 @property(nonatomic, retain) IBOutlet UIView* locationViewHolder;
@@ -42,6 +44,7 @@
 @property(nonatomic, retain) UINavigationController* flagsSelectedContactNavigationController;
 @property(nonatomic, retain) NSDictionary* layoutDict;
 @property(nonatomic, retain) FlagsMainTemplateDataManager* flagsMainTemplateDataManager;
+@property(nonatomic, retain) MBProgressHUD* HUD;
 
 @end
 

@@ -13,6 +13,7 @@
 #import "ModelViewDelegate.h"
 #import "AccountNumberWrapperViewController.h"
 #import "CustomisePresentViewControllerDelegate.h"
+#import "FlagsContactFlagWrapperViewController.h"
 typedef enum {
     PickerOrderStatusType=0,
     PickerOrderWholesalerType,
@@ -30,7 +31,7 @@ typedef enum {
     PickerPriceGroup
 } PickerWidgetType;
 
-@interface PickerWidgetViewController : WidgetViewController<UIPickerViewDelegate, ModelViewDelegate, GenericRefreshParentContentDelegate, CustomisePresentViewControllerDelegate> {
+@interface PickerWidgetViewController : WidgetViewController<UIPickerViewDelegate, ModelViewDelegate, GenericRefreshParentContentDelegate, CustomisePresentViewControllerDelegate, FlagsContactFlagTableViewControllerDelegate> {
     PickerWidgetType type;
     IBOutlet UIPickerView* picker;
     

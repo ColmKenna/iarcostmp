@@ -27,6 +27,7 @@
 @synthesize flagsSelectedContactNavigationController = _flagsSelectedContactNavigationController;
 @synthesize layoutDict = _layoutDict;
 @synthesize flagsMainTemplateDataManager = _flagsMainTemplateDataManager;
+@synthesize HUD = _HUD;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -46,6 +47,9 @@
         
         self.layoutDict = @{@"AuxFlagsLocation" : self.flagsLocationNavigationController.view, @"AuxFlagsContact" : self.flagsContactNavigationController.view, @"AuxFlagsSelectedContact" : self.flagsSelectedContactNavigationController.view};
         self.flagsMainTemplateDataManager = [[[FlagsMainTemplateDataManager alloc] init] autorelease];
+        self.HUD = [[[MBProgressHUD alloc] initWithView:self.view] autorelease];
+        self.HUD.dimBackground = YES;
+        [self.view addSubview:self.HUD];
     }
     return self;
 }
@@ -83,6 +87,18 @@
     self.selectedContactViewHolder = nil;
     self.separatorFromSelectedContactViewHolder = nil;
     
+    [self.flagsLocationNavigationController willMoveToParentViewController:nil];
+    [self.flagsLocationNavigationController.view removeFromSuperview];
+    [self.flagsLocationNavigationController removeFromParentViewController];
+    
+    [self.flagsContactNavigationController willMoveToParentViewController:nil];
+    [self.flagsContactNavigationController.view removeFromSuperview];
+    [self.flagsContactNavigationController removeFromParentViewController];
+    
+    [self.flagsSelectedContactNavigationController willMoveToParentViewController:nil];
+    [self.flagsSelectedContactNavigationController.view removeFromSuperview];
+    [self.flagsSelectedContactNavigationController removeFromParentViewController];
+    
     self.flagsLocationTableViewController = nil;
     self.flagsLocationNavigationController = nil;
     self.flagsContactTableViewController = nil;
@@ -91,8 +107,19 @@
     self.flagsSelectedContactNavigationController = nil;
     self.layoutDict = nil;
     self.flagsMainTemplateDataManager = nil;
+    [self.HUD removeFromSuperview];
+    self.HUD = nil;
     
     [super dealloc];
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        self.HUD.frame = self.view.bounds;
+    }];
 }
 
 #pragma mark - FlagsLocationTableViewControllerDelegate
@@ -128,6 +155,14 @@
     NSMutableArray* selectedContactList = [self.flagsMainTemplateDataManager retrieveSelectedContactListProcessor];
     [self.flagsSelectedContactTableViewController resetSelectedContact:selectedContactList];
     [self.flagsContactTableViewController refreshContactList];
+}
+
+- (MBProgressHUD*)retrieveProgressHUDFromParentViewController {
+    return self.HUD;
+}
+
+- (UIViewController*)retrieveSelectedContactParentViewController {
+    return self;
 }
 
 @end

@@ -219,6 +219,11 @@
         [self.customiseNavagationItem setLeftBarButtonItem:addButton];
         [addButton release];
     }
+    if ([self.customiseNavagationItem.title isEqualToString:@"Contact Flag"] && [self.delegate allowToShowAddContactFlagButton]) {
+        UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addContactFlagPressedFromPopover)];
+        [self.customiseNavagationItem setLeftBarButtonItem:addButton];
+        [addButton release];
+    }
 }
 
 - (void)viewDidUnload
@@ -342,6 +347,17 @@
     [anwvc release];
 }
 
+- (void)addContactFlagPressedFromPopover {
+    FlagsContactFlagWrapperViewController* fcfwvc = [[FlagsContactFlagWrapperViewController alloc] initWithNibName:@"FlagsContactFlagWrapperViewController" bundle:nil];
+    fcfwvc.actionDelegate = self;
+    fcfwvc.refreshDelegate = self;
+    fcfwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:fcfwvc] autorelease];
+    self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:self.globalNavigationController animated:YES completion:nil];
+    [fcfwvc release];
+}
+
 #pragma mark GenericRefreshParentContentDelegate
 - (void)refreshParentContent {
     
@@ -383,6 +399,19 @@
 #pragma mark CustomisePresentViewControllerDelegate
 - (void)didDismissCustomisePresentView {
     [self didDismissModalView];
+}
+
+#pragma mark - FlagsContactFlagTableViewControllerDelegate
+- (void)refreshParentContentWithContactFlagIUR:(NSNumber*)anIUR {
+    self.pickerData = [[ArcosCoreData sharedArcosCoreData] retrieveContactFlagData];
+    [self.picker reloadAllComponents];
+    for (int i = 0; i < [self.pickerData count]; i++) {
+        NSMutableDictionary* aDict = [self.pickerData objectAtIndex:i];
+        if ([[aDict objectForKey:@"DescrDetailIUR"] isEqualToNumber:anIUR]) {
+            [self.picker selectRow:i inComponent:0 animated:YES];
+            break;
+        }
+    }
 }
 
 @end

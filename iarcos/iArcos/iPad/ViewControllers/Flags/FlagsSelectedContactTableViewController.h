@@ -10,14 +10,24 @@
 #import "FlagsSelectedContactDataManager.h"
 #import "ArcosUtils.h"
 #import "FlagsSelectedContactTableViewControllerDelegate.h"
+#import "WidgetViewController.h"
+#import "WidgetFactory.h"
 
-@interface FlagsSelectedContactTableViewController : UITableViewController {
+@interface FlagsSelectedContactTableViewController : UITableViewController <WidgetFactoryDelegate, UIPopoverPresentationControllerDelegate>{
     id<FlagsSelectedContactTableViewControllerDelegate> _actionDelegate;
     FlagsSelectedContactDataManager* _flagsSelectedContactDataManager;
+    WidgetViewController* _globalWidgetViewController;
+    WidgetFactory* _widgetFactory;
+    UIBarButtonItem* _flagsButton;
+    ArcosService* _arcosService;
 }
 
 @property(nonatomic,assign) id<FlagsSelectedContactTableViewControllerDelegate> actionDelegate;
 @property(nonatomic,retain) FlagsSelectedContactDataManager* flagsSelectedContactDataManager;
+@property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
+@property(nonatomic,retain) WidgetFactory* widgetFactory;
+@property(nonatomic,retain) IBOutlet UIBarButtonItem* flagsButton;
+@property(nonatomic,retain) ArcosService* arcosService;
 
 - (void)resetSelectedContact:(NSMutableArray*)aContactList;
 
