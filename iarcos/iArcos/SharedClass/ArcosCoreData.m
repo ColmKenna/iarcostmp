@@ -4952,13 +4952,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
     return nil;
 }
 
-- (NSMutableArray*)retrieveContactFlagData {
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode='CF' and Active = 1"];
+- (NSMutableArray*)retrieveWheelDescrDetailDataWithDescrTypeCode:(NSString*)aDescrTypeCode {
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"DescrTypeCode='%@' and Active = 1", aDescrTypeCode]];
     NSArray* sortDescNames = [NSArray arrayWithObjects:@"Detail",nil];
     NSArray* properties = [NSArray arrayWithObjects:@"DescrDetailIUR",@"Detail",nil];
     
     NSMutableArray* objectArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:properties withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
-    NSMutableArray* contactFlagDictList = [NSMutableArray arrayWithCapacity:[objectArray count]];
+    NSMutableArray* contactOrLocationFlagDictList = [NSMutableArray arrayWithCapacity:[objectArray count]];
     for (NSDictionary* tmpDict in objectArray) {
         NSMutableDictionary* resultDict = [NSMutableDictionary dictionaryWithDictionary:tmpDict];
         if ([tmpDict objectForKey:@"Detail"] == nil) {
@@ -4966,10 +4966,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         }else{
             [resultDict setObject:[tmpDict objectForKey:@"Detail"] forKey:@"Title"];
         }
-        [contactFlagDictList addObject:resultDict];
+        [contactOrLocationFlagDictList addObject:resultDict];
     }
     
-    return contactFlagDictList;
+    return contactOrLocationFlagDictList;
 }
 
 #pragma mark Generic method

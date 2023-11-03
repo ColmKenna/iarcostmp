@@ -47,10 +47,13 @@
 }
 
 - (void)flagsButtonPressed {
-    [self.flagsSelectedContactDataManager retrieveContactFlagData];
+    [self.flagsSelectedContactDataManager retrieveFlagDataWithDescrTypeCode:[self.actionDelegate retrieveFlagsSelectedContactParentFlagDescrTypeCode]];
     NSMutableDictionary* miscDataDict = [NSMutableDictionary dictionaryWithCapacity:1];
-    [miscDataDict setObject:@"Contact Flag" forKey:@"Title"];
-    self.globalWidgetViewController = [self.widgetFactory CreateTargetGenericCategoryWidgetWithPickerValue:self.flagsSelectedContactDataManager.contactFlagDictList miscDataDict:miscDataDict];
+    [miscDataDict setObject:[NSString stringWithFormat:@"%@ Flag", [self.actionDelegate retrieveFlagsSelectedContactParentActionTypeTitle]] forKey:@"Title"];
+    [miscDataDict setObject:[NSString stringWithFormat:@"%@", [self.actionDelegate retrieveFlagsSelectedContactParentFlagDescrTypeCode]] forKey:@"FlagDescrTypeCode"];
+    [miscDataDict setObject:[NSString stringWithFormat:@"%@", [self.actionDelegate retrieveFlagsSelectedContactParentActionTypeTitle]] forKey:@"ActionTypeTitle"];
+    
+    self.globalWidgetViewController = [self.widgetFactory CreateTargetGenericCategoryWidgetWithPickerValue:self.flagsSelectedContactDataManager.contactOrLocationFlagDictList miscDataDict:miscDataDict];
     if (self.globalWidgetViewController != nil) {
         self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
         self.globalWidgetViewController.popoverPresentationController.barButtonItem = self.flagsButton;
@@ -72,9 +75,9 @@
 
 #pragma mark - WidgetFactoryDelegate
 - (void)operationDone:(id)data {    
-    [self dismissViewControllerAnimated:YES completion:^{
+    [self dismissViewControllerAnimated:NO completion:^{
         if ([self.flagsSelectedContactDataManager.displayList count] == 0) {
-            [ArcosUtils showDialogBox:@"Please select a contact" title:@"" target:self handler:nil];
+            [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Please select a %@", [[self.actionDelegate retrieveFlagsSelectedContactParentActionTypeTitle] lowercaseString]] title:@"" target:self handler:nil];
             return;
         }
         [[self.actionDelegate retrieveProgressHUDFromParentViewController] show:YES];
@@ -83,10 +86,10 @@
         NSMutableString* contactiurNodeString = [NSMutableString string];
         for (int i = 0; i < [self.flagsSelectedContactDataManager.displayList count]; i++) {
             NSMutableDictionary* tmpContactDict = [self.flagsSelectedContactDataManager.displayList objectAtIndex:i];
-            [contactiurNodeString appendFormat:@"<int>%@</int>",[tmpContactDict objectForKey:@"IUR"]];
+            [contactiurNodeString appendFormat:@"<int>%@</int>",[tmpContactDict objectForKey:[self.actionDelegate retrieveFlagsSelectedContactParentIURKeyText]]];
         }
         
-        [self.arcosService GlobalFlagAssignment:self action:@selector(backFromGlobalFlagAssignment:) type:@"C" addremoveoption:@"Add" flagiur:[flagiur intValue] iurs:contactiurNodeString employeeiur:[employeeIUR intValue]];
+        [self.arcosService GlobalFlagAssignment:self action:@selector(backFromGlobalFlagAssignment:) type:[self.actionDelegate retrieveFlagsSelectedContactParentAssignmentType] addremoveoption:@"Add" flagiur:[flagiur intValue] iurs:contactiurNodeString employeeiur:[employeeIUR intValue]];
     }];
 }
 
@@ -140,10 +143,37 @@
     }
     
     // Configure the cell...
-    NSMutableDictionary* tmpContactDict = [self.flagsSelectedContactDataManager.displayList objectAtIndex:indexPath.row];
+    if ([self.actionDelegate retrieveFlagsSelectedContactParentActionType] == 1) {
+        NSMutableDictionary* aCust = [self.flagsSelectedContactDataManager.displayList objectAtIndex:indexPath.row];
+        if ([[self.actionDelegate retrieveShowLocationCodeFlag] boolValue]) {
+            cell.textLabel.text = [NSString stringWithFormat:@"%@ [%@]", [aCust objectForKey:@"Name"], [ArcosUtils trim:[aCust objectForKey:@"LocationCode"]]];
+        } else {
+            cell.textLabel.text = [aCust objectForKey:@"Name"];
+        }
+        //Address
+        if ([aCust objectForKey:@"Address1"]==nil) {
+            [aCust setObject:@"" forKey:@"Address1"];
+        }
+        if ([aCust objectForKey:@"Address2"]==nil) {
+            [aCust setObject:@"" forKey:@"Address2"];
+        }
+        if ([aCust objectForKey:@"Address3"]==nil) {
+            [aCust setObject:@"" forKey:@"Address3"];
+        }
+        if ([aCust objectForKey:@"Address4"]==nil) {
+            [aCust setObject:@"" forKey:@"Address4"];
+        }
+        if ([aCust objectForKey:@"Address5"]==nil) {
+            [aCust setObject:@"" forKey:@"Address5"];
+        }
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@ %@ %@ %@",[aCust objectForKey:@"Address1"],[aCust objectForKey:@"Address2"],[aCust objectForKey:@"Address3"],[aCust objectForKey:@"Address4"],[aCust objectForKey:@"Address5"]];
+    } else {
+        NSMutableDictionary* tmpContactDict = [self.flagsSelectedContactDataManager.displayList objectAtIndex:indexPath.row];
+        
+        cell.textLabel.text = [tmpContactDict objectForKey:@"LocationName"];
+        cell.detailTextLabel.text = [tmpContactDict objectForKey:@"Name"];
+    }
     
-    cell.textLabel.text = [tmpContactDict objectForKey:@"LocationName"];
-    cell.detailTextLabel.text = [tmpContactDict objectForKey:@"Name"];
     
     for (UIGestureRecognizer* recognizer in cell.contentView.gestureRecognizers) {
         [cell.contentView removeGestureRecognizer:recognizer];
@@ -162,7 +192,11 @@
         NSIndexPath* swipedIndexPath = [ArcosUtils indexPathWithRecognizer:recognizer tableview:self.tableView];
         NSMutableDictionary* tmpContactDict = [self.flagsSelectedContactDataManager.displayList objectAtIndex:swipedIndexPath.row];
         [tmpContactDict setObject:[NSNumber numberWithBool:NO] forKey:@"IsSelected"];
-        [self.actionDelegate didSelectFlagsSelectedContactRecord:tmpContactDict];
+        if ([self.actionDelegate retrieveFlagsSelectedContactParentActionType] == 1) {
+            [self.actionDelegate didSelectFlagsSelectedLocationRecord:tmpContactDict];
+        } else {
+            [self.actionDelegate didSelectFlagsSelectedContactRecord:tmpContactDict];
+        }
     }
 }
 

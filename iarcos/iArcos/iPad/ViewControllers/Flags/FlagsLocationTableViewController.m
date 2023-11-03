@@ -24,6 +24,7 @@
 @synthesize viewHasBeenAppearedFlag = _viewHasBeenAppearedFlag;
 @synthesize hideAllButtonFlag = _hideAllButtonFlag;
 @synthesize showLocationCode = _showLocationCode;
+@synthesize flagsLocationDataManager = _flagsLocationDataManager;
 
 - (instancetype)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
@@ -31,6 +32,7 @@
         // Custom initialization
         needIndexView = YES;
         tableData = [[NSMutableArray alloc]init];
+        self.flagsLocationDataManager = [[[FlagsLocationDataManager alloc] init] autorelease];
     }
     return self;
 }
@@ -46,6 +48,7 @@
     [tableData release];
     if (self.allLocationRecordDict != nil) { self.allLocationRecordDict = nil; }
     if (self.showLocationCode != nil) { self.showLocationCode = nil; }
+    self.flagsLocationDataManager = nil;
     
     [super dealloc];
 }
@@ -204,11 +207,22 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
-        
+    self.flagsLocationDataManager.currentIndexPath = indexPath;
     NSString* aKey=[sortKeys objectAtIndex:indexPath.section+1];
     NSMutableArray* aSectionArray=[self.customerSections objectForKey:aKey];
     NSMutableDictionary* aCust=[aSectionArray objectAtIndex:indexPath.row];
-    [self.selectionDelegate didSelectFlagsLocationRecord:aCust];
+    
+    if ([self.selectionDelegate retrieveFlagsLocationParentActionType] == 1) {
+        NSNumber* selectedNumber = [aCust objectForKey:@"IsSelected"];
+        if ([selectedNumber boolValue]) {
+            [aCust setObject:[NSNumber numberWithBool:NO] forKey:@"IsSelected"];
+        } else {
+            [aCust setObject:[NSNumber numberWithBool:YES] forKey:@"IsSelected"];
+        }
+        [self.selectionDelegate didSelectFlagsLocationRecordAndSaveToLocationOrderCart:aCust];
+    } else {
+        [self.selectionDelegate didSelectFlagsLocationRecord:aCust];
+    }
 }
 
 #pragma mark - additional functions
@@ -449,7 +463,20 @@
     }
 }
 
-
+- (void)refreshLocationList {
+    for (int i = 0; i < [self.self.myCustomers count]; i++) {
+        NSMutableDictionary* tmpLocationDict = [self.myCustomers objectAtIndex:i];
+        NSNumber* tmpLocationIUR = [tmpLocationDict objectForKey:@"LocationIUR"];
+        NSString* cartKey = [NSString stringWithFormat:@"%@", [tmpLocationIUR stringValue]];
+        NSMutableDictionary* existingLocationDict = [[self.selectionDelegate retrieveLocationParentOrderCart] objectForKey:cartKey];
+        if (existingLocationDict != nil) {
+            [tmpLocationDict setObject:[NSNumber numberWithBool:YES] forKey:@"IsSelected"];
+        } else {
+            [tmpLocationDict setObject:[NSNumber numberWithBool:NO] forKey:@"IsSelected"];
+        }
+    }
+    [self.tableView reloadData];
+}
 
 
 

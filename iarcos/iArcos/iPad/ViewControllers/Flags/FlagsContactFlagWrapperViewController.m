@@ -71,5 +71,11 @@
 - (void)refreshParentContentWithContactFlagIUR:(NSNumber *)anIUR {
     [self.refreshDelegate refreshParentContentWithContactFlagIUR:anIUR];
 }
+- (NSString*)retrieveParentFlagDescrTypeCode {
+    return [self.refreshDelegate retrieveParentFlagDescrTypeCode];
+}
+- (NSString*)retrieveParentActionTypeTitle {
+    return [self.refreshDelegate retrieveParentActionTypeTitle];
+}
 
 @end

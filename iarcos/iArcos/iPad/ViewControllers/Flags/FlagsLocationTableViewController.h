@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ArcosCoreData.h"
 #import "FlagsLocationTableViewControllerDelegate.h"
+#import "FlagsLocationDataManager.h"
 
 @interface FlagsLocationTableViewController : UITableViewController {
     NSMutableArray* myCustomers;
@@ -29,6 +30,7 @@
     BOOL _viewHasBeenAppearedFlag;
     BOOL _hideAllButtonFlag;
     NSNumber* _showLocationCode;
+    FlagsLocationDataManager* _flagsLocationDataManager;
 }
 
 @property (nonatomic, retain) IBOutlet UISearchBar *mySearchBar;
@@ -43,6 +45,7 @@
 @property (nonatomic, assign) BOOL viewHasBeenAppearedFlag;
 @property (nonatomic, assign) BOOL hideAllButtonFlag;
 @property (nonatomic, retain) NSNumber* showLocationCode;
+@property (nonatomic, retain) FlagsLocationDataManager* flagsLocationDataManager;
 
 -(void)resetCustomer:(NSMutableArray*)customers;
 -(void)resetList:(NSMutableArray*)aList;
@@ -50,6 +53,7 @@
 -(NSMutableDictionary*)objectFromName:(NSString*)name;
 -(NSMutableArray*)objectsFromName:(NSString*)name;
 - (void)scrollBehindSearchSection;
+- (void)refreshLocationList;
 
 @end
 

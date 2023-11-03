@@ -48,6 +48,20 @@
     self.tableView.tableHeaderView = self.mySearchBar;
     self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
     [self.tableView setContentOffset:CGPointMake(0, self.mySearchBar.frame.size.height) animated:NO];
+    
+    [self createRightBarButtonItem];
+}
+
+- (void)createLeftBarButtonItem {
+    UIBarButtonItem* contactBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"flags_contact.png"] style:UIBarButtonItemStylePlain target:self action:@selector(contactBarButtonPressed)];
+    [self.navigationItem setLeftBarButtonItem:contactBarButton];
+    [contactBarButton release];
+}
+
+- (void)createRightBarButtonItem {
+    UIBarButtonItem* locationBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"flags_location.png"] style:UIBarButtonItemStylePlain target:self action:@selector(locationBarButtonPressed)];
+    [self.navigationItem setRightBarButtonItem:locationBarButton];
+    [locationBarButton release];
 }
 
 - (void)dealloc {
@@ -62,6 +76,24 @@
     self.flagsContactDataManager = nil;
     
     [super dealloc];
+}
+
+- (void)contactBarButtonPressed {
+    [self.navigationItem setLeftBarButtonItem:nil];
+    [self createRightBarButtonItem];
+    self.tableView.tableHeaderView.hidden = NO;
+    self.needIndexView = YES;
+    [self resetContact:[NSMutableArray arrayWithCapacity:0]];
+    [self.actionDelegate contactBarButtonPressedProcessor];
+}
+
+- (void)locationBarButtonPressed {
+    [self.navigationItem setRightBarButtonItem:nil];
+    [self createLeftBarButtonItem];
+    self.tableView.tableHeaderView.hidden = YES;
+    self.needIndexView = NO;
+    [self resetContact:[NSMutableArray arrayWithCapacity:0]];
+    [self.actionDelegate locationBarButtonPressedProcessor];
 }
 
 #pragma mark - Table view data source

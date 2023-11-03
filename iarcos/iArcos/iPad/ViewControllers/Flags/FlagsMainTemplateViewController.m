@@ -32,10 +32,12 @@
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self != nil) {
+        self.flagsMainTemplateDataManager = [[[FlagsMainTemplateDataManager alloc] init] autorelease];
         self.flagsLocationTableViewController = [[[FlagsLocationTableViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
         self.flagsLocationTableViewController.selectionDelegate = self;
         self.flagsLocationTableViewController.hideAllButtonFlag = YES;
-        NSMutableArray* locationList = [[ArcosCoreData sharedArcosCoreData]outletsWithMasterIUR:[NSNumber numberWithInt:-1] withResultType:NSDictionaryResultType];
+        NSMutableArray* tmpLocationList = [[ArcosCoreData sharedArcosCoreData]outletsWithMasterIUR:[NSNumber numberWithInt:-1] withResultType:NSDictionaryResultType];
+        NSMutableArray* locationList = [self.flagsMainTemplateDataManager dictMutableListWithData:tmpLocationList];
         [self.flagsLocationTableViewController resetCustomer:locationList];
         self.flagsLocationNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.flagsLocationTableViewController] autorelease];
         self.flagsContactTableViewController = [[[FlagsContactTableViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
@@ -46,7 +48,7 @@
         self.flagsSelectedContactNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.flagsSelectedContactTableViewController] autorelease];
         
         self.layoutDict = @{@"AuxFlagsLocation" : self.flagsLocationNavigationController.view, @"AuxFlagsContact" : self.flagsContactNavigationController.view, @"AuxFlagsSelectedContact" : self.flagsSelectedContactNavigationController.view};
-        self.flagsMainTemplateDataManager = [[[FlagsMainTemplateDataManager alloc] init] autorelease];
+        
         self.HUD = [[[MBProgressHUD alloc] initWithView:self.view] autorelease];
         self.HUD.dimBackground = YES;
         [self.view addSubview:self.HUD];
@@ -137,7 +139,18 @@
     }
     [self.flagsContactTableViewController resetContact:contactList];
 }
+- (int)retrieveFlagsLocationParentActionType {
+    return self.flagsMainTemplateDataManager.actionType;
+}
 
+- (void)didSelectFlagsLocationRecordAndSaveToLocationOrderCart:(NSMutableDictionary*)aCustDict {
+    [self.flagsMainTemplateDataManager saveLocationToOrderCart:aCustDict];
+    NSMutableArray* selectedLocationList = [self.flagsMainTemplateDataManager retrieveSelectedLocationListProcessor];
+    [self.flagsSelectedContactTableViewController resetSelectedContact:selectedLocationList];
+}
+- (NSMutableDictionary*)retrieveLocationParentOrderCart {
+    return self.flagsMainTemplateDataManager.locationOrderCart;
+}
 
 #pragma mark - FlagsContactTableViewControllerDelegate
 - (void)didSelectFlagsContactRecord:(NSMutableDictionary*)aContactDict {
@@ -147,6 +160,26 @@
 }
 - (NSMutableDictionary*)retrieveContactParentOrderCart {
     return self.flagsMainTemplateDataManager.contactOrderCart;
+}
+- (void)locationBarButtonPressedProcessor {
+    self.flagsMainTemplateDataManager.actionType = 1;
+    [self.flagsMainTemplateDataManager defineConfigAsLocation];
+    [self resetMainTemplateData];
+    [self.flagsLocationTableViewController refreshLocationList];
+}
+- (void)contactBarButtonPressedProcessor {
+    self.flagsMainTemplateDataManager.actionType = 0;
+    [self.flagsMainTemplateDataManager defineConfigAsContact];
+    [self resetMainTemplateData];
+    if (self.flagsLocationTableViewController.flagsLocationDataManager.currentIndexPath != nil) {
+        [self.flagsLocationTableViewController.tableView deselectRowAtIndexPath:self.flagsLocationTableViewController.flagsLocationDataManager.currentIndexPath animated:NO];
+        self.flagsLocationTableViewController.flagsLocationDataManager.currentIndexPath = nil;
+    }
+}
+- (void)resetMainTemplateData {
+    [self.flagsMainTemplateDataManager.contactOrderCart removeAllObjects];
+    [self.flagsMainTemplateDataManager.locationOrderCart removeAllObjects];
+    [self.flagsSelectedContactTableViewController resetSelectedContact:[NSMutableArray array]];
 }
 
 #pragma mark - FlagsSelectedContactTableViewControllerDelegate
@@ -163,6 +196,37 @@
 
 - (UIViewController*)retrieveSelectedContactParentViewController {
     return self;
+}
+
+- (int)retrieveFlagsSelectedContactParentActionType {
+    return self.flagsMainTemplateDataManager.actionType;
+}
+
+- (NSNumber*)retrieveShowLocationCodeFlag {
+    return self.flagsLocationTableViewController.showLocationCode;
+}
+
+- (void)didSelectFlagsSelectedLocationRecord:(NSMutableDictionary*)aLocationDict {
+    [self.flagsMainTemplateDataManager saveLocationToOrderCart:aLocationDict];
+    NSMutableArray* selectedLocationList = [self.flagsMainTemplateDataManager retrieveSelectedLocationListProcessor];
+    [self.flagsSelectedContactTableViewController resetSelectedContact:selectedLocationList];
+    [self.flagsLocationTableViewController refreshLocationList];
+}
+
+- (NSString*)retrieveFlagsSelectedContactParentFlagDescrTypeCode {
+    return self.flagsMainTemplateDataManager.flagDescrTypeCode;
+}
+
+- (NSString*)retrieveFlagsSelectedContactParentActionTypeTitle {
+    return self.flagsMainTemplateDataManager.actionTypeTitle;
+}
+
+- (NSString*)retrieveFlagsSelectedContactParentIURKeyText {
+    return self.flagsMainTemplateDataManager.iURKeyText;
+}
+
+- (NSString*)retrieveFlagsSelectedContactParentAssignmentType {
+    return self.flagsMainTemplateDataManager.assignmentType;
 }
 
 @end

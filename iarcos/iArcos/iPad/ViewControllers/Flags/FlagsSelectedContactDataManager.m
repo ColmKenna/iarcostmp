@@ -10,7 +10,7 @@
 
 @implementation FlagsSelectedContactDataManager
 @synthesize displayList = _displayList;
-@synthesize contactFlagDictList = _contactFlagDictList;
+@synthesize contactOrLocationFlagDictList = _contactOrLocationFlagDictList;
 
 - (instancetype)init {
     self = [super init];
@@ -22,12 +22,12 @@
 
 - (void)dealloc {
     self.displayList = nil;
-    self.contactFlagDictList = nil;
+    self.contactOrLocationFlagDictList = nil;
         
     [super dealloc];
 }
 
-- (NSMutableArray*)retrieveContactFlagData {
+- (NSMutableArray*)retrieveFlagDataWithDescrTypeCode:(NSString*)aDescrTypeCode {
     /*
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"DescrTypeCode='CF' and Active = 1"];
     NSArray* sortDescNames = [NSArray arrayWithObjects:@"Detail",nil];
@@ -47,8 +47,8 @@
     
     return self.contactFlagDictList;
      */
-    self.contactFlagDictList = [[ArcosCoreData sharedArcosCoreData] retrieveContactFlagData];
-    return self.contactFlagDictList;
+    self.contactOrLocationFlagDictList = [[ArcosCoreData sharedArcosCoreData] retrieveWheelDescrDetailDataWithDescrTypeCode:aDescrTypeCode];
+    return self.contactOrLocationFlagDictList;
 }
 
 @end

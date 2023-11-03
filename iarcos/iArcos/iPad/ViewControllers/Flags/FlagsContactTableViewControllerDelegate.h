@@ -12,5 +12,7 @@
 @protocol FlagsContactTableViewControllerDelegate <NSObject>
 - (void)didSelectFlagsContactRecord:(NSMutableDictionary*)aContactDict;
 - (NSMutableDictionary*)retrieveContactParentOrderCart;
+- (void)locationBarButtonPressedProcessor;
+- (void)contactBarButtonPressedProcessor;
 @end
 

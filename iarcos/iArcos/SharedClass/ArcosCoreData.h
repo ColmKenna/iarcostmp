@@ -316,7 +316,7 @@ typedef enum {
 - (NSMutableDictionary*)retrieveDefaultPackageWithLocationIUR:(NSNumber*)aLocationIUR;
 - (NSMutableDictionary*)retrievePackageWithIUR:(NSNumber*)aPackageIUR;
 //Contact Flag
-- (NSMutableArray*)retrieveContactFlagData;
+- (NSMutableArray*)retrieveWheelDescrDetailDataWithDescrTypeCode:(NSString*)aDescrTypeCode;
 
 //testing and loading jason data functions
 - (void)clearTables;

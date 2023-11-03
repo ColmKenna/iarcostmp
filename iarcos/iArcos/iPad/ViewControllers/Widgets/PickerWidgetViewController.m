@@ -219,7 +219,7 @@
         [self.customiseNavagationItem setLeftBarButtonItem:addButton];
         [addButton release];
     }
-    if ([self.customiseNavagationItem.title isEqualToString:@"Contact Flag"] && [self.delegate allowToShowAddContactFlagButton]) {
+    if (([self.customiseNavagationItem.title isEqualToString:@"Contact Flag"] || [self.customiseNavagationItem.title isEqualToString:@"Location Flag"]) && [self.delegate allowToShowAddContactFlagButton]) {
         UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addContactFlagPressedFromPopover)];
         [self.customiseNavagationItem setLeftBarButtonItem:addButton];
         [addButton release];
@@ -403,7 +403,7 @@
 
 #pragma mark - FlagsContactFlagTableViewControllerDelegate
 - (void)refreshParentContentWithContactFlagIUR:(NSNumber*)anIUR {
-    self.pickerData = [[ArcosCoreData sharedArcosCoreData] retrieveContactFlagData];
+    self.pickerData = [[ArcosCoreData sharedArcosCoreData] retrieveWheelDescrDetailDataWithDescrTypeCode:[self.miscDataDict objectForKey:@"FlagDescrTypeCode"]];
     [self.picker reloadAllComponents];
     for (int i = 0; i < [self.pickerData count]; i++) {
         NSMutableDictionary* aDict = [self.pickerData objectAtIndex:i];
@@ -412,6 +412,14 @@
             break;
         }
     }
+}
+
+- (NSString*)retrieveParentFlagDescrTypeCode {
+    return [self.miscDataDict objectForKey:@"FlagDescrTypeCode"];
+}
+
+- (NSString*)retrieveParentActionTypeTitle {
+    return [self.miscDataDict objectForKey:@"ActionTypeTitle"];
 }
 
 @end

@@ -11,6 +11,8 @@
 
 @protocol FlagsContactFlagTableViewControllerDelegate <NSObject>
 - (void)refreshParentContentWithContactFlagIUR:(NSNumber*)anIUR;
+- (NSString*)retrieveParentFlagDescrTypeCode;
+- (NSString*)retrieveParentActionTypeTitle;
 @end
 
 

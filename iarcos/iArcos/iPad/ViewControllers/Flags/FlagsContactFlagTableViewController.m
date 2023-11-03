@@ -69,7 +69,7 @@
     NSMutableArray* fieldNameList = [NSMutableArray arrayWithCapacity:2];
     NSMutableArray* fieldValueList = [NSMutableArray arrayWithCapacity:2];
     [fieldNameList addObject:@"DescrTypeCode"];
-    [fieldValueList addObject:@"CF"];
+    [fieldValueList addObject:[self.refreshDelegate retrieveParentFlagDescrTypeCode]];
     [fieldNameList addObject:@"DescrDetailCode"];
     
     NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:[SettingManager employeeIUR]];
@@ -106,7 +106,7 @@
         NSNumber* resDescrDetailIUR = [ArcosUtils convertStringToNumber:replyResult.Field1];
         [self.flagsContactFlagDataManager contactFlagWithFieldNameList:self.flagsContactFlagDataManager.ACRO.FieldNames fieldValueList:self.flagsContactFlagDataManager.ACRO.FieldValues iur:resDescrDetailIUR];
         [self.refreshDelegate refreshParentContentWithContactFlagIUR:resDescrDetailIUR];
-        NSString* message = @"New contact flag has been created.";
+        NSString* message = [NSString stringWithFormat:@"New %@ flag has been created.", [[self.refreshDelegate retrieveParentActionTypeTitle] lowercaseString]];
         [ArcosUtils showDialogBox:message title:@"" target:self handler:^(UIAlertAction *action) {
             [self.actionDelegate didDismissModalView];
         }];

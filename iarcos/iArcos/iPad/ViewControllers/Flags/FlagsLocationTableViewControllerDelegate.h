@@ -11,5 +11,8 @@
 
 @protocol FlagsLocationTableViewControllerDelegate <NSObject>
 - (void)didSelectFlagsLocationRecord:(NSMutableDictionary*)aCustDict;
+- (int)retrieveFlagsLocationParentActionType;
+- (void)didSelectFlagsLocationRecordAndSaveToLocationOrderCart:(NSMutableDictionary*)aCustDict;
+- (NSMutableDictionary*)retrieveLocationParentOrderCart;
 @end
 

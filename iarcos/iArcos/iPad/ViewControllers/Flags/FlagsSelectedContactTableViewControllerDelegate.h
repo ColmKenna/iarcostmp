@@ -13,5 +13,12 @@
 - (void)didSelectFlagsSelectedContactRecord:(NSMutableDictionary*)aContactDict;
 - (MBProgressHUD*)retrieveProgressHUDFromParentViewController;
 - (UIViewController*)retrieveSelectedContactParentViewController;
+- (int)retrieveFlagsSelectedContactParentActionType;
+- (NSNumber*)retrieveShowLocationCodeFlag;
+- (void)didSelectFlagsSelectedLocationRecord:(NSMutableDictionary*)aLocationDict;
+- (NSString*)retrieveFlagsSelectedContactParentFlagDescrTypeCode;
+- (NSString*)retrieveFlagsSelectedContactParentActionTypeTitle;
+- (NSString*)retrieveFlagsSelectedContactParentIURKeyText;
+- (NSString*)retrieveFlagsSelectedContactParentAssignmentType;
 @end
 

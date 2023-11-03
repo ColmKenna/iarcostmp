@@ -11,13 +11,13 @@
 
 @interface FlagsSelectedContactDataManager : NSObject {
     NSMutableArray* _displayList;
-    NSMutableArray* _contactFlagDictList;
+    NSMutableArray* _contactOrLocationFlagDictList;
 }
 
 @property(nonatomic,retain) NSMutableArray* displayList;
-@property(nonatomic,retain) NSMutableArray* contactFlagDictList;
+@property(nonatomic,retain) NSMutableArray* contactOrLocationFlagDictList;
 
-- (NSMutableArray*)retrieveContactFlagData;
+- (NSMutableArray*)retrieveFlagDataWithDescrTypeCode:(NSString*)aDescrTypeCode;
 
 @end
 
