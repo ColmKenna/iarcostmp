@@ -219,7 +219,7 @@
         [self.customiseNavagationItem setLeftBarButtonItem:addButton];
         [addButton release];
     }
-    if (([self.customiseNavagationItem.title isEqualToString:@"Contact Flag"] || [self.customiseNavagationItem.title isEqualToString:@"Location Flag"]) && [self.delegate allowToShowAddContactFlagButton]) {
+    if (([self.customiseNavagationItem.title isEqualToString:@"Contact Flagging"] || [self.customiseNavagationItem.title isEqualToString:@"Location Flagging"]) && [self.delegate allowToShowAddContactFlagButton]) {
         UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addContactFlagPressedFromPopover)];
         [self.customiseNavagationItem setLeftBarButtonItem:addButton];
         [addButton release];

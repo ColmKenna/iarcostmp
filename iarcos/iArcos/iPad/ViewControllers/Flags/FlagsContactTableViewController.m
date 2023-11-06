@@ -79,6 +79,7 @@
 }
 
 - (void)contactBarButtonPressed {
+    self.title = @"Contact Selection";
     [self.navigationItem setLeftBarButtonItem:nil];
     [self createRightBarButtonItem];
     self.tableView.tableHeaderView.hidden = NO;
@@ -88,6 +89,7 @@
 }
 
 - (void)locationBarButtonPressed {
+    self.title = @"Location Flagging";
     [self.navigationItem setRightBarButtonItem:nil];
     [self createLeftBarButtonItem];
     self.tableView.tableHeaderView.hidden = YES;

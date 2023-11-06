@@ -49,7 +49,7 @@
 - (void)flagsButtonPressed {
     [self.flagsSelectedContactDataManager retrieveFlagDataWithDescrTypeCode:[self.actionDelegate retrieveFlagsSelectedContactParentFlagDescrTypeCode]];
     NSMutableDictionary* miscDataDict = [NSMutableDictionary dictionaryWithCapacity:1];
-    [miscDataDict setObject:[NSString stringWithFormat:@"%@ Flag", [self.actionDelegate retrieveFlagsSelectedContactParentActionTypeTitle]] forKey:@"Title"];
+    [miscDataDict setObject:[NSString stringWithFormat:@"%@ Flagging", [self.actionDelegate retrieveFlagsSelectedContactParentActionTypeTitle]] forKey:@"Title"];
     [miscDataDict setObject:[NSString stringWithFormat:@"%@", [self.actionDelegate retrieveFlagsSelectedContactParentFlagDescrTypeCode]] forKey:@"FlagDescrTypeCode"];
     [miscDataDict setObject:[NSString stringWithFormat:@"%@", [self.actionDelegate retrieveFlagsSelectedContactParentActionTypeTitle]] forKey:@"ActionTypeTitle"];
     
@@ -104,7 +104,7 @@
         ArcosGenericReturnObject* replyResult = (ArcosGenericReturnObject*)aResult;
         if ([replyResult.ArrayOfData count] > 0) {
             ArcosGenericClass* arcosGenericClass = [replyResult.ArrayOfData objectAtIndex:0];
-            [ArcosUtils showDialogBox:[ArcosUtils trim:[NSString stringWithFormat:@"%@ %@", arcosGenericClass.Field2, arcosGenericClass.Field1]] title:@"" target:[self.actionDelegate retrieveSelectedContactParentViewController] handler:nil];
+            [ArcosUtils showDialogBox:[ArcosUtils trim:[NSString stringWithFormat:@"%@ %@s have been Updated", arcosGenericClass.Field2, [self.actionDelegate retrieveFlagsSelectedContactParentActionTypeTitle]]] title:@"" target:[self.actionDelegate retrieveSelectedContactParentViewController] handler:nil];
         }
     }
     [[self.actionDelegate retrieveProgressHUDFromParentViewController] hide:YES];
