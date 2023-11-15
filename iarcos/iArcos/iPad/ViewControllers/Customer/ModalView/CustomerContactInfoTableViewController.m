@@ -12,6 +12,7 @@
 @implementation CustomerContactInfoTableViewController
 @synthesize locationIUR = _locationIUR;
 @synthesize displayList = _displayList;
+@synthesize originalDisplayList = _originalDisplayList;
 @synthesize globalNavigationController = _globalNavigationController;
 @synthesize rootView = _rootView;
 @synthesize aCustDict = _aCustDict;
@@ -36,6 +37,7 @@
 - (void) dealloc {
     if (self.locationIUR != nil) { self.locationIUR = nil; }        
     if (self.displayList != nil) { self.displayList = nil; }
+    self.originalDisplayList = nil;
     if (self.globalNavigationController != nil) { self.globalNavigationController = nil; }
     if (self.rootView != nil) { self.rootView = nil; }
     if (self.aCustDict != nil) { self.aCustDict = nil; }
@@ -72,11 +74,40 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.customerAccessTimesUtils = [[[CustomerAccessTimesUtils alloc] init] autorelease];
     self.displayList = [[ArcosCoreData sharedArcosCoreData] orderContactsWithLocationIUR: self.locationIUR];
+    self.originalDisplayList = [NSMutableArray arrayWithArray:self.displayList];
 //    NSLog(@"self.displayList: %@", self.displayList);
 
     UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addPressed:)];
     [self.navigationItem setRightBarButtonItem:addButton];
     [addButton release];
+    
+    [self createActiveOnlyButton];
+}
+
+- (void)activeOnlyButtonPressed:(id)sender {
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"Active = 1"];
+    NSArray* tmpArray = [self.originalDisplayList filteredArrayUsingPredicate:predicate];
+    self.displayList = [NSMutableArray arrayWithArray:tmpArray];
+    [self.tableView reloadData];
+    [self createAllButton];
+}
+
+- (void)allButtonPressed:(id)sender {
+    self.displayList = [NSMutableArray arrayWithArray:self.originalDisplayList];
+    [self.tableView reloadData];
+    [self createActiveOnlyButton];
+}
+
+- (void)createActiveOnlyButton {
+    UIBarButtonItem* activeOnlyButton = [[UIBarButtonItem alloc] initWithTitle:@"Active Only" style:UIBarButtonItemStylePlain target:self action:@selector(activeOnlyButtonPressed:)];
+    [self.navigationItem setLeftBarButtonItem:activeOnlyButton];
+    [activeOnlyButton release];
+}
+
+- (void)createAllButton {
+    UIBarButtonItem* allButton = [[UIBarButtonItem alloc] initWithTitle:@"All" style:UIBarButtonItemStylePlain target:self action:@selector(allButtonPressed:)];
+    [self.navigationItem setLeftBarButtonItem:allButton];
+    [allButton release];
 }
 
 - (void)viewDidUnload
@@ -170,6 +201,11 @@
     NSString* forename = [ArcosUtils convertNilToEmpty:[cellData objectForKey:@"Forename"]];
     NSString* surname = [ArcosUtils convertNilToEmpty:[cellData objectForKey:@"Surname"]];
     cell.fullname.text = [NSString stringWithFormat:@"%@ %@", forename, surname];
+    if ([[cellData objectForKey:@"Active"] boolValue]) {
+        cell.fullname.textColor = [UIColor darkTextColor];
+    } else {
+        cell.fullname.textColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0];
+    }
     cell.accessTimesDays.text = [self.customerAccessTimesUtils retrieveAccessTimesInfoValue:[cellData objectForKey:@"accessTimes"]];
 //    cell.phoneNumber.text = [cellData objectForKey:@"PhoneNumber"];
 //    cell.mobileNumber.text = [cellData objectForKey:@"MobileNumber"];
@@ -279,7 +315,9 @@
 #pragma mark GenericRefreshParentContentDelegate
 - (void)refreshParentContent {
     self.displayList = [[ArcosCoreData sharedArcosCoreData] orderContactsWithLocationIUR: self.locationIUR];
+    self.originalDisplayList = [NSMutableArray arrayWithArray:self.displayList];
     [self.tableView reloadData];
+    [self createActiveOnlyButton];
 }
 
 #pragma mark ModelViewDelegate

@@ -19,6 +19,7 @@
 @interface CustomerContactInfoTableViewController : UITableViewController <ModelViewDelegate, CustomerContactEmailDelegate, MFMailComposeViewControllerDelegate, GenericRefreshParentContentDelegate,CustomisePresentViewControllerDelegate,GetDataGenericDelegate,CustomerInfoAccessTimesCalendarTableViewControllerDelegate,ArcosMailTableViewControllerDelegate> {
     NSNumber* _locationIUR;
     NSMutableArray* _displayList;
+    NSMutableArray* _originalDisplayList;
     UINavigationController* _globalNavigationController;
     UIViewController* _rootView;
     NSMutableDictionary* _aCustDict;
@@ -34,6 +35,7 @@
 
 @property (nonatomic, retain) NSNumber* locationIUR;
 @property (nonatomic, retain) NSMutableArray* displayList;
+@property (nonatomic, retain) NSMutableArray* originalDisplayList;
 @property (nonatomic, retain) UINavigationController* globalNavigationController;
 @property (nonatomic, retain) UIViewController* rootView;
 @property (nonatomic, retain) NSMutableDictionary* aCustDict;

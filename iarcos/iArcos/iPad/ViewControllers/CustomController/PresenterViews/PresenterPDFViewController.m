@@ -18,6 +18,7 @@
 @synthesize indicatorView = _indicatorView;
 @synthesize arcosRootViewController = _arcosRootViewController;
 @synthesize mailController = _mailController;
+@synthesize previewDocumentList = _previewDocumentList;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,6 +39,7 @@
     self.indicatorView = nil;
     self.arcosRootViewController = nil;
     self.mailController = nil;
+    self.previewDocumentList = nil;
         
     [super dealloc];
 }
@@ -73,10 +75,13 @@
 
     NSString* filepath=[NSString stringWithFormat:@"%@/%@", [FileCommon presenterPath],fileName];
     NSURL    *fileURL    =   [NSURL fileURLWithPath:filepath];
-    
+    self.previewDocumentList = [NSMutableArray arrayWithCapacity:1];
     //if file is not exist then download it
     if ([FileCommon fileExistAtPath:filepath]) {
         [self loadContentWithURL:fileURL];
+        if ([self.files count] > 0) {
+            [self.previewDocumentList addObject:self.currentFile];
+        }        
     }else{
         [fileDownloadCenter addFileWithName:fileName];
         if (fileName != nil) {
@@ -88,6 +93,36 @@
     }
     
     //[self.pdfView loadRequest:[NSURLRequest requestWithURL:fileURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60]];
+    NSMutableArray* rightButtonList = [NSMutableArray arrayWithArray:self.navigationItem.rightBarButtonItems];
+    [rightButtonList addObject:[[[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStylePlain target:self action:@selector(previewButtonPressed)] autorelease]];
+    self.navigationItem.rightBarButtonItems = rightButtonList;
+}
+
+- (void)previewButtonPressed {
+    if ([self.previewDocumentList count] > 0) {
+        QLPreviewController* myPreviewController = [[QLPreviewController alloc] init];
+        myPreviewController.dataSource = self;
+        myPreviewController.delegate = self;
+        [self presentViewController:myPreviewController animated:YES completion:nil];
+        [myPreviewController release];
+    } else {
+        [ArcosUtils showDialogBox:@"No file to preview" title:@"" target:self handler:nil];
+    }
+}
+#pragma mark - QLPreviewControllerDataSource
+- (NSInteger) numberOfPreviewItemsInPreviewController: (QLPreviewController *) controller {
+    return [self.previewDocumentList count];
+}
+
+- (id <QLPreviewItem>)previewController: (QLPreviewController *)controller previewItemAtIndex:(NSInteger)index {
+    ArcosQLPreviewItem* arcosQLPreviewItem = [[[ArcosQLPreviewItem alloc] init] autorelease];
+    arcosQLPreviewItem.myItemURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", [FileCommon presenterPath], [self.currentFile objectForKey:@"Name"]]];
+    NSString* itemTitle = [NSString stringWithFormat:@"%@", [ArcosUtils convertNilToEmpty:[self.currentFile objectForKey:@"Title"]]];
+    if ([itemTitle isEqualToString:@""]) {
+        itemTitle = @"Not Defined";
+    }
+    arcosQLPreviewItem.myItemTitle = itemTitle;
+    return arcosQLPreviewItem;
 }
 
 - (void)viewDidUnload

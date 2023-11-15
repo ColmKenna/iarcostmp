@@ -145,5 +145,6 @@
 - (NSMutableArray*)retrieveDayPartsDictList;
 - (void)getChangedDataList;
 - (void)assignDefaultDayPartsAfterBasicData;
+- (void)retrieveSectionTitleData;
 
 @end

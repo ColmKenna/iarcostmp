@@ -69,12 +69,13 @@
         self.weekdayCode = @"OT";
         self.weekendCode = @"WE";
         self.arcosCreateRecordObject = [[[ArcosCreateRecordObject alloc] init] autorelease];
-        self.sectionTitleDictList = [self retrieveSectionTitleDictList];
-        self.sectionTitleList = [NSMutableArray arrayWithCapacity:4];
-        for (int i = 0; i < [self.sectionTitleDictList count]; i++) {
-            NSDictionary* sectionTitleDict = [self.sectionTitleDictList objectAtIndex:i];
-            [self.sectionTitleList addObject:[sectionTitleDict objectForKey:@"Title"]];
-        }
+//        self.sectionTitleDictList = [self retrieveSectionTitleDictList];
+//        self.sectionTitleList = [NSMutableArray arrayWithCapacity:4];
+//        for (int i = 0; i < [self.sectionTitleDictList count]; i++) {
+//            NSDictionary* sectionTitleDict = [self.sectionTitleDictList objectAtIndex:i];
+//            [self.sectionTitleList addObject:[sectionTitleDict objectForKey:@"Title"]];
+//        }
+        [self retrieveSectionTitleData];
         
         self.dbFieldNameList = [NSMutableArray arrayWithObjects:@"Narrative1", @"Narrative2", @"Narrative3", @"Narrative4", nil];
         [self reinitiateAttachmentAuxiObject];
@@ -107,6 +108,15 @@
         [self createBasicData];
     }
     return self;
+}
+
+- (void)retrieveSectionTitleData {
+    self.sectionTitleDictList = [self retrieveSectionTitleDictList];
+    self.sectionTitleList = [NSMutableArray arrayWithCapacity:4];
+    for (int i = 0; i < [self.sectionTitleDictList count]; i++) {
+        NSDictionary* sectionTitleDict = [self.sectionTitleDictList objectAtIndex:i];
+        [self.sectionTitleList addObject:[sectionTitleDict objectForKey:@"Title"]];
+    }
 }
 
 - (void)dealloc {

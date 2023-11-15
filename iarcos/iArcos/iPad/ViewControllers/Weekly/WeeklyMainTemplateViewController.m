@@ -82,6 +82,7 @@
     [self.mySegmentedControl addTarget:self action:@selector(segmentedAction) forControlEvents:UIControlEventValueChanged];
     self.weeklyMainTemplateDataManager.dayOfWeekend = [self.weeklyMainTemplateDataManager getDayOfWeekend];
     self.weeklyMainTemplateDataManager.rowPointer = 0;
+    /*
     self.weeklyMainTemplateDataManager.employeeIUR = [SettingManager employeeIUR];
     self.weeklyMainTemplateDataManager.employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:self.weeklyMainTemplateDataManager.employeeIUR];
     self.weeklyMainTemplateDataManager.employeeName = [NSString stringWithFormat:@"%@ %@", [ArcosUtils convertNilToEmpty:[self.weeklyMainTemplateDataManager.employeeDict objectForKey:@"ForeName"]], [ArcosUtils convertNilToEmpty:[self.weeklyMainTemplateDataManager.employeeDict objectForKey:@"Surname"]]];
@@ -98,7 +99,8 @@
     
     [self.navigationItem setLeftBarButtonItems:leftButtonList];
     [prevButton release];
-    
+    */
+    [self configLeftBarButtonItems];
     UIBarButtonItem* nextButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(nextPressed:)];
     UIBarButtonItem* saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(savePressed:)];
     
@@ -123,6 +125,25 @@
 //    self.weeklyMainTemplateDataManager.sectionTitleDictList = [self.weeklyMainTemplateDataManager retrieveSectionTitleDictList];
     self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.navigationController.view] autorelease];
     self.callGenericServices.delegate = self;
+}
+
+- (void)configLeftBarButtonItems {
+    self.weeklyMainTemplateDataManager.employeeIUR = [SettingManager employeeIUR];
+    self.weeklyMainTemplateDataManager.employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:self.weeklyMainTemplateDataManager.employeeIUR];
+    self.weeklyMainTemplateDataManager.employeeName = [NSString stringWithFormat:@"%@ %@", [ArcosUtils convertNilToEmpty:[self.weeklyMainTemplateDataManager.employeeDict objectForKey:@"ForeName"]], [ArcosUtils convertNilToEmpty:[self.weeklyMainTemplateDataManager.employeeDict objectForKey:@"Surname"]]];
+    UIBarButtonItem* prevButton = [[UIBarButtonItem alloc] initWithTitle:@"Prev" style:UIBarButtonItemStylePlain target:self action:@selector(prevPressed:)];
+    NSMutableArray* leftButtonList = [NSMutableArray arrayWithCapacity:2];
+    [leftButtonList addObject:prevButton];
+    
+    NSNumber* securityLevel = [self.weeklyMainTemplateDataManager.employeeDict objectForKey:@"SecurityLevel"];
+    self.employeeButton = [[[UIBarButtonItem alloc] initWithTitle:@"Employee" style:UIBarButtonItemStylePlain target:self action:@selector(employeePressed:)] autorelease];
+    if ([securityLevel intValue] > 95) {
+        [leftButtonList addObject:self.employeeButton];
+        self.weeklyMainTemplateDataManager.employeeDetailList = [[ArcosCoreData sharedArcosCoreData] allEmployee];
+    }
+    
+    [self.navigationItem setLeftBarButtonItems:leftButtonList];
+    [prevButton release];
 }
 
 - (void)dealloc {
@@ -159,6 +180,15 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    if ([self.weeklyMainTemplateDataManager.sectionTitleList count] == 0) {
+        [self.weeklyMainTemplateDataManager retrieveSectionTitleData];
+        [self.weeklyMainTemplateDataManager createBasicData];
+        [self.cwmmvc.tableView reloadData];
+    }
+    if (self.weeklyMainTemplateDataManager.employeeDict == nil) {
+        [self configLeftBarButtonItems];
+        [self navigationTitleWrapper:[ArcosUtils stringFromDate:self.weeklyMainTemplateDataManager.currentWeekendDate format:[GlobalSharedClass shared].dateFormat]];
+    }
     [self.callGenericServices refreshHUDViewFrame:self.navigationController.view];
     [self queryWeeklyRecord:self.weeklyMainTemplateDataManager.currentWeekendDate];
 }

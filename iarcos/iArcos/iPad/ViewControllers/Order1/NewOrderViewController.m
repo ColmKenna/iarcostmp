@@ -364,9 +364,16 @@
         return;
     }
 //    [self.navigationController popToRootViewControllerAnimated:NO];
-    NSNumber* defaultFormIUR = [SettingManager SettingForKeypath:@"CompanySetting.Default Types" atIndex:7];
+    NSNumber* defaultFormIUR = [SettingManager SettingForKeypath:@"CompanySetting.Default Types" atIndex:7];    
     if ([GlobalSharedClass shared].lastOrderFormIUR != nil) {
         defaultFormIUR = [NSNumber numberWithInt:[[GlobalSharedClass shared].lastOrderFormIUR intValue]];
+    }
+    NSMutableArray* formLocationList = [[ArcosCoreData sharedArcosCoreData] locationWithIURWithoutCheck:[GlobalSharedClass shared].currentSelectedLocationIUR];
+    if ([formLocationList count] > 0) {
+        NSDictionary* formLocationDict = [formLocationList objectAtIndex:0];
+        if ([[formLocationDict objectForKey:@"lP19"] intValue] != 0) {
+            defaultFormIUR = [formLocationDict objectForKey:@"lP19"];
+        }
     }
     //    NSLog(@"defaultFormIUR: %@", defaultFormIUR);
     NSDictionary* defaultFormDetailRecordDict = [self.fdtvc.formDetailDataManager formDetailRecordDictWithIUR:defaultFormIUR];
