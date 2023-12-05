@@ -769,6 +769,21 @@
     return newObjectsArray;
 }
 
++ (NSMutableArray*)addOneNumberFieldToObjectArray:(NSMutableArray*)anObjectArray fromFieldName:(NSString*)fromFieldName toFieldName:(NSString*)toFieldName {
+    NSMutableArray* newObjectArray = [NSMutableArray arrayWithCapacity:[anObjectArray count]];
+    
+    for (NSDictionary* aDict in anObjectArray) {
+        NSMutableDictionary* newDict = [NSMutableDictionary dictionaryWithDictionary:aDict];
+        if ([aDict objectForKey:fromFieldName]==nil) {
+            [newDict setObject:[NSNumber numberWithInt:0] forKey:toFieldName];
+        }else{
+            [newDict setObject:[aDict objectForKey:fromFieldName] forKey:toFieldName];
+        }
+        [newObjectArray addObject:newDict];
+    }
+    return newObjectArray;
+}
+
 + (void)groupStyleTableView:(UITableView*)tableView tableCell:(UITableViewCell*)cell indexPath:(NSIndexPath*)indexPath {
     if ([cell respondsToSelector:@selector(tintColor)]) {
         CGFloat cornerRadius = 5.f;

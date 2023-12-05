@@ -477,6 +477,19 @@
         self.instockRBTextField.hidden = YES;
         self.priceChangeButton.hidden = YES;
     }
+    if (self.isDetaillingType) {
+        self.sectionDivider.hidden = YES;
+        self.bonHeader.hidden = YES;
+        int bonNum = 26;
+        NSString* hiddenField = [NSString stringWithFormat:@"setHidden:"];
+        SEL hiddenSelector = NSSelectorFromString(hiddenField);
+        for (int i = 0; i < 13; i++) {
+            bonNum--;
+            NSString* bonusField = [NSString stringWithFormat:@"bonus%d", bonNum];
+            SEL bonusSelector = NSSelectorFromString(bonusField);
+            [[self performSelector:bonusSelector] performSelector:hiddenSelector withObject:[NSNumber numberWithBool:YES]];
+        }
+    }
 //    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.relatedFormDetailDict objectForKey:@"Details"]];
     if ([orderFormDetails containsString:@"[NB]"]) {
         [self showBonusFocWithFlag:NO];

@@ -98,6 +98,10 @@
         [self processMasterLocationDescrSelectionPopover];
         return NO;
     }
+    if ([[self.cellData objectForKey:@"fieldName"] isEqualToString:@"LP19"]) {
+        [self processFormDetailSelectionPopover];
+        return NO;
+    }
     [self processDescrSelectionPopover];
     return NO;
 }
@@ -108,6 +112,19 @@
         return;
     }
     [self processDescrSelectionPopover];
+}
+
+- (void)processFormDetailSelectionPopover {
+    NSMutableArray* tmpFormDetailDictList = [[ArcosCoreData sharedArcosCoreData] formDetailWithoutAll];
+    NSMutableArray* formDetailDictList = [NSMutableArray arrayWithCapacity:[tmpFormDetailDictList count]];
+    for (int i = 0; i < [tmpFormDetailDictList count]; i++) {
+        NSDictionary* tmpFormDetailDict = [tmpFormDetailDictList objectAtIndex:i];
+        NSMutableDictionary* formDetailDict = [NSMutableDictionary dictionaryWithDictionary:tmpFormDetailDict];
+        [formDetailDict setObject:[NSNumber numberWithInt:[[formDetailDict objectForKey:@"IUR"] intValue]] forKey:@"DescrDetailIUR"];
+        [formDetailDict setObject:[ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[formDetailDict objectForKey:@"Details"]]] forKey:@"Title"];
+        [formDetailDictList addObject:formDetailDict];
+    }
+    [self processDescrSelectionCenter:@"Order Pads" dataList:formDetailDictList];
 }
 
 -(void)processMasterLocationDescrSelectionPopover {

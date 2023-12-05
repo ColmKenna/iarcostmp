@@ -118,7 +118,7 @@
     self.globalWidgetViewController.modalPresentationStyle = UIModalPresentationPopover;
     self.globalWidgetViewController.popoverPresentationController.sourceView = aLabel;
     self.globalWidgetViewController.popoverPresentationController.sourceRect = aLabel.bounds;
-    self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionDown;
+    self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
     self.globalWidgetViewController.popoverPresentationController.delegate = self;
     [[self.delegate retrieveParentViewController] presentViewController:self.globalWidgetViewController animated:YES completion:nil];
     

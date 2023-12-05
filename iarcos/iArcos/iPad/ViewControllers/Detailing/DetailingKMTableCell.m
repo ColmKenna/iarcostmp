@@ -60,14 +60,25 @@
     
     NSMutableDictionary* answerData=[theData objectForKey:@"data"];
     if (answerData!=nil) {
-        self.statusLabel.text=[answerData objectForKey:@"Detail"];
-        [self.statusLabel setTextColor:[UIColor redColor]];
-        int auxSegmentedIndex = [self retrieveIndexByTitle:[answerData objectForKey:@"Detail"]];
-        if (auxSegmentedIndex != -1) {
-            self.answerSegmentedControl.selectedSegmentIndex = auxSegmentedIndex; 
+        NSString* tmpDescrDetailCode = [self.kmCellData objectForKey:@"DescrDetailCode"];
+        if (![tmpDescrDetailCode containsString:@"*"]) {
+            self.statusLabel.text=[answerData objectForKey:@"Detail"];
+            int auxSegmentedIndex = [self retrieveIndexByTitle:[answerData objectForKey:@"Detail"]];
+            if (auxSegmentedIndex != -1) {
+                self.answerSegmentedControl.selectedSegmentIndex = auxSegmentedIndex;
+            } else {
+                [self.answerSegmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
+            }
         } else {
-            [self.answerSegmentedControl setSelectedSegmentIndex:UISegmentedControlNoSegment];
+            NSMutableArray* msdata = [answerData objectForKey:@"msdata"];
+            NSMutableArray* labelTextList = [NSMutableArray arrayWithCapacity:[msdata count]];
+            for (int i = 0; i < [msdata count]; i++) {
+                NSMutableDictionary* tmpDescrDetailDict = [msdata objectAtIndex:i];
+                [labelTextList addObject:[ArcosUtils convertNilToEmpty:[tmpDescrDetailDict objectForKey:@"Detail"]]];
+            }
+            self.statusLabel.text = [labelTextList componentsJoinedByString:@","];
         }
+        [self.statusLabel setTextColor:[UIColor redColor]];
     }else{
         self.statusLabel.text=@"Select an answer";
         [self.statusLabel setTextColor:[UIColor blueColor]];
@@ -105,7 +116,13 @@
     if (descrTypeDict != nil) {
         titleString = [descrTypeDict objectForKey:@"Details"];
     }
-    self.globalWidgetViewController = [self.factory CreateGenericCategoryWidgetWithPickerValue:self.answerObjectList title:titleString];
+    NSString* tmpDescrDetailCode = [self.kmCellData objectForKey:@"DescrDetailCode"];
+    if (![tmpDescrDetailCode containsString:@"*"]) {
+        self.globalWidgetViewController = [self.factory CreateGenericCategoryWidgetWithPickerValue:self.answerObjectList title:titleString];
+    } else {
+        NSMutableArray* parentItemList = [NSMutableArray array];
+        self.globalWidgetViewController = [self.factory CreateGenericTableMSWidgetWithData:self.answerObjectList withTitle:titleString withParentItemList:parentItemList];
+    }
     //    thePopover=[self.factory CreateCategoryWidgetWithDataSource:WidgetDataSourceDetaillingQA];
     
     //popover is shown
@@ -138,15 +155,35 @@
 //    }
     [[self.delegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:nil];
     //set the label text  (bad fit)
-    NSString* labelText=[(NSMutableDictionary*)data objectForKey:@"Detail"];
-    self.statusLabel.text=labelText;
+    NSString* tmpDescrDetailCode = [self.kmCellData objectForKey:@"DescrDetailCode"];
+    if (![tmpDescrDetailCode containsString:@"*"]) {
+        NSString* labelText=[(NSMutableDictionary*)data objectForKey:@"Detail"];
+        self.statusLabel.text=labelText;
+        [self.delegate inputFinishedWithData:data forIndexpath:self.indexPath];
+    } else {
+        NSMutableArray* labelTextList = [NSMutableArray arrayWithCapacity:[data count]];
+        for (int i = 0; i < [data count]; i++) {
+            NSMutableDictionary* tmpDescrDetailDict = [data objectAtIndex:i];
+            [labelTextList addObject:[ArcosUtils convertNilToEmpty:[tmpDescrDetailDict objectForKey:@"Detail"]]];
+        }
+        self.statusLabel.text = [labelTextList componentsJoinedByString:@","];
+        NSMutableDictionary* resultDict = [NSMutableDictionary dictionaryWithCapacity:1];
+        [resultDict setObject:data forKey:@"msdata"];
+        [self.delegate inputFinishedWithData:resultDict forIndexpath:self.indexPath];
+    }
     
     [self.statusLabel setTextColor:[UIColor redColor]];
     //send the data back (bad fit)
-    [self.delegate inputFinishedWithData:data forIndexpath:self.indexPath];
+//    [self.delegate inputFinishedWithData:data forIndexpath:self.indexPath];
 //    self.thePopover = nil;
 //    self.factory.popoverController = nil;
     self.globalWidgetViewController = nil;
+}
+
+- (void)dismissPopoverController {
+    [[self.delegate retrieveParentViewController] dismissViewControllerAnimated:YES completion:^ {
+        self.globalWidgetViewController = nil;
+    }];
 }
 
 - (NSString*)reuseIdentifier {
@@ -199,8 +236,9 @@
         }
     }
     
-    NSMutableArray* newObjectsArray = [ArcosUtils addOneFieldToObjectsArray:objectsArray fromFieldName:@"Detail" toFieldName:@"Title"];
-    return newObjectsArray;
+    NSMutableArray* tmpObjectArray = [ArcosUtils addOneFieldToObjectsArray:objectsArray fromFieldName:@"Detail" toFieldName:@"Title"];
+    NSMutableArray* resObjectArray = [ArcosUtils addOneNumberFieldToObjectArray:tmpObjectArray fromFieldName:@"DescrDetailIUR" toFieldName:@"IUR"];
+    return resObjectArray;
 }
 
 - (int)retrieveIndexByTitle:(NSString*)aTitle {

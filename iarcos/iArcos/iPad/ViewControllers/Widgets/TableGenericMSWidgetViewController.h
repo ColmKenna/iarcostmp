@@ -18,6 +18,7 @@
     NSString* _myNavBarTitle;
     NSMutableArray* _displayList;
     NSMutableArray* _parentItemList;
+    NSMutableDictionary* _tableItemCart;
 }
 
 @property(nonatomic, assign) id<WidgetViewControllerDelegate> delegate;
@@ -26,6 +27,7 @@
 @property(nonatomic, retain) NSString* myNavBarTitle;
 @property(nonatomic, retain) NSMutableArray* displayList;
 @property(nonatomic, retain) NSMutableArray* parentItemList;
+@property(nonatomic, retain) NSMutableDictionary* tableItemCart;
 
 - (instancetype)initWithDataList:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentItemList:(NSMutableArray*)aParentItemList;
 

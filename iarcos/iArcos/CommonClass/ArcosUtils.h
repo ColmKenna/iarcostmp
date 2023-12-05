@@ -92,6 +92,7 @@
 + (NSIndexPath*)indexPathWithRecognizer:(UITapGestureRecognizer*)aTapRecognizer tableview:(UITableView*)aTableView;
 + (void)configEdgesForExtendedLayout:(UIViewController*)aUIViewController;
 + (NSMutableArray*)addOneFieldToObjectsArray:(NSMutableArray*)anObjectsArray fromFieldName:(NSString*)fromFieldName toFieldName:(NSString*)toFieldName;
++ (NSMutableArray*)addOneNumberFieldToObjectArray:(NSMutableArray*)anObjectArray fromFieldName:(NSString*)fromFieldName toFieldName:(NSString*)toFieldName;
 + (void)groupStyleTableView:(UITableView*)tableView tableCell:(UITableViewCell*)cell indexPath:(NSIndexPath*)indexPath;
 + (void)handleSeparatorTableView:(UITableView*)tableView;
 + (NSString*)convertStandardToEuropeanDateFormat:(NSString*)aDate;

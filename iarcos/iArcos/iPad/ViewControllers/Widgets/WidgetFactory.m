@@ -414,6 +414,8 @@
     CGSize size = CGSizeMake(320, 748);
     if ([aTitle isEqualToString:@"Head Quarter"]) {
         size = CGSizeMake(640, 748);
+    } else if ([aTitle isEqualToString:@"Order Pads"]) {
+        size = [[GlobalSharedClass shared] orderPadsSize];
     }
 //    self.popoverController.popoverContentSize = size;
     wvc.preferredContentSize = size;
@@ -473,7 +475,7 @@
     WidgetViewController* wvc = [[[TableGenericMSWidgetViewController alloc] initWithDataList:aDataList withTitle:aTitle withParentItemList:aParentItemList] autorelease];
     
 //    self.popoverController=[[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
-    CGSize size = CGSizeMake(320, 748);
+    CGSize size = CGSizeMake(400, 748);//320
 //    self.popoverController.popoverContentSize = size;
     wvc.preferredContentSize = size;
     

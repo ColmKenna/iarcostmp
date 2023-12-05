@@ -19,8 +19,17 @@
 @synthesize myNavBarTitle = _myNavBarTitle;
 @synthesize displayList = _displayList;
 @synthesize parentItemList = _parentItemList;
+@synthesize tableItemCart = _tableItemCart;
 
-- (id)initWithDataList:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentItemList:(NSMutableArray*)aParentItemList {
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (instancetype)initWithDataList:(NSMutableArray*)aDataList withTitle:(NSString*)aTitle withParentItemList:(NSMutableArray*)aParentItemList {
     [self initWithNibName:@"TableGenericMSWidgetViewController" bundle:nil];
     self.displayList = aDataList;
     self.myNavBarTitle = aTitle;
@@ -29,6 +38,21 @@
         anyDataSource = NO;
     }else{
         anyDataSource = YES;
+    }
+    self.tableItemCart = [NSMutableDictionary dictionaryWithCapacity:[aParentItemList count]];
+    for (int i = 0; i < [aParentItemList count]; i++) {
+        NSMutableDictionary* tmpParentItemDict = [aParentItemList objectAtIndex:i];
+        NSNumber* tmpKey = [ArcosUtils convertNilToZero:[tmpParentItemDict objectForKey:@"IUR"]];
+        [self.tableItemCart setObject:tmpParentItemDict forKey:tmpKey];
+    }
+    for (int i = 0; i < [self.displayList count]; i++) {
+        NSMutableDictionary* tmpDisplayItemDict = [self.displayList objectAtIndex:i];
+        NSNumber* tmpKey = [ArcosUtils convertNilToZero:[tmpDisplayItemDict objectForKey:@"IUR"]];
+        if ([self.tableItemCart objectForKey:tmpKey] != nil) {
+            [tmpDisplayItemDict setObject:[NSNumber numberWithBool:YES] forKey:@"IsSelected"];
+        } else {
+            [tmpDisplayItemDict setObject:[NSNumber numberWithBool:NO] forKey:@"IsSelected"];
+        }
     }
     return self;
 }
@@ -51,6 +75,7 @@
     self.myNavBarTitle = nil;
     self.displayList = nil;
     self.parentItemList = nil;
+    self.tableItemCart = nil;
     
     [super dealloc];
 }
@@ -113,7 +138,7 @@
     // Configure the cell...
     NSMutableDictionary* cellDict = [self.displayList objectAtIndex:indexPath.row];
     cell.myTextLabel.text = [cellDict objectForKey:@"Title"];
-    
+    /*
     if ([self checkCellDataExistence:cellDict]) {
         //        self.currentIndexPath = indexPath;
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -121,6 +146,12 @@
     } else {
         cell.accessoryType = UITableViewCellAccessoryNone;
         [cellDict setObject:[NSNumber numberWithBool:NO] forKey:@"IsSelected"];
+    }
+     */
+    if ([[cellDict objectForKey:@"IsSelected"] boolValue]) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
     if ([cellDict objectForKey:@"Active"] != nil &&
@@ -150,10 +181,10 @@
     NSMutableDictionary* cellData = [self.displayList objectAtIndex:indexPath.row];
     NSNumber* selectedNumber = [cellData objectForKey:@"IsSelected"];
     if ([selectedNumber boolValue]) {
-        [self.parentItemList removeObject:cellData];
+//        [self.parentItemList removeObject:cellData];
         [cellData setObject:[NSNumber numberWithBool:NO] forKey:@"IsSelected"];
     } else {
-        [self.parentItemList addObject:cellData];
+//        [self.parentItemList addObject:cellData];
         [cellData setObject:[NSNumber numberWithBool:YES] forKey:@"IsSelected"];
     }
     [self.myTableView reloadData];

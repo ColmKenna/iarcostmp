@@ -652,11 +652,24 @@
         
             aCalltran.ProductIUR=[[aDict objectForKey:@"ProductIUR"]intValue];
             aCalltran.DetailIUR=[[aDict objectForKey:@"DescIUR"]intValue];
-            aCalltran.Score=[[data objectForKey:@"DescrDetailIUR"]intValue];
+            
             aCalltran.DetailLevel=[aDict objectForKey:@"DetailLevel"];
             aCalltran.DTIUR=0;
-            aCalltran.Reference=@"";
             
+            NSString* tmpDescrDetailCode = [aDict objectForKey:@"DescrDetailCode"];
+            if (![tmpDescrDetailCode containsString:@"*"]) {
+                aCalltran.Score=[[data objectForKey:@"DescrDetailIUR"]intValue];
+                aCalltran.Reference=@"";
+            } else {
+                aCalltran.Score = 0;
+                NSMutableArray* msdata = [data objectForKey:@"msdata"];
+                NSMutableArray* descrDetailIURList = [NSMutableArray arrayWithCapacity:[msdata count]];
+                for (int i = 0; i < [msdata count]; i++) {
+                    NSMutableDictionary* tmpDescrDetailDict = [msdata objectAtIndex:i];
+                    [descrDetailIURList addObject:[ArcosUtils convertNilToZero:[tmpDescrDetailDict objectForKey:@"DescrDetailIUR"]]];
+                }
+                aCalltran.Reference = [descrDetailIURList componentsJoinedByString:@","];
+            }
             
             //add call tran to the calltrans array
             [self.calltrans addObject:aCalltran];
@@ -680,11 +693,23 @@
             
             aCalltran.ProductIUR=[[aDict objectForKey:@"ProductIUR"]intValue];
             aCalltran.DetailIUR=[[aDict objectForKey:@"DescIUR"]intValue];
-            aCalltran.Score=[[data objectForKey:@"DescrDetailIUR"]intValue];
             aCalltran.DetailLevel=[aDict objectForKey:@"DetailLevel"];
             aCalltran.DTIUR=0;
-            aCalltran.Reference=@"";
             
+            NSString* tmpDescrDetailCode = [aDict objectForKey:@"DescrDetailCode"];
+            if (![tmpDescrDetailCode containsString:@"*"]) {
+                aCalltran.Score=[[data objectForKey:@"DescrDetailIUR"]intValue];
+                aCalltran.Reference=@"";
+            } else {
+                aCalltran.Score = 0;
+                NSMutableArray* msdata = [data objectForKey:@"msdata"];
+                NSMutableArray* descrDetailIURList = [NSMutableArray arrayWithCapacity:[msdata count]];
+                for (int i = 0; i < [msdata count]; i++) {
+                    NSMutableDictionary* tmpDescrDetailDict = [msdata objectAtIndex:i];
+                    [descrDetailIURList addObject:[ArcosUtils convertNilToZero:[tmpDescrDetailDict objectForKey:@"DescrDetailIUR"]]];
+                }
+                aCalltran.Reference = [descrDetailIURList componentsJoinedByString:@","];
+            }
             
             //add call tran to the calltrans array
             [self.calltrans addObject:aCalltran];
@@ -1039,14 +1064,38 @@
             for (NSMutableDictionary* aDict in QASelection) {
                 if (CT.DetailIUR != 0 && [aDict valueForKeyPath:@"DescIUR"]!=nil) {
                     if (CT.DetailIUR == [[aDict valueForKeyPath:@"DescIUR"] intValue]) {
-                        NSDictionary* aData= [[ArcosCoreData sharedArcosCoreData]descriptionWithIUR:[NSNumber numberWithInt:CT.Score]];
-                        [aDict setObject:aData forKey:@"data"];
+                        NSString* tmpDescrDetailCode = [aDict objectForKey:@"DescrDetailCode"];
+                        if (![tmpDescrDetailCode containsString:@"*"]) {
+                            NSDictionary* aData= [[ArcosCoreData sharedArcosCoreData]descriptionWithIUR:[NSNumber numberWithInt:CT.Score]];
+                            if (aData != nil) {
+                                [aDict setObject:aData forKey:@"data"];
+                            }
+                        } else {
+                            NSArray* tmpDescrDetailIURList = nil;
+                            if (CT.Reference != nil && ![CT.Reference isEqualToString:@""]) {
+                                tmpDescrDetailIURList = [CT.Reference componentsSeparatedByString:@","];
+                            }
+                            NSMutableArray* descrDetailDictList = [NSMutableArray arrayWithCapacity:[tmpDescrDetailIURList count]];
+                            NSMutableDictionary* resultDict = [NSMutableDictionary dictionaryWithCapacity:1];
+                            [resultDict setObject:descrDetailDictList forKey:@"msdata"];
+                            [aDict setObject:resultDict forKey:@"data"];
+                            for (int i = 0; i < [tmpDescrDetailIURList count]; i++) {
+                                NSString* tmpDescrDetailIURString = [tmpDescrDetailIURList objectAtIndex:i];
+                                NSNumber* tmpDescrDetailIUR = [ArcosUtils convertStringToNumber:tmpDescrDetailIURString];
+                                NSDictionary* tmpDescrDetailDict = [[ArcosCoreData sharedArcosCoreData]descriptionWithIUR:tmpDescrDetailIUR];
+                                if (tmpDescrDetailDict != nil) {
+                                    [descrDetailDictList addObject:tmpDescrDetailDict];
+                                }
+                            }
+                        }
                     }
                 }
                 if (CT.ProductIUR != 0 && [aDict valueForKeyPath:@"ProductIUR"]!=nil) {
                     if (CT.ProductIUR == [[aDict valueForKeyPath:@"ProductIUR"] intValue]) {
                         NSDictionary* aData= [[ArcosCoreData sharedArcosCoreData]descriptionWithIUR:[NSNumber numberWithInt:CT.Score]];
-                        [aDict setObject:aData forKey:@"data"];
+                        if (aData != nil) {
+                            [aDict setObject:aData forKey:@"data"];
+                        }
                     }
                 }
             }
@@ -1058,14 +1107,38 @@
             for (NSMutableDictionary* aDict in keyMessageList) {
                 if (CT.DetailIUR != 0 && [aDict valueForKeyPath:@"DescIUR"]!=nil) {
                     if (CT.DetailIUR == [[aDict valueForKeyPath:@"DescIUR"] intValue]) {
-                        NSDictionary* aData= [[ArcosCoreData sharedArcosCoreData]descriptionWithIUR:[NSNumber numberWithInt:CT.Score]];
-                        [aDict setObject:aData forKey:@"data"];
+                        NSString* tmpDescrDetailCode = [aDict objectForKey:@"DescrDetailCode"];
+                        if (![tmpDescrDetailCode containsString:@"*"]) {
+                            NSDictionary* aData= [[ArcosCoreData sharedArcosCoreData]descriptionWithIUR:[NSNumber numberWithInt:CT.Score]];
+                            if (aData != nil) {
+                                [aDict setObject:aData forKey:@"data"];
+                            }
+                        } else {
+                            NSArray* tmpDescrDetailIURList = nil;
+                            if (CT.Reference != nil && ![CT.Reference isEqualToString:@""]) {
+                                tmpDescrDetailIURList = [CT.Reference componentsSeparatedByString:@","];
+                            }
+                            NSMutableArray* descrDetailDictList = [NSMutableArray arrayWithCapacity:[tmpDescrDetailIURList count]];
+                            NSMutableDictionary* resultDict = [NSMutableDictionary dictionaryWithCapacity:1];
+                            [resultDict setObject:descrDetailDictList forKey:@"msdata"];
+                            [aDict setObject:resultDict forKey:@"data"];
+                            for (int i = 0; i < [tmpDescrDetailIURList count]; i++) {
+                                NSString* tmpDescrDetailIURString = [tmpDescrDetailIURList objectAtIndex:i];
+                                NSNumber* tmpDescrDetailIUR = [ArcosUtils convertStringToNumber:tmpDescrDetailIURString];
+                                NSDictionary* tmpDescrDetailDict = [[ArcosCoreData sharedArcosCoreData]descriptionWithIUR:tmpDescrDetailIUR];
+                                if (tmpDescrDetailDict != nil) {
+                                    [descrDetailDictList addObject:tmpDescrDetailDict];
+                                }
+                            }
+                        }
                     }
                 }
                 if (CT.ProductIUR != 0 && [aDict valueForKeyPath:@"ProductIUR"]!=nil) {
                     if (CT.ProductIUR == [[aDict valueForKeyPath:@"ProductIUR"] intValue]) {
                         NSDictionary* aData= [[ArcosCoreData sharedArcosCoreData]descriptionWithIUR:[NSNumber numberWithInt:CT.Score]];
-                        [aDict setObject:aData forKey:@"data"];
+                        if (aData != nil) {
+                            [aDict setObject:aData forKey:@"data"];
+                        }                        
                     }
                 }
             }
