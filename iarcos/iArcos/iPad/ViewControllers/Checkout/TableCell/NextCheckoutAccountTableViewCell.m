@@ -55,7 +55,7 @@
     }
     NSMutableArray* accountNoList = [self.checkoutDataManager getAccountNoList:locationIUR fromLocationIUR:wholesalerIUR];
     NSMutableDictionary* miscDataDict = [self.checkoutDataManager getAcctNoMiscDataDict:locationIUR fromLocationIUR:wholesalerIUR];
-    self.globalWidgetViewController = [self.widgetFactory CreateTargetGenericCategoryWidgetWithUncheckedPickerValue:accountNoList miscDataDict:miscDataDict];
+    self.globalWidgetViewController = [self.widgetFactory CreateTargetGenericCategoryWidgetWithUncheckedPickerValue:accountNoList miscDataDict:miscDataDict ignoreDataCheckFlag:YES];
 //    self.thePopover.delegate = self;
 //    [self.thePopover presentPopoverFromRect:self.fieldValueLabel.bounds inView:self.fieldValueLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     if (self.globalWidgetViewController != nil) {

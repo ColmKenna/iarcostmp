@@ -383,14 +383,14 @@
     return wvc;
 }
 
--(WidgetViewController*)CreateTargetGenericCategoryWidgetWithUncheckedPickerValue:(NSMutableArray*)aPickerValue miscDataDict:(NSMutableDictionary*)aDataDict {
+-(WidgetViewController*)CreateTargetGenericCategoryWidgetWithUncheckedPickerValue:(NSMutableArray*)aPickerValue miscDataDict:(NSMutableDictionary*)aDataDict ignoreDataCheckFlag:(BOOL)anIgnoreDataCheckFlag {
     //no data still return
     WidgetViewController* wvc = [[[PickerWidgetViewController alloc] initWithPickerValue:aPickerValue miscDataDict:aDataDict delegate:self] autorelease];
 //    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
 //    self.popoverController.popoverContentSize=wvc.view.frame.size;
     wvc.preferredContentSize = wvc.view.frame.size;
     //no data  return nil
-    if (!wvc.anyDataSource) {
+    if (!wvc.anyDataSource && !anIgnoreDataCheckFlag) {
         return nil;
     }
 //    return self.popoverController;

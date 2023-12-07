@@ -105,7 +105,7 @@
         NSMutableArray* accountNoList = [self.checkoutDataManager getAccountNoList:locationIUR fromLocationIUR:fromLocationIUR];
         NSMutableDictionary* miscDataDict = [self.checkoutDataManager getAcctNoMiscDataDict:locationIUR fromLocationIUR:fromLocationIUR];
 
-        self.globalWidgetViewController=[self.widgetFactory CreateTargetGenericCategoryWidgetWithUncheckedPickerValue:accountNoList miscDataDict:miscDataDict];
+        self.globalWidgetViewController=[self.widgetFactory CreateTargetGenericCategoryWidgetWithUncheckedPickerValue:accountNoList miscDataDict:miscDataDict ignoreDataCheckFlag:YES];
     } else {
         NSNumber* writeType = [self.cellData objectForKey:@"WriteType"];
         self.globalWidgetViewController = [self.widgetFactory CreateCategoryWidgetWithDataSource:[writeType intValue]];
