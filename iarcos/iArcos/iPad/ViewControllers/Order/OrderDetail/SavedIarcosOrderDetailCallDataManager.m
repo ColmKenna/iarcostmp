@@ -25,7 +25,7 @@
     NSMutableDictionary* contactDict = [NSMutableDictionary dictionaryWithDictionary:[self.orderHeader objectForKey:@"contact"]];
     [contactDict setObject:[ArcosUtils convertNilToEmpty:[self.orderHeader objectForKey:@"contactText"]] forKey:self.titleKey];
     NSMutableDictionary* contactCellDict = [self createWriteCellDataWithCellKey:@"contact" fieldNameLabel:@"Contact" writeType:[NSNumber numberWithInt:7] fieldData:contactDict];
-    [contactCellDict setObject:[self.orderHeader objectForKey:@"LocationIUR"] forKey:@"LocationIUR"];
+    [contactCellDict setObject:[ArcosUtils convertNilToZero:[self.orderHeader objectForKey:@"LocationIUR"]] forKey:@"LocationIUR"];
     
     [contactDisplayList addObject:contactCellDict];
     [contactDisplayList addObject:[self createDateHourMinLabelCellDataWithCellKey:@"orderDate" fieldNameLabel:@"Date" writeType:[NSNumber numberWithInt:1]]];

@@ -487,7 +487,14 @@
             bonNum--;
             NSString* bonusField = [NSString stringWithFormat:@"bonus%d", bonNum];
             SEL bonusSelector = NSSelectorFromString(bonusField);
-            [[self performSelector:bonusSelector] performSelector:hiddenSelector withObject:[NSNumber numberWithBool:YES]];
+//            [[self performSelector:bonusSelector] performSelector:hiddenSelector withObject:@YES];
+            BOOL myBoolValue = YES;
+            NSMethodSignature* signature = [[[self performSelector:bonusSelector] class] instanceMethodSignatureForSelector:hiddenSelector];
+            NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:signature];
+            [invocation setTarget:[self performSelector:bonusSelector]];
+            [invocation setSelector:hiddenSelector];
+            [invocation setArgument:&myBoolValue atIndex:2];
+            [invocation invoke];
         }
     }
 //    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.relatedFormDetailDict objectForKey:@"Details"]];

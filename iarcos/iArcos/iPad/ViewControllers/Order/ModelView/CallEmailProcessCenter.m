@@ -281,7 +281,19 @@
                 [body appendString:[NSString stringWithFormat:@"%@", [aQADict objectForKey:@"Label"]]];
                 [body appendString:@"</td>"];
                 [body appendString:@"<td width='50%' align='right'>"];
-                [body appendString:[NSString stringWithFormat:@"%@",[answerData objectForKey:@"Detail"]]];        
+                NSString* tmpDescrDetailCode = [aQADict objectForKey:@"DescrDetailCode"];
+                if (![tmpDescrDetailCode containsString:@"*"]) {
+                    [body appendString:[NSString stringWithFormat:@"%@",[answerData objectForKey:@"Detail"]]];
+                } else {
+                    NSMutableArray* msdata = [answerData objectForKey:@"msdata"];
+                    NSMutableArray* labelTextList = [NSMutableArray arrayWithCapacity:[msdata count]];
+                    for (int i = 0; i < [msdata count]; i++) {
+                        NSMutableDictionary* tmpDescrDetailDict = [msdata objectAtIndex:i];
+                        [labelTextList addObject:[ArcosUtils convertNilToEmpty:[tmpDescrDetailDict objectForKey:@"Detail"]]];
+                    }
+                    [body appendString:[NSString stringWithFormat:@"%@",[labelTextList componentsJoinedByString:@","]]];
+                }
+                
                 [body appendString:@"</td>"];
                 [body appendString:@"</tr>"];
             }
@@ -307,7 +319,18 @@
                 [body appendString:[NSString stringWithFormat:@"%@", [aKeyMessageDict objectForKey:@"Label"]]];
                 [body appendString:@"</td>"];
                 [body appendString:@"<td width='50%' align='right'>"];
-                [body appendString:[NSString stringWithFormat:@"%@",[answerData objectForKey:@"Detail"]]];
+                NSString* tmpDescrDetailCode = [aKeyMessageDict objectForKey:@"DescrDetailCode"];
+                if (![tmpDescrDetailCode containsString:@"*"]) {
+                    [body appendString:[NSString stringWithFormat:@"%@",[answerData objectForKey:@"Detail"]]];
+                } else {
+                    NSMutableArray* msdata = [answerData objectForKey:@"msdata"];
+                    NSMutableArray* labelTextList = [NSMutableArray arrayWithCapacity:[msdata count]];
+                    for (int i = 0; i < [msdata count]; i++) {
+                        NSMutableDictionary* tmpDescrDetailDict = [msdata objectAtIndex:i];
+                        [labelTextList addObject:[ArcosUtils convertNilToEmpty:[tmpDescrDetailDict objectForKey:@"Detail"]]];
+                    }
+                    [body appendString:[NSString stringWithFormat:@"%@",[labelTextList componentsJoinedByString:@","]]];
+                }
                 [body appendString:@"</td>"];
                 [body appendString:@"</tr>"];
             }
@@ -513,6 +536,69 @@
     } else if ([coordinateType intValue] == 1) {
         calltranList = [self.orderHeader objectForKey:@"RemoteCallTrans"];
     }
+    
+    BOOL multipleSelectionFlag = NO;
+    NSMutableDictionary* dTMultipleSelectionHashtable = [NSMutableDictionary dictionary];
+    NSMutableDictionary* kMMultipleSelectionHashtable = [NSMutableDictionary dictionary];
+    NSMutableArray* QASelection = [self.detailingRowDict objectForKey:self.adoptionLadderKey];
+    for (NSMutableDictionary* aDict in QASelection) {
+        NSString* tmpDescrDetailCode = [aDict objectForKey:@"DescrDetailCode"];
+        if ([tmpDescrDetailCode containsString:@"*"]) {
+            multipleSelectionFlag = YES;
+            break;
+        }
+    }
+    if (!multipleSelectionFlag) {
+        NSMutableArray* keyMessageList = [self.detailingRowDict objectForKey:self.keyMessagesKey];
+        for (NSMutableDictionary* aDict in keyMessageList) {
+            NSString* tmpDescrDetailCode = [aDict objectForKey:@"DescrDetailCode"];
+            if ([tmpDescrDetailCode containsString:@"*"]) {
+                multipleSelectionFlag = YES;
+                break;
+            }
+        }
+    }
+    if (multipleSelectionFlag) {
+        for (ArcosCallTran* CT in calltranList) {
+            if ([CT.DetailLevel isEqualToString:@"DT"]) {
+                NSMutableArray* QASelection = [self.detailingRowDict objectForKey:self.adoptionLadderKey];
+                for (NSMutableDictionary* aDict in QASelection) {
+                    if (CT.DetailIUR != 0 && [aDict valueForKeyPath:@"DescIUR"] != nil) {
+                        if (CT.DetailIUR == [[aDict valueForKeyPath:@"DescIUR"] intValue]) {
+                            NSString* tmpDescrDetailCode = [aDict objectForKey:@"DescrDetailCode"];
+                            if ([tmpDescrDetailCode containsString:@"*"] && CT.Score != 0) {
+                                NSMutableArray* dTMultipleSelectionValueList = [dTMultipleSelectionHashtable objectForKey:[NSNumber numberWithInt:CT.DetailIUR]];
+                                if (dTMultipleSelectionValueList == nil) {
+                                    dTMultipleSelectionValueList = [NSMutableArray array];
+                                }
+                                [dTMultipleSelectionValueList addObject:[NSString stringWithFormat:@"%d", CT.Score]];
+                                [dTMultipleSelectionHashtable setObject:dTMultipleSelectionValueList forKey:[NSNumber numberWithInt:CT.DetailIUR]];
+                            }
+                        }
+                    }
+                }
+            }
+            if ([CT.DetailLevel isEqualToString:self.keyMessagesKey]) {
+                NSMutableArray* keyMessageList = [self.detailingRowDict objectForKey:self.keyMessagesKey];
+                for (NSMutableDictionary* aDict in keyMessageList) {
+                    if (CT.DetailIUR != 0 && [aDict valueForKeyPath:@"DescIUR"] != nil) {
+                        if (CT.DetailIUR == [[aDict valueForKeyPath:@"DescIUR"] intValue]) {
+                            NSString* tmpDescrDetailCode = [aDict objectForKey:@"DescrDetailCode"];
+                            if ([tmpDescrDetailCode containsString:@"*"] && CT.Score != 0) {
+                                NSMutableArray* kMMultipleSelectionValueList = [kMMultipleSelectionHashtable objectForKey:[NSNumber numberWithInt:CT.DetailIUR]];
+                                if (kMMultipleSelectionValueList == nil) {
+                                    kMMultipleSelectionValueList = [NSMutableArray array];
+                                }
+                                [kMMultipleSelectionValueList addObject:[NSString stringWithFormat:@"%d", CT.Score]];
+                                [kMMultipleSelectionHashtable setObject:kMMultipleSelectionValueList forKey:[NSNumber numberWithInt:CT.DetailIUR]];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     for (ArcosCallTran* CT in calltranList) {
         //fill 
         if ([CT.DetailLevel isEqualToString:@"DT"]) {
@@ -522,9 +608,38 @@
             for (NSMutableDictionary* aDict in QASelection) {
                 if (CT.DetailIUR != 0 && [aDict valueForKeyPath:@"DescIUR"]!=nil) {
                     if (CT.DetailIUR == [[aDict valueForKeyPath:@"DescIUR"] intValue]) {
-                        NSDictionary* aData = [[ArcosCoreData sharedArcosCoreData]descriptionWithIUR:[NSNumber numberWithInt:CT.Score]];
-                        [aDict setObject:aData forKey:@"data"];
+//                        NSDictionary* aData = [[ArcosCoreData sharedArcosCoreData]descriptionWithIUR:[NSNumber numberWithInt:CT.Score]];
+//                        [aDict setObject:aData forKey:@"data"];
 //                        NSLog(@"DT setted 1 %@",aData);
+                        NSString* tmpDescrDetailCode = [aDict objectForKey:@"DescrDetailCode"];
+                        if (![tmpDescrDetailCode containsString:@"*"]) {
+                            NSDictionary* aData= [[ArcosCoreData sharedArcosCoreData]descriptionWithIUR:[NSNumber numberWithInt:CT.Score]];
+                            if (aData != nil) {
+                                [aDict setObject:aData forKey:@"data"];
+                            }
+                        } else {
+                            NSArray* tmpDescrDetailIURList = nil;
+                            NSMutableArray* dTMultipleSelectionValueList = [dTMultipleSelectionHashtable objectForKey:[NSNumber numberWithInt:CT.DetailIUR]];
+                            if (dTMultipleSelectionValueList != nil) {
+                                tmpDescrDetailIURList = dTMultipleSelectionValueList;
+                            } else {
+                                if (CT.Reference != nil && ![CT.Reference isEqualToString:@""]) {
+                                    tmpDescrDetailIURList = [CT.Reference componentsSeparatedByString:@","];
+                                }
+                            }
+                            NSMutableArray* descrDetailDictList = [NSMutableArray arrayWithCapacity:[tmpDescrDetailIURList count]];
+                            NSMutableDictionary* resultDict = [NSMutableDictionary dictionaryWithCapacity:1];
+                            [resultDict setObject:descrDetailDictList forKey:@"msdata"];
+                            [aDict setObject:resultDict forKey:@"data"];
+                            for (int i = 0; i < [tmpDescrDetailIURList count]; i++) {
+                                NSString* tmpDescrDetailIURString = [tmpDescrDetailIURList objectAtIndex:i];
+                                NSNumber* tmpDescrDetailIUR = [ArcosUtils convertStringToNumber:tmpDescrDetailIURString];
+                                NSDictionary* tmpDescrDetailDict = [[ArcosCoreData sharedArcosCoreData]descriptionWithIUR:tmpDescrDetailIUR];
+                                if (tmpDescrDetailDict != nil) {
+                                    [descrDetailDictList addObject:tmpDescrDetailDict];
+                                }
+                            }
+                        }
                         self.hasDetailing = YES;
                     }
                 }
@@ -546,9 +661,38 @@
             for (NSMutableDictionary* aDict in keyMessageList) {
                 if (CT.DetailIUR != 0 && [aDict valueForKeyPath:@"DescIUR"]!=nil) {
                     if (CT.DetailIUR == [[aDict valueForKeyPath:@"DescIUR"] intValue]) {
-                        NSDictionary* aData = [[ArcosCoreData sharedArcosCoreData]descriptionWithIUR:[NSNumber numberWithInt:CT.Score]];
-                        [aDict setObject:aData forKey:@"data"];
+//                        NSDictionary* aData = [[ArcosCoreData sharedArcosCoreData]descriptionWithIUR:[NSNumber numberWithInt:CT.Score]];
+//                        [aDict setObject:aData forKey:@"data"];
                         //                        NSLog(@"DT setted 1 %@",aData);
+                        NSString* tmpDescrDetailCode = [aDict objectForKey:@"DescrDetailCode"];
+                        if (![tmpDescrDetailCode containsString:@"*"]) {
+                            NSDictionary* aData= [[ArcosCoreData sharedArcosCoreData]descriptionWithIUR:[NSNumber numberWithInt:CT.Score]];
+                            if (aData != nil) {
+                                [aDict setObject:aData forKey:@"data"];
+                            }
+                        } else {
+                            NSArray* tmpDescrDetailIURList = nil;
+                            NSMutableArray* kMMultipleSelectionValueList = [kMMultipleSelectionHashtable objectForKey:[NSNumber numberWithInt:CT.DetailIUR]];
+                            if (kMMultipleSelectionValueList != nil) {
+                                tmpDescrDetailIURList = kMMultipleSelectionValueList;
+                            } else {
+                                if (CT.Reference != nil && ![CT.Reference isEqualToString:@""]) {
+                                    tmpDescrDetailIURList = [CT.Reference componentsSeparatedByString:@","];
+                                }
+                            }
+                            NSMutableArray* descrDetailDictList = [NSMutableArray arrayWithCapacity:[tmpDescrDetailIURList count]];
+                            NSMutableDictionary* resultDict = [NSMutableDictionary dictionaryWithCapacity:1];
+                            [resultDict setObject:descrDetailDictList forKey:@"msdata"];
+                            [aDict setObject:resultDict forKey:@"data"];
+                            for (int i = 0; i < [tmpDescrDetailIURList count]; i++) {
+                                NSString* tmpDescrDetailIURString = [tmpDescrDetailIURList objectAtIndex:i];
+                                NSNumber* tmpDescrDetailIUR = [ArcosUtils convertStringToNumber:tmpDescrDetailIURString];
+                                NSDictionary* tmpDescrDetailDict = [[ArcosCoreData sharedArcosCoreData]descriptionWithIUR:tmpDescrDetailIUR];
+                                if (tmpDescrDetailDict != nil) {
+                                    [descrDetailDictList addObject:tmpDescrDetailDict];
+                                }
+                            }
+                        }
                         self.hasKeyMessages = YES;
                     }
                 }
