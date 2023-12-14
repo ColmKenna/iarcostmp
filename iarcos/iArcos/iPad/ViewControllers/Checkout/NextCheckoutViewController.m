@@ -292,7 +292,17 @@
                     NSDictionary* descrDetailDict = [descrDetailDictList objectAtIndex:0];
                     acctNoMsg = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[descrDetailDict objectForKey:@"Tooltip"]]];
                 }
-                [ArcosUtils showDialogBox:acctNoMsg title:@"" delegate:nil target:self tag:0 handler:nil];
+//                [ArcosUtils showDialogBox:acctNoMsg title:@"" delegate:nil target:self tag:0 handler:nil];
+                ArcosAlertBoxViewController* arcosAlertBoxViewController = [[ArcosAlertBoxViewController alloc] initWithNibName:@"ArcosAlertBoxViewController" bundle:nil];
+                if (@available(iOS 13.0, *)) {
+                    arcosAlertBoxViewController.modalInPresentation = YES;
+                }
+                arcosAlertBoxViewController.disableSaveButtonFlag = YES;
+                arcosAlertBoxViewController.messageContent = acctNoMsg;
+                arcosAlertBoxViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+                arcosAlertBoxViewController.actionDelegate = self;
+                [self presentViewController:arcosAlertBoxViewController animated:YES completion:nil];
+                [arcosAlertBoxViewController release];
                 return;
             }
         }
@@ -304,7 +314,17 @@
                 lP20 = [[refLocationDict objectForKey:@"lP20"] intValue];
             }
             if (lP20 != 0) {
-                [ArcosUtils showDialogBox:@"Please enter a customer reference" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
+//                [ArcosUtils showDialogBox:@"Please enter a customer reference" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
+                ArcosAlertBoxViewController* arcosAlertBoxViewController = [[ArcosAlertBoxViewController alloc] initWithNibName:@"ArcosAlertBoxViewController" bundle:nil];
+                if (@available(iOS 13.0, *)) {
+                    arcosAlertBoxViewController.modalInPresentation = YES;
+                }
+                arcosAlertBoxViewController.disableSaveButtonFlag = YES;
+                arcosAlertBoxViewController.messageContent = @"Customer PO must be entered";
+                arcosAlertBoxViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+                arcosAlertBoxViewController.actionDelegate = self;
+                [self presentViewController:arcosAlertBoxViewController animated:YES completion:nil];
+                [arcosAlertBoxViewController release];
                 return;
             }
         }
@@ -334,13 +354,23 @@
         }
          */
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] confirmOrderDetailsAtCheckoutFlag]) {
-            void (^lBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
-                
-            };
-            void (^rBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
-                [self enableVanSaleProcessor];
-            };            
-            [ArcosUtils showTwoBtnsDialogBox:[NSString stringWithFormat:@"€%@",[ArcosUtils convertNilToEmpty:[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"totalGoodsText"]]] title:@"Confirm Value" target:self lBtnText:@"Adjust" rBtnText:@"Save" lBtnHandler:lBtnActionHandler rBtnHandler:rBtnActionHandler];
+//            void (^lBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+//                
+//            };
+//            void (^rBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+//                [self enableVanSaleProcessor];
+//            };            
+//            [ArcosUtils showTwoBtnsDialogBox:[NSString stringWithFormat:@"€%@",[ArcosUtils convertNilToEmpty:[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"totalGoodsText"]]] title:@"Confirm Value" target:self lBtnText:@"Adjust" rBtnText:@"Save" lBtnHandler:lBtnActionHandler rBtnHandler:rBtnActionHandler];
+            ArcosAlertBoxViewController* arcosAlertBoxViewController = [[ArcosAlertBoxViewController alloc] initWithNibName:@"ArcosAlertBoxViewController" bundle:nil];
+            if (@available(iOS 13.0, *)) {
+                arcosAlertBoxViewController.modalInPresentation = YES;
+            }
+            arcosAlertBoxViewController.checkWholesalerFlag = YES;
+            arcosAlertBoxViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+            arcosAlertBoxViewController.actionDelegate = self;
+            arcosAlertBoxViewController.view.tag = 3;
+            [self presentViewController:arcosAlertBoxViewController animated:YES completion:nil];
+            [arcosAlertBoxViewController release];
         } else {
             [self enableVanSaleProcessor];
         }
@@ -349,6 +379,16 @@
             [self backPressed:nil];
         }];
     }
+}
+
+#pragma mark - ArcosAlertBoxViewControllerDelegate
+- (void)amendButtonPressed {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+- (void)saveButtonPressed:(ArcosAlertBoxViewController*)anAlertBox {
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self enableVanSaleProcessor];
+    }];
 }
 
 - (void)enableVanSaleProcessor {
@@ -394,14 +434,25 @@
                 void (^continueOrderActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
                     [self backPressed:nil];
                 };
-                void (^okActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
-                    
-                };
+//                void (^okActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+//                    
+//                };
                 
                 if ([[LTiurDict objectForKey:@"Toggle1"] boolValue]) {
                     [ArcosUtils showTwoBtnsDialogBox:errorMsg title:errorTitle delegate:self target:self tag:75 lBtnText:@"Save Anyway" rBtnText:@"Continue Order" lBtnHandler:saveAnywayActionHandler rBtnHandler:continueOrderActionHandler];
                 } else {
-                    [ArcosUtils showDialogBox:errorMsg title:errorTitle delegate:self target:self tag:0 handler:okActionHandler];
+//                    [ArcosUtils showDialogBox:errorMsg title:errorTitle delegate:self target:self tag:0 handler:okActionHandler];
+                    NSString* errorMsg = [ArcosUtils trim:[NSString stringWithFormat:@"Minimum Order Value of %.2f Required.\nShortfall is %.2f", [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100, [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100 - [[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"TotalGoods"] floatValue]]];
+                    ArcosAlertBoxViewController* arcosAlertBoxViewController = [[ArcosAlertBoxViewController alloc] initWithNibName:@"ArcosAlertBoxViewController" bundle:nil];
+                    if (@available(iOS 13.0, *)) {
+                        arcosAlertBoxViewController.modalInPresentation = YES;
+                    }
+                    arcosAlertBoxViewController.disableSaveButtonFlag = YES;
+                    arcosAlertBoxViewController.messageContent = errorMsg;
+                    arcosAlertBoxViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+                    arcosAlertBoxViewController.actionDelegate = self;
+                    [self presentViewController:arcosAlertBoxViewController animated:YES completion:nil];
+                    [arcosAlertBoxViewController release];
                 }
             }
         }

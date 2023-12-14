@@ -19,8 +19,9 @@
 @class ArcosRootViewController;
 #import <AVFoundation/AVFoundation.h>
 #import "ModalPresentViewControllerDelegate.h"
+#import "ArcosAlertBoxViewController.h"
 
-@interface NextCheckoutViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, NextCheckoutOrderInfoDelegate, CoreLocationControllerDelegate, WidgetFactoryDelegate, AVAudioPlayerDelegate, CustomisePresentViewControllerDelegate,ModalPresentViewControllerDelegate,UIPopoverPresentationControllerDelegate>{
+@interface NextCheckoutViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, NextCheckoutOrderInfoDelegate, CoreLocationControllerDelegate, WidgetFactoryDelegate, AVAudioPlayerDelegate, CustomisePresentViewControllerDelegate,ModalPresentViewControllerDelegate,UIPopoverPresentationControllerDelegate,ArcosAlertBoxViewControllerDelegate>{
     UITableView* _orderInfoTableView;
     LeftBorderUILabel* _tableDivider;
     UITableView* _orderlinesTableView;

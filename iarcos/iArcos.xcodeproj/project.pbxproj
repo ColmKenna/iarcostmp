@@ -1620,6 +1620,8 @@
 		7951AC06282E3FD200423717 /* ArcosCalendarEventEntryDetailDateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7951AC05282E3FD200423717 /* ArcosCalendarEventEntryDetailDateTableViewCell.m */; };
 		795A779D2A0E6EE100D65A5F /* FormRowTableCellPrevRrpGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 795A779C2A0E6EE100D65A5F /* FormRowTableCellPrevRrpGenerator.m */; };
 		795CE0D52A6EA53700131610 /* FormRowTableCellPrevNormalGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 795CE0D42A6EA53700131610 /* FormRowTableCellPrevNormalGenerator.m */; };
+		795D0BB72B28649700530823 /* ArcosAlertBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 795D0BB52B28649700530823 /* ArcosAlertBoxViewController.m */; };
+		795D0BB82B28649700530823 /* ArcosAlertBoxViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 795D0BB62B28649700530823 /* ArcosAlertBoxViewController.xib */; };
 		795DC67A27E1D46E00756D2D /* ArcosCalendarTableDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 795DC67927E1D46E00756D2D /* ArcosCalendarTableDataManager.m */; };
 		795EF38F2534543400F8C5ED /* CustomerContactDetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 795EF38D2534543400F8C5ED /* CustomerContactDetailTableCell.m */; };
 		795EF3902534543400F8C5ED /* CustomerContactDetailTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */; };
@@ -4840,6 +4842,7 @@
 		7931733D26267D7900195AFF /* ProductSelectionListingTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductSelectionListingTableViewCell.h; sourceTree = "<group>"; };
 		7931733E26267D7900195AFF /* ProductSelectionListingTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductSelectionListingTableViewCell.m; sourceTree = "<group>"; };
 		7931733F26267D7900195AFF /* ProductSelectionListingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductSelectionListingTableViewCell.xib; sourceTree = "<group>"; };
+		793213E42B295C5A009303AB /* ArcosAlertBoxViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosAlertBoxViewControllerDelegate.h; sourceTree = "<group>"; };
 		793A7EBC2844D87900D0DD86 /* ArcosCalendarEventEntryDetailTableViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosCalendarEventEntryDetailTableViewControllerDelegate.h; sourceTree = "<group>"; };
 		793D000025A2C65200DCDA5B /* ReportMainTemplateViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportMainTemplateViewController.h; sourceTree = "<group>"; };
 		793D000125A2C65200DCDA5B /* ReportMainTemplateViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReportMainTemplateViewController.m; sourceTree = "<group>"; };
@@ -4873,6 +4876,9 @@
 		795A779C2A0E6EE100D65A5F /* FormRowTableCellPrevRrpGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormRowTableCellPrevRrpGenerator.m; sourceTree = "<group>"; };
 		795CE0D32A6EA53700131610 /* FormRowTableCellPrevNormalGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormRowTableCellPrevNormalGenerator.h; sourceTree = "<group>"; };
 		795CE0D42A6EA53700131610 /* FormRowTableCellPrevNormalGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormRowTableCellPrevNormalGenerator.m; sourceTree = "<group>"; };
+		795D0BB42B28649700530823 /* ArcosAlertBoxViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosAlertBoxViewController.h; sourceTree = "<group>"; };
+		795D0BB52B28649700530823 /* ArcosAlertBoxViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosAlertBoxViewController.m; sourceTree = "<group>"; };
+		795D0BB62B28649700530823 /* ArcosAlertBoxViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArcosAlertBoxViewController.xib; sourceTree = "<group>"; };
 		795DC67827E1D46E00756D2D /* ArcosCalendarTableDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosCalendarTableDataManager.h; sourceTree = "<group>"; };
 		795DC67927E1D46E00756D2D /* ArcosCalendarTableDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosCalendarTableDataManager.m; sourceTree = "<group>"; };
 		795EF38C2534543400F8C5ED /* CustomerContactDetailTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerContactDetailTableCell.h; sourceTree = "<group>"; };
@@ -7799,6 +7805,10 @@
 				79C1C3EC26254D5F0006A082 /* ProductSelectionListingTableViewController.xib */,
 				79B94F042625DCD400BB324A /* ProductSelectionListingDataManager.h */,
 				79B94F052625DCD400BB324A /* ProductSelectionListingDataManager.m */,
+				795D0BB42B28649700530823 /* ArcosAlertBoxViewController.h */,
+				795D0BB52B28649700530823 /* ArcosAlertBoxViewController.m */,
+				795D0BB62B28649700530823 /* ArcosAlertBoxViewController.xib */,
+				793213E42B295C5A009303AB /* ArcosAlertBoxViewControllerDelegate.h */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -9349,6 +9359,7 @@
 				798B5D732AEB6E9F008B12D9 /* flags_contact@2x.png in Resources */,
 				630B3BE619F01CB9007B2442 /* CustomerNewsTaskTableCell.xib in Resources */,
 				79CA7D12265B470800EC4B1A /* DashboardServerViewController.xib in Resources */,
+				795D0BB82B28649700530823 /* ArcosAlertBoxViewController.xib in Resources */,
 				630B3D4619F01CB9007B2442 /* UtilitiesDescriptionDetailViewController.xib in Resources */,
 				630B3B9C19F01CB9007B2442 /* CustomerCallDetailTableCell.xib in Resources */,
 				630B3D2619F01CB9007B2442 /* GenericUITableDetailTableCell.xib in Resources */,
@@ -10708,6 +10719,7 @@
 				630B3C3E19F01CB9007B2442 /* SmallFormDetailDividerDataManager.m in Sources */,
 				630B3CFF19F01CB9007B2442 /* SavedOrderMasterViewController.m in Sources */,
 				630B3CF519F01CB9007B2442 /* QueryOrderTaskTableCellFactory.m in Sources */,
+				795D0BB72B28649700530823 /* ArcosAlertBoxViewController.m in Sources */,
 				630B3BB719F01CB9007B2442 /* CustomerMemoTableCell.m in Sources */,
 				630B3DCA19F01CB9007B2442 /* SoapService.m in Sources */,
 				630B3D5519F01CB9007B2442 /* UtilitiesTablesDetailViewController.m in Sources */,
@@ -11143,7 +11155,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.3.20;
+				MARKETING_VERSION = 12.4.2;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11202,7 +11214,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.3.20;
+				MARKETING_VERSION = 12.4.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -11341,7 +11353,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.3.20;
+				MARKETING_VERSION = 12.4.2;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
