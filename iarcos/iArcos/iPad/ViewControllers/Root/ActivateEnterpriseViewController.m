@@ -249,8 +249,12 @@
     NSString* errorString = @"Code could not be validated";
     if (result != nil) {
         if ([result isKindOfClass:[NSError class]]) {
+            NSError* anError = (NSError*)result;
+            errorString = [anError localizedDescription];
             callAvailable = NO;
         } else if([result isKindOfClass:[SoapFault class]]){
+            SoapFault* anSoapFault = (SoapFault*)result;
+            errorString = [anSoapFault faultString];
             callAvailable = NO;
         }else  {
             ArcosGenericReturnObject* objects = (ArcosGenericReturnObject*)result;
@@ -401,8 +405,12 @@
     NSString* errorString = @"Configuration could not be validated";
     if (result != nil) {
         if ([result isKindOfClass:[NSError class]]) {
+            NSError* anError = (NSError*)result;
+            errorString = [anError description];
             configAvailable = NO;
         } else if([result isKindOfClass:[SoapFault class]]){
+            SoapFault* anFault = (SoapFault*) result;
+            errorString = [anFault faultString];
             configAvailable = NO;
         } else {
             ArcosGenericReturnObject* objects = (ArcosGenericReturnObject*)result;
