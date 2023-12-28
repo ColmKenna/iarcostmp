@@ -382,10 +382,20 @@
 }
 
 #pragma mark - ArcosAlertBoxViewControllerDelegate
-- (void)amendButtonPressed {
-    [self dismissViewControllerAnimated:YES completion:nil];
+- (void)amendButtonPressed:(ArcosAlertBoxViewController*)anAlertBox {
+    [self dismissViewControllerAnimated:YES completion:^ {
+        if (anAlertBox.view.tag == 100) {
+            [self backPressed:nil];
+        }
+    }];
 }
 - (void)saveButtonPressed:(ArcosAlertBoxViewController*)anAlertBox {
+    if (anAlertBox.view.tag == 100) {
+        [self dismissViewControllerAnimated:YES completion:^{
+            [self checkoutSaveProcessor];
+        }];
+        return;
+    }
     [self dismissViewControllerAnimated:YES completion:^{
         [self enableVanSaleProcessor];
     }];
@@ -427,7 +437,8 @@
             if ([[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"TotalGoods"] floatValue] < [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100) {
                 showMsgFlag = YES;
                 NSString* errorTitle = @"Minimum Order Value required";
-                NSString* errorMsg = [ArcosUtils trim:[NSString stringWithFormat:@"%@ must have a minimum Order Value of %.0f\nShortfall of %.2f\n%@", [ArcosUtils convertNilToEmpty:[LTiurDict objectForKey:@"Detail"]], [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100, [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100 - [[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"TotalGoods"] floatValue],[ArcosUtils convertNilToEmpty:[LTiurDict objectForKey:@"Tooltip"]]]];
+//                NSString* errorMsg = [ArcosUtils trim:[NSString stringWithFormat:@"%@ must have a minimum Order Value of %.0f\nShortfall of %.2f\n%@", [ArcosUtils convertNilToEmpty:[LTiurDict objectForKey:@"Detail"]], [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100, [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100 - [[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"TotalGoods"] floatValue],[ArcosUtils convertNilToEmpty:[LTiurDict objectForKey:@"Tooltip"]]]];
+                NSString* errorMsg = [ArcosUtils trim:[NSString stringWithFormat:@"Minimum Order Value of %.2f Required.\nShortfall is %.2f", [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100, [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100 - [[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"TotalGoods"] floatValue]]];
                 void (^saveAnywayActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
                     [self checkoutSaveProcessor];
                 };
@@ -439,10 +450,21 @@
 //                };
                 
                 if ([[LTiurDict objectForKey:@"Toggle1"] boolValue]) {
-                    [ArcosUtils showTwoBtnsDialogBox:errorMsg title:errorTitle delegate:self target:self tag:75 lBtnText:@"Save Anyway" rBtnText:@"Continue Order" lBtnHandler:saveAnywayActionHandler rBtnHandler:continueOrderActionHandler];
+//                    [ArcosUtils showTwoBtnsDialogBox:errorMsg title:errorTitle delegate:self target:self tag:75 lBtnText:@"Save Anyway" rBtnText:@"Continue Order" lBtnHandler:saveAnywayActionHandler rBtnHandler:continueOrderActionHandler];
+                    ArcosAlertBoxViewController* arcosAlertBoxViewController = [[ArcosAlertBoxViewController alloc] initWithNibName:@"ArcosAlertBoxViewController" bundle:nil];
+                    if (@available(iOS 13.0, *)) {
+                        arcosAlertBoxViewController.modalInPresentation = YES;
+                    }
+                    arcosAlertBoxViewController.view.tag = 100;
+                    arcosAlertBoxViewController.disableSaveButtonFlag = NO;
+                    arcosAlertBoxViewController.messageContent = errorMsg;
+                    arcosAlertBoxViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+                    arcosAlertBoxViewController.actionDelegate = self;
+                    [self presentViewController:arcosAlertBoxViewController animated:YES completion:nil];
+                    [arcosAlertBoxViewController release];
                 } else {
 //                    [ArcosUtils showDialogBox:errorMsg title:errorTitle delegate:self target:self tag:0 handler:okActionHandler];
-                    NSString* errorMsg = [ArcosUtils trim:[NSString stringWithFormat:@"Minimum Order Value of %.2f Required.\nShortfall is %.2f", [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100, [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100 - [[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"TotalGoods"] floatValue]]];
+//                    NSString* errorMsg = [ArcosUtils trim:[NSString stringWithFormat:@"Minimum Order Value of %.2f Required.\nShortfall is %.2f", [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100, [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100 - [[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"TotalGoods"] floatValue]]];
                     ArcosAlertBoxViewController* arcosAlertBoxViewController = [[ArcosAlertBoxViewController alloc] initWithNibName:@"ArcosAlertBoxViewController" bundle:nil];
                     if (@available(iOS 13.0, *)) {
                         arcosAlertBoxViewController.modalInPresentation = YES;

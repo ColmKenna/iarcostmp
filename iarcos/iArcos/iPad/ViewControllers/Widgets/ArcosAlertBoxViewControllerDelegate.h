@@ -11,7 +11,7 @@
 
 @protocol ArcosAlertBoxViewControllerDelegate <NSObject>
 
-- (void)amendButtonPressed;
+- (void)amendButtonPressed:(ArcosAlertBoxViewController*)anAlertBox;
 - (void)saveButtonPressed:(ArcosAlertBoxViewController*)anAlertBox;
 
 @end

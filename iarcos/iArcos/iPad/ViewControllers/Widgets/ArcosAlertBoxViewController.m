@@ -130,7 +130,7 @@
 }
 
 - (IBAction)didAmendButtonPressed:(id)sender {
-    [self.actionDelegate amendButtonPressed];
+    [self.actionDelegate amendButtonPressed:self];
 }
 
 - (IBAction)didSaveButtonPressed:(id)sender {

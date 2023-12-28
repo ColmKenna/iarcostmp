@@ -20,6 +20,7 @@
 @end
 
 @implementation OrderInputPadViewController
+@synthesize unitsTitleLabel = _unitsTitleLabel;
 @synthesize  QTYField;
 @synthesize  BonusField;
 @synthesize  DiscountField;
@@ -129,6 +130,7 @@
 
 - (void)dealloc
 {
+    self.unitsTitleLabel = nil;
     if (self.QTYField != nil) { self.QTYField = nil; }
     if (self.BonusField != nil) { self.BonusField = nil; }   
     if (self.DiscountField != nil) { self.DiscountField = nil; }
@@ -377,9 +379,13 @@
     [self highlightSelectField];
     //check split pack field
     if (self.showSeparator || [[self.Data objectForKey:@"SamplesAvailable"] intValue] == -1) {
+        self.qtyLabel.text = @"Cases";
+        self.unitsTitleLabel.hidden = NO;
         self.InStockField.hidden = NO;
         self.FOCField.hidden = NO;
     } else {
+        self.qtyLabel.text = @"Qty";
+        self.unitsTitleLabel.hidden = YES;
         self.InStockField.hidden = YES;
         self.FOCField.hidden = YES;
     }

@@ -812,7 +812,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 //input popover delegate
 -(void)operationDone:(id)data{
 //    [self.inputPopover dismissPopoverAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.rootView dismissViewControllerAnimated:YES completion:nil];
     [self saveOrderToTheCart:data];
     NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.formRowsTableDataManager.currentFormDetailDict objectForKey:@"Details"]];
     [self processDefaultQtyPercentProcessor:data orderFormDetails:orderFormDetails];
@@ -1322,7 +1322,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     self.globalWidgetViewController.popoverPresentationController.sourceRect = aRect;
     self.globalWidgetViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionDown;
     self.globalWidgetViewController.popoverPresentationController.delegate = self;
-    [self presentViewController:self.globalWidgetViewController animated:YES completion:nil];
+    [self.rootView presentViewController:self.globalWidgetViewController animated:YES completion:nil];
 }
 
 - (void)receiveBarCodeNotification:(NSNotification*)notification {

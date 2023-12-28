@@ -25,6 +25,7 @@
 @end
 
 @interface OrderInputPadViewController : WidgetViewController<UITextFieldDelegate, UIPopoverPresentationControllerDelegate, PriceChangeTableViewControllerDelegate> {
+    UILabel* _unitsTitleLabel;
     IBOutlet UITextField* QTYField;
     IBOutlet UITextField* BonusField;
     IBOutlet UITextField* DiscountField;
@@ -125,6 +126,7 @@
     NSDictionary* _relatedFormDetailDict;
     ArcosMyResult* _arcosMyResult;
 }
+@property(nonatomic,retain) IBOutlet UILabel* unitsTitleLabel;
 @property(nonatomic,retain) IBOutlet UITextField* QTYField;
 @property(nonatomic,retain) IBOutlet UITextField* BonusField;
 @property(nonatomic,retain) IBOutlet UITextField* DiscountField;
