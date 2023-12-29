@@ -7,6 +7,7 @@
 //
 
 #import "ArcosAlertBoxViewController.h"
+#import "ArcosCoreData.h"
 
 @interface ArcosAlertBoxViewController ()
 
@@ -86,11 +87,20 @@
         self.bonusSplitDesc.hidden = YES;
         self.bonusSplitValue.hidden = YES;
     }
+    if (totalInStock != 0 || totalFOC != 0) {
+        self.qtyDesc.text = @"Cases";
+    } else {
+        self.qtyDesc.text = @"Quantity";
+    }
     if (self.checkWholesalerFlag) {
         if (totalInStock > 0 || totalFOC > 0) {
-            NSDictionary* wholesalerDict = [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"wholesaler"];
-            NSString* tmpAddress2 = [wholesalerDict objectForKey:@"Address2"];
-            NSString* address2 = [tmpAddress2 lowercaseString];
+            NSNumber* wholesalerIUR = [[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"wholesaler"] objectForKey:@"LocationIUR"];
+            NSMutableArray* fromLocationList = [[ArcosCoreData sharedArcosCoreData] locationWithIURWithoutCheck:wholesalerIUR];
+            NSString* address2 = @"";
+            if ([fromLocationList count] > 0) {
+                NSDictionary* fromLocationDict = [fromLocationList objectAtIndex:0];
+                address2 = [[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[fromLocationDict objectForKey:@"Address2"]]] lowercaseString];
+            }
             if ([address2 containsString:@"unit"]) {
                 self.msgValue.text = @"Units not allowed for this wholesaler – please amend";
                 self.saveButton.enabled = NO;
