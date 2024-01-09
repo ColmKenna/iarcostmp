@@ -62,8 +62,8 @@
     UILabel* _valueLabel;
     
     BOOL isDetaillingType;
-    IBOutlet UITextField* InStockField;//Qty SplitPack UnitPerPack
-    IBOutlet UITextField* FOCField;//Bonus SplitPack UnitPerPack 
+    IBOutlet UITextField* unitsField;//Qty SplitPack UnitPerPack  InStockField changed as unitsField
+    IBOutlet UITextField* FOCField;//Bonus SplitPack UnitPerPack
     BOOL _showSeparator;
 //    NSNumber* _locationIUR;
     OrderInputPadDataManager* _orderInputPadDataManager;
@@ -164,7 +164,7 @@
 @property(nonatomic,retain) IBOutlet UILabel* valueLabel;
 
 @property(nonatomic,assign)  BOOL isDetaillingType;
-@property(nonatomic,retain) IBOutlet UITextField* InStockField;
+@property(nonatomic,retain) IBOutlet UITextField* unitsField;
 @property(nonatomic,retain) IBOutlet UITextField* FOCField;
 @property(nonatomic,assign) BOOL showSeparator;
 //@property(nonatomic,retain) NSNumber* locationIUR;

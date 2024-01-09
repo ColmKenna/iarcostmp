@@ -145,6 +145,7 @@
         [orderlineDict setObject:[ArcosUtils convertStringToNumber:cellData.Field13] forKey:@"Bonus"];
         [orderlineDict setObject:[NSNumber numberWithInt:0] forKey:@"DiscountPercent"];
         [orderlineDict setObject:[NSNumber numberWithInt:0] forKey:@"InStock"];
+        [orderlineDict setObject:[NSNumber numberWithInt:0] forKey:@"units"];
         [orderlineDict setObject:[NSNumber numberWithInt:0] forKey:@"FOC"];
         [orderlineDict setObject:[NSNumber numberWithInt:0] forKey:@"Testers"];
         [orderlineDict setObject:[ArcosUtils convertStringToFloatNumber:[ArcosUtils convertNilToEmpty:cellData.Field11]] forKey:@"LineValue"];

@@ -148,7 +148,7 @@
         NSNumber* qty = [orderLineDict objectForKey:@"Qty"];
         totalQty += [qty intValue];
         NSString* qtyStr = [ArcosUtils convertZeroToBlank:[ArcosUtils convertNumberToIntString:qty]];
-        NSNumber* inStock = [orderLineDict objectForKey:@"InStock"];
+        NSNumber* inStock = [orderLineDict objectForKey:@"units"];
         NSString* inStockStr = [ArcosUtils convertZeroToBlank:[ArcosUtils convertNumberToIntString:inStock]];
         if (![inStockStr isEqualToString:@""]) {
             qtyStr = [NSString stringWithFormat:@"%@/%@", qtyStr, inStockStr];

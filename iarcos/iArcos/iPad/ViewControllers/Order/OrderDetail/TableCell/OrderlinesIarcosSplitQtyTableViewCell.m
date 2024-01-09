@@ -32,7 +32,7 @@
 
 - (void)configCellWithData:(NSMutableDictionary *)theData {
     [super configCellWithData:theData];
-    self.qtyInSplitQtyView.text = [[theData objectForKey:@"InStock"] stringValue];
+    self.qtyInSplitQtyView.text = [[theData objectForKey:@"units"] stringValue];
 }
 
 @end

@@ -174,6 +174,7 @@
         NSNumber* tmpProductIUR = [ArcosUtils convertStringToNumber:[subArcosGenericClass Field11]];
         [orderlineDict setObject:tmpProductIUR forKey:@"ProductIUR"];
         [orderlineDict setObject:[ArcosUtils convertStringToNumber:[subArcosGenericClass Field12]] forKey:@"InStock"];
+        [orderlineDict setObject:[ArcosUtils convertStringToNumber:[subArcosGenericClass Field19]] forKey:@"units"];
         [orderlineDict setObject:[ArcosUtils convertStringToNumber:[subArcosGenericClass Field13]] forKey:@"FOC"];
         [orderlineDict setObject:[ArcosUtils convertStringToNumber:[subArcosGenericClass Field17]] forKey:@"Testers"];
         NSDictionary* aProduct = [productDictHashMap objectForKey:tmpProductIUR];

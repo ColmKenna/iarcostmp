@@ -47,6 +47,7 @@
 @property (nonatomic, retain) NSDecimalNumber * UnitPrice;
 @property (nonatomic, retain) NSNumber * presenterIUR;
 @property (nonatomic, retain) NSDecimalNumber* vatAmount;
+@property (nonatomic, retain) NSNumber *units;
 @property (nonatomic, retain) OrderHeader *orderheader;
 
 @end

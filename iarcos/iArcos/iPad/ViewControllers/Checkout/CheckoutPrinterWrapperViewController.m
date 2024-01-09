@@ -263,7 +263,7 @@
     cell.productCodeOrderPadDetails.text = [NSString stringWithFormat:@"%@ %@", [cellDataDict objectForKey:@"ProductCode"], [cellDataDict objectForKey:@"OrderPadDetails"]];
     cell.productDesc.text = [cellDataDict objectForKey:@"Details"];
     NSString* qtyString = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%@", [cellDataDict objectForKey:@"Qty"]]];
-    NSString* instockString = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%@", [cellDataDict objectForKey:@"InStock"]]];
+    NSString* instockString = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%@", [cellDataDict objectForKey:@"units"]]];
     if (![instockString isEqualToString:@""]) {
         qtyString = [NSString stringWithFormat:@"%@/%@",qtyString,instockString];
     }
@@ -751,7 +751,7 @@
         NSString* details = [orderLineDict objectForKey:@"Details"];
         NSNumber* qty = [orderLineDict objectForKey:@"Qty"];
         NSString* qtyStr = [ArcosUtils convertZeroToBlank:[ArcosUtils convertNumberToIntString:qty]];
-        NSNumber* instock = [orderLineDict objectForKey:@"InStock"];
+        NSNumber* instock = [orderLineDict objectForKey:@"units"];
         NSString* instockStr = [ArcosUtils convertZeroToBlank:[ArcosUtils convertNumberToIntString:instock]];
         NSNumber* bonus = [orderLineDict objectForKey:@"Bonus"];
         NSString* bonusStr = [ArcosUtils convertZeroToBlank:[ArcosUtils convertNumberToIntString:bonus]];

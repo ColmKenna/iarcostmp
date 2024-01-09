@@ -356,7 +356,7 @@
     }else{
         cell.bonus.text=@"";
     }
-    cell.InStock.text = [ArcosUtils convertZeroToBlank:[[cellData objectForKey:@"InStock"] stringValue]];
+    cell.InStock.text = [ArcosUtils convertZeroToBlank:[[cellData objectForKey:@"units"] stringValue]];
     cell.FOC.text = [ArcosUtils convertZeroToBlank:[[cellData objectForKey:@"FOC"] stringValue]];
     
 //    [cell setSelectStatus:[[cellData objectForKey:@"IsSelected"]boolValue]];
@@ -901,6 +901,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         [self.currentSelectedOrderLine setObject:[self.backupSelectedOrderLine objectForKey:@"Bonus" ]forKey:@"Bonus"];
         [self.currentSelectedOrderLine setObject:[self.backupSelectedOrderLine objectForKey:@"Qty" ]forKey:@"Qty"];
         [self.currentSelectedOrderLine setObject:[self.backupSelectedOrderLine objectForKey:@"InStock" ]forKey:@"InStock"];
+        [self.currentSelectedOrderLine setObject:[self.backupSelectedOrderLine objectForKey:@"units" ]forKey:@"units"];
         [self.currentSelectedOrderLine setObject:[self.backupSelectedOrderLine objectForKey:@"FOC" ]forKey:@"FOC"];
     }    
     [self.tableView reloadData];

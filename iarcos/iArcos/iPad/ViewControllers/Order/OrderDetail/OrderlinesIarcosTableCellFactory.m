@@ -72,11 +72,11 @@
         cellType = [NSNumber numberWithInt:2];
     } else if ([[theData objectForKey:@"DiscountPercent"] floatValue] != 0) {
         cellType = [NSNumber numberWithInt:3];
-    } else if ([[theData objectForKey:@"Qty"] intValue] == 0 && [[theData objectForKey:@"Bonus"] intValue] == 0 && [[theData objectForKey:@"InStock"] intValue] > 0 && [[theData objectForKey:@"FOC"] intValue] == 0) {
+    } else if ([[theData objectForKey:@"Qty"] intValue] == 0 && [[theData objectForKey:@"Bonus"] intValue] == 0 && [[theData objectForKey:@"units"] intValue] > 0 && [[theData objectForKey:@"FOC"] intValue] == 0) {
         cellType = [NSNumber numberWithInt:4];
     } else if ([[theData objectForKey:@"Qty"] intValue] == 0 && [[theData objectForKey:@"Bonus"] intValue] == 0 && [[theData objectForKey:@"FOC"] intValue] > 0) {
         cellType = [NSNumber numberWithInt:5];
-    } else if ([[theData objectForKey:@"Qty"] intValue] == 0 && [[theData objectForKey:@"Bonus"] intValue] == 0 && [[theData objectForKey:@"DiscountPercent"] floatValue] == 0 && [[theData objectForKey:@"InStock"] intValue] == 0 && [[theData objectForKey:@"FOC"] intValue] == 0) {
+    } else if ([[theData objectForKey:@"Qty"] intValue] == 0 && [[theData objectForKey:@"Bonus"] intValue] == 0 && [[theData objectForKey:@"DiscountPercent"] floatValue] == 0 && [[theData objectForKey:@"units"] intValue] == 0 && [[theData objectForKey:@"FOC"] intValue] == 0) {
         cellType = [NSNumber numberWithInt:6];
     } else {
         cellType = [NSNumber numberWithInt:1];

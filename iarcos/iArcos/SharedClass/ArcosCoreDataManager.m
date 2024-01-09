@@ -591,6 +591,7 @@
             auxOrderLine.Bonus = [NSNumber numberWithInt:tmpArcosOrderLine.Bonus];
             auxOrderLine.FOC = [NSNumber numberWithInt:tmpArcosOrderLine.FOC];
             auxOrderLine.InStock = [NSNumber numberWithInt:tmpArcosOrderLine.InStock];
+            auxOrderLine.units = [NSNumber numberWithInt:tmpArcosOrderLine.Units];
             auxOrderLine.Qty = [NSNumber numberWithInt:tmpArcosOrderLine.Qty];
             auxOrderLine.Testers = [NSNumber numberWithInt:tmpArcosOrderLine.Testers];
         }

@@ -54,7 +54,7 @@
 @synthesize rebateLabel = _rebateLabel;
 @synthesize valueLabel = _valueLabel;
 @synthesize isDetaillingType;
-@synthesize InStockField;
+@synthesize unitsField;
 @synthesize FOCField;
 @synthesize showSeparator = _showSeparator;
 //@synthesize locationIUR = _locationIUR;
@@ -163,7 +163,7 @@
     if (self.DiscountLabel != nil) { self.DiscountLabel = nil; }
     self.rebateLabel = nil;
     self.valueLabel = nil;
-    if (self.InStockField != nil) { self.InStockField = nil; } 
+    if (self.unitsField != nil) { self.unitsField = nil; } 
     if (self.FOCField != nil) { self.FOCField = nil; }
 //    self.locationIUR = nil;
     self.orderInputPadDataManager = nil;
@@ -334,7 +334,7 @@
         self.BonusField.text=[[self.Data objectForKey:@"Bonus"]stringValue];
 //        self.DiscountField.text=[[[self.Data objectForKey:@"DiscountPercent"]stringValue]stringByAppendingString:@"%"];
         self.ValueField.text=[NSString stringWithFormat:@"%1.2f" ,[[self.Data objectForKey:@"LineValue"]floatValue]];
-        self.InStockField.text=[[self.Data objectForKey:@"InStock"] stringValue];        
+        self.unitsField.text=[[self.Data objectForKey:@"units"] stringValue];
         self.FOCField.text=[[self.Data objectForKey:@"FOC"]stringValue];
         self.instockRBTextField.text = [[self.Data objectForKey:@"InStock"] stringValue];
         self.rebateField.text = [[[self.Data objectForKey:@"RebatePercent"] stringValue] stringByAppendingString:@"%"];
@@ -343,7 +343,7 @@
         self.BonusField.text=@"0";
 //        self.DiscountField.text=@"0%";
         self.ValueField.text=@"0.00";
-        self.InStockField.text=@"0";
+        self.unitsField.text=@"0";
         self.FOCField.text=@"0";
         self.instockRBTextField.text = @"0";
         self.rebateField.text = @"0%";
@@ -381,12 +381,12 @@
     if (self.showSeparator || [[self.Data objectForKey:@"SamplesAvailable"] intValue] == -1) {
         self.qtyLabel.text = @"Cases";
         self.unitsTitleLabel.hidden = NO;
-        self.InStockField.hidden = NO;
+        self.unitsField.hidden = NO;
         self.FOCField.hidden = NO;
     } else {
         self.qtyLabel.text = @"Qty";
         self.unitsTitleLabel.hidden = YES;
-        self.InStockField.hidden = YES;
+        self.unitsField.hidden = YES;
         self.FOCField.hidden = YES;
     }
     
@@ -413,10 +413,10 @@
         self.BonusLabel.hidden=NO;
         self.BonusField.hidden=NO;
         if (self.showSeparator || [[self.Data objectForKey:@"SamplesAvailable"] intValue] == -1) {
-            self.InStockField.hidden = NO;
+            self.unitsField.hidden = NO;
             self.FOCField.hidden = NO;
         } else {
-            self.InStockField.hidden = YES;
+            self.unitsField.hidden = YES;
             self.FOCField.hidden = YES;
         }
     }
@@ -426,8 +426,9 @@
         self.instockRBTextField.hidden = NO;
         self.DiscountLabel.hidden = YES;
         self.DiscountField.hidden = YES;
-        self.InStockField.hidden = YES;
-        self.FOCField.hidden = YES;
+//        self.unitsTitleLabel.hidden = YES;
+//        self.InStockField.hidden = YES;
+//        self.FOCField.hidden = YES;
     } else {
         self.instockRBLabel.hidden = YES;
         self.instockRBTextField.hidden = YES;
@@ -610,7 +611,7 @@
     if (self.dotButton != nil) { self.dotButton = nil; }
     if (self.BonusLabel != nil) { self.BonusLabel = nil; }    
     if (self.DiscountLabel != nil) { self.DiscountLabel = nil; }
-    if (self.InStockField != nil) { self.InStockField = nil; } 
+    if (self.unitsField != nil) { self.unitsField = nil; }
     if (self.FOCField != nil) { self.FOCField = nil; }
 }
 
@@ -637,7 +638,7 @@
     
     NSNumber* unitsPerPack = [self.Data objectForKey:@"UnitsPerPack"];
     if ([unitsPerPack intValue] != 0 && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag) {
-        float splitPackValue = [[self.Data objectForKey:@"UnitPrice"] floatValue] / [unitsPerPack intValue] * [self.InStockField.text intValue];
+        float splitPackValue = [[self.Data objectForKey:@"UnitPrice"] floatValue] / [unitsPerPack intValue] * [self.unitsField.text intValue];
         total = [NSNumber numberWithFloat:[total floatValue]+splitPackValue];
     }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useWeightToCalculatePriceFlag]) {
@@ -968,16 +969,18 @@
     NSNumber* bonus=[NSNumber numberWithInt:[BonusField.text intValue]];
     NSNumber* discount=[NSNumber numberWithFloat:[DiscountField.text floatValue]];
     NSNumber* rebate = [NSNumber numberWithFloat:[self.rebateField.text floatValue]];
-    NSNumber* inStock = [NSNumber numberWithInt:[InStockField.text intValue]];
+//    NSNumber* inStock = [NSNumber numberWithInt:[InStockField.text intValue]];
+    NSNumber* inStock = [NSNumber numberWithInt:[self.instockRBTextField.text intValue]];
+    NSNumber* units = [NSNumber numberWithInt:[unitsField.text intValue]];
     NSNumber* foc = [NSNumber numberWithInt:[FOCField.text intValue]];
     
     [values setObject:qty forKey:@"qty"];
     [values setObject:bonus forKey:@"bonus"];
     [values setObject:discount forKey:@"discount"];
     
-    if ([ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag) {
-        inStock = [NSNumber numberWithInt:[self.instockRBTextField.text intValue]];
-    }
+//    if ([ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag) {
+//        inStock = [NSNumber numberWithInt:[self.instockRBTextField.text intValue]];
+//    }
     if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].myDbName] && [orderFormDetails containsString:@"[NB]"]) {
 //        float maxDisc = self.arcosMyResult.max;
 //        self.arcosMyResult.uni > self.arcosMyResult.ud ? self.arcosMyResult.uni : self.arcosMyResult.ud;
@@ -993,7 +996,7 @@
     
     //reset data
     if (([qty intValue]<=0 || qty ==nil) && ([bonus intValue]<=0 || bonus==nil) 
-        && ([inStock intValue] == 0 || inStock == nil) && ([foc intValue] <= 0 || foc == nil)){
+        && ([inStock intValue] == 0 || inStock == nil) && ([units intValue] == 0 || units == nil) && ([foc intValue] <= 0 || foc == nil)){
         [self.Data setObject:[NSNumber numberWithInt:0]  forKey:@"Qty"];
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
 //        [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"DiscountPercent"];
@@ -1001,6 +1004,7 @@
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"vatAmount"];
         [self.Data setObject:[NSNumber numberWithFloat:0] forKey:@"RebatePercent"];
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"InStock"];
+        [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"units"];
         [self.Data setObject:[NSNumber numberWithInt:0] forKey:@"FOC"];
         [self.Data setObject:[NSNumber numberWithBool:NO] forKey: @"IsSelected"];
         
@@ -1010,6 +1014,7 @@
         [self.Data setObject:discount forKey:@"DiscountPercent"];
         [self.Data setObject:rebate forKey:@"RebatePercent"];
         [self.Data setObject:inStock forKey:@"InStock"];
+        [self.Data setObject:units forKey:@"units"];
         [self.Data setObject:foc forKey:@"FOC"];
         
         //        NSNumber* total=[NSNumber numberWithFloat:[qty intValue]*[[self.Data objectForKey:@"UnitPrice"]floatValue]];
@@ -1045,7 +1050,7 @@
     QTYField.text=@"0";
     BonusField.text=@"0";
 //    DiscountField.text=@"0%";
-    InStockField.text=@"0";
+    unitsField.text=@"0";
     FOCField.text=@"0";
     self.instockRBTextField.text=@"0";
     [self.delegate operationDone:self.Data ];
@@ -1156,7 +1161,7 @@
     QTYField.layer.cornerRadius=5.5f;
     BonusField.layer.cornerRadius=5.5f;
     DiscountField.layer.cornerRadius=5.5f;
-    InStockField.layer.cornerRadius=5.5f;
+    unitsField.layer.cornerRadius=5.5f;
     FOCField.layer.cornerRadius = 5.5f;
     self.instockRBTextField.layer.cornerRadius = 5.5f;
     self.rebateField.layer.cornerRadius = 5.5f;
@@ -1164,7 +1169,7 @@
     QTYField.layer.borderWidth=0.5f;
     BonusField.layer.borderWidth=0.5f;
     DiscountField.layer.borderWidth=0.5f;
-    InStockField.layer.borderWidth=0.5f;
+    unitsField.layer.borderWidth=0.5f;
     FOCField.layer.borderWidth = 0.5f;
     self.instockRBTextField.layer.borderWidth = 0.5f;
     self.unitPriceField.layer.borderWidth = 0.5f;
@@ -1173,7 +1178,7 @@
     QTYField.layer.borderColor=[[UIColor blackColor]CGColor];
     BonusField.layer.borderColor=[[UIColor blackColor]CGColor];
     DiscountField.layer.borderColor=[[UIColor blackColor]CGColor];
-    InStockField.layer.borderColor=[[UIColor blackColor]CGColor];
+    unitsField.layer.borderColor=[[UIColor blackColor]CGColor];
     FOCField.layer.borderColor=[[UIColor blackColor]CGColor];
     self.instockRBTextField.layer.borderColor = [[UIColor blackColor]CGColor];
     self.unitPriceField.layer.borderColor=[[UIColor blackColor]CGColor];

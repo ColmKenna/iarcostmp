@@ -30,7 +30,7 @@
         //must sync with product spec
         [self.funcBtnProductSpecHashMap setObject:@"Qty" forKey:[NSNumber numberWithInt:0]];
         [self.funcBtnProductSpecHashMap setObject:@"Bonus" forKey:[NSNumber numberWithInt:1]];
-        [self.funcBtnProductSpecHashMap setObject:@"InStock" forKey:[NSNumber numberWithInt:2]];
+        [self.funcBtnProductSpecHashMap setObject:@"units" forKey:[NSNumber numberWithInt:2]];
         [self.funcBtnProductSpecHashMap setObject:@"FOC" forKey:[NSNumber numberWithInt:3]];
         [self.funcBtnProductSpecHashMap setObject:@"DiscountPercent" forKey:[NSNumber numberWithInt:4]];
     }

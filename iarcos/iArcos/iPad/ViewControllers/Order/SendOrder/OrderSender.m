@@ -166,6 +166,7 @@
         AOLB.QtyReturned=[OL.QtyReturned intValue];
         AOLB.RRIUR=[OL.PPIUR intValue];
         AOLB.InStock=[OL.InStock intValue];
+        AOLB.Units = [OL.units intValue];
         AOLB.Testers=[OL.Testers intValue];
         //AOLB.Comments=OL.comments;
         AOLB.LineValue=OL.LineValue;

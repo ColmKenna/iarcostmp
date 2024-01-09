@@ -56,6 +56,7 @@
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"Bonus"] forKey:@"Bonus"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"DiscountPercent"] forKey:@"DiscountPercent"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"InStock"] forKey:@"InStock"];
+        [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"units"] forKey:@"units"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"FOC"] forKey:@"FOC"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"Testers"] forKey:@"Testers"];
         [tmpOrderRestoreDict setObject:[anOrderline objectForKey:@"LineValue"] forKey:@"LineValue"];

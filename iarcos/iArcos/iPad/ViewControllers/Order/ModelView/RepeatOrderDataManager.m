@@ -99,6 +99,7 @@
         OL.vatAmount = [auxOrderLineDict objectForKey:@"vatAmount"];
         OL.DiscountPercent = [auxOrderLineDict objectForKey:@"DiscountPercent"];
         OL.InStock = [auxOrderLineDict objectForKey:@"InStock"];
+        OL.units = [auxOrderLineDict objectForKey:@"units"];
         OL.FOC = [auxOrderLineDict objectForKey:@"FOC"];
         
         OL.orderheader = OH;

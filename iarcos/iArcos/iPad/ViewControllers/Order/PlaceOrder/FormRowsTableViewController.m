@@ -536,13 +536,14 @@
     
         
     //qty and bonus must not be zero
-    //inStock == qty split pack;foc == bonus split pack
+    //inStock == qty split pack;foc == bonus split pack; use units qty split pack
     NSNumber* qty=[cellData objectForKey:@"Qty"];
     NSNumber* bonus=[cellData objectForKey:@"Bonus"];
     NSNumber* inStock = [cellData objectForKey:@"InStock"];
-    NSNumber* FOC = [cellData objectForKey:@"FOC"];    
+    NSNumber* units = [cellData objectForKey:@"units"];
+    NSNumber* FOC = [cellData objectForKey:@"FOC"];
     
-    if (([qty intValue]<=0 ||qty==nil) && ([inStock intValue]==0 || inStock == nil) && ([bonus intValue]<=0 || bonus==nil) && ([FOC intValue]<=0 || FOC == nil)) {
+    if (([qty intValue]<=0 ||qty==nil) && ([inStock intValue]==0 || inStock == nil) && ([units intValue]==0 || units == nil) && ([bonus intValue]<=0 || bonus==nil) && ([FOC intValue]<=0 || FOC == nil)) {
         cell.qty.text=@"";
         cell.value.text=@"";
 //        cell.discount.text=@"";
@@ -559,7 +560,7 @@
         }else{
             cell.bonus.text=@"";
         }
-        cell.InStock.text = [ArcosUtils convertZeroToBlank:[inStock stringValue]];
+        cell.InStock.text = [ArcosUtils convertZeroToBlank:[units stringValue]];
         cell.FOC.text = [ArcosUtils convertZeroToBlank:[FOC stringValue]];        
     }
     if ([[cellData objectForKey:@"DiscountPercent"]floatValue]!=0) {
@@ -1029,9 +1030,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     NSNumber* qty=[anOrderPadFormRow objectForKey:@"Qty"];
     NSNumber* bonus=[anOrderPadFormRow objectForKey:@"Bonus"];
     NSNumber* inStock = [anOrderPadFormRow objectForKey:@"InStock"];
+    NSNumber* units = [anOrderPadFormRow objectForKey:@"units"];
     NSNumber* FOC = [anOrderPadFormRow objectForKey:@"FOC"];
     
-    if (([qty intValue]<=0 ||qty==nil) && ([inStock intValue]==0 || inStock == nil) && ([bonus intValue]<=0 || bonus==nil) && ([FOC intValue]<=0 || FOC == nil)) {
+    if (([qty intValue]<=0 ||qty==nil) && ([inStock intValue]==0 || inStock == nil) && ([units intValue]==0 || units == nil) && ([bonus intValue]<=0 || bonus==nil) && ([FOC intValue]<=0 || FOC == nil)) {
         if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && !([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![anOrderFormDetails containsString:@"[BD]"]) && !priceFlagBoolean) {
             [anOrderPadFormRow setObject:[ArcosUtils convertNilToZero:auxDefaultPercent] forKey:@"DiscountPercent"];
         } else if (([allowDiscount boolValue] || aBDRange.location != NSNotFound) && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag && !([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![anOrderFormDetails containsString:@"[BD]"]) && priceFlagBoolean) {

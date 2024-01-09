@@ -38,6 +38,7 @@
 	@synthesize DeliveryDate = _DeliveryDate;
 	@synthesize TradeValue = _TradeValue;
 	@synthesize VatAmount = _VatAmount;
+	@synthesize Units = _Units;
 
 	- (id) init
 	{
@@ -106,6 +107,7 @@
 			self.DeliveryDate = [Soap dateFromString: [Soap getNodeValue: node withName: @"DeliveryDate"]];
 			self.TradeValue = [NSDecimalNumber decimalNumberWithString: [Soap getNodeValue: node withName: @"TradeValue"]];
 			self.VatAmount = [NSDecimalNumber decimalNumberWithString: [Soap getNodeValue: node withName: @"VatAmount"]];
+			self.Units = [[Soap getNodeValue: node withName: @"Units"] intValue];
 		}
 		return self;
 	}
@@ -161,6 +163,7 @@
 		if (self.DeliveryDate != nil) [s appendFormat: @"<DeliveryDate>%@</DeliveryDate>", [Soap getDateString: self.DeliveryDate]];
 		if (self.TradeValue != nil) [s appendFormat: @"<TradeValue>%@</TradeValue>", [NSString stringWithFormat: @"%@", self.TradeValue]];
 		if (self.VatAmount != nil) [s appendFormat: @"<VatAmount>%@</VatAmount>", [NSString stringWithFormat: @"%@", self.VatAmount]];
+		[s appendFormat: @"<Units>%@</Units>", [NSString stringWithFormat: @"%i", self.Units]];
 
 		return s;
 	}

@@ -14,7 +14,7 @@
 /*
  Standard Product Specification
  change restore as well
- InStock == Qty SplitPack
+ InStock == Qty SplitPack changed as IO24 only
  FOC == Bonus SplitPack
  OrderPadDetails == Brands
  PS:connecting to MAT
@@ -36,6 +36,7 @@
  ProductColour at 18/07/2021
  vatAmount on 24/03/2023
  RebatePercent on 29/05/2023
+ units == Qty SplitPack on 05/01/2024
  change restore as well
  */
 + (NSMutableDictionary*)createFormRowWithProduct:(NSMutableDictionary*)product orderFormDetails:(NSString*)anOrderFormDetails {
@@ -92,6 +93,7 @@
         [formRow setObject:[NSNumber numberWithFloat:0]  forKey:@"DiscountPercent"];
     }
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"InStock"];
+    [formRow setObject:[NSNumber numberWithInt:0] forKey:@"units"];
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"FOC"];
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"Testers"];
     [formRow setObject:[NSNumber numberWithBool:NO] forKey:@"IsSelected"];
@@ -141,6 +143,7 @@
     [formRow setObject:[anOrderLine objectForKey:@"RebatePercent"]  forKey:@"RebatePercent"];
     [formRow setObject:[anOrderLine objectForKey:@"DiscountPercent"]  forKey:@"DiscountPercent"];
     [formRow setObject:[anOrderLine objectForKey:@"InStock"] forKey:@"InStock"];
+    [formRow setObject:[anOrderLine objectForKey:@"units"] forKey:@"units"];
     [formRow setObject:[anOrderLine objectForKey:@"FOC"] forKey:@"FOC"];
     [formRow setObject:[anOrderLine objectForKey:@"Testers"] forKey:@"Testers"];
     //add OrderPadDetails ProductCode ProductSize BonusGiven BonusRequired SellBy 08/01/2015
@@ -205,6 +208,7 @@
     [formRow setObject:[NSNumber numberWithFloat:0]  forKey:@"RebatePercent"];
     [formRow setObject:[NSNumber numberWithFloat:0]  forKey:@"DiscountPercent"];
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"InStock"];
+    [formRow setObject:[NSNumber numberWithInt:0] forKey:@"units"];
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"FOC"];
     [formRow setObject:[NSNumber numberWithInt:0] forKey:@"Testers"];
     [formRow setObject:[NSNumber numberWithBool:NO] forKey:@"IsSelected"];
@@ -225,14 +229,15 @@
     NSNumber* qty = [aFormRowDict objectForKey:@"Qty"];
     NSNumber* bonus = [aFormRowDict objectForKey:@"Bonus"];
     NSNumber* inStock = [aFormRowDict objectForKey:@"InStock"];
+    NSNumber* units = [aFormRowDict objectForKey:@"units"];
     NSNumber* foc = [aFormRowDict objectForKey:@"FOC"];
     NSNumber* testers = [aFormRowDict objectForKey:@"Testers"];
     if (![[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag] && ([qty intValue] <= 0 || qty == nil) && ([bonus intValue] <= 0 || bonus==nil)
-        && ([inStock intValue] == 0 || inStock == nil) && ([foc intValue] <= 0 || foc == nil)){
+        && ([inStock intValue] == 0 || inStock == nil) && ([units intValue] <= 0 || units == nil) && ([foc intValue] <= 0 || foc == nil)){
         return NO;
     }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag] && ([qty intValue] <= 0 || qty == nil) && ([bonus intValue] <= 0 || bonus==nil)
-        && ([inStock intValue] == 0 || inStock == nil) && ([foc intValue] <= 0 || foc == nil) && ([testers intValue] <= 0 || testers == nil)){
+        && ([inStock intValue] == 0 || inStock == nil) && ([units intValue] <= 0 || units == nil) && ([foc intValue] <= 0 || foc == nil) && ([testers intValue] <= 0 || testers == nil)){
         return NO;
     }
     return YES;
@@ -256,8 +261,8 @@
     NSNumber* total = [NSNumber numberWithFloat:[[aProductDetailDict objectForKey:@"Qty"] intValue] * [[aProductDetailDict objectForKey:@"UnitPrice"] floatValue]];
     
     NSNumber* unitsPerPack = [aProductDetailDict objectForKey:@"UnitsPerPack"];
-    int tmpSpQty = [[aProductDetailDict objectForKey:@"InStock"] intValue];
-    if (tmpSpQty != 0 && [unitsPerPack intValue] != 0 && ![[ArcosConfigDataManager sharedArcosConfigDataManager] recordInStockRBFlag]) {
+    int tmpSpQty = [[aProductDetailDict objectForKey:@"units"] intValue];//InStock changed as units
+    if (tmpSpQty != 0 && [unitsPerPack intValue] != 0) {// && ![[ArcosConfigDataManager sharedArcosConfigDataManager] recordInStockRBFlag]
         float splitPackValue = [[aProductDetailDict objectForKey:@"UnitPrice"] floatValue] / [unitsPerPack intValue] * tmpSpQty;
         total = [NSNumber numberWithFloat:[total floatValue]+splitPackValue];
     }
@@ -379,6 +384,7 @@
     [aFormRowDict setObject:[NSNumber numberWithFloat:0]  forKey:@"RebatePercent"];
 //    [aFormRowDict setObject:[NSNumber numberWithFloat:0]  forKey:@"DiscountPercent"];
     [aFormRowDict setObject:[NSNumber numberWithInt:0] forKey:@"InStock"];
+    [aFormRowDict setObject:[NSNumber numberWithInt:0] forKey:@"units"];
     [aFormRowDict setObject:[NSNumber numberWithInt:0] forKey:@"FOC"];
     [aFormRowDict setObject:[NSNumber numberWithInt:0] forKey:@"Testers"];
     [aFormRowDict setObject:[NSNumber numberWithBool:NO] forKey:@"IsSelected"];

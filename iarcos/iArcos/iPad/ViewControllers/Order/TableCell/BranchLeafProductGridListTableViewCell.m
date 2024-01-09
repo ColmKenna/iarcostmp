@@ -110,7 +110,7 @@
     [ArcosUtils configDetailsColorWithLabel:self.description active:active stockAvailable:stockAvailable bonusBy:bonusBy];
     self.qty.text = [ArcosUtils convertZeroToBlank:[[theData objectForKey:@"Qty"]stringValue]];
     self.bonus.text = [ArcosUtils convertZeroToBlank:[[theData objectForKey:@"Bonus"]stringValue]];
-    self.spQty.text = [ArcosUtils convertZeroToBlank:[[theData objectForKey:@"InStock"]stringValue]];
+    self.spQty.text = [ArcosUtils convertZeroToBlank:[[theData objectForKey:@"units"]stringValue]];
     self.spBon.text = [ArcosUtils convertZeroToBlank:[[theData objectForKey:@"FOC"]stringValue]];
     if ([ProductFormRowConverter isSelectedWithFormRowDict:theData] && [[theData objectForKey:@"DiscountPercent"]floatValue] != 0) {
         self.discount.text = [NSString stringWithFormat:@"%1.2f%%",[[theData objectForKey:@"DiscountPercent"]floatValue]];

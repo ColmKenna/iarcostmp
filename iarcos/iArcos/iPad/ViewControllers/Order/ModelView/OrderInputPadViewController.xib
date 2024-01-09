@@ -14,7 +14,6 @@
                 <outlet property="DiscountField" destination="10" id="35"/>
                 <outlet property="DiscountLabel" destination="7" id="63"/>
                 <outlet property="FOCField" destination="68" id="70"/>
-                <outlet property="InStockField" destination="67" id="bl0-2t-5NV"/>
                 <outlet property="QTYField" destination="8" id="36"/>
                 <outlet property="ValueField" destination="54" id="58"/>
                 <outlet property="bar" destination="64" id="66"/>
@@ -85,6 +84,7 @@
                 <outlet property="twoButton" destination="20" id="Z99-zg-N25"/>
                 <outlet property="unitPriceField" destination="twI-gu-Pkn" id="hsy-tr-XQA"/>
                 <outlet property="unitPriceTitleLabel" destination="59" id="fCt-2I-f1T"/>
+                <outlet property="unitsField" destination="67" id="gNs-6b-sEZ"/>
                 <outlet property="unitsTitleLabel" destination="A6o-dA-8Nl" id="FOe-jS-K1v"/>
                 <outlet property="valueLabel" destination="53" id="gES-eW-Jjy"/>
                 <outlet property="view" destination="4" id="27"/>
@@ -750,7 +750,7 @@
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="scrollViewTexturedBackgroundColor">
-            <color red="0.43529411764705878" green="0.44313725490196082" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.43529411764705883" green="0.44313725490196076" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

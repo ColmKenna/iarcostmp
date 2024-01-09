@@ -61,13 +61,13 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    int totalInStock = 0;
+    int totalUnits = 0;
     int totalFOC = 0;
     for(NSString* aKey in [OrderSharedClass sharedOrderSharedClass].currentOrderCart) {
         NSMutableDictionary* aDict = [[OrderSharedClass sharedOrderSharedClass].currentOrderCart objectForKey:aKey];
         NSNumber* isSelected = [aDict objectForKey:@"IsSelected"];
         if ([isSelected boolValue]) {
-            totalInStock += [[aDict objectForKey:@"InStock"] intValue];
+            totalUnits += [[aDict objectForKey:@"units"] intValue];
             totalFOC += [[aDict objectForKey:@"FOC"] intValue];
         }
     }
@@ -75,11 +75,11 @@
     int totalBonus = [[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"TotalBonus"] intValue];
     self.qtyValue.text = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", totalQty]];
     self.bonusValue.text = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", totalBonus]];
-    self.qtySplitValue.text = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", totalInStock]];
+    self.qtySplitValue.text = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", totalUnits]];
     self.bonusSplitValue.text = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%d", totalFOC]];
     self.discValue.text = @"";
     self.totalValue.text = [NSString stringWithFormat:@"%@",[ArcosUtils convertNilToEmpty:[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"totalGoodsText"]]];
-    if (totalInStock == 0) {
+    if (totalUnits == 0) {
         self.qtySplitDesc.hidden = YES;
         self.qtySplitValue.hidden = YES;
     }
@@ -87,13 +87,13 @@
         self.bonusSplitDesc.hidden = YES;
         self.bonusSplitValue.hidden = YES;
     }
-    if (totalInStock != 0 || totalFOC != 0) {
+    if (totalUnits != 0 || totalFOC != 0) {
         self.qtyDesc.text = @"Cases";
     } else {
         self.qtyDesc.text = @"Quantity";
     }
     if (self.checkWholesalerFlag) {
-        if (totalInStock > 0 || totalFOC > 0) {
+        if (totalUnits > 0 || totalFOC > 0) {
             NSNumber* wholesalerIUR = [[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"wholesaler"] objectForKey:@"LocationIUR"];
             NSMutableArray* fromLocationList = [[ArcosCoreData sharedArcosCoreData] locationWithIURWithoutCheck:wholesalerIUR];
             NSString* address2 = @"";

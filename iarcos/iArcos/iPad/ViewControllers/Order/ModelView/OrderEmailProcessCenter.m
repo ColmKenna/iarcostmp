@@ -142,7 +142,7 @@
         totalQty += [[aDict objectForKey:@"Qty"] intValue];
         totalBonus += [[aDict objectForKey:@"Bonus"] intValue];
         NSString* qtyString = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%@", [aDict objectForKey:@"Qty"]]];
-        NSString* instockString = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%@", [aDict objectForKey:@"InStock"]]];
+        NSString* instockString = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%@", [aDict objectForKey:@"units"]]];
         NSString* bonusString = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%@",[aDict objectForKey:@"Bonus"]]];
         NSString* focString = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%@", [aDict objectForKey:@"FOC"]]];
         if (![instockString isEqualToString:@""]) {

@@ -46,6 +46,7 @@
 @dynamic UnitPrice;
 @dynamic presenterIUR;
 @dynamic vatAmount;
+@dynamic units;
 @dynamic orderheader;
 
 @end

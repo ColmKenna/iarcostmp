@@ -439,12 +439,12 @@
                 NSString* errorTitle = @"Minimum Order Value required";
 //                NSString* errorMsg = [ArcosUtils trim:[NSString stringWithFormat:@"%@ must have a minimum Order Value of %.0f\nShortfall of %.2f\n%@", [ArcosUtils convertNilToEmpty:[LTiurDict objectForKey:@"Detail"]], [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100, [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100 - [[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"TotalGoods"] floatValue],[ArcosUtils convertNilToEmpty:[LTiurDict objectForKey:@"Tooltip"]]]];
                 NSString* errorMsg = [ArcosUtils trim:[NSString stringWithFormat:@"Minimum Order Value of %.2f Required.\nShortfall is %.2f", [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100, [[LTiurDict objectForKey:@"Dec1"] floatValue] / 100 - [[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"TotalGoods"] floatValue]]];
-                void (^saveAnywayActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
-                    [self checkoutSaveProcessor];
-                };
-                void (^continueOrderActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
-                    [self backPressed:nil];
-                };
+//                void (^saveAnywayActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+//                    [self checkoutSaveProcessor];
+//                };
+//                void (^continueOrderActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+//                    [self backPressed:nil];
+//                };
 //                void (^okActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
 //                    
 //                };
