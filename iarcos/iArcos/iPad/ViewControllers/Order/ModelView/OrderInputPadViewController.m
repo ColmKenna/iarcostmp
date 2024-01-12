@@ -637,7 +637,7 @@
     NSNumber* total=[NSNumber numberWithFloat:[self.QTYField.text intValue]*[[self.Data objectForKey:@"UnitPrice"]floatValue]];
     
     NSNumber* unitsPerPack = [self.Data objectForKey:@"UnitsPerPack"];
-    if ([unitsPerPack intValue] != 0 && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag) {
+    if ([unitsPerPack intValue] != 0) {// && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag
         float splitPackValue = [[self.Data objectForKey:@"UnitPrice"] floatValue] / [unitsPerPack intValue] * [self.unitsField.text intValue];
         total = [NSNumber numberWithFloat:[total floatValue]+splitPackValue];
     }

@@ -154,8 +154,8 @@
 //check to put at last 
 - (void)configSplitPackBtnByRecordInStockRB {
     if ([ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag) {
-        self.spQtyBtn.hidden = YES;
-        self.spBonBtn.hidden = YES;
+//        self.spQtyBtn.hidden = YES;
+//        self.spBonBtn.hidden = YES;
     }
 }
 

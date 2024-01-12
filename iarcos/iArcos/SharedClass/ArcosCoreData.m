@@ -4092,6 +4092,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
                 OL.DeliveryDate = orderLine.DeliveryDate;
                 OL.TradeValue = orderLine.TradeValue;
                 OL.InStock = [NSNumber numberWithInt:orderLine.InStock];
+                OL.units = [NSNumber numberWithInt:orderLine.Units];
                 OL.FOC = [NSNumber numberWithInt:orderLine.FOC];
                 
                 //line to order header

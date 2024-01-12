@@ -124,7 +124,7 @@
     self.InStock.hidden = NO;
     if ([ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag) {
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] hideInStockRBFlag]) {
-            self.InStock.hidden = YES;
+//            self.InStock.hidden = YES;
         }
         NSNumber* myInStockNumber = [theData objectForKey:@"InStock"];
         if ([myInStockNumber intValue] == 0) {
