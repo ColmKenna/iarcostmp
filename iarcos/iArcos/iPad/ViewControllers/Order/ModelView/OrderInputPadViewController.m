@@ -470,8 +470,11 @@
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] disableBonusBoxWithPriceRecordFlag] && ([[self.Data objectForKey:@"PriceFlag"] intValue] == 1 || [[self.Data objectForKey:@"PriceFlag"] intValue] == 2)) {
         self.BonusField.backgroundColor = [UIColor blackColor];
         self.BonusField.text=@"0";
+        self.FOCField.backgroundColor = [UIColor blackColor];
+        self.FOCField.text=@"0";
     } else {
         self.BonusField.backgroundColor = [UIColor whiteColor];
+        self.FOCField.backgroundColor = [UIColor whiteColor];
     }
     //check the detailing
     if(self.isDetaillingType || ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![orderFormDetails containsString:@"[BD]"])){
@@ -624,6 +627,10 @@
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField { 
     // Make a new view, or do what you want here
     if (textField.tag == 1 && !self.BonusField.hidden && self.BonusField.enabled && [[ArcosConfigDataManager sharedArcosConfigDataManager] disableBonusBoxWithPriceRecordFlag] && ([[self.Data objectForKey:@"PriceFlag"] intValue] == 1 || [[self.Data objectForKey:@"PriceFlag"] intValue] == 2)) {
+        [ArcosUtils showDialogBox:@"Bonus Disabled on Discounted Prices" title:@"" delegate:nil target:self tag:0 handler:nil];
+        return NO;
+    }
+    if (textField.tag == 4 && !self.FOCField.hidden && self.FOCField.enabled && [[ArcosConfigDataManager sharedArcosConfigDataManager] disableBonusBoxWithPriceRecordFlag] && ([[self.Data objectForKey:@"PriceFlag"] intValue] == 1 || [[self.Data objectForKey:@"PriceFlag"] intValue] == 2)) {
         [ArcosUtils showDialogBox:@"Bonus Disabled on Discounted Prices" title:@"" delegate:nil target:self tag:0 handler:nil];
         return NO;
     }
