@@ -18,6 +18,7 @@
 #import "TableGenericMSWidgetViewController.h"
 #import "OrderEntryInputViewController.h"
 #import "OrderEntryInputRightHandSideGridViewController.h"
+#import "DatePickerCalendarStyleWidgetViewController.h"
 typedef enum {
     WidgetDataSourceDeliveryDate = 0,
     WidgetDataSourceOrderDate,
@@ -65,6 +66,8 @@ typedef enum {
 -(WidgetViewController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource defaultPickerDate:(NSDate*)aDefaultPickerDate;
 -(WidgetViewController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource pickerFormatType:(DatePickerFormatType)aPickerFormatType;
 -(WidgetViewController*)CreateDateWidgetWithDataSource:(WidgetDataSource)dataSource pickerFormatType:(DatePickerFormatType)aPickerFormatType defaultPickerDate:(NSDate*)aDefaultPickerDate;
+-(WidgetViewController*)CreateDateCalendarStyleWidgetWithDataSource:(WidgetDataSource)dataSource pickerFormatType:(DatePickerFormatType)aPickerFormatType;
+-(WidgetViewController*)CreateDateCalendarStyleWidgetWithDataSource:(WidgetDataSource)dataSource pickerFormatType:(DatePickerFormatType)aPickerFormatType defaultPickerDate:(NSDate*)aDefaultPickerDate;
 - (WidgetViewController*)createDateHourMinuteWidgetWithType:(DatePickerHourMinuteWidgetType)aType datePickerValue:(NSDate*)aDatePickerValue minDate:(NSDate*)aMinDate maxDate:(NSDate*)aMaxDate;
 
 -(WidgetViewController*)CreateCategoryWidgetWithDataSource:(WidgetDataSource)dataSource;

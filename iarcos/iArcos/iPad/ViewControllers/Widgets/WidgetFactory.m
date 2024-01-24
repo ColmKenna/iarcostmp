@@ -127,6 +127,51 @@
     return wvc;
 }
 
+-(WidgetViewController*)CreateDateCalendarStyleWidgetWithDataSource:(WidgetDataSource)dataSource pickerFormatType:(DatePickerFormatType)aPickerFormatType {
+    WidgetViewController* wvc = nil;
+    switch (dataSource) {
+        case WidgetDataSourceOrderDate:
+            wvc=[[[DatePickerCalendarStyleWidgetViewController alloc]initWithType:DatePickerOrderDateType pickerFormatType:aPickerFormatType]autorelease];
+            break;
+        case WidgetDataSourceNormalDate:
+            wvc=[[[DatePickerCalendarStyleWidgetViewController alloc]initWithType:DatePickerNormalDateType pickerFormatType:aPickerFormatType]autorelease];
+            break;
+        default:
+            break;
+    }
+    
+//    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
+//    self.popoverController.popoverContentSize=wvc.view.frame.size;
+    wvc.preferredContentSize = wvc.view.frame.size;
+    wvc.delegate=self;
+//    return self.popoverController;
+    return wvc;
+}
+
+-(WidgetViewController*)CreateDateCalendarStyleWidgetWithDataSource:(WidgetDataSource)dataSource pickerFormatType:(DatePickerFormatType)aPickerFormatType defaultPickerDate:(NSDate*)aDefaultPickerDate {
+    WidgetViewController* wvc = nil;
+    switch (dataSource) {
+        case WidgetDataSourceOrderDate:
+            wvc=[[[DatePickerCalendarStyleWidgetViewController alloc]initWithType:DatePickerOrderDateType pickerFormatType:aPickerFormatType defaultPickerDate:aDefaultPickerDate]autorelease];
+            break;
+        case WidgetDataSourceNormalDate:
+            wvc=[[[DatePickerCalendarStyleWidgetViewController alloc]initWithType:DatePickerNormalDateType pickerFormatType:aPickerFormatType defaultPickerDate:aDefaultPickerDate]autorelease];
+            break;
+        case WidgetDataSourceDeliveryDate:
+            wvc=[[[DatePickerCalendarStyleWidgetViewController alloc]initWithType:DatePickerDeliveryDateType pickerFormatType:aPickerFormatType defaultPickerDate:aDefaultPickerDate]autorelease];
+            break;
+        default:
+            break;
+    }
+    
+//    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];
+//    self.popoverController.popoverContentSize=wvc.view.frame.size;
+    wvc.preferredContentSize = wvc.view.frame.size;
+    wvc.delegate=self;
+//    return self.popoverController;
+    return wvc;
+}
+
 - (WidgetViewController*)createDateHourMinuteWidgetWithType:(DatePickerHourMinuteWidgetType)aType datePickerValue:(NSDate*)aDatePickerValue minDate:(NSDate*)aMinDate maxDate:(NSDate*)aMaxDate {
     WidgetViewController* wvc = [[[DatePickerHourMinuteWidgetViewController alloc] initWithType:aType datePickerValue:aDatePickerValue minDate:aMinDate maxDate:aMaxDate] autorelease];
 //    self.popoverController = [[[UIPopoverController alloc]initWithContentViewController:wvc] autorelease];

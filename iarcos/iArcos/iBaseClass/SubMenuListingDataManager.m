@@ -54,6 +54,7 @@
 //            [ArcosUtils showDialogBox:[ArcosUtils convertNilToEmpty:[descDict objectForKey:@"Tooltip"]] title:@"" target:[ArcosUtils getRootView] handler:nil];
         }
         if ([codeType intValue] == 2) {
+            [ArcosUtils showDialogBox:[ArcosUtils convertNilToEmpty:[descDict objectForKey:@"Tooltip"]] title:@"" target:[ArcosUtils getRootView] handler:nil];
             return NO;
         }
     }
