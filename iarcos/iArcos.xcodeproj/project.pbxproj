@@ -1583,6 +1583,8 @@
 		7914EF762803D53000FD2DC2 /* ArcosCalendarEventEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7914EF742803D53000FD2DC2 /* ArcosCalendarEventEntryTableViewCell.m */; };
 		7914EF772803D53000FD2DC2 /* ArcosCalendarEventEntryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7914EF752803D53000FD2DC2 /* ArcosCalendarEventEntryTableViewCell.xib */; };
 		791689BD2AF38AF400E8FFC5 /* FlagsLocationDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 791689BC2AF38AF400E8FFC5 /* FlagsLocationDataManager.m */; };
+		791724CA2B5914F200BDBE98 /* DatePickerCalendarStyleWidgetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 791724C82B5914F200BDBE98 /* DatePickerCalendarStyleWidgetViewController.m */; };
+		791724CB2B5914F200BDBE98 /* DatePickerCalendarStyleWidgetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 791724C92B5914F200BDBE98 /* DatePickerCalendarStyleWidgetViewController.xib */; };
 		791BD69129F175A7003D8D80 /* PresenterPdfLinkWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 791BD68F29F175A7003D8D80 /* PresenterPdfLinkWebViewController.m */; };
 		791BD69229F175A7003D8D80 /* PresenterPdfLinkWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 791BD69029F175A7003D8D80 /* PresenterPdfLinkWebViewController.xib */; };
 		791F61E2297929BD00EA3C4C /* ArcosCalendarEventEntryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 791F61E1297929BD00EA3C4C /* ArcosCalendarEventEntryView.m */; };
@@ -4807,6 +4809,9 @@
 		7914EF752803D53000FD2DC2 /* ArcosCalendarEventEntryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArcosCalendarEventEntryTableViewCell.xib; sourceTree = "<group>"; };
 		791689BB2AF38AF400E8FFC5 /* FlagsLocationDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlagsLocationDataManager.h; sourceTree = "<group>"; };
 		791689BC2AF38AF400E8FFC5 /* FlagsLocationDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlagsLocationDataManager.m; sourceTree = "<group>"; };
+		791724C72B5914F200BDBE98 /* DatePickerCalendarStyleWidgetViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DatePickerCalendarStyleWidgetViewController.h; sourceTree = "<group>"; };
+		791724C82B5914F200BDBE98 /* DatePickerCalendarStyleWidgetViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DatePickerCalendarStyleWidgetViewController.m; sourceTree = "<group>"; };
+		791724C92B5914F200BDBE98 /* DatePickerCalendarStyleWidgetViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DatePickerCalendarStyleWidgetViewController.xib; sourceTree = "<group>"; };
 		791BD68E29F175A7003D8D80 /* PresenterPdfLinkWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PresenterPdfLinkWebViewController.h; sourceTree = "<group>"; };
 		791BD68F29F175A7003D8D80 /* PresenterPdfLinkWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PresenterPdfLinkWebViewController.m; sourceTree = "<group>"; };
 		791BD69029F175A7003D8D80 /* PresenterPdfLinkWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PresenterPdfLinkWebViewController.xib; sourceTree = "<group>"; };
@@ -7809,6 +7814,9 @@
 				795D0BB52B28649700530823 /* ArcosAlertBoxViewController.m */,
 				795D0BB62B28649700530823 /* ArcosAlertBoxViewController.xib */,
 				793213E42B295C5A009303AB /* ArcosAlertBoxViewControllerDelegate.h */,
+				791724C72B5914F200BDBE98 /* DatePickerCalendarStyleWidgetViewController.h */,
+				791724C82B5914F200BDBE98 /* DatePickerCalendarStyleWidgetViewController.m */,
+				791724C92B5914F200BDBE98 /* DatePickerCalendarStyleWidgetViewController.xib */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -9500,6 +9508,7 @@
 				630B3E2719F01CB9007B2442 /* Utilities.png in Resources */,
 				630B3E1219F01CB9007B2442 /* PresenterIcon.png in Resources */,
 				630B3C9C19F01CB9007B2442 /* L5L3SearchFormRowsTableViewController.xib in Resources */,
+				791724CB2B5914F200BDBE98 /* DatePickerCalendarStyleWidgetViewController.xib in Resources */,
 				630B3B0719F01CB8007B2442 /* AccountNumberWrapperViewController.xib in Resources */,
 				6320FC282164C51A008FB5BC /* TargetTableViewCells.xib in Resources */,
 				630B3B7619F01CB9007B2442 /* CustomerInvoiceModalViewController.xib in Resources */,
@@ -9989,6 +9998,7 @@
 				6307C9BD1ACD8CBA0009FE85 /* SaveRecordUpdateCenter.m in Sources */,
 				795DC67A27E1D46E00756D2D /* ArcosCalendarTableDataManager.m in Sources */,
 				630B3BEE19F01CB9007B2442 /* DetailingKMTableCell.m in Sources */,
+				791724CA2B5914F200BDBE98 /* DatePickerCalendarStyleWidgetViewController.m in Sources */,
 				630B3D4B19F01CB9007B2442 /* UtilitiesMasterViewController.m in Sources */,
 				630B3D7C19F01CB9007B2442 /* ArcosArrayOfDescrTypeBO.m in Sources */,
 				630B3C0719F01CB9007B2442 /* OrderDetailDataManager.m in Sources */,
@@ -11155,7 +11165,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.5;
+				MARKETING_VERSION = 12.6.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11214,7 +11224,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.5;
+				MARKETING_VERSION = 12.6.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -11353,7 +11363,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.5;
+				MARKETING_VERSION = 12.6.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
