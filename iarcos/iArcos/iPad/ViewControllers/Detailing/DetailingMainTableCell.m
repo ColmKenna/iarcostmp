@@ -261,10 +261,10 @@
             break;
         case 2: {
             if (self.orderNumber == nil) {
-                self.globalWidgetViewController = [self.factory CreateDateCalendarStyleWidgetWithDataSource:WidgetDataSourceOrderDate pickerFormatType:DatePickerFormatDateTime];
+                self.globalWidgetViewController = [self.factory CreateDateWidgetWithDataSource:WidgetDataSourceOrderDate pickerFormatType:DatePickerFormatDateTime];
             } else {
                 NSDate* tmpOrderDate = [self.cellData valueForKeyPath:@"data.OrderDate"];
-                self.globalWidgetViewController = [self.factory CreateDateCalendarStyleWidgetWithDataSource:WidgetDataSourceOrderDate pickerFormatType:DatePickerFormatDateTime defaultPickerDate:tmpOrderDate];
+                self.globalWidgetViewController = [self.factory CreateDateWidgetWithDataSource:WidgetDataSourceOrderDate pickerFormatType:DatePickerFormatDateTime defaultPickerDate:tmpOrderDate];
             }
         }
             break;

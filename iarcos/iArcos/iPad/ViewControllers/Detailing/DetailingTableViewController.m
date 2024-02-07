@@ -548,11 +548,56 @@
 //                                          otherButtonTitles: nil];
 //    [alert show];	
 //    [alert release];
-    [ArcosUtils showDialogBox:@"Detailing Saved!" title:@"Message" delegate:self target:self tag:99 handler:^(UIAlertAction *action) {
-        [self alertViewCallBack];
-    }];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showCalendarEventBoxWhenCreatingCallFlag] && self.orderNumber == nil) {
+        DetailingCalendarEventBoxViewController* detailingCalendarEventBoxViewController = [[DetailingCalendarEventBoxViewController alloc] initWithNibName:@"DetailingCalendarEventBoxViewController" bundle:nil];
+        if (@available(iOS 13.0, *)) {
+            detailingCalendarEventBoxViewController.modalInPresentation = YES;
+        }
+        detailingCalendarEventBoxViewController.actionDelegate = self;
+        detailingCalendarEventBoxViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self.rootView presentViewController:detailingCalendarEventBoxViewController animated:YES completion:nil];
+        
+        [detailingCalendarEventBoxViewController release];
+    } else {
+        [ArcosUtils showDialogBox:@"Detailing Saved!" title:@"Message" delegate:self target:self tag:99 handler:^(UIAlertAction *action) {
+            [self alertViewCallBack];
+        }];
+    }
     
 }
+
+#pragma mark DetailingCalendarEventBoxViewControllerDelegate
+- (NSString*)retrieveDetailingLocationName {
+    return self.locationName;//[ArcosUtils trim:self.locationName]
+}
+
+- (NSNumber*)retrieveDetailingLocationIUR {
+    return self.locationIUR;
+}
+
+- (NSNumber*)retrieveDetailingContactIUR {
+    return [GlobalSharedClass shared].currentSelectedContactIUR;
+}
+
+- (NSString*)retrieveDetailingContactName {
+    NSString* contactName = [GlobalSharedClass shared].unassignedText;
+    if ([[GlobalSharedClass shared].currentSelectedContactIUR intValue] != 0) {
+        NSMutableDictionary* tmpContactDict = [[ArcosCoreData sharedArcosCoreData] compositeContactWithIUR:[GlobalSharedClass shared].currentSelectedContactIUR];
+        if (tmpContactDict != nil) {
+            contactName = [tmpContactDict objectForKey:@"Title"];
+        }
+    }
+    return contactName;
+}
+
+- (void)didDismissViewProcessor {
+    [self.rootView dismissViewControllerAnimated:YES completion:^{
+        [ArcosUtils showDialogBox:@"Detailing Saved!" title:@"Message" delegate:self target:self tag:99 handler:^(UIAlertAction *action) {
+            [self alertViewCallBack];
+        }];
+    }];
+}
+
 - (void)alertViewCallBack {
     if (self.requestSource == DetailingRequestSourceCustomer) {
         [self.rcsStackedController popTopNavigationController:YES];

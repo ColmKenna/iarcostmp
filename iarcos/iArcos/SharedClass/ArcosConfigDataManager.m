@@ -329,6 +329,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConfigDataManager);
     return [self retrieveConfigFlagByIndex:82];
 }
 
+- (BOOL)showCalendarEventBoxWhenCreatingCallFlag {
+    return [self retrieveConfigFlagByIndex:83];
+}
+
 - (void)resetSystemCodes:(NSString*)aSystemCodes {
     self.systemCodes = aSystemCodes;
 }

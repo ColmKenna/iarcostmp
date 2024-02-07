@@ -18,13 +18,14 @@
 #import "UIViewController+ArcosStackedController.h"
 #import "ArcosConfigDataManager.h"
 @class ArcosRootViewController;
+#import "DetailingCalendarEventBoxViewController.h"
 typedef enum {
     DetailingRequestSourceListings = 0,
     DetailingRequestSourceCustomer,
     DetailingRequestSourceCall
 } DetailingRequestSource;
 
-@interface DetailingTableViewController : UITableViewController <SettingTableViewCellDelegate,UIActionSheetDelegate,CoreLocationControllerDelegate>{
+@interface DetailingTableViewController : UITableViewController <SettingTableViewCellDelegate,UIActionSheetDelegate,CoreLocationControllerDelegate,DetailingCalendarEventBoxViewControllerDelegate>{
     DetailingRequestSource _requestSource;
     NSMutableArray* detailingSelections;
     NSMutableArray* detailingSelectionNames;

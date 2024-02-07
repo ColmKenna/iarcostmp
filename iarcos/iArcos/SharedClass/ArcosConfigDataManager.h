@@ -93,6 +93,7 @@
 - (BOOL)showFullProductTableAddingLinesFlag;
 - (BOOL)confirmOrderDetailsAtCheckoutFlag;
 - (BOOL)showLocationContactFlagsItemFlag;
+- (BOOL)showCalendarEventBoxWhenCreatingCallFlag;
 - (void)resetSystemCodes:(NSString*)aSystemCodes;
 - (void)persistentSystemCodes;
 
