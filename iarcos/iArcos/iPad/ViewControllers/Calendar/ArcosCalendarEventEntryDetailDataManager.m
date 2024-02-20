@@ -69,12 +69,12 @@
     [super dealloc];
 }
 
-- (void)retrieveCreateDataWithDate:(NSDate*)aDate {
+- (void)retrieveCreateDataWithDate:(NSDate*)aDate title:(NSString*)aTitle location:(NSString*)aLocationStr {
     self.sectionTitleList = [NSMutableArray arrayWithObjects:self.headlineText, self.dateText, self.detailText, nil];
     self.groupedDataDict = [NSMutableDictionary dictionary];
     NSMutableArray* headlineDataList = [NSMutableArray arrayWithCapacity:2];
-    [headlineDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:1] fieldDesc:@"Title" fieldName:self.subjectKey fieldData:@""]];
-    [headlineDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:1] fieldDesc:@"Location" fieldName:self.locationKey fieldData:@""]];
+    [headlineDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:1] fieldDesc:@"Title" fieldName:self.subjectKey fieldData:[ArcosUtils convertNilToEmpty:aTitle]]];
+    [headlineDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:1] fieldDesc:@"Location" fieldName:self.locationKey fieldData:[ArcosUtils convertNilToEmpty:aLocationStr]]];
     [self.groupedDataDict setObject:headlineDataList forKey:self.headlineText];
     NSMutableArray* dateDataList = [NSMutableArray arrayWithCapacity:3];
     [dateDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:3] fieldDesc:@"All-day" fieldName:self.allDayKey fieldData:@"1"]];
@@ -204,7 +204,7 @@
     [endCellDataDict setObject:auxCellType forKey:@"CellType"];
 }
 
-- (NSMutableDictionary*)retrieveEventDict {
+- (NSMutableDictionary*)retrieveEventDictWithLocationUri:(NSString*)aLocationUri {
     NSMutableDictionary* eventDict = [[[NSMutableDictionary alloc] init] autorelease];
     NSIndexPath* subjectIndexPath = [self indexPathWithFieldName:self.subjectKey];
     NSMutableDictionary* subjectCellDataDict = [self cellDataWithIndexPath:subjectIndexPath];
@@ -215,6 +215,7 @@
     
     NSMutableDictionary* locationResultDict = [NSMutableDictionary dictionaryWithCapacity:1];
     [locationResultDict setObject:[locationCellDataDict objectForKey:@"FieldData"] forKey:@"displayName"];
+    [locationResultDict setObject:[ArcosUtils convertNilToEmpty:aLocationUri] forKey:@"locationUri"];
     [eventDict setObject:locationResultDict forKey:self.locationKey];
     
     NSIndexPath* bodyIndexPath = [self indexPathWithFieldName:self.bodyKey];

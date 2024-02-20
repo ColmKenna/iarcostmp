@@ -52,13 +52,13 @@
 @property(nonatomic,retain) NSDate* editEndDate;
 
 - (NSMutableDictionary*)createCellDataWithCellType:(NSNumber*)aCellType fieldDesc:(NSString*)aFieldDesc fieldName:(NSString*)aFieldName fieldData:(id)aFieldData;
-- (void)retrieveCreateDataWithDate:(NSDate*)aDate;
+- (void)retrieveCreateDataWithDate:(NSDate*)aDate title:(NSString*)aTitle location:(NSString*)aLocationStr;
 - (void)retrieveEditDataWithCellData:(NSMutableDictionary*)aCellData;
 - (NSMutableDictionary*)cellDataWithIndexPath:(NSIndexPath*)anIndexPath;
 - (void)dataDetailBaseInputFinishedWithData:(id)aData atIndexPath:(NSIndexPath*)anIndexPath;
 - (NSIndexPath*)indexPathWithFieldName:(NSString*)aFieldName;
 - (void)dataRefreshListWithSwitchReturnValue:(NSString*)aReturnValue;
-- (NSMutableDictionary*)retrieveEventDict;
+- (NSMutableDictionary*)retrieveEventDictWithLocationUri:(NSString*)aLocationUri;
 - (NSMutableDictionary*)retrieveEditEventDict;
 
 @end

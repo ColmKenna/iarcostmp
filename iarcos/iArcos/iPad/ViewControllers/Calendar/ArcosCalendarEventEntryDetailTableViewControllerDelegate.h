@@ -16,6 +16,7 @@
 - (void)deleteButtonPressedDelegate;
 - (UITableView*)retrieveEventTableView;
 - (UIViewController*)retrieveArcosCalendarEventEntryDetailTemplateViewController;
+//- (NSString*)retrieveLocationUriDelegate;
 
 @end
 

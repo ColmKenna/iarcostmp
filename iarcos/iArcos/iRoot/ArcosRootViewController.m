@@ -197,6 +197,10 @@
     [aViewController didMoveToParentViewController:self];
 }
 
+- (UIViewController*)retrieveArcosRootViewController {
+    return self;
+}
+
 #pragma mark PresentViewControllerDelegate
 - (void)didDismissPresentView {
     [self dismissViewControllerAnimated:NO completion:nil];

@@ -19,7 +19,7 @@
 #import "MainPresenterTableViewController.h"
 #import "CustomerJourneyAppointmentViewController.h"
 
-@interface SubMenuListingTableViewController : SubMenuTableViewController<SubMenuTableViewControllerDelegate, CoreLocationControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,ModalPresentViewControllerDelegate,SubMenuListingDataManagerDelegate> {
+@interface SubMenuListingTableViewController : SubMenuTableViewController<SubMenuTableViewControllerDelegate, CoreLocationControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,ModalPresentViewControllerDelegate,SubMenuListingDataManagerDelegate,DetailingCalendarEventBoxViewControllerDelegate,ModelViewDelegate> {
     NewOrderViewController* _myNewOrderViewController;
     UINavigationController* _myNewOrderNavigationController;
     DetailingTableViewController* _detailingTableViewController;
@@ -43,6 +43,8 @@
     SubMenuListingDataManager* _subMenuListingDataManager;
     BOOL _locationCoordinateCaptured;
     UIImagePickerController* _imagePicker;
+//    DetailingCalendarEventBoxViewController* _detailingCalendarEventBoxViewController;
+    UINavigationController* _globalNavigationController;
 }
 
 @property(nonatomic, retain) NewOrderViewController* myNewOrderViewController;
@@ -68,5 +70,7 @@
 @property(nonatomic, retain) SubMenuListingDataManager* subMenuListingDataManager;
 @property(nonatomic, assign) BOOL locationCoordinateCaptured;
 @property(nonatomic, retain) UIImagePickerController* imagePicker;
+//@property(nonatomic, retain) DetailingCalendarEventBoxViewController* detailingCalendarEventBoxViewController;
+@property(nonatomic, retain) UINavigationController* globalNavigationController;
 
 @end

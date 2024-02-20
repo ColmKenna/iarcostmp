@@ -324,6 +324,10 @@
     return self;
 }
 
+- (UIViewController*)retrieveArcosRootViewController {
+    return [self.subMenuDelegate retrieveArcosRootViewController];
+}
+
 - (void)onScanTimer:(NSTimer*)theTimer {
     if (theTimer == self.scanApiTimer) {
         [self.scanApiHelper doScanApiReceive];

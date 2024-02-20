@@ -12,6 +12,7 @@
 @protocol ArcosCalendarEventEntryDetailTemplateViewControllerDelegate <NSObject>
 
 - (void)refreshCalendarTableViewController;
+- (NSString*)retrieveLocationUriTemplateDelegate;
 
 @end
 

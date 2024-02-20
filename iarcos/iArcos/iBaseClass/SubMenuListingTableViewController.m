@@ -45,6 +45,8 @@
 @synthesize locationCoordinateCaptured = _locationCoordinateCaptured;
 @synthesize appointmentTitle = _appointmentTitle;
 @synthesize imagePicker = _imagePicker;
+//@synthesize detailingCalendarEventBoxViewController = _detailingCalendarEventBoxViewController;
+@synthesize globalNavigationController = _globalNavigationController;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -60,7 +62,7 @@
         self.myCustomControllerTitle = @"MyCustomController";
         self.mapTitle = @"Map";
         self.photosTitle = @"Photos";
-        self.appointmentTitle = @"Diary";
+        self.appointmentTitle = @"Calendar";//Diary
         self.ruleoutTitleDict = [NSMutableDictionary dictionaryWithCapacity:2];
         [self.ruleoutTitleDict setObject:self.orderTitle forKey:self.orderTitle];
         [self.ruleoutTitleDict setObject:self.presenterTitle forKey:self.presenterTitle];
@@ -73,11 +75,14 @@
         NSMutableDictionary* surveyCellData = [self createItemCellData:self.surveyTitle imageFile:@"OrderIcon.png"];
         NSMutableDictionary* mapCellData = [self createItemCellData:self.mapTitle imageFile:@"MapIcon.png"];
         NSMutableDictionary* photosCellData = [self createItemCellData:self.photosTitle imageFile:@"Camera.png"];
-//        NSMutableDictionary* appointmentCellData = [self createItemCellData:self.appointmentTitle imageFile:@"appointment.png"]; , appointmentCellData
+        NSMutableDictionary* appointmentCellData = [self createItemCellData:self.appointmentTitle imageFile:@"Calendar.png"];//appointment.png
         
         self.displayList = [NSMutableArray arrayWithObjects:orderCellData, presenterCellData, callCellData, surveyCellData, mapCellData, photosCellData, nil];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableCallOnlyFlag]) {
             self.displayList = [NSMutableArray arrayWithObjects:presenterCellData, callCellData, surveyCellData, mapCellData, photosCellData, nil];
+        }
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showCalendarEventBoxWhenCreatingCallFlag]) {
+            [self.displayList addObject:appointmentCellData];
         }
         self.CLController = [[[CoreLocationController alloc] init] autorelease];
         self.CLController.delegate = self;
@@ -117,6 +122,8 @@
     self.CLController = nil;
     self.subMenuListingDataManager = nil;
     self.imagePicker = nil;
+//    self.detailingCalendarEventBoxViewController = nil;
+    self.globalNavigationController = nil;
     
     [super dealloc];
 }
@@ -483,6 +490,7 @@
 }
 
 - (void)addJourneyAppointment {
+    /*
     CustomerJourneyAppointmentViewController* cjavc = [[CustomerJourneyAppointmentViewController alloc] initWithNibName:@"CustomerJourneyAppointmentViewController" bundle:nil];
     cjavc.modalDelegate = self;
     UINavigationController* auxNavigationController = [[UINavigationController alloc] initWithRootViewController:cjavc];
@@ -491,6 +499,105 @@
     [[self.subMenuDelegate retrieveMasterViewController] presentViewController:auxNavigationController animated:YES completion:nil];
     [auxNavigationController release];
     [cjavc release];
+    */
+   
+    DetailingCalendarEventBoxViewController* detailingCalendarEventBoxViewController = [[DetailingCalendarEventBoxViewController alloc] initWithNibName:@"DetailingCalendarEventBoxViewController" bundle:nil];
+    detailingCalendarEventBoxViewController.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
+    detailingCalendarEventBoxViewController.actionDelegate = self;
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:detailingCalendarEventBoxViewController] autorelease];
+    [detailingCalendarEventBoxViewController release];
+    
+    CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:[self.subMenuDelegate retrieveArcosRootViewController]];
+    self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+    [[self.subMenuDelegate retrieveArcosRootViewController] addChildViewController:self.globalNavigationController];
+    [[self.subMenuDelegate retrieveArcosRootViewController].view addSubview:self.globalNavigationController.view];
+    [self.globalNavigationController didMoveToParentViewController:[self.subMenuDelegate retrieveArcosRootViewController]];
+    [UIView animateWithDuration:0.3f animations:^{
+        self.globalNavigationController.view.frame = parentNavigationRect;
+    } completion:^(BOOL finished){
+        
+    }];
+    
+//    self.detailingCalendarEventBoxViewController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+//    [[self.subMenuDelegate retrieveArcosRootViewController] addChildViewController:self.detailingCalendarEventBoxViewController];
+//    [[self.subMenuDelegate retrieveArcosRootViewController].view addSubview:self.detailingCalendarEventBoxViewController.view];
+//    [self.detailingCalendarEventBoxViewController didMoveToParentViewController:[self.subMenuDelegate retrieveArcosRootViewController]];
+//    [UIView animateWithDuration:0.3f animations:^{
+//        self.detailingCalendarEventBoxViewController.view.frame = parentNavigationRect;
+//    } completion:^(BOOL finished){
+//        
+//    }];
+    /*
+    FlagsContactFlagWrapperViewController* fcfwvc = [[FlagsContactFlagWrapperViewController alloc] initWithNibName:@"FlagsContactFlagWrapperViewController" bundle:nil];
+    fcfwvc.actionDelegate = self;
+    fcfwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:fcfwvc] autorelease];
+    [fcfwvc release];
+    CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:[self.subMenuDelegate retrieveArcosRootViewController]];
+    self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+    [[self.subMenuDelegate retrieveArcosRootViewController] addChildViewController:self.globalNavigationController];
+    [[self.subMenuDelegate retrieveArcosRootViewController].view addSubview:self.globalNavigationController.view];
+    [self.globalNavigationController didMoveToParentViewController:[self.subMenuDelegate retrieveArcosRootViewController]];
+    [UIView animateWithDuration:0.3f animations:^{
+        self.globalNavigationController.view.frame = parentNavigationRect;
+    } completion:^(BOOL finished){
+        
+    }];
+    */
+}
+#pragma mark CustomisePresentViewControllerDelegate
+- (void)didDismissCustomisePresentView {
+    
+}
+
+#pragma mark DetailingCalendarEventBoxViewControllerDelegate
+- (NSString*)retrieveDetailingLocationName {
+    return [[OrderSharedClass sharedOrderSharedClass] currentCustomerName];
+}
+
+- (NSNumber*)retrieveDetailingLocationIUR {
+    return [GlobalSharedClass shared].currentSelectedLocationIUR;
+}
+
+- (NSNumber*)retrieveDetailingContactIUR {
+    return [GlobalSharedClass shared].currentSelectedContactIUR;
+}
+
+- (NSString*)retrieveDetailingContactName {
+    NSString* contactName = @"";
+    if ([[GlobalSharedClass shared].currentSelectedContactIUR intValue] != 0) {
+        NSMutableDictionary* tmpContactDict = [[ArcosCoreData sharedArcosCoreData] compositeContactWithIUR:[GlobalSharedClass shared].currentSelectedContactIUR];
+        if (tmpContactDict != nil) {
+            contactName = [tmpContactDict objectForKey:@"Title"];
+        }
+    }
+    return contactName;
+}
+
+- (void)didDismissViewProcessor {//[self.subMenuDelegate retrieveMasterViewController]
+//    [[ArcosUtils getRootView] dismissViewControllerAnimated:YES completion:^{
+//        
+//    }];
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:[self.subMenuDelegate retrieveArcosRootViewController]];
+        self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+    } completion:^(BOOL finished){
+        [self.globalNavigationController willMoveToParentViewController:nil];
+        [self.globalNavigationController.view removeFromSuperview];
+        [self.globalNavigationController removeFromParentViewController];
+        self.globalNavigationController = nil;
+    }];
+    /*
+    [UIView animateWithDuration:0.3f animations:^{
+        CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:[self.subMenuDelegate retrieveArcosRootViewController]];
+        self.detailingCalendarEventBoxViewController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+    } completion:^(BOOL finished){
+        [self.detailingCalendarEventBoxViewController willMoveToParentViewController:nil];
+        [self.detailingCalendarEventBoxViewController.view removeFromSuperview];
+        [self.detailingCalendarEventBoxViewController removeFromParentViewController];
+        self.detailingCalendarEventBoxViewController = nil;
+    }];*/
 }
 
 #pragma mark ModalPresentViewControllerDelegate

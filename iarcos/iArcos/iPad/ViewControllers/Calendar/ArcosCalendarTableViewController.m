@@ -338,7 +338,7 @@
         ACEEDTVC.actionDelegate = self;
         ACEEDTVC.presentDelegate = self;
         ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.actionType = ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.createText;
-        [ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveCreateDataWithDate:[dayDataDict objectForKey:@"Date"]];
+        [ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveCreateDataWithDate:[dayDataDict objectForKey:@"Date"] title:@"" location:@""];
         //
         NSString* auxDateFormatText = [ArcosUtils stringFromDate:[dayDataDict objectForKey:@"Date"] format:[GlobalSharedClass shared].dateFormat];
         NSMutableDictionary* auxJourneyDict = [self.customerJourneyDataManager.journeyDictHashMap objectForKey:auxDateFormatText];
@@ -372,9 +372,13 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - ArcosCalendarEventEntryDetailTableViewControllerDelegate
+#pragma mark - ArcosCalendarEventEntryDetailTableViewControllerDelegate ArcosCalendarEventEntryDetailTemplateViewControllerDelegate
 - (void)refreshCalendarTableViewController {
     [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
+}
+
+- (NSString*)retrieveLocationUriTemplateDelegate {
+    return @"";
 }
 
 - (void)retrieveCalendarEntriesWithDate:(NSDate*)aDate {

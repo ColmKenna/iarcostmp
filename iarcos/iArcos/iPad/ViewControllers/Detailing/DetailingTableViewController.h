@@ -48,6 +48,7 @@ typedef enum {
     NSNumber* _coordinateType;
     UILabel* _custNameHeaderLabel;
     UILabel* _custAddrHeaderLabel;
+    UINavigationController* _globalNavigationController;
 }
 @property(nonatomic,assign) DetailingRequestSource requestSource;
 @property(nonatomic,retain)    NSMutableArray* detailingSelections;
@@ -68,5 +69,6 @@ typedef enum {
 @property (nonatomic, retain) NSNumber* coordinateType;
 @property(nonatomic, retain) UILabel* custNameHeaderLabel;
 @property(nonatomic, retain) UILabel* custAddrHeaderLabel;
+@property(nonatomic, retain) UINavigationController* globalNavigationController;
 
 @end

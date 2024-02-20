@@ -12,11 +12,18 @@
 @synthesize journeyDateData = _journeyDateData;
 @synthesize calendarDateData = _calendarDateData;
 @synthesize originalEventDataDict = _originalEventDataDict;
+@synthesize acctNotSignInMsg = _acctNotSignInMsg;
+@synthesize listingDisplayList = _listingDisplayList;
+@synthesize suggestedAppointmentText = _suggestedAppointmentText;
+@synthesize nextAppointmentText = _nextAppointmentText;
 
 - (instancetype)init {
     self = [super init];
     if (self != nil) {
         self.originalEventDataDict = nil;
+        self.acctNotSignInMsg = @"Please SIGN IN to OUTLOOK to save Next Appointment";
+        self.suggestedAppointmentText = @"Suggested Appointment";
+        self.nextAppointmentText = @"New Appointment";
     }
     
     return self;
@@ -26,6 +33,10 @@
     self.journeyDateData = nil;
     self.calendarDateData = nil;
     self.originalEventDataDict = nil;
+    self.acctNotSignInMsg = nil;
+    self.listingDisplayList = nil;
+    self.suggestedAppointmentText = nil;
+    self.nextAppointmentText = nil;
     
     [super dealloc];
 }

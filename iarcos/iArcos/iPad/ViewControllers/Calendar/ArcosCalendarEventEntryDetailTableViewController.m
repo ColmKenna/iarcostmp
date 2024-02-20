@@ -79,7 +79,8 @@
 }
 
 - (void)addPressed {
-//    NSLog(@"addPressed");
+//    NSLog(@"addPressed");not used
+    
     [self.HUD show:YES];
     [self.view endEditing:YES];
     if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {
@@ -87,7 +88,7 @@
         [self.HUD hide:YES];
         return;
     }
-    NSMutableDictionary* eventDict = [self.arcosCalendarEventEntryDetailDataManager retrieveEventDict];
+    NSMutableDictionary* eventDict = nil;//[self.arcosCalendarEventEntryDetailDataManager retrieveEventDict];
     NSString* allDayFlag = [eventDict objectForKey:self.arcosCalendarEventEntryDetailDataManager.allDayKey];
     NSMutableDictionary* startResultDict = [eventDict objectForKey:@"start"];
     NSString* startResultData = [startResultDict objectForKey:@"dateTime"];
@@ -157,6 +158,7 @@
         }
     }];
     [downloadTask resume];
+    
 }
 
 - (void)editPressed {

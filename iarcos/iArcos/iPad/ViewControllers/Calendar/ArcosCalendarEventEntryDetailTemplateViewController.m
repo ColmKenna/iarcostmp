@@ -183,7 +183,7 @@
         [self.HUD hide:YES];
         return;
     }
-    NSMutableDictionary* eventDict = [self.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveEventDict];
+    NSMutableDictionary* eventDict = [self.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveEventDictWithLocationUri:[self.actionDelegate retrieveLocationUriTemplateDelegate]];
     NSString* allDayFlag = [eventDict objectForKey:self.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.allDayKey];
     NSMutableDictionary* startResultDict = [eventDict objectForKey:@"start"];
     NSString* startResultData = [startResultDict objectForKey:@"dateTime"];
@@ -327,5 +327,9 @@
 - (UIViewController*)retrieveArcosCalendarEventEntryDetailTemplateViewController {
     return self;
 }
+
+//- (NSString*)retrieveLocationUriDelegate {
+//    return [self.actionDelegate retrieveLocationUriTemplateDelegate];
+//}
 
 @end

@@ -15,4 +15,5 @@
 - (NSMutableDictionary*)retrieveSelectedCustomerBaseCellData;
 - (UITableView*)retrieveMasterBottomTableView;
 - (UIViewController*)retrieveMasterViewController;
+- (UIViewController*)retrieveArcosRootViewController;
 @end
