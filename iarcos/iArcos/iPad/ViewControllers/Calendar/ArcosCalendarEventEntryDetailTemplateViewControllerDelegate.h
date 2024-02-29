@@ -13,6 +13,7 @@
 
 - (void)refreshCalendarTableViewController;
 - (NSString*)retrieveLocationUriTemplateDelegate;
+- (NSNumber*)retrieveLocationIURTemplateDelegate;
 
 @end
 

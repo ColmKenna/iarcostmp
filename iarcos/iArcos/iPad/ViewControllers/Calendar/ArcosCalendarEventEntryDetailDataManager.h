@@ -59,7 +59,8 @@
 - (NSIndexPath*)indexPathWithFieldName:(NSString*)aFieldName;
 - (void)dataRefreshListWithSwitchReturnValue:(NSString*)aReturnValue;
 - (NSMutableDictionary*)retrieveEventDictWithLocationUri:(NSString*)aLocationUri;
-- (NSMutableDictionary*)retrieveEditEventDict;
+- (NSMutableDictionary*)retrieveEditEventDictWithLocationUri:(NSString*)aLocationUri;
+- (void)resetEndDateWithStartDictProcessor:(NSMutableDictionary*)aStartDict;
 
 @end
 

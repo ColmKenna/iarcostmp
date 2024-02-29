@@ -14,8 +14,9 @@
     NSDate* _journeyDateData;
     NSDate* _calendarDateData;
     NSMutableDictionary* _originalEventDataDict;
-    NSString* _acctNotSignInMsg;
+//    NSString* _acctNotSignInMsg;
     NSMutableArray* _listingDisplayList;
+    NSMutableArray* _ownLocationDisplayList;
     NSString* _suggestedAppointmentText;
     NSString* _nextAppointmentText;
 }
@@ -23,15 +24,20 @@
 @property(nonatomic,retain) NSDate* journeyDateData;
 @property(nonatomic,retain) NSDate* calendarDateData;
 @property(nonatomic,retain) NSMutableDictionary* originalEventDataDict;
-@property(nonatomic,retain) NSString* acctNotSignInMsg;
+//@property(nonatomic,retain) NSString* acctNotSignInMsg;
 @property(nonatomic,retain) NSMutableArray* listingDisplayList;
+@property(nonatomic,retain) NSMutableArray* ownLocationDisplayList;
 @property(nonatomic,retain) NSString* suggestedAppointmentText;
 @property(nonatomic,retain) NSString* nextAppointmentText;
 
 - (NSString*)retrieveCalendarURIWithStartDate:(NSString*)aStartDate endDate:(NSString*)anEndDate locationName:(NSString*)aLocationName;
+- (NSString*)retrieveCalendarURIWithStartDate:(NSString*)aStartDate endDate:(NSString*)anEndDate;
 - (NSMutableDictionary*)retrieveEventDictWithLocationName:(NSString*)aLocationName contactName:(NSString*)aContactName locationIUR:(NSNumber*)aLocationIUR contactIUR:(NSNumber*)aContactIUR;
 - (NSMutableDictionary*)retrieveEditEventDictWithLocationName:(NSString*)aLocationName contactName:(NSString*)aContactName locationIUR:(NSNumber*)aLocationIUR contactIUR:(NSNumber*)aContactIUR;
 - (NSMutableDictionary*)populateCalendarEventEntryWithData:(NSDictionary*)aDataDict;
+- (NSMutableDictionary*)createEditEventEntryDetailTemplateData:(NSDictionary*)aDataDict;
+- (NSMutableArray*)retrieveTemplateListingDisplayList;
+- (NSNumber*)retrieveLocationIURWithEventDict:(NSDictionary*)anEventDict;
 
 @end
 

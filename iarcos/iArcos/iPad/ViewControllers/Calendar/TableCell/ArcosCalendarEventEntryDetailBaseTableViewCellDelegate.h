@@ -15,6 +15,9 @@
 - (void)refreshListWithSwitchReturnValue:(NSString*)aReturnValue;
 - (void)detailDeleteButtonPressed;
 - (UIViewController*)retrieveCalendarEventEntryDetailParentViewController;
+- (void)refreshCellRightHandSideBarWithDate:(NSDate*)aDate;
+- (NSString*)retrieveStartFieldName;
+- (void)resetEndDateWithStartDict:(NSMutableDictionary*)aStartCellDataDict refreshCellRightHandSideTableFlag:(BOOL)aFlag;
 
 @end
 

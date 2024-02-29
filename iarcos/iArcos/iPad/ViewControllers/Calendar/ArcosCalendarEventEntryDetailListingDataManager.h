@@ -10,18 +10,27 @@
 #import "ArcosUtils.h"
 #import "ArcosCalendarEventEntryDetailListingTableViewCell.h"
 #import "GlobalSharedClass.h"
+#import "ArcosCalendarEventEntryDetailListingDataManagerDelegate.h"
 
 @interface ArcosCalendarEventEntryDetailListingDataManager : NSObject <UITableViewDelegate, UITableViewDataSource> {
+    id<ArcosCalendarEventEntryDetailListingDataManagerDelegate> _actionDelegate;
     NSMutableArray* _journeyDictList;
     NSMutableArray* _eventDictList;
     NSMutableArray* _displayList;
+    NSString* _barTitleContent;
+    BOOL _hideEditButtonFlag;
 }
 
+@property(nonatomic, assign) id<ArcosCalendarEventEntryDetailListingDataManagerDelegate> actionDelegate;
 @property(nonatomic, retain) NSMutableArray* journeyDictList;
 @property(nonatomic, retain) NSMutableArray* eventDictList;
 @property(nonatomic, retain) NSMutableArray* displayList;
+@property(nonatomic, retain) NSString* barTitleContent;
+@property(nonatomic, assign) BOOL hideEditButtonFlag;
 
 - (void)processDataListWithDateFormatText:(NSString*)aDateFormatText;
+- (NSString*)retrieveCalendarURIWithStartDate:(NSString*)aStartDate endDate:(NSString*)anEndDate;
+- (void)createTemplateListingDisplayListWithEventList:(NSArray*)anEventList;
 
 @end
 

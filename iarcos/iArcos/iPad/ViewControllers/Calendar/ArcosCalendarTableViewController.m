@@ -293,7 +293,7 @@
         ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = aDataList;
         
         [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText];
-        
+        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = aDateFormatText;
 //        [ACEEDTVC.arcosCalendarEventEntryDetailDataManager retrieveEditDataWithCellData:eventDataDict];
         UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
         tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
@@ -354,7 +354,7 @@
         ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = eventDataList;
         
         [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:auxDateFormatText];
-        
+        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = auxDateFormatText;
         UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
         tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
         tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
@@ -381,9 +381,13 @@
     return @"";
 }
 
+- (NSNumber*)retrieveLocationIURTemplateDelegate {
+    return [NSNumber numberWithInt:0];
+}
+
 - (void)retrieveCalendarEntriesWithDate:(NSDate*)aDate {
     if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {
-        [ArcosUtils showDialogBox:@"Email account not set up" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+        [ArcosUtils showDialogBox:[ArcosConstantsDataManager sharedArcosConstantsDataManager].acctNotSignInMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
             
         }];
         [self.tableView reloadData];

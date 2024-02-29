@@ -9,14 +9,26 @@
 #import "ArcosCalendarEventEntryDetailListingDataManager.h"
 
 @implementation ArcosCalendarEventEntryDetailListingDataManager
+@synthesize actionDelegate = _actionDelegate;
 @synthesize journeyDictList = _journeyDictList;
 @synthesize eventDictList = _eventDictList;
 @synthesize displayList = _displayList;
+@synthesize barTitleContent = _barTitleContent;
+@synthesize hideEditButtonFlag = _hideEditButtonFlag;
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.hideEditButtonFlag = NO;
+    }
+    return self;
+}
 
 - (void)dealloc {
     self.journeyDictList = nil;
     self.eventDictList = nil;
     self.displayList = nil;
+    self.barTitleContent = nil;
     
     [super dealloc];
 }
@@ -77,9 +89,44 @@
     // Configure the cell...
     NSMutableDictionary* cellData = [self.displayList objectAtIndex:indexPath.row];
     [cell configCellWithData:cellData];
+    cell.timeLabel.textColor = [UIColor blackColor];
+    if ([[self.actionDelegate retrieveEventEntryDetailListingLocationIUR] intValue] != 0 && [[self.actionDelegate retrieveEventEntryDetailListingLocationIUR] isEqualToNumber:[cellData objectForKey:@"LocationIUR"]]) {
+        cell.timeLabel.textColor = [UIColor blueColor];
+    }
     
     return cell;
 }
 
+- (NSString*)retrieveCalendarURIWithStartDate:(NSString*)aStartDate endDate:(NSString*)anEndDate {
+    return [NSString stringWithFormat:@"https://graph.microsoft.com/v1.0/me/calendarview?$select=id,subject,bodyPreview,start,end,location,isAllDay&$top=1000&startdatetime=%@&enddatetime=%@&$orderby=start/dateTime asc", aStartDate, anEndDate];
+}
+
+- (void)createTemplateListingDisplayListWithEventList:(NSArray*)anEventList {
+    self.displayList = [NSMutableArray arrayWithCapacity:[anEventList count]];
+    for (int i = 0; i < [anEventList count]; i++) {
+        NSMutableDictionary* resultCellDataDict = [NSMutableDictionary dictionaryWithCapacity:2];
+        NSDictionary* myCellData = [anEventList objectAtIndex:i];
+        NSDictionary* myCellStartDict = [myCellData objectForKey:@"start"];
+        NSString* myCellStartDateStr = [myCellStartDict objectForKey:@"dateTime"];
+        NSDate* myCellStartDate = [ArcosUtils dateFromString:myCellStartDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
+        [resultCellDataDict setObject:[ArcosUtils convertNilDateToNull:myCellStartDate] forKey:@"Date"];
+        [resultCellDataDict setObject:[ArcosUtils convertNilToEmpty:[myCellData objectForKey:@"subject"]] forKey:@"Name"];
+        NSNumber* myLocationIUR = [self retrieveLocationIURWithEventDict:myCellData];
+        [resultCellDataDict setObject:[ArcosUtils convertNilToZero:myLocationIUR] forKey:@"LocationIUR"];
+        [self.displayList addObject:resultCellDataDict];
+    }
+}
+
+- (NSNumber*)retrieveLocationIURWithEventDict:(NSDictionary*)anEventDict {
+    NSNumber* locationIUR = [NSNumber numberWithInt:0];
+    NSDictionary* locationDict = [anEventDict objectForKey:@"location"];
+    NSString* locationUriStr = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"locationUri"]]];
+    NSArray* locationUriChildArray = [locationUriStr componentsSeparatedByString:@":"];
+    if ([locationUriChildArray count] == 2) {
+        NSString* tmpLocationIURStr = [locationUriChildArray objectAtIndex:0];
+        locationIUR = [ArcosUtils convertStringToNumber:tmpLocationIURStr];
+    }
+    return locationIUR;
+}
 
 @end

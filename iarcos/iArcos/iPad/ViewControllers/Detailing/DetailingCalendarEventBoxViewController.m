@@ -73,6 +73,7 @@
     int mergeIdValue = [[employeeDict objectForKey:@"MergeID"] intValue];
     self.detailingCalendarEventBoxViewDataManager.journeyDateData = [ArcosUtils addDays:mergeIdValue * 7 date:[NSDate date]];
     self.detailingCalendarEventBoxViewDataManager.calendarDateData = [ArcosUtils addDays:mergeIdValue * 7 date:[NSDate date]];
+    self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
     self.journeyDateValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.journeyDateData format:[GlobalSharedClass shared].dateFormat];
     self.calendarDateValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].datetimehmFormat];
     self.calendarDatePicker.date = self.detailingCalendarEventBoxViewDataManager.calendarDateData;
@@ -94,18 +95,21 @@
     ACEEDTVC.presentDelegate = self;
     ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.actionType = ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.createText;
     [ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveCreateDataWithDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData title:[self.actionDelegate retrieveDetailingContactName] location:[self.actionDelegate retrieveDetailingLocationName]];
-    NSMutableArray* templateListingDisplayList = [NSMutableArray arrayWithCapacity:[self.detailingCalendarEventBoxViewDataManager.listingDisplayList count]];
-    for (int i = 0; i < [self.detailingCalendarEventBoxViewDataManager.listingDisplayList count]; i++) {
-        NSMutableDictionary* resultCellDataDict = [NSMutableDictionary dictionaryWithCapacity:2];
-        NSDictionary* myCellData = [self.detailingCalendarEventBoxViewDataManager.listingDisplayList objectAtIndex:i];
-        NSDictionary* myCellStartDict = [myCellData objectForKey:@"start"];
-        NSString* myCellStartDateStr = [myCellStartDict objectForKey:@"dateTime"];
-        NSDate* myCellStartDate = [ArcosUtils dateFromString:myCellStartDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
-        [resultCellDataDict setObject:[ArcosUtils convertNilDateToNull:myCellStartDate] forKey:@"Date"];
-        [resultCellDataDict setObject:[ArcosUtils convertNilToEmpty:[myCellData objectForKey:@"subject"]] forKey:@"Name"];
-        [templateListingDisplayList addObject:resultCellDataDict];
-    }
+    NSMutableArray* templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayList];
+//    for (int i = 0; i < [self.detailingCalendarEventBoxViewDataManager.listingDisplayList count]; i++) {
+//        NSMutableDictionary* resultCellDataDict = [NSMutableDictionary dictionaryWithCapacity:2];
+//        NSDictionary* myCellData = [self.detailingCalendarEventBoxViewDataManager.listingDisplayList objectAtIndex:i];
+//        NSDictionary* myCellStartDict = [myCellData objectForKey:@"start"];
+//        NSString* myCellStartDateStr = [myCellStartDict objectForKey:@"dateTime"];
+//        NSDate* myCellStartDate = [ArcosUtils dateFromString:myCellStartDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
+//        [resultCellDataDict setObject:[ArcosUtils convertNilDateToNull:myCellStartDate] forKey:@"Date"];
+//        [resultCellDataDict setObject:[ArcosUtils convertNilToEmpty:[myCellData objectForKey:@"subject"]] forKey:@"Name"];
+//        NSNumber* myLocationIUR = [self.detailingCalendarEventBoxViewDataManager retrieveLocationIURWithEventDict:myCellData];
+//        [resultCellDataDict setObject:[ArcosUtils convertNilToZero:myLocationIUR] forKey:@"LocationIUR"];
+//        [templateListingDisplayList addObject:resultCellDataDict];
+//    }
     ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList = templateListingDisplayList;
+    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
     UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
     tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
     tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
@@ -123,6 +127,10 @@
 
 - (NSString*)retrieveLocationUriTemplateDelegate {
     return [NSString stringWithFormat:@"%d:%d", [[self.actionDelegate retrieveDetailingLocationIUR] intValue], [[self.actionDelegate retrieveDetailingContactIUR] intValue]];
+}
+
+- (NSNumber*)retrieveLocationIURTemplateDelegate {
+    return [self.actionDelegate retrieveDetailingLocationIUR];
 }
 
 #pragma mark ModalPresentViewControllerDelegate
@@ -207,7 +215,7 @@
 - (void)retrieveCalendarEventEntries {
     [self.HUD show:YES];
     if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {
-        [ArcosUtils showDialogBox:self.detailingCalendarEventBoxViewDataManager.acctNotSignInMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+        [ArcosUtils showDialogBox:[ArcosConstantsDataManager sharedArcosConstantsDataManager].acctNotSignInMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
             [self.HUD hide:YES];
         }];
         return;
@@ -266,7 +274,7 @@
                 NSNumber* firstEventLocationIUR = [NSNumber numberWithInt:0];
                 for (int i = 0; i < [eventList count]; i++) {
                     NSDictionary* auxEventDict = [eventList objectAtIndex:i];
-                    NSNumber* locationIUR = [self retrieveLocationIURWithEventDict:auxEventDict];
+                    NSNumber* locationIUR = [self.detailingCalendarEventBoxViewDataManager retrieveLocationIURWithEventDict:auxEventDict];
                     if ([[self.actionDelegate retrieveDetailingLocationIUR] isEqualToNumber:locationIUR]) {
                         self.detailingCalendarEventBoxViewDataManager.originalEventDataDict = [self.detailingCalendarEventBoxViewDataManager populateCalendarEventEntryWithData:auxEventDict];
                         self.detailingCalendarEventBoxViewDataManager.calendarDateData = [self.detailingCalendarEventBoxViewDataManager.originalEventDataDict objectForKey:@"StartDate"];
@@ -274,6 +282,7 @@
                         firstEventIndex = i;
                         firstEventLocationIUR = [NSNumber numberWithInt:[locationIUR intValue]];
                         dispatch_async(dispatch_get_main_queue(), ^{
+                            self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
                             self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.nextAppointmentText;
                             self.calendarDateValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].datetimehmFormat];
                             self.calendarDatePicker.date = self.detailingCalendarEventBoxViewDataManager.calendarDateData;
@@ -281,64 +290,58 @@
                         break;
                     }
                 }
-                if (eventFoundFlag) {
-                    NSDictionary* firstEventDict = [NSDictionary dictionaryWithDictionary:[eventList objectAtIndex:firstEventIndex]];
-                    [self.detailingCalendarEventBoxViewDataManager.listingDisplayList addObject:firstEventDict];
-                    NSString* firstEventStartDateDatePartString = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
-                    for (int j = firstEventIndex + 1; j < [eventList count]; j++) {
-                        NSDictionary* tmpEventDict = [eventList objectAtIndex:j];
-                        NSNumber* tmpLocationIUR = [self retrieveLocationIURWithEventDict:tmpEventDict];
-                        if ([tmpLocationIUR isEqualToNumber:firstEventLocationIUR]) {
-                            NSDictionary* startDict = [tmpEventDict objectForKey:@"start"];
-                            NSString* tmpStartDateStr = [startDict objectForKey:@"dateTime"];
-                            NSDate* tmpStartDate = [ArcosUtils dateFromString:tmpStartDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
-                            NSString* tmpStartDateDatePartString = [ArcosUtils stringFromDate:tmpStartDate format:[GlobalSharedClass shared].dateFormat];
-                            if ([firstEventStartDateDatePartString isEqualToString:tmpStartDateDatePartString]) {
-                                [self.detailingCalendarEventBoxViewDataManager.listingDisplayList addObject:[NSDictionary dictionaryWithDictionary:tmpEventDict]];
-                            } else {
-                                break;
-                            }
-                        }
-                    }
-                }
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.listingTableView reloadData];
-                    [weakSelf.HUD hide:YES];
-                });
+                
+//                if (eventFoundFlag) {
+//                    NSDictionary* firstEventDict = [NSDictionary dictionaryWithDictionary:[eventList objectAtIndex:firstEventIndex]];
+//                    [self.detailingCalendarEventBoxViewDataManager.listingDisplayList addObject:firstEventDict];
+//                    NSString* firstEventStartDateDatePartString = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
+//                    for (int j = firstEventIndex + 1; j < [eventList count]; j++) {
+//                        NSDictionary* tmpEventDict = [eventList objectAtIndex:j];
+//                        NSNumber* tmpLocationIUR = [self retrieveLocationIURWithEventDict:tmpEventDict];
+//                        if ([tmpLocationIUR isEqualToNumber:firstEventLocationIUR]) {
+//                            NSDictionary* startDict = [tmpEventDict objectForKey:@"start"];
+//                            NSString* tmpStartDateStr = [startDict objectForKey:@"dateTime"];
+//                            NSDate* tmpStartDate = [ArcosUtils dateFromString:tmpStartDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
+//                            NSString* tmpStartDateDatePartString = [ArcosUtils stringFromDate:tmpStartDate format:[GlobalSharedClass shared].dateFormat];
+//                            if ([firstEventStartDateDatePartString isEqualToString:tmpStartDateDatePartString]) {
+//                                [self.detailingCalendarEventBoxViewDataManager.listingDisplayList addObject:[NSDictionary dictionaryWithDictionary:tmpEventDict]];
+//                            } else {
+//                                break;
+//                            }
+//                        }
+//                    }
+//                }
+                [self retrieveInternalOneDayCalendarEventEntriesWithDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData];
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [self.listingTableView reloadData];
+//                    [weakSelf.HUD hide:YES];
+//                });
             }
         }
     }];
     [downloadTask resume];
 }
 
-- (NSNumber*)retrieveLocationIURWithEventDict:(NSDictionary*)anEventDict {
-    NSNumber* locationIUR = [NSNumber numberWithInt:0];
-    NSDictionary* locationDict = [anEventDict objectForKey:@"location"];
-    NSString* locationUriStr = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"locationUri"]]];
-    NSArray* locationUriChildArray = [locationUriStr componentsSeparatedByString:@":"];
-    if ([locationUriChildArray count] == 2) {
-        NSString* tmpLocationIURStr = [locationUriChildArray objectAtIndex:0];
-        locationIUR = [ArcosUtils convertStringToNumber:tmpLocationIURStr];
-    }
-    return locationIUR;
-}
+//- (NSNumber*)retrieveLocationIURWithEventDict:(NSDictionary*)anEventDict {
+//    NSNumber* locationIUR = [NSNumber numberWithInt:0];
+//    NSDictionary* locationDict = [anEventDict objectForKey:@"location"];
+//    NSString* locationUriStr = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"locationUri"]]];
+//    NSArray* locationUriChildArray = [locationUriStr componentsSeparatedByString:@":"];
+//    if ([locationUriChildArray count] == 2) {
+//        NSString* tmpLocationIURStr = [locationUriChildArray objectAtIndex:0];
+//        locationIUR = [ArcosUtils convertStringToNumber:tmpLocationIURStr];
+//    }
+//    return locationIUR;
+//}
 
-- (void)retrieveOneDayCalendarEventEntriesWithDate:(NSDate*)aStartDate {
-    [self.HUD show:YES];
-    if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {
-        [ArcosUtils showDialogBox:self.detailingCalendarEventBoxViewDataManager.acctNotSignInMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
-            [self.HUD hide:YES];
-        }];
-        return;
-    }
-    
+- (void)retrieveInternalOneDayCalendarEventEntriesWithDate:(NSDate*)aStartDate {
     __weak typeof(self) weakSelf = self;
     
     
     NSDate* endDate = [ArcosUtils addDays:1 date:aStartDate];
     NSString* startDateString = [NSString stringWithFormat:@"%@T00:00:00.000Z", [ArcosUtils stringFromDate:aStartDate format:[GlobalSharedClass shared].utcDateFormat]];
     NSString* endDateString = [NSString stringWithFormat:@"%@T00:00:00.000Z", [ArcosUtils stringFromDate:endDate format:[GlobalSharedClass shared].utcDateFormat]];
-    NSURL* url = [NSURL URLWithString:[self.detailingCalendarEventBoxViewDataManager retrieveCalendarURIWithStartDate:startDateString endDate:endDateString locationName:[self.actionDelegate retrieveDetailingLocationName]]];
+    NSURL* url = [NSURL URLWithString:[self.detailingCalendarEventBoxViewDataManager retrieveCalendarURIWithStartDate:startDateString endDate:endDateString]];
 //    NSLog(@"absoluteString %@", url.absoluteString);
     NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
     [request setHTTPMethod:@"GET"];
@@ -374,18 +377,98 @@
                 });
             } else {
                 self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [NSMutableArray array];
+                self.detailingCalendarEventBoxViewDataManager.ownLocationDisplayList = [NSMutableArray array];
                 id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
                 NSDictionary* resultDict = (NSDictionary*)result;
                 NSArray* eventList = [resultDict objectForKey:@"value"];
                 for (int i = 0; i < [eventList count]; i++) {
                     NSDictionary* auxEventDict = [eventList objectAtIndex:i];
-                    NSNumber* locationIUR = [self retrieveLocationIURWithEventDict:auxEventDict];
+                    NSNumber* locationIUR = [self.detailingCalendarEventBoxViewDataManager retrieveLocationIURWithEventDict:auxEventDict];
                     if ([[self.actionDelegate retrieveDetailingLocationIUR] isEqualToNumber:locationIUR]) {
-                        [self.detailingCalendarEventBoxViewDataManager.listingDisplayList addObject:[NSDictionary dictionaryWithDictionary:auxEventDict]];
+                        [self.detailingCalendarEventBoxViewDataManager.ownLocationDisplayList addObject:[NSDictionary dictionaryWithDictionary:auxEventDict]];
                     }
+                    [self.detailingCalendarEventBoxViewDataManager.listingDisplayList addObject:[NSDictionary dictionaryWithDictionary:auxEventDict]];
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    if ([self.detailingCalendarEventBoxViewDataManager.listingDisplayList count] > 0) {
+                    if ([self.detailingCalendarEventBoxViewDataManager.ownLocationDisplayList count] > 0) {
+                        self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.nextAppointmentText;
+                    } else {
+                        self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.suggestedAppointmentText;
+                    }
+                    [self.listingTableView reloadData];
+                    [weakSelf.HUD hide:YES];
+                });
+            }
+        }
+    }];
+    [downloadTask resume];
+}
+
+- (void)retrieveOneDayCalendarEventEntriesWithDate:(NSDate*)aStartDate {
+    [self.HUD show:YES];
+    if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {
+        [ArcosUtils showDialogBox:[ArcosConstantsDataManager sharedArcosConstantsDataManager].acctNotSignInMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+            [self.HUD hide:YES];
+        }];
+        return;
+    }
+    
+    __weak typeof(self) weakSelf = self;
+    
+    
+    NSDate* endDate = [ArcosUtils addDays:1 date:aStartDate];
+    NSString* startDateString = [NSString stringWithFormat:@"%@T00:00:00.000Z", [ArcosUtils stringFromDate:aStartDate format:[GlobalSharedClass shared].utcDateFormat]];
+    NSString* endDateString = [NSString stringWithFormat:@"%@T00:00:00.000Z", [ArcosUtils stringFromDate:endDate format:[GlobalSharedClass shared].utcDateFormat]];
+    NSURL* url = [NSURL URLWithString:[self.detailingCalendarEventBoxViewDataManager retrieveCalendarURIWithStartDate:startDateString endDate:endDateString]];
+//    NSLog(@"absoluteString %@", url.absoluteString);
+    NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json, text/plain, */*" forHTTPHeaderField:@"Accept"];
+    [request setValue:[NSString stringWithFormat:@"outlook.timezone=\"%@\"", [GlobalSharedClass shared].ieTimeZone] forHTTPHeaderField:@"Prefer"];
+    
+    [request setValue:[NSString stringWithFormat:@"Bearer %@", [ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken] forHTTPHeaderField:@"Authorization"];
+    
+    NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:config];
+    NSURLSessionDataTask* downloadTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [ArcosUtils showDialogBox:[error localizedDescription] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
+                    [weakSelf.HUD hide:YES];
+                }];
+            });
+        } else {
+            NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+            int statusCode = [ArcosUtils convertNSIntegerToInt:[httpResponse statusCode]];
+//            NSLog(@"sendMsg response status code: %d", statusCode);
+            if (statusCode != 200) {
+                id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
+//                NSLog(@"calendar entries test %@ -- %@", result, data);
+                NSDictionary* resultDict = (NSDictionary*)result;
+                NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
+                NSString* errorMsg = [errorResultDict objectForKey:@"message"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
+                        [weakSelf.HUD hide:YES];
+                    }];
+                });
+            } else {
+                self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [NSMutableArray array];
+                self.detailingCalendarEventBoxViewDataManager.ownLocationDisplayList = [NSMutableArray array];
+                id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
+                NSDictionary* resultDict = (NSDictionary*)result;
+                NSArray* eventList = [resultDict objectForKey:@"value"];
+                for (int i = 0; i < [eventList count]; i++) {
+                    NSDictionary* auxEventDict = [eventList objectAtIndex:i];
+                    NSNumber* locationIUR = [self.detailingCalendarEventBoxViewDataManager retrieveLocationIURWithEventDict:auxEventDict];
+                    if ([[self.actionDelegate retrieveDetailingLocationIUR] isEqualToNumber:locationIUR]) {
+                        [self.detailingCalendarEventBoxViewDataManager.ownLocationDisplayList addObject:[NSDictionary dictionaryWithDictionary:auxEventDict]];
+                    }
+                    [self.detailingCalendarEventBoxViewDataManager.listingDisplayList addObject:[NSDictionary dictionaryWithDictionary:auxEventDict]];
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ([self.detailingCalendarEventBoxViewDataManager.ownLocationDisplayList count] > 0) {
                         self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.nextAppointmentText;
                     } else {
                         self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.suggestedAppointmentText;
@@ -402,7 +485,7 @@
 - (void)addPressed {
     [self.HUD show:YES];
     if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {
-        [ArcosUtils showDialogBox:self.detailingCalendarEventBoxViewDataManager.acctNotSignInMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+        [ArcosUtils showDialogBox:[ArcosConstantsDataManager sharedArcosConstantsDataManager].acctNotSignInMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
             [self.HUD hide:YES];
 //            [self.actionDelegate didDismissViewProcessor];
         }];
@@ -466,7 +549,7 @@
 - (void)editPressed {
     [self.HUD show:YES];
     if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {
-        [ArcosUtils showDialogBox:self.detailingCalendarEventBoxViewDataManager.acctNotSignInMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+        [ArcosUtils showDialogBox:[ArcosConstantsDataManager sharedArcosConstantsDataManager].acctNotSignInMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
             [self.HUD hide:YES];
 //            [self.actionDelegate didDismissViewProcessor];
         }];
@@ -532,14 +615,16 @@
 - (IBAction)dateComponentPicked:(id)sender {
     UIDatePicker* picker = (UIDatePicker*)sender;
     
-    NSLog(@"date: %@ %@", picker.date, self.presentedViewController);
+//    NSLog(@"date: %@ %@", picker.date, self.presentedViewController);
     NSString* existingDateDatePartString = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
     NSString* nextDateDatePartString = [ArcosUtils stringFromDate:picker.date format:[GlobalSharedClass shared].dateFormat];
+    self.detailingCalendarEventBoxViewDataManager.calendarDateData = picker.date;
+    self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
     if (![existingDateDatePartString isEqualToString:nextDateDatePartString]) {
-        self.detailingCalendarEventBoxViewDataManager.calendarDateData = picker.date;
+//        self.detailingCalendarEventBoxViewDataManager.calendarDateData = picker.date;
         [self retrieveOneDayCalendarEventEntriesWithDate:picker.date];
     } else {
-        self.detailingCalendarEventBoxViewDataManager.calendarDateData = picker.date;
+//        self.detailingCalendarEventBoxViewDataManager.calendarDateData = picker.date;
     }
     
 //    [self.presentedViewController dismissViewControllerAnimated:YES completion:^{
@@ -585,8 +670,54 @@
     cell.timeLabel.text = [ArcosUtils stringFromDate:tmpCellStartDate format:[GlobalSharedClass shared].hourMinuteFormat];
 //    NSDictionary* cellLocationDict = [cellData objectForKey:@"location"];
     cell.nameLabel.text = [cellData objectForKey:@"subject"];
+    NSNumber* tmpLocationIUR = [self.detailingCalendarEventBoxViewDataManager retrieveLocationIURWithEventDict:cellData];
+    if ([tmpLocationIUR intValue] != 0 && [tmpLocationIUR isEqualToNumber:[self.actionDelegate retrieveDetailingLocationIUR]]) {
+        cell.timeLabel.textColor = [UIColor blueColor];
+    } else {
+        cell.timeLabel.textColor = [UIColor blackColor];
+    }
+    
+    for (UIGestureRecognizer* recognizer in cell.contentView.gestureRecognizers) {
+        [cell.contentView removeGestureRecognizer:recognizer];
+    }
+    UITapGestureRecognizer* doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapGesture:)];
+    doubleTap.numberOfTapsRequired = 2;
+    [cell.contentView addGestureRecognizer:doubleTap];
+    [doubleTap release];
     
     return cell;
+}
+
+- (void)handleDoubleTapGesture:(id)sender {
+    UITapGestureRecognizer* recognizer = (UITapGestureRecognizer*)sender;
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        NSIndexPath* swipedIndexPath = [ArcosUtils indexPathWithRecognizer:recognizer tableview:self.listingTableView];
+        NSDictionary* cellData = [self.detailingCalendarEventBoxViewDataManager.listingDisplayList objectAtIndex:swipedIndexPath.row];
+        ArcosCalendarEventEntryDetailListingTableViewCell* cell = (ArcosCalendarEventEntryDetailListingTableViewCell*)[self.listingTableView cellForRowAtIndexPath:swipedIndexPath];
+        NSMutableDictionary* eventDataDict = [self.detailingCalendarEventBoxViewDataManager createEditEventEntryDetailTemplateData:cellData];
+        ArcosCalendarEventEntryDetailTemplateViewController* ACEEDTVC = [[ArcosCalendarEventEntryDetailTemplateViewController alloc] initWithNibName:@"ArcosCalendarEventEntryDetailTemplateViewController" bundle:nil];
+        ACEEDTVC.actionDelegate = self;
+        ACEEDTVC.presentDelegate = self;
+        NSNumber* locationIUR = [self.detailingCalendarEventBoxViewDataManager retrieveLocationIURWithEventDict:cellData];
+        if (![[self.actionDelegate retrieveDetailingLocationIUR] isEqualToNumber:locationIUR]) {
+            ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.hideEditButtonFlag = YES;
+        }
+        [ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveEditDataWithCellData:eventDataDict];
+        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayList];
+        NSDictionary* startDict = [cellData objectForKey:@"start"];
+        NSString* startDateStr = [startDict objectForKey:@"dateTime"];
+        NSDate* startDate = [ArcosUtils dateFromString:startDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
+        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].dateFormat];
+        UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
+        tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
+        tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+        tmpNavigationController.popoverPresentationController.sourceView = cell.contentView;
+        tmpNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+        
+        [self presentViewController:tmpNavigationController animated:YES completion:nil];
+        [ACEEDTVC release];
+        [tmpNavigationController release];
+    }
 }
 
 @end

@@ -162,7 +162,7 @@
 }
 
 - (void)editPressed {
-//    NSLog(@"editPressed");
+//    NSLog(@"editPressed");not used
     [self.HUD show:YES];
     [self.view endEditing:YES];
     if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {
@@ -170,7 +170,7 @@
         [self.HUD hide:YES];
         return;
     }
-    NSMutableDictionary* eventDict = [self.arcosCalendarEventEntryDetailDataManager retrieveEditEventDict];
+    NSMutableDictionary* eventDict = nil;//[self.arcosCalendarEventEntryDetailDataManager retrieveEditEventDict];
     if ([eventDict count] == 0) {
         [ArcosUtils showDialogBox:@"There is no change" title:@"" delegate:nil target:self tag:0 handler:nil];
         [self.HUD hide:YES];
@@ -317,7 +317,25 @@
     return [self.actionDelegate retrieveArcosCalendarEventEntryDetailTemplateViewController];
 }
 
-- (void)deleteEventProcessor {
+- (void)refreshCellRightHandSideBarWithDate:(NSDate*)aDate {
+    [self.actionDelegate refreshTableRightHandSideBarWithDate:aDate];
+}
+
+- (NSString*)retrieveStartFieldName {
+    return self.arcosCalendarEventEntryDetailDataManager.startKey;
+}
+
+- (void)resetEndDateWithStartDict:(NSMutableDictionary*)aStartCellDataDict refreshCellRightHandSideTableFlag:(BOOL)aFlag {
+    [self.arcosCalendarEventEntryDetailDataManager resetEndDateWithStartDictProcessor:aStartCellDataDict];
+    [[self.actionDelegate retrieveEventTableView] reloadData];
+    if (aFlag) {
+        NSMutableDictionary* startFieldData = [aStartCellDataDict objectForKey:@"FieldData"];
+        NSDate* tmpStartDate = [startFieldData objectForKey:@"Date"];
+        [self.actionDelegate retrieveOneDayCalendarEventEntriesWithDate:tmpStartDate];
+    }
+}
+
+- (void)deleteEventProcessor {//not used
     [self.HUD show:YES];
     [self.view endEditing:YES];
     if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {

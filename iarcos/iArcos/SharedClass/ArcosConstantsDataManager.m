@@ -18,6 +18,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConstantsDataManager);
 @synthesize currentAccountAddress = _currentAccountAddress;
 @synthesize kGraphMessageURI = _kGraphMessageURI;
 @synthesize kGraphEventURI = _kGraphEventURI;
+@synthesize acctNotSignInMsg = _acctNotSignInMsg;
 
 - (instancetype)init {
     self = [super init];
@@ -35,6 +36,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConstantsDataManager);
         self.currentAccountAddress = nil;
         self.kGraphMessageURI = @"https://graph.microsoft.com/v1.0/me/messages";
         self.kGraphEventURI = @"https://graph.microsoft.com/v1.0/me/events";//calendar
+        self.acctNotSignInMsg = @"Please SIGN IN to OUTLOOK to save Next Appointment";
     }
     
     return self;
@@ -49,6 +51,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConstantsDataManager);
     self.currentAccountAddress = nil;
     self.kGraphMessageURI = nil;
     self.kGraphEventURI = nil;
+    self.acctNotSignInMsg = nil;
     
     [super dealloc];
 }

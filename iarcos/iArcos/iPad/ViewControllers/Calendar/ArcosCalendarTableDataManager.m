@@ -134,7 +134,7 @@
 
 - (NSMutableDictionary*)createEventDataWithId:(NSString*)anId subject:(NSString*)aSubject
                                   bodyPreview:(NSString*)aBodyPreview location:(NSString*)aLocation
-                                    startDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate isAllDay:(NSString*)anIsAllDay {
+                                    startDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate isAllDay:(NSString*)anIsAllDay locationUri:(NSString*)aLocationUri {
     NSMutableDictionary* eventDict = [NSMutableDictionary dictionaryWithCapacity:6];
     [eventDict setObject:[ArcosUtils convertNilToEmpty:anId] forKey:@"Id"];
     [eventDict setObject:[ArcosUtils convertNilToEmpty:aSubject] forKey:@"Subject"];
@@ -143,6 +143,7 @@
     [eventDict setObject:[ArcosUtils convertNilDateToNull:aStartDate] forKey:@"StartDate"];
     [eventDict setObject:[ArcosUtils convertNilDateToNull:anEndDate] forKey:@"EndDate"];
     [eventDict setObject:[ArcosUtils convertNilToEmpty:anIsAllDay] forKey:@"IsAllDay"];
+    [eventDict setObject:[ArcosUtils convertNilToEmpty:aLocationUri] forKey:@"LocationUri"];
     
     return eventDict;
 }
@@ -190,6 +191,7 @@
     NSDate* endDate = [ArcosUtils dateFromString:endDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
     NSDictionary* locationDict = [aDataDict objectForKey:@"location"];
     NSString* locationStr = [locationDict objectForKey:@"displayName"];
+    NSString* locationUriStr = [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"locationUri"]];
     NSNumber* day = [NSNumber numberWithInt:[ArcosUtils convertNSIntegerToInt:[ArcosUtils dayWithDate:startDate]]];
     NSNumber* weekOfMonthIndex = [self.dayWeekOfMonthIndexHashMap objectForKey:day];
     NSNumber* weekDayIndex = [self.dayWeekDayIndexHashMap objectForKey:day];
@@ -200,7 +202,7 @@
         eventDictList = [NSMutableArray array];
         [dayDataDict setObject:eventDictList forKey:@"Event"];
     }
-    [eventDictList addObject:[self createEventDataWithId:[ArcosUtils convertNilToEmpty:[aDataDict objectForKey:@"id"]] subject:[ArcosUtils convertNilToEmpty:[aDataDict objectForKey:@"subject"]] bodyPreview:[ArcosUtils convertNilToEmpty:[aDataDict objectForKey:@"bodyPreview"]] location:[ArcosUtils convertNilToEmpty:locationStr] startDate:startDate endDate:endDate isAllDay:[ArcosUtils convertNilToEmpty:[ArcosUtils convertIntToString:[[aDataDict objectForKey:@"isAllDay"] intValue]]]]];
+    [eventDictList addObject:[self createEventDataWithId:[ArcosUtils convertNilToEmpty:[aDataDict objectForKey:@"id"]] subject:[ArcosUtils convertNilToEmpty:[aDataDict objectForKey:@"subject"]] bodyPreview:[ArcosUtils convertNilToEmpty:[aDataDict objectForKey:@"bodyPreview"]] location:[ArcosUtils convertNilToEmpty:locationStr] startDate:startDate endDate:endDate isAllDay:[ArcosUtils convertNilToEmpty:[ArcosUtils convertIntToString:[[aDataDict objectForKey:@"isAllDay"] intValue]]] locationUri:locationUriStr]];
     
 //    NSLog(@"parsed %@", [ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].datetimeCalendarFormat]);
     

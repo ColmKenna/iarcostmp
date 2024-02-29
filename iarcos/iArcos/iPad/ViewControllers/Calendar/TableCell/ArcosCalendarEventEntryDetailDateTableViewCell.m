@@ -115,11 +115,18 @@
         case 50: {
             self.currentSelectedLabel.text = [ArcosUtils stringFromDate:data format:[GlobalSharedClass shared].dateFormat];
             [fieldDataDict setObject:data forKey:@"Date"];
+            if ([[self.cellData objectForKey:@"FieldName"] isEqualToString:[self.actionDelegate retrieveStartFieldName]]) {
+                [self.actionDelegate refreshCellRightHandSideBarWithDate:data];
+                [self.actionDelegate resetEndDateWithStartDict:self.cellData refreshCellRightHandSideTableFlag:YES];
+            }
         }
             break;
         case 60: {
             self.currentSelectedLabel.text = [ArcosUtils stringFromDate:data format:[GlobalSharedClass shared].hourMinuteFormat];
             [fieldDataDict setObject:data forKey:@"Time"];
+            if ([[self.cellData objectForKey:@"FieldName"] isEqualToString:[self.actionDelegate retrieveStartFieldName]]) {
+                [self.actionDelegate resetEndDateWithStartDict:self.cellData refreshCellRightHandSideTableFlag:NO];
+            }
         }
             break;
             

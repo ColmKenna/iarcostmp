@@ -15,7 +15,7 @@
 #import "ArcosCalendarEventEntryDetailTemplateViewControllerDelegate.h"
 #import "ArcosCalendarEventEntryDetailListingDataManager.h"
 
-@interface ArcosCalendarEventEntryDetailTemplateViewController : UIViewController <ArcosCalendarEventEntryDetailTableViewControllerDelegate>{
+@interface ArcosCalendarEventEntryDetailTemplateViewController : UIViewController <ArcosCalendarEventEntryDetailTableViewControllerDelegate, ArcosCalendarEventEntryDetailListingDataManagerDelegate>{
     UIView* _eventTemplateView;
     UIView* _listingTemplateView;
     id<ArcosCalendarEventEntryDetailTemplateViewControllerDelegate> _actionDelegate;

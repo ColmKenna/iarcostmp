@@ -550,33 +550,29 @@
 //                                          otherButtonTitles: nil];
 //    [alert show];	
 //    [alert release];
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showCalendarEventBoxWhenCreatingCallFlag] && self.orderNumber == nil) {
-        DetailingCalendarEventBoxViewController* detailingCalendarEventBoxViewController = [[DetailingCalendarEventBoxViewController alloc] initWithNibName:@"DetailingCalendarEventBoxViewController" bundle:nil];
-        detailingCalendarEventBoxViewController.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
-//        if (@available(iOS 13.0, *)) {
-//            detailingCalendarEventBoxViewController.modalInPresentation = YES;
-//        }
-        detailingCalendarEventBoxViewController.actionDelegate = self;
-//        detailingCalendarEventBoxViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-//        [self.rootView presentViewController:detailingCalendarEventBoxViewController animated:YES completion:nil];
-        self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:detailingCalendarEventBoxViewController] autorelease];
-        [detailingCalendarEventBoxViewController release];
-        CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.rootView];
-        self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
-        [self.rootView addChildViewController:self.globalNavigationController];
-        [self.rootView.view addSubview:self.globalNavigationController.view];
-        [self.globalNavigationController didMoveToParentViewController:self.rootView];
-        [UIView animateWithDuration:0.3f animations:^{
-            self.globalNavigationController.view.frame = parentNavigationRect;
-        } completion:^(BOOL finished){
-            
-        }];
-    } else {
-        [ArcosUtils showDialogBox:@"Detailing Saved!" title:@"Message" delegate:self target:self tag:99 handler:^(UIAlertAction *action) {
-            [self alertViewCallBack];
-        }];
-    }
     
+    [ArcosUtils showDialogBox:@"Detailing Saved!" title:@"Message" delegate:self target:self tag:99 handler:^(UIAlertAction *action) {
+//        [self alertViewCallBack];
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showCalendarEventBoxWhenCreatingCallFlag] && self.orderNumber == nil) {
+            DetailingCalendarEventBoxViewController* detailingCalendarEventBoxViewController = [[DetailingCalendarEventBoxViewController alloc] initWithNibName:@"DetailingCalendarEventBoxViewController" bundle:nil];
+            detailingCalendarEventBoxViewController.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
+            detailingCalendarEventBoxViewController.actionDelegate = self;
+            self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:detailingCalendarEventBoxViewController] autorelease];
+            [detailingCalendarEventBoxViewController release];
+            CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.rootView];
+            self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+            [self.rootView addChildViewController:self.globalNavigationController];
+            [self.rootView.view addSubview:self.globalNavigationController.view];
+            [self.globalNavigationController didMoveToParentViewController:self.rootView];
+            [UIView animateWithDuration:0.3f animations:^{
+                self.globalNavigationController.view.frame = parentNavigationRect;
+            } completion:^(BOOL finished){
+                
+            }];
+        } else {
+            [self alertViewCallBack];
+        }
+    }];
 }
 
 #pragma mark DetailingCalendarEventBoxViewControllerDelegate
@@ -604,11 +600,6 @@
 }
 
 - (void)didDismissViewProcessor {
-//    [self.rootView dismissViewControllerAnimated:YES completion:^{
-//        [ArcosUtils showDialogBox:@"Detailing Saved!" title:@"Message" delegate:self target:self tag:99 handler:^(UIAlertAction *action) {
-//            [self alertViewCallBack];
-//        }];
-//    }];
     [UIView animateWithDuration:0.3f animations:^{
         CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.rootView];
         self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
@@ -617,9 +608,7 @@
         [self.globalNavigationController.view removeFromSuperview];
         [self.globalNavigationController removeFromParentViewController];
         self.globalNavigationController = nil;
-        [ArcosUtils showDialogBox:@"Detailing Saved!" title:@"Message" delegate:self target:self tag:99 handler:^(UIAlertAction *action) {
-            [self alertViewCallBack];
-        }];
+        [self alertViewCallBack];
     }];
 }
 

@@ -77,20 +77,20 @@
     [headlineDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:1] fieldDesc:@"Location" fieldName:self.locationKey fieldData:[ArcosUtils convertNilToEmpty:aLocationStr]]];
     [self.groupedDataDict setObject:headlineDataList forKey:self.headlineText];
     NSMutableArray* dateDataList = [NSMutableArray arrayWithCapacity:3];
-    [dateDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:3] fieldDesc:@"All-day" fieldName:self.allDayKey fieldData:@"1"]];
+    [dateDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:3] fieldDesc:@"All-day" fieldName:self.allDayKey fieldData:@"0"]];
     NSMutableDictionary* startFieldData = [NSMutableDictionary dictionaryWithCapacity:2];
     NSString* compositeDateString = [NSString stringWithFormat:@"%@ %@", [ArcosUtils stringFromDate:aDate format:[GlobalSharedClass shared].dateFormat], [ArcosUtils stringFromDate:[NSDate date] format:[GlobalSharedClass shared].hourMinuteFormat]];
-    NSDate* compositeDate = [ArcosUtils dateFromString:compositeDateString format:[GlobalSharedClass shared].datetimehmFormat];
-    NSDate* firstDate = [ArcosUtils configDateWithMinute:0 date:compositeDate];
-    NSDate* startFinalDate = [ArcosUtils addHours:1 date:firstDate];
+    NSDate* compositeDate = [ArcosUtils dateFromString:compositeDateString format:[GlobalSharedClass shared].datetimehmFormat];//compositeDate
+//    NSDate* firstDate = [ArcosUtils configDateWithMinute:0 date:compositeDate];
+    NSDate* startFinalDate = [ArcosUtils addHours:0 date:compositeDate];
     [startFieldData setObject:startFinalDate forKey:@"Date"];
     [startFieldData setObject:startFinalDate forKey:@"Time"];
-    [dateDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:4] fieldDesc:@"Starts" fieldName:self.startKey fieldData:startFieldData]];
+    [dateDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:5] fieldDesc:@"Starts" fieldName:self.startKey fieldData:startFieldData]];
     NSMutableDictionary* endFieldData = [NSMutableDictionary dictionaryWithCapacity:2];
-    NSDate* endFinalDate = [ArcosUtils addHours:2 date:firstDate];
+    NSDate* endFinalDate = [ArcosUtils addHours:0 date:compositeDate];
     [endFieldData setObject:endFinalDate forKey:@"Date"];
     [endFieldData setObject:endFinalDate forKey:@"Time"];
-    [dateDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:4] fieldDesc:@"Ends" fieldName:self.endKey fieldData:endFieldData]];
+    [dateDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:5] fieldDesc:@"Ends" fieldName:self.endKey fieldData:endFieldData]];
     [self.groupedDataDict setObject:dateDataList forKey:self.dateText];
     NSMutableArray* detailDataList = [NSMutableArray arrayWithCapacity:1];
     [detailDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:2] fieldDesc:@"Notes" fieldName:self.bodyKey fieldData:@""]];
@@ -208,13 +208,13 @@
     NSMutableDictionary* eventDict = [[[NSMutableDictionary alloc] init] autorelease];
     NSIndexPath* subjectIndexPath = [self indexPathWithFieldName:self.subjectKey];
     NSMutableDictionary* subjectCellDataDict = [self cellDataWithIndexPath:subjectIndexPath];
-    [eventDict setObject:[subjectCellDataDict objectForKey:@"FieldData"] forKey:self.subjectKey];
+    [eventDict setObject:[ArcosUtils convertNilToEmpty:[subjectCellDataDict objectForKey:@"FieldData"]] forKey:self.subjectKey];
     
     NSIndexPath* locationIndexPath = [self indexPathWithFieldName:self.locationKey];
     NSMutableDictionary* locationCellDataDict = [self cellDataWithIndexPath:locationIndexPath];
     
     NSMutableDictionary* locationResultDict = [NSMutableDictionary dictionaryWithCapacity:1];
-    [locationResultDict setObject:[locationCellDataDict objectForKey:@"FieldData"] forKey:@"displayName"];
+    [locationResultDict setObject:[ArcosUtils convertNilToEmpty:[locationCellDataDict objectForKey:@"FieldData"]] forKey:@"displayName"];
     [locationResultDict setObject:[ArcosUtils convertNilToEmpty:aLocationUri] forKey:@"locationUri"];
     [eventDict setObject:locationResultDict forKey:self.locationKey];
     
@@ -268,10 +268,11 @@
     return eventDict;
 }
 
-- (NSMutableDictionary*)retrieveEditEventDict {
+- (NSMutableDictionary*)retrieveEditEventDictWithLocationUri:(NSString*)aLocationUri {
     NSMutableDictionary* eventDict = [[[NSMutableDictionary alloc] init] autorelease];
     NSString* originalSubject = [self.originalEventDataDict objectForKey:@"Subject"];
-    NSString* originalLocation = [self.originalEventDataDict objectForKey:@"Location"];
+//    NSString* originalLocation = [self.originalEventDataDict objectForKey:@"Location"];
+    NSString* originalLocationUri = [self.originalEventDataDict objectForKey:@"LocationUri"];
     NSString* originalBodyPreview = [self.originalEventDataDict objectForKey:@"BodyPreview"];
     NSString* originalIsAllDay = [self.originalEventDataDict objectForKey:@"IsAllDay"];
     NSDate* originalStartDate = [self.originalEventDataDict objectForKey:@"StartDate"];
@@ -280,16 +281,22 @@
     NSIndexPath* subjectIndexPath = [self indexPathWithFieldName:self.subjectKey];
     NSMutableDictionary* subjectCellDataDict = [self cellDataWithIndexPath:subjectIndexPath];
     if (![originalSubject isEqualToString:[subjectCellDataDict objectForKey:@"FieldData"]]) {
-        [eventDict setObject:[subjectCellDataDict objectForKey:@"FieldData"] forKey:self.subjectKey];
+        [eventDict setObject:[ArcosUtils convertNilToEmpty:[subjectCellDataDict objectForKey:@"FieldData"]] forKey:self.subjectKey];
     }
     
     NSIndexPath* locationIndexPath = [self indexPathWithFieldName:self.locationKey];
     NSMutableDictionary* locationCellDataDict = [self cellDataWithIndexPath:locationIndexPath];
-    if (![originalLocation isEqualToString:[locationCellDataDict objectForKey:@"FieldData"]]) {
-        NSMutableDictionary* locationResultDict = [NSMutableDictionary dictionaryWithCapacity:1];
-        [locationResultDict setObject:[locationCellDataDict objectForKey:@"FieldData"] forKey:@"displayName"];
-        [eventDict setObject:locationResultDict forKey:self.locationKey];
+    NSMutableDictionary* locationResultDict = [NSMutableDictionary dictionaryWithCapacity:2];
+    [locationResultDict setObject:[ArcosUtils convertNilToEmpty:[locationCellDataDict objectForKey:@"FieldData"]] forKey:@"displayName"];
+//    if (![originalLocation isEqualToString:[locationCellDataDict objectForKey:@"FieldData"]]) {
+//        
+//    }
+    if ([aLocationUri isEqualToString:@""]) {
+        [locationResultDict setObject:[ArcosUtils convertNilToEmpty:originalLocationUri] forKey:@"locationUri"];
+    } else {
+        [locationResultDict setObject:[ArcosUtils convertNilToEmpty:aLocationUri] forKey:@"locationUri"];
     }
+    [eventDict setObject:locationResultDict forKey:self.locationKey];
     
     NSIndexPath* bodyIndexPath = [self indexPathWithFieldName:self.bodyKey];
     NSMutableDictionary* bodyCellDataDict = [self cellDataWithIndexPath:bodyIndexPath];
@@ -363,6 +370,27 @@
     [resultDict setObject:aDateString forKey:@"dateTime"];
     [resultDict setObject:[GlobalSharedClass shared].ieTimeZone forKey:@"timeZone"];
     return resultDict;
+}
+
+- (void)resetEndDateWithStartDictProcessor:(NSMutableDictionary*)aStartCellDataDict {
+    NSMutableDictionary* startFieldData = [aStartCellDataDict objectForKey:@"FieldData"];
+    NSIndexPath* allDayIndexPath = [self indexPathWithFieldName:self.allDayKey];
+    NSMutableDictionary* allDayCellDataDict = [self cellDataWithIndexPath:allDayIndexPath];
+    NSIndexPath* endIndexPath = [self indexPathWithFieldName:self.endKey];
+    NSMutableDictionary* endCellDataDict = [self cellDataWithIndexPath:endIndexPath];
+    NSMutableDictionary* endFieldData = [endCellDataDict objectForKey:@"FieldData"];
+    
+    NSString* allDayFieldData = [allDayCellDataDict objectForKey:@"FieldData"];
+    if ([allDayFieldData isEqualToString:@"1"]) {
+        NSDate* tmpStartDate = [startFieldData objectForKey:@"Date"];
+        [endFieldData setObject:[ArcosUtils addDays:0 date:tmpStartDate] forKey:@"Date"];
+    } else {
+        NSString* tmpStartResultData = [NSString stringWithFormat:@"%@T%@:00", [ArcosUtils stringFromDate:[startFieldData objectForKey:@"Date"] format:[GlobalSharedClass shared].utcDateFormat], [ArcosUtils stringFromDate:[startFieldData objectForKey:@"Time"] format:[GlobalSharedClass shared].hourMinuteFormat]];
+        NSDate* tmpStartDate = [ArcosUtils dateFromString:tmpStartResultData format:[GlobalSharedClass shared].stdUtcDateTimeFormat];
+        NSDate* tmpEndDate = [ArcosUtils addHours:1 date:tmpStartDate];
+        [endFieldData setObject:[ArcosUtils addDays:0 date:tmpEndDate] forKey:@"Date"];
+        [endFieldData setObject:[ArcosUtils addDays:0 date:tmpEndDate] forKey:@"Time"];
+    }
 }
 
 @end
