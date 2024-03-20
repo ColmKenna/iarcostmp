@@ -15,12 +15,15 @@
 #import "WidgetFactory.h"
 #import "ArcosCalendarEventEntryDetailListingTableViewCell.h"
 #import "ArcosCalendarEventEntryDetailTemplateViewController.h"
+#import "DetailingCalendarEventBoxListingDataManager.h"
 
-@interface DetailingCalendarEventBoxViewController : UIViewController <WidgetFactoryDelegate, UIPopoverPresentationControllerDelegate, UITableViewDelegate, UITableViewDataSource, ModalPresentViewControllerDelegate, ArcosCalendarEventEntryDetailTemplateViewControllerDelegate> {
+@interface DetailingCalendarEventBoxViewController : UIViewController <WidgetFactoryDelegate, UIPopoverPresentationControllerDelegate, UITableViewDelegate, UITableViewDataSource, ModalPresentViewControllerDelegate, ArcosCalendarEventEntryDetailTemplateViewControllerDelegate, DetailingCalendarEventBoxListingDataManagerDelegate> {
     id<DetailingCalendarEventBoxViewControllerDelegate> _actionDelegate;
     UIView* _templateView;
     UILabel* _journeyDateDesc;
     UILabel* _journeyDateValue;
+    UILabel* _nextAppointmentDesc;
+    UILabel* _nextAppointmentValue;
     UILabel* _calendarDateDesc;
     UILabel* _calendarDateValue;
     UIDatePicker* _calendarDatePicker;
@@ -38,12 +41,17 @@
     WidgetFactory* _widgetFactory;
     WidgetViewController* _globalWidgetViewController;
     UIBarButtonItem* _addEventBarButtonItem;
+    UIButton* _updateButton;
+    UIButton* _cancelButton;
+    DetailingCalendarEventBoxListingDataManager* _detailingCalendarEventBoxListingDataManager;
 }
 
 @property(nonatomic, assign) id<DetailingCalendarEventBoxViewControllerDelegate> actionDelegate;
 @property(nonatomic, retain) IBOutlet UIView* templateView;
 @property(nonatomic, retain) IBOutlet UILabel* journeyDateDesc;
 @property(nonatomic, retain) IBOutlet UILabel* journeyDateValue;
+@property(nonatomic, retain) IBOutlet UILabel* nextAppointmentDesc;
+@property(nonatomic, retain) IBOutlet UILabel* nextAppointmentValue;
 @property(nonatomic, retain) IBOutlet UILabel* calendarDateDesc;
 @property(nonatomic, retain) IBOutlet UILabel* calendarDateValue;
 @property(nonatomic, retain) IBOutlet UIDatePicker* calendarDatePicker;
@@ -61,9 +69,13 @@
 @property(nonatomic,retain) WidgetFactory* widgetFactory;
 @property(nonatomic,retain) WidgetViewController* globalWidgetViewController;
 @property(nonatomic,retain) IBOutlet UIBarButtonItem* addEventBarButtonItem;
+@property(nonatomic,retain) IBOutlet UIButton* updateButton;
+@property(nonatomic,retain) IBOutlet UIButton* cancelButton;
+@property (nonatomic, retain) DetailingCalendarEventBoxListingDataManager* detailingCalendarEventBoxListingDataManager;
 
 - (IBAction)saveToCalendarButtonPressed;
 - (IBAction)dateComponentPicked:(id)sender;
+- (IBAction)cancelButtonPressed:(id)sender;
 
 @end
 

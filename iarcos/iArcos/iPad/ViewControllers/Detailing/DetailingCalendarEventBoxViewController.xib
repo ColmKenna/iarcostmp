@@ -12,15 +12,16 @@
                 <outlet property="calendarDateDesc" destination="oXH-ig-dFi" id="dio-eD-CaE"/>
                 <outlet property="calendarDatePicker" destination="FbE-Z8-nvi" id="fb7-D8-Z5J"/>
                 <outlet property="calendarDateValue" destination="YUY-SO-wT3" id="fvx-q0-C6E"/>
-                <outlet property="journeyDateDesc" destination="3Fm-dV-8Pg" id="K0g-pL-Kyc"/>
-                <outlet property="journeyDateValue" destination="2mB-DL-gtF" id="gg3-pR-a3K"/>
+                <outlet property="cancelButton" destination="Qo8-KP-99L" id="Yge-Wc-XJ7"/>
                 <outlet property="listingNavigationBar" destination="7st-HZ-g0q" id="YHp-vb-GdP"/>
                 <outlet property="listingTableView" destination="SVc-sR-xkg" id="qvL-hx-Xao"/>
                 <outlet property="listingView" destination="qmD-Y8-dOM" id="KXy-CT-iSm"/>
-                <outlet property="myBarButtonItem" destination="UQE-3D-Spw" id="IhC-na-Wuy"/>
                 <outlet property="myNavigationBar" destination="NA5-nx-eeY" id="l8X-sc-5z9"/>
                 <outlet property="myNavigationItem" destination="RDd-AO-D8N" id="bw7-O6-i88"/>
+                <outlet property="nextAppointmentDesc" destination="3Fm-dV-8Pg" id="cM1-qD-Pc9"/>
+                <outlet property="nextAppointmentValue" destination="2mB-DL-gtF" id="IVd-pY-jng"/>
                 <outlet property="templateView" destination="pAt-Yl-gdd" id="2Yr-rv-i74"/>
+                <outlet property="updateButton" destination="MBc-M0-RdK" id="XCx-br-7SD"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -30,7 +31,7 @@
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pAt-Yl-gdd">
-                    <rect key="frame" x="211" y="245" width="758" height="330"/>
+                    <rect key="frame" x="211" y="41" width="758" height="738"/>
                     <subviews>
                         <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NA5-nx-eeY">
                             <rect key="frame" x="0.0" y="0.0" width="758" height="50"/>
@@ -38,33 +39,27 @@
                                 <constraint firstAttribute="height" constant="50" id="Zfz-77-JU8"/>
                             </constraints>
                             <items>
-                                <navigationItem title="Event" id="RDd-AO-D8N">
-                                    <barButtonItem key="rightBarButtonItem" title="Save" id="UQE-3D-Spw">
-                                        <connections>
-                                            <action selector="saveToCalendarButtonPressed" destination="-1" id="3eV-4i-I3W"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </navigationItem>
+                                <navigationItem title="Event" id="RDd-AO-D8N"/>
                             </items>
                         </navigationBar>
-                        <label opaque="NO" userInteractionEnabled="NO" alpha="0.85000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Journey Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Fm-dV-8Pg">
-                            <rect key="frame" x="10" y="88" width="150" height="44"/>
+                        <label opaque="NO" userInteractionEnabled="NO" alpha="0.85000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Next Appointment" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Fm-dV-8Pg">
+                            <rect key="frame" x="85" y="65" width="225" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                            <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" alpha="0.85000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Suggested Appointment" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oXH-ig-dFi">
-                            <rect key="frame" x="10" y="198" width="225" height="44"/>
+                        <label opaque="NO" alpha="0.85000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Suggested Appointment" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oXH-ig-dFi">
+                            <rect key="frame" x="85" y="109" width="225" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                             <color key="textColor" red="0.50196078430000002" green="0.50196078430000002" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="25/01/2024" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2mB-DL-gtF">
-                            <rect key="frame" x="190" y="88" width="270" height="44"/>
+                            <rect key="frame" x="453" y="65" width="220" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -75,19 +70,19 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="FbE-Z8-nvi">
-                            <rect key="frame" x="240" y="198" width="220" height="44"/>
+                        <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="15" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="FbE-Z8-nvi">
+                            <rect key="frame" x="453" y="109" width="220" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <locale key="locale" localeIdentifier="en_IE"/>
                             <connections>
                                 <action selector="dateComponentPicked:" destination="-1" eventType="valueChanged" id="RVq-pT-zQx"/>
                             </connections>
                         </datePicker>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qmD-Y8-dOM" customClass="ArcosBorderUIView">
-                            <rect key="frame" x="470" y="60" width="278" height="260"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qmD-Y8-dOM">
+                            <rect key="frame" x="15" y="163" width="728" height="506"/>
                             <subviews>
-                                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7st-HZ-g0q">
-                                    <rect key="frame" x="0.0" y="0.0" width="278" height="50"/>
+                                <navigationBar hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7st-HZ-g0q">
+                                    <rect key="frame" x="0.0" y="0.0" width="728" height="50"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="50" id="6DI-e5-QMl"/>
                                     </constraints>
@@ -95,14 +90,10 @@
                                         <navigationItem title="Listing" id="aCx-d6-ngh"/>
                                     </items>
                                 </navigationBar>
-                                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="22" estimatedRowHeight="22" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="SVc-sR-xkg">
-                                    <rect key="frame" x="1" y="50" width="276" height="209"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="22" estimatedRowHeight="22" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="SVc-sR-xkg">
+                                    <rect key="frame" x="0.0" y="0.0" width="728" height="506"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                    <connections>
-                                        <outlet property="dataSource" destination="-1" id="Hmo-qS-iM3"/>
-                                        <outlet property="delegate" destination="-1" id="GC5-kt-bdP"/>
-                                    </connections>
                                 </tableView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -112,16 +103,39 @@
                                 <constraint firstItem="7st-HZ-g0q" firstAttribute="top" secondItem="qmD-Y8-dOM" secondAttribute="top" id="fe5-Sr-dIb"/>
                             </constraints>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MBc-M0-RdK" customClass="DetailingCalendarEventBoxBorderUIButton">
+                            <rect key="frame" x="204" y="679" width="150" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Update">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="saveToCalendarButtonPressed" destination="-1" eventType="touchUpInside" id="Z1G-21-5RT"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qo8-KP-99L" customClass="DetailingCalendarEventBoxBorderUIButton">
+                            <rect key="frame" x="404" y="679" width="150" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Cancel">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="cancelButtonPressed:" destination="-1" eventType="touchUpInside" id="8z6-FE-Q9f"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="NA5-nx-eeY" firstAttribute="leading" secondItem="pAt-Yl-gdd" secondAttribute="leading" id="Bg2-ez-jz8"/>
-                        <constraint firstAttribute="trailing" secondItem="qmD-Y8-dOM" secondAttribute="trailing" constant="10" id="QFb-K9-u9I"/>
-                        <constraint firstItem="qmD-Y8-dOM" firstAttribute="leading" secondItem="pAt-Yl-gdd" secondAttribute="leading" constant="470" id="QgY-My-EVv"/>
-                        <constraint firstAttribute="bottom" secondItem="qmD-Y8-dOM" secondAttribute="bottom" constant="10" id="ZLf-b9-cyf"/>
+                        <constraint firstAttribute="trailing" secondItem="qmD-Y8-dOM" secondAttribute="trailing" constant="15" id="QFb-K9-u9I"/>
+                        <constraint firstItem="qmD-Y8-dOM" firstAttribute="leading" secondItem="pAt-Yl-gdd" secondAttribute="leading" constant="15" id="QgY-My-EVv"/>
+                        <constraint firstAttribute="bottom" secondItem="qmD-Y8-dOM" secondAttribute="bottom" constant="69" id="ZLf-b9-cyf"/>
                         <constraint firstAttribute="width" constant="758" id="fLg-du-Nxx"/>
-                        <constraint firstItem="qmD-Y8-dOM" firstAttribute="top" secondItem="pAt-Yl-gdd" secondAttribute="top" constant="60" id="g7d-Wk-WkL"/>
-                        <constraint firstAttribute="height" constant="330" id="gig-18-foj"/>
+                        <constraint firstItem="qmD-Y8-dOM" firstAttribute="top" secondItem="pAt-Yl-gdd" secondAttribute="top" constant="163" id="g7d-Wk-WkL"/>
                         <constraint firstItem="NA5-nx-eeY" firstAttribute="top" secondItem="pAt-Yl-gdd" secondAttribute="top" id="tNd-T1-4aS"/>
                         <constraint firstAttribute="trailing" secondItem="NA5-nx-eeY" secondAttribute="trailing" id="xAR-8r-Acz"/>
                     </constraints>
@@ -130,6 +144,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="pAt-Yl-gdd" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="0bE-bc-QoM"/>
+                <constraint firstItem="pAt-Yl-gdd" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.9" id="EU5-6h-VN0"/>
                 <constraint firstItem="pAt-Yl-gdd" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="hfn-M0-XYv"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

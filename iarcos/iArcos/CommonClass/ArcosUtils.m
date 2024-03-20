@@ -521,6 +521,7 @@
     [yearComponents setHour:0];
     [yearComponents setMinute:0];
     [yearComponents setSecond:0];
+    [yearComponents setNanosecond:0];
     return [gregorian dateFromComponents:yearComponents];
 }
 
@@ -583,6 +584,15 @@
     [ieLocale release];
     NSDateComponents* dayComponents = [gregorian components:NSCalendarUnitDay fromDate:aDate];
     return [dayComponents day];
+}
+
++ (NSInteger)hourWithDate:(NSDate*)aDate {
+    NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
+    NSDateComponents* dayComponents = [gregorian components:NSCalendarUnitHour fromDate:aDate];
+    return [dayComponents hour];
 }
 
 + (NSInteger)minuteWithDate:(NSDate*)aDate {

@@ -17,6 +17,8 @@
 @synthesize templateView = _templateView;
 @synthesize journeyDateDesc = _journeyDateDesc;
 @synthesize journeyDateValue = _journeyDateValue;
+@synthesize nextAppointmentDesc = _nextAppointmentDesc;
+@synthesize nextAppointmentValue = _nextAppointmentValue;
 @synthesize calendarDateDesc = _calendarDateDesc;
 @synthesize calendarDateValue = _calendarDateValue;
 @synthesize calendarDatePicker = _calendarDatePicker;
@@ -34,6 +36,9 @@
 @synthesize widgetFactory = _widgetFactory;
 @synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize addEventBarButtonItem = _addEventBarButtonItem;
+@synthesize updateButton = _updateButton;
+@synthesize cancelButton = _cancelButton;
+@synthesize detailingCalendarEventBoxListingDataManager = _detailingCalendarEventBoxListingDataManager;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -47,13 +52,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.detailingCalendarEventBoxListingDataManager = [[[DetailingCalendarEventBoxListingDataManager alloc] init] autorelease];
+    self.detailingCalendarEventBoxListingDataManager.actionDelegate = self;
+    self.listingTableView.delegate = self.detailingCalendarEventBoxListingDataManager;
+    self.listingTableView.dataSource = self.detailingCalendarEventBoxListingDataManager;
     NSMutableArray* buttonList = [NSMutableArray array];
-    UIBarButtonItem* closeButton = [[UIBarButtonItem alloc] initWithTitle:[GlobalSharedClass shared].cancelButtonText style:UIBarButtonItemStylePlain target:self action:@selector(closePressed:)];
-    [buttonList addObject:closeButton];
-    [closeButton release];
+//    UIBarButtonItem* closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Scroll" style:UIBarButtonItemStylePlain target:self action:@selector(scrollPressed:)];
+//    [buttonList addObject:closeButton];
+//    [closeButton release];
     self.addEventBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addBarButtonPressed:)] autorelease];
     [buttonList addObject:self.addEventBarButtonItem];
-    [self.myNavigationItem setLeftBarButtonItems:buttonList];
+    [self.myNavigationItem setRightBarButtonItems:buttonList];
     if (![[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
         self.calendarDateDesc.hidden = YES;
         self.calendarDateValue.hidden = YES;
@@ -71,21 +80,42 @@
 //    [maskLayer release];
     NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:[SettingManager employeeIUR]];
     int mergeIdValue = [[employeeDict objectForKey:@"MergeID"] intValue];
-    self.detailingCalendarEventBoxViewDataManager.journeyDateData = [ArcosUtils addDays:mergeIdValue * 7 date:[NSDate date]];
-    self.detailingCalendarEventBoxViewDataManager.calendarDateData = [ArcosUtils addDays:mergeIdValue * 7 date:[NSDate date]];
+//    self.detailingCalendarEventBoxViewDataManager.nextAppointmentData = [ArcosUtils addDays:mergeIdValue * 7 date:[NSDate date]];
+//    self.detailingCalendarEventBoxViewDataManager.journeyDateData = [ArcosUtils addDays:mergeIdValue * 7 date:[NSDate date]];
+    NSDate* tmpCalendarDateValue = [self.detailingCalendarEventBoxViewDataManager retrieveNextFifteenMinutesWithDate:[NSDate date]];
+    if (mergeIdValue > 0) {
+        tmpCalendarDateValue = [ArcosUtils addDays:mergeIdValue * 7 date:tmpCalendarDateValue];
+    }
+    self.detailingCalendarEventBoxViewDataManager.calendarDateData = tmpCalendarDateValue;
     self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
-    self.journeyDateValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.journeyDateData format:[GlobalSharedClass shared].dateFormat];
-    self.calendarDateValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].datetimehmFormat];
+//    self.journeyDateValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.journeyDateData format:[GlobalSharedClass shared].dateFormat];
+    self.nextAppointmentValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
+//    self.calendarDateValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].datetimehmFormat];
     self.calendarDatePicker.date = self.detailingCalendarEventBoxViewDataManager.calendarDateData;
-    UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
-    [self.calendarDateValue addGestureRecognizer:singleTap];
-    [singleTap release];
+//    UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
+//    [self.calendarDateValue addGestureRecognizer:singleTap];
+//    [singleTap release];
+    UITapGestureRecognizer* doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSuggestedAppointmentDoubleTapGesture:)];
+    [self.calendarDateDesc addGestureRecognizer:doubleTap];
+    [doubleTap release];
     self.widgetFactory = [WidgetFactory factory];
     self.widgetFactory.delegate = self;
 }
 
-- (void)closePressed:(id)sender {
-    [self.actionDelegate didDismissViewProcessor];
+- (void)handleSuggestedAppointmentDoubleTapGesture:(id)sender {
+    UITapGestureRecognizer* auxRecognizer = (UITapGestureRecognizer*)sender;
+    if (auxRecognizer.state == UIGestureRecognizerStateEnded) {
+        @try {
+            [self.listingTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:16 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        } @catch (NSException *exception) {
+            NSLog(@"exception %@", [exception reason]);
+        }
+    }
+}
+
+- (void)scrollPressed:(id)sender {
+//    [self.actionDelegate didDismissViewProcessor];
+    
 }
 
 - (void)addBarButtonPressed:(id)sender {
@@ -152,6 +182,8 @@
     self.templateView = nil;
     self.journeyDateDesc = nil;
     self.journeyDateValue = nil;
+    self.nextAppointmentDesc = nil;
+    self.nextAppointmentValue = nil;
     self.calendarDateDesc = nil;
     for (UIGestureRecognizer* recognizer in self.calendarDateValue.gestureRecognizers) {
         [self.calendarDateValue removeGestureRecognizer:recognizer];
@@ -173,6 +205,9 @@
     self.widgetFactory = nil;
     self.globalWidgetViewController = nil;
     self.addEventBarButtonItem = nil;
+    self.updateButton = nil;
+    self.cancelButton = nil;
+    self.detailingCalendarEventBoxListingDataManager = nil;
     
     [super dealloc];
 }
@@ -269,70 +304,55 @@
                 NSDictionary* resultDict = (NSDictionary*)result;
                 NSArray* eventList = [resultDict objectForKey:@"value"];
 //                NSLog(@"eventList %@", eventList);
-                int firstEventIndex = 0;
-                BOOL eventFoundFlag = false;
-                NSNumber* firstEventLocationIUR = [NSNumber numberWithInt:0];
+//                int firstEventIndex = 0;
+//                BOOL eventFoundFlag = false;
+                self.detailingCalendarEventBoxViewDataManager.eventForCurrentLocationFoundFlag = NO;
+//                NSNumber* firstEventLocationIUR = [NSNumber numberWithInt:0];
                 for (int i = 0; i < [eventList count]; i++) {
                     NSDictionary* auxEventDict = [eventList objectAtIndex:i];
                     NSNumber* locationIUR = [self.detailingCalendarEventBoxViewDataManager retrieveLocationIURWithEventDict:auxEventDict];
                     if ([[self.actionDelegate retrieveDetailingLocationIUR] isEqualToNumber:locationIUR]) {
                         self.detailingCalendarEventBoxViewDataManager.originalEventDataDict = [self.detailingCalendarEventBoxViewDataManager populateCalendarEventEntryWithData:auxEventDict];
                         self.detailingCalendarEventBoxViewDataManager.calendarDateData = [self.detailingCalendarEventBoxViewDataManager.originalEventDataDict objectForKey:@"StartDate"];
-                        eventFoundFlag = true;
-                        firstEventIndex = i;
-                        firstEventLocationIUR = [NSNumber numberWithInt:[locationIUR intValue]];
+//                        eventFoundFlag = true;
+                        self.detailingCalendarEventBoxViewDataManager.eventForCurrentLocationFoundFlag = YES;
+//                        firstEventIndex = i;
+//                        firstEventLocationIUR = [NSNumber numberWithInt:[locationIUR intValue]];
                         dispatch_async(dispatch_get_main_queue(), ^{
                             self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
-                            self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.nextAppointmentText;
-                            self.calendarDateValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].datetimehmFormat];
+//                            self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.nextAppointmentText;
+                            self.nextAppointmentValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
+//                            self.calendarDateValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].datetimehmFormat];
                             self.calendarDatePicker.date = self.detailingCalendarEventBoxViewDataManager.calendarDateData;
                         });
                         break;
                     }
                 }
+                if (!self.detailingCalendarEventBoxViewDataManager.eventForCurrentLocationFoundFlag) {
+                    self.detailingCalendarEventBoxViewDataManager.journeyForCurrentLocationFoundFlag = NO;
+                    [self.detailingCalendarEventBoxViewDataManager calculateJourneyDateWithLocationIUR:[self.actionDelegate retrieveDetailingLocationIUR]];
+                    if (!self.detailingCalendarEventBoxViewDataManager.journeyForCurrentLocationFoundFlag) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            self.nextAppointmentDesc.hidden = YES;
+                            self.nextAppointmentValue.hidden = YES;
+                        });
+                    } else {
+                        self.detailingCalendarEventBoxViewDataManager.calendarDateData = self.detailingCalendarEventBoxViewDataManager.journeyDateForCurrentLocation;
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
+                            self.nextAppointmentValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
+                            self.calendarDatePicker.date = self.detailingCalendarEventBoxViewDataManager.calendarDateData;
+                        });
+                    }
+                }
                 
-//                if (eventFoundFlag) {
-//                    NSDictionary* firstEventDict = [NSDictionary dictionaryWithDictionary:[eventList objectAtIndex:firstEventIndex]];
-//                    [self.detailingCalendarEventBoxViewDataManager.listingDisplayList addObject:firstEventDict];
-//                    NSString* firstEventStartDateDatePartString = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
-//                    for (int j = firstEventIndex + 1; j < [eventList count]; j++) {
-//                        NSDictionary* tmpEventDict = [eventList objectAtIndex:j];
-//                        NSNumber* tmpLocationIUR = [self retrieveLocationIURWithEventDict:tmpEventDict];
-//                        if ([tmpLocationIUR isEqualToNumber:firstEventLocationIUR]) {
-//                            NSDictionary* startDict = [tmpEventDict objectForKey:@"start"];
-//                            NSString* tmpStartDateStr = [startDict objectForKey:@"dateTime"];
-//                            NSDate* tmpStartDate = [ArcosUtils dateFromString:tmpStartDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
-//                            NSString* tmpStartDateDatePartString = [ArcosUtils stringFromDate:tmpStartDate format:[GlobalSharedClass shared].dateFormat];
-//                            if ([firstEventStartDateDatePartString isEqualToString:tmpStartDateDatePartString]) {
-//                                [self.detailingCalendarEventBoxViewDataManager.listingDisplayList addObject:[NSDictionary dictionaryWithDictionary:tmpEventDict]];
-//                            } else {
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
                 [self retrieveInternalOneDayCalendarEventEntriesWithDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData];
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    [self.listingTableView reloadData];
-//                    [weakSelf.HUD hide:YES];
-//                });
+
             }
         }
     }];
     [downloadTask resume];
 }
-
-//- (NSNumber*)retrieveLocationIURWithEventDict:(NSDictionary*)anEventDict {
-//    NSNumber* locationIUR = [NSNumber numberWithInt:0];
-//    NSDictionary* locationDict = [anEventDict objectForKey:@"location"];
-//    NSString* locationUriStr = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"locationUri"]]];
-//    NSArray* locationUriChildArray = [locationUriStr componentsSeparatedByString:@":"];
-//    if ([locationUriChildArray count] == 2) {
-//        NSString* tmpLocationIURStr = [locationUriChildArray objectAtIndex:0];
-//        locationIUR = [ArcosUtils convertStringToNumber:tmpLocationIURStr];
-//    }
-//    return locationIUR;
-//}
 
 - (void)retrieveInternalOneDayCalendarEventEntriesWithDate:(NSDate*)aStartDate {
     __weak typeof(self) weakSelf = self;
@@ -389,14 +409,18 @@
                     }
                     [self.detailingCalendarEventBoxViewDataManager.listingDisplayList addObject:[NSDictionary dictionaryWithDictionary:auxEventDict]];
                 }
+                [self.detailingCalendarEventBoxListingDataManager createBasicDataWithDataList:self.detailingCalendarEventBoxViewDataManager.listingDisplayList];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    if ([self.detailingCalendarEventBoxViewDataManager.ownLocationDisplayList count] > 0) {
-                        self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.nextAppointmentText;
-                    } else {
-                        self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.suggestedAppointmentText;
-                    }
+//                    if ([self.detailingCalendarEventBoxViewDataManager.ownLocationDisplayList count] > 0) {
+//                        self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.nextAppointmentText;
+//                    } else {
+//                        self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.suggestedAppointmentText;
+//                    }
                     [self.listingTableView reloadData];
+                    
                     [weakSelf.HUD hide:YES];
+                    
+                    
                 });
             }
         }
@@ -467,12 +491,13 @@
                     }
                     [self.detailingCalendarEventBoxViewDataManager.listingDisplayList addObject:[NSDictionary dictionaryWithDictionary:auxEventDict]];
                 }
+                [self.detailingCalendarEventBoxListingDataManager createBasicDataWithDataList:self.detailingCalendarEventBoxViewDataManager.listingDisplayList];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    if ([self.detailingCalendarEventBoxViewDataManager.ownLocationDisplayList count] > 0) {
-                        self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.nextAppointmentText;
-                    } else {
-                        self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.suggestedAppointmentText;
-                    }
+//                    if ([self.detailingCalendarEventBoxViewDataManager.ownLocationDisplayList count] > 0) {
+//                        self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.nextAppointmentText;
+//                    } else {
+//                        self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.suggestedAppointmentText;
+//                    }
                     [self.listingTableView reloadData];
                     [weakSelf.HUD hide:YES];
                 });
@@ -718,6 +743,48 @@
         [ACEEDTVC release];
         [tmpNavigationController release];
     }
+}
+
+- (IBAction)cancelButtonPressed:(id)sender {
+    [self.actionDelegate didDismissViewProcessor];
+}
+
+#pragma mark DetailingCalendarEventBoxListingDataManagerDelegate
+- (NSNumber*)retrieveDetailingCalendarEventBoxListingDataManagerLocationIUR {
+    return [self.actionDelegate retrieveDetailingLocationIUR];
+}
+
+- (NSNumber*)retrieveDetailingCalendarEventBoxListingLocationIURWithEventDict:(NSDictionary*)anEventDict {
+    return [self.detailingCalendarEventBoxViewDataManager retrieveLocationIURWithEventDict:anEventDict];
+}
+
+- (void)doubleTapListingBodyLabelWithIndexPath:(NSIndexPath *)anIndexPath {
+    NSMutableDictionary* cellData = [self.detailingCalendarEventBoxListingDataManager.displayList objectAtIndex:anIndexPath.row];
+    NSDictionary* cellFieldValueData = [cellData objectForKey:@"FieldValue"];
+    DetailingCalendarEventBoxListingBaseTableCell* cell = (DetailingCalendarEventBoxListingBaseTableCell*)[self.listingTableView cellForRowAtIndexPath:anIndexPath];
+    NSMutableDictionary* eventDataDict = [self.detailingCalendarEventBoxViewDataManager createEditEventEntryDetailTemplateData:cellFieldValueData];
+    ArcosCalendarEventEntryDetailTemplateViewController* ACEEDTVC = [[ArcosCalendarEventEntryDetailTemplateViewController alloc] initWithNibName:@"ArcosCalendarEventEntryDetailTemplateViewController" bundle:nil];
+    ACEEDTVC.actionDelegate = self;
+    ACEEDTVC.presentDelegate = self;
+    NSNumber* locationIUR = [self.detailingCalendarEventBoxViewDataManager retrieveLocationIURWithEventDict:cellFieldValueData];
+    if (![[self.actionDelegate retrieveDetailingLocationIUR] isEqualToNumber:locationIUR]) {
+        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.hideEditButtonFlag = YES;
+    }
+    [ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveEditDataWithCellData:eventDataDict];
+    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayList];
+    NSDictionary* startDict = [cellFieldValueData objectForKey:@"start"];
+    NSString* startDateStr = [startDict objectForKey:@"dateTime"];
+    NSDate* startDate = [ArcosUtils dateFromString:startDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
+    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].dateFormat];
+    UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
+    tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
+    tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    tmpNavigationController.popoverPresentationController.sourceView = cell.fieldValueLabel;
+    tmpNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    
+    [self presentViewController:tmpNavigationController animated:YES completion:nil];
+    [ACEEDTVC release];
+    [tmpNavigationController release];
 }
 
 @end

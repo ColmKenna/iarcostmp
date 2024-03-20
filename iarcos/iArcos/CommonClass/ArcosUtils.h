@@ -74,6 +74,7 @@
 + (NSInteger)monthDayWithDate:(NSDate*)aDate;
 + (NSInteger)yearDayWithDate:(NSDate*)aDate;
 + (NSInteger)dayWithDate:(NSDate*)aDate;
++ (NSInteger)hourWithDate:(NSDate*)aDate;
 + (NSInteger)minuteWithDate:(NSDate*)aDate;
 + (NSInteger)numOfDaysBetweenDates:(NSDate*)aStartDate endDate:(NSDate*)anEndDate;
 + (NSDate*)addMinutes:(int)aMinuteQty date:(NSDate*)aDate;

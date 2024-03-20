@@ -10,6 +10,7 @@
 
 @implementation DetailingCalendarEventBoxViewDataManager
 @synthesize journeyDateData = _journeyDateData;
+@synthesize nextAppointmentData = _nextAppointmentData;
 @synthesize calendarDateData = _calendarDateData;
 @synthesize originalEventDataDict = _originalEventDataDict;
 //@synthesize acctNotSignInMsg = _acctNotSignInMsg;
@@ -17,6 +18,9 @@
 @synthesize ownLocationDisplayList = _ownLocationDisplayList;
 @synthesize suggestedAppointmentText = _suggestedAppointmentText;
 @synthesize nextAppointmentText = _nextAppointmentText;
+@synthesize eventForCurrentLocationFoundFlag = _eventForCurrentLocationFoundFlag;
+@synthesize journeyForCurrentLocationFoundFlag = _journeyForCurrentLocationFoundFlag;
+@synthesize journeyDateForCurrentLocation = _journeyDateForCurrentLocation;
 
 - (instancetype)init {
     self = [super init];
@@ -25,6 +29,9 @@
 //        self.acctNotSignInMsg = @"Please SIGN IN to OUTLOOK to save Next Appointment";
         self.suggestedAppointmentText = @"Suggested Appointment";
         self.nextAppointmentText = @"New Appointment";
+        self.eventForCurrentLocationFoundFlag = NO;
+        self.journeyForCurrentLocationFoundFlag = NO;
+        self.journeyDateForCurrentLocation = nil;
     }
     
     return self;
@@ -32,6 +39,7 @@
 
 - (void)dealloc {    
     self.journeyDateData = nil;
+    self.nextAppointmentData = nil;
     self.calendarDateData = nil;
     self.originalEventDataDict = nil;
 //    self.acctNotSignInMsg = nil;
@@ -39,6 +47,7 @@
     self.ownLocationDisplayList = nil;
     self.suggestedAppointmentText = nil;
     self.nextAppointmentText = nil;
+    self.journeyDateForCurrentLocation = nil;
     
     [super dealloc];
 }
@@ -200,6 +209,65 @@
         locationIUR = [ArcosUtils convertStringToNumber:tmpLocationIURStr];
     }
     return locationIUR;
+}
+
+- (BOOL)calculateJourneyDateWithLocationIUR:(NSNumber*)aLocationIUR {
+    self.journeyForCurrentLocationFoundFlag = NO;
+    NSMutableArray* journeyList = [self retrieveJourneyWithLocationIUR:aLocationIUR];
+    NSDate* journeyStartDate = [self retrieveJourneyStartDate];
+    NSMutableArray* journeyDateList = [NSMutableArray arrayWithCapacity:[journeyList count]];
+    NSDate* currentStartDate = [ArcosUtils beginOfDayWithZeroTime:[NSDate date]];
+    if (journeyStartDate != nil) {
+        for (int i = 0; i < [journeyList count]; i++) {
+            NSDictionary* journeyDict = [journeyList objectAtIndex:i];
+            NSNumber* weekNumber = [journeyDict objectForKey:@"WeekNumber"];
+            NSNumber* dayNumber = [journeyDict objectForKey:@"DayNumber"];
+            int addDays = ([weekNumber intValue] - 1) * 7 + ([dayNumber intValue] - 1);
+            NSDate* currentJourneyDate = [ArcosUtils addDays:addDays date:journeyStartDate];
+            [journeyDateList addObject:[ArcosUtils beginOfDayWithZeroTime:currentJourneyDate]];
+        }
+        for (int i = 0; i < [journeyDateList count]; i++) {
+            NSDate* tmpCurrentJourneyDate = [journeyDateList objectAtIndex:i];
+            NSComparisonResult tmpComparisonResult = [tmpCurrentJourneyDate compare:currentStartDate];
+            if (tmpComparisonResult == NSOrderedSame || tmpComparisonResult == NSOrderedDescending) {
+                NSDate* neededCurrentDate = [self retrieveNextFifteenMinutesWithDate:[NSDate date]];
+                int neededHours = [ArcosUtils convertNSIntegerToInt:[ArcosUtils hourWithDate:neededCurrentDate]];
+                int neededMinutes = [ArcosUtils convertNSIntegerToInt:[ArcosUtils minuteWithDate:neededCurrentDate]];
+                self.journeyDateForCurrentLocation = [ArcosUtils addHours:neededHours date:tmpCurrentJourneyDate];
+                self.journeyDateForCurrentLocation = [ArcosUtils addMinutes:neededMinutes date:self.journeyDateForCurrentLocation];
+                self.journeyForCurrentLocationFoundFlag = YES;
+                break;
+            }
+        }
+    }
+    
+    return self.journeyForCurrentLocationFoundFlag;
+}
+
+- (NSMutableArray*)retrieveJourneyWithLocationIUR:(NSNumber*)aLocationIUR {
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"LocationIUR = %d", [aLocationIUR intValue]];
+    NSArray* sortDescNames = [NSArray arrayWithObjects:@"WeekNumber",@"DayNumber",nil];
+    NSArray* properties = [NSArray arrayWithObjects:@"WeekNumber",@"DayNumber",nil];
+    
+    return [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"Journey" withPropertiesToFetch:properties  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
+}
+
+- (NSDate*)retrieveJourneyStartDate {
+    NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:[SettingManager employeeIUR]];
+    if (employeeDict != nil) {
+        return [ArcosUtils addHours:1 date:[employeeDict objectForKey:@"JourneyStartDate"]];
+    }
+    return nil;
+}
+
+- (NSDate*)retrieveNextFifteenMinutesWithDate:(NSDate*)aDate {
+    int tmpMinutes = [ArcosUtils convertNSIntegerToInt:[ArcosUtils minuteWithDate:aDate]];
+    int tmpRemainder = tmpMinutes % 15;
+    int addMinutes = 15 - tmpRemainder;
+    if (tmpRemainder == 0) {
+        addMinutes = 0;
+    }
+    return [ArcosUtils addMinutes:addMinutes date:aDate];
 }
 
 @end
