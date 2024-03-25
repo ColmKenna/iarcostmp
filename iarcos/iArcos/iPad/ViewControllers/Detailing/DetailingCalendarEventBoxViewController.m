@@ -15,6 +15,8 @@
 @implementation DetailingCalendarEventBoxViewController
 @synthesize actionDelegate = _actionDelegate;
 @synthesize templateView = _templateView;
+@synthesize auxBodyBackgroundView = _auxBodyBackgroundView;
+@synthesize auxFooterBackgroundView = _auxFooterBackgroundView;
 @synthesize journeyDateDesc = _journeyDateDesc;
 @synthesize journeyDateValue = _journeyDateValue;
 @synthesize nextAppointmentDesc = _nextAppointmentDesc;
@@ -52,6 +54,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    UIColor* barBackgroundColor = [UIColor colorWithRed:209.0/255.0 green:224.0/255.0 blue:251.0/255.0 alpha:1.0];
+    UIColor* barForegroundColor = [UIColor colorWithRed:68.0/255.0 green:114.0/255.0 blue:196.0/255.0 alpha:1.0];
+    if (@available(iOS 15.0, *)) {
+        UINavigationBarAppearance* customNavigationBarAppearance = [[UINavigationBarAppearance alloc] init];
+        [customNavigationBarAppearance configureWithOpaqueBackground];
+        [customNavigationBarAppearance setBackgroundColor:barBackgroundColor];
+        [customNavigationBarAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:barForegroundColor, NSForegroundColorAttributeName, nil]];
+        self.myNavigationBar.standardAppearance = customNavigationBarAppearance;
+        self.myNavigationBar.scrollEdgeAppearance = customNavigationBarAppearance;
+        [customNavigationBarAppearance release];
+        [self.myNavigationBar setTintColor:barForegroundColor];
+    } else {
+        // Fallback on earlier versions
+        [self.myNavigationBar setBarTintColor:barBackgroundColor];
+        [self.myNavigationBar setTintColor:barForegroundColor];
+    }
     self.detailingCalendarEventBoxListingDataManager = [[[DetailingCalendarEventBoxListingDataManager alloc] init] autorelease];
     self.detailingCalendarEventBoxListingDataManager.actionDelegate = self;
     self.listingTableView.delegate = self.detailingCalendarEventBoxListingDataManager;
@@ -60,7 +78,8 @@
 //    UIBarButtonItem* closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Scroll" style:UIBarButtonItemStylePlain target:self action:@selector(scrollPressed:)];
 //    [buttonList addObject:closeButton];
 //    [closeButton release];
-    self.addEventBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addBarButtonPressed:)] autorelease];
+//    self.addEventBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addBarButtonPressed:)] autorelease];
+    self.addEventBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"PlusCircle.png"] style:UIBarButtonItemStylePlain target:self action:@selector(addBarButtonPressed:)] autorelease];
     [buttonList addObject:self.addEventBarButtonItem];
     [self.myNavigationItem setRightBarButtonItems:buttonList];
     if (![[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
@@ -68,9 +87,9 @@
         self.calendarDateValue.hidden = YES;
         self.myNavigationItem.rightBarButtonItem = nil;
     }
-    self.HUD = [[[MBProgressHUD alloc] initWithView:self.templateView] autorelease];
+    self.HUD = [[[MBProgressHUD alloc] initWithView:self.view] autorelease];
     self.HUD.dimBackground = YES;
-    [self.templateView addSubview:self.HUD];
+    [self.view addSubview:self.HUD];
 //    UIBezierPath* maskPath = [UIBezierPath bezierPathWithRoundedRect:self.templateView.bounds byRoundingCorners:(UIRectCornerTopLeft|UIRectCornerTopRight|UIRectCornerBottomLeft|UIRectCornerBottomRight) cornerRadii:CGSizeMake(5.0f, 5.0f)];
 //    
 //    CAShapeLayer* maskLayer = [[CAShapeLayer alloc] init];
@@ -96,6 +115,7 @@
 //    [self.calendarDateValue addGestureRecognizer:singleTap];
 //    [singleTap release];
     UITapGestureRecognizer* doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSuggestedAppointmentDoubleTapGesture:)];
+    doubleTap.numberOfTapsRequired = 2;
     [self.calendarDateDesc addGestureRecognizer:doubleTap];
     [doubleTap release];
     self.widgetFactory = [WidgetFactory factory];
@@ -105,12 +125,35 @@
 - (void)handleSuggestedAppointmentDoubleTapGesture:(id)sender {
     UITapGestureRecognizer* auxRecognizer = (UITapGestureRecognizer*)sender;
     if (auxRecognizer.state == UIGestureRecognizerStateEnded) {
-        @try {
-            [self.listingTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:16 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-        } @catch (NSException *exception) {
-            NSLog(@"exception %@", [exception reason]);
-        }
+        [self scrollToAppointmentPositionProcessor];
     }
+}
+
+- (void)scrollToAppointmentPositionProcessor {
+    @try {
+        int tmpRow = 16;
+        for (int i = 0; i < [self.detailingCalendarEventBoxListingDataManager.displayList count]; i++) {
+            NSMutableDictionary* resDataDict = [self.detailingCalendarEventBoxListingDataManager.displayList objectAtIndex:i];
+            NSNumber* cellType = [resDataDict objectForKey:@"CellType"];
+            if ([cellType intValue] == 2) {
+                tmpRow = i - 1;
+                break;
+            }
+        }
+        [self.listingTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:tmpRow inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    } @catch (NSException *exception) {
+        NSLog(@"exception %@", [exception reason]);
+    }
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        self.HUD.frame = self.view.bounds;
+    }];
 }
 
 - (void)scrollPressed:(id)sender {
@@ -175,11 +218,31 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    UIBezierPath* maskPath = [UIBezierPath bezierPathWithRoundedRect:self.myNavigationBar.bounds byRoundingCorners:(UIRectCornerTopLeft|UIRectCornerTopRight) cornerRadii:CGSizeMake(10.0f, 10.0f)];
+    
+    CAShapeLayer* maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = self.myNavigationBar.bounds;
+    maskLayer.path = maskPath.CGPath;
+    self.myNavigationBar.layer.mask = maskLayer;
+    [maskLayer release];
+    
+    
+    UIBezierPath* tablemaskPath = [UIBezierPath bezierPathWithRoundedRect:self.auxFooterBackgroundView.bounds byRoundingCorners:(UIRectCornerBottomLeft|UIRectCornerBottomRight) cornerRadii:CGSizeMake(10.0f, 10.0f)];
+    
+    CAShapeLayer* tablemaskLayer = [[CAShapeLayer alloc] init];
+    tablemaskLayer.frame = self.auxFooterBackgroundView.bounds;
+    tablemaskLayer.path = tablemaskPath.CGPath;
+    self.auxFooterBackgroundView.layer.mask = tablemaskLayer;
+    [tablemaskLayer release];
+    
     [self retrieveCalendarEventEntries];
 }
 
 - (void)dealloc {
     self.templateView = nil;
+    self.auxBodyBackgroundView = nil;
+    self.auxFooterBackgroundView = nil;
     self.journeyDateDesc = nil;
     self.journeyDateValue = nil;
     self.nextAppointmentDesc = nil;
@@ -250,8 +313,9 @@
 - (void)retrieveCalendarEventEntries {
     [self.HUD show:YES];
     if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {
+        [self.HUD hide:YES];
         [ArcosUtils showDialogBox:[ArcosConstantsDataManager sharedArcosConstantsDataManager].acctNotSignInMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
-            [self.HUD hide:YES];
+            
         }];
         return;
     }
@@ -277,8 +341,9 @@
         if (error != nil) {
 //            NSLog(@"sendMsg error %@", error);
             dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.HUD hide:YES];
                 [ArcosUtils showDialogBox:[error localizedDescription] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
-                    [weakSelf.HUD hide:YES];
+                    
                 }];
             });
         } else {
@@ -292,9 +357,9 @@
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
+                    [weakSelf.HUD hide:YES];
                     [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
-                        [weakSelf.HUD hide:YES];
+                        
                     }];
                 });
             } else {
@@ -375,8 +440,9 @@
     NSURLSessionDataTask* downloadTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.HUD hide:YES];
                 [ArcosUtils showDialogBox:[error localizedDescription] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
-                    [weakSelf.HUD hide:YES];
+                    
                 }];
             });
         } else {
@@ -390,9 +456,9 @@
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
+                    [weakSelf.HUD hide:YES];
                     [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
-                        [weakSelf.HUD hide:YES];
+                        
                     }];
                 });
             } else {
@@ -417,9 +483,8 @@
 //                        self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.suggestedAppointmentText;
 //                    }
                     [self.listingTableView reloadData];
-                    
                     [weakSelf.HUD hide:YES];
-                    
+                    [self scrollToAppointmentPositionProcessor];
                     
                 });
             }
@@ -431,8 +496,9 @@
 - (void)retrieveOneDayCalendarEventEntriesWithDate:(NSDate*)aStartDate {
     [self.HUD show:YES];
     if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {
+        [self.HUD hide:YES];
         [ArcosUtils showDialogBox:[ArcosConstantsDataManager sharedArcosConstantsDataManager].acctNotSignInMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
-            [self.HUD hide:YES];
+            
         }];
         return;
     }
@@ -457,8 +523,9 @@
     NSURLSessionDataTask* downloadTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.HUD hide:YES];
                 [ArcosUtils showDialogBox:[error localizedDescription] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
-                    [weakSelf.HUD hide:YES];
+                    
                 }];
             });
         } else {
@@ -472,9 +539,9 @@
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    
+                    [weakSelf.HUD hide:YES];
                     [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
-                        [weakSelf.HUD hide:YES];
+                        
                     }];
                 });
             } else {
@@ -500,6 +567,7 @@
 //                    }
                     [self.listingTableView reloadData];
                     [weakSelf.HUD hide:YES];
+                    [self scrollToAppointmentPositionProcessor];
                 });
             }
         }
@@ -510,8 +578,9 @@
 - (void)addPressed {
     [self.HUD show:YES];
     if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {
+        [self.HUD hide:YES];
         [ArcosUtils showDialogBox:[ArcosConstantsDataManager sharedArcosConstantsDataManager].acctNotSignInMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
-            [self.HUD hide:YES];
+            
 //            [self.actionDelegate didDismissViewProcessor];
         }];
         return;
@@ -540,8 +609,9 @@
         if (error != nil) {
             NSLog(@"error %@", error);
             dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.HUD hide:YES];
                 [ArcosUtils showDialogBox:[error description] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
-                    [weakSelf.HUD hide:YES];
+                    
 //                    [weakSelf.actionDelegate didDismissViewProcessor];
                 }];
             });
@@ -556,8 +626,9 @@
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.HUD hide:YES];
                     [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
-                        [weakSelf.HUD hide:YES];
+                        
 //                        [weakSelf.actionDelegate didDismissViewProcessor];
                     }];
                 });
@@ -574,8 +645,9 @@
 - (void)editPressed {
     [self.HUD show:YES];
     if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {
+        [self.HUD hide:YES];
         [ArcosUtils showDialogBox:[ArcosConstantsDataManager sharedArcosConstantsDataManager].acctNotSignInMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
-            [self.HUD hide:YES];
+            
 //            [self.actionDelegate didDismissViewProcessor];
         }];
         return;
@@ -606,8 +678,9 @@
         if (error != nil) {
             NSLog(@"error %@", error);
             dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.HUD hide:YES];
                 [ArcosUtils showDialogBox:[error description] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
-                    [weakSelf.HUD hide:YES];
+                    
 //                    [weakSelf.actionDelegate didDismissViewProcessor];
                 }];
             });
@@ -622,8 +695,9 @@
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.HUD hide:YES];
                     [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
-                        [weakSelf.HUD hide:YES];
+                        
 //                        [weakSelf.actionDelegate didDismissViewProcessor];
                     }];
                 });
@@ -647,7 +721,13 @@
     self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
     if (![existingDateDatePartString isEqualToString:nextDateDatePartString]) {
 //        self.detailingCalendarEventBoxViewDataManager.calendarDateData = picker.date;
-        [self retrieveOneDayCalendarEventEntriesWithDate:picker.date];
+        if (self.presentedViewController != nil) {
+            [self.presentedViewController dismissViewControllerAnimated:YES completion:^ {
+                [self retrieveOneDayCalendarEventEntriesWithDate:picker.date];
+            }];
+        } else {
+            [self retrieveOneDayCalendarEventEntriesWithDate:picker.date];
+        }
     } else {
 //        self.detailingCalendarEventBoxViewDataManager.calendarDateData = picker.date;
     }

@@ -22,7 +22,7 @@
     [super drawRect:rect];
     self.layer.borderWidth = 1.0f;
     self.layer.borderColor = [[UIColor colorWithRed:68.0/255.0 green:114.0/255.0 blue:196.0/255.0 alpha:1.0] CGColor];
-    [self.layer setCornerRadius:20.0f];
+    [self.layer setCornerRadius:10.0f];
     
 }
 

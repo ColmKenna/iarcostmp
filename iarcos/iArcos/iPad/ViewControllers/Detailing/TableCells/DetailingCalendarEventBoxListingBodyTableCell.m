@@ -35,7 +35,7 @@
     NSDictionary* locationDict = [cellData objectForKey:@"location"];
     NSString* locationStr = [locationDict objectForKey:@"displayName"];
     
-    self.fieldValueLabel.text = [NSString stringWithFormat:@"%@ %@", subjectStr, locationStr];
+    self.fieldValueLabel.text = [ArcosUtils trim:[NSString stringWithFormat:@"%@ %@", subjectStr, locationStr]];
     NSNumber* tmpLocationIUR = [self.actionDelegate retrieveDetailingCalendarEventBoxListingTableCellLocationIURWithEventDict:cellData];
     if ([tmpLocationIUR intValue] != 0 && [tmpLocationIUR isEqualToNumber:[self.actionDelegate retrieveDetailingCalendarEventBoxListingTableCellLocationIUR]]) {
         self.fieldValueLabel.backgroundColor = [UIColor colorWithRed:1.0 green:165.0/255.0 blue:0.0 alpha:1.0];

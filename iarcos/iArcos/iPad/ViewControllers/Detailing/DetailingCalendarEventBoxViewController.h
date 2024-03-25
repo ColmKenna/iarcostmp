@@ -20,6 +20,8 @@
 @interface DetailingCalendarEventBoxViewController : UIViewController <WidgetFactoryDelegate, UIPopoverPresentationControllerDelegate, UITableViewDelegate, UITableViewDataSource, ModalPresentViewControllerDelegate, ArcosCalendarEventEntryDetailTemplateViewControllerDelegate, DetailingCalendarEventBoxListingDataManagerDelegate> {
     id<DetailingCalendarEventBoxViewControllerDelegate> _actionDelegate;
     UIView* _templateView;
+    UIView* _auxBodyBackgroundView;
+    UIView* _auxFooterBackgroundView;
     UILabel* _journeyDateDesc;
     UILabel* _journeyDateValue;
     UILabel* _nextAppointmentDesc;
@@ -48,6 +50,8 @@
 
 @property(nonatomic, assign) id<DetailingCalendarEventBoxViewControllerDelegate> actionDelegate;
 @property(nonatomic, retain) IBOutlet UIView* templateView;
+@property(nonatomic, retain) IBOutlet UIView* auxBodyBackgroundView;
+@property(nonatomic, retain) IBOutlet UIView* auxFooterBackgroundView;
 @property(nonatomic, retain) IBOutlet UILabel* journeyDateDesc;
 @property(nonatomic, retain) IBOutlet UILabel* journeyDateValue;
 @property(nonatomic, retain) IBOutlet UILabel* nextAppointmentDesc;
