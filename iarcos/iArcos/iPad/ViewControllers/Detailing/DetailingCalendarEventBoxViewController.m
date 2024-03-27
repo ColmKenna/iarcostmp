@@ -106,7 +106,7 @@
         tmpCalendarDateValue = [ArcosUtils addDays:mergeIdValue * 7 date:tmpCalendarDateValue];
     }
     self.detailingCalendarEventBoxViewDataManager.calendarDateData = tmpCalendarDateValue;
-    self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
+//    self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
 //    self.journeyDateValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.journeyDateData format:[GlobalSharedClass shared].dateFormat];
     self.nextAppointmentValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
 //    self.calendarDateValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].datetimehmFormat];
@@ -306,7 +306,21 @@
     if (self.detailingCalendarEventBoxViewDataManager.originalEventDataDict == nil) {
         [self addPressed];
     } else {
-        [self editPressed];
+        void (^leftActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+            [self editPressed];
+        };
+        void (^rightActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+            [self addBarButtonPressed:nil];
+        };
+        
+        NSDate* originalStartDate = [self.detailingCalendarEventBoxViewDataManager.originalEventDataDict objectForKey:@"StartDate"];
+        NSString* originalStartDateString = [ArcosUtils stringFromDate:originalStartDate format:[GlobalSharedClass shared].datetimehmFormat];
+        NSString* currentStartDateString = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].datetimehmFormat];
+        if (![originalStartDateString isEqualToString:currentStartDateString] && [self.detailingCalendarEventBoxViewDataManager.originalEventDataDict objectForKey:@"StartDate"] != [NSNull null]) {
+            [ArcosUtils showTwoBtnsDialogBox:@"" title:@"" target:self lBtnText:@"AMEND THIS EVENT" rBtnText:@"ADD NEW ENTRY" lBtnHandler:leftActionHandler rBtnHandler:rightActionHandler];
+        } else {
+            [self editPressed];
+        }
     }
 }
 
@@ -384,7 +398,7 @@
 //                        firstEventIndex = i;
 //                        firstEventLocationIUR = [NSNumber numberWithInt:[locationIUR intValue]];
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
+//                            self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
 //                            self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.nextAppointmentText;
                             self.nextAppointmentValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
 //                            self.calendarDateValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].datetimehmFormat];
@@ -404,7 +418,7 @@
                     } else {
                         self.detailingCalendarEventBoxViewDataManager.calendarDateData = self.detailingCalendarEventBoxViewDataManager.journeyDateForCurrentLocation;
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
+//                            self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
                             self.nextAppointmentValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
                             self.calendarDatePicker.date = self.detailingCalendarEventBoxViewDataManager.calendarDateData;
                         });
@@ -718,7 +732,7 @@
     NSString* existingDateDatePartString = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
     NSString* nextDateDatePartString = [ArcosUtils stringFromDate:picker.date format:[GlobalSharedClass shared].dateFormat];
     self.detailingCalendarEventBoxViewDataManager.calendarDateData = picker.date;
-    self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
+//    self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
     if (![existingDateDatePartString isEqualToString:nextDateDatePartString]) {
 //        self.detailingCalendarEventBoxViewDataManager.calendarDateData = picker.date;
         if (self.presentedViewController != nil) {

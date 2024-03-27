@@ -10,10 +10,10 @@
 
 
 @interface DetailingCalendarEventBoxListingBodyTableCell : DetailingCalendarEventBoxListingBaseTableCell {
-    
+    UILabel* _fieldDescLabel;
 }
 
-
+@property (nonatomic,retain) IBOutlet UILabel* fieldDescLabel;
 
 @end
 

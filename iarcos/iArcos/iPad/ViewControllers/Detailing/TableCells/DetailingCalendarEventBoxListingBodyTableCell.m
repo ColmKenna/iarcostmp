@@ -9,7 +9,7 @@
 #import "DetailingCalendarEventBoxListingBodyTableCell.h"
 
 @implementation DetailingCalendarEventBoxListingBodyTableCell
-
+@synthesize fieldDescLabel = _fieldDescLabel;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -23,7 +23,7 @@
 }
 
 - (void)dealloc {
-    
+    self.fieldDescLabel = nil;
     
     [super dealloc];
 }
@@ -34,6 +34,11 @@
     NSString* subjectStr = [cellData objectForKey:@"subject"];
     NSDictionary* locationDict = [cellData objectForKey:@"location"];
     NSString* locationStr = [locationDict objectForKey:@"displayName"];
+    
+    NSDictionary* cellStartDict = [cellData objectForKey:@"start"];
+    NSString* tmpCellStartDateStr = [cellStartDict objectForKey:@"dateTime"];
+    NSDate* tmpCellStartDate = [ArcosUtils dateFromString:tmpCellStartDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
+    self.fieldDescLabel.text = [ArcosUtils stringFromDate:tmpCellStartDate format:[GlobalSharedClass shared].hourMinuteFormat];
     
     self.fieldValueLabel.text = [ArcosUtils trim:[NSString stringWithFormat:@"%@ %@", subjectStr, locationStr]];
     NSNumber* tmpLocationIUR = [self.actionDelegate retrieveDetailingCalendarEventBoxListingTableCellLocationIURWithEventDict:cellData];

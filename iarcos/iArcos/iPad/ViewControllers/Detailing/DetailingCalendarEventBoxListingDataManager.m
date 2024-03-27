@@ -124,7 +124,12 @@
 }
 
 #pragma mark - Table view data source
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSMutableDictionary* cellData = [self.displayList objectAtIndex:indexPath.row];
+    int cellTypeInt = [[cellData objectForKey:@"CellType"] intValue];
+    if (cellTypeInt == 1 || cellTypeInt == 3) {
+        return 30;
+    }
     return 44;
 }
 

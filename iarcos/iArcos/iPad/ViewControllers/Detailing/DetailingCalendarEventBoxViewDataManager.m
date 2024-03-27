@@ -53,7 +53,8 @@
 }
 
 - (NSString*)retrieveCalendarURIWithStartDate:(NSString*)aStartDate endDate:(NSString*)anEndDate locationName:(NSString*)aLocationName {
-    return [NSString stringWithFormat:@"https://graph.microsoft.com/v1.0/me/calendarview?$select=id,subject,bodyPreview,start,end,location,isAllDay&$top=1000&startdatetime=%@&enddatetime=%@&$filter=location/displayName eq '%@'&$orderby=start/dateTime asc", aStartDate, anEndDate, aLocationName];
+    NSString* resLocationName = [aLocationName stringByAddingPercentEncodingWithAllowedCharacters:[[NSCharacterSet characterSetWithCharactersInString:@"#&'"] invertedSet]];
+    return [NSString stringWithFormat:@"https://graph.microsoft.com/v1.0/me/calendarview?$select=id,subject,bodyPreview,start,end,location,isAllDay&$top=1000&startdatetime=%@&enddatetime=%@&$filter=location/displayName eq '%@'&$orderby=start/dateTime asc", aStartDate, anEndDate, resLocationName];
 }
 
 - (NSString*)retrieveCalendarURIWithStartDate:(NSString*)aStartDate endDate:(NSString*)anEndDate {

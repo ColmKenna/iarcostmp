@@ -37,7 +37,14 @@
 }
 
 - (void)configCellWithData:(NSMutableDictionary*)aCellData {
+    NSString* subject = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[aCellData objectForKey:@"Subject"]]];
     self.subjectLabel.text = [aCellData objectForKey:@"Subject"];
+    if ([subject isEqualToString:@""]) {
+        NSString* location = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[aCellData objectForKey:@"Location"]]];
+        if (![location isEqualToString:@""]) {
+            self.subjectLabel.text = location;
+        }
+    }
     NSDate* startDate = [aCellData objectForKey:@"StartDate"];
     if ([aCellData objectForKey:@"StartDate"] == [NSNull null]) {
         self.startDateLabel.text = @"";
