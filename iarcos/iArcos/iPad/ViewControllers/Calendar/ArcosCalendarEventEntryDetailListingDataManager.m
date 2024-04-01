@@ -15,11 +15,14 @@
 @synthesize displayList = _displayList;
 @synthesize barTitleContent = _barTitleContent;
 @synthesize hideEditButtonFlag = _hideEditButtonFlag;
+@synthesize detailingCalendarEventBoxListingDataManager = _detailingCalendarEventBoxListingDataManager;
 
 - (instancetype)init {
     self = [super init];
     if (self) {
         self.hideEditButtonFlag = NO;
+        self.detailingCalendarEventBoxListingDataManager = [[[DetailingCalendarEventBoxListingDataManager alloc] init] autorelease];
+        self.detailingCalendarEventBoxListingDataManager.actionDelegate = self;
     }
     return self;
 }
@@ -29,6 +32,7 @@
     self.eventDictList = nil;
     self.displayList = nil;
     self.barTitleContent = nil;
+    self.detailingCalendarEventBoxListingDataManager = nil;
     
     [super dealloc];
 }
@@ -47,7 +51,9 @@
     for (int i = 0; i < [self.eventDictList count]; i++) {
         NSMutableDictionary* eventDict = [self.eventDictList objectAtIndex:i];
         NSMutableDictionary* dataDict = [NSMutableDictionary dictionaryWithCapacity:2];
-        [dataDict setObject:[eventDict objectForKey:@"Subject"] forKey:@"Name"];
+        NSString* subjectStr = [ArcosUtils convertNilToEmpty:[eventDict objectForKey:@"Subject"]];
+        NSString* locationStr = [ArcosUtils convertNilToEmpty:[eventDict objectForKey:@"Location"]];
+        [dataDict setObject:[ArcosUtils trim:[NSString stringWithFormat:@"%@ %@",subjectStr, locationStr]] forKey:@"Name"];        
         [dataDict setObject:[eventDict objectForKey:@"StartDate"] forKey:@"Date"];
         [self.displayList addObject:dataDict];
     }
@@ -110,7 +116,12 @@
         NSString* myCellStartDateStr = [myCellStartDict objectForKey:@"dateTime"];
         NSDate* myCellStartDate = [ArcosUtils dateFromString:myCellStartDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
         [resultCellDataDict setObject:[ArcosUtils convertNilDateToNull:myCellStartDate] forKey:@"Date"];
-        [resultCellDataDict setObject:[ArcosUtils convertNilToEmpty:[myCellData objectForKey:@"subject"]] forKey:@"Name"];
+        
+        NSString* subjectStr = [ArcosUtils convertNilToEmpty:[myCellData objectForKey:@"subject"]];
+        NSDictionary* locationDict = [myCellData objectForKey:@"location"];
+        NSString* locationStr = [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"displayName"]];
+        
+        [resultCellDataDict setObject:[ArcosUtils trim:[NSString stringWithFormat:@"%@ %@",subjectStr, locationStr]] forKey:@"Name"];
         NSNumber* myLocationIUR = [self retrieveLocationIURWithEventDict:myCellData];
         [resultCellDataDict setObject:[ArcosUtils convertNilToZero:myLocationIUR] forKey:@"LocationIUR"];
         [self.displayList addObject:resultCellDataDict];
@@ -127,6 +138,19 @@
         locationIUR = [ArcosUtils convertStringToNumber:tmpLocationIURStr];
     }
     return locationIUR;
+}
+
+#pragma mark - DetailingCalendarEventBoxListingDataManagerDelegate
+- (NSNumber*)retrieveDetailingCalendarEventBoxListingDataManagerLocationIUR {
+    return [self.actionDelegate retrieveEventEntryDetailListingLocationIUR];
+}
+
+- (NSNumber*)retrieveDetailingCalendarEventBoxListingLocationIURWithEventDict:(NSDictionary*)anEventDict {
+    return [NSNumber numberWithInt:0];
+}
+
+- (void)doubleTapListingBodyLabelWithIndexPath:(NSIndexPath*)anIndexPath {
+    
 }
 
 @end

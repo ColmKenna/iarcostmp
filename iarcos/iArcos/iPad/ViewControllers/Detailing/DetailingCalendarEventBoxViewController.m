@@ -120,6 +120,7 @@
     [doubleTap release];
     self.widgetFactory = [WidgetFactory factory];
     self.widgetFactory.delegate = self;
+    
 }
 
 - (void)handleSuggestedAppointmentDoubleTapGesture:(id)sender {
@@ -182,7 +183,8 @@
 //        [templateListingDisplayList addObject:resultCellDataDict];
 //    }
     ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList = templateListingDisplayList;
-    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
+    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
+    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].weekdayDateFormat];
     UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
     tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
     tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
@@ -214,6 +216,16 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    NSString* myTmpNavigationBarTitle = @"Event";
+    NSString* myTmpLocationName = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[self.actionDelegate retrieveDetailingLocationName]]];
+    if (![myTmpLocationName isEqualToString:@""]) {
+        myTmpNavigationBarTitle = myTmpLocationName;
+        NSString* myTmpContactName = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[self.actionDelegate retrieveDetailingContactName]]];
+        if (![myTmpContactName isEqualToString:@""]) {
+            myTmpNavigationBarTitle = [NSString stringWithFormat:@"%@/%@",myTmpLocationName,myTmpContactName];
+        }
+        self.myNavigationBar.topItem.title = myTmpNavigationBarTitle;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -866,10 +878,12 @@
     }
     [ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveEditDataWithCellData:eventDataDict];
     ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayList];
+    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
+    
     NSDictionary* startDict = [cellFieldValueData objectForKey:@"start"];
     NSString* startDateStr = [startDict objectForKey:@"dateTime"];
     NSDate* startDate = [ArcosUtils dateFromString:startDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
-    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].dateFormat];
+    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].weekdayDateFormat];
     UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
     tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
     tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;

@@ -293,7 +293,8 @@
         ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = aDataList;
         
         [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText];
-        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = aDateFormatText;
+        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
+        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:[eventDataDict objectForKey:@"StartDate"] format:[GlobalSharedClass shared].weekdayDateFormat];
 //        [ACEEDTVC.arcosCalendarEventEntryDetailDataManager retrieveEditDataWithCellData:eventDataDict];
         UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
         tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
@@ -354,7 +355,8 @@
         ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = eventDataList;
         
         [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:auxDateFormatText];
-        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = auxDateFormatText;
+        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
+        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:[dayDataDict objectForKey:@"Date"] format:[GlobalSharedClass shared].weekdayDateFormat];
         UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
         tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
         tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;

@@ -1625,6 +1625,7 @@
 		7951AC00282E3FA400423717 /* ArcosCalendarEventEntryDetailTextViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7951ABFF282E3FA400423717 /* ArcosCalendarEventEntryDetailTextViewTableViewCell.m */; };
 		7951AC03282E3FBC00423717 /* ArcosCalendarEventEntryDetailSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7951AC02282E3FBC00423717 /* ArcosCalendarEventEntryDetailSwitchTableViewCell.m */; };
 		7951AC06282E3FD200423717 /* ArcosCalendarEventEntryDetailDateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7951AC05282E3FD200423717 /* ArcosCalendarEventEntryDetailDateTableViewCell.m */; };
+		7958DC212BB6629A0058CF0D /* DetailingCalendarEventBoxListingBodyForTemplateTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7958DC202BB6629A0058CF0D /* DetailingCalendarEventBoxListingBodyForTemplateTableCell.m */; };
 		795A779D2A0E6EE100D65A5F /* FormRowTableCellPrevRrpGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 795A779C2A0E6EE100D65A5F /* FormRowTableCellPrevRrpGenerator.m */; };
 		795CE0D52A6EA53700131610 /* FormRowTableCellPrevNormalGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 795CE0D42A6EA53700131610 /* FormRowTableCellPrevNormalGenerator.m */; };
 		795D0BB72B28649700530823 /* ArcosAlertBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 795D0BB52B28649700530823 /* ArcosAlertBoxViewController.m */; };
@@ -1680,6 +1681,8 @@
 		79CA7D11265B470800EC4B1A /* DashboardServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79CA7D0F265B470800EC4B1A /* DashboardServerViewController.m */; };
 		79CA7D12265B470800EC4B1A /* DashboardServerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79CA7D10265B470800EC4B1A /* DashboardServerViewController.xib */; };
 		79CA7D17265B481D00EC4B1A /* DashboardServerDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 79CA7D16265B481D00EC4B1A /* DashboardServerDataManager.m */; };
+		79CE3EB82BB59F6900698BAF /* LeftLightBlueSeparatorUILabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 79CE3EB72BB59F6900698BAF /* LeftLightBlueSeparatorUILabel.m */; };
+		79CE3EBB2BB5A3ED00698BAF /* LeftLightBlueBorderUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 79CE3EBA2BB5A3ED00698BAF /* LeftLightBlueBorderUIView.m */; };
 		79CF87E428815648009AAA0F /* Package.m in Sources */ = {isa = PBXBuildFile; fileRef = 79CF87E328815648009AAA0F /* Package.m */; };
 		79D206ED2B63611000F71BC8 /* DetailingCalendarEventBoxViewDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D206EC2B63611000F71BC8 /* DetailingCalendarEventBoxViewDataManager.m */; };
 		79D4FFD629029E700069EF18 /* ArcosArrayOfImportRecordField.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D4FFC229029E6D0069EF18 /* ArcosArrayOfImportRecordField.m */; };
@@ -4904,6 +4907,8 @@
 		7951AC02282E3FBC00423717 /* ArcosCalendarEventEntryDetailSwitchTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosCalendarEventEntryDetailSwitchTableViewCell.m; sourceTree = "<group>"; };
 		7951AC04282E3FD200423717 /* ArcosCalendarEventEntryDetailDateTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosCalendarEventEntryDetailDateTableViewCell.h; sourceTree = "<group>"; };
 		7951AC05282E3FD200423717 /* ArcosCalendarEventEntryDetailDateTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosCalendarEventEntryDetailDateTableViewCell.m; sourceTree = "<group>"; };
+		7958DC1F2BB6629A0058CF0D /* DetailingCalendarEventBoxListingBodyForTemplateTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailingCalendarEventBoxListingBodyForTemplateTableCell.h; sourceTree = "<group>"; };
+		7958DC202BB6629A0058CF0D /* DetailingCalendarEventBoxListingBodyForTemplateTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailingCalendarEventBoxListingBodyForTemplateTableCell.m; sourceTree = "<group>"; };
 		795A779B2A0E6EE100D65A5F /* FormRowTableCellPrevRrpGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormRowTableCellPrevRrpGenerator.h; sourceTree = "<group>"; };
 		795A779C2A0E6EE100D65A5F /* FormRowTableCellPrevRrpGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormRowTableCellPrevRrpGenerator.m; sourceTree = "<group>"; };
 		795CE0D32A6EA53700131610 /* FormRowTableCellPrevNormalGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormRowTableCellPrevNormalGenerator.h; sourceTree = "<group>"; };
@@ -5005,6 +5010,10 @@
 		79CA7D10265B470800EC4B1A /* DashboardServerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DashboardServerViewController.xib; sourceTree = "<group>"; };
 		79CA7D15265B481D00EC4B1A /* DashboardServerDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DashboardServerDataManager.h; sourceTree = "<group>"; };
 		79CA7D16265B481D00EC4B1A /* DashboardServerDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DashboardServerDataManager.m; sourceTree = "<group>"; };
+		79CE3EB62BB59F6900698BAF /* LeftLightBlueSeparatorUILabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LeftLightBlueSeparatorUILabel.h; sourceTree = "<group>"; };
+		79CE3EB72BB59F6900698BAF /* LeftLightBlueSeparatorUILabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LeftLightBlueSeparatorUILabel.m; sourceTree = "<group>"; };
+		79CE3EB92BB5A3ED00698BAF /* LeftLightBlueBorderUIView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LeftLightBlueBorderUIView.h; sourceTree = "<group>"; };
+		79CE3EBA2BB5A3ED00698BAF /* LeftLightBlueBorderUIView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LeftLightBlueBorderUIView.m; sourceTree = "<group>"; };
 		79CF87E228815648009AAA0F /* Package.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Package.h; sourceTree = "<group>"; };
 		79CF87E328815648009AAA0F /* Package.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Package.m; sourceTree = "<group>"; };
 		79D206EB2B63611000F71BC8 /* DetailingCalendarEventBoxViewDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailingCalendarEventBoxViewDataManager.h; sourceTree = "<group>"; };
@@ -5806,6 +5815,10 @@
 				799F77DB2B7CF46100B33AA1 /* ArcosBorderUIView.m */,
 				793786882BABDEAD00005A9B /* ArcosRoundedUIView.h */,
 				793786892BABDEAD00005A9B /* ArcosRoundedUIView.m */,
+				79CE3EB62BB59F6900698BAF /* LeftLightBlueSeparatorUILabel.h */,
+				79CE3EB72BB59F6900698BAF /* LeftLightBlueSeparatorUILabel.m */,
+				79CE3EB92BB5A3ED00698BAF /* LeftLightBlueBorderUIView.h */,
+				79CE3EBA2BB5A3ED00698BAF /* LeftLightBlueBorderUIView.m */,
 			);
 			path = CommonClass;
 			sourceTree = "<group>";
@@ -9275,6 +9288,8 @@
 				79263B242B99A76500E6F2D3 /* DetailingCalendarEventBoxListingPlaceHolderTableCell.h */,
 				79263B252B99A76500E6F2D3 /* DetailingCalendarEventBoxListingPlaceHolderTableCell.m */,
 				79F46A5E2BA452D400272690 /* DetailingCalendarEventBoxListingBaseTableCellDelegate.h */,
+				7958DC1F2BB6629A0058CF0D /* DetailingCalendarEventBoxListingBodyForTemplateTableCell.h */,
+				7958DC202BB6629A0058CF0D /* DetailingCalendarEventBoxListingBodyForTemplateTableCell.m */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -10092,6 +10107,7 @@
 				630B3C2B19F01CB9007B2442 /* BranchLeafDataProcessCenter.m in Sources */,
 				630B3B7E19F01CB9007B2442 /* CustomerOrderModalViewController.m in Sources */,
 				63EFE3371D630B9200C93F6E /* CustomerSurveyBlankSentAnswerDataManager.m in Sources */,
+				7958DC212BB6629A0058CF0D /* DetailingCalendarEventBoxListingBodyForTemplateTableCell.m in Sources */,
 				630B3C4B19F01CB9007B2442 /* ImageFormRowsTableViewController.m in Sources */,
 				6307C9BD1ACD8CBA0009FE85 /* SaveRecordUpdateCenter.m in Sources */,
 				795DC67A27E1D46E00756D2D /* ArcosCalendarTableDataManager.m in Sources */,
@@ -10969,6 +10985,7 @@
 				636BAC3D1FEA81380034FAD1 /* CustomerSurveyPreviewDataManager.m in Sources */,
 				630B343919F0127C007B2442 /* DescrDetail.m in Sources */,
 				630B3C7919F01CB9007B2442 /* MATFormRowsTableCell.m in Sources */,
+				79CE3EB82BB59F6900698BAF /* LeftLightBlueSeparatorUILabel.m in Sources */,
 				638076FB218CB0B500591B28 /* MeetingDetailsDataManager.m in Sources */,
 				630B3DB019F01CB9007B2442 /* ArcosPresenter.m in Sources */,
 				63C19BB021A2D6950064726E /* MeetingExpenseDetailsViewController.m in Sources */,
@@ -11094,6 +11111,7 @@
 				630B3B5C19F01CB9007B2442 /* CustomerCallModalViewController.m in Sources */,
 				6304522D19EFC79D00CDE68A /* main.m in Sources */,
 				63D2FB4F1D67173100040C5A /* CustomerInfoAccessTimesTableViewCell.m in Sources */,
+				79CE3EBB2BB5A3ED00698BAF /* LeftLightBlueBorderUIView.m in Sources */,
 				630B34BD19F014E9007B2442 /* ArcosCoreDataManager.m in Sources */,
 				630B3E2F19F01CB9007B2442 /* SBJsonParser.m in Sources */,
 				6300108B2080EBCE00FC2623 /* DashboardMainTemplateTextButton.m in Sources */,
@@ -11275,7 +11293,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.6.11;
+				MARKETING_VERSION = 12.6.13;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11334,7 +11352,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.6.11;
+				MARKETING_VERSION = 12.6.13;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -11473,7 +11491,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.6.11;
+				MARKETING_VERSION = 12.6.13;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

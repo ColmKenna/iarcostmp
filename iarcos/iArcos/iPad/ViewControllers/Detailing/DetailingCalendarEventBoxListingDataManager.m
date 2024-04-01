@@ -123,6 +123,14 @@
     return resDataDict;
 }
 
+- (NSMutableDictionary*)createBodyForTemplateCellDataWithDate:(NSDate*)aDate data:(NSMutableDictionary*)aDataDict {
+    NSMutableDictionary* resDataDict = [NSMutableDictionary dictionaryWithCapacity:3];
+    [resDataDict setObject:[NSNumber numberWithInt:4] forKey:@"CellType"];
+    [resDataDict setObject:aDate forKey:@"FieldDesc"];
+    [resDataDict setObject:aDataDict forKey:@"FieldValue"];
+    return resDataDict;
+}
+
 #pragma mark - Table view data source
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSMutableDictionary* cellData = [self.displayList objectAtIndex:indexPath.row];
@@ -170,6 +178,45 @@
 
 - (void)doubleTapBodyLabelWithIndexPath:(NSIndexPath*)anIndexPath {    
     [self.actionDelegate doubleTapListingBodyLabelWithIndexPath:anIndexPath];
+}
+
+- (void)createBasicDataForTemplateWithDataList:(NSMutableArray*)aDataList {
+    [self buildHourHashMapForTemplateWithDataList:aDataList];
+    self.displayList = [NSMutableArray array];
+    NSDate* startDate = [ArcosUtils beginOfDayWithZeroTime:[NSDate date]];
+    self.dateList = [NSMutableArray arrayWithCapacity:24];
+    [self.dateList addObject:startDate];
+    for (int i = 1; i < 24; i++) {
+        NSDate* tmpDate = [ArcosUtils addHours:i date:startDate];
+        [self.dateList addObject:tmpDate];
+    }
+    for (int i = 0; i < [self.dateList count]; i++) {
+        NSDate* tmpDate = [self.dateList objectAtIndex:i];
+        NSNumber* tmpHourKey = [NSNumber numberWithInt:[ArcosUtils convertNSIntegerToInt:[ArcosUtils hourWithDate:tmpDate]]];
+        NSMutableArray* hourEventList = [self.hourHashMap objectForKey:tmpHourKey];
+        [self.displayList addObject:[self createHeaderCellDataWithDate:tmpDate]];
+        if (hourEventList == nil) {
+            [self.displayList addObject:[self createPlaceHolderCellData]];
+        } else {
+            [self.displayList addObjectsFromArray:hourEventList];
+        }
+    }
+}
+
+- (void)buildHourHashMapForTemplateWithDataList:(NSMutableArray*)aDataList {
+    self.hourHashMap = [NSMutableDictionary dictionary];
+    for (int i = 0; i < [aDataList count]; i++) {
+        NSMutableDictionary* cellData = [aDataList objectAtIndex:i];
+        NSDate* tmpCellStartDate = [cellData objectForKey:@"Date"];
+        int tmpHour = [ArcosUtils convertNSIntegerToInt:[ArcosUtils hourWithDate:tmpCellStartDate]];
+        NSNumber* tmpHourKey = [NSNumber numberWithInt:tmpHour];
+        NSMutableArray* tmpHourDataList = [self.hourHashMap objectForKey:tmpHourKey];
+        if (tmpHourDataList == nil) {
+            tmpHourDataList = [NSMutableArray array];
+        }
+        [tmpHourDataList addObject:[self createBodyForTemplateCellDataWithDate:tmpCellStartDate data:cellData]];
+        [self.hourHashMap setObject:tmpHourDataList forKey:tmpHourKey];
+    }
 }
 
 @end

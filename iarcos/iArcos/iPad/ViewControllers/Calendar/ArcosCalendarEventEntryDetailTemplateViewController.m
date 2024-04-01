@@ -24,6 +24,7 @@
 @synthesize listingNavigationBar = _listingNavigationBar;
 @synthesize listingTableView = _listingTableView;
 @synthesize arcosCalendarEventEntryDetailListingDataManager = _arcosCalendarEventEntryDetailListingDataManager;
+@synthesize listingTitleLabel = _listingTitleLabel;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -48,6 +49,23 @@
     self.HUD = [[[MBProgressHUD alloc] initWithView:self.navigationController.view] autorelease];
     self.HUD.dimBackground = YES;
     [self.navigationController.view addSubview:self.HUD];
+    UIColor* barBackgroundColor = [UIColor colorWithRed:209.0/255.0 green:224.0/255.0 blue:251.0/255.0 alpha:1.0];
+    UIColor* barForegroundColor = [UIColor colorWithRed:68.0/255.0 green:114.0/255.0 blue:196.0/255.0 alpha:1.0];
+    if (@available(iOS 15.0, *)) {
+        UINavigationBarAppearance* customNavigationBarAppearance = [[UINavigationBarAppearance alloc] init];
+        [customNavigationBarAppearance configureWithOpaqueBackground];
+        [customNavigationBarAppearance setBackgroundColor:barBackgroundColor];
+        [customNavigationBarAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:barForegroundColor, NSForegroundColorAttributeName, nil]];
+        self.navigationController.navigationBar.standardAppearance = customNavigationBarAppearance;
+        self.navigationController.navigationBar.scrollEdgeAppearance = customNavigationBarAppearance;
+        [customNavigationBarAppearance release];
+        [self.navigationController.navigationBar setTintColor:barForegroundColor];
+    } else {
+        // Fallback on earlier versions
+        [self.navigationController.navigationBar setBarTintColor:barBackgroundColor];
+        [self.navigationController.navigationBar setTintColor:barForegroundColor];
+    }   
+    
     UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:[GlobalSharedClass shared].cancelButtonText style:UIBarButtonItemStylePlain target:self action:@selector(cancelPressed)];
     [self.navigationItem setLeftBarButtonItem:cancelButton];
     [cancelButton release];
@@ -65,9 +83,23 @@
     
     self.eventTableView.dataSource = self.arcosCalendarEventEntryDetailTableViewController;
     self.eventTableView.delegate = self.arcosCalendarEventEntryDetailTableViewController;
-    self.listingTableView.dataSource = self.arcosCalendarEventEntryDetailListingDataManager;
-    self.listingTableView.delegate = self.arcosCalendarEventEntryDetailListingDataManager;
-    self.listingNavigationBar.topItem.title = self.arcosCalendarEventEntryDetailListingDataManager.barTitleContent;
+//    self.listingTableView.dataSource = self.arcosCalendarEventEntryDetailListingDataManager;
+//    self.listingTableView.delegate = self.arcosCalendarEventEntryDetailListingDataManager;
+    self.listingTableView.dataSource = self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager;
+    self.listingTableView.delegate = self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager;
+//    self.listingNavigationBar.topItem.title = self.arcosCalendarEventEntryDetailListingDataManager.barTitleContent;
+    self.listingTitleLabel.text = self.arcosCalendarEventEntryDetailListingDataManager.barTitleContent;
+    UITapGestureRecognizer* doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleListingTitleDoubleTapGesture:)];
+    doubleTap.numberOfTapsRequired = 2;
+    [self.listingTitleLabel addGestureRecognizer:doubleTap];
+    [doubleTap release];
+}
+
+- (void)handleListingTitleDoubleTapGesture:(id)sender {
+    UITapGestureRecognizer* auxRecognizer = (UITapGestureRecognizer*)sender;
+    if (auxRecognizer.state == UIGestureRecognizerStateEnded) {
+        [self scrollToAppointmentPositionProcessor];
+    }
 }
 
 - (void)dealloc {
@@ -81,20 +113,46 @@
     self.listingNavigationBar = nil;
     self.listingTableView = nil;
     self.arcosCalendarEventEntryDetailListingDataManager = nil;
+    self.listingTitleLabel = nil;
     
     [super dealloc];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.listingTableView reloadData];
+//    [self.listingTableView layoutIfNeeded];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self scrollToAppointmentPositionProcessor];
+    });
     
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [ArcosUtils maskTemplateViewWithView:self.eventTemplateView];
-    [ArcosUtils maskTemplateViewWithView:self.listingTemplateView];
+//    [ArcosUtils maskTemplateViewWithView:self.eventTemplateView];
+//    [ArcosUtils maskTemplateViewWithView:self.listingTemplateView];
     self.HUD.frame = self.navigationController.view.frame;
+    
+//    [self.listingTableView layoutIfNeeded];
+//    [self scrollToAppointmentPositionProcessor];
+}
+
+- (void)scrollToAppointmentPositionProcessor {
+    @try {
+        int tmpRow = 16;
+        for (int i = 0; i < [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.displayList count]; i++) {
+            NSMutableDictionary* resDataDict = [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.displayList objectAtIndex:i];
+            NSNumber* cellType = [resDataDict objectForKey:@"CellType"];
+            if ([cellType intValue] == 4) {
+                tmpRow = i - 1;
+                break;
+            }
+        }
+        [self.listingTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:tmpRow inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    } @catch (NSException *exception) {
+        NSLog(@"exception %@", [exception reason]);
+    }
 }
 
 - (void)cancelPressed {
@@ -343,8 +401,9 @@
 }
 
 - (void)refreshTableRightHandSideBarWithDate:(NSDate*)aDate {
-    self.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:aDate format:[GlobalSharedClass shared].dateFormat];
-    self.listingNavigationBar.topItem.title = self.arcosCalendarEventEntryDetailListingDataManager.barTitleContent;
+    self.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:aDate format:[GlobalSharedClass shared].weekdayDateFormat];
+//    self.listingNavigationBar.topItem.title = self.arcosCalendarEventEntryDetailListingDataManager.barTitleContent;
+    self.listingTitleLabel.text = self.arcosCalendarEventEntryDetailListingDataManager.barTitleContent;;
 }
 
 - (void)retrieveOneDayCalendarEventEntriesWithDate:(NSDate*)aStartDate {
@@ -401,9 +460,11 @@
                 NSDictionary* resultDict = (NSDictionary*)result;
                 NSArray* eventList = [resultDict objectForKey:@"value"];
                 [self.arcosCalendarEventEntryDetailListingDataManager createTemplateListingDisplayListWithEventList:eventList];
-                dispatch_async(dispatch_get_main_queue(), ^{                    
+                [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:self.arcosCalendarEventEntryDetailListingDataManager.displayList];
+                dispatch_async(dispatch_get_main_queue(), ^{
                     [self.listingTableView reloadData];
                     [weakSelf.HUD hide:YES];
+                    [self scrollToAppointmentPositionProcessor];
                 });
             }
         }

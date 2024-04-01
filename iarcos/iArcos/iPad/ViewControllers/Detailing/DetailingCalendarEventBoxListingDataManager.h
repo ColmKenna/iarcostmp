@@ -26,6 +26,7 @@
 @property (nonatomic, retain) DetailingCalendarEventBoxListingTableCellFactory* cellFactory;
 
 - (void)createBasicDataWithDataList:(NSMutableArray*)aDataList;
+- (void)createBasicDataForTemplateWithDataList:(NSMutableArray*)aDataList;
 
 @end
 

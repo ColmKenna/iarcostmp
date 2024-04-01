@@ -192,7 +192,12 @@
         NSString* myCellStartDateStr = [myCellStartDict objectForKey:@"dateTime"];
         NSDate* myCellStartDate = [ArcosUtils dateFromString:myCellStartDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
         [resultCellDataDict setObject:[ArcosUtils convertNilDateToNull:myCellStartDate] forKey:@"Date"];
-        [resultCellDataDict setObject:[ArcosUtils convertNilToEmpty:[myCellData objectForKey:@"subject"]] forKey:@"Name"];
+        
+        NSString* subjectStr = [ArcosUtils convertNilToEmpty:[myCellData objectForKey:@"subject"]];
+        NSDictionary* locationDict = [myCellData objectForKey:@"location"];
+        NSString* locationStr = [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"displayName"]];
+        
+        [resultCellDataDict setObject:[ArcosUtils trim:[NSString stringWithFormat:@"%@ %@",subjectStr, locationStr]] forKey:@"Name"];
         NSNumber* myLocationIUR = [self retrieveLocationIURWithEventDict:myCellData];
         [resultCellDataDict setObject:[ArcosUtils convertNilToZero:myLocationIUR] forKey:@"LocationIUR"];
         [templateListingDisplayList addObject:resultCellDataDict];

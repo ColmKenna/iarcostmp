@@ -31,9 +31,9 @@
 - (void)configCellWithData:(NSMutableDictionary*)aCellData {
     [super configCellWithData:aCellData];
     NSDictionary* cellData = [aCellData objectForKey:@"FieldValue"];
-    NSString* subjectStr = [cellData objectForKey:@"subject"];
+    NSString* subjectStr = [ArcosUtils convertNilToEmpty:[cellData objectForKey:@"subject"]];
     NSDictionary* locationDict = [cellData objectForKey:@"location"];
-    NSString* locationStr = [locationDict objectForKey:@"displayName"];
+    NSString* locationStr = [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"displayName"]];
     
     NSDictionary* cellStartDict = [cellData objectForKey:@"start"];
     NSString* tmpCellStartDateStr = [cellStartDict objectForKey:@"dateTime"];

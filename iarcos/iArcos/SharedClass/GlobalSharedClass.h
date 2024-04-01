@@ -65,6 +65,7 @@ typedef enum {
     NSString* _utcDateFormat;
     NSString* _stdUtcDateTimeFormat;
     NSString* _stdDateTimeFormat;
+    NSString* _weekdayDateFormat;
     NSString* _ieTimeZone;
     CGSize orderPadsSize;
     NSString* _noDataFoundMsg;
@@ -192,6 +193,7 @@ typedef enum {
 @property (nonatomic,retain) NSString* utcDateFormat;
 @property (nonatomic,retain) NSString* stdUtcDateTimeFormat;
 @property (nonatomic,retain) NSString* stdDateTimeFormat;
+@property (nonatomic,retain) NSString* weekdayDateFormat;
 @property (nonatomic,retain) NSString* ieTimeZone;
 @property (nonatomic,assign) CGSize orderPadsSize;
 @property (nonatomic,retain) NSString* noDataFoundMsg;

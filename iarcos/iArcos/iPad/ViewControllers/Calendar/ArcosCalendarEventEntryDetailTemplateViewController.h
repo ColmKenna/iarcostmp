@@ -27,6 +27,7 @@
     UINavigationBar* _listingNavigationBar;
     UITableView* _listingTableView;
     ArcosCalendarEventEntryDetailListingDataManager* _arcosCalendarEventEntryDetailListingDataManager;
+    UILabel* _listingTitleLabel;
 }
 
 @property(nonatomic, retain) IBOutlet UIView* eventTemplateView;
@@ -40,6 +41,7 @@
 @property(nonatomic, retain) IBOutlet UINavigationBar* listingNavigationBar;
 @property(nonatomic, retain) IBOutlet UITableView* listingTableView;
 @property(nonatomic, retain) ArcosCalendarEventEntryDetailListingDataManager* arcosCalendarEventEntryDetailListingDataManager;
+@property(nonatomic, retain) IBOutlet UILabel* listingTitleLabel;
 
 @end
 
