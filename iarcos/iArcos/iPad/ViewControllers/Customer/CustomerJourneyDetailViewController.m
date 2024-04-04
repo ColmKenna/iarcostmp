@@ -144,22 +144,39 @@
 //    if (cell == nil) {
 //        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
 //    }
-    static NSString *CellIdentifier = @"IdCustomerListingTableCell";
+    static NSString *CellIdentifier = @"IdCustomerJourneyDetailTableViewCell";
     
-    CustomerListingTableCell* cell = (CustomerListingTableCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    CustomerJourneyDetailTableViewCell* cell = (CustomerJourneyDetailTableViewCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if(cell == nil) {
         
-        NSArray* nibContents = [[NSBundle mainBundle] loadNibNamed:@"CustomerListingTableCell" owner:self options:nil];
+        NSArray* nibContents = [[NSBundle mainBundle] loadNibNamed:@"CustomerJourneyDetailTableViewCell" owner:self options:nil];
         
         for (id nibItem in nibContents) {
-            if ([nibItem isKindOfClass:[CustomerListingTableCell class]] && [[(CustomerListingTableCell *)nibItem reuseIdentifier] isEqualToString: CellIdentifier]) {
-                cell = (CustomerListingTableCell *) nibItem;                
+            if ([nibItem isKindOfClass:[CustomerJourneyDetailTableViewCell class]] && [[(CustomerJourneyDetailTableViewCell *)nibItem reuseIdentifier] isEqualToString: CellIdentifier]) {
+                cell = (CustomerJourneyDetailTableViewCell *) nibItem;
             }
         }
     }
     
     // Configure the cell...    
     NSMutableDictionary* aCust = [self getCustomerWithIndexPath:indexPath];
+    cell.weekDayCallNumberLabel.text = [NSString stringWithFormat:@"%@:%@:%@", [aCust objectForKey:@"WeekNumber"], [aCust objectForKey:@"DayNumber"], [aCust objectForKey:@"CallNumber"]];
+    for (UIGestureRecognizer* recognizer in cell.weekDayCallNumberLabel.gestureRecognizers) {
+        [cell.weekDayCallNumberLabel removeGestureRecognizer:recognizer];
+    }
+    for (UIGestureRecognizer* recognizer in cell.contentView.gestureRecognizers) {
+        [cell.contentView removeGestureRecognizer:recognizer];
+    }
+    UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
+    [cell.contentView addGestureRecognizer:singleTap];
+    
+    
+    UITapGestureRecognizer* doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapGesture:)];
+    doubleTap.numberOfTapsRequired = 2;
+    [singleTap requireGestureRecognizerToFail:doubleTap];
+    [cell.weekDayCallNumberLabel addGestureRecognizer:doubleTap];
+    [doubleTap release];
+    [singleTap release];
     //Customer Name
     cell.nameLabel.text =[aCust objectForKey:@"Name"];    
     //Address
@@ -211,6 +228,41 @@
     }
 
     return cell;
+}
+
+- (void)handleSingleTapGesture:(UITapGestureRecognizer*)sender {
+    UITapGestureRecognizer* recognizer = (UITapGestureRecognizer*)sender;
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        NSIndexPath* swipedIndexPath = [ArcosUtils indexPathWithRecognizer:recognizer tableview:self.tableView];
+        NSMutableDictionary* aCust = [self getCustomerWithIndexPath:swipedIndexPath];
+        [self.checkLocationIURTemplateProcessor checkLocationIUR:[aCust objectForKey:@"LocationIUR"] locationName:[aCust objectForKey:@"Name"] indexPath:swipedIndexPath];
+    }
+}
+
+- (void)handleDoubleTapGesture:(UITapGestureRecognizer*)sender {
+    UITapGestureRecognizer* recognizer = (UITapGestureRecognizer*)sender;
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        NSIndexPath* swipedIndexPath = [ArcosUtils indexPathWithRecognizer:recognizer tableview:self.tableView];
+        NSMutableDictionary* tmpJourneyLocationDict = [self getCustomerWithIndexPath:swipedIndexPath];
+        CustomerJourneyDetailDateViewController* CJDDVC = [[CustomerJourneyDetailDateViewController alloc] initWithNibName:@"CustomerJourneyDetailDateViewController" bundle:nil];
+        CJDDVC.customerJourneyDetailDateDataManager.journeyLocationDict = tmpJourneyLocationDict;
+        if (@available(iOS 13.0, *)) {
+            CJDDVC.modalInPresentation = YES;
+        }
+        CJDDVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        CJDDVC.actionDelegate = self;
+        [self presentViewController:CJDDVC animated:YES completion:nil];
+        [CJDDVC release];
+    }
+}
+
+#pragma mark - CustomerJourneyDetailDateViewControllerDelegate
+- (void)saveButtonPressedFromJourneyDetailDate {
+    [self tapJourneyButtonProcessor];
+}
+
+- (void)cancelButtonPressedFromJourneyDetailDate {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -277,8 +329,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSMutableDictionary* aCust = [self getCustomerWithIndexPath:indexPath];
-    [self.checkLocationIURTemplateProcessor checkLocationIUR:[aCust objectForKey:@"LocationIUR"] locationName:[aCust objectForKey:@"Name"] indexPath:indexPath];
+//    NSMutableDictionary* aCust = [self getCustomerWithIndexPath:indexPath];
+//    [self.checkLocationIURTemplateProcessor checkLocationIUR:[aCust objectForKey:@"LocationIUR"] locationName:[aCust objectForKey:@"Name"] indexPath:indexPath];
     
     
 }
@@ -332,13 +384,20 @@
 }
 
 - (void)refreshParentContentForJourneyStartDate {
+    [self tapJourneyButtonProcessor];
+}
+
+- (void)tapJourneyButtonProcessor {
     //click the journey button
     UINavigationController* tmpNavigationController = (UINavigationController*)self.rcsStackedController.myMasterViewController.masterViewController;
     
-    CustomerGroupViewController* groupViewController = [tmpNavigationController.viewControllers objectAtIndex:0];    
+    CustomerGroupViewController* groupViewController = [tmpNavigationController.viewControllers objectAtIndex:0];
     groupViewController.segmentBut.selectedSegmentIndex = 1;
-    [groupViewController.segmentBut sendActionsForControlEvents:UIControlEventValueChanged]; 
+    [groupViewController.segmentBut sendActionsForControlEvents:UIControlEventValueChanged];
     groupViewController.segmentBut.selectedSegmentIndex = UISegmentedControlNoSegment;
+    if (groupViewController.auxJourneyIndexPath.row > [groupViewController.customerJourneyDataManager.displayList count] - 1) {
+        groupViewController.auxJourneyIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    }
     [groupViewController processJourneyWithIndexPath:groupViewController.auxJourneyIndexPath];
 }
 

@@ -11,8 +11,10 @@
 #import "CustomerJourneyDataManager.h"
 #import "CustomerInfoTableViewController.h"
 #import "CustomerJourneyStartDateViewController.h"
+#import "CustomerJourneyDetailTableViewCell.h"
+#import "CustomerJourneyDetailDateViewController.h"
 
-@interface CustomerJourneyDetailViewController : CustomerBaseDetailViewController <ModelViewDelegate, GenericRefreshParentContentDelegate, CustomerJourneyStartDateDelegate,CheckLocationIURTemplateDelegate>{
+@interface CustomerJourneyDetailViewController : CustomerBaseDetailViewController <ModelViewDelegate, GenericRefreshParentContentDelegate, CustomerJourneyStartDateDelegate,CheckLocationIURTemplateDelegate, CustomerJourneyDetailDateViewControllerDelegate>{
     CustomerJourneyDataManager* _customerJourneyDataManager;
 //    UIPopoverController* _actionPopoverController;
     CustomerJourneyStartDateViewController* _cjsdvc;

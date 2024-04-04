@@ -117,5 +117,6 @@
 + (NSString*)retrieveDefinedIssuesText;
 + (NSString*)getMimeTypeWithFileName:(NSString*)aFileName;
 + (void)maskTemplateViewWithView:(UIView*)aView;
++ (void)maskTemplateViewWithView:(UIView*)aView radius:(CGSize)aRadius;
 
 @end

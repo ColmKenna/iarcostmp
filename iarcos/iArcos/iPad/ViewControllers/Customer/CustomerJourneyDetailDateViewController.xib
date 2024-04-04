@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="ipad10_9rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CustomerJourneyDetailDateViewController">
+            <connections>
+                <outlet property="cancelButton" destination="NYt-Cg-sBO" id="do4-U7-zZu"/>
+                <outlet property="myNavigationBar" destination="2Ns-lp-uEh" id="y7g-uU-mvZ"/>
+                <outlet property="myPickerView" destination="uty-0T-j1A" id="0yf-5i-0Y6"/>
+                <outlet property="saveButton" destination="fNV-js-EyM" id="XNH-IE-11T"/>
+                <outlet property="templateView" destination="e0d-WE-qKm" id="FaU-EY-BHS"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e0d-WE-qKm">
+                    <rect key="frame" x="175" y="425" width="470" height="330"/>
+                    <subviews>
+                        <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Ns-lp-uEh">
+                            <rect key="frame" x="0.0" y="0.0" width="470" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="1Hk-rt-j2R"/>
+                            </constraints>
+                            <items>
+                                <navigationItem title="Title" id="7VG-em-ZID"/>
+                            </items>
+                        </navigationBar>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNV-js-EyM" customClass="ArcosBorderUIButton">
+                            <rect key="frame" x="100" y="280" width="100" height="35"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Save"/>
+                            <connections>
+                                <action selector="saveButtonPressed:" destination="-1" eventType="touchUpInside" id="I20-3y-biB"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYt-Cg-sBO" customClass="ArcosBorderUIButton">
+                            <rect key="frame" x="270" y="280" width="100" height="35"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Cancel"/>
+                            <connections>
+                                <action selector="cancelButtonPressed:" destination="-1" eventType="touchUpInside" id="Tq1-SH-Mi2"/>
+                            </connections>
+                        </button>
+                        <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uty-0T-j1A">
+                            <rect key="frame" x="0.0" y="50" width="470" height="215"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="ajW-No-Sx0"/>
+                                <outlet property="delegate" destination="-1" id="9Rq-7X-W2p"/>
+                            </connections>
+                        </pickerView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="2Ns-lp-uEh" firstAttribute="top" secondItem="e0d-WE-qKm" secondAttribute="top" id="0tm-IR-XeW"/>
+                        <constraint firstItem="2Ns-lp-uEh" firstAttribute="leading" secondItem="e0d-WE-qKm" secondAttribute="leading" id="AdA-Bz-Hzn"/>
+                        <constraint firstAttribute="width" constant="470" id="DeK-AS-kth"/>
+                        <constraint firstAttribute="trailing" secondItem="2Ns-lp-uEh" secondAttribute="trailing" id="NwW-xu-KXo"/>
+                        <constraint firstAttribute="height" constant="330" id="uNR-5P-jDV"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="e0d-WE-qKm" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="DHX-l7-XTv"/>
+                <constraint firstItem="e0d-WE-qKm" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="J4e-j5-bzz"/>
+            </constraints>
+            <point key="canvasLocation" x="-16" y="-33"/>
+        </view>
+    </objects>
+</document>

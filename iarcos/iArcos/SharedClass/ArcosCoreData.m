@@ -4693,7 +4693,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 -(NSMutableArray*)journeyWithWeekNumber:(NSNumber*)aWeekNumber dayNumber:(NSNumber*)aDayNumber {
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"WeekNumber = %d and DayNumber = %d", [aWeekNumber intValue], [aDayNumber intValue]];
     NSArray* sortDescNames = [NSArray arrayWithObjects:@"CallNumber",nil];
-    NSArray* properties = [NSArray arrayWithObjects:@"WeekNumber",@"DayNumber",@"CallNumber",@"LocationIUR",nil];
+    NSArray* properties = [NSArray arrayWithObjects:@"WeekNumber",@"DayNumber",@"CallNumber",@"LocationIUR",@"IUR",nil];
     NSMutableArray* objectsArray = 
     [self fetchRecordsWithEntity:@"Journey" withPropertiesToFetch:properties  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];
     return objectsArray;
@@ -4984,16 +4984,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 
 -(void)executeTransaction {
     if (1==1) {
-//        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"IUR = 158386"];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"LocationProductMAT" withPropertiesToFetch:nil withPredicate:nil withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"IUR = 1"];
+        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Employee" withPropertiesToFetch:nil withPredicate:nil withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
         if ([objectsArray count] > 0) {
-            for (LocationProductMAT* aLocationProductMAT in objectsArray) {
-                aLocationProductMAT.locationIUR = [NSNumber numberWithInt:161023];
+            for (Employee* anEmployee in objectsArray) {
+                anEmployee.JourneyStartDate = [ArcosUtils dateFromString:@"20/03/2024" format:[GlobalSharedClass shared].dateFormat];
                 [self saveContext:self.fetchManagedObjectContext];
             }
         }
     }
-    if (1==1) {
+    if (1!=1) {
         NSPredicate* predicate = [NSPredicate predicateWithFormat:@"locationIUR = 161023 and productIUR = 160421"];
         NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"LocationProductMAT" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
         if ([objectsArray count] > 0) {

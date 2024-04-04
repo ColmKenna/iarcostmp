@@ -1052,5 +1052,15 @@
     [maskLayer release];
 }
 
++ (void)maskTemplateViewWithView:(UIView*)aView radius:(CGSize)aRadius {
+    UIBezierPath* maskPath = [UIBezierPath bezierPathWithRoundedRect:aView.bounds byRoundingCorners:(UIRectCornerTopLeft|UIRectCornerTopRight|UIRectCornerBottomLeft|UIRectCornerBottomRight) cornerRadii:aRadius];
+    
+    CAShapeLayer* maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = aView.bounds;
+    maskLayer.path = maskPath.CGPath;
+    aView.layer.mask = maskLayer;
+    [maskLayer release];
+}
+
 
 @end

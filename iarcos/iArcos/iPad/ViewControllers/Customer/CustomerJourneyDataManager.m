@@ -149,7 +149,12 @@
         NSDictionary* tmpJourneyDict = [journeyList objectAtIndex:i];
         NSDictionary* tmpLocationDict = [locationDictHashMap objectForKey:[tmpJourneyDict objectForKey:@"LocationIUR"]];
         if (tmpLocationDict != nil) {
-            [resultLocationList addObject:tmpLocationDict];
+            NSMutableDictionary* resultLocationDict = [NSMutableDictionary dictionaryWithDictionary:tmpLocationDict];
+            [resultLocationDict setObject:[ArcosUtils convertNilToZero:[tmpJourneyDict objectForKey:@"WeekNumber"]] forKey:@"WeekNumber"];
+            [resultLocationDict setObject:[ArcosUtils convertNilToZero:[tmpJourneyDict objectForKey:@"DayNumber"]] forKey:@"DayNumber"];
+            [resultLocationDict setObject:[ArcosUtils convertNilToZero:[tmpJourneyDict objectForKey:@"CallNumber"]] forKey:@"CallNumber"];
+            [resultLocationDict setObject:[ArcosUtils convertNilToZero:[tmpJourneyDict objectForKey:@"IUR"]] forKey:@"JourneyIUR"];
+            [resultLocationList addObject:resultLocationDict];
         }
     }
 //    NSLog(@"locationList and count is %d", [locationList count]);
