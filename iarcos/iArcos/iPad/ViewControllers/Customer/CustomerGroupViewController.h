@@ -23,6 +23,7 @@
 #import "CustomerGroupContactDataManager.h"
 #import "CustomerGroupTableCellFactory.h"
 #import "AccessTimesWidgetViewController.h"
+#import "CustomerCalendarListTableViewController.h"
 typedef enum {
     CustomerGroupRequestSourceMaster = 0,
     CustomerGroupRequestSourceContact
@@ -69,6 +70,7 @@ typedef enum {
     CustomerGroupTableCellFactory* _tableCellFactory;
     AccessTimesWidgetViewController* _accessTimesWidgetViewController;
     NSString* _outlookTypeText;
+    CustomerCalendarListTableViewController* _customerCalendarListTableViewController;
 }
 @property(nonatomic, assign) CustomerGroupRequestSource requestSource;
 @property(nonatomic, assign) id<GenericMasterTemplateDelegate> myMoveDelegate;
@@ -103,6 +105,7 @@ typedef enum {
 @property(nonatomic, retain) CustomerGroupTableCellFactory* tableCellFactory;
 @property(nonatomic, retain) AccessTimesWidgetViewController* accessTimesWidgetViewController;
 @property(nonatomic, retain) NSString* outlookTypeText;
+@property(nonatomic, retain) CustomerCalendarListTableViewController* customerCalendarListTableViewController;
 
 - (instancetype)initWithStyle:(UITableViewStyle)aStyle requestSource:(CustomerGroupRequestSource)aRequestSource;
 -(void)showDetailViewController:(CustomerBaseDetailViewController*)baseDetailViewController;

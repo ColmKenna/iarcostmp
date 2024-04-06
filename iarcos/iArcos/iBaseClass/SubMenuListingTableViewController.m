@@ -81,7 +81,7 @@
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableCallOnlyFlag]) {
             self.displayList = [NSMutableArray arrayWithObjects:presenterCellData, callCellData, surveyCellData, mapCellData, photosCellData, nil];
         }
-        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showCalendarEventBoxWhenCreatingCallFlag]) {
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
             [self.displayList addObject:appointmentCellData];
         }
         self.CLController = [[[CoreLocationController alloc] init] autorelease];

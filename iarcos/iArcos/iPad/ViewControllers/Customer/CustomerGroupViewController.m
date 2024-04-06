@@ -47,6 +47,7 @@
 @synthesize tableCellFactory = _tableCellFactory;
 @synthesize accessTimesWidgetViewController = _accessTimesWidgetViewController;
 @synthesize outlookTypeText = _outlookTypeText;
+@synthesize customerCalendarListTableViewController = _customerCalendarListTableViewController;
 
 - (instancetype)initWithStyle:(UITableViewStyle)aStyle requestSource:(CustomerGroupRequestSource)aRequestSource {
     self.requestSource = aRequestSource;
@@ -78,7 +79,8 @@
             self.customerGroupDataManager = [[[CustomerGroupContactDataManager alloc] init] autorelease];
             self.groupType = [GlobalSharedClass shared].contactText;
         }
-        self.outlookTypeText = @"Outlook";
+        self.outlookTypeText = @"Calendar";
+        self.customerCalendarListTableViewController = [[[CustomerCalendarListTableViewController alloc] initWithNibName:@"CustomerCalendarListTableViewController" bundle:nil] autorelease];
     }
     return self;
 }
@@ -112,6 +114,7 @@
     self.tableCellFactory = nil;
     self.accessTimesWidgetViewController = nil;
     self.outlookTypeText = nil;
+    self.customerCalendarListTableViewController = nil;
     
     [super dealloc];
 }
@@ -131,6 +134,9 @@
     [super viewDidLoad];
     if (self.requestSource == CustomerGroupRequestSourceMaster) {
         NSArray* statusItems = [NSArray arrayWithObjects:self.listTypeText, self.journeyTypeText, nil];// self.outlookTypeText,
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+            statusItems = [NSArray arrayWithObjects:self.listTypeText, self.journeyTypeText, self.outlookTypeText, nil];
+        }
         self.segmentBut = [[[UISegmentedControl alloc] initWithItems:statusItems] autorelease];
         
         [self.segmentBut addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
@@ -295,7 +301,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CustomerBaseDetailViewController* baseDetailViewController;
+    CustomerBaseDetailViewController* baseDetailViewController = nil;
     
     if ([self.groupType isEqualToString:@"Journey"]) {
         if (self.journeyDetailViewController == nil) {
@@ -338,7 +344,7 @@
         }
             break;
         case 2: {
-            
+            [self showDetailViewController:self.customerCalendarListTableViewController];
         }
             break;
         default:
