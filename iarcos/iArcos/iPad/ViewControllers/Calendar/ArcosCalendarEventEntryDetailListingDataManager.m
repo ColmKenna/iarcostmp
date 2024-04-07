@@ -16,6 +16,7 @@
 @synthesize barTitleContent = _barTitleContent;
 @synthesize hideEditButtonFlag = _hideEditButtonFlag;
 @synthesize detailingCalendarEventBoxListingDataManager = _detailingCalendarEventBoxListingDataManager;
+@synthesize showBorderFlag = _showBorderFlag;
 
 - (instancetype)init {
     self = [super init];
@@ -23,6 +24,7 @@
         self.hideEditButtonFlag = NO;
         self.detailingCalendarEventBoxListingDataManager = [[[DetailingCalendarEventBoxListingDataManager alloc] init] autorelease];
         self.detailingCalendarEventBoxListingDataManager.actionDelegate = self;
+        self.showBorderFlag = NO;
     }
     return self;
 }

@@ -16,6 +16,8 @@
 #import "ArcosCalendarEventEntryDetailListingDataManager.h"
 
 @interface ArcosCalendarEventEntryDetailTemplateViewController : UIViewController <ArcosCalendarEventEntryDetailTableViewControllerDelegate, ArcosCalendarEventEntryDetailListingDataManagerDelegate>{
+    UIView* _mainTemplateView;
+    UINavigationBar* _mainNavigationBar;
     UIView* _eventTemplateView;
     UIView* _listingTemplateView;
     id<ArcosCalendarEventEntryDetailTemplateViewControllerDelegate> _actionDelegate;
@@ -30,6 +32,8 @@
     UILabel* _listingTitleLabel;
 }
 
+@property(nonatomic, retain) IBOutlet UIView* mainTemplateView;
+@property(nonatomic, retain) IBOutlet UINavigationBar* mainNavigationBar;
 @property(nonatomic, retain) IBOutlet UIView* eventTemplateView;
 @property(nonatomic, retain) IBOutlet UIView* listingTemplateView;
 @property(nonatomic, assign) id<ArcosCalendarEventEntryDetailTemplateViewControllerDelegate> actionDelegate;

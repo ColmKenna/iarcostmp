@@ -38,6 +38,7 @@
 
 - (void)prepareFieldValueListWithWeekNumber:(NSNumber*)aWeekNumber dayNumber:(NSNumber*)aDayNumber callNumber:(NSNumber*)aCallNumber;
 - (void)updateJourneyWithWeekNumber:(NSNumber*)aWeekNumber dayNumber:(NSNumber*)aDayNumber callNumber:(NSNumber*)aCallNumber IUR:(NSNumber*)anIUR;
+- (void)removeJourneyWithIUR:(NSNumber*)anIUR;
 
 @end
 

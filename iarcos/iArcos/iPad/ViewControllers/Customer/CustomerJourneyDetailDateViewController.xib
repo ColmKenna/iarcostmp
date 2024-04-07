@@ -23,10 +23,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e0d-WE-qKm">
-                    <rect key="frame" x="175" y="425" width="470" height="330"/>
+                    <rect key="frame" x="235" y="425" width="350" height="330"/>
                     <subviews>
                         <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Ns-lp-uEh">
-                            <rect key="frame" x="0.0" y="0.0" width="470" height="50"/>
+                            <rect key="frame" x="0.0" y="0.0" width="350" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="1Hk-rt-j2R"/>
                             </constraints>
@@ -35,7 +35,7 @@
                             </items>
                         </navigationBar>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNV-js-EyM" customClass="ArcosBorderUIButton">
-                            <rect key="frame" x="100" y="280" width="100" height="35"/>
+                            <rect key="frame" x="50" y="280" width="100" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" title="Save"/>
@@ -44,7 +44,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYt-Cg-sBO" customClass="ArcosBorderUIButton">
-                            <rect key="frame" x="270" y="280" width="100" height="35"/>
+                            <rect key="frame" x="200" y="280" width="100" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" title="Cancel"/>
@@ -53,7 +53,7 @@
                             </connections>
                         </button>
                         <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uty-0T-j1A">
-                            <rect key="frame" x="0.0" y="50" width="470" height="215"/>
+                            <rect key="frame" x="0.0" y="50" width="350" height="215"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <connections>
                                 <outlet property="dataSource" destination="-1" id="ajW-No-Sx0"/>
@@ -65,7 +65,7 @@
                     <constraints>
                         <constraint firstItem="2Ns-lp-uEh" firstAttribute="top" secondItem="e0d-WE-qKm" secondAttribute="top" id="0tm-IR-XeW"/>
                         <constraint firstItem="2Ns-lp-uEh" firstAttribute="leading" secondItem="e0d-WE-qKm" secondAttribute="leading" id="AdA-Bz-Hzn"/>
-                        <constraint firstAttribute="width" constant="470" id="DeK-AS-kth"/>
+                        <constraint firstAttribute="width" constant="350" id="DeK-AS-kth"/>
                         <constraint firstAttribute="trailing" secondItem="2Ns-lp-uEh" secondAttribute="trailing" id="NwW-xu-KXo"/>
                         <constraint firstAttribute="height" constant="330" id="uNR-5P-jDV"/>
                     </constraints>

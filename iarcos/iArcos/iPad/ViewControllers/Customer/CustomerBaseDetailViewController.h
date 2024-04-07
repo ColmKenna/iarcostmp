@@ -31,5 +31,6 @@
 -(void)resetCustomer:(NSMutableArray*)customers;
 - (void)configWholesalerLogo;
 - (void)syncCustomerContactViewController;
+- (void)filterPressed:(id)sender;
 
 @end

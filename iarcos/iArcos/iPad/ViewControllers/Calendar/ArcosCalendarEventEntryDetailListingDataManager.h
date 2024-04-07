@@ -21,6 +21,7 @@
     NSString* _barTitleContent;
     BOOL _hideEditButtonFlag;
     DetailingCalendarEventBoxListingDataManager* _detailingCalendarEventBoxListingDataManager;
+    BOOL _showBorderFlag;
 }
 
 @property(nonatomic, assign) id<ArcosCalendarEventEntryDetailListingDataManagerDelegate> actionDelegate;
@@ -30,6 +31,7 @@
 @property(nonatomic, retain) NSString* barTitleContent;
 @property(nonatomic, assign) BOOL hideEditButtonFlag;
 @property(nonatomic, retain) DetailingCalendarEventBoxListingDataManager* detailingCalendarEventBoxListingDataManager;
+@property(nonatomic, assign) BOOL showBorderFlag;
 
 - (void)processDataListWithDateFormatText:(NSString*)aDateFormatText;
 - (NSString*)retrieveCalendarURIWithStartDate:(NSString*)aStartDate endDate:(NSString*)anEndDate;

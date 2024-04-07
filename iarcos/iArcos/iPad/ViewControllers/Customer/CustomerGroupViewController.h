@@ -113,4 +113,7 @@ typedef enum {
 - (NSMutableArray*)contactDataGenerator:(NSMutableDictionary*)aDict;
 - (void)resetButtonPressed:(id)sender;
 - (void)processJourneyWithIndexPath:(NSIndexPath*)anIndexPath;
+- (void)tapJourneyButtonPartialProcessor;
+- (void)processJourneyFromDateWheelsWithIndexPath:(NSIndexPath*)anIndexPath journeyIUR:(NSNumber*)aJourneyIUR;
+- (void)processJourneyFromDateWheelsRemoveButtonWithIndexPath:(NSIndexPath*)anIndexPath;
 @end

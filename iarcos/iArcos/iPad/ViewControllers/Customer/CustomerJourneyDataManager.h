@@ -43,5 +43,6 @@
 - (NSNumber*)retrieveOrderQtyWithIndexPath:(NSIndexPath*)anIndexPath;
 
 - (void)processCalendarJourneyData;
+- (NSIndexPath*)retrieveIndexPathWithJourneyIUR:(NSNumber*)aJourneyIUR;
 
 @end

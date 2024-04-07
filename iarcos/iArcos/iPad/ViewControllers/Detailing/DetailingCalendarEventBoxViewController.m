@@ -7,6 +7,7 @@
 //
 
 #import "DetailingCalendarEventBoxViewController.h"
+#import "ArcosRootViewController.h"
 
 @interface DetailingCalendarEventBoxViewController ()
 
@@ -41,6 +42,9 @@
 @synthesize updateButton = _updateButton;
 @synthesize cancelButton = _cancelButton;
 @synthesize detailingCalendarEventBoxListingDataManager = _detailingCalendarEventBoxListingDataManager;
+@synthesize arcosRootViewController = _arcosRootViewController;
+@synthesize globalNavigationController = _globalNavigationController;
+@synthesize imageButton = _imageButton;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -54,6 +58,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.arcosRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
     UIColor* barBackgroundColor = [UIColor colorWithRed:209.0/255.0 green:224.0/255.0 blue:251.0/255.0 alpha:1.0];
     UIColor* barForegroundColor = [UIColor colorWithRed:68.0/255.0 green:114.0/255.0 blue:196.0/255.0 alpha:1.0];
     if (@available(iOS 15.0, *)) {
@@ -185,14 +190,27 @@
     ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList = templateListingDisplayList;
     [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
     ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].weekdayDateFormat];
-    UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
-    tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
-    tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
-    tmpNavigationController.popoverPresentationController.barButtonItem = self.addEventBarButtonItem;
-    tmpNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-    [self presentViewController:tmpNavigationController animated:YES completion:nil];
+//    UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
+//    tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
+//    tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+//    tmpNavigationController.popoverPresentationController.barButtonItem = self.addEventBarButtonItem;
+//    tmpNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+//    [self presentViewController:tmpNavigationController animated:YES completion:nil];
+//    [ACEEDTVC release];
+//    [tmpNavigationController release];
+//    ACEEDTVC.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:ACEEDTVC] autorelease];
     [ACEEDTVC release];
-    [tmpNavigationController release];
+    CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.arcosRootViewController];
+    self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+    [self.arcosRootViewController addChildViewController:self.globalNavigationController];
+    [self.arcosRootViewController.view addSubview:self.globalNavigationController.view];
+    [self.globalNavigationController didMoveToParentViewController:self.arcosRootViewController];
+    [UIView animateWithDuration:0.3f animations:^{
+        self.globalNavigationController.view.frame = parentNavigationRect;
+    } completion:^(BOOL finished){
+        
+    }];
 }
 
 #pragma mark ArcosCalendarEventEntryDetailTemplateViewControllerDelegate
@@ -210,7 +228,16 @@
 
 #pragma mark ModalPresentViewControllerDelegate
 - (void)didDismissModalPresentViewController {
-    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self dismissViewControllerAnimated:YES completion:nil];
+    [UIView animateWithDuration:0.3f animations:^{
+        CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.arcosRootViewController];
+        self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+    } completion:^(BOOL finished){
+        [self.globalNavigationController willMoveToParentViewController:nil];
+        [self.globalNavigationController.view removeFromSuperview];
+        [self.globalNavigationController removeFromParentViewController];
+        self.globalNavigationController = nil;
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -283,6 +310,9 @@
     self.updateButton = nil;
     self.cancelButton = nil;
     self.detailingCalendarEventBoxListingDataManager = nil;
+    self.arcosRootViewController = nil;
+    self.globalNavigationController = nil;
+    self.imageButton = nil;
     
     [super dealloc];
 }
@@ -412,6 +442,7 @@
                         dispatch_async(dispatch_get_main_queue(), ^{
 //                            self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
 //                            self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.nextAppointmentText;
+                            [self.imageButton setImage:[UIImage imageNamed:@"List2.png"] forState:UIControlStateNormal];
                             self.nextAppointmentValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
 //                            self.calendarDateValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].datetimehmFormat];
                             self.calendarDatePicker.date = self.detailingCalendarEventBoxViewDataManager.calendarDateData;
@@ -427,10 +458,11 @@
                             self.nextAppointmentDesc.hidden = YES;
                             self.nextAppointmentValue.hidden = YES;
                         });
-                    } else {
+                    } else {                        
                         self.detailingCalendarEventBoxViewDataManager.calendarDateData = self.detailingCalendarEventBoxViewDataManager.journeyDateForCurrentLocation;
                         dispatch_async(dispatch_get_main_queue(), ^{
 //                            self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
+                            [self.imageButton setImage:[UIImage imageNamed:@"JourneyCar.png"] forState:UIControlStateNormal];
                             self.nextAppointmentValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
                             self.calendarDatePicker.date = self.detailingCalendarEventBoxViewDataManager.calendarDateData;
                         });
@@ -867,7 +899,7 @@
 - (void)doubleTapListingBodyLabelWithIndexPath:(NSIndexPath *)anIndexPath {
     NSMutableDictionary* cellData = [self.detailingCalendarEventBoxListingDataManager.displayList objectAtIndex:anIndexPath.row];
     NSDictionary* cellFieldValueData = [cellData objectForKey:@"FieldValue"];
-    DetailingCalendarEventBoxListingBaseTableCell* cell = (DetailingCalendarEventBoxListingBaseTableCell*)[self.listingTableView cellForRowAtIndexPath:anIndexPath];
+//    DetailingCalendarEventBoxListingBaseTableCell* cell = (DetailingCalendarEventBoxListingBaseTableCell*)[self.listingTableView cellForRowAtIndexPath:anIndexPath];
     NSMutableDictionary* eventDataDict = [self.detailingCalendarEventBoxViewDataManager createEditEventEntryDetailTemplateData:cellFieldValueData];
     ArcosCalendarEventEntryDetailTemplateViewController* ACEEDTVC = [[ArcosCalendarEventEntryDetailTemplateViewController alloc] initWithNibName:@"ArcosCalendarEventEntryDetailTemplateViewController" bundle:nil];
     ACEEDTVC.actionDelegate = self;
@@ -884,15 +916,28 @@
     NSString* startDateStr = [startDict objectForKey:@"dateTime"];
     NSDate* startDate = [ArcosUtils dateFromString:startDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
     ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].weekdayDateFormat];
-    UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
-    tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
-    tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
-    tmpNavigationController.popoverPresentationController.sourceView = cell.fieldValueLabel;
-    tmpNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-    
-    [self presentViewController:tmpNavigationController animated:YES completion:nil];
+//    UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
+//    tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
+//    tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+//    tmpNavigationController.popoverPresentationController.sourceView = cell.fieldValueLabel;
+//    tmpNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+//    
+//    [self presentViewController:tmpNavigationController animated:YES completion:nil];
+//    [ACEEDTVC release];
+//    [tmpNavigationController release];
+//    ACEEDTVC.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:ACEEDTVC] autorelease];
     [ACEEDTVC release];
-    [tmpNavigationController release];
+    CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.arcosRootViewController];
+    self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+    [self.arcosRootViewController addChildViewController:self.globalNavigationController];
+    [self.arcosRootViewController.view addSubview:self.globalNavigationController.view];
+    [self.globalNavigationController didMoveToParentViewController:self.arcosRootViewController];
+    [UIView animateWithDuration:0.3f animations:^{
+        self.globalNavigationController.view.frame = parentNavigationRect;
+    } completion:^(BOOL finished){
+        
+    }];
 }
 
 @end

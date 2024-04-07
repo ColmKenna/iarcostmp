@@ -42,6 +42,14 @@
     [self.navigationItem setLeftBarButtonItems:leftButtonList];
     [backButton release];
     self.mySegmentedControl = [[[UISegmentedControl alloc] initWithItems:self.customerCalendarListDataManager.statusItems] autorelease];
+    @try {
+        [self.mySegmentedControl setImage:[UIImage imageNamed:@"Arrow-DoubleBackward.png"] forSegmentAtIndex:0];
+        [self.mySegmentedControl setImage:[UIImage imageNamed:@"Arrow-Back.png"] forSegmentAtIndex:1];
+        [self.mySegmentedControl setImage:[UIImage imageNamed:@"Arrow-Forward.png"] forSegmentAtIndex:3];
+        [self.mySegmentedControl setImage:[UIImage imageNamed:@"Arrow-DoubleForward.png"] forSegmentAtIndex:4];
+    } @catch (NSException *exception) {
+        
+    }    
     [self.mySegmentedControl addTarget:self action:@selector(segmentedControlAction:) forControlEvents:UIControlEventValueChanged];
     self.mySegmentedControl.frame = CGRectMake(0, 0, 300, 30);
     self.mySegmentedControl.momentary = YES;

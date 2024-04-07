@@ -4985,10 +4985,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 -(void)executeTransaction {
     if (1==1) {
         NSPredicate* predicate = [NSPredicate predicateWithFormat:@"IUR = 1"];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Employee" withPropertiesToFetch:nil withPredicate:nil withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
+        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Employee" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
         if ([objectsArray count] > 0) {
             for (Employee* anEmployee in objectsArray) {
-                anEmployee.JourneyStartDate = [ArcosUtils dateFromString:@"20/03/2024" format:[GlobalSharedClass shared].dateFormat];
+                anEmployee.JourneyStartDate = [ArcosUtils dateFromString:@"28/03/2024" format:[GlobalSharedClass shared].dateFormat];
                 [self saveContext:self.fetchManagedObjectContext];
             }
         }

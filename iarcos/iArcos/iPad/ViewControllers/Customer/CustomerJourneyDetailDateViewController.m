@@ -34,10 +34,48 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [ArcosUtils maskTemplateViewWithView:self.templateView radius:CGSizeMake(5.0, 5.0)];
+    UIBarButtonItem* deleteButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Delete3.png"] style:UIBarButtonItemStylePlain target:self action:@selector(deleteButtonPressed:)];
+    NSMutableArray* leftButtonList = [NSMutableArray arrayWithObjects:deleteButton, nil];
+    [self.myNavigationBar.topItem setLeftBarButtonItems:leftButtonList];
+    [deleteButton release];
     self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.view] autorelease];
     self.callGenericServices.delegate = self;
     self.callGenericServices.isNotRecursion = NO;
 }
+
+- (void)deleteButtonPressed:(id)sender {
+    void (^deleteActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        [self deleteJourneyProcessor];
+    };
+    void (^cancelActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
+        
+    };
+    [ArcosUtils showTwoBtnsDialogBox:@"Are you sure you want to Remove Entry from Journey Plan" title:@"" target:self lBtnText:@"NO" rBtnText:@"YES" lBtnHandler:cancelActionHandler rBtnHandler:deleteActionHandler];
+}
+
+- (void)deleteJourneyProcessor {
+    [self.callGenericServices genericDeleteRecord:@"Journey" iur:[[self.customerJourneyDetailDateDataManager.journeyLocationDict objectForKey:@"JourneyIUR"] intValue] action:@selector(backFromDeleteRecordDataResult:) target:self];
+}
+
+- (void)backFromDeleteRecordDataResult:(ArcosErrorModel*)result {
+    result = [self.callGenericServices handleResultErrorProcess:result];
+    if (result == nil) {
+        [self.callGenericServices.HUD hide:YES];
+        return;
+    }
+    if (result.Code >= 0) {
+        [self.callGenericServices.HUD hide:YES];
+        [self.customerJourneyDetailDateDataManager removeJourneyWithIUR:[self.customerJourneyDetailDateDataManager.journeyLocationDict objectForKey:@"JourneyIUR"]];
+        [self.actionDelegate removeButtonPressedFromJourneyDetailDate];
+        [self.actionDelegate cancelButtonPressedFromJourneyDetailDate];        
+    } else {
+        [self.callGenericServices.HUD hide:YES];
+        [ArcosUtils showDialogBox:result.Message title:@"" target:self handler:^(UIAlertAction *action) {
+            
+        }];
+    }
+}
+
 #pragma mark GetDataGenericDelegate
 - (UIViewController*)retrieveCallGenericServicesParentViewController {
     return self;
@@ -132,10 +170,8 @@
         if (self.customerJourneyDetailDateDataManager.rowPointer == [self.customerJourneyDetailDateDataManager.fieldNameList count]) {
             [self.callGenericServices.HUD hide:YES];
             [self.customerJourneyDetailDateDataManager updateJourneyWithWeekNumber:self.customerJourneyDetailDateDataManager.currentSelectedWeekNumber dayNumber:self.customerJourneyDetailDateDataManager.currentSelectedDayNumber callNumber:self.customerJourneyDetailDateDataManager.currentSelectedCallNumber IUR:[self.customerJourneyDetailDateDataManager.journeyLocationDict objectForKey:@"JourneyIUR"]];
-            [self.actionDelegate saveButtonPressedFromJourneyDetailDate];
-            [ArcosUtils showDialogBox:@"Completed." title:@"" target:self handler:^(UIAlertAction *action) {
-                [self.actionDelegate cancelButtonPressedFromJourneyDetailDate];
-            }];
+            [self.actionDelegate saveButtonPressedFromJourneyDetailDateWithJourneyIUR:[self.customerJourneyDetailDateDataManager.journeyLocationDict objectForKey:@"JourneyIUR"]];
+            [self.actionDelegate cancelButtonPressedFromJourneyDetailDate];
         }
         [self updateJourneyRecord];
     } else if(result.ErrorModel.Code <= 0) {

@@ -86,4 +86,15 @@
     }
 }
 
+- (void)removeJourneyWithIUR:(NSNumber*)anIUR {
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"IUR = %d", [anIUR intValue]];
+    NSMutableArray* objectArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"Journey" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
+    if ([objectArray count] > 0) {
+        for (Journey* aJourney in objectArray) {
+            [[ArcosCoreData sharedArcosCoreData].fetchManagedObjectContext deleteObject:aJourney];
+            [[ArcosCoreData sharedArcosCoreData] saveContext:[ArcosCoreData sharedArcosCoreData].fetchManagedObjectContext];
+        }
+    }
+}
+
 @end

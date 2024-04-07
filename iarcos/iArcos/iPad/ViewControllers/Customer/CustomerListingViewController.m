@@ -109,6 +109,7 @@
 //    mySearchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0,1024,44)];
 //    mySearchBar.autocorrectionType = UITextAutocorrectionTypeNo;
 //    mySearchBar.delegate = self;
+    [ArcosUtils configEdgesForExtendedLayout:self];
     needIndexView=YES;
     
     self.tableView.tableHeaderView=self.mySearchBar;

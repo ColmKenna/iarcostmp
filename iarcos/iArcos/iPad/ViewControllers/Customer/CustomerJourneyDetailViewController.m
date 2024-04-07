@@ -58,6 +58,11 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [ArcosUtils configEdgesForExtendedLayout:self];
+    UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"List3.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed:)];
+    NSMutableArray* leftButtonList = [NSMutableArray arrayWithObjects:backButton, nil];
+    [self.navigationItem setLeftBarButtonItems:leftButtonList];
+    [backButton release];
     self.actionButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionButtonPressed:)] autorelease];
     self.navigationItem.rightBarButtonItem = self.actionButton;
     
@@ -70,6 +75,10 @@
 //    self.actionPopoverController.popoverContentSize = CGSizeMake(700.0f, 360.0f);
     self.checkLocationIURTemplateProcessor = [[[CheckLocationIURTemplateProcessor alloc] initWithParentViewController:self] autorelease];
     self.checkLocationIURTemplateProcessor.delegate = self;
+}
+
+- (void)backButtonPressed:(id)sender {
+    [self filterPressed:sender];
 }
 
 - (void)viewDidUnload
@@ -257,12 +266,16 @@
 }
 
 #pragma mark - CustomerJourneyDetailDateViewControllerDelegate
-- (void)saveButtonPressedFromJourneyDetailDate {
-    [self tapJourneyButtonProcessor];
+- (void)saveButtonPressedFromJourneyDetailDateWithJourneyIUR:(NSNumber *)aJourneyIUR {
+    [self tapJourneyButtonProcessorWithJourneyIUR:aJourneyIUR];
 }
 
 - (void)cancelButtonPressedFromJourneyDetailDate {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)removeButtonPressedFromJourneyDetailDate {
+    [self tapJourneyButtonProcessorFromRemoveButton];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -345,6 +358,21 @@
     }
 }
 
+- (void)resetTableListFromDateWheels:(NSString*)aJourneyDate journeyIUR:(NSNumber*)aJourneyIUR {
+    [self.tableView reloadData];
+    if ([aJourneyDate isEqualToString:@"All"]) {
+        @try {
+            NSIndexPath* tmpIndexPath = [self.customerJourneyDataManager retrieveIndexPathWithJourneyIUR:aJourneyIUR];
+            [self.tableView scrollToRowAtIndexPath:tmpIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        } @catch (NSException *exception) {
+            NSLog(@"%@", [exception reason]);
+        }
+    }
+}
+- (void)resetTableListFromDateWheelsRemoveButton:(NSString*)aJourneyDate {
+    [self.tableView reloadData];
+}
+
 -(NSMutableDictionary*)getCustomerWithIndexPath:(NSIndexPath*)anIndexPath {
     NSString* sectionTitle = [self.customerJourneyDataManager.sectionTitleList objectAtIndex:anIndexPath.section];
     NSMutableArray* locationList = [self.customerJourneyDataManager.locationListDict objectForKey:sectionTitle];
@@ -384,10 +412,6 @@
 }
 
 - (void)refreshParentContentForJourneyStartDate {
-    [self tapJourneyButtonProcessor];
-}
-
-- (void)tapJourneyButtonProcessor {
     //click the journey button
     UINavigationController* tmpNavigationController = (UINavigationController*)self.rcsStackedController.myMasterViewController.masterViewController;
     
@@ -395,10 +419,35 @@
     groupViewController.segmentBut.selectedSegmentIndex = 1;
     [groupViewController.segmentBut sendActionsForControlEvents:UIControlEventValueChanged];
     groupViewController.segmentBut.selectedSegmentIndex = UISegmentedControlNoSegment;
+    [groupViewController processJourneyWithIndexPath:groupViewController.auxJourneyIndexPath];
+}
+
+- (void)tapJourneyButtonProcessorFromRemoveButton {
+    //click the journey button
+    UINavigationController* tmpNavigationController = (UINavigationController*)self.rcsStackedController.myMasterViewController.masterViewController;
+    
+    CustomerGroupViewController* groupViewController = [tmpNavigationController.viewControllers objectAtIndex:0];
+    NSIndexPath* tmpIndexPath = [NSIndexPath indexPathForRow:groupViewController.auxJourneyIndexPath.row inSection:groupViewController.auxJourneyIndexPath.section];
+    [groupViewController tapJourneyButtonPartialProcessor];
+    groupViewController.auxJourneyIndexPath = tmpIndexPath;
     if (groupViewController.auxJourneyIndexPath.row > [groupViewController.customerJourneyDataManager.displayList count] - 1) {
         groupViewController.auxJourneyIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     }
-    [groupViewController processJourneyWithIndexPath:groupViewController.auxJourneyIndexPath];
+    [groupViewController processJourneyFromDateWheelsRemoveButtonWithIndexPath:groupViewController.auxJourneyIndexPath];
+}
+
+- (void)tapJourneyButtonProcessorWithJourneyIUR:(NSNumber *)aJourneyIUR {
+    //click the journey button
+    UINavigationController* tmpNavigationController = (UINavigationController*)self.rcsStackedController.myMasterViewController.masterViewController;
+    
+    CustomerGroupViewController* groupViewController = [tmpNavigationController.viewControllers objectAtIndex:0];
+    NSIndexPath* tmpIndexPath = [NSIndexPath indexPathForRow:groupViewController.auxJourneyIndexPath.row inSection:groupViewController.auxJourneyIndexPath.section];
+    [groupViewController tapJourneyButtonPartialProcessor];
+    groupViewController.auxJourneyIndexPath = tmpIndexPath;
+    if (groupViewController.auxJourneyIndexPath.row > [groupViewController.customerJourneyDataManager.displayList count] - 1) {
+        groupViewController.auxJourneyIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    }
+    [groupViewController processJourneyFromDateWheelsWithIndexPath:groupViewController.auxJourneyIndexPath journeyIUR:aJourneyIUR];
 }
 
 -(NSMutableDictionary*)getSelectedCellData {

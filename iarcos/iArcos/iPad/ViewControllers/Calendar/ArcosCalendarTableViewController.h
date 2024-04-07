@@ -24,6 +24,7 @@
     MBProgressHUD* _HUD;
     ArcosService* _arcosService;
     CustomerJourneyDataManager* _customerJourneyDataManager;
+    UINavigationController* _globalNavigationController;
 }
 
 @property(nonatomic, retain) ArcosCalendarTableDataManager* arcosCalendarTableDataManager;
@@ -32,6 +33,7 @@
 @property(nonatomic, retain) MBProgressHUD* HUD;
 @property(nonatomic, retain) ArcosService* arcosService;
 @property(nonatomic, retain) CustomerJourneyDataManager* customerJourneyDataManager;
+@property(nonatomic, retain) UINavigationController* globalNavigationController;
 
 @end
 

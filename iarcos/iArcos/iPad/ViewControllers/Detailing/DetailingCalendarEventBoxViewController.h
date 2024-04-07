@@ -16,6 +16,7 @@
 #import "ArcosCalendarEventEntryDetailListingTableViewCell.h"
 #import "ArcosCalendarEventEntryDetailTemplateViewController.h"
 #import "DetailingCalendarEventBoxListingDataManager.h"
+@class ArcosRootViewController;
 
 @interface DetailingCalendarEventBoxViewController : UIViewController <WidgetFactoryDelegate, UIPopoverPresentationControllerDelegate, UITableViewDelegate, UITableViewDataSource, ModalPresentViewControllerDelegate, ArcosCalendarEventEntryDetailTemplateViewControllerDelegate, DetailingCalendarEventBoxListingDataManagerDelegate> {
     id<DetailingCalendarEventBoxViewControllerDelegate> _actionDelegate;
@@ -46,6 +47,9 @@
     UIButton* _updateButton;
     UIButton* _cancelButton;
     DetailingCalendarEventBoxListingDataManager* _detailingCalendarEventBoxListingDataManager;
+    ArcosRootViewController* _arcosRootViewController;
+    UINavigationController* _globalNavigationController;
+    UIButton* _imageButton;
 }
 
 @property(nonatomic, assign) id<DetailingCalendarEventBoxViewControllerDelegate> actionDelegate;
@@ -76,6 +80,9 @@
 @property(nonatomic,retain) IBOutlet UIButton* updateButton;
 @property(nonatomic,retain) IBOutlet UIButton* cancelButton;
 @property (nonatomic, retain) DetailingCalendarEventBoxListingDataManager* detailingCalendarEventBoxListingDataManager;
+@property (nonatomic, retain) ArcosRootViewController* arcosRootViewController;
+@property(nonatomic, retain) UINavigationController* globalNavigationController;
+@property(nonatomic,retain) IBOutlet UIButton* imageButton;
 
 - (IBAction)saveToCalendarButtonPressed;
 - (IBAction)dateComponentPicked:(id)sender;

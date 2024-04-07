@@ -12,7 +12,8 @@
 @protocol CustomerJourneyDetailDateViewControllerDelegate <NSObject>
 
 - (void)cancelButtonPressedFromJourneyDetailDate;
-- (void)saveButtonPressedFromJourneyDetailDate;
+- (void)saveButtonPressedFromJourneyDetailDateWithJourneyIUR:(NSNumber*)aJourneyIUR;
+- (void)removeButtonPressedFromJourneyDetailDate;
 
 @end
 

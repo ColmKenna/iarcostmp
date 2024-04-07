@@ -20,6 +20,7 @@
 @synthesize HUD = _HUD;
 @synthesize arcosService = _arcosService;
 @synthesize customerJourneyDataManager = _customerJourneyDataManager;
+@synthesize globalNavigationController = _globalNavigationController;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -75,6 +76,7 @@
     self.HUD = nil;
     self.arcosService = nil;
     self.customerJourneyDataManager = nil;
+    self.globalNavigationController = nil;
     
     [super dealloc];
 }
@@ -296,15 +298,28 @@
         [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
         ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:[eventDataDict objectForKey:@"StartDate"] format:[GlobalSharedClass shared].weekdayDateFormat];
 //        [ACEEDTVC.arcosCalendarEventEntryDetailDataManager retrieveEditDataWithCellData:eventDataDict];
-        UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
-        tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
-        tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
-        tmpNavigationController.popoverPresentationController.sourceView = aView;
-        
-        
-        [self presentViewController:tmpNavigationController animated:YES completion:nil];
+//        UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
+//        tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
+//        tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+//        tmpNavigationController.popoverPresentationController.sourceView = aView;
+//        
+//        
+//        [self presentViewController:tmpNavigationController animated:YES completion:nil];
+//        [ACEEDTVC release];
+//        [tmpNavigationController release];
+        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.showBorderFlag = YES;
+        self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:ACEEDTVC] autorelease];
         [ACEEDTVC release];
-        [tmpNavigationController release];
+        CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.arcosRootViewController];
+        self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+        [self.arcosRootViewController addChildViewController:self.globalNavigationController];
+        [self.arcosRootViewController.view addSubview:self.globalNavigationController.view];
+        [self.globalNavigationController didMoveToParentViewController:self.arcosRootViewController];
+        [UIView animateWithDuration:0.3f animations:^{
+            self.globalNavigationController.view.frame = parentNavigationRect;
+        } completion:^(BOOL finished){
+            
+        }];
     } @catch (NSException *exception) {
         [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:self tag:0 handler:nil];
     }
@@ -357,13 +372,26 @@
         [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:auxDateFormatText];
         [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
         ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:[dayDataDict objectForKey:@"Date"] format:[GlobalSharedClass shared].weekdayDateFormat];
-        UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
-        tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
-        tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
-        tmpNavigationController.popoverPresentationController.sourceView = aView;
-        [self presentViewController:tmpNavigationController animated:YES completion:nil];
+//        UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
+//        tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
+//        tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+//        tmpNavigationController.popoverPresentationController.sourceView = aView;
+//        [self presentViewController:tmpNavigationController animated:YES completion:nil];
+//        [ACEEDTVC release];
+//        [tmpNavigationController release];
+        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.showBorderFlag = YES;
+        self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:ACEEDTVC] autorelease];
         [ACEEDTVC release];
-        [tmpNavigationController release];
+        CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.arcosRootViewController];
+        self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+        [self.arcosRootViewController addChildViewController:self.globalNavigationController];
+        [self.arcosRootViewController.view addSubview:self.globalNavigationController.view];
+        [self.globalNavigationController didMoveToParentViewController:self.arcosRootViewController];
+        [UIView animateWithDuration:0.3f animations:^{
+            self.globalNavigationController.view.frame = parentNavigationRect;
+        } completion:^(BOOL finished){
+            
+        }];
     } @catch (NSException *exception) {
         [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:self tag:0 handler:nil];
     }
@@ -371,7 +399,16 @@
 
 #pragma mark - ModalPresentViewControllerDelegate
 - (void)didDismissModalPresentViewController {
-    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self dismissViewControllerAnimated:YES completion:nil];
+    [UIView animateWithDuration:0.3f animations:^{
+        CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.arcosRootViewController];
+        self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+    } completion:^(BOOL finished){
+        [self.globalNavigationController willMoveToParentViewController:nil];
+        [self.globalNavigationController.view removeFromSuperview];
+        [self.globalNavigationController removeFromParentViewController];
+        self.globalNavigationController = nil;
+    }];
 }
 
 #pragma mark - ArcosCalendarEventEntryDetailTableViewControllerDelegate ArcosCalendarEventEntryDetailTemplateViewControllerDelegate

@@ -248,4 +248,20 @@
     }
 }
 
+- (NSIndexPath*)retrieveIndexPathWithJourneyIUR:(NSNumber*)aJourneyIUR {
+    NSIndexPath* resIndexPath = nil;
+    for (int i = 0; i < [self.sectionTitleList count]; i++) {
+        NSString* tmpSectionTitle = [self.sectionTitleList objectAtIndex:i];
+        NSMutableArray* tmpLocationList = [self.locationListDict objectForKey:tmpSectionTitle];
+        for (int j = 0; j < [tmpLocationList count]; j++) {
+            NSMutableDictionary* tmpLocationDict = [tmpLocationList objectAtIndex:j];
+            if ([aJourneyIUR isEqualToNumber:[tmpLocationDict objectForKey:@"JourneyIUR"]]) {
+                resIndexPath = [NSIndexPath indexPathForRow:j inSection:i];
+                break;
+            }
+        }
+    }
+    return resIndexPath;
+}
+
 @end

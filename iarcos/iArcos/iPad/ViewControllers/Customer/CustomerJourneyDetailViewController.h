@@ -32,5 +32,7 @@
 
 -(void)resetTableList:(NSString*)aJourneyDate;
 //-(NSMutableDictionary*)getCustomerWithIndexPath:(NSIndexPath*)anIndexPath;
+- (void)resetTableListFromDateWheels:(NSString*)aJourneyDate journeyIUR:(NSNumber*)aJourneyIUR;
+- (void)resetTableListFromDateWheelsRemoveButton:(NSString*)aJourneyDate;
 
 @end

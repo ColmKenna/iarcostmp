@@ -132,15 +132,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [ArcosUtils configEdgesForExtendedLayout:self];
     if (self.requestSource == CustomerGroupRequestSourceMaster) {
+        CGRect segmentButtonRect = CGRectMake(0, 0, 150, 30);
         NSArray* statusItems = [NSArray arrayWithObjects:self.listTypeText, self.journeyTypeText, nil];// self.outlookTypeText,
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
             statusItems = [NSArray arrayWithObjects:self.listTypeText, self.journeyTypeText, self.outlookTypeText, nil];
+            segmentButtonRect = CGRectMake(0, 0, 225, 30);
         }
         self.segmentBut = [[[UISegmentedControl alloc] initWithItems:statusItems] autorelease];
         
         [self.segmentBut addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
-        self.segmentBut.frame = CGRectMake(0, 0, 150, 30);
+        self.segmentBut.frame = segmentButtonRect;
         self.segmentBut.momentary = YES;
         self.navigationItem.titleView = self.segmentBut;
     }
@@ -350,6 +353,15 @@
         default:
             break;
     }
+}
+
+- (void)tapJourneyButtonPartialProcessor {
+    self.groupType = @"Journey";
+    [self hideBarButtonItem];
+    self.journeyDefaultImage = [[ArcosCoreData sharedArcosCoreData]thumbWithIUR:[GlobalSharedClass shared].journeyDefaultImageIUR];
+    NSMutableArray* journeyList = [[ArcosCoreData sharedArcosCoreData]allJourney];
+    [self.customerJourneyDataManager processRawData:journeyList];
+    [self.tableView reloadData];
 }
 
 
@@ -608,6 +620,20 @@
     self.myJourneyDetailViewController.title = [aJourneyDict objectForKey:@"JourneyDateText"];
     [self.customerJourneyDataManager getLocationsWithJourneyDict:aJourneyDict];
     [self.myJourneyDetailViewController resetTableList:[aJourneyDict objectForKey:@"JourneyDate"]];
+}
+
+- (void)processJourneyFromDateWheelsWithIndexPath:(NSIndexPath*)anIndexPath journeyIUR:(NSNumber*)aJourneyIUR {
+    NSMutableDictionary* aJourneyDict = [self.customerJourneyDataManager.displayList objectAtIndex:anIndexPath.row];
+    self.myJourneyDetailViewController.title = [aJourneyDict objectForKey:@"JourneyDateText"];
+    [self.customerJourneyDataManager getLocationsWithJourneyDict:aJourneyDict];
+    [self.myJourneyDetailViewController resetTableListFromDateWheels:[aJourneyDict objectForKey:@"JourneyDate"] journeyIUR:aJourneyIUR];
+}
+
+- (void)processJourneyFromDateWheelsRemoveButtonWithIndexPath:(NSIndexPath*)anIndexPath {
+    NSMutableDictionary* aJourneyDict = [self.customerJourneyDataManager.displayList objectAtIndex:anIndexPath.row];
+    self.myJourneyDetailViewController.title = [aJourneyDict objectForKey:@"JourneyDateText"];
+    [self.customerJourneyDataManager getLocationsWithJourneyDict:aJourneyDict];
+    [self.myJourneyDetailViewController resetTableListFromDateWheelsRemoveButton:[aJourneyDict objectForKey:@"JourneyDate"]];
 }
 
 @end

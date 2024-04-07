@@ -13,6 +13,8 @@
 @end
 
 @implementation ArcosCalendarEventEntryDetailTemplateViewController
+@synthesize mainTemplateView = _mainTemplateView;
+@synthesize mainNavigationBar = _mainNavigationBar;
 @synthesize eventTemplateView = _eventTemplateView;
 @synthesize listingTemplateView = _listingTemplateView;
 @synthesize actionDelegate = _actionDelegate;
@@ -51,32 +53,36 @@
     [self.navigationController.view addSubview:self.HUD];
     UIColor* barBackgroundColor = [UIColor colorWithRed:209.0/255.0 green:224.0/255.0 blue:251.0/255.0 alpha:1.0];
     UIColor* barForegroundColor = [UIColor colorWithRed:68.0/255.0 green:114.0/255.0 blue:196.0/255.0 alpha:1.0];
+    if (self.arcosCalendarEventEntryDetailListingDataManager.showBorderFlag) {
+        [self.mainTemplateView.layer setBorderColor:[barForegroundColor CGColor]];
+        [self.mainTemplateView.layer setBorderWidth:1.0];
+    }    
     if (@available(iOS 15.0, *)) {
         UINavigationBarAppearance* customNavigationBarAppearance = [[UINavigationBarAppearance alloc] init];
         [customNavigationBarAppearance configureWithOpaqueBackground];
         [customNavigationBarAppearance setBackgroundColor:barBackgroundColor];
         [customNavigationBarAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:barForegroundColor, NSForegroundColorAttributeName, nil]];
-        self.navigationController.navigationBar.standardAppearance = customNavigationBarAppearance;
-        self.navigationController.navigationBar.scrollEdgeAppearance = customNavigationBarAppearance;
+        self.mainNavigationBar.standardAppearance = customNavigationBarAppearance;
+        self.mainNavigationBar.scrollEdgeAppearance = customNavigationBarAppearance;
         [customNavigationBarAppearance release];
-        [self.navigationController.navigationBar setTintColor:barForegroundColor];
+        [self.mainNavigationBar setTintColor:barForegroundColor];
     } else {
         // Fallback on earlier versions
-        [self.navigationController.navigationBar setBarTintColor:barBackgroundColor];
-        [self.navigationController.navigationBar setTintColor:barForegroundColor];
-    }   
+        [self.mainNavigationBar setBarTintColor:barBackgroundColor];
+        [self.mainNavigationBar setTintColor:barForegroundColor];
+    }
     
     UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:[GlobalSharedClass shared].cancelButtonText style:UIBarButtonItemStylePlain target:self action:@selector(cancelPressed)];
-    [self.navigationItem setLeftBarButtonItem:cancelButton];
+    [self.mainNavigationBar.topItem setLeftBarButtonItem:cancelButton];
     [cancelButton release];
     if ([self.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.actionType isEqualToString:self.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.createText]) {
         UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain target:self action:@selector(addPressed)];
-        [self.navigationItem setRightBarButtonItem:addButton];
+        [self.mainNavigationBar.topItem setRightBarButtonItem:addButton];
         [addButton release];
     } else {
         if (!self.arcosCalendarEventEntryDetailListingDataManager.hideEditButtonFlag) {
             UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(editPressed)];
-            [self.navigationItem setRightBarButtonItem:editButton];
+            [self.mainNavigationBar.topItem setRightBarButtonItem:editButton];
             [editButton release];
         }
     }
@@ -103,6 +109,8 @@
 }
 
 - (void)dealloc {
+    self.mainTemplateView = nil;
+    self.mainNavigationBar = nil;
     self.eventTemplateView = nil;
     self.listingTemplateView = nil;
     self.eventNavigationBar = nil;
@@ -120,6 +128,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
     [self.listingTableView reloadData];
 //    [self.listingTableView layoutIfNeeded];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -136,6 +145,13 @@
     
 //    [self.listingTableView layoutIfNeeded];
 //    [self scrollToAppointmentPositionProcessor];
+    UIBezierPath* maskPath = [UIBezierPath bezierPathWithRoundedRect:self.mainTemplateView.bounds byRoundingCorners:(UIRectCornerTopLeft|UIRectCornerTopRight|UIRectCornerBottomLeft|UIRectCornerBottomRight) cornerRadii:CGSizeMake(10.0f, 10.0f)];
+    
+    CAShapeLayer* maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = self.mainTemplateView.bounds;
+    maskLayer.path = maskPath.CGPath;
+    self.mainTemplateView.layer.mask = maskLayer;
+    [maskLayer release];
 }
 
 - (void)scrollToAppointmentPositionProcessor {
