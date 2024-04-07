@@ -37,9 +37,13 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"List3.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed:)];
+    NSMutableArray* leftButtonList = [NSMutableArray arrayWithObjects:backButton, nil];
+    [self.navigationItem setLeftBarButtonItems:leftButtonList];
+    [backButton release];
     self.mySegmentedControl = [[[UISegmentedControl alloc] initWithItems:self.customerCalendarListDataManager.statusItems] autorelease];
     [self.mySegmentedControl addTarget:self action:@selector(segmentedControlAction:) forControlEvents:UIControlEventValueChanged];
-    self.mySegmentedControl.frame = CGRectMake(0, 0, 150, 30);
+    self.mySegmentedControl.frame = CGRectMake(0, 0, 300, 30);
     self.mySegmentedControl.momentary = YES;
     self.navigationItem.titleView = self.mySegmentedControl;
     self.HUD = [[[MBProgressHUD alloc] initWithView:self.navigationController.view] autorelease];
@@ -52,6 +56,10 @@
     [self retrieveCalendarEventEntriesWithStartDate:self.customerCalendarListDataManager.currentStartDate endDate:self.customerCalendarListDataManager.currentEndDate];
     self.checkLocationIURTemplateProcessor = [[[CheckLocationIURTemplateProcessor alloc] initWithParentViewController:self] autorelease];
     self.checkLocationIURTemplateProcessor.delegate = self;
+}
+
+- (void)backButtonPressed:(id)sender {
+    [self filterPressed:sender];
 }
 
 - (void)dealloc {    
@@ -70,7 +78,7 @@
     switch (tmpSegmentedControl.selectedSegmentIndex) {
         case 0: {
             self.customerCalendarListDataManager.currentStartDate = [ArcosUtils addDays:-7 date:self.customerCalendarListDataManager.startDatePointer];
-            self.customerCalendarListDataManager.currentEndDate = [ArcosUtils addDays:7 date:self.customerCalendarListDataManager.currentStartDate];
+            self.customerCalendarListDataManager.currentEndDate = [ArcosUtils addDays:1 date:self.customerCalendarListDataManager.currentStartDate];
             self.customerCalendarListDataManager.startDatePointer = [ArcosUtils addHours:0 date:self.customerCalendarListDataManager.currentStartDate];
             self.customerCalendarListHeaderView.startdatePointerLabel.text = [ArcosUtils stringFromDate:self.customerCalendarListDataManager.startDatePointer format:@"EEEE dd MMMM yyyy"];
             [self retrieveCalendarEventEntriesWithStartDate:self.customerCalendarListDataManager.currentStartDate endDate:self.customerCalendarListDataManager.currentEndDate];
@@ -86,6 +94,14 @@
         }
             break;
         case 2: {
+            self.customerCalendarListDataManager.startDatePointer = [NSDate date];
+            self.customerCalendarListDataManager.currentStartDate = [ArcosUtils addHours:0 date:self.customerCalendarListDataManager.startDatePointer];
+            self.customerCalendarListDataManager.currentEndDate = [ArcosUtils addDays:1 date:self.customerCalendarListDataManager.currentStartDate];
+            self.customerCalendarListHeaderView.startdatePointerLabel.text = [ArcosUtils stringFromDate:self.customerCalendarListDataManager.startDatePointer format:@"EEEE dd MMMM yyyy"];
+            [self retrieveCalendarEventEntriesWithStartDate:self.customerCalendarListDataManager.currentStartDate endDate:self.customerCalendarListDataManager.currentEndDate];
+        }
+            break;
+        case 3: {
             self.customerCalendarListDataManager.currentStartDate = [ArcosUtils addDays:1 date:self.customerCalendarListDataManager.startDatePointer];
             self.customerCalendarListDataManager.currentEndDate = [ArcosUtils addDays:1 date:self.customerCalendarListDataManager.currentStartDate];
             self.customerCalendarListDataManager.startDatePointer = [ArcosUtils addHours:0 date:self.customerCalendarListDataManager.currentStartDate];
@@ -93,10 +109,10 @@
             [self retrieveCalendarEventEntriesWithStartDate:self.customerCalendarListDataManager.currentStartDate endDate:self.customerCalendarListDataManager.currentEndDate];
         }
             break;
-        case 3: {
-            self.customerCalendarListDataManager.currentStartDate = [ArcosUtils addDays:1 date:self.customerCalendarListDataManager.currentStartDate];
-            self.customerCalendarListDataManager.currentEndDate = [ArcosUtils addDays:7 date:self.customerCalendarListDataManager.currentStartDate];
-            self.customerCalendarListDataManager.startDatePointer = [ArcosUtils addDays:6 date:self.customerCalendarListDataManager.currentStartDate];
+        case 4: {
+            self.customerCalendarListDataManager.currentStartDate = [ArcosUtils addDays:7 date:self.customerCalendarListDataManager.currentStartDate];
+            self.customerCalendarListDataManager.currentEndDate = [ArcosUtils addDays:1 date:self.customerCalendarListDataManager.currentStartDate];
+            self.customerCalendarListDataManager.startDatePointer = [ArcosUtils addHours:0 date:self.customerCalendarListDataManager.currentStartDate];
             self.customerCalendarListHeaderView.startdatePointerLabel.text = [ArcosUtils stringFromDate:self.customerCalendarListDataManager.startDatePointer format:@"EEEE dd MMMM yyyy"];
             [self retrieveCalendarEventEntriesWithStartDate:self.customerCalendarListDataManager.currentStartDate endDate:self.customerCalendarListDataManager.currentEndDate];
         }
@@ -130,7 +146,7 @@
     
     NSString* startDateString = [NSString stringWithFormat:@"%@T00:00:00.000Z", [ArcosUtils stringFromDate:aStartDate format:[GlobalSharedClass shared].utcDateFormat]];
     NSString* endDateString = [NSString stringWithFormat:@"%@T00:00:00.000Z", [ArcosUtils stringFromDate:anEndDate format:[GlobalSharedClass shared].utcDateFormat]];
-    NSLog(@"xx %@ %@", startDateString, endDateString);
+//    NSLog(@"xx %@ %@", startDateString, endDateString);
     NSURL* url = [NSURL URLWithString:[self.customerCalendarListDataManager.calendarUtilityDataManager retrieveCalendarURIWithStartDate:startDateString endDate:endDateString]];
 //    NSLog(@"absoluteString %@", url.absoluteString);
     NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];

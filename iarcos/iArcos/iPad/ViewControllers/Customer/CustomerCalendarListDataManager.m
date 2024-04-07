@@ -22,7 +22,7 @@
     self = [super init];
     if (self != nil) {
         self.calendarUtilityDataManager = [[[CalendarUtilityDataManager alloc] init] autorelease];
-        self.statusItems = [NSArray arrayWithObjects:@"<<", @"<", @">", @">>", nil];
+        self.statusItems = [NSArray arrayWithObjects:@"<<", @"<", @"-", @">", @">>", nil];
     }
     return self;
 }
