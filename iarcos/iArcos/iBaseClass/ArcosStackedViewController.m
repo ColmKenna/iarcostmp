@@ -542,7 +542,7 @@
     [UIView animateWithDuration:0.3 animations:^{
         self.myMasterViewController.view.frame = CGRectMake(-masterWidth, 0, masterWidth, viewBounds.size.height);
     } completion:^(BOOL finished){
-        self.myMasterViewController.view.frame = CGRectMake(- 326.0 - [GlobalSharedClass shared].mainMasterWidth, 0, 320.0, viewBounds.size.height);
+//        self.myMasterViewController.view.frame = CGRectMake(- 326.0 - [GlobalSharedClass shared].mainMasterWidth, 0, 320.0, viewBounds.size.height);
         self.myMasterViewController.view.hidden = YES;
         self.isNotFinishedAnimation = NO;
         self.masterIntersectFlag = NO;

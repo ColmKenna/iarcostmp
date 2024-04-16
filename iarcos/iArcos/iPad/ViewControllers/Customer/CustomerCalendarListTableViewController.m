@@ -41,7 +41,8 @@
     NSMutableArray* leftButtonList = [NSMutableArray arrayWithObjects:backButton, nil];
     [self.navigationItem setLeftBarButtonItems:leftButtonList];
     [backButton release];
-    self.mySegmentedControl = [[[UISegmentedControl alloc] initWithItems:self.customerCalendarListDataManager.statusItems] autorelease];
+    self.mySegmentedControl = [[[ArcosNoBgSegmentedControl alloc] initWithItems:self.customerCalendarListDataManager.statusItems] autorelease];
+    
     @try {
         [self.mySegmentedControl setImage:[UIImage imageNamed:@"Arrow-DoubleBackward.png"] forSegmentAtIndex:0];
         [self.mySegmentedControl setImage:[UIImage imageNamed:@"Arrow-Back.png"] forSegmentAtIndex:1];

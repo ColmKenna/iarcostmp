@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -28,7 +28,6 @@
 		18D0DD062446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D0DD042446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.xib */; };
 		18D0DD092446AC0E0004BC45 /* OrderEntryInputRightHandSideGridDelegateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D0DD082446AC0E0004BC45 /* OrderEntryInputRightHandSideGridDelegateController.m */; };
 		18D296D023B741CE00047B5C /* ArcosConstantsDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D296CF23B741CE00047B5C /* ArcosConstantsDataManager.m */; };
-		18D6A2FF23BCD0F2001B55F3 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D6A2FE23BCD0F2001B55F3 /* MSAL.framework */; };
 		18D9B17A2418C82D0080DBA2 /* OrderInputPadPopoverGeneratorProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D9B1792418C82D0080DBA2 /* OrderInputPadPopoverGeneratorProcessor.m */; };
 		18D9B17D2418C8450080DBA2 /* OrderEntryInputPopoverGeneratorProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D9B17C2418C8450080DBA2 /* OrderEntryInputPopoverGeneratorProcessor.m */; };
 		18DD38B6243ACF9200FA899B /* CustomerOrderDetailsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DD38B5243ACF9200FA899B /* CustomerOrderDetailsHeaderView.m */; };
@@ -1578,7 +1577,11 @@
 		7903626F29371CA2001425F4 /* ReporterXmlExcelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7903626D29371CA2001425F4 /* ReporterXmlExcelViewController.m */; };
 		7903627029371CA2001425F4 /* ReporterXmlExcelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7903626E29371CA2001425F4 /* ReporterXmlExcelViewController.xib */; };
 		7905C70B25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7905C70A25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m */; };
+		790A4EC12BC919D500760301 /* ArcosNoBgSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 790A4EC02BC919D500760301 /* ArcosNoBgSegmentedControl.m */; };
 		790AAE8029028F9200C2F2BC /* UtilitiesAnimatedMonthTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 790AAE7F29028F9200C2F2BC /* UtilitiesAnimatedMonthTableHeaderView.m */; };
+		790C7EBD2BC7CC9B00BF52A6 /* MSAL.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 790C7EBC2BC7CC9B00BF52A6 /* MSAL.xcframework */; };
+		790C7EBE2BC7CC9B00BF52A6 /* MSAL.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 790C7EBC2BC7CC9B00BF52A6 /* MSAL.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		790C7EC12BC7CEDF00BF52A6 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 790C7EC02BC7CEDF00BF52A6 /* PrivacyInfo.xcprivacy */; };
 		790EB3742BBBAA2A00DBCF8A /* CustomerJourneyDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 790EB3722BBBAA2A00DBCF8A /* CustomerJourneyDetailTableViewCell.m */; };
 		790EB3752BBBAA2A00DBCF8A /* CustomerJourneyDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 790EB3732BBBAA2A00DBCF8A /* CustomerJourneyDetailTableViewCell.xib */; };
 		7910CFA52A04BD0C00EC0F56 /* ReportOrderHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7910CFA42A04BD0C00EC0F56 /* ReportOrderHeaderView.m */; };
@@ -1648,6 +1651,8 @@
 		796E064B27E0A03400EF66D8 /* ArcosCalendarTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 796E064927E0A03400EF66D8 /* ArcosCalendarTableViewController.m */; };
 		796E064C27E0A03400EF66D8 /* ArcosCalendarTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 796E064A27E0A03400EF66D8 /* ArcosCalendarTableViewController.xib */; };
 		797BD58F2BC1828C000534EB /* Delete3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 797BD58E2BC1828C000534EB /* Delete3@2x.png */; };
+		7984CAAC2BCA80CD00F8A0B5 /* segmenteddividerbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 7984CAAB2BCA80CD00F8A0B5 /* segmenteddividerbg.png */; };
+		7984CAAE2BCA80D800F8A0B5 /* segmentedbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 7984CAAD2BCA80D800F8A0B5 /* segmentedbg.png */; };
 		798697D126A67D8100EE8E29 /* FormRowTableCellMyGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 798697D026A67D8100EE8E29 /* FormRowTableCellMyGenerator.m */; };
 		798B5D732AEB6E9F008B12D9 /* flags_contact@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 798B5D712AEB6E9F008B12D9 /* flags_contact@2x.png */; };
 		798B5D742AEB6E9F008B12D9 /* flags_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 798B5D722AEB6E9F008B12D9 /* flags_location@2x.png */; };
@@ -1765,6 +1770,20 @@
 			remoteInfo = iArcos;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		790C7EBF2BC7CC9D00BF52A6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				790C7EBE2BC7CC9B00BF52A6 /* MSAL.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		18028A1423DAEB1B003AF0DF /* libMailCore-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libMailCore-ios.a"; sourceTree = "<group>"; };
@@ -2020,7 +2039,6 @@
 		18D0DD0A2446AC280004BC45 /* OrderEntryInputRightHandSideGridDelegateControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderEntryInputRightHandSideGridDelegateControllerDelegate.h; sourceTree = "<group>"; };
 		18D296CE23B741CE00047B5C /* ArcosConstantsDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosConstantsDataManager.h; sourceTree = "<group>"; };
 		18D296CF23B741CE00047B5C /* ArcosConstantsDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosConstantsDataManager.m; sourceTree = "<group>"; };
-		18D6A2FE23BCD0F2001B55F3 /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = Carthage/Build/iOS/MSAL.framework; sourceTree = "<group>"; };
 		18D9B1772418C8070080DBA2 /* OrderPopoverGeneratorProcessorDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderPopoverGeneratorProcessorDelegate.h; sourceTree = "<group>"; };
 		18D9B1782418C82D0080DBA2 /* OrderInputPadPopoverGeneratorProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderInputPadPopoverGeneratorProcessor.h; sourceTree = "<group>"; };
 		18D9B1792418C82D0080DBA2 /* OrderInputPadPopoverGeneratorProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderInputPadPopoverGeneratorProcessor.m; sourceTree = "<group>"; };
@@ -4839,9 +4857,13 @@
 		7903626E29371CA2001425F4 /* ReporterXmlExcelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReporterXmlExcelViewController.xib; sourceTree = "<group>"; };
 		7905C70925BE70EB00FFBF77 /* ReporterXmlGraphDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlGraphDataManager.h; sourceTree = "<group>"; };
 		7905C70A25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterXmlGraphDataManager.m; sourceTree = "<group>"; };
+		790A4EBF2BC919D500760301 /* ArcosNoBgSegmentedControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosNoBgSegmentedControl.h; sourceTree = "<group>"; };
+		790A4EC02BC919D500760301 /* ArcosNoBgSegmentedControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosNoBgSegmentedControl.m; sourceTree = "<group>"; };
 		790A5C172AD4353D00CA4B20 /* FlagsLocationTableViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlagsLocationTableViewControllerDelegate.h; sourceTree = "<group>"; };
 		790AAE7E29028F9200C2F2BC /* UtilitiesAnimatedMonthTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UtilitiesAnimatedMonthTableHeaderView.h; sourceTree = "<group>"; };
 		790AAE7F29028F9200C2F2BC /* UtilitiesAnimatedMonthTableHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UtilitiesAnimatedMonthTableHeaderView.m; sourceTree = "<group>"; };
+		790C7EBC2BC7CC9B00BF52A6 /* MSAL.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:UBF8T346G9:Microsoft Corporation"; lastKnownFileType = wrapper.xcframework; name = MSAL.xcframework; path = Carthage/Build/iOS/MSAL.xcframework; sourceTree = "<group>"; };
+		790C7EC02BC7CEDF00BF52A6 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		790EB3712BBBAA2A00DBCF8A /* CustomerJourneyDetailTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerJourneyDetailTableViewCell.h; sourceTree = "<group>"; };
 		790EB3722BBBAA2A00DBCF8A /* CustomerJourneyDetailTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerJourneyDetailTableViewCell.m; sourceTree = "<group>"; };
 		790EB3732BBBAA2A00DBCF8A /* CustomerJourneyDetailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomerJourneyDetailTableViewCell.xib; sourceTree = "<group>"; };
@@ -4969,6 +4991,8 @@
 		796E064A27E0A03400EF66D8 /* ArcosCalendarTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArcosCalendarTableViewController.xib; sourceTree = "<group>"; };
 		797BD58E2BC1828C000534EB /* Delete3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Delete3@2x.png"; sourceTree = "<group>"; };
 		7984A8E72ADE8110009B4F09 /* GenericTextInputTableViewCellDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GenericTextInputTableViewCellDelegate.h; sourceTree = "<group>"; };
+		7984CAAB2BCA80CD00F8A0B5 /* segmenteddividerbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = segmenteddividerbg.png; sourceTree = "<group>"; };
+		7984CAAD2BCA80D800F8A0B5 /* segmentedbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = segmentedbg.png; sourceTree = "<group>"; };
 		798697CF26A67D8100EE8E29 /* FormRowTableCellMyGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormRowTableCellMyGenerator.h; sourceTree = "<group>"; };
 		798697D026A67D8100EE8E29 /* FormRowTableCellMyGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormRowTableCellMyGenerator.m; sourceTree = "<group>"; };
 		798B5D712AEB6E9F008B12D9 /* flags_contact@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flags_contact@2x.png"; sourceTree = "<group>"; };
@@ -5167,7 +5191,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18D6A2FF23BCD0F2001B55F3 /* MSAL.framework in Frameworks */,
 				630C821C20F65A7D004E2FD0 /* AVKit.framework in Frameworks */,
 				63F3293F205053C200471B1D /* JavaScriptCore.framework in Frameworks */,
 				18028AF023DAEB1E003AF0DF /* libMailCore-ios.a in Frameworks */,
@@ -5192,6 +5215,7 @@
 				630B3E3619F01E02007B2442 /* UIKit.framework in Frameworks */,
 				630B3E3419F01DF3007B2442 /* Foundation.framework in Frameworks */,
 				630B3E3119F01CB9007B2442 /* libCorePlot-CocoaTouch.a in Frameworks */,
+				790C7EBD2BC7CC9B00BF52A6 /* MSAL.xcframework in Frameworks */,
 				6385A4EB1B29E42500106722 /* libScanApi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5531,6 +5555,7 @@
 				6304522B19EFC79D00CDE68A /* Info.plist */,
 				6304522C19EFC79D00CDE68A /* main.m */,
 				63F6C1432123137F007846E3 /* StoreExcInfo.plist */,
+				790C7EC02BC7CEDF00BF52A6 /* PrivacyInfo.xcprivacy */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -5868,6 +5893,8 @@
 				79CE3EB72BB59F6900698BAF /* LeftLightBlueSeparatorUILabel.m */,
 				79CE3EB92BB5A3ED00698BAF /* LeftLightBlueBorderUIView.h */,
 				79CE3EBA2BB5A3ED00698BAF /* LeftLightBlueBorderUIView.m */,
+				790A4EBF2BC919D500760301 /* ArcosNoBgSegmentedControl.h */,
+				790A4EC02BC919D500760301 /* ArcosNoBgSegmentedControl.m */,
 			);
 			path = CommonClass;
 			sourceTree = "<group>";
@@ -8394,6 +8421,8 @@
 		630B3A5419F01CB8007B2442 /* ShareImage */ = {
 			isa = PBXGroup;
 			children = (
+				7984CAAD2BCA80D800F8A0B5 /* segmentedbg.png */,
+				7984CAAB2BCA80CD00F8A0B5 /* segmenteddividerbg.png */,
 				799F6CE32BC2CF18003E2B84 /* Arrow-Back@2x.png */,
 				799F6CE42BC2CF18003E2B84 /* Arrow-DoubleBackward@2x.png */,
 				799F6CE12BC2CF17003E2B84 /* Arrow-DoubleForward@2x.png */,
@@ -9135,8 +9164,8 @@
 		63F03FD31FE14AC000D9655A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				790C7EBC2BC7CC9B00BF52A6 /* MSAL.xcframework */,
 				18EF209723D9C6E900F68C78 /* libMailCore-ios.a */,
-				18D6A2FE23BCD0F2001B55F3 /* MSAL.framework */,
 				630C821B20F65A7C004E2FD0 /* AVKit.framework */,
 				63F3293E205053C100471B1D /* JavaScriptCore.framework */,
 				631DB7BB2046BF1700874963 /* libsqlite3.tbd */,
@@ -9383,6 +9412,7 @@
 				6304522419EFC79D00CDE68A /* Frameworks */,
 				6304522519EFC79D00CDE68A /* Resources */,
 				18D6A30023BCD104001B55F3 /* ShellScript */,
+				790C7EBF2BC7CC9D00BF52A6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -9585,6 +9615,7 @@
 				630B3BDC19F01CB9007B2442 /* CustomerSurveySlidePageTableCell.xib in Resources */,
 				630B3BFB19F01CB9007B2442 /* MapViewController.xib in Resources */,
 				630B3E2319F01CB9007B2442 /* tick2.png in Resources */,
+				790C7EC12BC7CEDF00BF52A6 /* PrivacyInfo.xcprivacy in Resources */,
 				1854304323B5C1FE00E766AD /* UtilitiesMailViewController.xib in Resources */,
 				631705991FDEE5FA004B8C8D /* FormPlanogramViewController.xib in Resources */,
 				630B3C9F19F01CB9007B2442 /* LargeSmallL3SearchFormRowSlideViewController.xib in Resources */,
@@ -9773,6 +9804,7 @@
 				630B3BE019F01CB9007B2442 /* CustomerSurveyTypesTableCell.xib in Resources */,
 				632FD68C1EFAB1970037701D /* CustomerSurveyDetailsTableViewController.xib in Resources */,
 				630B3C3519F01CB9007B2442 /* LargeSmallFormDetailSlideViewController.xib in Resources */,
+				7984CAAC2BCA80CD00F8A0B5 /* segmenteddividerbg.png in Resources */,
 				630B3D7319F01CB9007B2442 /* Product Profile Box (Arcos).png in Resources */,
 				630B3C0919F01CB9007B2442 /* OrderDetailModelViewController.xib in Resources */,
 				79FD8B9427F45B990026FEDB /* previous@2x.png in Resources */,
@@ -9854,6 +9886,7 @@
 				633DC4731A1B6E9E00CE8502 /* QtyBonus.png in Resources */,
 				632E67DA1A234F3900A681CA /* Camera.png in Resources */,
 				630B3E0D19F01CB9007B2442 /* pinOrange.png in Resources */,
+				7984CAAE2BCA80D800F8A0B5 /* segmentedbg.png in Resources */,
 				630B3CE619F01CB9007B2442 /* PreviousOrderDetailViewController.xib in Resources */,
 				79D5EFBD2BC0E77D00E2D0A8 /* List3@2x.png in Resources */,
 				630B3B5919F01CB9007B2442 /* CustomerAnalyzeModalViewController.xib in Resources */,
@@ -10039,7 +10072,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/carthage copy-frameworks\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#/usr/local/bin/carthage copy-frameworks\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -10049,6 +10082,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				630B3DA119F01CB9007B2442 /* ArcosFormRowBO.m in Sources */,
+				790A4EC12BC919D500760301 /* ArcosNoBgSegmentedControl.m in Sources */,
 				636757821B287EDB00A0BC34 /* BottomBorderUILabel.m in Sources */,
 				630B3D2019F01CB9007B2442 /* SettingSelectionInputCell.m in Sources */,
 				63CCFD0A20232AC200EEF7C1 /* ArcosMailRecipientTableViewCell.m in Sources */,
@@ -11370,7 +11404,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/iArcos/ChartAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iArcos/iArcos-Prefix.pch";
@@ -11383,7 +11416,10 @@
 				);
 				INFOPLIST_FILE = iArcos/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/iArcos",
@@ -11391,7 +11427,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.7;
+				MARKETING_VERSION = 12.7.2;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11429,7 +11465,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/iArcos/ChartAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iArcos/iArcos-Prefix.pch";
@@ -11442,7 +11477,10 @@
 				);
 				INFOPLIST_FILE = iArcos/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/iArcos",
@@ -11450,7 +11488,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.7;
+				MARKETING_VERSION = 12.7.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -11484,7 +11522,11 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = iArcosTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -11501,7 +11543,11 @@
 				DEVELOPMENT_TEAM = Z39Z4X9J9E;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = iArcosTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -11568,7 +11614,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/iArcos/ChartAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iArcos/iArcos-Prefix.pch";
@@ -11581,7 +11626,10 @@
 				);
 				INFOPLIST_FILE = iArcos/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/iArcos",
@@ -11589,7 +11637,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 12.7;
+				MARKETING_VERSION = 12.7.2;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11618,7 +11666,11 @@
 				DEVELOPMENT_TEAM = Z39Z4X9J9E;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = iArcosTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

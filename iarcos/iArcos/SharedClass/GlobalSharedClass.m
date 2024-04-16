@@ -533,7 +533,7 @@ CGFloat RadiansToDegrees(CGFloat radians)
 //        NSLog(@"passcode: %@", passcode);
     }
     @catch (NSException *exception) {
-        [ArcosUtils showMsg:[exception reason] delegate:nil];
+//        [ArcosUtils showMsg:[exception reason] delegate:nil];
     }
     
     return passcode;

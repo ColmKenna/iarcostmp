@@ -139,7 +139,6 @@
 
 - (IBAction)saveButtonPressed:(id)sender {
     self.customerJourneyDetailDateDataManager.rowPointer = 0;
-     [self.myPickerView selectedRowInComponent:0];
     NSInteger auxWeekNumberRow = [self.myPickerView selectedRowInComponent:0];
     NSInteger auxDayNumberRow = [self.myPickerView selectedRowInComponent:1];
     NSInteger auxCallNumberRow = [self.myPickerView selectedRowInComponent:2];
@@ -203,6 +202,7 @@
     return 32.0;
 }
 - (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    [self calculateJourneyDateProcessorDidSelectRow:row inComponent:component];
     if (component == 0) {
         return [NSString stringWithFormat:@"%@", [self.customerJourneyDetailDateDataManager.weekNumberDisplayList objectAtIndex:row]];
     }
@@ -217,6 +217,33 @@
     NSInteger dayNumberRow = [self.myPickerView selectedRowInComponent:1];
     NSNumber* tmpWeekNumber = [self.customerJourneyDetailDateDataManager.weekNumberDisplayList objectAtIndex:weekNumberRow];
     NSNumber* tmpDayNumber = [self.customerJourneyDetailDateDataManager.dayNumberDisplayList objectAtIndex:dayNumberRow];
+    int addDays = ([tmpWeekNumber intValue] - 1) * 7 + ([tmpDayNumber intValue] - 1);
+    NSDate* currentJourneyDate = [ArcosUtils addDays:addDays date:self.customerJourneyDetailDateDataManager.journeyStartDate];
+    self.myNavigationBar.topItem.title = [ArcosUtils stringFromDate:currentJourneyDate format:@"EEEE dd MMMM yyyy"];
+}
+
+- (void)calculateJourneyDateProcessorDidSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    if (component == 2) return;
+    NSInteger weekNumberRow = 0;
+    NSInteger dayNumberRow = 0;
+    NSNumber* tmpWeekNumber = nil;
+    NSNumber* tmpDayNumber = nil;
+    NSInteger testWeekRow = 0;
+    NSInteger testDayRow = 0;
+    if (component == 0) {
+        weekNumberRow = row;
+        dayNumberRow = [self.myPickerView selectedRowInComponent:1];
+        testWeekRow = [self.myPickerView selectedRowInComponent:0];
+    }
+    if (component == 1) {
+        weekNumberRow = [self.myPickerView selectedRowInComponent:0];
+        dayNumberRow = row;
+        testDayRow = [self.myPickerView selectedRowInComponent:1];
+    }
+//    NSLog(@"picker row %d %d %d %d", [ArcosUtils convertNSIntegerToInt:component], [ArcosUtils convertNSIntegerToInt:row], [ArcosUtils convertNSIntegerToInt:testWeekRow], [ArcosUtils convertNSIntegerToInt:testDayRow]);
+//    NSLog(@"picker %d %d %d", [ArcosUtils convertNSIntegerToInt:component], [ArcosUtils convertNSIntegerToInt:weekNumberRow], [ArcosUtils convertNSIntegerToInt:dayNumberRow]);
+    tmpWeekNumber = [self.customerJourneyDetailDateDataManager.weekNumberDisplayList objectAtIndex:weekNumberRow];
+    tmpDayNumber = [self.customerJourneyDetailDateDataManager.dayNumberDisplayList objectAtIndex:dayNumberRow];
     int addDays = ([tmpWeekNumber intValue] - 1) * 7 + ([tmpDayNumber intValue] - 1);
     NSDate* currentJourneyDate = [ArcosUtils addDays:addDays date:self.customerJourneyDetailDateDataManager.journeyStartDate];
     self.myNavigationBar.topItem.title = [ArcosUtils stringFromDate:currentJourneyDate format:@"EEEE dd MMMM yyyy"];

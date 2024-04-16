@@ -4993,6 +4993,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
             }
         }
     }
+    /*
     if (1!=1) {
         NSPredicate* predicate = [NSPredicate predicateWithFormat:@"locationIUR = 161023 and productIUR = 160421"];
         NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"LocationProductMAT" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
@@ -5003,7 +5004,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
             }
         }
     }
-    /*
+    
     if (1==1) {
         NSManagedObjectContext* context = [self addManagedObjectContext];
         Price* price = [NSEntityDescription insertNewObjectForEntityForName:@"Price"
