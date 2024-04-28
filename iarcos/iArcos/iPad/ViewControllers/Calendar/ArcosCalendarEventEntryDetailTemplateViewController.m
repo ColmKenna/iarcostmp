@@ -81,7 +81,7 @@
         [addButton release];
     } else {
         if (!self.arcosCalendarEventEntryDetailListingDataManager.hideEditButtonFlag) {
-            UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(editPressed)];
+            UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(editPressed)];
             [self.mainNavigationBar.topItem setRightBarButtonItem:editButton];
             [editButton release];
         }
@@ -160,7 +160,7 @@
         for (int i = 0; i < [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.displayList count]; i++) {
             NSMutableDictionary* resDataDict = [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.displayList objectAtIndex:i];
             NSNumber* cellType = [resDataDict objectForKey:@"CellType"];
-            if ([cellType intValue] == 4) {
+            if ([cellType intValue] == 4 || [cellType intValue] == 5) {
                 tmpRow = i - 1;
                 break;
             }

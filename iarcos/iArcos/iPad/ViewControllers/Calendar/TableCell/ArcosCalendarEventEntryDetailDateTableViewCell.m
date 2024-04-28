@@ -88,7 +88,7 @@
                 break;
             case 60: {
 //                self.thePopover = [self.widgetFactory createDateHourMinuteWidgetWithType:DatePickerHourMinuteAccessTimesType datePickerValue:[fieldDataDict objectForKey:@"Time"] minDate:nil maxDate:nil];
-                self.globalWidgetViewController = [self.widgetFactory createDateHourMinuteWidgetWithType:DatePickerHourMinuteAccessTimesType datePickerValue:[fieldDataDict objectForKey:@"Time"] minDate:nil maxDate:nil];
+                self.globalWidgetViewController = [self.widgetFactory createDateHourMinuteWidgetWithType:DatePickerHourMinuteCalendarTimeType datePickerValue:[fieldDataDict objectForKey:@"Time"] minDate:nil maxDate:nil];
 //                self.thePopover.delegate = self;
 //                [self.thePopover presentPopoverFromRect:self.currentSelectedLabel.bounds inView:self.currentSelectedLabel permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
             }

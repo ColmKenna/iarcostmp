@@ -11,6 +11,7 @@
 
 typedef enum {
     DatePickerHourMinuteAccessTimesType = 0,
+    DatePickerHourMinuteCalendarTimeType = 1,
     DatePickerHourMinuteNormalType
 } DatePickerHourMinuteWidgetType;
 

@@ -21,6 +21,11 @@
 @synthesize eventForCurrentLocationFoundFlag = _eventForCurrentLocationFoundFlag;
 @synthesize journeyForCurrentLocationFoundFlag = _journeyForCurrentLocationFoundFlag;
 @synthesize journeyDateForCurrentLocation = _journeyDateForCurrentLocation;
+@synthesize templateListingDisplayList = _templateListingDisplayList;
+@synthesize journeyDictList = _journeyDictList;
+@synthesize eventDictList = _eventDictList;
+@synthesize bodyCellType = _bodyCellType;
+@synthesize bodyTemplateCellType = _bodyTemplateCellType;
 
 - (instancetype)init {
     self = [super init];
@@ -32,6 +37,8 @@
         self.eventForCurrentLocationFoundFlag = NO;
         self.journeyForCurrentLocationFoundFlag = NO;
         self.journeyDateForCurrentLocation = nil;
+        self.bodyCellType = [NSNumber numberWithInt:2];
+        self.bodyTemplateCellType = [NSNumber numberWithInt:4];
     }
     
     return self;
@@ -48,6 +55,11 @@
     self.suggestedAppointmentText = nil;
     self.nextAppointmentText = nil;
     self.journeyDateForCurrentLocation = nil;
+    self.templateListingDisplayList = nil;
+    self.journeyDictList = nil;
+    self.eventDictList = nil;
+    self.bodyCellType = nil;
+    self.bodyTemplateCellType = nil;
     
     [super dealloc];
 }
@@ -138,6 +150,10 @@
     NSString* startDateStr = [startDict objectForKey:@"dateTime"];
     NSDate* startDate = [ArcosUtils dateFromString:startDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
     
+//    NSDictionary* endDict = [aDataDict objectForKey:@"end"];
+//    NSString* endDateStr = [endDict objectForKey:@"dateTime"];
+//    NSDate* endDate = [ArcosUtils dateFromString:endDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
+    
     NSDictionary* locationDict = [aDataDict objectForKey:@"location"];
     NSString* locationStr = [locationDict objectForKey:@"displayName"];
     
@@ -170,7 +186,7 @@
 - (NSMutableDictionary*)createEventDataWithId:(NSString*)anId subject:(NSString*)aSubject
                                   bodyPreview:(NSString*)aBodyPreview location:(NSString*)aLocation
                                     startDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate isAllDay:(NSString*)anIsAllDay locationUri:(NSString*)aLocationUri {
-    NSMutableDictionary* eventDict = [NSMutableDictionary dictionaryWithCapacity:7];
+    NSMutableDictionary* eventDict = [NSMutableDictionary dictionaryWithCapacity:8];
     [eventDict setObject:[ArcosUtils convertNilToEmpty:anId] forKey:@"Id"];
     [eventDict setObject:[ArcosUtils convertNilToEmpty:aSubject] forKey:@"Subject"];
     [eventDict setObject:[ArcosUtils convertNilToEmpty:aBodyPreview] forKey:@"BodyPreview"];
@@ -183,21 +199,24 @@
     return eventDict;
 }
 
-- (NSMutableArray*)retrieveTemplateListingDisplayList {
-    NSMutableArray* templateListingDisplayList = [NSMutableArray arrayWithCapacity:[self.listingDisplayList count]];
-    for (int i = 0; i < [self.listingDisplayList count]; i++) {
-        NSMutableDictionary* resultCellDataDict = [NSMutableDictionary dictionaryWithCapacity:2];
-        NSDictionary* myCellData = [self.listingDisplayList objectAtIndex:i];
-        NSDictionary* myCellStartDict = [myCellData objectForKey:@"start"];
-        NSString* myCellStartDateStr = [myCellStartDict objectForKey:@"dateTime"];
-        NSDate* myCellStartDate = [ArcosUtils dateFromString:myCellStartDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
-        [resultCellDataDict setObject:[ArcosUtils convertNilDateToNull:myCellStartDate] forKey:@"Date"];
-        
-        NSString* subjectStr = [ArcosUtils convertNilToEmpty:[myCellData objectForKey:@"subject"]];
-        NSDictionary* locationDict = [myCellData objectForKey:@"location"];
-        NSString* locationStr = [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"displayName"]];
-        
-        [resultCellDataDict setObject:[ArcosUtils trim:[NSString stringWithFormat:@"%@ %@",subjectStr, locationStr]] forKey:@"Name"];
+- (NSMutableArray*)retrieveTemplateListingDisplayListWithBodyCellType:(NSNumber*)aBodyCellType {
+    NSMutableArray* templateListingDisplayList = [NSMutableArray arrayWithCapacity:[self.eventDictList count]];
+    for (int i = 0; i < [self.eventDictList count]; i++) {        
+        NSDictionary* myCellData = [self.eventDictList objectAtIndex:i];
+        NSMutableDictionary* tmpStandardEventDict = [self createEditEventEntryDetailTemplateData:myCellData];
+        NSMutableDictionary* resultCellDataDict = [NSMutableDictionary dictionaryWithDictionary:tmpStandardEventDict];
+//        NSDictionary* myCellStartDict = [myCellData objectForKey:@"start"];
+//        NSString* myCellStartDateStr = [myCellStartDict objectForKey:@"dateTime"];
+//        NSDate* myCellStartDate = [ArcosUtils dateFromString:myCellStartDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
+//        [resultCellDataDict setObject:[ArcosUtils convertNilDateToNull:myCellStartDate] forKey:@"StartDate"];
+//        
+//        NSString* subjectStr = [ArcosUtils convertNilToEmpty:[myCellData objectForKey:@"subject"]];
+//        NSDictionary* locationDict = [myCellData objectForKey:@"location"];
+//        NSString* locationStr = [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"displayName"]];
+//        
+//        [resultCellDataDict setObject:locationStr forKey:@"Location"];
+//        [resultCellDataDict setObject:subjectStr forKey:@"Subject"];
+        [resultCellDataDict setObject:aBodyCellType forKey:@"CellType"];
         NSNumber* myLocationIUR = [self retrieveLocationIURWithEventDict:myCellData];
         [resultCellDataDict setObject:[ArcosUtils convertNilToZero:myLocationIUR] forKey:@"LocationIUR"];
         [templateListingDisplayList addObject:resultCellDataDict];

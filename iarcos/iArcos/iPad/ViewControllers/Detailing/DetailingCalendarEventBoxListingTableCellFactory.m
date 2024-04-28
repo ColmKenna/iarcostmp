@@ -13,6 +13,7 @@
 @synthesize detailingCalendarEventBoxListingBodyTableCellId = _detailingCalendarEventBoxListingBodyTableCellId;
 @synthesize detailingCalendarEventBoxListingPlaceHolderTableCellId = _detailingCalendarEventBoxListingPlaceHolderTableCellId;
 @synthesize detailingCalendarEventBoxListingBodyForTemplateTableCellId = _detailingCalendarEventBoxListingBodyForTemplateTableCellId;
+@synthesize detailingCalendarEventBoxListingBodyJourneyForTemplateTableCellId = _detailingCalendarEventBoxListingBodyJourneyForTemplateTableCellId;
 
 - (instancetype)init {
     self = [super init];
@@ -21,6 +22,7 @@
         self.detailingCalendarEventBoxListingBodyTableCellId = @"IdDetailingCalendarEventBoxListingBodyTableCell";
         self.detailingCalendarEventBoxListingPlaceHolderTableCellId = @"IdDetailingCalendarEventBoxListingPlaceHolderTableCell";
         self.detailingCalendarEventBoxListingBodyForTemplateTableCellId = @"IdDetailingCalendarEventBoxListingBodyForTemplateTableCell";
+        self.detailingCalendarEventBoxListingBodyJourneyForTemplateTableCellId = @"IdDetailingCalendarEventBoxListingBodyJourneyForTemplateTableCell";
     }
     return self;
 }
@@ -30,6 +32,7 @@
     self.detailingCalendarEventBoxListingBodyTableCellId = nil;
     self.detailingCalendarEventBoxListingPlaceHolderTableCellId = nil;
     self.detailingCalendarEventBoxListingBodyForTemplateTableCellId = nil;
+    self.detailingCalendarEventBoxListingBodyJourneyForTemplateTableCellId = nil;
     
     [super dealloc];
 }
@@ -49,6 +52,9 @@
             break;
         case 4:
             auxIdentifier = self.detailingCalendarEventBoxListingBodyForTemplateTableCellId;
+            break;
+        case 5:
+            auxIdentifier = self.detailingCalendarEventBoxListingBodyJourneyForTemplateTableCellId;
             break;
             
         default:

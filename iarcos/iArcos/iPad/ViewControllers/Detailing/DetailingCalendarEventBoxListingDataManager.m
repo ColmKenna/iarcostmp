@@ -88,9 +88,10 @@
     self.hourHashMap = [NSMutableDictionary dictionary];
     for (int i = 0; i < [aDataList count]; i++) {
         NSDictionary* cellData = [aDataList objectAtIndex:i];
-        NSDictionary* cellStartDict = [cellData objectForKey:@"start"];
-        NSString* tmpCellStartDateStr = [cellStartDict objectForKey:@"dateTime"];
-        NSDate* tmpCellStartDate = [ArcosUtils dateFromString:tmpCellStartDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
+//        NSDictionary* cellStartDict = [cellData objectForKey:@"start"];
+//        NSString* tmpCellStartDateStr = [cellStartDict objectForKey:@"dateTime"];
+//        NSDate* tmpCellStartDate = [ArcosUtils dateFromString:tmpCellStartDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
+        NSDate* tmpCellStartDate = [cellData objectForKey:@"Date"];
         int tmpHour = [ArcosUtils convertNSIntegerToInt:[ArcosUtils hourWithDate:tmpCellStartDate]];
         NSNumber* tmpHourKey = [NSNumber numberWithInt:tmpHour];
         NSMutableArray* tmpHourDataList = [self.hourHashMap objectForKey:tmpHourKey];
@@ -111,7 +112,7 @@
 
 - (NSMutableDictionary*)createBodyCellDataWithDate:(NSDate*)aDate data:(NSDictionary*)aDataDict {
     NSMutableDictionary* resDataDict = [NSMutableDictionary dictionaryWithCapacity:3];
-    [resDataDict setObject:[NSNumber numberWithInt:2] forKey:@"CellType"];
+    [resDataDict setObject:[NSNumber numberWithInt:[[aDataDict objectForKey:@"CellType"] intValue]] forKey:@"CellType"];
     [resDataDict setObject:aDate forKey:@"FieldDesc"];
     [resDataDict setObject:aDataDict forKey:@"FieldValue"];
     return resDataDict;
@@ -125,7 +126,7 @@
 
 - (NSMutableDictionary*)createBodyForTemplateCellDataWithDate:(NSDate*)aDate data:(NSMutableDictionary*)aDataDict {
     NSMutableDictionary* resDataDict = [NSMutableDictionary dictionaryWithCapacity:3];
-    [resDataDict setObject:[NSNumber numberWithInt:4] forKey:@"CellType"];
+    [resDataDict setObject:[NSNumber numberWithInt:[[aDataDict objectForKey:@"CellType"] intValue]] forKey:@"CellType"];
     [resDataDict setObject:aDate forKey:@"FieldDesc"];
     [resDataDict setObject:aDataDict forKey:@"FieldValue"];
     return resDataDict;

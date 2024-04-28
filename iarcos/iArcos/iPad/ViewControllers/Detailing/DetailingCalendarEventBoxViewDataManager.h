@@ -24,6 +24,11 @@
     BOOL _eventForCurrentLocationFoundFlag;
     BOOL _journeyForCurrentLocationFoundFlag;
     NSDate* _journeyDateForCurrentLocation;
+    NSMutableArray* _templateListingDisplayList;
+    NSMutableArray* _journeyDictList;
+    NSMutableArray* _eventDictList;
+    NSNumber* _bodyCellType;
+    NSNumber* _bodyTemplateCellType;
 }
 
 @property(nonatomic,retain) NSDate* journeyDateData;
@@ -38,6 +43,11 @@
 @property(nonatomic,assign) BOOL eventForCurrentLocationFoundFlag;
 @property(nonatomic,assign) BOOL journeyForCurrentLocationFoundFlag;
 @property(nonatomic,retain) NSDate* journeyDateForCurrentLocation;
+@property(nonatomic,retain) NSMutableArray* templateListingDisplayList;
+@property(nonatomic,retain) NSMutableArray* journeyDictList;
+@property(nonatomic,retain) NSMutableArray* eventDictList;
+@property(nonatomic,retain) NSNumber* bodyCellType;
+@property(nonatomic,retain) NSNumber* bodyTemplateCellType;
 
 - (NSString*)retrieveCalendarURIWithStartDate:(NSString*)aStartDate endDate:(NSString*)anEndDate locationName:(NSString*)aLocationName;
 - (NSString*)retrieveCalendarURIWithStartDate:(NSString*)aStartDate endDate:(NSString*)anEndDate;
@@ -45,7 +55,7 @@
 - (NSMutableDictionary*)retrieveEditEventDictWithLocationName:(NSString*)aLocationName contactName:(NSString*)aContactName locationIUR:(NSNumber*)aLocationIUR contactIUR:(NSNumber*)aContactIUR;
 - (NSMutableDictionary*)populateCalendarEventEntryWithData:(NSDictionary*)aDataDict;
 - (NSMutableDictionary*)createEditEventEntryDetailTemplateData:(NSDictionary*)aDataDict;
-- (NSMutableArray*)retrieveTemplateListingDisplayList;
+- (NSMutableArray*)retrieveTemplateListingDisplayListWithBodyCellType:(NSNumber*)aBodyCellType;
 - (NSNumber*)retrieveLocationIURWithEventDict:(NSDictionary*)anEventDict;
 - (BOOL)calculateJourneyDateWithLocationIUR:(NSNumber*)aLocationIUR;
 - (NSDate*)retrieveNextFifteenMinutesWithDate:(NSDate*)aDate;

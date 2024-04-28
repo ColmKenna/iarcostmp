@@ -45,12 +45,16 @@
 @synthesize arcosRootViewController = _arcosRootViewController;
 @synthesize globalNavigationController = _globalNavigationController;
 @synthesize imageButton = _imageButton;
+@synthesize customerJourneyDataManager = _customerJourneyDataManager;
+@synthesize calendarUtilityDataManager = _calendarUtilityDataManager;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self != nil) {
         self.detailingCalendarEventBoxViewDataManager = [[[DetailingCalendarEventBoxViewDataManager alloc] init] autorelease];
-        
+        self.customerJourneyDataManager = [[[CustomerJourneyDataManager alloc] init] autorelease];
+        [self.customerJourneyDataManager processCalendarJourneyData];
+        self.calendarUtilityDataManager = [[[CalendarUtilityDataManager alloc] init] autorelease];
     }
     return self;
 }
@@ -141,7 +145,7 @@
         for (int i = 0; i < [self.detailingCalendarEventBoxListingDataManager.displayList count]; i++) {
             NSMutableDictionary* resDataDict = [self.detailingCalendarEventBoxListingDataManager.displayList objectAtIndex:i];
             NSNumber* cellType = [resDataDict objectForKey:@"CellType"];
-            if ([cellType intValue] == 2) {
+            if ([cellType intValue] == 2 || [cellType intValue] == 5) {
                 tmpRow = i - 1;
                 break;
             }
@@ -174,31 +178,24 @@
     ACEEDTVC.presentDelegate = self;
     ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.actionType = ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.createText;
     [ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveCreateDataWithDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData title:[self.actionDelegate retrieveDetailingContactName] location:[self.actionDelegate retrieveDetailingLocationName]];
-    NSMutableArray* templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayList];
-//    for (int i = 0; i < [self.detailingCalendarEventBoxViewDataManager.listingDisplayList count]; i++) {
-//        NSMutableDictionary* resultCellDataDict = [NSMutableDictionary dictionaryWithCapacity:2];
-//        NSDictionary* myCellData = [self.detailingCalendarEventBoxViewDataManager.listingDisplayList objectAtIndex:i];
-//        NSDictionary* myCellStartDict = [myCellData objectForKey:@"start"];
-//        NSString* myCellStartDateStr = [myCellStartDict objectForKey:@"dateTime"];
-//        NSDate* myCellStartDate = [ArcosUtils dateFromString:myCellStartDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
-//        [resultCellDataDict setObject:[ArcosUtils convertNilDateToNull:myCellStartDate] forKey:@"Date"];
-//        [resultCellDataDict setObject:[ArcosUtils convertNilToEmpty:[myCellData objectForKey:@"subject"]] forKey:@"Name"];
-//        NSNumber* myLocationIUR = [self.detailingCalendarEventBoxViewDataManager retrieveLocationIURWithEventDict:myCellData];
-//        [resultCellDataDict setObject:[ArcosUtils convertNilToZero:myLocationIUR] forKey:@"LocationIUR"];
-//        [templateListingDisplayList addObject:resultCellDataDict];
-//    }
-    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList = templateListingDisplayList;
+    
+    
+//    NSMutableArray* templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
+
+//    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList = templateListingDisplayList;
+    NSString* aDateFormatText = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
+    NSMutableDictionary* auxJourneyDict = [self.customerJourneyDataManager.journeyDictHashMap objectForKey:aDateFormatText];
+    if (auxJourneyDict != nil) {
+        [self.customerJourneyDataManager getLocationsWithJourneyDict:auxJourneyDict];
+        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.journeyDictList = [self.customerJourneyDataManager.locationListDict objectForKey:aDateFormatText];
+    }
+    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
+    
+    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText];
+    
     [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
     ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].weekdayDateFormat];
-//    UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
-//    tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
-//    tmpNavigationController.modalPresentationStyle = UIModalPresentationPopover;
-//    tmpNavigationController.popoverPresentationController.barButtonItem = self.addEventBarButtonItem;
-//    tmpNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-//    [self presentViewController:tmpNavigationController animated:YES completion:nil];
-//    [ACEEDTVC release];
-//    [tmpNavigationController release];
-//    ACEEDTVC.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
+
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:ACEEDTVC] autorelease];
     [ACEEDTVC release];
     CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.arcosRootViewController];
@@ -313,6 +310,8 @@
     self.arcosRootViewController = nil;
     self.globalNavigationController = nil;
     self.imageButton = nil;
+    self.customerJourneyDataManager = nil;
+    self.calendarUtilityDataManager = nil;
     
     [super dealloc];
 }
@@ -522,6 +521,8 @@
             } else {
                 self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [NSMutableArray array];
                 self.detailingCalendarEventBoxViewDataManager.ownLocationDisplayList = [NSMutableArray array];
+                self.detailingCalendarEventBoxViewDataManager.journeyDictList = [NSMutableArray array];
+                self.detailingCalendarEventBoxViewDataManager.eventDictList = [NSMutableArray array];
                 id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
                 NSDictionary* resultDict = (NSDictionary*)result;
                 NSArray* eventList = [resultDict objectForKey:@"value"];
@@ -531,15 +532,22 @@
                     if ([[self.actionDelegate retrieveDetailingLocationIUR] isEqualToNumber:locationIUR]) {
                         [self.detailingCalendarEventBoxViewDataManager.ownLocationDisplayList addObject:[NSDictionary dictionaryWithDictionary:auxEventDict]];
                     }
-                    [self.detailingCalendarEventBoxViewDataManager.listingDisplayList addObject:[NSDictionary dictionaryWithDictionary:auxEventDict]];
+//                    [self.detailingCalendarEventBoxViewDataManager.listingDisplayList addObject:[NSDictionary dictionaryWithDictionary:auxEventDict]];
+                    [self.detailingCalendarEventBoxViewDataManager.eventDictList addObject:[NSDictionary dictionaryWithDictionary:auxEventDict]];
                 }
+                
+                NSString* aDateFormatText = [ArcosUtils stringFromDate:aStartDate format:[GlobalSharedClass shared].dateFormat];
+                NSMutableDictionary* auxJourneyDict = [self.customerJourneyDataManager.journeyDictHashMap objectForKey:aDateFormatText];
+                if (auxJourneyDict != nil) {
+                    [self.customerJourneyDataManager getLocationsWithJourneyDict:auxJourneyDict];
+                    self.detailingCalendarEventBoxViewDataManager.journeyDictList = [self.customerJourneyDataManager.locationListDict objectForKey:aDateFormatText];
+                }
+                self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
+                self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:aDateFormatText journeyDictList:self.detailingCalendarEventBoxViewDataManager.journeyDictList eventDictList:self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList bodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
+                
+//                self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
                 [self.detailingCalendarEventBoxListingDataManager createBasicDataWithDataList:self.detailingCalendarEventBoxViewDataManager.listingDisplayList];
                 dispatch_async(dispatch_get_main_queue(), ^{
-//                    if ([self.detailingCalendarEventBoxViewDataManager.ownLocationDisplayList count] > 0) {
-//                        self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.nextAppointmentText;
-//                    } else {
-//                        self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.suggestedAppointmentText;
-//                    }
                     [self.listingTableView reloadData];
                     [weakSelf.HUD hide:YES];
                     [self scrollToAppointmentPositionProcessor];
@@ -605,6 +613,8 @@
             } else {
                 self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [NSMutableArray array];
                 self.detailingCalendarEventBoxViewDataManager.ownLocationDisplayList = [NSMutableArray array];
+                self.detailingCalendarEventBoxViewDataManager.eventDictList = [NSMutableArray array];
+                self.detailingCalendarEventBoxViewDataManager.journeyDictList = [NSMutableArray array];
                 id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
                 NSDictionary* resultDict = (NSDictionary*)result;
                 NSArray* eventList = [resultDict objectForKey:@"value"];
@@ -614,15 +624,19 @@
                     if ([[self.actionDelegate retrieveDetailingLocationIUR] isEqualToNumber:locationIUR]) {
                         [self.detailingCalendarEventBoxViewDataManager.ownLocationDisplayList addObject:[NSDictionary dictionaryWithDictionary:auxEventDict]];
                     }
-                    [self.detailingCalendarEventBoxViewDataManager.listingDisplayList addObject:[NSDictionary dictionaryWithDictionary:auxEventDict]];
+                    [self.detailingCalendarEventBoxViewDataManager.eventDictList addObject:[NSDictionary dictionaryWithDictionary:auxEventDict]];
                 }
+                
+                NSString* aDateFormatText = [ArcosUtils stringFromDate:aStartDate format:[GlobalSharedClass shared].dateFormat];
+                NSMutableDictionary* auxJourneyDict = [self.customerJourneyDataManager.journeyDictHashMap objectForKey:aDateFormatText];
+                if (auxJourneyDict != nil) {
+                    [self.customerJourneyDataManager getLocationsWithJourneyDict:auxJourneyDict];
+                    self.detailingCalendarEventBoxViewDataManager.journeyDictList = [self.customerJourneyDataManager.locationListDict objectForKey:aDateFormatText];
+                }
+                self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
+                self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:aDateFormatText journeyDictList:self.detailingCalendarEventBoxViewDataManager.journeyDictList eventDictList:self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList bodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
                 [self.detailingCalendarEventBoxListingDataManager createBasicDataWithDataList:self.detailingCalendarEventBoxViewDataManager.listingDisplayList];
                 dispatch_async(dispatch_get_main_queue(), ^{
-//                    if ([self.detailingCalendarEventBoxViewDataManager.ownLocationDisplayList count] > 0) {
-//                        self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.nextAppointmentText;
-//                    } else {
-//                        self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.suggestedAppointmentText;
-//                    }
                     [self.listingTableView reloadData];
                     [weakSelf.HUD hide:YES];
                     [self scrollToAppointmentPositionProcessor];
@@ -854,6 +868,7 @@
 - (void)handleDoubleTapGesture:(id)sender {
     UITapGestureRecognizer* recognizer = (UITapGestureRecognizer*)sender;
     if (recognizer.state == UIGestureRecognizerStateEnded) {
+        /*
         NSIndexPath* swipedIndexPath = [ArcosUtils indexPathWithRecognizer:recognizer tableview:self.listingTableView];
         NSDictionary* cellData = [self.detailingCalendarEventBoxViewDataManager.listingDisplayList objectAtIndex:swipedIndexPath.row];
         ArcosCalendarEventEntryDetailListingTableViewCell* cell = (ArcosCalendarEventEntryDetailListingTableViewCell*)[self.listingTableView cellForRowAtIndexPath:swipedIndexPath];
@@ -880,6 +895,7 @@
         [self presentViewController:tmpNavigationController animated:YES completion:nil];
         [ACEEDTVC release];
         [tmpNavigationController release];
+         */
     }
 }
 
@@ -898,23 +914,39 @@
 
 - (void)doubleTapListingBodyLabelWithIndexPath:(NSIndexPath *)anIndexPath {
     NSMutableDictionary* cellData = [self.detailingCalendarEventBoxListingDataManager.displayList objectAtIndex:anIndexPath.row];
-    NSDictionary* cellFieldValueData = [cellData objectForKey:@"FieldValue"];
+    NSMutableDictionary* cellFieldValueData = [cellData objectForKey:@"FieldValue"];
+//    NSLog(@"aa %@", cellFieldValueData);
+//    NSDictionary* startDict = [cellFieldValueData objectForKey:@"start"];
+//    NSString* startDateStr = [startDict objectForKey:@"dateTime"];
+//    NSDate* startDate = [ArcosUtils dateFromString:startDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
+    NSDate* startDate = [cellFieldValueData objectForKey:@"Date"];
+    NSString* aDateFormatText = [ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].dateFormat];
 //    DetailingCalendarEventBoxListingBaseTableCell* cell = (DetailingCalendarEventBoxListingBaseTableCell*)[self.listingTableView cellForRowAtIndexPath:anIndexPath];
-    NSMutableDictionary* eventDataDict = [self.detailingCalendarEventBoxViewDataManager createEditEventEntryDetailTemplateData:cellFieldValueData];
+//    NSMutableDictionary* eventDataDict = [self.detailingCalendarEventBoxViewDataManager createEditEventEntryDetailTemplateData:cellFieldValueData];
     ArcosCalendarEventEntryDetailTemplateViewController* ACEEDTVC = [[ArcosCalendarEventEntryDetailTemplateViewController alloc] initWithNibName:@"ArcosCalendarEventEntryDetailTemplateViewController" bundle:nil];
     ACEEDTVC.actionDelegate = self;
     ACEEDTVC.presentDelegate = self;
-    NSNumber* locationIUR = [self.detailingCalendarEventBoxViewDataManager retrieveLocationIURWithEventDict:cellFieldValueData];
-    if (![[self.actionDelegate retrieveDetailingLocationIUR] isEqualToNumber:locationIUR]) {
-        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.hideEditButtonFlag = YES;
-    }
-    [ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveEditDataWithCellData:eventDataDict];
-    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayList];
-    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
+//    NSNumber* locationIUR = [self.detailingCalendarEventBoxViewDataManager retrieveLocationIURWithEventDict:cellFieldValueData];
+//    NSNumber* locationIUR = [cellFieldValueData objectForKey:@"LocationIUR"];
+//    if (![[self.actionDelegate retrieveDetailingLocationIUR] isEqualToNumber:locationIUR]) {
+//        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.hideEditButtonFlag = YES;
+//    }
     
-    NSDictionary* startDict = [cellFieldValueData objectForKey:@"start"];
-    NSString* startDateStr = [startDict objectForKey:@"dateTime"];
-    NSDate* startDate = [ArcosUtils dateFromString:startDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
+    [ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveEditDataWithCellData:cellFieldValueData];
+//    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayList];
+    NSMutableDictionary* auxJourneyDict = [self.customerJourneyDataManager.journeyDictHashMap objectForKey:aDateFormatText];
+    if (auxJourneyDict != nil) {
+        [self.customerJourneyDataManager getLocationsWithJourneyDict:auxJourneyDict];
+        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.journeyDictList = [self.customerJourneyDataManager.locationListDict objectForKey:aDateFormatText];
+    }
+    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
+    
+    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText];
+    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];    
+    
+//    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
+    
+    
     ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].weekdayDateFormat];
 //    UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
 //    tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);

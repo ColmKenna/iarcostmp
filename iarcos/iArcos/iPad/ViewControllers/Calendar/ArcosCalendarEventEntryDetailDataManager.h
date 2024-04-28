@@ -10,6 +10,7 @@
 #import "GlobalSharedClass.h"
 #import "ArcosUtils.h"
 
+
 @interface ArcosCalendarEventEntryDetailDataManager : NSObject {
     NSString* _actionType;
     NSString* _createText;
@@ -61,6 +62,7 @@
 - (NSMutableDictionary*)retrieveEventDictWithLocationUri:(NSString*)aLocationUri;
 - (NSMutableDictionary*)retrieveEditEventDictWithLocationUri:(NSString*)aLocationUri;
 - (void)resetEndDateWithStartDictProcessor:(NSMutableDictionary*)aStartDict;
+- (NSDate*)retrieveNextFifteenMinutesWithDate:(NSDate*)aDate;
 
 @end
 

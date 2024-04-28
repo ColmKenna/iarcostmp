@@ -1605,6 +1605,7 @@
 		79273B842ACEB96C00858D3A /* FlagsMainTemplateDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 79273B832ACEB96C00858D3A /* FlagsMainTemplateDataManager.m */; };
 		792B2626255E2155002326BA /* load@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 792B2625255E2155002326BA /* load@2x.png */; };
 		792BD4702862D7F200E4FF52 /* ArcosCalendarEventEntryDetailDeleteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 792BD46F2862D7F200E4FF52 /* ArcosCalendarEventEntryDetailDeleteTableViewCell.m */; };
+		792BEA352BCE7ED0002671EE /* DetailingCalendarEventBoxListingBodyJourneyForTemplateTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 792BEA342BCE7ED0002671EE /* DetailingCalendarEventBoxListingBodyJourneyForTemplateTableCell.m */; };
 		792C360D2A29E3D60098DC00 /* ArcosGetFromResourcesResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 792C360C2A29E3D60098DC00 /* ArcosGetFromResourcesResult.m */; };
 		792E959F2AD53A240088AB45 /* FlagsContactDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 792E959E2AD53A240088AB45 /* FlagsContactDataManager.m */; };
 		792E95A22AD54EF50088AB45 /* FlagsSelectedContactDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 792E95A12AD54EF50088AB45 /* FlagsSelectedContactDataManager.m */; };
@@ -1716,6 +1717,7 @@
 		79D645A92B6215C7007C1073 /* DetailingCalendarEventBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D645A72B6215C7007C1073 /* DetailingCalendarEventBoxViewController.m */; };
 		79D645AA2B6215C7007C1073 /* DetailingCalendarEventBoxViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79D645A82B6215C7007C1073 /* DetailingCalendarEventBoxViewController.xib */; };
 		79D7AE5328855545005A3D34 /* SaveRecordPackageUpdateCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D7AE5228855545005A3D34 /* SaveRecordPackageUpdateCenter.m */; };
+		79DAA6482BD00D4300D5DCD4 /* DetailingCalendarEventBoxListingBodyUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 79DAA6472BD00D4300D5DCD4 /* DetailingCalendarEventBoxListingBodyUIView.m */; };
 		79E2EFF1256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E2EFF0256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.m */; };
 		79E317B72ACE67B40090C31F /* loc_con_flags.png in Resources */ = {isa = PBXBuildFile; fileRef = 79E317B62ACE67B40090C31F /* loc_con_flags.png */; };
 		79E390AE291CF3F100CE9B03 /* ArcosProductSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 79E390A7291CF3EF00CE9B03 /* ArcosProductSummary.m */; };
@@ -4905,6 +4907,8 @@
 		792B2625255E2155002326BA /* load@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "load@2x.png"; sourceTree = "<group>"; };
 		792BD46E2862D7F200E4FF52 /* ArcosCalendarEventEntryDetailDeleteTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosCalendarEventEntryDetailDeleteTableViewCell.h; sourceTree = "<group>"; };
 		792BD46F2862D7F200E4FF52 /* ArcosCalendarEventEntryDetailDeleteTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosCalendarEventEntryDetailDeleteTableViewCell.m; sourceTree = "<group>"; };
+		792BEA332BCE7ED0002671EE /* DetailingCalendarEventBoxListingBodyJourneyForTemplateTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailingCalendarEventBoxListingBodyJourneyForTemplateTableCell.h; sourceTree = "<group>"; };
+		792BEA342BCE7ED0002671EE /* DetailingCalendarEventBoxListingBodyJourneyForTemplateTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailingCalendarEventBoxListingBodyJourneyForTemplateTableCell.m; sourceTree = "<group>"; };
 		792C360B2A29E3D50098DC00 /* ArcosGetFromResourcesResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArcosGetFromResourcesResult.h; sourceTree = "<group>"; };
 		792C360C2A29E3D60098DC00 /* ArcosGetFromResourcesResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArcosGetFromResourcesResult.m; sourceTree = "<group>"; };
 		792E959D2AD53A240088AB45 /* FlagsContactDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlagsContactDataManager.h; sourceTree = "<group>"; };
@@ -5104,6 +5108,8 @@
 		79D645A82B6215C7007C1073 /* DetailingCalendarEventBoxViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailingCalendarEventBoxViewController.xib; sourceTree = "<group>"; };
 		79D7AE5128855545005A3D34 /* SaveRecordPackageUpdateCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SaveRecordPackageUpdateCenter.h; sourceTree = "<group>"; };
 		79D7AE5228855545005A3D34 /* SaveRecordPackageUpdateCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SaveRecordPackageUpdateCenter.m; sourceTree = "<group>"; };
+		79DAA6462BD00D4300D5DCD4 /* DetailingCalendarEventBoxListingBodyUIView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailingCalendarEventBoxListingBodyUIView.h; sourceTree = "<group>"; };
+		79DAA6472BD00D4300D5DCD4 /* DetailingCalendarEventBoxListingBodyUIView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailingCalendarEventBoxListingBodyUIView.m; sourceTree = "<group>"; };
 		79E2EFEF256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerInfoStartTimeTableViewCell.h; sourceTree = "<group>"; };
 		79E2EFF0256E298600E1CADF /* CustomerInfoStartTimeTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerInfoStartTimeTableViewCell.m; sourceTree = "<group>"; };
 		79E317B62ACE67B40090C31F /* loc_con_flags.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loc_con_flags.png; sourceTree = "<group>"; };
@@ -6828,6 +6834,8 @@
 				79F46A5B2BA4381100272690 /* DetailingCalendarEventBoxBorderUIButton.h */,
 				79F46A5C2BA4381100272690 /* DetailingCalendarEventBoxBorderUIButton.m */,
 				79F46A5F2BA4549200272690 /* DetailingCalendarEventBoxListingDataManagerDelegate.h */,
+				79DAA6462BD00D4300D5DCD4 /* DetailingCalendarEventBoxListingBodyUIView.h */,
+				79DAA6472BD00D4300D5DCD4 /* DetailingCalendarEventBoxListingBodyUIView.m */,
 			);
 			path = Detailing;
 			sourceTree = "<group>";
@@ -9397,6 +9405,8 @@
 				79F46A5E2BA452D400272690 /* DetailingCalendarEventBoxListingBaseTableCellDelegate.h */,
 				7958DC1F2BB6629A0058CF0D /* DetailingCalendarEventBoxListingBodyForTemplateTableCell.h */,
 				7958DC202BB6629A0058CF0D /* DetailingCalendarEventBoxListingBodyForTemplateTableCell.m */,
+				792BEA332BCE7ED0002671EE /* DetailingCalendarEventBoxListingBodyJourneyForTemplateTableCell.h */,
+				792BEA342BCE7ED0002671EE /* DetailingCalendarEventBoxListingBodyJourneyForTemplateTableCell.m */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -10441,6 +10451,7 @@
 				63AC39411CE0AC2000459286 /* CustomerGroupContactTableViewCell.m in Sources */,
 				7951ABF5282E3EB100423717 /* ArcosCalendarEventEntryDetailTableViewCellFactory.m in Sources */,
 				634C8F701CAD2E7F00D23BB3 /* LeftRightInsetUILabel.m in Sources */,
+				79DAA6482BD00D4300D5DCD4 /* DetailingCalendarEventBoxListingBodyUIView.m in Sources */,
 				630B3DA619F01CB9007B2442 /* ArcosImageBO.m in Sources */,
 				63E44F2B1EC6079A0074456F /* DashboardVanStocksViewController.m in Sources */,
 				630B347519F013AB007B2442 /* ArcosRootViewController.m in Sources */,
@@ -10998,6 +11009,7 @@
 				7903626F29371CA2001425F4 /* ReporterXmlExcelViewController.m in Sources */,
 				63A0F5581A321BAC00A58178 /* CustomerDetailsActionBaseDataManager.m in Sources */,
 				630B3D3B19F01CB9007B2442 /* UtilitiesAnimatedTrManager.m in Sources */,
+				792BEA352BCE7ED0002671EE /* DetailingCalendarEventBoxListingBodyJourneyForTemplateTableCell.m in Sources */,
 				630B3C7219F01CB9007B2442 /* OrderSenderCenter.m in Sources */,
 				630B3C9519F01CB9007B2442 /* FormRowDividerTableViewController.m in Sources */,
 				630B34D319F014E9007B2442 /* FileCommon.m in Sources */,

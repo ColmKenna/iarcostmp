@@ -47,6 +47,9 @@
         NSMutableDictionary* dataDict = [NSMutableDictionary dictionaryWithCapacity:2];
         [dataDict setObject:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Name"]] forKey:@"Name"];
         [dataDict setObject:[ArcosUtils addMinutes:i * 15 date:beginDate] forKey:@"Date"];
+        NSString* tmpAddress = [NSString stringWithFormat:@"%@ %@ %@ %@ %@",[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address1"]], [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address2"]], [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address3"]], [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address4"]], [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address5"]]];
+        [dataDict setObject:tmpAddress forKey:@"Address"];
+        [dataDict setObject:[NSNumber numberWithInt:5] forKey:@"CellType"];
         [self.displayList addObject:dataDict];
     }
     
@@ -55,8 +58,11 @@
         NSMutableDictionary* dataDict = [NSMutableDictionary dictionaryWithCapacity:2];
         NSString* subjectStr = [ArcosUtils convertNilToEmpty:[eventDict objectForKey:@"Subject"]];
         NSString* locationStr = [ArcosUtils convertNilToEmpty:[eventDict objectForKey:@"Location"]];
-        [dataDict setObject:[ArcosUtils trim:[NSString stringWithFormat:@"%@ %@",subjectStr, locationStr]] forKey:@"Name"];        
+        [dataDict setObject:locationStr forKey:@"Name"];
         [dataDict setObject:[eventDict objectForKey:@"StartDate"] forKey:@"Date"];
+        [dataDict setObject:subjectStr forKey:@"Subject"];
+        [dataDict setObject:[NSNumber numberWithInt:4] forKey:@"CellType"];
+        [dataDict setObject:[ArcosUtils convertNilToZero:[eventDict objectForKey:@"LocationIUR"]] forKey:@"LocationIUR"];
         [self.displayList addObject:dataDict];
     }
     if ([self.displayList count] > 1) {

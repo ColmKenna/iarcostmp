@@ -79,7 +79,7 @@
     NSMutableArray* dateDataList = [NSMutableArray arrayWithCapacity:3];
     [dateDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:3] fieldDesc:@"All-day" fieldName:self.allDayKey fieldData:@"0"]];
     NSMutableDictionary* startFieldData = [NSMutableDictionary dictionaryWithCapacity:2];
-    NSString* compositeDateString = [NSString stringWithFormat:@"%@ %@", [ArcosUtils stringFromDate:aDate format:[GlobalSharedClass shared].dateFormat], [ArcosUtils stringFromDate:[NSDate date] format:[GlobalSharedClass shared].hourMinuteFormat]];
+    NSString* compositeDateString = [NSString stringWithFormat:@"%@ %@", [ArcosUtils stringFromDate:aDate format:[GlobalSharedClass shared].dateFormat], [ArcosUtils stringFromDate:[self retrieveNextFifteenMinutesWithDate:[NSDate date]] format:[GlobalSharedClass shared].hourMinuteFormat]];
     NSDate* compositeDate = [ArcosUtils dateFromString:compositeDateString format:[GlobalSharedClass shared].datetimehmFormat];//compositeDate
 //    NSDate* firstDate = [ArcosUtils configDateWithMinute:0 date:compositeDate];
     NSDate* startFinalDate = [ArcosUtils addHours:0 date:compositeDate];
@@ -391,6 +391,16 @@
         [endFieldData setObject:[ArcosUtils addDays:0 date:tmpEndDate] forKey:@"Date"];
         [endFieldData setObject:[ArcosUtils addDays:0 date:tmpEndDate] forKey:@"Time"];
     }
+}
+
+- (NSDate*)retrieveNextFifteenMinutesWithDate:(NSDate*)aDate {
+    int tmpMinutes = [ArcosUtils convertNSIntegerToInt:[ArcosUtils minuteWithDate:aDate]];
+    int tmpRemainder = tmpMinutes % 15;
+    int addMinutes = 15 - tmpRemainder;
+    if (tmpRemainder == 0) {
+        addMinutes = 0;
+    }
+    return [ArcosUtils addMinutes:addMinutes date:aDate];
 }
 
 @end

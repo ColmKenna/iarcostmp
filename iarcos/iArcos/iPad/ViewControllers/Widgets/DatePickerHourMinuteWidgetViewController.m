@@ -44,6 +44,9 @@
         mySegmentedController.momentary = YES;
         self.myNavigationItem.titleView = mySegmentedController;
         [mySegmentedController release];
+    } else if (self.widgetType == DatePickerHourMinuteCalendarTimeType) {
+        self.myNavigationItem.title = @"Time";
+        self.myDatePicker.minuteInterval = 15;
     } else {
         self.myNavigationItem.title = @"Time";
     }
