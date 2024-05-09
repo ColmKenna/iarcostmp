@@ -50,7 +50,7 @@
         int employeeIur = [[SettingManager employeeIUR] intValue];
         employeeSqlStatement = [NSString stringWithFormat:@" ForDetailing = 0 or ( ForDetailing = 1 and iur in (select descrdetailiur from DescrDetailLink where linkiur = %d)) ", employeeIur];
         fullEmployeeSqlStatement = [NSString stringWithFormat:@" where %@", employeeSqlStatement];
-        partialEmployeeSqlStatement = [NSString stringWithFormat:@" and %@", employeeSqlStatement];
+        partialEmployeeSqlStatement = [NSString stringWithFormat:@" and (%@)", employeeSqlStatement];
     }
     NSMutableDictionary* dataDict = [self getUpdateCenterDataDict:[GlobalSharedClass shared].descrDetailSelectorName];
     NSNumber* downloadMode = [dataDict objectForKey:@"DownloadMode"];

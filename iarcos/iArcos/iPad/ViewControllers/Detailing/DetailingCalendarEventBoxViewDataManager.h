@@ -29,6 +29,7 @@
     NSMutableArray* _eventDictList;
     NSNumber* _bodyCellType;
     NSNumber* _bodyTemplateCellType;
+    BOOL _popoverOpenFlag;
 }
 
 @property(nonatomic,retain) NSDate* journeyDateData;
@@ -48,6 +49,7 @@
 @property(nonatomic,retain) NSMutableArray* eventDictList;
 @property(nonatomic,retain) NSNumber* bodyCellType;
 @property(nonatomic,retain) NSNumber* bodyTemplateCellType;
+@property(nonatomic,assign) BOOL popoverOpenFlag;
 
 - (NSString*)retrieveCalendarURIWithStartDate:(NSString*)aStartDate endDate:(NSString*)anEndDate locationName:(NSString*)aLocationName;
 - (NSString*)retrieveCalendarURIWithStartDate:(NSString*)aStartDate endDate:(NSString*)anEndDate;

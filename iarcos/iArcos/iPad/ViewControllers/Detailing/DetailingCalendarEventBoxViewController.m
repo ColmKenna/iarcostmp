@@ -173,6 +173,10 @@
 
 - (void)addBarButtonPressed:(id)sender {
     NSLog(@"addPressed");
+    if (self.detailingCalendarEventBoxViewDataManager.popoverOpenFlag) {
+        return;
+    }
+    self.detailingCalendarEventBoxViewDataManager.popoverOpenFlag = YES;
     ArcosCalendarEventEntryDetailTemplateViewController* ACEEDTVC = [[ArcosCalendarEventEntryDetailTemplateViewController alloc] initWithNibName:@"ArcosCalendarEventEntryDetailTemplateViewController" bundle:nil];
     ACEEDTVC.actionDelegate = self;
     ACEEDTVC.presentDelegate = self;
@@ -234,6 +238,7 @@
         [self.globalNavigationController.view removeFromSuperview];
         [self.globalNavigationController removeFromParentViewController];
         self.globalNavigationController = nil;
+        self.detailingCalendarEventBoxViewDataManager.popoverOpenFlag = NO;
     }];
 }
 
@@ -913,6 +918,10 @@
 }
 
 - (void)doubleTapListingBodyLabelWithIndexPath:(NSIndexPath *)anIndexPath {
+    if (self.detailingCalendarEventBoxViewDataManager.popoverOpenFlag) {
+        return;
+    }
+    self.detailingCalendarEventBoxViewDataManager.popoverOpenFlag = YES;
     NSMutableDictionary* cellData = [self.detailingCalendarEventBoxListingDataManager.displayList objectAtIndex:anIndexPath.row];
     NSMutableDictionary* cellFieldValueData = [cellData objectForKey:@"FieldValue"];
 //    NSLog(@"aa %@", cellFieldValueData);

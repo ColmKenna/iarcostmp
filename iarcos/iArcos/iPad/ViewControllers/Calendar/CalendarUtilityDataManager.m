@@ -29,11 +29,15 @@
 - (NSMutableArray*)processDataListWithDateFormatText:(NSString*)aDateFormatText journeyDictList:(NSMutableArray*)aJourneyDictList eventDictList:(NSMutableArray*)anEventDictList bodyCellType:(NSNumber*)aBodyCellType {
     NSMutableArray* displayList = [NSMutableArray arrayWithCapacity:([aJourneyDictList count] + [anEventDictList count])];
     NSDate* beginDate = [ArcosUtils dateFromString:[NSString stringWithFormat:@"%@ 09:00:00", aDateFormatText] format:[GlobalSharedClass shared].datetimeFormat];
+    int minutesInterval = 60;
+    if ([aJourneyDictList count] > 9) {
+        minutesInterval = 30;
+    }
     for (int i = 0; i < [aJourneyDictList count]; i++) {
         NSDictionary* locationDict = [aJourneyDictList objectAtIndex:i];
         NSMutableDictionary* dataDict = [NSMutableDictionary dictionaryWithCapacity:2];
         [dataDict setObject:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Name"]] forKey:@"Name"];
-        [dataDict setObject:[ArcosUtils addMinutes:i * 15 date:beginDate] forKey:@"Date"];
+        [dataDict setObject:[ArcosUtils addMinutes:i * minutesInterval date:beginDate] forKey:@"Date"];
         NSString* tmpAddress = [NSString stringWithFormat:@"%@ %@ %@ %@ %@",[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address1"]], [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address2"]], [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address3"]], [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address4"]], [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address5"]]];
         [dataDict setObject:tmpAddress forKey:@"Address"];
         [dataDict setObject:[NSNumber numberWithInt:5] forKey:@"CellType"];

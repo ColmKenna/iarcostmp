@@ -20,11 +20,19 @@
 @synthesize mySegmentedControl = _mySegmentedControl;
 @synthesize checkLocationIURTemplateProcessor = _checkLocationIURTemplateProcessor;
 @synthesize customerCalendarListHeaderView = _customerCalendarListHeaderView;
+@synthesize detailingCalendarEventBoxViewDataManager = _detailingCalendarEventBoxViewDataManager;
+@synthesize customerJourneyDataManager = _customerJourneyDataManager;
+@synthesize calendarUtilityDataManager = _calendarUtilityDataManager;
+@synthesize arcosRootViewController = _arcosRootViewController;
+@synthesize globalNavigationController = _globalNavigationController;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self != nil) {
         self.customerCalendarListDataManager = [[[CustomerCalendarListDataManager alloc] init] autorelease];
+        self.detailingCalendarEventBoxViewDataManager = [[[DetailingCalendarEventBoxViewDataManager alloc] init] autorelease];
+        self.customerJourneyDataManager = [[[CustomerJourneyDataManager alloc] init] autorelease];
+        self.calendarUtilityDataManager = [[[CalendarUtilityDataManager alloc] init] autorelease];
     }
     return self;
 }
@@ -37,6 +45,7 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.arcosRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
     UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"List3.png"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed:)];
     NSMutableArray* leftButtonList = [NSMutableArray arrayWithObjects:backButton, nil];
     [self.navigationItem setLeftBarButtonItems:leftButtonList];
@@ -78,6 +87,11 @@
     self.mySegmentedControl = nil;
     self.checkLocationIURTemplateProcessor = nil;
     self.customerCalendarListHeaderView = nil;
+    self.detailingCalendarEventBoxViewDataManager = nil;
+    self.customerJourneyDataManager = nil;
+    self.calendarUtilityDataManager = nil;
+    self.arcosRootViewController = nil;
+    self.globalNavigationController = nil;
     
     [super dealloc];
 }
@@ -195,11 +209,19 @@
                 self.customerCalendarListDataManager.displayList = [NSMutableArray array];
                 self.customerCalendarListDataManager.locationIURList = [NSMutableArray array];
                 self.customerCalendarListDataManager.locationIURHashMap = [NSMutableDictionary dictionary];
+                self.customerCalendarListDataManager.eventDictList = [NSMutableArray array];
+                self.detailingCalendarEventBoxViewDataManager.eventDictList = [NSMutableArray array];
+                self.detailingCalendarEventBoxViewDataManager.journeyDictList = [NSMutableArray array];
                 id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
                 NSDictionary* resultDict = (NSDictionary*)result;
                 NSArray* eventList = [resultDict objectForKey:@"value"];
                 if ([eventList count] > 0) {
-                    self.customerCalendarListDataManager.displayList = [NSMutableArray arrayWithArray:eventList];
+//                    self.customerCalendarListDataManager.displayList = [NSMutableArray arrayWithArray:eventList];
+                    NSString* aDateFormatText = [ArcosUtils stringFromDate:aStartDate format:[GlobalSharedClass shared].dateFormat];
+                    self.customerCalendarListDataManager.eventDictList = [NSMutableArray arrayWithArray:eventList];
+                    self.detailingCalendarEventBoxViewDataManager.eventDictList = [NSMutableArray arrayWithArray:eventList];
+                    self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
+                    self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:aDateFormatText journeyDictList:self.detailingCalendarEventBoxViewDataManager.journeyDictList eventDictList:self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList bodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
                 }
                 for (int i = 0; i < [eventList count]; i++) {
                     NSDictionary* auxEventDict = [eventList objectAtIndex:i];
@@ -243,7 +265,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.customerCalendarListDataManager.displayList count];
+    return [self.customerCalendarListDataManager.eventDictList count];
 }
 
 
@@ -263,7 +285,7 @@
     }
     
     // Configure the cell...
-    NSDictionary* eventDict = [self.customerCalendarListDataManager.displayList objectAtIndex:indexPath.row];
+    NSDictionary* eventDict = [self.customerCalendarListDataManager.eventDictList objectAtIndex:indexPath.row];
     NSNumber* auxLocationIUR = [self.customerCalendarListDataManager.calendarUtilityDataManager retrieveLocationIURWithEventDict:eventDict];
     if ([self.customerCalendarListDataManager.locationIURHashMap objectForKey:auxLocationIUR] != nil) {
         cell.nameLabel.textColor = [UIColor blackColor];
@@ -287,10 +309,102 @@
     [cell.locationStatusButton setImage:nil forState:UIControlStateNormal];
     [cell.creditStatusButton setImage:nil forState:UIControlStateNormal];
     
+    for (UIGestureRecognizer* recognizer in cell.contentView.gestureRecognizers) {
+        [cell.contentView removeGestureRecognizer:recognizer];
+    }
+    UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
+    [cell.contentView addGestureRecognizer:singleTap];
+    
+    
+    UITapGestureRecognizer* doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapGesture:)];
+    doubleTap.numberOfTapsRequired = 2;
+    [singleTap requireGestureRecognizerToFail:doubleTap];
+    [cell.contentView addGestureRecognizer:doubleTap];
+    [doubleTap release];
+    [singleTap release];
+    
     return cell;
 }
 
+- (void)handleSingleTapGesture:(id)sender {
+    UITapGestureRecognizer* recognizer = (UITapGestureRecognizer*)sender;
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        NSIndexPath* swipedIndexPath = [ArcosUtils indexPathWithRecognizer:recognizer tableview:self.tableView];
+        NSDictionary* eventDict = [self.customerCalendarListDataManager.eventDictList objectAtIndex:swipedIndexPath.row];
+        NSNumber* auxLocationIUR = [self.customerCalendarListDataManager.calendarUtilityDataManager retrieveLocationIURWithEventDict:eventDict];
+        NSDictionary* locationDict = [eventDict objectForKey:@"location"];
+        if ([self.customerCalendarListDataManager.locationIURHashMap objectForKey:auxLocationIUR] != nil) {
+            [self.checkLocationIURTemplateProcessor checkLocationIUR:auxLocationIUR locationName:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"displayName"]]] indexPath:swipedIndexPath];
+        }
+    }
+}
 
+- (void)handleDoubleTapGesture:(id)sender {
+    UITapGestureRecognizer* recognizer = (UITapGestureRecognizer*)sender;
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        NSIndexPath* swipedIndexPath = [ArcosUtils indexPathWithRecognizer:recognizer tableview:self.tableView];
+        
+        NSMutableDictionary* cellFieldValueData = [self.detailingCalendarEventBoxViewDataManager.listingDisplayList objectAtIndex:swipedIndexPath.row];
+        NSDate* startDate = [cellFieldValueData objectForKey:@"Date"];
+        NSString* aDateFormatText = [ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].dateFormat];
+        ArcosCalendarEventEntryDetailTemplateViewController* ACEEDTVC = [[ArcosCalendarEventEntryDetailTemplateViewController alloc] initWithNibName:@"ArcosCalendarEventEntryDetailTemplateViewController" bundle:nil];
+        ACEEDTVC.actionDelegate = self;
+        ACEEDTVC.presentDelegate = self;
+        [ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveEditDataWithCellData:cellFieldValueData];
+        [self.customerJourneyDataManager processCalendarJourneyData];
+        NSMutableDictionary* auxJourneyDict = [self.customerJourneyDataManager.journeyDictHashMap objectForKey:aDateFormatText];
+        if (auxJourneyDict != nil) {
+            [self.customerJourneyDataManager getLocationsWithJourneyDict:auxJourneyDict];
+            ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.journeyDictList = [self.customerJourneyDataManager.locationListDict objectForKey:aDateFormatText];
+        }
+        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
+        
+        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText];
+        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
+        
+        
+        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].weekdayDateFormat];
+        ACEEDTVC.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
+        self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:ACEEDTVC] autorelease];
+        [ACEEDTVC release];
+        CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.arcosRootViewController];
+        self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+        [self.arcosRootViewController addChildViewController:self.globalNavigationController];
+        [self.arcosRootViewController.view addSubview:self.globalNavigationController.view];
+        [self.globalNavigationController didMoveToParentViewController:self.arcosRootViewController];
+        [UIView animateWithDuration:0.3f animations:^{
+            self.globalNavigationController.view.frame = parentNavigationRect;
+        } completion:^(BOOL finished){
+            
+        }];
+    }
+}
+
+#pragma mark ArcosCalendarEventEntryDetailTemplateViewControllerDelegate
+- (void)refreshCalendarTableViewController {
+    [self retrieveCalendarEventEntriesWithStartDate:self.customerCalendarListDataManager.currentStartDate endDate:self.customerCalendarListDataManager.currentEndDate];
+}
+
+- (NSString*)retrieveLocationUriTemplateDelegate {
+    return @"";
+}
+
+- (NSNumber*)retrieveLocationIURTemplateDelegate {
+    return [NSNumber numberWithInt:0];
+}
+
+#pragma mark ModalPresentViewControllerDelegate
+- (void)didDismissModalPresentViewController {
+    [UIView animateWithDuration:0.3f animations:^{
+        CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.arcosRootViewController];
+        self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+    } completion:^(BOOL finished){
+        [self.globalNavigationController willMoveToParentViewController:nil];
+        [self.globalNavigationController.view removeFromSuperview];
+        [self.globalNavigationController removeFromParentViewController];
+        self.globalNavigationController = nil;
+    }];
+}
 
 
 #pragma mark - Table view delegate
@@ -299,12 +413,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Navigation logic may go here, for example:
     // Create the next view controller.
-    NSDictionary* eventDict = [self.customerCalendarListDataManager.displayList objectAtIndex:indexPath.row];
-    NSNumber* auxLocationIUR = [self.customerCalendarListDataManager.calendarUtilityDataManager retrieveLocationIURWithEventDict:eventDict];
-    NSDictionary* locationDict = [eventDict objectForKey:@"location"];
-    if ([self.customerCalendarListDataManager.locationIURHashMap objectForKey:auxLocationIUR] != nil) {
-        [self.checkLocationIURTemplateProcessor checkLocationIUR:auxLocationIUR locationName:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"displayName"]]] indexPath:indexPath];
-    }
+//    NSDictionary* eventDict = [self.customerCalendarListDataManager.displayList objectAtIndex:indexPath.row];
+//    NSNumber* auxLocationIUR = [self.customerCalendarListDataManager.calendarUtilityDataManager retrieveLocationIURWithEventDict:eventDict];
+//    NSDictionary* locationDict = [eventDict objectForKey:@"location"];
+//    if ([self.customerCalendarListDataManager.locationIURHashMap objectForKey:auxLocationIUR] != nil) {
+//        [self.checkLocationIURTemplateProcessor checkLocationIUR:auxLocationIUR locationName:[ArcosUtils trim:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"displayName"]]] indexPath:indexPath];
+//    }
     
 }
 
@@ -320,8 +434,8 @@
     
     UINavigationController* CITVCNavigationController = [[UINavigationController alloc] initWithRootViewController:CITVC];
     [self.rcsStackedController pushNavigationController:CITVCNavigationController fromNavigationController:(UINavigationController*)self.parentViewController animated:YES];
-    ArcosRootViewController* arcosRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
-    [arcosRootViewController.customerMasterViewController processSubMenuByCustomerListing:aCust reqSourceName:self.requestSourceName];
+//    ArcosRootViewController* arcosRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
+    [self.arcosRootViewController.customerMasterViewController processSubMenuByCustomerListing:aCust reqSourceName:self.requestSourceName];
     [GlobalSharedClass shared].currentSelectedLocationIUR = [aCust objectForKey:@"LocationIUR"];
     [CITVC release];
     [CITVCNavigationController release];
@@ -340,8 +454,8 @@
     if (self.currentIndexPath != nil) {
         [self.tableView selectRowAtIndexPath:self.currentIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     }
-    ArcosRootViewController* arcosRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
-    [arcosRootViewController.customerMasterViewController.selectedSubMenuTableViewController selectBottomRecordByTitle:aTitle];
+//    ArcosRootViewController* arcosRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
+    [self.arcosRootViewController.customerMasterViewController.selectedSubMenuTableViewController selectBottomRecordByTitle:aTitle];
 }
 
 #pragma mark GenericRefreshParentContentDelegate

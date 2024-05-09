@@ -48,9 +48,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [ArcosUtils configEdgesForExtendedLayout:self];
-    self.HUD = [[[MBProgressHUD alloc] initWithView:self.navigationController.view] autorelease];
+    self.HUD = [[[MBProgressHUD alloc] initWithView:self.view] autorelease];//self.navigationController.view
     self.HUD.dimBackground = YES;
-    [self.navigationController.view addSubview:self.HUD];
+    [self.view addSubview:self.HUD];
     UIColor* barBackgroundColor = [UIColor colorWithRed:209.0/255.0 green:224.0/255.0 blue:251.0/255.0 alpha:1.0];
     UIColor* barForegroundColor = [UIColor colorWithRed:68.0/255.0 green:114.0/255.0 blue:196.0/255.0 alpha:1.0];
     if (self.arcosCalendarEventEntryDetailListingDataManager.showBorderFlag) {
@@ -76,7 +76,7 @@
     [self.mainNavigationBar.topItem setLeftBarButtonItem:cancelButton];
     [cancelButton release];
     if ([self.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.actionType isEqualToString:self.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.createText]) {
-        UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStylePlain target:self action:@selector(addPressed)];
+        UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithTitle:@"Save Calendar Event" style:UIBarButtonItemStylePlain target:self action:@selector(addPressed)];
         [self.mainNavigationBar.topItem setRightBarButtonItem:addButton];
         [addButton release];
     } else {
@@ -141,7 +141,7 @@
     [super viewDidAppear:animated];
 //    [ArcosUtils maskTemplateViewWithView:self.eventTemplateView];
 //    [ArcosUtils maskTemplateViewWithView:self.listingTemplateView];
-    self.HUD.frame = self.navigationController.view.frame;
+    self.HUD.frame = self.view.frame;
     
 //    [self.listingTableView layoutIfNeeded];
 //    [self scrollToAppointmentPositionProcessor];
@@ -152,6 +152,15 @@
     maskLayer.path = maskPath.CGPath;
     self.mainTemplateView.layer.mask = maskLayer;
     [maskLayer release];
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        self.HUD.frame = self.view.bounds;
+    }];
 }
 
 - (void)scrollToAppointmentPositionProcessor {
@@ -185,6 +194,15 @@
         return;
     }
     NSMutableDictionary* eventDict = [self.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveEditEventDictWithLocationUri:[self.actionDelegate retrieveLocationUriTemplateDelegate]];
+    NSString* titleText = [ArcosUtils trim:[eventDict objectForKey:self.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.subjectKey]];
+    NSMutableDictionary* locationDict = [eventDict objectForKey:self.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.locationKey];
+    NSString* locationText = [ArcosUtils trim:[locationDict objectForKey:@"displayName"]];
+    if ([titleText isEqualToString:@""] && [locationText isEqualToString:@""]) {
+        [ArcosUtils showDialogBox:@"Title or Location must be entered to save new Event" title:@"" target:self handler:nil];
+        [self.HUD hide:YES];
+        return;
+    }
+    
     if ([eventDict count] == 0) {
         [ArcosUtils showDialogBox:@"There is no change" title:@"" delegate:nil target:self tag:0 handler:nil];
         [self.HUD hide:YES];
@@ -272,6 +290,15 @@
         return;
     }
     NSMutableDictionary* eventDict = [self.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveEventDictWithLocationUri:[self.actionDelegate retrieveLocationUriTemplateDelegate]];
+    NSString* titleText = [ArcosUtils trim:[eventDict objectForKey:self.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.subjectKey]];
+    NSMutableDictionary* locationDict = [eventDict objectForKey:self.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.locationKey];
+    NSString* locationText = [ArcosUtils trim:[locationDict objectForKey:@"displayName"]];
+    if ([titleText isEqualToString:@""] && [locationText isEqualToString:@""]) {
+        [ArcosUtils showDialogBox:@"Title or Location must be entered to save new Event" title:@"" target:self handler:nil];
+        [self.HUD hide:YES];
+        return;
+    }
+    
     NSString* allDayFlag = [eventDict objectForKey:self.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.allDayKey];
     NSMutableDictionary* startResultDict = [eventDict objectForKey:@"start"];
     NSString* startResultData = [startResultDict objectForKey:@"dateTime"];

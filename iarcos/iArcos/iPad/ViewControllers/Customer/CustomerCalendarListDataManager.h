@@ -19,6 +19,7 @@
     NSDate* _currentEndDate;
     NSArray* _statusItems;
     NSDate* _startDatePointer;
+    NSMutableArray* _eventDictList;
 }
 
 @property(nonatomic,retain) CalendarUtilityDataManager* calendarUtilityDataManager;
@@ -29,6 +30,7 @@
 @property(nonatomic,retain) NSDate* currentEndDate;
 @property(nonatomic,retain) NSArray* statusItems;
 @property(nonatomic,retain) NSDate* startDatePointer;
+@property(nonatomic,retain) NSMutableArray* eventDictList;
 
 - (NSMutableDictionary*)getCustomerWithIndexPath:(NSIndexPath*)anIndexPath;
 

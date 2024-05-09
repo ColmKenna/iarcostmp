@@ -270,7 +270,7 @@
 
 - (NSMutableDictionary*)retrieveEditEventDictWithLocationUri:(NSString*)aLocationUri {
     NSMutableDictionary* eventDict = [[[NSMutableDictionary alloc] init] autorelease];
-    NSString* originalSubject = [self.originalEventDataDict objectForKey:@"Subject"];
+//    NSString* originalSubject = [self.originalEventDataDict objectForKey:@"Subject"];
 //    NSString* originalLocation = [self.originalEventDataDict objectForKey:@"Location"];
     NSString* originalLocationUri = [self.originalEventDataDict objectForKey:@"LocationUri"];
     NSString* originalBodyPreview = [self.originalEventDataDict objectForKey:@"BodyPreview"];
@@ -280,9 +280,10 @@
     
     NSIndexPath* subjectIndexPath = [self indexPathWithFieldName:self.subjectKey];
     NSMutableDictionary* subjectCellDataDict = [self cellDataWithIndexPath:subjectIndexPath];
-    if (![originalSubject isEqualToString:[subjectCellDataDict objectForKey:@"FieldData"]]) {
-        [eventDict setObject:[ArcosUtils convertNilToEmpty:[subjectCellDataDict objectForKey:@"FieldData"]] forKey:self.subjectKey];
-    }
+//    if (![originalSubject isEqualToString:[subjectCellDataDict objectForKey:@"FieldData"]]) {
+//        [eventDict setObject:[ArcosUtils convertNilToEmpty:[subjectCellDataDict objectForKey:@"FieldData"]] forKey:self.subjectKey];
+//    }
+    [eventDict setObject:[ArcosUtils convertNilToEmpty:[subjectCellDataDict objectForKey:@"FieldData"]] forKey:self.subjectKey];
     
     NSIndexPath* locationIndexPath = [self indexPathWithFieldName:self.locationKey];
     NSMutableDictionary* locationCellDataDict = [self cellDataWithIndexPath:locationIndexPath];

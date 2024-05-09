@@ -17,6 +17,7 @@
 @synthesize currentEndDate = _currentEndDate;
 @synthesize statusItems = _statusItems;
 @synthesize startDatePointer = _startDatePointer;
+@synthesize eventDictList = _eventDictList;
 
 - (id)init {
     self = [super init];
@@ -36,12 +37,13 @@
     self.currentEndDate = nil;
     self.statusItems = nil;
     self.startDatePointer = nil;
+    self.eventDictList = nil;
     
     [super dealloc];
 }
 
 - (NSMutableDictionary*)getCustomerWithIndexPath:(NSIndexPath*)anIndexPath {
-    NSDictionary* eventDict = [self.displayList objectAtIndex:anIndexPath.row];
+    NSDictionary* eventDict = [self.eventDictList objectAtIndex:anIndexPath.row];
     NSNumber* auxLocationIUR = [self.calendarUtilityDataManager retrieveLocationIURWithEventDict:eventDict];
     NSMutableArray* objectArray = [[ArcosCoreData sharedArcosCoreData] locationWithIURWithoutCheck:auxLocationIUR];
     if ([objectArray count] > 0) {

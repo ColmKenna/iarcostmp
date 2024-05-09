@@ -26,6 +26,7 @@
 @synthesize eventDictList = _eventDictList;
 @synthesize bodyCellType = _bodyCellType;
 @synthesize bodyTemplateCellType = _bodyTemplateCellType;
+@synthesize popoverOpenFlag = _popoverOpenFlag;
 
 - (instancetype)init {
     self = [super init];
@@ -39,6 +40,7 @@
         self.journeyDateForCurrentLocation = nil;
         self.bodyCellType = [NSNumber numberWithInt:2];
         self.bodyTemplateCellType = [NSNumber numberWithInt:4];
+        self.popoverOpenFlag = NO;
     }
     
     return self;

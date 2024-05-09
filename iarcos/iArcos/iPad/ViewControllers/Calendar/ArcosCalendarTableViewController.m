@@ -307,7 +307,8 @@
 //        [self presentViewController:tmpNavigationController animated:YES completion:nil];
 //        [ACEEDTVC release];
 //        [tmpNavigationController release];
-        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.showBorderFlag = YES;
+//        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.showBorderFlag = YES;
+        ACEEDTVC.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
         self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:ACEEDTVC] autorelease];
         [ACEEDTVC release];
         CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.arcosRootViewController];
@@ -379,7 +380,8 @@
 //        [self presentViewController:tmpNavigationController animated:YES completion:nil];
 //        [ACEEDTVC release];
 //        [tmpNavigationController release];
-        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.showBorderFlag = YES;
+//        ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.showBorderFlag = YES;
+        ACEEDTVC.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
         self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:ACEEDTVC] autorelease];
         [ACEEDTVC release];
         CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.arcosRootViewController];
