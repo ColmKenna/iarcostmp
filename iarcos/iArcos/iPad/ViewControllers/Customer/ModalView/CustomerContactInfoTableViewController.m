@@ -24,6 +24,7 @@
 @synthesize emailActionType = _emailActionType;
 @synthesize emailContactIUR = _emailContactIUR;
 @synthesize customerAccessTimesUtils = _customerAccessTimesUtils;
+@synthesize customerContactInfoDataManager = _customerContactInfoDataManager;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -49,6 +50,7 @@
     self.emailActionType = nil;
     self.emailContactIUR = nil;
     self.customerAccessTimesUtils = nil;
+    self.customerContactInfoDataManager = nil;
     
     [super dealloc];
 }
@@ -82,6 +84,7 @@
     [addButton release];
     
     [self createActiveOnlyButton];
+    self.customerContactInfoDataManager = [[[CustomerContactInfoDataManager alloc] init] autorelease];
 }
 
 - (void)activeOnlyButtonPressed:(id)sender {
@@ -280,6 +283,10 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      [detailViewController release];
      */
+    if (self.customerContactInfoDataManager.popoverOpenFlag) {
+        return;
+    }
+    self.customerContactInfoDataManager.popoverOpenFlag = YES;
     self.myArcosAdminEmail = [ArcosUtils convertNilToEmpty:[SettingManager arcosAdminEmail]];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableEditContactByEmailFlag]) {        
         self.emailActionType = @"edit";
@@ -346,11 +353,16 @@
         [self.globalNavigationController.view removeFromSuperview];
         [self.globalNavigationController removeFromParentViewController];
         self.globalNavigationController = nil;
+        self.customerContactInfoDataManager.popoverOpenFlag = NO;
     }];
 }
 
 -(void)addPressed:(id)sender {
-    self.myArcosAdminEmail = [ArcosUtils convertNilToEmpty:[SettingManager arcosAdminEmail]];    
+    if (self.customerContactInfoDataManager.popoverOpenFlag) {
+        return;
+    }
+    self.customerContactInfoDataManager.popoverOpenFlag = YES;
+    self.myArcosAdminEmail = [ArcosUtils convertNilToEmpty:[SettingManager arcosAdminEmail]];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableCreateContactByEmailFlag]) {
         self.emailActionType = @"create";
         self.emailContactIUR = [NSNumber numberWithInt:0];
@@ -458,7 +470,7 @@
 
 - (void)alertViewCallBack {
     [self.rootView dismissViewControllerAnimated:YES completion:^ {
-        
+        self.customerContactInfoDataManager.popoverOpenFlag = NO;
     }];
 }
 
@@ -466,6 +478,7 @@
 -(void)setGetRecordResult:(ArcosGenericReturnObject*) result {
     if (result == nil) {
         [self.callGenericServices.HUD hide:YES];
+        self.customerContactInfoDataManager.popoverOpenFlag = NO;
         return;
     }
     if (result.ErrorModel.Code >= 0 && [result.ArrayOfData count] > 0) {
@@ -489,6 +502,7 @@
             
         }];
         [self.callGenericServices.HUD hide:YES];
+        self.customerContactInfoDataManager.popoverOpenFlag = NO;
     }
 }
 
@@ -497,6 +511,7 @@
     [self.callGenericServices.HUD hide:YES];
     result = [self.callGenericServices handleResultErrorProcess:result];
     if (result == nil) {
+        self.customerContactInfoDataManager.popoverOpenFlag = NO;
         return;
     }
     if (result.ErrorModel.Code >= 0) {
@@ -504,7 +519,7 @@
         [self createEmailComposeViewControllerWithType:self.emailActionType];
     } else if(result.ErrorModel.Code < 0) {
         [ArcosUtils showDialogBox:result.ErrorModel.Message title:[GlobalSharedClass shared].errorTitle delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
-            
+            self.customerContactInfoDataManager.popoverOpenFlag = NO;
         }];
     }
 }
@@ -545,12 +560,20 @@
         return;
     }
     
-    if (![ArcosEmailValidator checkCanSendMailStatus:self]) return;
+    if (![ArcosEmailValidator checkCanSendMailStatus:self]) {
+        self.customerContactInfoDataManager.popoverOpenFlag = NO;
+        return;
+    }
     MFMailComposeViewController* mailController = [[[MFMailComposeViewController alloc] init] autorelease];
     mailController.mailComposeDelegate = self;
     [mailController setToRecipients:toRecipients];
     [mailController setSubject:subject];
     [mailController setMessageBody:body isHTML:YES];
+    if (@available(iOS 13.0, *)) {
+        mailController.modalInPresentation = YES;
+    }
+    mailController.modalPresentationStyle = UIModalPresentationPageSheet;
+    mailController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self.rootView presentViewController:mailController animated:YES completion:nil];
 }
 

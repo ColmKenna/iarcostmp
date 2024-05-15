@@ -15,6 +15,7 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "CustomerAccessTimesUtils.h"
 #import "ArcosMailWrapperViewController.h"
+#import "CustomerContactInfoDataManager.h"
 
 @interface CustomerContactInfoTableViewController : UITableViewController <ModelViewDelegate, CustomerContactEmailDelegate, MFMailComposeViewControllerDelegate, GenericRefreshParentContentDelegate,CustomisePresentViewControllerDelegate,GetDataGenericDelegate,CustomerInfoAccessTimesCalendarTableViewControllerDelegate,ArcosMailTableViewControllerDelegate> {
     NSNumber* _locationIUR;
@@ -31,6 +32,7 @@
     NSString* _emailActionType;
     NSNumber* _emailContactIUR;
     CustomerAccessTimesUtils* _customerAccessTimesUtils;
+    CustomerContactInfoDataManager* _customerContactInfoDataManager;
 }
 
 @property (nonatomic, retain) NSNumber* locationIUR;
@@ -47,6 +49,7 @@
 @property (nonatomic, retain) NSString* emailActionType;
 @property (nonatomic, retain) NSNumber* emailContactIUR;
 @property (nonatomic, retain) CustomerAccessTimesUtils* customerAccessTimesUtils;
+@property (nonatomic, retain) CustomerContactInfoDataManager* customerContactInfoDataManager;
 
 //- (BOOL)checkCanSendEmailStatus;
 - (void)createEmailComposeViewControllerWithType:(NSString*)anEmailActionType;

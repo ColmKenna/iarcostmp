@@ -74,6 +74,7 @@
     NSMutableArray* _headerTailItemList;
     NSString* _priceGroupsLabel;
     NSString* _unassignedText;
+    BOOL _popoverOpenFlag;
 }
 
 @property(nonatomic, retain) NSNumber* locationIUR;
@@ -140,6 +141,7 @@
 @property(nonatomic, retain) NSMutableArray* headerTailItemList;
 @property(nonatomic, retain) NSString* priceGroupsLabel;
 @property(nonatomic, retain) NSString* unassignedText;
+@property(nonatomic, assign) BOOL popoverOpenFlag;
 
 - (id)initWithLocationIUR:(NSNumber*)aLocationIUR;
 - (void)locationStatusProcessor:(NSNumber*)aLsiur;

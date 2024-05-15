@@ -279,6 +279,10 @@
 #pragma mark - ArcosCalendarCellBaseTableViewDataManagerDelegate
 - (void)eventEntryInputFinishedWithIndexPath:(NSIndexPath*)anIndexPath dataList:(NSMutableArray *)aDataList dateFormatText:(NSString*)aDateFormatText sourceView:(UIView *)aView {
     @try {
+        if (self.arcosCalendarTableDataManager.popoverOpenFlag) {
+            return;
+        }
+        self.arcosCalendarTableDataManager.popoverOpenFlag = YES;
         NSMutableDictionary* eventDataDict = [aDataList objectAtIndex:anIndexPath.row];
         if (eventDataDict == nil) return;
 //        NSLog(@"eventDataDict %@", eventDataDict);
@@ -345,6 +349,10 @@
 
 - (void)longInputFinishedWithIndexPath:(NSIndexPath*)anIndexPath sourceView:(UIView*)aView {
     @try {
+        if (self.arcosCalendarTableDataManager.popoverOpenFlag) {
+            return;
+        }
+        self.arcosCalendarTableDataManager.popoverOpenFlag = YES;
         NSMutableDictionary* weekDataDict = [self.arcosCalendarTableDataManager.matrixDataList objectAtIndex:anIndexPath.row];
         NSNumber* weekDay = [self.arcosCalendarTableDataManager.weekdaySeqList objectAtIndex:aView.tag];
         NSMutableDictionary* dayDataDict = [weekDataDict objectForKey:weekDay];
@@ -410,6 +418,7 @@
         [self.globalNavigationController.view removeFromSuperview];
         [self.globalNavigationController removeFromParentViewController];
         self.globalNavigationController = nil;
+        self.arcosCalendarTableDataManager.popoverOpenFlag = NO;
     }];
 }
 

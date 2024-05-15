@@ -51,6 +51,7 @@
 @synthesize callGenericServices = _callGenericServices;
 @synthesize customerTypesDataManager = _customerTypesDataManager;
 @synthesize myArcosAdminEmail = _myArcosAdminEmail;
+@synthesize customerListingDataManager = _customerListingDataManager;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -84,6 +85,7 @@
     self.orderRestoredTimer = nil;
 //    self.customerGroupViewController = nil;
 //    self.customerGroupNavigationController = nil;
+    self.customerListingDataManager = nil;
     
     [super dealloc];
 }
@@ -109,6 +111,7 @@
 //    mySearchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0,1024,44)];
 //    mySearchBar.autocorrectionType = UITextAutocorrectionTypeNo;
 //    mySearchBar.delegate = self;
+    self.customerListingDataManager = [[[CustomerListingDataManager alloc] init] autorelease];
     [ArcosUtils configEdgesForExtendedLayout:self];
     needIndexView=YES;
     
@@ -736,6 +739,10 @@
 */
 
 -(void)addPressed:(id)sender {
+    if (self.customerListingDataManager.popoverOpenFlag) {
+        return;
+    }
+    self.customerListingDataManager.popoverOpenFlag = YES;
     self.myArcosAdminEmail = [ArcosUtils convertNilToEmpty:[SettingManager arcosAdminEmail]];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableCreateLocationByEmailFlag]) {
         [self.callGenericServices getRecord:@"Location" iur:0];
@@ -786,6 +793,7 @@
         [self.globalNavigationController.view removeFromSuperview];
         [self.globalNavigationController removeFromParentViewController];
         self.globalNavigationController = nil;
+        self.customerListingDataManager.popoverOpenFlag = NO;
     }];
 } 
 
@@ -941,6 +949,7 @@
 #pragma mark - GetDataGenericDelegate
 -(void)setGetRecordResult:(ArcosGenericReturnObject*) result {
     if (result == nil) {
+        self.customerListingDataManager.popoverOpenFlag = NO;
         return;
     }
     if (result.ErrorModel.Code >= 0 && [result.ArrayOfData count] > 0) {        
@@ -977,7 +986,10 @@
             }];
             return;
         }
-        if (![ArcosEmailValidator checkCanSendMailStatus:self]) return;
+        if (![ArcosEmailValidator checkCanSendMailStatus:self]) {
+            self.customerListingDataManager.popoverOpenFlag = NO;
+            return;
+        }
         MFMailComposeViewController* mailController = [[[MFMailComposeViewController alloc] init] autorelease];
         mailController.mailComposeDelegate = self;
         
@@ -985,10 +997,16 @@
         [mailController setSubject:subject];
         
         [mailController setMessageBody:body isHTML:YES];
+        if (@available(iOS 13.0, *)) {
+            mailController.modalInPresentation = YES;
+        }
+        mailController.modalPresentationStyle = UIModalPresentationPageSheet;
+        mailController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         [self.rootView presentViewController:mailController animated:YES completion:nil];
     } else if(result.ErrorModel.Code < 0 || [result.ArrayOfData count] == 0) {
 //        [ArcosUtils showMsg:result.ErrorModel.Code message:result.ErrorModel.Message delegate:nil];
         [ArcosUtils showDialogBox:result.ErrorModel.Message title:[ArcosUtils retrieveTitleWithCode:result.ErrorModel.Code] target:self handler:nil];
+        self.customerListingDataManager.popoverOpenFlag = NO;
     }
 }
 
@@ -1035,7 +1053,7 @@
 
 - (void)alertViewCallBack {
     [self.rootView dismissViewControllerAnimated:YES completion:^ {
-        
+        self.customerListingDataManager.popoverOpenFlag = NO;
     }];
 }
 

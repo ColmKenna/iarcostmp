@@ -24,6 +24,7 @@
 @synthesize dayWeekOfMonthIndexHashMap = _dayWeekOfMonthIndexHashMap;
 @synthesize dayWeekDayIndexHashMap = _dayWeekDayIndexHashMap;
 @synthesize dayCountInMonth = _dayCountInMonth;
+@synthesize popoverOpenFlag = _popoverOpenFlag;
 
 - (instancetype)init {
     self = [super init];
@@ -39,6 +40,7 @@
         [self createBasicData];
         self.todayDate = [self createThirdDayNoonDateWithDate:[NSDate date] thirdDayFlag:NO];
         self.currentSelectedDate = [self createThirdDayNoonDateWithDate:[NSDate date] thirdDayFlag:NO];
+        self.popoverOpenFlag = NO;
     }
     return self;
 }

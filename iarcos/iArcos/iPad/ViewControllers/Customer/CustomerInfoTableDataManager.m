@@ -75,6 +75,7 @@
 @synthesize headerTailItemList = _headerTailItemList;
 @synthesize priceGroupsLabel = _priceGroupsLabel;
 @synthesize unassignedText = _unassignedText;
+@synthesize popoverOpenFlag = _popoverOpenFlag;
 
 - (id)initWithLocationIUR:(NSNumber*)aLocationIUR {
     self = [super init];
@@ -191,6 +192,7 @@
 //        [self.weekdayHashtable setObject:@"Thursday" forKey:[NSNumber numberWithInt:4]];
 //        [self.weekdayHashtable setObject:@"Friday" forKey:[NSNumber numberWithInt:5]];
 //        [self.weekdayHashtable setObject:@"Saturday" forKey:[NSNumber numberWithInt:6]];
+        self.popoverOpenFlag = NO;
     }
     return self;
 }

@@ -19,7 +19,7 @@
 @synthesize startDatePointer = _startDatePointer;
 @synthesize eventDictList = _eventDictList;
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if (self != nil) {
         self.calendarUtilityDataManager = [[[CalendarUtilityDataManager alloc] init] autorelease];

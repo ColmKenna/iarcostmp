@@ -17,6 +17,7 @@
 #import "ArcosOrderRestoreUtils.h"
 #import "CustomerListingTableCell.h"
 #import "ArcosMailWrapperViewController.h"
+#import "CustomerListingDataManager.h"
 
 @interface CustomerListingViewController : CustomerBaseDetailViewController<UIPopoverControllerDelegate, UISplitViewControllerDelegate,UISearchBarDelegate,UINavigationBarDelegate, ModelViewDelegate, GenericRefreshParentContentDelegate,CustomisePresentViewControllerDelegate,CheckLocationIURTemplateDelegate,GetDataGenericDelegate,MFMailComposeViewControllerDelegate,ArcosMailTableViewControllerDelegate> {
     NSMutableArray* myCustomers;
@@ -49,6 +50,7 @@
     CallGenericServices* _callGenericServices;
     CustomerTypesDataManager* _customerTypesDataManager;
     NSString* _myArcosAdminEmail;
+    CustomerListingDataManager* _customerListingDataManager;
 }
 @property (nonatomic, retain) IBOutlet UISearchBar *mySearchBar;
 
@@ -68,6 +70,7 @@
 @property (nonatomic, retain) CallGenericServices* callGenericServices;
 @property (nonatomic, retain) CustomerTypesDataManager* customerTypesDataManager;
 @property (nonatomic, retain) NSString* myArcosAdminEmail;
+@property (nonatomic, retain) CustomerListingDataManager* customerListingDataManager;
 
 
 //-(void)resetCustomer:(NSMutableArray*)customers;
