@@ -27,6 +27,8 @@
 @synthesize listingTableView = _listingTableView;
 @synthesize arcosCalendarEventEntryDetailListingDataManager = _arcosCalendarEventEntryDetailListingDataManager;
 @synthesize listingTitleLabel = _listingTitleLabel;
+@synthesize auxFooterBackgroundView = _auxFooterBackgroundView;
+@synthesize auxFooterRightHandSideView = _auxFooterRightHandSideView;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -53,6 +55,10 @@
     [self.view addSubview:self.HUD];
     UIColor* barBackgroundColor = [UIColor colorWithRed:209.0/255.0 green:224.0/255.0 blue:251.0/255.0 alpha:1.0];
     UIColor* barForegroundColor = [UIColor colorWithRed:68.0/255.0 green:114.0/255.0 blue:196.0/255.0 alpha:1.0];
+    if (@available(iOS 13.0, *)) {
+        self.eventTableView.backgroundColor = [UIColor systemGray6Color];
+        self.auxFooterBackgroundView.backgroundColor = [UIColor systemGray6Color];
+    }
     if (self.arcosCalendarEventEntryDetailListingDataManager.showBorderFlag) {
         [self.mainTemplateView.layer setBorderColor:[barForegroundColor CGColor]];
         [self.mainTemplateView.layer setBorderWidth:1.0];
@@ -122,6 +128,8 @@
     self.listingTableView = nil;
     self.arcosCalendarEventEntryDetailListingDataManager = nil;
     self.listingTitleLabel = nil;
+    self.auxFooterBackgroundView = nil;
+    self.auxFooterRightHandSideView = nil;
     
     [super dealloc];
 }
@@ -145,13 +153,21 @@
     
 //    [self.listingTableView layoutIfNeeded];
 //    [self scrollToAppointmentPositionProcessor];
-    UIBezierPath* maskPath = [UIBezierPath bezierPathWithRoundedRect:self.mainTemplateView.bounds byRoundingCorners:(UIRectCornerTopLeft|UIRectCornerTopRight|UIRectCornerBottomLeft|UIRectCornerBottomRight) cornerRadii:CGSizeMake(10.0f, 10.0f)];
+    UIBezierPath* maskPath = [UIBezierPath bezierPathWithRoundedRect:self.mainNavigationBar.bounds byRoundingCorners:(UIRectCornerTopLeft|UIRectCornerTopRight) cornerRadii:CGSizeMake(10.0f, 10.0f)];
     
     CAShapeLayer* maskLayer = [[CAShapeLayer alloc] init];
-    maskLayer.frame = self.mainTemplateView.bounds;
+    maskLayer.frame = self.mainNavigationBar.bounds;
     maskLayer.path = maskPath.CGPath;
-    self.mainTemplateView.layer.mask = maskLayer;
+    self.mainNavigationBar.layer.mask = maskLayer;
     [maskLayer release];
+    
+    UIBezierPath* footerMaskPath = [UIBezierPath bezierPathWithRoundedRect:self.auxFooterBackgroundView.bounds byRoundingCorners:(UIRectCornerBottomLeft|UIRectCornerBottomRight) cornerRadii:CGSizeMake(10.0f, 10.0f)];
+    
+    CAShapeLayer* footerMaskLayer = [[CAShapeLayer alloc] init];
+    footerMaskLayer.frame = self.auxFooterBackgroundView.bounds;
+    footerMaskLayer.path = footerMaskPath.CGPath;
+    self.auxFooterBackgroundView.layer.mask = footerMaskLayer;
+    [footerMaskLayer release];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {

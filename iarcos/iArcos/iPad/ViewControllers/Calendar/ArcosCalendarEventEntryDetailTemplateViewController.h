@@ -30,6 +30,8 @@
     UITableView* _listingTableView;
     ArcosCalendarEventEntryDetailListingDataManager* _arcosCalendarEventEntryDetailListingDataManager;
     UILabel* _listingTitleLabel;
+    UIView* _auxFooterBackgroundView;
+    UIView* _auxFooterRightHandSideView;
 }
 
 @property(nonatomic, retain) IBOutlet UIView* mainTemplateView;
@@ -46,6 +48,8 @@
 @property(nonatomic, retain) IBOutlet UITableView* listingTableView;
 @property(nonatomic, retain) ArcosCalendarEventEntryDetailListingDataManager* arcosCalendarEventEntryDetailListingDataManager;
 @property(nonatomic, retain) IBOutlet UILabel* listingTitleLabel;
+@property(nonatomic, retain) IBOutlet UIView* auxFooterBackgroundView;
+@property(nonatomic, retain) IBOutlet UIView* auxFooterRightHandSideView;
 
 @end
 

@@ -9,6 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ArcosCalendarEventEntryDetailTemplateViewController">
             <connections>
+                <outlet property="auxFooterBackgroundView" destination="u2j-Sz-Aqo" id="IAg-5P-Nnj"/>
                 <outlet property="eventTableView" destination="r63-Eq-Uu6" id="xB4-nx-xY3"/>
                 <outlet property="eventTemplateView" destination="q7x-lf-SMM" id="XJf-ua-X6K"/>
                 <outlet property="listingTableView" destination="Lb9-Bg-8DF" id="b0L-cF-WdT"/>
@@ -25,7 +26,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g9o-nS-Tey">
-                    <rect key="frame" x="60" y="221" width="700" height="738"/>
+                    <rect key="frame" x="60" y="59" width="700" height="1062"/>
                     <subviews>
                         <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1ek-ac-MHf">
                             <rect key="frame" x="0.0" y="0.0" width="700" height="50"/>
@@ -37,10 +38,10 @@
                             </items>
                         </navigationBar>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q7x-lf-SMM">
-                            <rect key="frame" x="0.0" y="50" width="350" height="688"/>
+                            <rect key="frame" x="0.0" y="50" width="350" height="992"/>
                             <subviews>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="r63-Eq-Uu6">
-                                    <rect key="frame" x="0.0" y="0.0" width="350" height="688"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="350" height="992"/>
                                 </tableView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -52,10 +53,10 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kqw-ZH-Mhg" customClass="LeftLightBlueBorderUIView">
-                            <rect key="frame" x="350" y="50" width="350" height="688"/>
+                            <rect key="frame" x="350" y="50" width="350" height="992"/>
                             <subviews>
                                 <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BDm-vh-4ya">
-                                    <rect key="frame" x="2" y="0.0" width="348" height="50"/>
+                                    <rect key="frame" x="3" y="0.0" width="347" height="50"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="50" id="ADe-gc-mju"/>
                                     </constraints>
@@ -64,7 +65,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Lb9-Bg-8DF">
-                                    <rect key="frame" x="2" y="50" width="348" height="638"/>
+                                    <rect key="frame" x="2" y="50" width="348" height="942"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </tableView>
                             </subviews>
@@ -76,39 +77,46 @@
                                 <constraint firstItem="Lb9-Bg-8DF" firstAttribute="leading" secondItem="Kqw-ZH-Mhg" secondAttribute="leading" constant="2" id="PXv-al-Bi5"/>
                                 <constraint firstAttribute="bottom" secondItem="Lb9-Bg-8DF" secondAttribute="bottom" id="T9F-nD-T6B"/>
                                 <constraint firstAttribute="trailing" secondItem="BDm-vh-4ya" secondAttribute="trailing" id="VrF-Mp-tyA"/>
-                                <constraint firstItem="BDm-vh-4ya" firstAttribute="leading" secondItem="Kqw-ZH-Mhg" secondAttribute="leading" constant="2" id="a3C-m4-27A"/>
+                                <constraint firstItem="BDm-vh-4ya" firstAttribute="leading" secondItem="Kqw-ZH-Mhg" secondAttribute="leading" constant="3" id="a3C-m4-27A"/>
                             </constraints>
                         </view>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u2j-Sz-Aqo">
+                            <rect key="frame" x="0.0" y="1042" width="700" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1zy-Gp-LDq" customClass="LeftLightBlueBorderUIView">
+                                    <rect key="frame" x="350" y="0.0" width="350" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="Kqw-ZH-Mhg" firstAttribute="leading" secondItem="q7x-lf-SMM" secondAttribute="trailing" id="0nv-HA-49S"/>
                         <constraint firstAttribute="trailing" secondItem="Kqw-ZH-Mhg" secondAttribute="trailing" id="2FG-TV-W8L"/>
                         <constraint firstItem="q7x-lf-SMM" firstAttribute="top" secondItem="g9o-nS-Tey" secondAttribute="top" constant="50" id="5Zo-aA-dJZ"/>
                         <constraint firstItem="q7x-lf-SMM" firstAttribute="leading" secondItem="g9o-nS-Tey" secondAttribute="leading" id="6Ll-Qv-qIq"/>
-                        <constraint firstAttribute="height" constant="738" id="7vD-er-1J0"/>
                         <constraint firstItem="1ek-ac-MHf" firstAttribute="leading" secondItem="g9o-nS-Tey" secondAttribute="leading" id="BiM-15-LWU"/>
                         <constraint firstItem="1ek-ac-MHf" firstAttribute="top" secondItem="g9o-nS-Tey" secondAttribute="top" id="G2T-Oq-GKE"/>
                         <constraint firstAttribute="width" constant="700" id="LI3-m5-D0J"/>
                         <constraint firstItem="Kqw-ZH-Mhg" firstAttribute="top" secondItem="g9o-nS-Tey" secondAttribute="top" constant="50" id="N6N-qW-Umz"/>
                         <constraint firstItem="Kqw-ZH-Mhg" firstAttribute="width" secondItem="q7x-lf-SMM" secondAttribute="width" id="W12-Fp-6TE"/>
                         <constraint firstAttribute="trailing" secondItem="1ek-ac-MHf" secondAttribute="trailing" id="YmE-i7-iiz"/>
-                        <constraint firstAttribute="bottom" secondItem="Kqw-ZH-Mhg" secondAttribute="bottom" id="dcL-li-bQw"/>
-                        <constraint firstAttribute="bottom" secondItem="q7x-lf-SMM" secondAttribute="bottom" id="gsT-ml-17G"/>
+                        <constraint firstAttribute="bottom" secondItem="Kqw-ZH-Mhg" secondAttribute="bottom" constant="20" id="dcL-li-bQw"/>
+                        <constraint firstAttribute="bottom" secondItem="q7x-lf-SMM" secondAttribute="bottom" constant="20" id="gsT-ml-17G"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="g9o-nS-Tey" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.9" id="0ld-lg-WsP"/>
                 <constraint firstItem="g9o-nS-Tey" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="dkT-gY-oV1"/>
                 <constraint firstItem="g9o-nS-Tey" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="iIX-Mv-Pkk"/>
             </constraints>
             <point key="canvasLocation" x="29" y="-33"/>
         </view>
     </objects>
-    <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-    </resources>
 </document>
