@@ -328,56 +328,58 @@
                 return;
             }
         }
-        //save the order
-        /*
-        NSMutableDictionary* auxOrderType = [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"type"];
-        if (auxOrderType == nil) {
-            [ArcosUtils showDialogBox:@"Please select an order type" title:@"Warning" delegate:nil target:self tag:0 handler:nil];
-            return;
-        }        
-        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableVanSaleFlag] && ![[auxOrderType objectForKey:@"DescrDetailCode"] isEqualToString:[GlobalSharedClass shared].vansCode]) {
-            void (^continueActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
-                if ([[ArcosConfigDataManager sharedArcosConfigDataManager] checkTotalOrderValueFlag]) {
-                    [self checkTotalOrderValueProcessor];
-                } else {
-                    [self checkoutSaveProcessor];
-                }
-            };
-            void (^cancelActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
-                
-            };
-            [ArcosUtils showTwoBtnsDialogBox:@"Order type is not set as van sales. Do you want to continue" title:@"Warning" delegate:nil target:self tag:0 lBtnText:@"Cancel" rBtnText:@"Continue" lBtnHandler:cancelActionHandler rBtnHandler:continueActionHandler];
-        } else if ([[ArcosConfigDataManager sharedArcosConfigDataManager] checkTotalOrderValueFlag]) {
-            [self checkTotalOrderValueProcessor];
-        } else {
-            [self checkoutSaveProcessor];
-        }
-         */
-        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] confirmOrderDetailsAtCheckoutFlag]) {
-//            void (^lBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
-//                
-//            };
-//            void (^rBtnActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
-//                [self enableVanSaleProcessor];
-//            };            
-//            [ArcosUtils showTwoBtnsDialogBox:[NSString stringWithFormat:@"€%@",[ArcosUtils convertNilToEmpty:[[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"totalGoodsText"]]] title:@"Confirm Value" target:self lBtnText:@"Adjust" rBtnText:@"Save" lBtnHandler:lBtnActionHandler rBtnHandler:rBtnActionHandler];
+//        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] confirmOrderDetailsAtCheckoutFlag]) {
+//            ArcosAlertBoxViewController* arcosAlertBoxViewController = [[ArcosAlertBoxViewController alloc] initWithNibName:@"ArcosAlertBoxViewController" bundle:nil];
+//            if (@available(iOS 13.0, *)) {
+//                arcosAlertBoxViewController.modalInPresentation = YES;
+//            }
+//            arcosAlertBoxViewController.checkWholesalerFlag = YES;
+//            arcosAlertBoxViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//            arcosAlertBoxViewController.actionDelegate = self;
+//            arcosAlertBoxViewController.view.tag = 3;
+//            [self presentViewController:arcosAlertBoxViewController animated:YES completion:nil];
+//            [arcosAlertBoxViewController release];
+//        } else {
+//            [self enableVanSaleProcessor];
+//        }
+        NSMutableDictionary* statusDict = [[OrderSharedClass sharedOrderSharedClass].currentOrderHeader objectForKey:@"status"];
+        NSString* statusDescrDetailCode = [ArcosUtils convertNilToEmpty:[statusDict objectForKey:@"DescrDetailCode"]];
+        if (![statusDescrDetailCode isEqualToString:@"0000"]) {
             ArcosAlertBoxViewController* arcosAlertBoxViewController = [[ArcosAlertBoxViewController alloc] initWithNibName:@"ArcosAlertBoxViewController" bundle:nil];
             if (@available(iOS 13.0, *)) {
                 arcosAlertBoxViewController.modalInPresentation = YES;
             }
-            arcosAlertBoxViewController.checkWholesalerFlag = YES;
+            arcosAlertBoxViewController.checkWholesalerFlag = NO;
+            arcosAlertBoxViewController.messageContent = [NSString stringWithFormat:@"This Order will not be processed InHouse, Status set to %@", [ArcosUtils convertNilToEmpty:[statusDict objectForKey:@"Title"]]];
             arcosAlertBoxViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
             arcosAlertBoxViewController.actionDelegate = self;
-            arcosAlertBoxViewController.view.tag = 3;
+            arcosAlertBoxViewController.view.tag = 200;
             [self presentViewController:arcosAlertBoxViewController animated:YES completion:nil];
             [arcosAlertBoxViewController release];
         } else {
-            [self enableVanSaleProcessor];
+            [self confirmOrderDetailsProcessor];
         }
     } else{
         [ArcosUtils showDialogBox:@"Order has no lines,please Re-enter or use 'new call!'" title:@"Warning" delegate:self target:self tag:888 handler:^(UIAlertAction *action) {
             [self backPressed:nil];
         }];
+    }
+}
+
+- (void)confirmOrderDetailsProcessor {
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] confirmOrderDetailsAtCheckoutFlag]) {
+        ArcosAlertBoxViewController* arcosAlertBoxViewController = [[ArcosAlertBoxViewController alloc] initWithNibName:@"ArcosAlertBoxViewController" bundle:nil];
+        if (@available(iOS 13.0, *)) {
+            arcosAlertBoxViewController.modalInPresentation = YES;
+        }
+        arcosAlertBoxViewController.checkWholesalerFlag = YES;
+        arcosAlertBoxViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        arcosAlertBoxViewController.actionDelegate = self;
+        arcosAlertBoxViewController.view.tag = 3;
+        [self presentViewController:arcosAlertBoxViewController animated:YES completion:nil];
+        [arcosAlertBoxViewController release];
+    } else {
+        [self enableVanSaleProcessor];
     }
 }
 
@@ -393,6 +395,12 @@
     if (anAlertBox.view.tag == 100) {
         [self dismissViewControllerAnimated:YES completion:^{
             [self checkoutSaveProcessor];
+        }];
+        return;
+    }
+    if (anAlertBox.view.tag == 200) {
+        [self dismissViewControllerAnimated:YES completion:^{
+            [self confirmOrderDetailsProcessor];
         }];
         return;
     }

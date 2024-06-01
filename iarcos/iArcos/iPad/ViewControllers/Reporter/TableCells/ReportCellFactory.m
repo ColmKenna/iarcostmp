@@ -46,6 +46,9 @@
     }else if ([code isEqualToString:@"2.19"]) {//meeting report
         return @"IdReportMeetingTableViewCell";
         
+    } else if ([code isEqualToString:@"2.08"]) {//target report
+        return @"IdReportTargetTableViewCell";
+        
     }else{
         return @"ReportGenericCell";
     }
@@ -74,8 +77,9 @@
         
     }else if ([code isEqualToString:@"2.19"]) {//meeting report
         return 6;
-        
-    }else{
+    } else if ([code isEqualToString:@"2.08"]) {//meeting report
+        return 7;
+    } else{
         return 88;
     }
 }
