@@ -59,7 +59,7 @@
 -(void)getSecondData:(NSString*) sqlTextString;
 -(void)resultBackFromGetSecondDataService:(id)result;
 
--(void)getRecord:(NSString*) tableName iur:(int)aIur;
+-(void)getRecord:(NSString*) tableName iur:(int)aIur filter:(NSString*)aFilter;
 -(void)resultBackFromGetRecordService:(id)result;
 
 -(void)getGraph:(NSString*) reportString iur:(int)aIur;
@@ -83,7 +83,7 @@
 -(void)genericGetStockistWithEmployeeiur: (int) employeeiur longtitude: (double) longtitude latitude: (double) latitude distance: (double) distance areacode: (NSString*) areacode areaiur: (int) areaiur level: (int) level levelcode: (NSString*) levelcode AsOfDate: (NSDate*) AsOfDate action:(SEL)anAction target:(id)aTarget;
 -(void)genericGetFromResourcesWithFileName:(NSString*)aFileName action:(SEL)anAction target:(id)aTarget;
 -(void)updateConnectivityRegisterValidation:(BOOL)aFlag;
--(void)genericGetRecord:(NSString*) tableName iur:(int)aIur action:(SEL)anAction target:(id)aTarget;
+-(void)genericGetRecord:(NSString*) tableName iur:(int)aIur filter:(NSString*)aFilter action:(SEL)anAction target:(id)aTarget;
 -(void)genericUpdateRecord:(NSString*)tableName iur:(int)iur fieldName:(NSString*)fieldName newContent:(NSString*)newContent action:(SEL)anAction target:(id)aTarget;
 -(void)genericNotBuy:(int)aLocationIUR Level:(int)aLevel LevelCode:(NSString*)aLevelCode filterLevel:(int)aFilterLevel action:(SEL)anAction target:(id)aTarget;
 -(void)genericProductSalesPerLocationSummary:(int)aLocationiur productiur: (int)aProductiur action:(SEL)anAction target:(id)aTarget;

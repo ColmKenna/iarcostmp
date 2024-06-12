@@ -91,7 +91,7 @@
 }
 
 -(void)getTaskData {
-    [self.callGenericServices getRecord:@"Task" iur:[self.IUR intValue]];
+    [self.callGenericServices getRecord:@"Task" iur:[self.IUR intValue] filter:@""];
 }
 
 - (void)cancelPressed:(id)sender {

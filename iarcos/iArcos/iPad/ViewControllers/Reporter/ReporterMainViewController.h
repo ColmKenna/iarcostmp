@@ -23,15 +23,17 @@
 #import "ReporterTrackGraphViewController.h"
 #import "ArcosSystemCodesUtils.h"
 #import "ReportMainTemplateViewController.h"
+#import "ReporterCsvViewController.h"
+#import "ArcosCustomiseAnimation.h"
 
-@interface ReporterMainViewController : UITableViewController <GetDataGenericDelegate,ReportManagerDelegate, ReporterFileDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate, ArcosQLPreviewControllerDelegate, ReporterTableViewCellDelegate> {
-    IBOutlet UITableView* reportListView;    
+@interface ReporterMainViewController : UITableViewController <GetDataGenericDelegate,ReportManagerDelegate, ReporterFileDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate, ArcosQLPreviewControllerDelegate, ReporterTableViewCellDelegate, SlideAcrossViewAnimationDelegate, ArcosCustomiseAnimationDelegate> {
+    IBOutlet UITableView* reportListView;
 //    NSMutableArray* displayList;
     CallGenericServices* _callGenericServices;
     
     UINavigationController* _globalNavigationController;
     UIViewController* _rootView;
-    ArcosCustomiseAnimation* arcosCustomiseAnimation;
+//    ArcosCustomiseAnimation* arcosCustomiseAnimation;
     ReportGenericUITableViewController* _reportGenericUITableViewController;
     MBProgressHUD* _HUD;
     
@@ -47,6 +49,8 @@
     NSDate* _startCalculateDate;
     NSDate* _endCalculateDate;
     ReporterMainDataManager* _reporterMainDataManager;
+    ArcosService* _reporterService;
+    ArcosCustomiseAnimation* _arcosCustomiseAnimation;
 }
 
 @property (nonatomic,retain)  IBOutlet UITableView* reportListView;
@@ -65,6 +69,8 @@
 @property (nonatomic,retain) NSDate* startCalculateDate;
 @property (nonatomic,retain) NSDate* endCalculateDate;
 @property (nonatomic,retain) ReporterMainDataManager* reporterMainDataManager;
+@property (nonatomic,retain) ArcosService* reporterService;
+@property (nonatomic, retain) ArcosCustomiseAnimation* arcosCustomiseAnimation;
 
 - (void) doParseReport:(NSNumber*)reportIUR startDate:(NSDate*)aStartDate endDate:(NSDate*)anEndDate tableName:(NSString*)aTableName selectedIUR:(NSNumber*)aSelectedIUR extraParams:(NSString*)anExtraParams;
 - (void)drillDownToExcelView;

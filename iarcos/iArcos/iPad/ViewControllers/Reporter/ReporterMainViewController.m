@@ -27,6 +27,8 @@
 @synthesize startCalculateDate = _startCalculateDate;
 @synthesize endCalculateDate = _endCalculateDate;
 @synthesize reporterMainDataManager = _reporterMainDataManager;
+@synthesize reporterService = _reporterService;
+@synthesize arcosCustomiseAnimation = _arcosCustomiseAnimation;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -34,6 +36,7 @@
     if (self) {
         // Custom initialization
         self.reporterMainDataManager = [[[ReporterMainDataManager alloc] init] autorelease];
+        self.reporterService = [ArcosService service];
     }
     return self;
 }
@@ -51,9 +54,9 @@
     if (self.rootView != nil) {
         self.rootView = nil;
     }
-    if (arcosCustomiseAnimation != nil) {
-        [arcosCustomiseAnimation release];
-    }
+//    if (arcosCustomiseAnimation != nil) {
+//        [arcosCustomiseAnimation release];
+//    }
     if (self.reportGenericUITableViewController != nil) {
         self.reportGenericUITableViewController = nil;
     }
@@ -69,6 +72,8 @@
     if (self.startCalculateDate != nil) { self.startCalculateDate = nil; }
     if (self.endCalculateDate != nil) { self.endCalculateDate = nil; }
     if (self.reporterMainDataManager != nil) { self.reporterMainDataManager = nil; }
+    self.reporterService = nil;
+    self.arcosCustomiseAnimation = nil;
     
     [super dealloc];
 }
@@ -92,6 +97,8 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.arcosCustomiseAnimation = [[[ArcosCustomiseAnimation alloc] init] autorelease];
+    self.arcosCustomiseAnimation.delegate = self;
     self.reportListView.backgroundColor=[UIColor colorWithRed:239/256.0f green:235/256.0f blue:229/256.0f alpha:1.0f];
     self.reportListView.sectionHeaderHeight = 5;
     self.reportListView.sectionFooterHeight = 5;
@@ -101,7 +108,7 @@
     */
     self.rootView = [ArcosUtils getRootView];
     
-    arcosCustomiseAnimation = [[ArcosCustomiseAnimation alloc] init];
+//    arcosCustomiseAnimation = [[ArcosCustomiseAnimation alloc] init];
     
     self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.navigationController.view] autorelease];
     self.callGenericServices.delegate = self;
@@ -319,9 +326,9 @@
     self.selectedReportCode = [NSString stringWithFormat:@"%@", aReporter.Field5] ;
     NSString* auxTitle = @"";
     if (![auxCell.productValueLabel.text isEqualToString:@""] && ![auxCell.productValueLabel.text isEqualToString:@"All"]) {
-        auxTitle = [NSString stringWithFormat:@"%@ - %@", aReporter.Field6, auxCell.productValueLabel.text];
+        auxTitle = [NSString stringWithFormat:@"%@ - %@", [ArcosUtils convertNilToEmpty:aReporter.Field6], auxCell.productValueLabel.text];
     } else {
-        auxTitle = [NSString stringWithFormat:@"%@", aReporter.Field6];
+        auxTitle = [NSString stringWithFormat:@"%@", [ArcosUtils convertNilToEmpty:aReporter.Field6]];
     }
 //    if ([auxCell.productValueLabel.text isEqualToString:@""]) {
 //        auxTitle = [NSString stringWithFormat:@"%@", aReporter.Field6];
@@ -365,6 +372,12 @@
     NSLog(@"selectedReportCode is: %@", self.selectedReportCode);
 //    NSLog(@"aStartDate anEndDate: %@ %@", aStartDate, anEndDate);
     [GlobalSharedClass shared].serviceTimeoutInterval=[GlobalSharedClass shared].reporterServiceTimeoutInterval;
+    
+    if ([self.reporterMainDataManager.selectedReporterHolder.Field8 isEqualToString:@"IQ"]) {
+        [self.HUD show:YES];
+        [self.reporterService ExecuteSql:self action:@selector(backFromExecuteSql:) TypeCode:@"IQ" DetailCode:[ArcosUtils convertNilToEmpty:self.reporterMainDataManager.selectedReporterHolder.Field19]];
+        return;
+    }
     if ([[self.selectedReportCode substringToIndex:1]isEqualToString:@"2"]) {
         [self.HUD show:YES];        
         [self.reportManager runXMLReportWithIUR:reportIUR withEmployeeIUR:[SettingManager employeeIUR] withStartDate:aStartDate withEndDate:anEndDate tableName:aTableName selectedIUR:aSelectedIUR extraParams:anExtraParams];
@@ -384,7 +397,91 @@
     }
 }
 
+- (void)backFromExecuteSql:(ArcosGenericClass*)result {
+    [GlobalSharedClass shared].serviceTimeoutInterval = [GlobalSharedClass shared].defaultServiceTimeoutInterval;
+    if (result != nil) {
+        if ([result isKindOfClass:[NSError class]]) {
+            [self.HUD hide:YES];
+            NSError* anError = (NSError*)result;
+            [ArcosUtils showDialogBox:[anError description] title:@"" target:self handler:nil];
+        } else if([result isKindOfClass:[SoapFault class]]){
+            [self.HUD hide:YES];
+            SoapFault* anFault = (SoapFault*)result;
+            [ArcosUtils showDialogBox:[anFault faultString] title:@"" target:self handler:nil];
+        } else {
+            NSString* aFileName = [NSString stringWithFormat:@"%@", [ArcosUtils convertNilToEmpty:result.Field2]];
+//            NSString* serverFilePath = [self.reportManager createReportFilePath:aFileName];
+//            NSURL* serverFileURL = [NSURL URLWithString:serverFilePath];
+            NSString* excelFilePath = [[FileCommon documentsPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@/%@", self.reporterFileManager.reporterFolderName, aFileName]];
+            self.reporterFileManager.localExcelFilePath = excelFilePath;
+            self.reporterFileManager.fileName = aFileName;
+            [FileCommon removeFileAtPath:excelFilePath];
+            BOOL wsrExistence = [ArcosSystemCodesUtils webServiceResourceExistence];
+            if (!wsrExistence) {
+//                [self.reporterFileManager downloadFileWithURL:serverFileURL destFolderName:self.reporterFileManager.reporterFolderName fileName:aFileName];
+                [self.HUD hide:YES];
+                [ArcosUtils showDialogBox:@"Please check the default settings" title:@"" target:self handler:nil];
+            } else {
+                self.reporterFileManager.destFolderName = self.reporterFileManager.reporterFolderName;
+                [self.reporterService GetFromResources:self action:@selector(wsrCsvBackFromService:) FileNAme:self.reporterFileManager.fileName];
+                self.reporterFileManager.previewDocumentList = [NSMutableArray arrayWithCapacity:1];
+                [self.reporterFileManager.previewDocumentList addObject:[NSString stringWithFormat:@"%@", aFileName]];
+            }
+        }
+    } else {
+        [self.HUD hide:YES];
+        [ArcosUtils showDialogBox:@"Data not expected" title:@"" target:self handler:nil];
+    }
+}
 
+- (void)wsrCsvBackFromService:(id)result {
+//    [self.HUD hide:YES];
+    result = [ArcosSystemCodesUtils handleResultErrorProcess:result];
+    if (result == nil) {
+        [self.HUD hide:YES];
+        return;
+    }
+    BOOL saveFileFlag = [ArcosSystemCodesUtils convertBase64ToPhysicalFile:result filePath:[NSString stringWithFormat:@"%@/%@", [FileCommon reporterPath], self.reporterFileManager.fileName]];
+    if (saveFileFlag) {
+        [self.reporterService DeleteFromResources:self action:@selector(deleteResourcesBackFromService:) FileNAme:self.reporterFileManager.fileName];
+    } else {
+        [self.HUD hide:YES];
+        [ArcosUtils showDialogBox:@"Unable to save the csv file on the iPad." title:@"" target:self handler:^(UIAlertAction *action) {}];
+    }
+}
+
+- (void)deleteResourcesBackFromService:(id)result {
+    [self.HUD hide:YES];
+    result = [ArcosSystemCodesUtils handleResultErrorProcess:result];
+    if (result == nil) {
+        return;
+    }
+    [self drillDownToCsvView];
+}
+
+- (void)drillDownToCsvView {
+    ReporterCsvViewController* reporterCsvViewController = [[ReporterCsvViewController alloc] initWithNibName:@"ReporterCsvViewController" bundle:nil];
+    reporterCsvViewController.animateDelegate = self;
+    reporterCsvViewController.title = self.reportTitle;
+    [reporterCsvViewController.reporterCsvDataManager processRawDataWithFilePath:[NSString stringWithFormat:@"%@/%@", [FileCommon reporterPath], self.reporterFileManager.fileName]];
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:reporterCsvViewController] autorelease];
+    [reporterCsvViewController release];
+    [self.arcosCustomiseAnimation addPushViewAnimation:self.rootView withController:self.globalNavigationController];
+}
+
+#pragma mark - SlideAcrossViewAnimationDelegate
+- (void)dismissSlideAcrossViewAnimation {
+    [self.arcosCustomiseAnimation dismissPushViewAnimation:self.rootView withController:self.globalNavigationController];
+}
+
+#pragma mark - ArcosCustomiseAnimationDelegate
+- (void)dismissPushViewCallBack {
+    [self performSelector:@selector(clearGlobalNavigationController) withObject:nil afterDelay:0.3];
+}
+
+- (void)clearGlobalNavigationController {
+    self.globalNavigationController = nil;
+}
 
 #pragma mark - GetDataGenericDelegate
 - (void)resultBackFromReporterOptions:(ArcosGenericReturnObject*)result {

@@ -291,7 +291,7 @@
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableEditContactByEmailFlag]) {        
         self.emailActionType = @"edit";
         self.emailContactIUR = [[self.displayList objectAtIndex:indexPath.row] objectForKey:@"IUR"];
-        [self.callGenericServices getRecord:@"Contact" iur:[self.emailContactIUR intValue]];
+        [self.callGenericServices getRecord:@"Contact" iur:[self.emailContactIUR intValue] filter:@""];
         return;
     }
     CustomerContactWrapperModalViewController* ccwmvc = [[CustomerContactWrapperModalViewController alloc] initWithNibName:@"CustomerContactWrapperModalViewController" bundle:nil];
@@ -366,7 +366,7 @@
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableCreateContactByEmailFlag]) {
         self.emailActionType = @"create";
         self.emailContactIUR = [NSNumber numberWithInt:0];
-        [self.callGenericServices getRecord:@"Contact" iur:[self.emailContactIUR intValue]];
+        [self.callGenericServices getRecord:@"Contact" iur:[self.emailContactIUR intValue] filter:@""];
         return;
     }
     CustomerContactWrapperModalViewController* ccwmvc = [[CustomerContactWrapperModalViewController alloc] initWithNibName:@"CustomerContactWrapperModalViewController" bundle:nil];

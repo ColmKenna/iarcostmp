@@ -174,7 +174,7 @@
     if (self.isNotFirstLoaded) return;
     self.isNotFirstLoaded = YES;
     callGenericServices.isNotRecursion = NO;
-    [callGenericServices getRecord:@"Contact" iur:[[self.tableCellData objectForKey:@"IUR"] intValue]];
+    [callGenericServices getRecord:@"Contact" iur:[[self.tableCellData objectForKey:@"IUR"] intValue] filter:@""];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

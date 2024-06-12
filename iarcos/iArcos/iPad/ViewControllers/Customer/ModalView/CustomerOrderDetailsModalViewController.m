@@ -185,7 +185,7 @@
     [super viewDidAppear:animated];
     if (self.screenLoadedFlag) return;
     self.screenLoadedFlag = YES;
-    [callGenericServices getRecord:@"Order" iur:[self.orderIUR intValue]];
+    [callGenericServices getRecord:@"Order" iur:[self.orderIUR intValue] filter:@""];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

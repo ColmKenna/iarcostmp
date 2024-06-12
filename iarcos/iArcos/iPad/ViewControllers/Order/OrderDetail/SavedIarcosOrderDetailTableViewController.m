@@ -73,10 +73,10 @@
     self.callGenericServices.delegate = self;
     if ([self.coordinateType intValue] == 1) {        
         if ([[self.savedOrderDetailCellData objectForKey:@"NumberOflines"] intValue] > 0) {
-            [self.callGenericServices genericGetRecord:@"Order" iur:[[self.savedOrderDetailCellData objectForKey:@"OrderHeaderIUR"] intValue] action:@selector(orderGetRecordResult:) target:self];
+            [self.callGenericServices genericGetRecord:@"Order" iur:[[self.savedOrderDetailCellData objectForKey:@"OrderHeaderIUR"] intValue] filter:@"" action:@selector(orderGetRecordResult:) target:self];
         }
         else if ([[self.savedOrderDetailCellData objectForKey:@"NumberOflines"] intValue] == 0) {
-            [self.callGenericServices genericGetRecord:@"Call" iur:[[self.savedOrderDetailCellData objectForKey:@"OrderHeaderIUR"] intValue] action:@selector(callGetRecordResult:) target:self];
+            [self.callGenericServices genericGetRecord:@"Call" iur:[[self.savedOrderDetailCellData objectForKey:@"OrderHeaderIUR"] intValue] filter:@"" action:@selector(callGetRecordResult:) target:self];
         }
     }
 }

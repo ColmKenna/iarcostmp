@@ -17,7 +17,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//    NSLog(@"%@", [self applicationDocumentsDirectory]);
+    NSLog(@"%@", [self applicationDocumentsDirectory]);
     if (@available(iOS 15.0, *)) {
         UINavigationBarAppearance* customNavigationBarAppearance = [[UINavigationBarAppearance alloc] init];
         [customNavigationBarAppearance configureWithOpaqueBackground];

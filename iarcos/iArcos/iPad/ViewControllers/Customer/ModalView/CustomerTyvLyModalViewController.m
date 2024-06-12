@@ -87,7 +87,7 @@
         callGenericServices = [[CallGenericServices alloc] initWithView:self.navigationController.view];
         callGenericServices.delegate = self;       
         
-        [callGenericServices getRecord:@"LocationSales" iur:[self.locationIUR intValue]];
+        [callGenericServices getRecord:@"LocationSales" iur:[self.locationIUR intValue] filter:@""];
     }
     
     

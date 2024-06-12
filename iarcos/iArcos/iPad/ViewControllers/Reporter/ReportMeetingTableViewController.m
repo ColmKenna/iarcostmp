@@ -119,7 +119,7 @@
     [super viewDidAppear:animated];
     if (self.isNotFirstLoaded) return;
     self.isNotFirstLoaded = YES;
-    [self.callGenericServices getRecord:@"Meeting" iur:[self.iUR intValue]];
+    [self.callGenericServices getRecord:@"Meeting" iur:[self.iUR intValue] filter:@""];
 }
 
 - (void)setGetRecordResult:(ArcosGenericReturnObject*)result {

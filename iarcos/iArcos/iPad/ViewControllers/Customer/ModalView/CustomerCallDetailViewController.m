@@ -129,7 +129,7 @@
     [super viewDidAppear:animated];
     if (self.screenLoadedFlag) return;
     self.screenLoadedFlag = YES;
-    [callGenericServices getRecord:@"Call" iur:[self.IUR intValue]];
+    [callGenericServices getRecord:@"Call" iur:[self.IUR intValue] filter:@""];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

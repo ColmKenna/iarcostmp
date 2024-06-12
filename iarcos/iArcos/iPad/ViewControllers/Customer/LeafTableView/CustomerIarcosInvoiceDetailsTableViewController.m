@@ -63,7 +63,7 @@
     [super viewDidAppear:animated];
     if (self.screenLoadedFlag) return;
     self.screenLoadedFlag = YES;
-    [self.callGenericServices getRecord:@"Invoice" iur:[self.customerIarcosInvoiceDetailsDataManager.invoiceIUR intValue]];
+    [self.callGenericServices getRecord:@"Invoice" iur:[self.customerIarcosInvoiceDetailsDataManager.invoiceIUR intValue] filter:@""];
 }
 
 - (void)didReceiveMemoryWarning {

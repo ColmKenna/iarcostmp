@@ -28,7 +28,7 @@
 	{
 		NSMutableString* s = [NSMutableString string];
 		for(id item in array) {
-			[s appendString: [NSString stringWithFormat: @"%@", item]];
+            [s appendFormat:@"<int>%@</int>", item];
 		}
 		return s;
 	}

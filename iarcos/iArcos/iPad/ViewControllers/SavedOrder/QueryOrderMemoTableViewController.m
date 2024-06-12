@@ -85,7 +85,7 @@
     [super viewDidAppear:animated];
     if (self.isNotFirstLoaded) return;
     self.isNotFirstLoaded = YES;
-    [self.callGenericServices getRecord:@"Memo" iur:[self.IUR intValue]];
+    [self.callGenericServices getRecord:@"Memo" iur:[self.IUR intValue] filter:@""];
 }
 
 - (void)cancelPressed:(id)sender {

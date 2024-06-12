@@ -437,7 +437,7 @@
     self.myArcosAdminEmail = [ArcosUtils convertNilToEmpty:[SettingManager arcosAdminEmail]];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableEditLocationByEmailFlag]) {        
         self.callGenericServices.isNotRecursion = YES;
-        [self.callGenericServices getRecord:@"Location" iur:[[ArcosUtils convertStringToNumber:IUR] intValue]];
+        [self.callGenericServices getRecord:@"Location" iur:[[ArcosUtils convertStringToNumber:IUR] intValue] filter:@""];
         return;
     }
     
@@ -471,7 +471,7 @@
         self.emailActionType = @"edit";
         self.emailContactIUR = IUR;
         self.callGenericServices.isNotRecursion = NO;
-        [self.callGenericServices genericGetRecord:@"Contact" iur:[self.emailContactIUR intValue] action:@selector(setContactGenericGetRecordResult:) target:self];
+        [self.callGenericServices genericGetRecord:@"Contact" iur:[self.emailContactIUR intValue] filter:@"" action:@selector(setContactGenericGetRecordResult:) target:self];
         return;
     }
     

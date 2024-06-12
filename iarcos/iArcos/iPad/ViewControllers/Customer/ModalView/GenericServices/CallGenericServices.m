@@ -164,11 +164,11 @@
 }
 
 #pragma getRecord
--(void)getRecord:(NSString*) tableName iur:(int)aIur {
+-(void)getRecord:(NSString*) tableName iur:(int)aIur  filter:(NSString*)aFilter {
     if (![self startCallService]) {
         return;
     }
-    [self.arcosService GetRecord:self action:@selector(resultBackFromGetRecordService:) TableName:tableName iur:aIur];
+    [self.arcosService GetRecord:self action:@selector(resultBackFromGetRecordService:) TableName:tableName iur:aIur filter:aFilter];
 
 }
 
@@ -337,11 +337,11 @@
     self.connectivityCheck.isRegisterValidation = aFlag;
 }
 
--(void)genericGetRecord:(NSString*) tableName iur:(int)aIur action:(SEL)anAction target:(id)aTarget {
+-(void)genericGetRecord:(NSString*) tableName iur:(int)aIur filter:(NSString*)aFilter action:(SEL)anAction target:(id)aTarget {
     if (![self startCallService]) {
         return;
     }
-    [self.arcosService GetRecord:aTarget action:anAction TableName:tableName iur:aIur];
+    [self.arcosService GetRecord:aTarget action:anAction TableName:tableName iur:aIur filter:aFilter];
 }
 
 -(void)genericUpdateRecord:(NSString*)tableName iur:(int)iur fieldName:(NSString*)fieldName newContent:(NSString*)newContent action:(SEL)anAction target:(id)aTarget {

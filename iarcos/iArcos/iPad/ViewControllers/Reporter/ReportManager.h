@@ -31,6 +31,7 @@
     id<ReportManagerDelegate> delegate;
     NSString* _xmlFileName;
     ArcosRootViewController* _arcosRootViewController;
+//    NSString* _csvFileName;
 }
 @property(nonatomic,retain) NSNumber* ReportCode;
 @property(nonatomic,retain) CXMLDocument* ReportDocument;
@@ -40,6 +41,7 @@
 @property(nonatomic,assign) id<ReportManagerDelegate> delegate;
 @property(nonatomic,retain) NSString* xmlFileName;
 @property (nonatomic, retain) ArcosRootViewController* arcosRootViewController;
+//@property (nonatomic, retain) NSString* csvFileName;
 
 +(id)Manager;
 

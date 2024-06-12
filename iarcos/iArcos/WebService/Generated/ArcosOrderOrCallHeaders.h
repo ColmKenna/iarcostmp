@@ -24,6 +24,7 @@
 	NSString* _StatusCode;
 	int _Qty;
 	int _Bonus;
+	int _Units;
 	
 }
 		
@@ -42,6 +43,7 @@
 	@property (retain, nonatomic) NSString* StatusCode;
 	@property int Qty;
 	@property int Bonus;
+	@property int Units;
 
 	+ (ArcosOrderOrCallHeaders*) createWithNode: (CXMLNode*) node;
 	- (id) initWithNode: (CXMLNode*) node;

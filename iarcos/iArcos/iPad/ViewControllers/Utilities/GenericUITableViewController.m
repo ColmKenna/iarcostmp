@@ -86,7 +86,13 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.automaticallyAdjustsScrollViewInsets = NO;
+    if (@available(iOS 11.0, *)) {
+        self.customiseScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        // Fallback on earlier versions
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+//    self.automaticallyAdjustsScrollViewInsets = NO;
     UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(closePressed:)];
     NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:2];
     UIBarButtonItem* emailButton = [[UIBarButtonItem alloc] initWithTitle:@"Email" style:UIBarButtonItemStylePlain target:self action:@selector(emailAttachment:)];

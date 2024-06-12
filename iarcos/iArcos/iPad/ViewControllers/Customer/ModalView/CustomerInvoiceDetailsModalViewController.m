@@ -184,7 +184,7 @@
     [super viewDidAppear:animated];
     if (self.screenLoadedFlag) return;
     self.screenLoadedFlag = YES;
-    [callGenericServices getRecord:@"Invoice" iur:[self.IUR intValue]];
+    [callGenericServices getRecord:@"Invoice" iur:[self.IUR intValue] filter:@""];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

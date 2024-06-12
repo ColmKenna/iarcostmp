@@ -21,6 +21,7 @@
 	@synthesize StatusCode = _StatusCode;
 	@synthesize Qty = _Qty;
 	@synthesize Bonus = _Bonus;
+	@synthesize Units = _Units;
 
 	- (id) init
 	{
@@ -63,6 +64,7 @@
 			self.StatusCode = [Soap getNodeValue: node withName: @"StatusCode"];
 			self.Qty = [[Soap getNodeValue: node withName: @"Qty"] intValue];
 			self.Bonus = [[Soap getNodeValue: node withName: @"Bonus"] intValue];
+			self.Units = [[Soap getNodeValue: node withName: @"Units"] intValue];
 		}
 		return self;
 	}
@@ -101,6 +103,7 @@
 		if (self.StatusCode != nil) [s appendFormat: @"<StatusCode>%@</StatusCode>", [[self.StatusCode stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"] stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"]];
 		[s appendFormat: @"<Qty>%@</Qty>", [NSString stringWithFormat: @"%i", self.Qty]];
 		[s appendFormat: @"<Bonus>%@</Bonus>", [NSString stringWithFormat: @"%i", self.Bonus]];
+		[s appendFormat: @"<Units>%@</Units>", [NSString stringWithFormat: @"%i", self.Units]];
 
 		return s;
 	}

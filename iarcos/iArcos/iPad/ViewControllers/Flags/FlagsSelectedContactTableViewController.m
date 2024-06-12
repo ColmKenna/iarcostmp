@@ -83,13 +83,24 @@
         [[self.actionDelegate retrieveProgressHUDFromParentViewController] show:YES];
         NSNumber* flagiur = [data objectForKey:@"DescrDetailIUR"];
         NSNumber* employeeIUR = [SettingManager employeeIUR];
-        NSMutableString* contactiurNodeString = [NSMutableString string];
+//        NSMutableString* contactiurNodeString = [NSMutableString string];
+        NSMutableArray* contactiurList = [NSMutableArray array];
         for (int i = 0; i < [self.flagsSelectedContactDataManager.displayList count]; i++) {
             NSMutableDictionary* tmpContactDict = [self.flagsSelectedContactDataManager.displayList objectAtIndex:i];
-            [contactiurNodeString appendFormat:@"<int>%@</int>",[tmpContactDict objectForKey:[self.actionDelegate retrieveFlagsSelectedContactParentIURKeyText]]];
+//            [contactiurNodeString appendFormat:@"<int>%@</int>",[tmpContactDict objectForKey:[self.actionDelegate retrieveFlagsSelectedContactParentIURKeyText]]];
+            [contactiurList addObject:[tmpContactDict objectForKey:[self.actionDelegate retrieveFlagsSelectedContactParentIURKeyText]]];
         }
-        
-        [self.arcosService GlobalFlagAssignment:self action:@selector(backFromGlobalFlagAssignment:) type:[self.actionDelegate retrieveFlagsSelectedContactParentAssignmentType] addremoveoption:@"Add" flagiur:[flagiur intValue] iurs:contactiurNodeString employeeiur:[employeeIUR intValue]];
+        NSMutableArray* contactiurNodeArray = [NSMutableArray array];
+        [contactiurNodeArray addObject:[NSNumber numberWithInt:1]];
+        [contactiurNodeArray addObject:[NSNumber numberWithInt:2]];
+        ArcosGlobalFlagAssignmentRequest* arcosGlobalFlagAssignmentRequest = [[[ArcosGlobalFlagAssignmentRequest alloc] init] autorelease];
+        arcosGlobalFlagAssignmentRequest.Type = [self.actionDelegate retrieveFlagsSelectedContactParentAssignmentType];
+        arcosGlobalFlagAssignmentRequest.AddRemoveOption = @"Add";
+        arcosGlobalFlagAssignmentRequest.FlagIUR = [flagiur intValue];
+        arcosGlobalFlagAssignmentRequest.IURs = contactiurList;
+        arcosGlobalFlagAssignmentRequest.EmployeeIUR = [employeeIUR intValue];
+//        [self.arcosService GlobalFlagAssignment:self action:@selector(backFromGlobalFlagAssignment:) type:[self.actionDelegate retrieveFlagsSelectedContactParentAssignmentType] addremoveoption:@"Add" flagiur:[flagiur intValue] iurs:contactiurNodeArray employeeiur:[employeeIUR intValue]];
+        [self.arcosService GlobalFlagAssignment:self action:@selector(backFromGlobalFlagAssignment:) globalFlagAssignmentRequestValues:arcosGlobalFlagAssignmentRequest];
     }];
 }
 

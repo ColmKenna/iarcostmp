@@ -160,7 +160,7 @@
     [super viewDidAppear:animated];
     if (self.isNotFirstLoaded) return;
     self.isNotFirstLoaded = YES;
-    [callGenericServices getRecord:@"Location" iur:[self.locationIUR intValue]];
+    [callGenericServices getRecord:@"Location" iur:[self.locationIUR intValue] filter:@""];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

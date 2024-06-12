@@ -739,7 +739,7 @@
     self.customerInfoTableDataManager.popoverOpenFlag = YES;
     self.myArcosAdminEmail = [ArcosUtils convertNilToEmpty:[SettingManager arcosAdminEmail]];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableEditLocationByEmailFlag]) {        
-        [self.callGenericServices getRecord:@"Location" iur:[[self.aCustDict objectForKey:@"LocationIUR"] intValue]];
+        [self.callGenericServices getRecord:@"Location" iur:[[self.aCustDict objectForKey:@"LocationIUR"] intValue] filter:@""];
         return;
     }
     CustomerDetailsWrapperModalViewController* cdwmvc = [[CustomerDetailsWrapperModalViewController alloc] initWithNibName:@"CustomerDetailsWrapperModalViewController" bundle:nil];

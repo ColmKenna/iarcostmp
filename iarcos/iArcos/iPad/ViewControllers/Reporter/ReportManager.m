@@ -25,6 +25,7 @@
 @synthesize delegate;
 @synthesize xmlFileName = _xmlFileName;
 @synthesize arcosRootViewController = _arcosRootViewController;
+//@synthesize csvFileName = _csvFileName;
 
 -(id)init{
     self=[super init];
@@ -257,6 +258,7 @@
 //        self.delegate=nil;
 //    }
     if (self.xmlFileName != nil) { self.xmlFileName = nil; }
+//    self.csvFileName = nil;
     
     [super dealloc];
 }
