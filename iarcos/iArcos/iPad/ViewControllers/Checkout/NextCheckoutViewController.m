@@ -803,7 +803,10 @@
         }
         
 //        WidgetViewController* wvc = (WidgetViewController*)self.thePopover.contentViewController;
-        self.globalWidgetViewController.Data = aCellDict;
+//        self.globalWidgetViewController.Data = aCellDict;
+        OrderEntryInputViewController* oeivc = (OrderEntryInputViewController*)self.globalWidgetViewController;
+        oeivc.Data = aCellDict;
+        oeivc.orderEntryInputDataManager.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];;
     } else {
         self.globalWidgetViewController = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
         OrderInputPadViewController* oipvc = (OrderInputPadViewController*)self.globalWidgetViewController;

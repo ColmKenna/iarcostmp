@@ -457,7 +457,14 @@
             }
             
 //            WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
-            self.globalWidgetViewController.Data = aCell.data;
+//            self.globalWidgetViewController.Data = aCell.data;
+            OrderEntryInputViewController* oeivc = (OrderEntryInputViewController*)self.globalWidgetViewController;
+            oeivc.Data = aCell.data;
+            if (self.orderLineDetailProductDataManager.standardOrderFormFlag) {
+                oeivc.orderEntryInputDataManager.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:self.orderLineDetailProductDataManager.formIUR];
+            } else {
+                oeivc.orderEntryInputDataManager.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormType:@"104"];
+            }
         } else {
             self.globalWidgetViewController = [self.widgetFactory CreateOrderInputPadWidgetWithLocationIUR:self.locationIUR];
             OrderInputPadViewController* oipvc = (OrderInputPadViewController*)self.globalWidgetViewController;

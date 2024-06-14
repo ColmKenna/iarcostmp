@@ -17,6 +17,7 @@
     NSMutableDictionary* _columnDescDataDict;
     NSMutableArray* _qtyList;
     NSMutableArray* _bonList;
+    NSDictionary* _relatedFormDetailDict;
 }
 
 @property(nonatomic, retain) NSString* bonKey;
@@ -26,6 +27,7 @@
 @property(nonatomic, retain) NSMutableDictionary* columnDescDataDict;
 @property(nonatomic, retain) NSMutableArray* qtyList;
 @property(nonatomic, retain) NSMutableArray* bonList;
+@property(nonatomic, retain) NSDictionary* relatedFormDetailDict;
 
 - (void)retrieveColumnDescriptionInfo;
 

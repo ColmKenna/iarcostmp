@@ -517,6 +517,9 @@
     FormRow.Level5IUR = [ArcosUtils convertStringToNumber:anObject.Field8];
     FormRow.DefaultQty = [ArcosUtils convertStringToNumber:anObject.Field9];
     FormRow.TradePrice = [ArcosUtils convertStringToDecimalNumber:anObject.Field10];
+    FormRow.Bon1RO = [NSNumber numberWithBool:[ArcosUtils convertStringToBool:anObject.Field11]];
+    FormRow.FOCRO = [NSNumber numberWithBool:[ArcosUtils convertStringToBool:anObject.Field12]];
+    FormRow.TesterRO = [NSNumber numberWithBool:[ArcosUtils convertStringToBool:anObject.Field13]];
     return FormRow;
 }
 

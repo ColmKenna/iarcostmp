@@ -164,6 +164,30 @@
         self.testersLabel.hidden = NO;
         self.testersTextField.hidden = NO;
     }
+    NSDictionary* productFormRowDict = [[ArcosCoreData sharedArcosCoreData] formRowWithFormIUR:[self.orderEntryInputDataManager.relatedFormDetailDict objectForKey:@"IUR"] productIUR:[self.Data objectForKey:@"ProductIUR"]];
+    self.bonusTextField.enabled = YES;
+    self.bonusTextField.textColor = [UIColor blackColor];
+    self.focTextField.enabled = YES;
+    self.focTextField.textColor = [UIColor blackColor];
+    self.testersTextField.enabled = YES;
+    self.testersTextField.textColor = [UIColor blackColor];
+    if (productFormRowDict != nil) {
+        NSNumber* bon1ROFlag = [productFormRowDict objectForKey:@"Bon1RO"];
+        if ([bon1ROFlag boolValue]) {
+            self.bonusTextField.enabled = NO;
+            self.bonusTextField.textColor = [UIColor lightGrayColor];
+        }
+        NSNumber* fOCROFlag = [productFormRowDict objectForKey:@"FOCRO"];
+        if ([fOCROFlag boolValue]) {
+            self.focTextField.enabled = NO;
+            self.focTextField.textColor = [UIColor lightGrayColor];
+        }
+        NSNumber* testerROFlag = [productFormRowDict objectForKey:@"TesterRO"];
+        if ([testerROFlag boolValue]) {
+            self.testersTextField.enabled = NO;
+            self.testersTextField.textColor = [UIColor lightGrayColor];
+        }
+    }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showMATWithQtyPopoverFlag] && self.locationIUR != nil) {
         NSDate* dateLastModified = [NSDate date];
         NSMutableArray* objectList = [self.orderInputPadDataManager retrieveLocationProductMATWithLocationIUR:self.locationIUR productIUR:[self.Data objectForKey:@"ProductIUR"]];

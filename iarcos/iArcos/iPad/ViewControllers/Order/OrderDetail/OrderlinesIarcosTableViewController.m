@@ -207,8 +207,11 @@
             }
             
 //            WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
-            self.globalWidgetViewController.Data = [self.displayList objectAtIndex:swipedIndexPath.row];
+//            self.globalWidgetViewController.Data = [self.displayList objectAtIndex:swipedIndexPath.row];
             self.globalWidgetViewController.isWidgetEditable = self.isCellEditable;
+            OrderEntryInputViewController* oeivc = (OrderEntryInputViewController*)self.globalWidgetViewController;
+            oeivc.Data = [self.displayList objectAtIndex:swipedIndexPath.row];
+            oeivc.orderEntryInputDataManager.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:self.formIUR];
         } else {
             self.globalWidgetViewController = [self.factory CreateOrderInputPadWidgetWithLocationIUR:self.locationIUR];
             OrderInputPadViewController* oipvc = (OrderInputPadViewController*)self.globalWidgetViewController;

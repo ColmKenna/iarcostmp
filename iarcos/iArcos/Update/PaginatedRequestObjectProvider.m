@@ -433,7 +433,7 @@
     NSString* keypath = [NSString stringWithFormat:@"CompanySetting.%@",@"Download"];
     NSMutableDictionary* activeOnly = [sm getSettingForKeypath:keypath atIndex:4];
     NSNumber* active = [activeOnly objectForKey:@"Value"];
-    NSString* selectStatement = @"Select Iur,FormIUR,ProductIUR,Details,SequenceNumber,SequenceDivider,UnitPrice,Level5IUR,DefaultQty,DefaultPercent";
+    NSString* selectStatement = @"Select Iur,FormIUR,ProductIUR,Details,SequenceNumber,SequenceDivider,UnitPrice,Level5IUR,DefaultQty,DefaultPercent,Bon1RO,FOCRO,TestersRO";
     NSString* fromStatement = nil;
     if ([downloadMode intValue] == 1 && [isDownloaded boolValue]) {//1:Partial
         NSDate* downloadDate = [dataDict objectForKey:@"DownloadDate"];

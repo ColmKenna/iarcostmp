@@ -1299,7 +1299,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
             self.globalWidgetViewController = [self.factory CreateOrderEntryInputWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
         }        
 //        WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
-        self.globalWidgetViewController.Data = aCell.data;
+//        self.globalWidgetViewController.Data = aCell.data;
+        OrderEntryInputViewController* oeivc = (OrderEntryInputViewController*)self.globalWidgetViewController;
+        oeivc.Data = aCell.data;
+        oeivc.orderEntryInputDataManager.relatedFormDetailDict = self.formRowsTableDataManager.currentFormDetailDict;
     } else {
 //        self.inputPopover = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
 //        OrderInputPadViewController* oipvc = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];

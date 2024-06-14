@@ -38,7 +38,7 @@
     NSString* fileContents = [[NSString alloc] initWithContentsOfFile:aFilePath encoding:NSUTF8StringEncoding error:nil];
     NSArray* rowList = [fileContents componentsSeparatedByString:[GlobalSharedClass shared].rowDelimiter];
     [fileContents release];
-    if ([rowList count] > 1) {
+    if ([rowList count] >= 1) {
         NSString* headingRow = [rowList objectAtIndex:0];
         NSArray* fieldList = [headingRow componentsSeparatedByString:[GlobalSharedClass shared].fieldDelimiter];
         self.attrNameList = [NSArray arrayWithArray:fieldList];
@@ -46,7 +46,7 @@
 //        NSLog(@"\n%ld", [fieldList count]);
 //        NSLog(@"\nfieldList %@", fieldList);
     }
-    if ([rowList count] > 2) {
+    if ([rowList count] >= 2) {
         for (int i = 1; i < [rowList count]; i++) {
             NSString* bodyRow = [rowList objectAtIndex:i];
             NSArray* bodyFieldList = [bodyRow componentsSeparatedByString:[GlobalSharedClass shared].fieldDelimiter];

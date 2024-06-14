@@ -16,6 +16,7 @@
 @synthesize columnDescDataDict = _columnDescDataDict;
 @synthesize qtyList = _qtyList;
 @synthesize bonList = _bonList;
+@synthesize relatedFormDetailDict = _relatedFormDetailDict;
 
 - (instancetype)init {
     self = [super init];
@@ -35,7 +36,8 @@
     self.testKey = nil;
     self.columnDescDataDict = nil;
     self.qtyList = nil;
-    self.bonList = nil;    
+    self.bonList = nil;   
+    self.relatedFormDetailDict = nil;
     
     [super dealloc];
 }

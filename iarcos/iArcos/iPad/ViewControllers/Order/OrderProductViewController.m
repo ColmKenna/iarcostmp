@@ -686,8 +686,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
             }
             
 //            WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
-            self.globalWidgetViewController.Data = aCell.data;
+//            self.globalWidgetViewController.Data = aCell.data;
             self.globalWidgetViewController.isWidgetEditable = self.isCellEditable;
+            OrderEntryInputViewController* oeivc = (OrderEntryInputViewController*)self.globalWidgetViewController;
+            oeivc.Data = aCell.data;
+            oeivc.orderEntryInputDataManager.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:self.formIUR];
         } else {
             self.globalWidgetViewController = [self.factory CreateOrderInputPadWidgetWithLocationIUR:self.locationIUR];
             OrderInputPadViewController* oipvc = (OrderInputPadViewController*)self.globalWidgetViewController;

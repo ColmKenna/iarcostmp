@@ -242,6 +242,9 @@
     //NSLog(@"presenter title is %@  name is %@",[aPresentProduct objectForKey:@"Title"],[aPresentProduct objectForKey:@"Name"]);
 //    cell.title.text = [aReporter Field6];
     cell.myDescription.text = [aReporter Field7];
+    if ([aReporter.Field8 isEqualToString:@"IQ"]) {
+        cell.myDescription.text = @"";
+    }
     cell.extraDesc.text = [aReporter Field5];
     
     NSNumber* imageIur = [ArcosUtils convertStringToNumber:[aReporter Field4]];

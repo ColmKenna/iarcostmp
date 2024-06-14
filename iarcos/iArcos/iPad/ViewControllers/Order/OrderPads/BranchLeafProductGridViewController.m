@@ -392,7 +392,10 @@
         }
         
 //        WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
-        self.globalWidgetViewController.Data = productDetailDict;
+//        self.globalWidgetViewController.Data = productDetailDict;
+        OrderEntryInputViewController* oeivc = (OrderEntryInputViewController*)self.globalWidgetViewController;
+        oeivc.Data = productDetailDict;
+        oeivc.orderEntryInputDataManager.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
     } else {
         self.globalWidgetViewController = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
         OrderInputPadViewController* oipvc = (OrderInputPadViewController*) self.globalWidgetViewController;
@@ -453,7 +456,10 @@
         }
         
 //        WidgetViewController* wvc = (WidgetViewController*)self.inputPopover.contentViewController;
-        self.globalWidgetViewController.Data = productDetailDict;
+//        self.globalWidgetViewController.Data = productDetailDict;
+        OrderEntryInputViewController* oeivc = (OrderEntryInputViewController*)self.globalWidgetViewController;
+        oeivc.Data = productDetailDict;
+        oeivc.orderEntryInputDataManager.relatedFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
     } else {
         self.globalWidgetViewController = [self.factory CreateOrderInputPadWidgetWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
         OrderInputPadViewController* oipvc=(OrderInputPadViewController*) self.globalWidgetViewController;
