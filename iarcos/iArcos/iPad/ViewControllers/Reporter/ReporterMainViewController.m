@@ -466,6 +466,7 @@
     ReporterCsvViewController* reporterCsvViewController = [[ReporterCsvViewController alloc] initWithNibName:@"ReporterCsvViewController" bundle:nil];
     reporterCsvViewController.animateDelegate = self;
     reporterCsvViewController.title = self.reportTitle;
+    reporterCsvViewController.reporterFileManager = self.reporterFileManager;
     [reporterCsvViewController.reporterCsvDataManager processRawDataWithFilePath:[NSString stringWithFormat:@"%@/%@", [FileCommon reporterPath], self.reporterFileManager.fileName]];
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:reporterCsvViewController] autorelease];
     [reporterCsvViewController release];

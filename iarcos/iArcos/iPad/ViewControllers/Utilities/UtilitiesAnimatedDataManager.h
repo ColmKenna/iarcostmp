@@ -44,6 +44,7 @@
     int _monthPieNormalBarCount;
     int _totalClickTime;
     int _detailClickTime;
+    NSMutableArray* _monthTableRawDataDisplayList;
 }
 
 @property(nonatomic, retain) NSMutableArray* tylyBarDisplayList;
@@ -77,6 +78,7 @@
 @property(nonatomic, assign) int monthPieNormalBarCount;
 @property(nonatomic, assign) int totalClickTime;
 @property(nonatomic, assign) int detailClickTime;
+@property(nonatomic, retain) NSMutableArray* monthTableRawDataDisplayList;
 
 - (void)processRawData:(ArcosGenericReturnObject*)result;
 - (void)processMonthPieRawData:(ArcosGenericReturnObject*)result;
@@ -85,5 +87,9 @@
 - (void)tableDataFromLocalWithLocationIUR:(NSNumber*)aLocationIUR;
 - (void)barDataFromLocalWithLocationIUR:(NSNumber*)aLocationIUR;
 - (void)pieDataFromLocalWithLocationIUR:(NSNumber*)aLocationIUR levelNumber:(int)aLevelNumber;
+- (int)calculateLastFourMonthsTotalWithDataDict:(NSMutableDictionary*)aDataDict;
+- (int)calculateFirstNineMonthsTotalWithDataDict:(NSMutableDictionary*)aDataDict;
+- (int)calculateLastThirteenMonthsTotalWithDataDict:(NSMutableDictionary*)aDataDict;
+- (int)calculatePreviousTwelveMonthsTotalWithDataDict:(NSMutableDictionary*)aDataDict;
 
 @end

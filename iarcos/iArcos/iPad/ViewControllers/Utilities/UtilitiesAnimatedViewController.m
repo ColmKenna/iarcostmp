@@ -1182,7 +1182,42 @@ static const CGFloat constantColorLookupTable[20][3] =
             [[cell performSelector:secondSelector] performSelector:firstSelector withObject:@""];
         }
     }
+    UIColor* greenColour = [UIColor colorWithRed:0.0 green:128.0/255.0 blue:0.0 alpha:1.0];
+    UIColor* redColour = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0];
+    UIColor* orangeColour = [UIColor colorWithRed:1.0 green:165.0/255.0 blue:0.0 alpha:1.0];
+    UIColor* darkTextColour = [UIColor darkTextColor];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] retrieveLocationProductMATDataLocallyFlag]) {
+        NSMutableDictionary* rawDataCellDataDict = [self.animatedDataManager.monthTableRawDataDisplayList objectAtIndex:indexPath.row];
+        int lastFourMonthsTotal = [self.animatedDataManager calculateLastFourMonthsTotalWithDataDict:rawDataCellDataDict];
+        int firstNineMonthsTotal = [self.animatedDataManager calculateFirstNineMonthsTotalWithDataDict:rawDataCellDataDict];
+        int lastThirteenMonthsTotal = [self.animatedDataManager calculateLastThirteenMonthsTotalWithDataDict:rawDataCellDataDict];
+        int previousTwelveMonthsTotal = [self.animatedDataManager calculatePreviousTwelveMonthsTotalWithDataDict:rawDataCellDataDict];        
+        
+        if (lastFourMonthsTotal > 0 && firstNineMonthsTotal == 0) {//green
+            [self configLabelColourWithCell:cell colour:greenColour];
+        } else if (lastFourMonthsTotal == 0 && firstNineMonthsTotal > 0) {//red
+            [self configLabelColourWithCell:cell colour:redColour];
+        } else if (lastThirteenMonthsTotal == 0 && previousTwelveMonthsTotal > 0) {//orange
+            [self configLabelColourWithCell:cell colour:orangeColour];
+        } else {
+            [self configLabelColourWithCell:cell colour:darkTextColour];
+        }
+    } else {
+        [self configLabelColourWithCell:cell colour:darkTextColour];
+    }
+    
     return cell;
+}
+
+- (void)configLabelColourWithCell:(UtilitiesAnimatedMonthTableCell*)aCell colour:(UIColor*)aColour {
+    aCell.labelDetails.textColor = aColour;
+    for (int i = 3; i <= 16; i++) {
+        NSString* valueFirstMethodName = [NSString stringWithFormat:@"setTextColor:"];
+        NSString* valueSecondMethod = [NSString stringWithFormat:@"label%d", i];
+        SEL secondSelector = NSSelectorFromString(valueSecondMethod);
+        SEL firstSelector = NSSelectorFromString(valueFirstMethodName);
+        [[aCell performSelector:secondSelector] performSelector:firstSelector withObject:aColour];
+    }
 }
 
 - (void)constructBarChart:(CPTGraphHostingView*)aGraphHostingView identifier:(NSString*)anIdentifier title:(NSString*)aTitle dataManager:(UtilitiesAnimatedDataManager*)anAnimatedDataManager target:(id)aTarget {

@@ -21,6 +21,10 @@
 @synthesize customiseTableView = _customiseTableView;
 @synthesize globalNavigationController = _globalNavigationController;
 @synthesize arcosCustomiseAnimation = _arcosCustomiseAnimation;
+@synthesize emailButton = _emailButton;
+@synthesize emailNavigationController = _emailNavigationController;
+@synthesize reporterFileManager = _reporterFileManager;
+@synthesize mailController = _mailController;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -47,6 +51,15 @@
     [backButton release];
     self.arcosCustomiseAnimation = [[[ArcosCustomiseAnimation alloc] init] autorelease];
     self.arcosCustomiseAnimation.delegate = self;
+    self.emailButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"email_all.png"] style:UIBarButtonItemStylePlain target:self action:@selector(emailButtonPressed:)] autorelease];
+    self.navigationItem.rightBarButtonItem = self.emailButton;
+    
+    EmailRecipientTableViewController* emailRecipientTableViewController = [[EmailRecipientTableViewController alloc] initWithNibName:@"EmailRecipientTableViewController" bundle:nil];
+    emailRecipientTableViewController.requestSource = EmailRequestSourceReporter;
+    emailRecipientTableViewController.recipientDelegate = self;
+    self.emailNavigationController = [[[UINavigationController alloc] initWithRootViewController:emailRecipientTableViewController] autorelease];
+    self.emailNavigationController.preferredContentSize = [[GlobalSharedClass shared] orderPadsSize];
+    [emailRecipientTableViewController release];
 }
 
 - (void)dealloc {
@@ -57,8 +70,19 @@
     self.customiseTableView = nil;
     self.globalNavigationController = nil;
     self.arcosCustomiseAnimation = nil;
+    self.emailButton = nil;
+    self.emailNavigationController = nil;
+    self.reporterFileManager = nil;
+    self.mailController = nil;
     
     [super dealloc];
+}
+
+- (void)emailButtonPressed:(id)sender {
+    self.emailNavigationController.modalPresentationStyle = UIModalPresentationPopover;
+    self.emailNavigationController.popoverPresentationController.barButtonItem = self.emailButton;
+    self.emailNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    [self presentViewController:self.emailNavigationController animated:YES completion:nil];
 }
 
 - (void)backButtonPressed {
@@ -146,9 +170,30 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"Cell";
-    GenericUITableTableCell* cell = [[[GenericUITableTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+//    static NSString *CellIdentifier = @"Cell";
+//    GenericUITableTableCell* cell = [[[GenericUITableTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    static NSString* CellIdentifier = @"IdReporterCsvTableViewCell";
+    
+    ReporterCsvTableViewCell* cell = (ReporterCsvTableViewCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if(cell == nil) {
+        
+        NSArray* nibContents = [[NSBundle mainBundle] loadNibNamed:@"ReporterCsvTableViewCell" owner:self options:nil];
+        
+        for (id nibItem in nibContents) {
+            if ([nibItem isKindOfClass:[ReporterCsvTableViewCell class]] && [[(ReporterCsvTableViewCell *)nibItem reuseIdentifier] isEqualToString: CellIdentifier]) {
+                cell = (ReporterCsvTableViewCell *) nibItem;
+            }
+        }
+    }
+    
+    
+    
     NSArray* cellDataList = [self.reporterCsvDataManager.displayList objectAtIndex:indexPath.row];
+    for (int i = 0; i < [cell.cellLabelList count]; i++) {
+        UILabel* cellLabel = [cell.cellLabelList objectAtIndex:i];
+        [cellLabel removeFromSuperview];
+    }
+    cell.cellLabelList = [NSMutableArray arrayWithCapacity:[cellDataList count] - 1];
     cell.frame = CGRectMake(0, 0, self.customiseScrollView.contentSize.width, 44);
     for (int i = 0; i < [cellDataList count] - 1; i++) {
         CGFloat xOrigin = i * self.reporterCsvDataManager.cellWidth;
@@ -189,6 +234,129 @@
 
 - (void)clearGlobalNavigationController {
     self.globalNavigationController = nil;
+}
+
+#pragma mark - EmailRecipientDelegate
+- (void)didSelectEmailRecipientRow:(NSDictionary*)cellData {
+    NSString* email = [ArcosUtils convertNilToEmpty:[cellData objectForKey:@"Email"]];
+    NSMutableArray* toRecipients = [NSMutableArray array];
+    if (![@"" isEqualToString:email]) {
+        toRecipients = [NSMutableArray arrayWithObjects:email, nil];
+    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+        ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
+        amwvc.mailDelegate = self;
+        amwvc.toRecipients = toRecipients;
+        amwvc.subjectText = self.reporterFileManager.reportTitle;
+        NSMutableString* msgBodyString = [NSMutableString stringWithString:@""];
+        [msgBodyString appendString:@"Please find attached:\n"];
+        [msgBodyString appendString:@"\n"];
+        [msgBodyString appendString:self.reporterFileManager.fileName];
+        amwvc.bodyText = msgBodyString;
+        if ([FileCommon fileExistAtPath:self.reporterFileManager.localExcelFilePath]) {
+            NSData* data = [NSData dataWithContentsOfFile:self.reporterFileManager.localExcelFilePath];
+            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+                [amwvc.attachmentList addObject:[ArcosAttachmentContainer attachmentWithData:data fileName:self.reporterFileManager.fileName]];
+            } else {
+                [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:data filename:self.reporterFileManager.fileName]];
+            }
+        }
+        amwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
+        self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:amwvc] autorelease];
+        CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.myRootViewController];
+        self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+        [self.myRootViewController addChildViewController:self.globalNavigationController];
+        [self.myRootViewController.view addSubview:self.globalNavigationController.view];
+        [self.globalNavigationController didMoveToParentViewController:self.myRootViewController];
+        [amwvc release];
+        [UIView animateWithDuration:0.3f animations:^{
+            self.globalNavigationController.view.frame = parentNavigationRect;
+        } completion:^(BOOL finished){
+//            [self.emailPopover dismissPopoverAnimated:YES];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }];
+        return;
+    }
+    
+    if (![MFMailComposeViewController canSendMail]) {
+        [self dismissViewControllerAnimated:YES completion:^ {
+            [ArcosUtils showDialogBox:[GlobalSharedClass shared].noMailAcctMsg title:[GlobalSharedClass shared].noMailAcctTitle target:self handler:nil];
+        }];
+        return;
+    }
+//    if (![ArcosEmailValidator checkCanSendMailStatus:self]) return;
+//    [self.emailPopover dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    self.mailController = [[[MFMailComposeViewController alloc] init] autorelease];
+    self.mailController.mailComposeDelegate = self;
+    
+    [self.mailController setToRecipients:toRecipients];
+    [self.mailController setSubject:self.reporterFileManager.fileName];
+    if ([FileCommon fileExistAtPath:self.reporterFileManager.localExcelFilePath]) {
+        NSData* data = [NSData dataWithContentsOfFile:self.reporterFileManager.localExcelFilePath];
+        NSString* mimeTypeString = @"application/vnd.ms-excel";
+        
+        [self.mailController addAttachmentData:data mimeType:mimeTypeString fileName:self.reporterFileManager.fileName];
+    }
+    
+    [self presentViewController:self.mailController animated:YES completion:nil];
+}
+
+#pragma mark ArcosMailTableViewControllerDelegate
+- (void)arcosMailDidFinishWithResult:(ArcosMailComposeResult)aResult error:(NSError *)anError {
+    [UIView animateWithDuration:0.3f animations:^{
+        CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.myRootViewController];
+        self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+    } completion:^(BOOL finished){
+        [self.globalNavigationController willMoveToParentViewController:nil];
+        [self.globalNavigationController.view removeFromSuperview];
+        [self.globalNavigationController removeFromParentViewController];
+        self.globalNavigationController = nil;
+    }];
+}
+
+#pragma mark - MFMailComposeViewControllerDelegate
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+    NSString* message = @"";
+    NSString* title = @"";
+    switch (result) {
+        case MFMailComposeResultCancelled:
+            message = @"Result: canceled";
+            break;
+            
+        case MFMailComposeResultSaved:
+            message = @"Result: saved";
+            break;
+            
+        case MFMailComposeResultSent: {
+            message = @"Sent Email OK";
+            title = @"App Email";
+        }
+            break;
+            
+        case MFMailComposeResultFailed: {
+            message = @"Failed to Send Email";
+            title = [GlobalSharedClass shared].errorTitle;
+        }
+            break;
+            
+        default:
+            message = @"Result: not sent";
+            break;
+    }
+    if (result != MFMailComposeResultFailed) {
+        [self alertViewCallBack];
+    } else {
+        [ArcosUtils showDialogBox:message title:title delegate:self target:controller tag:99 handler:^(UIAlertAction *action) {
+            [self alertViewCallBack];
+        }];
+    }
+}
+
+- (void)alertViewCallBack {
+    [self dismissViewControllerAnimated:YES completion:^ {
+        self.mailController = nil;
+    }];
 }
 
 @end

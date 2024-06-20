@@ -40,6 +40,7 @@
 @synthesize monthPieNormalBarCount = _monthPieNormalBarCount;
 @synthesize totalClickTime = _totalClickTime;
 @synthesize detailClickTime = _detailClickTime;
+@synthesize monthTableRawDataDisplayList = _monthTableRawDataDisplayList;
 
 - (id)init{
     self = [super init];
@@ -102,6 +103,7 @@
     self.pnfDescrDetailCode = nil;
     self.pnfDetail = nil;
 //    self.monthPieCompositeResultList = nil;
+    self.monthTableRawDataDisplayList = nil;
                 
     [super dealloc];
 }
@@ -186,7 +188,7 @@
 }
 
 - (void)tableDataFromLocalWithLocationIUR:(NSNumber*)aLocationIUR {
-    NSArray* properties = [NSArray arrayWithObjects:@"productIUR", @"qty13",@"qty14",@"qty15",@"qty16",@"qty17",@"qty18",@"qty19",@"qty20",@"qty21",@"qty22",@"qty23",@"qty24",@"qty25",@"dateLastModified",nil];
+    NSArray* properties = [NSArray arrayWithObjects:@"productIUR", @"qty13",@"qty14",@"qty15",@"qty16",@"qty17",@"qty18",@"qty19",@"qty20",@"qty21",@"qty22",@"qty23",@"qty24",@"qty25",@"dateLastModified",@"qty01",@"qty02",@"qty03",@"qty04",@"qty05",@"qty06",@"qty07",@"qty08",@"qty09",@"qty10",@"qty11",@"qty12",nil];
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"locationIUR = %@", aLocationIUR];
     NSMutableArray* objectsArray = [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"LocationProductMAT" withPropertiesToFetch:properties withPredicate:predicate withSortDescNames:nil withResulType:NSDictionaryResultType needDistinct:NO ascending:[NSNumber numberWithBool:NO]];
     NSMutableArray* productIURList = [NSMutableArray arrayWithCapacity:[objectsArray count]];
@@ -240,10 +242,11 @@
     NSSortDescriptor* brandDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"OrderPadDetails" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
     NSSortDescriptor* detailsDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Details" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
     [auxObjectsArray sortUsingDescriptors:[NSArray arrayWithObjects:brandDescriptor, detailsDescriptor, nil]];
+    self.monthTableRawDataDisplayList = [NSMutableArray arrayWithArray:auxObjectsArray];
     for (int i = 0; i < [auxObjectsArray count]; i++) {
         NSMutableDictionary* tmpAuxDataDict = [auxObjectsArray objectAtIndex:i];
         ArcosGenericClass* arcosGenericClass = [[ArcosGenericClass alloc] init];
-        arcosGenericClass.Field1 = [tmpAuxDataDict objectForKey:@"ProductIUR"];
+        arcosGenericClass.Field1 = [NSString stringWithFormat:@"%@", [tmpAuxDataDict objectForKey:@"productIUR"]];
         arcosGenericClass.Field2 = [tmpAuxDataDict objectForKey:@"Details"];
         arcosGenericClass.Field20 = [tmpAuxDataDict objectForKey:@"OrderPadDetails"];
         arcosGenericClass.Field19 = [tmpAuxDataDict objectForKey:@"ProductCode"];
@@ -553,6 +556,47 @@
     NSArray* properties = [NSArray arrayWithObjects:@"DescrDetailIUR",@"ImageIUR", @"Detail", @"DescrDetailCode", nil];
     NSArray* sortDescNames = [NSArray arrayWithObjects:@"Detail",nil];
     return [[ArcosCoreData sharedArcosCoreData] fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:properties  withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType needDistinct:NO ascending:nil];    
+}
+
+- (int)calculateLastFourMonthsTotalWithDataDict:(NSMutableDictionary*)aDataDict {
+    int lastFourMonthsTotalResult = 0;
+    lastFourMonthsTotalResult = [[aDataDict objectForKey:@"qty22"] intValue] + [[aDataDict objectForKey:@"qty23"] intValue] + [[aDataDict objectForKey:@"qty24"] intValue] + [[aDataDict objectForKey:@"qty25"] intValue];
+    return lastFourMonthsTotalResult;
+}
+- (int)calculateFirstNineMonthsTotalWithDataDict:(NSMutableDictionary*)aDataDict {
+    int firstNineMonthsTotalResult = 0;
+    for (int i = 13; i <= 21; i++) {
+        NSString* qtyField = [NSString stringWithFormat:@"qty%d", i];
+        NSString* qtyFieldMethodName = [NSString stringWithFormat:@"objectForKey:"];
+        SEL qtySelector = NSSelectorFromString(qtyFieldMethodName);
+        NSNumber* qtyValue = [aDataDict performSelector:qtySelector withObject:qtyField];
+        firstNineMonthsTotalResult += [qtyValue intValue];
+    }
+    return firstNineMonthsTotalResult;
+}
+- (int)calculateLastThirteenMonthsTotalWithDataDict:(NSMutableDictionary*)aDataDict {
+    int lastThirteenMonthsTotalResult = 0;
+    for (int i = 13; i <= 25; i++) {
+        NSString* qtyField = [NSString stringWithFormat:@"qty%d", i];
+        NSString* qtyFieldMethodName = [NSString stringWithFormat:@"objectForKey:"];
+        SEL qtySelector = NSSelectorFromString(qtyFieldMethodName);
+        NSNumber* qtyValue = [aDataDict performSelector:qtySelector withObject:qtyField];
+        lastThirteenMonthsTotalResult += [qtyValue intValue];
+    }
+    return lastThirteenMonthsTotalResult;
+}
+- (int)calculatePreviousTwelveMonthsTotalWithDataDict:(NSMutableDictionary*)aDataDict {
+    int previousTwelveMonthsTotalResult = 0;
+    NSMutableArray* previousTwelveMonthsIndexList = [NSMutableArray arrayWithObjects:@"01", @"02", @"03", @"04", @"05", @"06", @"07", @"08", @"09", @"10", @"11", @"12", nil];
+    for (int i = 0; i < [previousTwelveMonthsIndexList count] - 1; i++) {
+        NSString* monthIndex = [previousTwelveMonthsIndexList objectAtIndex:i];
+        NSString* qtyField = [NSString stringWithFormat:@"qty%@", monthIndex];
+        NSString* qtyFieldMethodName = [NSString stringWithFormat:@"objectForKey:"];
+        SEL qtySelector = NSSelectorFromString(qtyFieldMethodName);
+        NSNumber* qtyValue = [aDataDict performSelector:qtySelector withObject:qtyField];
+        previousTwelveMonthsTotalResult += [qtyValue intValue];
+    }
+    return previousTwelveMonthsTotalResult;
 }
 
 @end
