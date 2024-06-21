@@ -31,6 +31,7 @@
 
 - (void)dealloc {
     self.displayList = nil;
+    self.deleteDisplayList = nil;
     self.meetingExpenseDetailsDataManager = nil;
     self.currentSelectDeleteIndexPath = nil;
     

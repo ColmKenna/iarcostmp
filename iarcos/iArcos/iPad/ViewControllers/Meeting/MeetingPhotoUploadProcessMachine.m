@@ -31,6 +31,8 @@
 }
 
 - (void)dealloc {
+    [self.fileTimer invalidate];
+    self.fileTimer = nil;
     self.arcosAttachmentList = nil;
     self.currentArcosAttachmentSummary = nil;
     

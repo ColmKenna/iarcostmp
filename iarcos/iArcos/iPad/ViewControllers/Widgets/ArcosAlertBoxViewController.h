@@ -11,6 +11,7 @@
 #import "OrderSharedClass.h"
 #import "ArcosUtils.h"
 #import "ArcosConfigDataManager.h"
+#import "ArcosAlertBoxDataManager.h"
 
 @interface ArcosAlertBoxViewController : UIViewController {
     id<ArcosAlertBoxViewControllerDelegate> _actionDelegate;
@@ -34,6 +35,7 @@
     BOOL _disableSaveButtonFlag;
     BOOL _checkWholesalerFlag;
     NSString* _messageContent;
+    ArcosAlertBoxDataManager* _arcosAlertBoxDataManager;
 }
 
 @property(nonatomic, assign) id<ArcosAlertBoxViewControllerDelegate> actionDelegate;
@@ -57,6 +59,7 @@
 @property(nonatomic, assign) BOOL disableSaveButtonFlag;
 @property(nonatomic, assign) BOOL checkWholesalerFlag;
 @property(nonatomic, retain) NSString* messageContent;
+@property(nonatomic, retain) ArcosAlertBoxDataManager* arcosAlertBoxDataManager;
 
 - (IBAction)didAmendButtonPressed:(id)sender;
 - (IBAction)didSaveButtonPressed:(id)sender;

@@ -1623,6 +1623,7 @@
 		793EEA632BAD884D005B0325 /* PlusCircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 793EEA622BAD884D005B0325 /* PlusCircle@2x.png */; };
 		7941D5CC2BFF312D00AF0A70 /* ReportTargetHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7941D5CB2BFF312D00AF0A70 /* ReportTargetHeaderView.m */; };
 		7946370C27FFF02A0032AB03 /* ArcosCalendarTableCellDayLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7946370B27FFF02A0032AB03 /* ArcosCalendarTableCellDayLabel.m */; };
+		794BD8D02C257DB6002640C0 /* ArcosAlertBoxDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 794BD8CF2C257DB6002640C0 /* ArcosAlertBoxDataManager.m */; };
 		79514A2D2888F42A00DA0F3D /* PackageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79514A2B2888F42A00DA0F3D /* PackageTableViewController.m */; };
 		79514A2E2888F42A00DA0F3D /* PackageTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79514A2C2888F42A00DA0F3D /* PackageTableViewController.xib */; };
 		79514A312888F9DB00DA0F3D /* PackageDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 79514A302888F9DB00DA0F3D /* PackageDataManager.m */; };
@@ -4952,6 +4953,8 @@
 		7941D5CB2BFF312D00AF0A70 /* ReportTargetHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReportTargetHeaderView.m; sourceTree = "<group>"; };
 		7946370A27FFF02A0032AB03 /* ArcosCalendarTableCellDayLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosCalendarTableCellDayLabel.h; sourceTree = "<group>"; };
 		7946370B27FFF02A0032AB03 /* ArcosCalendarTableCellDayLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosCalendarTableCellDayLabel.m; sourceTree = "<group>"; };
+		794BD8CE2C257DB6002640C0 /* ArcosAlertBoxDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosAlertBoxDataManager.h; sourceTree = "<group>"; };
+		794BD8CF2C257DB6002640C0 /* ArcosAlertBoxDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosAlertBoxDataManager.m; sourceTree = "<group>"; };
 		794F4D14288F9554005A441A /* PackageTableViewCellDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PackageTableViewCellDelegate.h; sourceTree = "<group>"; };
 		794F5CBC283B4A9900FFB8D2 /* ArcosCalendarTableViewCellDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosCalendarTableViewCellDelegate.h; sourceTree = "<group>"; };
 		79514A2A2888F42A00DA0F3D /* PackageTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PackageTableViewController.h; sourceTree = "<group>"; };
@@ -8059,6 +8062,8 @@
 				791724C72B5914F200BDBE98 /* DatePickerCalendarStyleWidgetViewController.h */,
 				791724C82B5914F200BDBE98 /* DatePickerCalendarStyleWidgetViewController.m */,
 				791724C92B5914F200BDBE98 /* DatePickerCalendarStyleWidgetViewController.xib */,
+				794BD8CE2C257DB6002640C0 /* ArcosAlertBoxDataManager.h */,
+				794BD8CF2C257DB6002640C0 /* ArcosAlertBoxDataManager.m */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -10391,6 +10396,7 @@
 				63939FDF1AC1690C000BB0FB /* UtilitiesMemoryTableViewController.m in Sources */,
 				630B3CC419F01CB9007B2442 /* ReporterTrackGraphDataManager.m in Sources */,
 				630B3D1119F01CB9007B2442 /* QueryOrderTaskStringViewTableCell.m in Sources */,
+				794BD8D02C257DB6002640C0 /* ArcosAlertBoxDataManager.m in Sources */,
 				630B346E19F0127C007B2442 /* Weekly.m in Sources */,
 				630B3CA519F01CB9007B2442 /* SmallL5L3SearchFormRowDataManager.m in Sources */,
 				63DAC0C82076221200E92B99 /* StandardOrderPadMatDataManager.m in Sources */,
@@ -11505,7 +11511,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.0.1;
+				MARKETING_VERSION = 13.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11566,7 +11572,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.0.1;
+				MARKETING_VERSION = 13.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -11715,7 +11721,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.0.1;
+				MARKETING_VERSION = 13.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

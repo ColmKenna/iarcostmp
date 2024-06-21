@@ -35,6 +35,7 @@
 @synthesize disableSaveButtonFlag = _disableSaveButtonFlag;
 @synthesize checkWholesalerFlag = _checkWholesalerFlag;
 @synthesize messageContent = _messageContent;
+@synthesize arcosAlertBoxDataManager = _arcosAlertBoxDataManager;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -42,6 +43,7 @@
         self.disableSaveButtonFlag = NO;
         self.checkWholesalerFlag = NO;
         self.messageContent = @"";
+        self.arcosAlertBoxDataManager = [[[ArcosAlertBoxDataManager alloc] init] autorelease];
     }
     return self;
 }
@@ -61,6 +63,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.qtyDesc.text = @"Quantity";
+    self.bonusDesc.text = @"Bonus";
+    self.bonusSplitDesc.text = @"Units";
     int totalUnits = 0;
     int totalFOC = 0;
     for(NSString* aKey in [OrderSharedClass sharedOrderSharedClass].currentOrderCart) {
@@ -114,6 +119,19 @@
     if (self.disableSaveButtonFlag) {
         self.saveButton.enabled = NO;
     }
+    [self.arcosAlertBoxDataManager retrieveColumnDescriptionInfo];
+    NSString* qtyCDValue = [self.arcosAlertBoxDataManager.columnDescDataDict objectForKey:self.arcosAlertBoxDataManager.qtyKey];
+    if (qtyCDValue != nil) {
+        self.qtyDesc.text = qtyCDValue;
+    }
+    NSString* bonCDValue = [self.arcosAlertBoxDataManager.columnDescDataDict objectForKey:self.arcosAlertBoxDataManager.bonKey];
+    if (bonCDValue != nil) {
+        self.bonusDesc.text = bonCDValue;
+    }
+    NSString* focCDValue = [self.arcosAlertBoxDataManager.columnDescDataDict objectForKey:self.arcosAlertBoxDataManager.focKey];
+    if (focCDValue != nil) {
+        self.bonusSplitDesc.text = focCDValue;
+    }
 }
 
 - (void)dealloc {
@@ -135,6 +153,7 @@
     self.amendButton = nil;
     self.saveButton = nil;
     self.messageContent = nil;
+    self.arcosAlertBoxDataManager = nil;
     
     [super dealloc];
 }

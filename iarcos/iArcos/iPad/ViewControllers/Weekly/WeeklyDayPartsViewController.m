@@ -204,7 +204,7 @@
     
     self.headingDesc = nil;
     self.headingTemplateAM = nil;
-    self.headingChildTemplatePM = nil;
+    self.headingChildTemplateAM = nil;
     self.headingButtonAM = nil;
     self.headingAM = nil;
     self.headingSpace = nil;

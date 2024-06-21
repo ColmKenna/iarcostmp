@@ -45,7 +45,7 @@
     self.attendedButton = nil;
     self.removedButton = nil;
     
-    self.informedButton = nil;
+    self.informedActiveButton = nil;
     self.confirmedActiveButton = nil;
     self.attendedActiveButton = nil;
     self.removedActiveButton = nil;

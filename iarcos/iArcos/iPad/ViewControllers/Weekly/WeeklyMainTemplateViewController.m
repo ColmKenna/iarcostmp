@@ -158,6 +158,7 @@
     self.weeklyDayPartsViewController = nil;
     self.mySegmentedControl = nil;
 //    self.childTemplateView = nil;
+    self.weeklyMainTemplateDataManager = nil;
     self.templateView = nil;
     self.employeeButton = nil;
     self.cameraRollButton = nil;

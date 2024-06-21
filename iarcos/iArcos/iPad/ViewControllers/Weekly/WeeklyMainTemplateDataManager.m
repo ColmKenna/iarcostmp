@@ -156,6 +156,8 @@
     self.daysOfWeekKeyList = nil;
     self.arcosDescriptionTrManager = nil;
     self.dayPartsDbFieldNameList = nil;
+    self.dayPartsGroupedDataDict = nil;
+    self.dayPartsOriginalGroupedDataDict = nil;
     
     self.fieldNameList = nil;
     self.fieldValueList = nil;

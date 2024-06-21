@@ -128,6 +128,11 @@
         self.view.alpha = 0.5;
     }
     [self.orderEntryInputDataManager retrieveColumnDescriptionInfo];
+    self.qtyLabel.text = @"QTY";
+    NSString* qtyCDValue = [self.orderEntryInputDataManager.columnDescDataDict objectForKey:self.orderEntryInputDataManager.qtyKey];
+    if (qtyCDValue != nil) {
+        self.qtyLabel.text = qtyCDValue;
+    }
     NSString* bonValue = [self.orderEntryInputDataManager.columnDescDataDict objectForKey:self.orderEntryInputDataManager.bonKey];
     if (bonValue == nil) {
         self.bonusLabel.hidden = YES;

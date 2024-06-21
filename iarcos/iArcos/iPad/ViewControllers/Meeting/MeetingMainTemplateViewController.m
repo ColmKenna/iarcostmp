@@ -210,6 +210,7 @@
     self.actionType = nil;
     self.createActionType = nil;
     self.meetingIUR = nil;
+    self.meetingLocationIUR = nil;
     self.meetingMainTemplateActionDelegate = nil;
     self.arcosRootViewController = nil;
     self.meetingPresentersTableViewController = nil;
