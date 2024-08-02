@@ -15,12 +15,34 @@
 @synthesize currentIndexPath = _currentIndexPath;
 @synthesize prevNormalStandardOrderPadFlag = _prevNormalStandardOrderPadFlag;
 @synthesize prevNormalNumber = _prevNormalNumber;
+@synthesize enablePhysKeyboardFlag = _enablePhysKeyboardFlag;
+@synthesize currentTextFieldIndex = _currentTextFieldIndex;
+@synthesize currentTextFieldHighlightedFlag = _currentTextFieldHighlightedFlag;
+@synthesize textFieldTagKeyDict = _textFieldTagKeyDict;
+@synthesize viewHasBeenAppearedTime = _viewHasBeenAppearedTime;
+@synthesize firstProductRowIndex = _firstProductRowIndex;
+@synthesize firstProductRowHasBeenShowedFlag = _firstProductRowHasBeenShowedFlag;
+
+- (instancetype)init {
+    self = [super init];
+    if (self != nil) {
+        self.currentIndexPath = nil;
+        self.currentTextFieldIndex = 0;
+        self.currentTextFieldHighlightedFlag = NO;
+        self.viewHasBeenAppearedTime = 0;
+        self.firstProductRowIndex = -1;
+        self.firstProductRowHasBeenShowedFlag = NO;
+        self.textFieldTagKeyDict = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Qty", @"Bonus", @"DiscountPercent", nil] forKeys:[NSArray arrayWithObjects:[NSNumber numberWithInt:0], [NSNumber numberWithInt:1], [NSNumber numberWithInt:2], nil]];
+    }
+    return self;
+}
 
 - (void)dealloc {
     self.currentFormDetailDict = nil;
     self.prevNumber = nil;
     self.currentIndexPath = nil;
     self.prevNormalNumber = nil;
+    self.textFieldTagKeyDict = nil;
     
     [super dealloc];
 }

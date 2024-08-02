@@ -209,8 +209,17 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    NSLog(@"viewWillAppear");
+    if (self.formRowsTableDataManager.viewHasBeenAppearedTime == 0) {
+        [self selectFirstProductRow];
+        if (self.formRowsTableDataManager.currentIndexPath != nil) {
+            self.formRowsTableDataManager.firstProductRowIndex = [ArcosUtils convertNSIntegerToInt:self.formRowsTableDataManager.currentIndexPath.row];
+        }
+    }
+    self.formRowsTableDataManager.viewHasBeenAppearedTime++;
     self.formRowsTableDataManager.prevStandardOrderPadFlag = NO;
     self.formRowsTableDataManager.prevNormalStandardOrderPadFlag = NO;
+    self.formRowsTableDataManager.enablePhysKeyboardFlag = NO;
     self.formRowsTableDataManager.currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
     NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.formRowsTableDataManager.currentFormDetailDict objectForKey:@"Details"]];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![orderFormDetails containsString:@"[BD]"]) {
@@ -246,6 +255,9 @@
             }
             self.formRowTableCellGeneratorDelegate = [[[FormRowTableCellPrevNormalGenerator alloc] init] autorelease];
             self.formRowsTableDataManager.prevNormalStandardOrderPadFlag = YES;
+        } else if ([orderFormDetails containsString:@"[KB]"]) {
+            self.formRowsTableDataManager.enablePhysKeyboardFlag = YES;
+            self.formRowTableCellGeneratorDelegate = [[[FormRowTableCellKbGenerator alloc] init] autorelease];
         } else {
             self.formRowTableCellGeneratorDelegate = [[[FormRowTableCellNormalGenerator alloc] init] autorelease];
         }
@@ -300,6 +312,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    NSLog(@"viewDidAppear %ld", self.formRowsTableDataManager.currentIndexPath.row);
     if (self.isRequestSourceFromPresenter) {
         
     } else {
@@ -307,7 +320,56 @@
     }
     if (self.isNotFirstLoaded) {
         [self fillTheUnsortListWithData];
-        [self reloadTableViewData];
+        if (@available(iOS 11.0, *)) {
+            [self.tableView performBatchUpdates:^{
+                NSLog(@"performBatchUpdates");
+                [self reloadTableViewData];
+            } completion:^(BOOL finished) {
+                if (self.formRowsTableDataManager.enablePhysKeyboardFlag && self.formRowsTableDataManager.currentIndexPath != nil) {
+                    NSLog(@"performBatchUpdates completed");
+                    NSArray* indexPathsVisibleRows = [self.tableView indexPathsForVisibleRows];
+                    BOOL indexPathVisibleFlag = NO;
+                    for (int i = 0; i < [indexPathsVisibleRows count]; i++) {
+                        NSIndexPath* tmpIndexPath = [indexPathsVisibleRows objectAtIndex:i];
+                        if (self.formRowsTableDataManager.currentIndexPath.row == tmpIndexPath.row) {
+                            indexPathVisibleFlag = YES;
+                            break;
+                        }
+                    }
+                    if (indexPathVisibleFlag) {
+                        OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath];
+                        if (self.formRowsTableDataManager.currentTextFieldIndex > [tmpOrderProductTableCell.textFieldList count] - 1) {
+                            self.formRowsTableDataManager.currentTextFieldIndex = 0;
+                        }
+                        [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
+                    } else {
+                        if ([indexPathsVisibleRows count] > 0) {
+                            NSIndexPath* firstIndexPath = [indexPathsVisibleRows firstObject];
+                            NSIndexPath* lastIndexPath = [indexPathsVisibleRows lastObject];
+                            if (self.formRowsTableDataManager.currentIndexPath.row < firstIndexPath.row) {
+                                [self.tableView scrollToRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                                OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath];
+                                if (self.formRowsTableDataManager.currentTextFieldIndex > [tmpOrderProductTableCell.textFieldList count] - 1) {
+                                    self.formRowsTableDataManager.currentTextFieldIndex = 0;
+                                }
+                                [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
+                            } else if (self.formRowsTableDataManager.currentIndexPath.row > lastIndexPath.row) {
+                                [self.tableView scrollToRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+                                OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath];
+                                if (self.formRowsTableDataManager.currentTextFieldIndex > [tmpOrderProductTableCell.textFieldList count] - 1) {
+                                    self.formRowsTableDataManager.currentTextFieldIndex = 0;
+                                }
+                                [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
+                            }
+                        }
+                    }
+                }
+            }];
+        } else {
+            // Fallback on earlier versions
+            [self reloadTableViewData];
+        }
+//        [self reloadTableViewData];
         return;
     }
     if (self.isRequestSourceFromPresenter) {
@@ -347,6 +409,9 @@
             [[NSNotificationCenter defaultCenter] removeObserver:self name:@"BarCodeNotification" object:nil];
         }
         
+    }
+    if (self.formRowsTableDataManager.enablePhysKeyboardFlag) {
+        [self.view endEditing:YES];
     }
 }
 
@@ -489,6 +554,7 @@
     [cell configPreviousWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR productIUR:[cellData objectForKey:@"ProductIUR"] previousNumber:self.formRowsTableDataManager.prevNumber prevFlag:self.formRowsTableDataManager.prevStandardOrderPadFlag prevLabel:cell.prevLabel];
     [cell configPreviousWithLocationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR productIUR:[cellData objectForKey:@"ProductIUR"] previousNumber:self.formRowsTableDataManager.prevNormalNumber prevFlag:self.formRowsTableDataManager.prevNormalStandardOrderPadFlag prevLabel:cell.prevNormalLabel];
     
+    
     [self.unsortedFormrows replaceObjectAtIndex:indexPath.row withObject:cellData];
     cell.description.text=[cellData objectForKey:@"Details"];
     NSNumber* bonusBy = [cellData objectForKey:@"Bonusby"];
@@ -578,6 +644,7 @@
     
     cell.theIndexPath=indexPath;
     cell.data=[self convertToOrderProductDict:cellData];
+    [cell configTextFieldListWithKbFlag:self.formRowsTableDataManager.enablePhysKeyboardFlag data:cellData relatedFormDetailDict:self.formRowsTableDataManager.currentFormDetailDict];
     
     return cell;
 }
@@ -743,7 +810,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 }
 -(void)handleSingleTapGesture:(id)sender{
 //    NSLog(@"single tap");
-    
+    if (self.formRowsTableDataManager.enablePhysKeyboardFlag) {
+        return;
+    }
     UITapGestureRecognizer* reconizer=(UITapGestureRecognizer*)sender;
     if (reconizer.state == UIGestureRecognizerStateEnded) {
         
@@ -1280,8 +1349,95 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [self reloadTableViewData];
 }
 
+- (void)configCurrentTextFieldIndex:(int)anIndex {
+    self.formRowsTableDataManager.currentTextFieldIndex = anIndex;
+}
+- (void)configCurrentIndexPath:(NSIndexPath*)anIndexPath {
+    self.formRowsTableDataManager.currentIndexPath = anIndexPath;
+}
+- (void)inputFinishedWithData:(NSMutableDictionary*)aData forIndexPath:(NSIndexPath*)anIndexPath {
+    @try {
+        [self saveOrderToTheCart:aData];
+        NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.formRowsTableDataManager.currentFormDetailDict objectForKey:@"Details"]];
+        [self processDefaultQtyPercentProcessor:aData orderFormDetails:orderFormDetails];
+        if (self.isRequestSourceFromPresenter) {
+            if ([[aData objectForKey:@"IsSelected"] boolValue]) {
+                [[OrderSharedClass sharedOrderSharedClass].lastPositionDict setObject:[NSNumber numberWithInt:[[aData objectForKey:@"ProductIUR"] intValue]] forKey:@"ProductIUR"];
+                [[OrderSharedClass sharedOrderSharedClass].lastPositionDict setObject:[NSIndexPath indexPathForRow:anIndexPath.row inSection:anIndexPath.section] forKey:@"IndexPath"];
+            } else {
+                NSNumber* lastProductIUR = [[OrderSharedClass sharedOrderSharedClass].lastPositionDict objectForKey:@"ProductIUR"];
+                if ([lastProductIUR intValue] != 0 && [lastProductIUR intValue] == [[aData objectForKey:@"ProductIUR"] intValue]) {
+                    [[OrderSharedClass sharedOrderSharedClass].lastPositionDict removeAllObjects];
+                }
+            }
+        }
+        NSLog(@"currentIndexPath row %ld", anIndexPath.row);
+        OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:anIndexPath];
+        [tmpOrderProductTableCell configBackgroundColour:[[aData objectForKey:@"IsSelected"]boolValue]];
+        NSNumber* qty = [aData objectForKey:@"Qty"];
+        NSNumber* bonus = [aData objectForKey:@"Bonus"];
+        if ([qty intValue] <= 0 && [bonus intValue] <= 0) {
+            tmpOrderProductTableCell.qtyTextField.text = @"";
+            tmpOrderProductTableCell.value.text = @"";
+            tmpOrderProductTableCell.bonusTextField.text = @"";
+        } else {
+            tmpOrderProductTableCell.qtyTextField.text = [ArcosUtils convertZeroToBlank:[[aData objectForKey:@"Qty"] stringValue]];
+            tmpOrderProductTableCell.value.text = [NSString stringWithFormat:@"%1.2f", [[aData objectForKey:@"LineValue"] floatValue]];
+            tmpOrderProductTableCell.bonusTextField.text = [ArcosUtils convertZeroToBlank:[[aData objectForKey:@"Bonus"] stringValue]];
+        }
+        float discountPercentValue = [[aData objectForKey:@"DiscountPercent"] floatValue];
+        if (discountPercentValue != 0) {
+            tmpOrderProductTableCell.discTextField.text = [NSString stringWithFormat:@"%1.2f", discountPercentValue];
+        } else {
+            tmpOrderProductTableCell.discTextField.text = @"";
+        }
+    } @catch (NSException *exception) {
+        NSLog(@"inputFinishedWithData %@", [exception reason]);
+    }
+    
+//    [self reloadTableViewData];
+//    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:self.formRowsTableDataManager.currentIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+//    if (self.isPredicativeSearchProduct && [self.unsortedFormrows count] == 1) {
+//        [self.mySearchBar becomeFirstResponder];
+//        self.mySearchBar.text = @"";
+//        self.unsortedFormrows = [NSMutableArray arrayWithArray:self.originalUnsortedFormrows];
+//        [self fillTheUnsortListWithData];
+//        [self reloadTableViewData];
+//    }
+}
+- (NSNumber*)retrieveCurrentTextFieldValueWithTag:(int)aTag forIndexPath:(NSIndexPath*)anIndexPath {
+    NSMutableDictionary* tmpDataDict = [self.unsortedFormrows objectAtIndex:anIndexPath.row];
+    NSString* textFieldKey = [self.formRowsTableDataManager.textFieldTagKeyDict objectForKey:[NSNumber numberWithInt:aTag]];
+    return [tmpDataDict objectForKey:textFieldKey];
+}
+- (int)retrieveCurrentTextFieldIndex {
+    return self.formRowsTableDataManager.currentTextFieldIndex;
+}
+- (void)configCurrentTextFieldHighlightedFlag:(BOOL)aFlag {
+    self.formRowsTableDataManager.currentTextFieldHighlightedFlag = aFlag;
+}
+- (BOOL)retrieveCurrentTextFieldHighlightedFlag {
+    return self.formRowsTableDataManager.currentTextFieldHighlightedFlag;
+}
+- (NSIndexPath*)retrieveCurrentIndexPath {
+    return self.formRowsTableDataManager.currentIndexPath;
+}
+- (int)retrieveViewHasBeenAppearedTime {
+    return self.formRowsTableDataManager.viewHasBeenAppearedTime;
+}
+- (int)retrieveFirstProductRowIndex {
+    return self.formRowsTableDataManager.firstProductRowIndex;
+}
+- (BOOL)retrieveFirstProductRowHasBeenShowedFlag {
+    return self.formRowsTableDataManager.firstProductRowHasBeenShowedFlag;
+}
+- (void)configFirstProductRowHasBeenShowedFlag:(BOOL)aFlag {
+    self.formRowsTableDataManager.firstProductRowHasBeenShowedFlag = aFlag;
+}
+
+
 -(void)showNumberPadPopoverWithIndexPath:(NSIndexPath*)anIndexPath {
-    OrderProductTableCell* aCell;
+    OrderProductTableCell* aCell = nil;
     aCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:anIndexPath];
     CGRect aRect = CGRectMake(self.rootView.view.bounds.size.width - 10, self.rootView.view.bounds.size.height - 10, 1, 1);
 //    BOOL showSeparator = [ProductFormRowConverter showSeparatorWithFormIUR:[[OrderSharedClass sharedOrderSharedClass] currentFormIUR]];
@@ -1373,5 +1529,208 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     }
     return YES;
 }
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+- (void)selectFirstProductRow {
+    for (int i = 0; i < [self.unsortedFormrows count]; i++) {
+        NSMutableDictionary* tmpCellDataDict = [self.unsortedFormrows objectAtIndex:i];
+        NSNumber* tmpProductIUR = [tmpCellDataDict objectForKey:@"ProductIUR"];
+        if (self.isStandardOrderPadFlag && ([tmpProductIUR intValue] == 0 || [tmpProductIUR intValue] == -1)) {
+            continue;
+        }
+        self.formRowsTableDataManager.currentIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
+        break;
+    }
+}
+
+- (void)moveDownOneRow:(id)sender {
+    NSLog(@"moveDownOneRow key %ld", self.formRowsTableDataManager.currentIndexPath.row);
+    if (self.formRowsTableDataManager.currentIndexPath == nil) {
+        [self selectFirstProductRow];
+    } else {
+        if (self.formRowsTableDataManager.currentIndexPath.row + 1 < [self.unsortedFormrows count]) {
+            for (int i = [ArcosUtils convertNSIntegerToInt:self.formRowsTableDataManager.currentIndexPath.row] + 1; i < [self.unsortedFormrows count]; i++) {
+                NSMutableDictionary* tmpCellDataDict = [self.unsortedFormrows objectAtIndex:i];
+                NSNumber* tmpProductIUR = [tmpCellDataDict objectForKey:@"ProductIUR"];
+                if (self.isStandardOrderPadFlag && ([tmpProductIUR intValue] == 0 || [tmpProductIUR intValue] == -1)) {
+                    continue;
+                }
+                self.formRowsTableDataManager.currentIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
+                break;
+            }
+        }
+    }
+    if (self.formRowsTableDataManager.currentIndexPath == nil) return;
+    
+//    [self.tableView scrollToRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    NSArray* indexPathsVisibleRows = [self.tableView indexPathsForVisibleRows];
+    if ([indexPathsVisibleRows count] > 0) {
+        NSIndexPath* bottomIndexPath = [indexPathsVisibleRows lastObject];
+        if (self.formRowsTableDataManager.currentIndexPath.row > bottomIndexPath.row) {
+            NSLog(@"moveDown bottom");
+            [self.tableView scrollToRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+        }
+    }
+    NSLog(@"move down %ld", self.formRowsTableDataManager.currentIndexPath.row);
+    OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath];
+    [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
+}
+
+- (void)moveUpOneRow:(id)sender {
+    NSLog(@"moveUpOneRow key");
+    if (self.formRowsTableDataManager.currentIndexPath == nil) {
+        [self selectFirstProductRow];
+    } else {
+        if ((self.formRowsTableDataManager.currentIndexPath.row - 1) >= 0) {
+            for (int i = [ArcosUtils convertNSIntegerToInt:self.formRowsTableDataManager.currentIndexPath.row] - 1; i >= 0; i--) {
+                NSMutableDictionary* tmpCellDataDict = [self.unsortedFormrows objectAtIndex:i];
+                NSNumber* tmpProductIUR = [tmpCellDataDict objectForKey:@"ProductIUR"];
+                if (self.isStandardOrderPadFlag && ([tmpProductIUR intValue] == 0 || [tmpProductIUR intValue] == -1)) {
+                    continue;
+                }
+                self.formRowsTableDataManager.currentIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
+                break;
+            }
+        }
+    }
+
+    if (self.formRowsTableDataManager.currentIndexPath == nil) return;
+//    [self.tableView scrollToRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    NSArray* indexPathsVisibleRows = [self.tableView indexPathsForVisibleRows];    
+    if ([indexPathsVisibleRows count] > 0) {
+        NSIndexPath* topIndexPath = [indexPathsVisibleRows objectAtIndex:0];
+        if (self.formRowsTableDataManager.currentIndexPath.row < topIndexPath.row) {
+            NSLog(@"moveUp top");
+            [self.tableView scrollToRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        }
+    }
+    OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath];
+    [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
+}
+
+- (void)moveRightOneField:(id)sender {
+    NSLog(@"moveRightOneField key");
+
+    if (self.formRowsTableDataManager.currentIndexPath == nil) {
+        [self selectFirstProductRow];
+    }
+    if (self.formRowsTableDataManager.currentIndexPath == nil) return;
+//    [self.tableView selectRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+    OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath];
+    if (self.formRowsTableDataManager.currentTextFieldIndex < [tmpOrderProductTableCell.textFieldList count] - 1) {
+        [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex + 1] becomeFirstResponder];
+    } else if (self.formRowsTableDataManager.currentTextFieldIndex == [tmpOrderProductTableCell.textFieldList count] - 1) {
+        if (self.formRowsTableDataManager.currentIndexPath.row + 1 < [self.unsortedFormrows count]) {
+            for (int i = [ArcosUtils convertNSIntegerToInt:self.formRowsTableDataManager.currentIndexPath.row] + 1; i < [self.unsortedFormrows count]; i++) {
+                NSMutableDictionary* tmpCellDataDict = [self.unsortedFormrows objectAtIndex:i];
+                NSNumber* tmpProductIUR = [tmpCellDataDict objectForKey:@"ProductIUR"];
+                if (self.isStandardOrderPadFlag && ([tmpProductIUR intValue] == 0 || [tmpProductIUR intValue] == -1)) {
+                    continue;
+                }
+                self.formRowsTableDataManager.currentIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
+                break;
+            }
+        }
+        self.formRowsTableDataManager.currentTextFieldIndex = 0;
+        OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath];
+        [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
+    } else {
+        [[tmpOrderProductTableCell.textFieldList objectAtIndex:0] becomeFirstResponder];
+    }
+}
+
+- (void)moveLeftOneField:(id)sender {
+    NSLog(@"moveLeftOneField key");
+
+    if (self.formRowsTableDataManager.currentIndexPath == nil) {
+        [self selectFirstProductRow];
+    }
+
+//    [self.tableView selectRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+    OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath];
+    if (self.formRowsTableDataManager.currentTextFieldIndex > 0) {
+        [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex - 1] becomeFirstResponder];
+    } else {
+        [[tmpOrderProductTableCell.textFieldList lastObject] becomeFirstResponder];
+    }
+}
+
+- (void)pressesEnded:(NSSet<UIPress *> *)presses withEvent:(nullable UIPressesEvent *)event {
+    [super pressesEnded:presses withEvent:event];
+    @try {
+        if (!self.formRowsTableDataManager.enablePhysKeyboardFlag) {
+            return;
+        }
+        for (UIPress* aPress in presses) {
+            if (aPress.key.modifierFlags == UIKeyModifierAlternate) {
+                NSLog(@"UIKeyModifierAlternate");
+                if ([self.unsortedFormrows count] == 0 || self.formRowsTableDataManager.currentIndexPath == nil) {
+                    return;
+                }
+                if (aPress.key.keyCode == UIKeyboardHIDUsageKeyboardUpArrow) {
+                    NSLog(@"page up");
+                    int rowNumber = 0;
+                    int nextRowNumber = [ArcosUtils convertNSIntegerToInt:self.formRowsTableDataManager.currentIndexPath.row] - 15;
+                    if (nextRowNumber > rowNumber) {
+                        rowNumber = nextRowNumber;
+                    }
+                    for (int i = rowNumber; i < self.formRowsTableDataManager.currentIndexPath.row; i++) {
+                        NSMutableDictionary* tmpCellDataDict = [self.unsortedFormrows objectAtIndex:i];
+                        NSNumber* tmpProductIUR = [tmpCellDataDict objectForKey:@"ProductIUR"];
+                        if (self.isStandardOrderPadFlag && ([tmpProductIUR intValue] == 0 || [tmpProductIUR intValue] == -1)) {
+                            continue;
+                        }
+                        self.formRowsTableDataManager.currentIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
+                        break;
+                    }
+                    [self.tableView scrollToRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                    OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath];
+                    [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
+                    NSLog(@"page up %ld", self.formRowsTableDataManager.currentIndexPath.row);
+                } else if (aPress.key.keyCode == UIKeyboardHIDUsageKeyboardDownArrow) {
+                    NSLog(@"page down");
+                    int rowNumber = [ArcosUtils convertNSUIntegerToUnsignedInt:[self.unsortedFormrows count] - 1];
+                    int nextRowNumber = [ArcosUtils convertNSIntegerToInt:self.formRowsTableDataManager.currentIndexPath.row] + 15;
+                    if (nextRowNumber < rowNumber) {
+                        rowNumber = nextRowNumber;
+                    }
+                    for (int i = rowNumber; i > self.formRowsTableDataManager.currentIndexPath.row; i--) {
+                        NSMutableDictionary* tmpCellDataDict = [self.unsortedFormrows objectAtIndex:i];
+                        NSNumber* tmpProductIUR = [tmpCellDataDict objectForKey:@"ProductIUR"];
+                        if (self.isStandardOrderPadFlag && ([tmpProductIUR intValue] == 0 || [tmpProductIUR intValue] == -1)) {
+                            continue;
+                        }
+                        self.formRowsTableDataManager.currentIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
+                        break;
+                    }
+                    [self.tableView scrollToRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+                    OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath];
+                    [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
+                    NSLog(@"page down %ld", self.formRowsTableDataManager.currentIndexPath.row);
+                }
+            } else {
+                if (aPress.key.keyCode == UIKeyboardHIDUsageKeyboardReturnOrEnter || aPress.key.keyCode == UIKeyboardHIDUsageKeyboardDownArrow) {
+                    NSLog(@"moveDownOneRow pressed");
+                    [self moveDownOneRow:nil];
+                } else if (aPress.key.keyCode == UIKeyboardHIDUsageKeyboardUpArrow) {
+                    [self moveUpOneRow:nil];
+                } else if (aPress.key.keyCode == UIKeyboardHIDUsageKeyboardLeftArrow) {
+                    [self moveLeftOneField:nil];
+                } else if (aPress.key.keyCode == UIKeyboardHIDUsageKeyboardRightArrow) {
+                    [self moveRightOneField:nil];
+                } else {
+                    
+                }
+            }
+            
+        }
+    } @catch (NSException *exception) {
+        NSLog(@"pressesEnded %@", [exception reason]);
+    }
+}
+
 
 @end

@@ -17,6 +17,13 @@
     NSIndexPath* _currentIndexPath;
     BOOL _prevNormalStandardOrderPadFlag;
     NSNumber* _prevNormalNumber;
+    BOOL _enablePhysKeyboardFlag;
+    int _currentTextFieldIndex;
+    BOOL _currentTextFieldHighlightedFlag;
+    NSMutableDictionary* _textFieldTagKeyDict;
+    int _viewHasBeenAppearedTime;
+    int _firstProductRowIndex;
+    BOOL _firstProductRowHasBeenShowedFlag;
 }
 
 @property(nonatomic, retain) NSDictionary* currentFormDetailDict;
@@ -25,8 +32,16 @@
 @property(nonatomic, retain) NSIndexPath* currentIndexPath;
 @property(nonatomic, assign) BOOL prevNormalStandardOrderPadFlag;
 @property(nonatomic, retain) NSNumber* prevNormalNumber;
+@property(nonatomic, assign) BOOL enablePhysKeyboardFlag;
+@property(nonatomic, assign) int currentTextFieldIndex;
+@property(nonatomic, assign) BOOL currentTextFieldHighlightedFlag;
+@property(nonatomic, retain) NSMutableDictionary* textFieldTagKeyDict;
+@property(nonatomic, assign) int viewHasBeenAppearedTime;
+@property(nonatomic, assign) int firstProductRowIndex;
+@property(nonatomic, assign) BOOL firstProductRowHasBeenShowedFlag;
 
 - (NSMutableArray*)retrieveTableViewDataSourceWithSearchText:(NSString*)aSearchText orderFormDetails:(NSString*)anOrderFormDetails;
 - (NSMutableArray*)retrievePredicativeTableViewDataSourceWithOrderFormDetails:(NSString*)anOrderFormDetails;
+
 
 @end

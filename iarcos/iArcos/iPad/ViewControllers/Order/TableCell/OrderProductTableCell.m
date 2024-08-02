@@ -34,6 +34,13 @@
 @synthesize maxLabel = _maxLabel;
 @synthesize prevLabel = _prevLabel;
 @synthesize prevNormalLabel = _prevNormalLabel;
+@synthesize qtyTextField = _qtyTextField;
+@synthesize bonusTextField = _bonusTextField;
+@synthesize discTextField = _discTextField;
+@synthesize textFieldList = _textFieldList;
+@synthesize textFieldTagIndexDict = _textFieldTagIndexDict;
+@synthesize bonusBorderLabel = _bonusBorderLabel;
+@synthesize discountBorderLabel = _discountBorderLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -113,6 +120,13 @@
     self.maxLabel = nil;
     self.prevLabel = nil;
     self.prevNormalLabel = nil;
+    self.qtyTextField = nil;
+    self.bonusTextField = nil;
+    self.discTextField = nil;
+    self.textFieldList = nil;
+    self.textFieldTagIndexDict = nil;
+    self.bonusBorderLabel = nil;
+    self.discountBorderLabel = nil;
             
     [super dealloc];
 }
@@ -220,6 +234,211 @@
 //    [self.cellDelegate displayBigProductImageWithProductCode:tmpProductCode];
     NSNumber* tmpProductIUR = [self.cellData objectForKey:@"ProductIUR"];
     [self.cellDelegate displayProductDetailWithProductIUR:tmpProductIUR indexPath:self.theIndexPath];
+}
+
+- (void)configTextFieldListWithKbFlag:(BOOL)aKbFlag data:(NSMutableDictionary*)aDataDict relatedFormDetailDict:(NSDictionary*)aRelatedFormDetailDict {
+    @try {
+        if (!aKbFlag) return;
+        NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[aRelatedFormDetailDict objectForKey:@"Details"]];
+        self.qtyTextField.text = [ArcosUtils convertZeroToBlank:[[aDataDict objectForKey:@"Qty"] stringValue]];
+        self.bonusTextField.text = [ArcosUtils convertZeroToBlank:[[aDataDict objectForKey:@"Bonus"] stringValue]];
+//        self.discTextField.text = [ArcosUtils convertZeroToBlank:[[aDataDict objectForKey:@"DiscountPercent"] stringValue]];
+        float discountPercentValue = [[aDataDict objectForKey:@"DiscountPercent"] floatValue];
+        if (discountPercentValue != 0) {
+            self.discTextField.text = [NSString stringWithFormat:@"%1.2f", discountPercentValue];
+        } else {
+            self.discTextField.text = @"";
+        }
+        if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].myDbName] && [orderFormDetails containsString:@"[NB]"]) {
+            if ([self.qtyTextField.text isEqualToString:@""]) {
+                self.discTextField.text = @"";
+            }
+        }
+        NSNumber* allowDiscount = [SettingManager SettingForKeypath:@"CompanySetting.Order Processing" atIndex:1];
+        if ([allowDiscount boolValue]) {
+            self.discTextField.hidden = NO;
+            self.bonusTextField.hidden = YES;
+        }
+        SettingManager* sm = [SettingManager setting];
+        NSMutableDictionary* presenterPwdDict = [sm getSettingForKeypath:@"CompanySetting.Connection" atIndex:8];
+        NSString* presenterPwd = [[presenterPwdDict objectForKey:@"Value"] uppercaseString];
+        NSRange aBDRange = [presenterPwd rangeOfString:@"[BD]"];
+        if (aBDRange.location != NSNotFound) {
+            self.discTextField.hidden = NO;
+            self.bonusTextField.hidden = NO;
+        }
+        if ([ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag) {
+            self.discTextField.hidden = YES;
+        }
+        //BonusGiven BonusRequired SellBy
+        //disableBonusBoxWithPriceRecordFlag
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![orderFormDetails containsString:@"[BD]"]) {
+            self.bonusTextField.hidden = YES;
+            self.discTextField.hidden = YES;
+        }
+        if ([orderFormDetails containsString:@"[NB]"]) {
+            self.bonusTextField.hidden = YES;
+        }
+        if ([orderFormDetails containsString:@"[ND]"]) {
+            self.discTextField.hidden = YES;
+        }
+//        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
+//            self.discTextField.enabled = NO;
+//        }
+        
+        self.textFieldList = [NSMutableArray arrayWithObjects:self.qtyTextField, nil];
+        if (!self.bonusTextField.hidden) {
+            [self.textFieldList addObject:self.bonusTextField];
+        }
+        if (!self.discTextField.hidden) {
+            [self.textFieldList addObject:self.discTextField];
+        }
+        self.textFieldTagIndexDict = [NSMutableDictionary dictionary];
+        for (int i = 0; i < [self.textFieldList count]; i++) {
+            UITextField* tmpTextField = [self.textFieldList objectAtIndex:i];
+            [self.textFieldTagIndexDict setObject:[NSNumber numberWithInt:i] forKey:[NSNumber numberWithInt:[ArcosUtils convertNSIntegerToInt:tmpTextField.tag]]];
+        }
+        for (int i = 0; i < [self.textFieldList count]; i++) {
+            UITextField* tmpTextField = [self.textFieldList objectAtIndex:i];
+    //        NSLog(@"innter tag %d", [ArcosUtils convertNSIntegerToInt:tmpTextField.tag]);
+            tmpTextField.textColor = [UIColor blackColor];
+        }
+        if ([self.cellDelegate retrieveCurrentIndexPath] != nil && self.theIndexPath.row == [self.cellDelegate retrieveCurrentIndexPath].row && self.theIndexPath.row == [self.cellDelegate retrieveFirstProductRowIndex]) {
+            NSLog(@"same myIndexPath first row");
+            UITextField* tmpTextField = [self.textFieldList objectAtIndex:[self.cellDelegate retrieveCurrentTextFieldIndex]];
+//            if ([self.cellDelegate retrieveCurrentTextFieldHighlightedFlag]) {
+//                tmpTextField.textColor = [UIColor redColor];
+//                NSLog(@"textfield highlighted");
+//            }
+            if (![self.cellDelegate retrieveFirstProductRowHasBeenShowedFlag]) {
+                NSLog(@"tmpTextField becomeFirstResponder");
+                [self.cellDelegate configFirstProductRowHasBeenShowedFlag:YES];
+                [tmpTextField becomeFirstResponder];
+            }
+        }
+    } @catch (NSException *exception) {
+        NSLog(@"configTextFieldListWithKbFlag %@", [exception reason]);
+    }
+}
+
+- (void)enableBonusFocWithFlag:(BOOL)aFlag {
+    self.bonusTextField.enabled = aFlag;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    @try {
+        NSLog(@"textFieldDidBeginEditing %d - %@ - %ld", [ArcosUtils convertNSIntegerToInt:textField.tag], textField.text, self.theIndexPath.row);
+    //    self.currentTextFieldIndex = [ArcosUtils convertNSIntegerToInt:textField.tag];
+        NSNumber* tmpIndex = [self.textFieldTagIndexDict objectForKey:[NSNumber numberWithInt:[ArcosUtils convertNSIntegerToInt:textField.tag]]];
+        [self.cellDelegate configCurrentTextFieldIndex:[tmpIndex intValue]];
+        [self.cellDelegate configCurrentIndexPath:self.theIndexPath];
+        NSLog(@"cc %d", [[self.cellDelegate retrieveCurrentTextFieldValueWithTag:[ArcosUtils convertNSIntegerToInt:textField.tag] forIndexPath:self.theIndexPath] intValue]);
+        if (textField.tag != 2 && [[self.cellDelegate retrieveCurrentTextFieldValueWithTag:[ArcosUtils convertNSIntegerToInt:textField.tag] forIndexPath:self.theIndexPath] intValue] > 0) {
+    //        self.currentTextFieldHighlightedFlag = YES;
+            [self.cellDelegate configCurrentTextFieldHighlightedFlag:YES];
+            textField.textColor = [UIColor redColor];
+        } else if (textField.tag == 2 && [[self.cellDelegate retrieveCurrentTextFieldValueWithTag:[ArcosUtils convertNSIntegerToInt:textField.tag] forIndexPath:self.theIndexPath] floatValue] > 0) {
+            [self.cellDelegate configCurrentTextFieldHighlightedFlag:YES];
+            textField.textColor = [UIColor redColor];
+        } else {
+    //        self.currentTextFieldHighlightedFlag = NO;
+            [self.cellDelegate configCurrentTextFieldHighlightedFlag:NO];
+            textField.textColor = [UIColor blackColor];
+        }
+        NSLog(@"highlighted flag %d", [self.cellDelegate retrieveCurrentTextFieldHighlightedFlag]);
+    } @catch (NSException *exception) {
+        NSLog(@"textFieldDidBeginEditing %@", [exception reason]);
+    }
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    @try {
+        NSLog(@"shouldChangeCharactersInRange %d - %@ - %@", [ArcosUtils convertNSIntegerToInt:textField.tag], textField.text, string);
+        NSString* assembledString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+        NSLog(@"assembledString %@", assembledString);
+        if (textField.tag == 2) {// discount
+            BOOL decimalFlag = [ArcosValidator isInputDecimalWithTwoPlaces:assembledString];
+            BOOL replacementStringDecimalFlag = [ArcosValidator isInputDecimalWithTwoPlaces:string];
+            if (replacementStringDecimalFlag && [self.cellDelegate retrieveCurrentTextFieldHighlightedFlag] && ![string isEqualToString:@""]) {
+                NSLog(@"discount entered key 2 %@", string);
+                textField.text = @"";
+                [self.cellDelegate configCurrentTextFieldHighlightedFlag:NO];
+                textField.textColor = [UIColor blackColor];
+                return YES;
+            } else if ([textField.text isEqualToString:@"0"] && [ArcosValidator isInteger:string]) {
+                NSLog(@"discount entered key 3 %@", string);
+                textField.text = @"";
+                return YES;
+            }
+            return (decimalFlag || [assembledString isEqualToString:@""]);
+        }
+        BOOL integerFlag = [ArcosValidator isInteger:assembledString];
+        if ((integerFlag && [self.cellDelegate retrieveCurrentTextFieldHighlightedFlag] && ![string isEqualToString:@""])) {
+            NSLog(@"entered key 2 %@", string);
+            textField.text = @"";
+            [self.cellDelegate configCurrentTextFieldHighlightedFlag:NO];
+            textField.textColor = [UIColor blackColor];
+        } else if ([textField.text isEqualToString:@"0"] && [ArcosValidator isInteger:string]) {
+            NSLog(@"entered key 3 %@", string);
+            textField.text = @"";
+            return YES;
+        }
+        return (integerFlag || [assembledString isEqualToString:@""]);
+    } @catch (NSException *exception) {
+        NSLog(@"shouldChangeCharactersInRange %@", [exception reason]);
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    @try {
+        NSLog(@"textFieldDidEndEditing - %d - %@", [ArcosUtils convertNSIntegerToInt:textField.tag], textField.text);
+        NSMutableDictionary* currentData = (NSMutableDictionary*)self.data;
+        NSNumber* qtyValue = [NSNumber numberWithInt:[self.qtyTextField.text intValue]];
+        NSNumber* bonusValue = [NSNumber numberWithInt:[self.bonusTextField.text intValue]];
+        NSNumber* discountValue = [NSNumber numberWithFloat:[self.discTextField.text floatValue]];
+        if ([qtyValue intValue] <= 0 && [bonusValue intValue] <= 0) {
+            [currentData setObject:[NSNumber numberWithInt:0] forKey:@"Qty"];
+            [currentData setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
+            [currentData setObject:[NSNumber numberWithInt:0] forKey:@"LineValue"];
+            [currentData setObject:[NSNumber numberWithBool:NO] forKey:@"IsSelected"];
+        } else {
+            [currentData setObject:qtyValue forKey:@"Qty"];
+            [currentData setObject:bonusValue forKey:@"Bonus"];
+            [currentData setObject:discountValue forKey:@"DiscountPercent"];
+            [currentData setObject:[self resetTotalValue] forKey:@"LineValue"];
+            [currentData setObject:[NSNumber numberWithBool:YES] forKey:@"IsSelected"];
+        }
+        [self.cellDelegate inputFinishedWithData:currentData forIndexPath:self.theIndexPath];
+        [self.cellDelegate configCurrentTextFieldHighlightedFlag:NO];
+        textField.textColor = [UIColor blackColor];
+    } @catch (NSException *exception) {
+        NSLog(@"textFieldDidEndEditing %@", [exception reason]);
+    }
+}
+
+
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    return YES;
+}
+
+-(NSNumber*)resetTotalValue {
+    NSMutableDictionary* tmpData = (NSMutableDictionary*)self.data;
+    NSNumber* total = [NSNumber numberWithFloat:[self.qtyTextField.text intValue] * [[tmpData objectForKey:@"UnitPrice"] floatValue]];
+    
+//    NSNumber* unitsPerPack = [self.Data objectForKey:@"UnitsPerPack"];
+//    if ([unitsPerPack intValue] != 0) {// && ![ArcosConfigDataManager sharedArcosConfigDataManager].recordInStockRBFlag
+//        float splitPackValue = [[self.Data objectForKey:@"UnitPrice"] floatValue] / [unitsPerPack intValue] * [self.unitsField.text intValue];
+//        total = [NSNumber numberWithFloat:[total floatValue]+splitPackValue];
+//    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useWeightToCalculatePriceFlag]) {
+        int minUnitPrice = [[tmpData objectForKey:@"MinimumUnitPrice"] intValue];
+        if (minUnitPrice != 0) {
+            total = [NSNumber numberWithFloat:([total floatValue] * minUnitPrice / 100)];
+        }
+    }
+    total = [NSNumber numberWithFloat:[ArcosUtils roundFloatThreeDecimal:[total floatValue] * (1.0 - ([self.discTextField.text floatValue] / 100))]];
+    return total;
 }
 
 @end

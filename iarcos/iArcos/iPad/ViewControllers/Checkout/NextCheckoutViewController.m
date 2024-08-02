@@ -146,8 +146,13 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.nextCheckoutDataManager.enablePhysKeyboardFlag = NO;
     self.checkoutDataManager.currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR];
     NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.checkoutDataManager.currentFormDetailDict objectForKey:@"Details"]];
+    if ([orderFormDetails containsString:@"[KB]"]) {
+        self.nextCheckoutDataManager.enablePhysKeyboardFlag = YES;
+    }
+    
     [self configRightBarButtons];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] allowScannerToBeUsedFlag]) {
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -714,6 +719,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     if (section == 0) {
+        if (self.nextCheckoutDataManager.enablePhysKeyboardFlag) {
+            self.nextCheckoutDataManager.sortedOrderKeys = [[OrderSharedClass sharedOrderSharedClass] getSortedCartKeys:[[OrderSharedClass sharedOrderSharedClass].currentOrderCart allValues]];
+        }
         return [[OrderSharedClass sharedOrderSharedClass].currentOrderCart count];
     }
     if (section == 1) {
@@ -746,7 +754,7 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    return cell;
+    return cell;    
 }
 
 - (void)handleSingleTapGesture:(UITapGestureRecognizer*)sender {

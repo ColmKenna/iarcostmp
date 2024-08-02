@@ -13,6 +13,7 @@
 @synthesize sortedOrderKeys = _sortedOrderKeys;
 //@synthesize orderLines = _orderLines;
 //@synthesize orderHeader = _orderHeader;
+@synthesize enablePhysKeyboardFlag = _enablePhysKeyboardFlag;
 
 - (instancetype)init {
     self = [super init];

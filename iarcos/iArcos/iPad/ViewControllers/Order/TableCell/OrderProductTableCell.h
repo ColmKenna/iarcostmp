@@ -42,6 +42,13 @@
     UILabel* _maxLabel;
     UILabel* _prevLabel;
     UILabel* _prevNormalLabel;
+    UITextField* _qtyTextField;
+    UITextField* _bonusTextField;
+    UITextField* _discTextField;
+    NSMutableArray* _textFieldList;
+    NSMutableDictionary* _textFieldTagIndexDict;
+    UILabel* _bonusBorderLabel;
+    UILabel* _discountBorderLabel;
 }
 
 @property (nonatomic,retain) IBOutlet UIImageView* productImageView;
@@ -66,6 +73,13 @@
 @property (nonatomic,retain) IBOutlet UILabel* maxLabel;
 @property (nonatomic,retain) IBOutlet UILabel* prevLabel;
 @property (nonatomic,retain) IBOutlet UILabel* prevNormalLabel;
+@property (nonatomic,retain) IBOutlet UITextField* qtyTextField;
+@property (nonatomic,retain) IBOutlet UITextField* bonusTextField;
+@property (nonatomic,retain) IBOutlet UITextField* discTextField;
+@property (nonatomic,retain) NSMutableArray* textFieldList;
+@property (nonatomic,retain) NSMutableDictionary* textFieldTagIndexDict;
+@property (nonatomic,retain) IBOutlet UILabel* bonusBorderLabel;
+@property (nonatomic,retain) IBOutlet UILabel* discountBorderLabel;
 
 -(void)needEditButton:(BOOL)need;
 
@@ -79,5 +93,6 @@
 - (void)configBackgroundColour:(BOOL)select;
 - (void)configMatImageWithLocationIUR:(NSNumber*)aLocationIUR productIUR:(NSNumber*)aProductIUR;
 - (void)configPreviousWithLocationIUR:(NSNumber*)aLocationIUR productIUR:(NSNumber*)aProductIUR previousNumber:(NSNumber*)aPreviousNumber prevFlag:(BOOL)aPrevFlag prevLabel:(UILabel*)aPrevLable;
+- (void)configTextFieldListWithKbFlag:(BOOL)aKbFlag data:(NSMutableDictionary*)aDataDict relatedFormDetailDict:(NSDictionary*)aRelatedFormDetailDict;
 
 @end

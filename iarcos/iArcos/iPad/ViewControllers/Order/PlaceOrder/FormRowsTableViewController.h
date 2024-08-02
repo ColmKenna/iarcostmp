@@ -40,6 +40,7 @@
 #import "ArcosMyResult.h"
 #import "FormRowTableHeaderView.h"
 #import "FormRowTableCellPrevNormalGenerator.h"
+#import "FormRowTableCellKbGenerator.h"
 
 @interface FormRowsTableViewController : OrderDetailViewController <SelectionPopoverDelegate,ModelViewDelegate,WidgetFactoryDelegate,UISearchBarDelegate, OrderProductTableCellDelegate,UIPopoverPresentationControllerDelegate>{
     id<FormRowsTableViewControllerDelegate> _actionDelegate;
