@@ -41,6 +41,7 @@
 #import "FormRowTableHeaderView.h"
 #import "FormRowTableCellPrevNormalGenerator.h"
 #import "FormRowTableCellKbGenerator.h"
+#import "FormRowsFooterMatTableViewController.h"
 
 @interface FormRowsTableViewController : OrderDetailViewController <SelectionPopoverDelegate,ModelViewDelegate,WidgetFactoryDelegate,UISearchBarDelegate, OrderProductTableCellDelegate,UIPopoverPresentationControllerDelegate>{
     id<FormRowsTableViewControllerDelegate> _actionDelegate;
@@ -98,6 +99,7 @@
     id<FormRowTableCellGeneratorDelegate> _formRowTableCellGeneratorDelegate;
     OrderPadFooterViewDataManager* _orderPadFooterViewDataManager;
     id<OrderPopoverGeneratorProcessorDelegate> _orderPopoverGeneratorProcessorDelegate;
+    FormRowsFooterMatTableViewController* _formRowsFooterMatTableViewController;
 }
 @property(nonatomic,assign) id<FormRowsTableViewControllerDelegate> actionDelegate;
 @property(nonatomic,retain) NSNumber* dividerIUR;
@@ -144,6 +146,7 @@
 @property (nonatomic, retain) id<FormRowTableCellGeneratorDelegate> formRowTableCellGeneratorDelegate;
 @property (nonatomic, retain) OrderPadFooterViewDataManager* orderPadFooterViewDataManager;
 @property (nonatomic, retain) id<OrderPopoverGeneratorProcessorDelegate> orderPopoverGeneratorProcessorDelegate;
+@property (nonatomic, retain) FormRowsFooterMatTableViewController* formRowsFooterMatTableViewController;
 
 -(void)sortGroups:(NSMutableDictionary*)aList;
 - (IBAction) EditTable:(id)sender;
@@ -173,5 +176,6 @@
 - (void)fillTheUnsortListWithData;
 - (void)processDefaultQtyPercentProcessor:(NSMutableDictionary*)anOrderPadFormRow orderFormDetails:(NSString*)anOrderFormDetails;
 -(void)saveOrderToTheCart:(NSMutableDictionary*)data;
+- (void)reloadTableViewFooterData;
 
 @end

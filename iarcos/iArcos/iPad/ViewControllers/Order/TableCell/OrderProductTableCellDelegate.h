@@ -26,5 +26,6 @@
 - (int)retrieveFirstProductRowIndex;
 - (BOOL)retrieveFirstProductRowHasBeenShowedFlag;
 - (void)configFirstProductRowHasBeenShowedFlag:(BOOL)aFlag;
+- (void)showFooterMatDataWithIndexPath:(NSIndexPath*)anIndexPath;
 
 @end

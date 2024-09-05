@@ -332,6 +332,7 @@
         NSNumber* tmpIndex = [self.textFieldTagIndexDict objectForKey:[NSNumber numberWithInt:[ArcosUtils convertNSIntegerToInt:textField.tag]]];
         [self.cellDelegate configCurrentTextFieldIndex:[tmpIndex intValue]];
         [self.cellDelegate configCurrentIndexPath:self.theIndexPath];
+        [self.cellDelegate showFooterMatDataWithIndexPath:self.theIndexPath];
         NSLog(@"cc %d", [[self.cellDelegate retrieveCurrentTextFieldValueWithTag:[ArcosUtils convertNSIntegerToInt:textField.tag] forIndexPath:self.theIndexPath] intValue]);
         if (textField.tag != 2 && [[self.cellDelegate retrieveCurrentTextFieldValueWithTag:[ArcosUtils convertNSIntegerToInt:textField.tag] forIndexPath:self.theIndexPath] intValue] > 0) {
     //        self.currentTextFieldHighlightedFlag = YES;

@@ -61,19 +61,19 @@
     if (self.locationName != nil) { self.locationName = nil; }
     if (self.locationAddress != nil) { self.locationAddress = nil; }
     self.planogramButton = nil;
-//    if (self.orderPadsPopover != nil) { self.orderPadsPopover = nil; }
-    if (self.orderPadsButton != nil) { self.orderPadsButton = nil; }    
+    //    if (self.orderPadsPopover != nil) { self.orderPadsPopover = nil; }
+    if (self.orderPadsButton != nil) { self.orderPadsButton = nil; }
     if (self.orderBaseTableViewController != nil) { self.orderBaseTableViewController = nil; }
     if (self.orderBaseContentView != nil) { self.orderBaseContentView = nil; }
     if (self.orderBaseTableContentView != nil) { self.orderBaseTableContentView = nil; }
-    if (self.fdtvc != nil) { self.fdtvc = nil; }    
-    if (self.frtvc != nil) { self.frtvc = nil; }        
+    if (self.fdtvc != nil) { self.fdtvc = nil; }
+    if (self.frtvc != nil) { self.frtvc = nil; }
     if (self.orderPadsBarButton != nil) { self.orderPadsBarButton = nil; }
     if (self.orderBaseContentView != nil) { self.orderBaseContentView = nil; }
     
     if (self.globalNavigationController != nil) { self.globalNavigationController = nil; }
     if (self.orderPadsNavigationController != nil) { self.orderPadsNavigationController = nil; }
-    if (self.productSearchDataManager != nil) { self.productSearchDataManager = nil; }  
+    if (self.productSearchDataManager != nil) { self.productSearchDataManager = nil; }
     if (self.imageFormRowsDataManager != nil) { self.imageFormRowsDataManager = nil; }
     if (self.downloadThread != nil) { self.downloadThread = nil; }
     if (self.saveDataThread != nil) { self.saveDataThread = nil; }
@@ -101,18 +101,18 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-//    self.navigationController.navigationBar.tintColor = [UIColor brownColor];
+    //    self.navigationController.navigationBar.tintColor = [UIColor brownColor];
     self.productSearchDataManager = [[[ProductSearchDataManager alloc] init] autorelease];
     
-//    [self.productSearchDataManager createSearchFormDetailData];
+    //    [self.productSearchDataManager createSearchFormDetailData];
     self.fdtvc = [[[FormDetailTableViewController alloc]initWithNibName:@"FormDetailTableViewController" bundle:nil] autorelease];
     self.orderPadsNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.fdtvc] autorelease];
     self.fdtvc.delegate = self;
     self.fdtvc.dividerDelegate = self;
     self.orderPadsNavigationController.preferredContentSize = [[GlobalSharedClass shared] orderPadsSize];
     
-//    self.orderPadsPopover = [[[UIPopoverController alloc]initWithContentViewController:self.orderPadsNavigationController] autorelease];
-//    self.orderPadsPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
+    //    self.orderPadsPopover = [[[UIPopoverController alloc]initWithContentViewController:self.orderPadsNavigationController] autorelease];
+    //    self.orderPadsPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
     self.myRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
     self.myNewOrderDataManager = [[[NewOrderDataManager alloc] init] autorelease];
 }
@@ -127,28 +127,28 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     /*
-    NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:2];
+     NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:2];
+     
+     UIBarButtonItem* checkoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Check Out" style:UIBarButtonItemStylePlain target:self action:@selector(checkout:)];
+     
+     self.orderPadsBarButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(orderPadsPressed:)] autorelease];
+     [rightButtonList addObject:checkoutButton];
+     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enablePrinterFlag]) {
+     UIBarButtonItem* printButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"printer.png"] style:UIBarButtonItemStylePlain target:self action:@selector(printButtonPressed:)];
+     [rightButtonList addObject:printButton];
+     [printButton release];
+     }
+     //    [self.navigationItem setRightBarButtonItems:rightButtonList];
+     self.planogramButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"planogram.png"] style:UIBarButtonItemStylePlain target:self action:@selector(planogramButtonPressed)] autorelease];
+     [rightButtonList addObject:self.planogramButton];
+     [rightButtonList addObject:self.orderPadsBarButton];
+     self.navigationItem.rightBarButtonItems = rightButtonList;
+     
+     [checkoutButton release];
+     */
+    //    NSLog(@"new order view controller:%@", NSStringFromSelector(_cmd));
     
-    UIBarButtonItem* checkoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Check Out" style:UIBarButtonItemStylePlain target:self action:@selector(checkout:)];
-    
-    self.orderPadsBarButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(orderPadsPressed:)] autorelease];    
-    [rightButtonList addObject:checkoutButton];
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enablePrinterFlag]) {
-        UIBarButtonItem* printButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"printer.png"] style:UIBarButtonItemStylePlain target:self action:@selector(printButtonPressed:)];
-        [rightButtonList addObject:printButton];
-        [printButton release];
-    }    
-    //    [self.navigationItem setRightBarButtonItems:rightButtonList];
-    self.planogramButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"planogram.png"] style:UIBarButtonItemStylePlain target:self action:@selector(planogramButtonPressed)] autorelease];
-    [rightButtonList addObject:self.planogramButton];
-    [rightButtonList addObject:self.orderPadsBarButton];
-    self.navigationItem.rightBarButtonItems = rightButtonList;
-    
-    [checkoutButton release];
-    */
-//    NSLog(@"new order view controller:%@", NSStringFromSelector(_cmd));
-    
-//    self.navigationItem.title = [ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass] currentCustomerName]];
+    //    self.navigationItem.title = [ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass] currentCustomerName]];
     if (self.custNameHeaderLabel == nil) {
         self.custNameHeaderLabel = [[[UILabel alloc] initWithFrame:CGRectMake(2.0, 1, 550.0, 26.0)] autorelease];
         self.custNameHeaderLabel.textColor = [UIColor whiteColor];
@@ -165,7 +165,7 @@
     [self.navigationController.navigationBar addSubview:self.custAddrHeaderLabel];
     if ([self.navigationItem.leftBarButtonItems count] == 0) {
         [self configTitleToBlue];
-//        self.navigationItem.title = @"";
+        //        self.navigationItem.title = @"";
         [self hideHeaderLabelWithFlag:NO];
     } else {
         [self configTitleToWhite];
@@ -176,24 +176,33 @@
 
 - (void)configRightBarButtons {
     NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:4];
-    
+    NSDictionary* currentFormDetailDict = nil;
+    if ([OrderSharedClass sharedOrderSharedClass].currentFormIUR != nil) {
+        currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR];
+    }
     UIBarButtonItem* checkoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Check Out" style:UIBarButtonItemStylePlain target:self action:@selector(checkout:)];
     
-    self.orderPadsBarButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(orderPadsPressed:)] autorelease];    
+    self.orderPadsBarButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(orderPadsPressed:)] autorelease];
     [rightButtonList addObject:checkoutButton];
+    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[currentFormDetailDict objectForKey:@"Details"]];
+    if ([orderFormDetails containsString:@"[KB]"]) {
+        UIBarButtonItem* matButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mat.png"] style:UIBarButtonItemStylePlain target:self action:@selector(matButtonPressed)];
+        [rightButtonList addObject:matButton];
+        [matButton release];
+    }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enablePrinterFlag]) {
         UIBarButtonItem* printButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"printer.png"] style:UIBarButtonItemStylePlain target:self action:@selector(printButtonPressed:)];
         [rightButtonList addObject:printButton];
         [printButton release];
     }
-    if ([OrderSharedClass sharedOrderSharedClass].currentFormIUR != nil) {
-        NSDictionary* currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR];
+    if (currentFormDetailDict != nil) {
+        //        NSDictionary* currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR];
         NSNumber* presenterIUR = [currentFormDetailDict objectForKey:@"FontSize"];
         if ([presenterIUR intValue] != 0 && [presenterIUR intValue] != 8) {
             self.planogramButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"planogram.png"] style:UIBarButtonItemStylePlain target:self action:@selector(planogramButtonPressed)] autorelease];
             [rightButtonList addObject:self.planogramButton];
         }
-    }    
+    }
     [rightButtonList addObject:self.orderPadsBarButton];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
         UIBarButtonItem* loadButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"load.png"] style:UIBarButtonItemStylePlain target:self action:@selector(loadButtonPressed)];
@@ -208,6 +217,18 @@
     self.navigationItem.rightBarButtonItems = rightButtonList;
     
     [checkoutButton release];
+}
+
+- (void)matButtonPressed {
+    if ([self.globalNavigationController.viewControllers count] > 0) {
+        UIViewController* tmpUIViewController = [self.globalNavigationController.viewControllers objectAtIndex:0];
+        if ([tmpUIViewController isKindOfClass:[FormRowsTableViewController class]]) {
+            if ([GlobalSharedClass shared].currentSelectedLocationIUR == nil) return;
+            FormRowsTableViewController* auxFormRowsTableViewController = (FormRowsTableViewController*)tmpUIViewController;
+            auxFormRowsTableViewController.formRowsTableDataManager.showFooterMatViewFlag = !auxFormRowsTableViewController.formRowsTableDataManager.showFooterMatViewFlag;
+            [auxFormRowsTableViewController reloadTableViewFooterData];
+        }
+    }
 }
 
 - (void)planogramButtonPressed {
