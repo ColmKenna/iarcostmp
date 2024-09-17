@@ -27,6 +27,7 @@
 @synthesize startIndex = _startIndex;
 @synthesize endIndex = _endIndex;
 @synthesize fileChunkSize = _fileChunkSize;
+@synthesize showSignatureFlag = _showSignatureFlag;
 
 - (instancetype)init {
     if(self = [super init]) {
@@ -45,6 +46,7 @@
         self.startIndex = 0;
         self.endIndex = 0;
         self.fileChunkSize = 2 * 1024 * 1024;
+        self.showSignatureFlag = NO;
     }
     return self;
 }

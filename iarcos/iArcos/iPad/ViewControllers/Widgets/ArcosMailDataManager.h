@@ -31,6 +31,7 @@
     int _startIndex;
     int _endIndex;
     int _fileChunkSize;
+    BOOL _showSignatureFlag;
 }
 
 @property(nonatomic, retain) NSMutableArray* displayList;
@@ -51,6 +52,7 @@
 @property(nonatomic,assign) int startIndex;
 @property(nonatomic,assign) int endIndex;
 @property(nonatomic,assign) int fileChunkSize;
+@property(nonatomic,assign) BOOL showSignatureFlag;
 
 - (void)createBasicData;
 - (NSDictionary*)retrieveDescrDetailWithDescrTypeCode:(NSString*)aDescrTypeCode descrDetailCode:(NSString*)aDescrDetailCode;

@@ -1579,6 +1579,8 @@
 		7905C70B25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7905C70A25BE70EB00FFBF77 /* ReporterXmlGraphDataManager.m */; };
 		790A4EC12BC919D500760301 /* ArcosNoBgSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 790A4EC02BC919D500760301 /* ArcosNoBgSegmentedControl.m */; };
 		790AAE8029028F9200C2F2BC /* UtilitiesAnimatedMonthTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 790AAE7F29028F9200C2F2BC /* UtilitiesAnimatedMonthTableHeaderView.m */; };
+		790C678C2C94119A00F31A39 /* ArcosMailFooterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 790C678A2C94119A00F31A39 /* ArcosMailFooterViewController.m */; };
+		790C678D2C94119A00F31A39 /* ArcosMailFooterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 790C678B2C94119A00F31A39 /* ArcosMailFooterViewController.xib */; };
 		790C7EBD2BC7CC9B00BF52A6 /* MSAL.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 790C7EBC2BC7CC9B00BF52A6 /* MSAL.xcframework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		790C7EBE2BC7CC9B00BF52A6 /* MSAL.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 790C7EBC2BC7CC9B00BF52A6 /* MSAL.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		790C7EC12BC7CEDF00BF52A6 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 790C7EC02BC7CEDF00BF52A6 /* PrivacyInfo.xcprivacy */; };
@@ -4891,6 +4893,9 @@
 		790A5C172AD4353D00CA4B20 /* FlagsLocationTableViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlagsLocationTableViewControllerDelegate.h; sourceTree = "<group>"; };
 		790AAE7E29028F9200C2F2BC /* UtilitiesAnimatedMonthTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UtilitiesAnimatedMonthTableHeaderView.h; sourceTree = "<group>"; };
 		790AAE7F29028F9200C2F2BC /* UtilitiesAnimatedMonthTableHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UtilitiesAnimatedMonthTableHeaderView.m; sourceTree = "<group>"; };
+		790C67892C94119A00F31A39 /* ArcosMailFooterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosMailFooterViewController.h; sourceTree = "<group>"; };
+		790C678A2C94119A00F31A39 /* ArcosMailFooterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosMailFooterViewController.m; sourceTree = "<group>"; };
+		790C678B2C94119A00F31A39 /* ArcosMailFooterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArcosMailFooterViewController.xib; sourceTree = "<group>"; };
 		790C7EBC2BC7CC9B00BF52A6 /* MSAL.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:UBF8T346G9:Microsoft Corporation"; lastKnownFileType = wrapper.xcframework; name = MSAL.xcframework; path = Carthage/Build/iOS/MSAL.xcframework; sourceTree = "<group>"; };
 		790C7EC02BC7CEDF00BF52A6 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		790EB3712BBBAA2A00DBCF8A /* CustomerJourneyDetailTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerJourneyDetailTableViewCell.h; sourceTree = "<group>"; };
@@ -8125,6 +8130,9 @@
 				791724C92B5914F200BDBE98 /* DatePickerCalendarStyleWidgetViewController.xib */,
 				794BD8CE2C257DB6002640C0 /* ArcosAlertBoxDataManager.h */,
 				794BD8CF2C257DB6002640C0 /* ArcosAlertBoxDataManager.m */,
+				790C67892C94119A00F31A39 /* ArcosMailFooterViewController.h */,
+				790C678A2C94119A00F31A39 /* ArcosMailFooterViewController.m */,
+				790C678B2C94119A00F31A39 /* ArcosMailFooterViewController.xib */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -9987,6 +9995,7 @@
 				630B3DE719F01CB9007B2442 /* AccountOverview.png in Resources */,
 				630B3CAF19F01CB9007B2442 /* FileReaderViewController.xib in Resources */,
 				630B3B2219F01CB9007B2442 /* PresenterFactViewController.xib in Resources */,
+				790C678D2C94119A00F31A39 /* ArcosMailFooterViewController.xib in Resources */,
 				634DC46821218C7300AA2BF0 /* sun_afternoon@2x.png in Resources */,
 				799F6CE82BC2CF18003E2B84 /* Arrow-DoubleBackward@2x.png in Resources */,
 				630B3B2419F01CB9007B2442 /* PresenterImageGridViewController.xib in Resources */,
@@ -11069,6 +11078,7 @@
 				632C5AFF1A0A4B74002D3945 /* SavedIarcosOrderDetailTableCellFactory.m in Sources */,
 				18DD38B6243ACF9200FA899B /* CustomerOrderDetailsHeaderView.m in Sources */,
 				634E59CE20EF67E6004B7C82 /* ArcosDashBoardData.m in Sources */,
+				790C678C2C94119A00F31A39 /* ArcosMailFooterViewController.m in Sources */,
 				630B3DC019F01CB9007B2442 /* SoapArray.m in Sources */,
 				630B3BF519F01CB9007B2442 /* DetailingTableViewController.m in Sources */,
 				630B3D2819F01CB9007B2442 /* UpdateCenterTableCellFactory.m in Sources */,
@@ -11587,7 +11597,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.1.7;
+				MARKETING_VERSION = 13.1.11;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11648,7 +11658,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.1.7;
+				MARKETING_VERSION = 13.1.11;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -11797,7 +11807,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.1.7;
+				MARKETING_VERSION = 13.1.11;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

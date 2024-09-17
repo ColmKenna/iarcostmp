@@ -22,6 +22,7 @@
 @synthesize smtpSession = _smtpSession;
 @synthesize HUD = _HUD;
 @synthesize arcosStoreExcInfoDataManager = _arcosStoreExcInfoDataManager;
+@synthesize arcosMailFooterViewController = _arcosMailFooterViewController;
 
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -30,6 +31,7 @@
         self.arcosMailDataManager = [[[ArcosMailDataManager alloc] init] autorelease];        
         self.arcosMailCellFactory = [ArcosMailCellFactory factory];
         self.arcosStoreExcInfoDataManager = [ArcosStoreExcInfoDataManager storeExcInfoInstance];
+        self.arcosMailFooterViewController = [[[ArcosMailFooterViewController alloc] initWithNibName:@"ArcosMailFooterViewController" bundle:nil] autorelease];
     }
     return self;
 }
@@ -42,7 +44,7 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
+    [ArcosUtils configEdgesForExtendedLayout:self];
     self.HUD = [[[MBProgressHUD alloc] initWithView:self.navigationController.view] autorelease];
     self.HUD.dimBackground = YES;
     [self.navigationController.view addSubview:self.HUD];
@@ -90,6 +92,7 @@
     self.sendButton = nil;
     self.smtpSession = nil;
     self.arcosStoreExcInfoDataManager = nil;
+    self.arcosMailFooterViewController = nil;
     
     [super dealloc];
 }
@@ -225,7 +228,7 @@
             [self createMessageWithData:messageDict request:request];
             return;
         }
-        if ([self.arcosMailDataManager.attachmentList count] > 0) {
+        if ([self.arcosMailDataManager.attachmentList count] > 0 || self.arcosMailDataManager.showSignatureFlag) {
             NSMutableArray* attachmentList = [NSMutableArray array];
             for (int i = 0; i < [self.arcosMailDataManager.attachmentList count]; i++) {
                 ArcosAttachmentContainer* arcosAttachmentContainer = [self.arcosMailDataManager.attachmentList objectAtIndex:i];
@@ -238,6 +241,26 @@
                 [attachmentDict setObject:[ArcosUtils convertNilToEmpty:base64String] forKey:@"contentBytes"];//@"SGVsbG8gV29ybGQh"
                 [attachmentList addObject:attachmentDict];
             }
+            
+            if (self.arcosMailDataManager.showSignatureFlag) {
+                NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:[SettingManager employeeIUR]];
+                NSNumber* tmpImageIUR = [employeeDict objectForKey:@"ImageIUR"];
+                UIImage* tmpSignatureImage = [[ArcosCoreData sharedArcosCoreData] thumbWithIUR:tmpImageIUR];
+                if (tmpSignatureImage != nil) {
+                    NSString* signatureFileName = @"Signature.png";
+                    NSMutableDictionary* attachmentDict = [NSMutableDictionary dictionary];                    
+                    [attachmentDict setObject:@"#microsoft.graph.fileAttachment" forKey:@"@odata.type"];
+                    [attachmentDict setObject:@"SignatureId" forKey:@"contentId"];
+                    NSData* pngData = UIImagePNGRepresentation(tmpSignatureImage);
+                    [attachmentDict setObject:signatureFileName forKey:@"name"];
+                    [attachmentDict setObject:[ArcosUtils getMimeTypeWithFileName:signatureFileName] forKey:@"contentType"];
+                    NSString* base64String = [pngData base64Encoding];
+                    [attachmentDict setObject:[ArcosUtils convertNilToEmpty:base64String] forKey:@"contentBytes"];
+                    [attachmentList addObject:attachmentDict];
+                }
+                
+            }
+            
             [messageDict setObject:attachmentList forKey:@"attachments"];
         }
         [payloadDictionary setObject:messageDict forKey:@"message"];
@@ -424,6 +447,20 @@
 
 #pragma mark - Table view data source
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (self.arcosMailDataManager.showSignatureFlag) {
+        return self.arcosMailFooterViewController.view;
+    }
+    return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (self.arcosMailDataManager.showSignatureFlag) {
+        return 271;
+    }
+    return 0;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
@@ -461,10 +498,19 @@
 }
 
 #pragma mark ArcosMailTableViewCellDelegate
-- (void)updateMailBodyHeight:(NSIndexPath*)anIndexPath{
-    [self.tableView beginUpdates];
-    [self.tableView.delegate tableView:self.tableView heightForRowAtIndexPath:anIndexPath];
-    [self.tableView endUpdates];
+- (void)updateMailBodyHeight:(NSIndexPath*)anIndexPath {
+    if (@available(iOS 11.0, *)) {
+        [self.tableView performBatchUpdates:^{
+            [self.tableView.delegate tableView:self.tableView heightForRowAtIndexPath:anIndexPath];
+        } completion:^(BOOL finished) {
+            
+        }];
+    } else {
+        // Fallback on earlier versions
+        [self.tableView beginUpdates];
+        [self.tableView.delegate tableView:self.tableView heightForRowAtIndexPath:anIndexPath];
+        [self.tableView endUpdates];
+    }
 }
 
 - (void)updateSubjectText:(NSString *)aText {

@@ -40,7 +40,6 @@
     
     NSMutableString *body = [NSMutableString string];
     BOOL exclusiveValueFlag = [[ArcosConfigDataManager sharedArcosConfigDataManager] excludeValueFromOrderEmailFlag];
-    
     [body appendString:@"<html><body><table width='100%' height='100%'>"];
     
     //order header
@@ -215,6 +214,13 @@
     }
     
     [body appendString:@"</b></td></tr>"];
+    [body appendString:@"</table></td></tr>"];
+    
+    [body appendString:@"<tr><td width='100%' height='40'><table width='100%' height='100%'>"];
+    [body appendString:@"<tr>"];
+    [body appendString:@"<td width='100%'><br /><br /><br />"];
+    [body appendString:@"<img src='cid:SignatureId' alt='Signature' />"];
+    [body appendString:@"</td></tr>"];
     [body appendString:@"</table></td></tr>"];
     
     [body appendString:@"</table></body></html>"];

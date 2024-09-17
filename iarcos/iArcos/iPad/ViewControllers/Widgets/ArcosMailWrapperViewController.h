@@ -22,6 +22,7 @@
     NSMutableArray* _toRecipients;
     NSMutableArray* _ccRecipients;
     NSMutableArray* _attachmentList;
+    BOOL _showSignatureFlag;
 }
 
 //@property (nonatomic,assign) id<CustomisePresentViewControllerDelegate> myDelegate;
@@ -35,5 +36,6 @@
 @property(nonatomic,retain) NSMutableArray* toRecipients;
 @property(nonatomic,retain) NSMutableArray* ccRecipients;
 @property(nonatomic,retain) NSMutableArray* attachmentList;
+@property(nonatomic,assign) BOOL showSignatureFlag;
 
 @end

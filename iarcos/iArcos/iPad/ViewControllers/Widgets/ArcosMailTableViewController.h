@@ -22,6 +22,7 @@
 #import <MSAL/MSAL.h>
 #import "ArcosConstantsDataManager.h"
 #import "ArcosAttachmentContainer.h"
+#import "ArcosMailFooterViewController.h"
 
 @interface ArcosMailTableViewController : UITableViewController <ArcosMailTableViewCellDelegate>{
 //    id<CustomisePresentViewControllerDelegate> _myDelegate;
@@ -32,6 +33,7 @@
     MCOSMTPSession* _smtpSession;
     MBProgressHUD* _HUD;
     ArcosStoreExcInfoDataManager* _arcosStoreExcInfoDataManager;
+    ArcosMailFooterViewController* _arcosMailFooterViewController;
 }
 
 //@property(nonatomic, assign) id<CustomisePresentViewControllerDelegate> myDelegate;
@@ -42,5 +44,6 @@
 @property(nonatomic, retain) MCOSMTPSession* smtpSession;
 @property(nonatomic, retain) MBProgressHUD* HUD;
 @property(nonatomic, retain) ArcosStoreExcInfoDataManager* arcosStoreExcInfoDataManager;
+@property(nonatomic, retain) ArcosMailFooterViewController* arcosMailFooterViewController;
 
 @end

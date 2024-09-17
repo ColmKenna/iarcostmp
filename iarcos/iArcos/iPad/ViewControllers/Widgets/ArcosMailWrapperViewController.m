@@ -24,6 +24,7 @@
 @synthesize toRecipients = _toRecipients;
 @synthesize ccRecipients = _ccRecipients;
 @synthesize attachmentList = _attachmentList;
+@synthesize showSignatureFlag = _showSignatureFlag;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -35,6 +36,7 @@
         self.toRecipients = [NSMutableArray array];
         self.ccRecipients = [NSMutableArray array];
         self.attachmentList = [NSMutableArray array];
+        self.showSignatureFlag = NO;
     }
     return self;
 }
@@ -42,6 +44,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [ArcosUtils configEdgesForExtendedLayout:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -71,6 +74,7 @@
     amtvc.arcosMailDataManager.subjectText = self.subjectText;
     amtvc.arcosMailDataManager.bodyText = self.bodyText;
     amtvc.arcosMailDataManager.isHTML = self.isHTML;
+    amtvc.arcosMailDataManager.showSignatureFlag = self.showSignatureFlag;
     if ([self.toRecipients count] > 0) {
         amtvc.arcosMailDataManager.toRecipients = self.toRecipients;
         if ([self.toRecipients count] == 1) {

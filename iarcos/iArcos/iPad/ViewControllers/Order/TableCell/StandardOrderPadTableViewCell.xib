@@ -841,7 +841,7 @@
                         <rect key="frame" x="516" y="5" width="59" height="34"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <textInputTraits key="textInputTraits"/>
+                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                         <connections>
                             <outlet property="delegate" destination="TE5-UP-uvU" id="QGM-ak-QNI"/>
                         </connections>
@@ -850,7 +850,7 @@
                         <rect key="frame" x="579" y="5" width="59" height="34"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <textInputTraits key="textInputTraits"/>
+                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                         <connections>
                             <outlet property="delegate" destination="TE5-UP-uvU" id="gif-lu-w5e"/>
                         </connections>
@@ -859,7 +859,7 @@
                         <rect key="frame" x="642" y="5" width="65" height="34"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <textInputTraits key="textInputTraits"/>
+                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                         <connections>
                             <outlet property="delegate" destination="TE5-UP-uvU" id="gJN-R4-e43"/>
                         </connections>

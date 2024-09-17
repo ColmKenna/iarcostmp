@@ -70,6 +70,9 @@
         auxActualPercentage = actualValue / targetValue;
     }     
     float actualPercentage = roundf(auxActualPercentage * 1000) * 0.001;
+    if (actualPercentage > 1.0) {
+        actualPercentage = 1.0;
+    }
     [self configActualRealValueTextFieldPosition:actualPercentage];
     float unfinishedTargetPercentage = 1 - actualPercentage;
     NSMutableArray* barDataList = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:actualPercentage], [NSNumber numberWithFloat:unfinishedTargetPercentage], nil];
@@ -91,8 +94,13 @@
         auxLabel.text = [NSString stringWithFormat:@"%1.1f%%", [barData floatValue] * 100];
         
         switch (i) {
-            case 0:
+            case 0: {
                 auxLabel.backgroundColor = [UIColor colorWithRed:0.0 green:128.0/255.0 blue:0.0 alpha:1.0];
+                if ([barData floatValue] == 1.0) {
+                    auxLabel.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:1.0];
+                }
+            }
+                
                 break;
             case 1:
                 auxLabel.backgroundColor = [UIColor redColor];

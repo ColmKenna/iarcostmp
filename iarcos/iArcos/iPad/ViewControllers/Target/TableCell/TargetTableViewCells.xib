@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,11 +13,11 @@
             <rect key="frame" x="0.0" y="0.0" width="768" height="170"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mjo-yv-ms4" id="jyM-9h-mTD">
-                <rect key="frame" x="0.0" y="0.0" width="768" height="169.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="768" height="170"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="presenterTableCell_stretchable.png" translatesAutoresizingMaskIntoConstraints="NO" id="ODU-oJ-P9Y">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="169.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="170"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Target Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YW8-nt-tXR">
                         <rect key="frame" x="34" y="8" width="487" height="30"/>
@@ -34,7 +32,6 @@
                         <rect key="frame" x="34" y="41" width="64" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="0.87843137250000003" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="textColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <textInputTraits key="textInputTraits"/>
                         <connections>
@@ -56,12 +53,12 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date Range: August" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jPd-oV-itw">
-                        <rect key="frame" x="34" y="141" width="552" height="21"/>
+                        <rect key="frame" x="34" y="141.5" width="552" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="wP7-E9-zaN"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <color key="textColor" systemColor="scrollViewTexturedBackgroundColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="999999" borderStyle="bezel" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ocw-SU-fqW">
@@ -71,7 +68,6 @@
                             <constraint firstAttribute="height" constant="22" id="7dj-Bq-Iir"/>
                             <constraint firstAttribute="width" constant="64" id="Aqd-5O-gHJ"/>
                         </constraints>
-                        <nil key="textColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <textInputTraits key="textInputTraits"/>
                         <connections>
@@ -87,26 +83,26 @@
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="FTT-wD-55M" firstAttribute="leading" secondItem="jPd-oV-itw" secondAttribute="trailing" constant="2" id="41s-Gm-zps"/>
                     <constraint firstAttribute="bottom" secondItem="ODU-oJ-P9Y" secondAttribute="bottom" id="52y-gA-Vr8"/>
                     <constraint firstItem="bqi-zh-hgn" firstAttribute="leading" secondItem="jyM-9h-mTD" secondAttribute="leading" constant="34" id="7Qe-sa-Olw"/>
                     <constraint firstItem="FTT-wD-55M" firstAttribute="top" secondItem="jyM-9h-mTD" secondAttribute="top" constant="8" id="7cf-ac-odj"/>
                     <constraint firstItem="YW8-nt-tXR" firstAttribute="leading" secondItem="jyM-9h-mTD" secondAttribute="leading" constant="34" id="7lT-bV-JQs"/>
                     <constraint firstAttribute="trailing" secondItem="ODU-oJ-P9Y" secondAttribute="trailing" id="Iri-JJ-3Zo"/>
                     <constraint firstAttribute="trailing" secondItem="FTT-wD-55M" secondAttribute="trailing" constant="26" id="Pv0-C7-1By"/>
+                    <constraint firstItem="ocw-SU-fqW" firstAttribute="top" secondItem="jyM-9h-mTD" secondAttribute="top" constant="41" id="RZy-Cu-vJ4"/>
                     <constraint firstItem="ODU-oJ-P9Y" firstAttribute="leading" secondItem="jyM-9h-mTD" secondAttribute="leading" id="Txw-ZW-YR3"/>
                     <constraint firstItem="bqi-zh-hgn" firstAttribute="top" secondItem="jyM-9h-mTD" secondAttribute="top" constant="65" id="Zi7-aw-M1c"/>
                     <constraint firstItem="YW8-nt-tXR" firstAttribute="top" secondItem="jyM-9h-mTD" secondAttribute="top" constant="8" id="bVA-cO-kRr"/>
-                    <constraint firstItem="FTT-wD-55M" firstAttribute="leading" secondItem="ocw-SU-fqW" secondAttribute="trailing" constant="2" id="c6W-AI-vla"/>
-                    <constraint firstItem="FTT-wD-55M" firstAttribute="leading" secondItem="cva-hW-j9W" secondAttribute="trailing" constant="34" id="dax-Jl-eA5"/>
+                    <constraint firstAttribute="trailing" secondItem="bqi-zh-hgn" secondAttribute="trailing" constant="214" id="bzr-sm-ajF"/>
                     <constraint firstAttribute="bottom" secondItem="jPd-oV-itw" secondAttribute="bottom" constant="7.5" id="dje-Xd-STO"/>
+                    <constraint firstAttribute="trailing" secondItem="cva-hW-j9W" secondAttribute="trailing" constant="214" id="egm-V6-wWc"/>
                     <constraint firstItem="cva-hW-j9W" firstAttribute="top" secondItem="bqi-zh-hgn" secondAttribute="bottom" id="iPB-lO-2Az"/>
                     <constraint firstItem="cva-hW-j9W" firstAttribute="leading" secondItem="jyM-9h-mTD" secondAttribute="leading" constant="34" id="j3X-o0-h03"/>
                     <constraint firstItem="ODU-oJ-P9Y" firstAttribute="top" secondItem="jyM-9h-mTD" secondAttribute="top" id="jXc-D2-Z3q"/>
+                    <constraint firstAttribute="trailing" secondItem="jPd-oV-itw" secondAttribute="trailing" constant="182" id="mdb-GO-Pae"/>
                     <constraint firstItem="jPd-oV-itw" firstAttribute="leading" secondItem="jyM-9h-mTD" secondAttribute="leading" constant="34" id="mv8-3W-1L2"/>
-                    <constraint firstItem="FTT-wD-55M" firstAttribute="leading" secondItem="bqi-zh-hgn" secondAttribute="trailing" constant="34" id="oX7-ab-0uW"/>
-                    <constraint firstItem="FTT-wD-55M" firstAttribute="leading" secondItem="YW8-nt-tXR" secondAttribute="trailing" constant="67" id="ovJ-iH-1Zd"/>
-                    <constraint firstItem="bqi-zh-hgn" firstAttribute="top" secondItem="ocw-SU-fqW" secondAttribute="bottom" constant="2" id="u0y-mo-apZ"/>
+                    <constraint firstAttribute="trailing" secondItem="YW8-nt-tXR" secondAttribute="trailing" constant="247" id="q9I-L0-pzG"/>
+                    <constraint firstAttribute="trailing" secondItem="ocw-SU-fqW" secondAttribute="trailing" constant="182" id="wZb-bx-kW3"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -125,11 +121,11 @@
             <rect key="frame" x="0.0" y="0.0" width="768" height="170"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="w3w-us-e2r" id="owa-dZ-72f">
-                <rect key="frame" x="0.0" y="0.0" width="768" height="169.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="768" height="170"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="presenterTableCell_stretchable.png" translatesAutoresizingMaskIntoConstraints="NO" id="EAP-vm-ecN">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="169.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="170"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Target Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MKf-gG-oA0">
                         <rect key="frame" x="34" y="8" width="487" height="30"/>
@@ -155,12 +151,12 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date Range: August" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f45-ro-P8l">
-                        <rect key="frame" x="34" y="141" width="552" height="21"/>
+                        <rect key="frame" x="34" y="141.5" width="552" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="hT9-b4-rb3"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <color key="textColor" systemColor="scrollViewTexturedBackgroundColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -195,11 +191,11 @@
             <rect key="frame" x="0.0" y="0.0" width="768" height="680"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wNC-ob-uhm" id="b1e-5U-ly7">
-                <rect key="frame" x="0.0" y="0.0" width="768" height="679.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="768" height="680"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tXh-p8-ze6" customClass="CPTGraphHostingView">
-                        <rect key="frame" x="34" y="8" width="700" height="664"/>
+                        <rect key="frame" x="34" y="8" width="700" height="664.5"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                 </subviews>
@@ -218,5 +214,8 @@
     </objects>
     <resources>
         <image name="presenterTableCell_stretchable.png" width="433" height="171"/>
+        <systemColor name="scrollViewTexturedBackgroundColor">
+            <color red="0.43529411764705878" green="0.44313725490196082" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

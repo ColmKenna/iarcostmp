@@ -501,7 +501,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     if (self.formRowsTableDataManager.showFooterMatViewFlag) {
-        return 88;
+        return 87;
     }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRunningTotalFlag]) {
         return 44;
@@ -1701,6 +1701,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                     self.formRowsTableDataManager.currentTextFieldIndex = 0;
                     [self showMySearchBar];
                     [self.mySearchBar becomeFirstResponder];
+                    self.mySearchBar.text = @"";
                     return;
                 }
                 // || (self.formRowsTableDataManager.currentIndexPath == nil && !self.formRowsTableDataManager.searchBarFocusedByShortCutFlag)
@@ -1789,6 +1790,16 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         NSLog(@"pressesEnded %@", [exception reason]);
     }
 }
+
+//- (NSArray*)keyCommands {
+//    return @[[UIKeyCommand keyCommandWithInput:UIKeyInputEscape modifierFlags:0 action:@selector(tabKeyPressed:)]];
+//    return @[[UIKeyCommand keyCommandWithInput:@"\t" modifierFlags:0 action:@selector(tabKeyPressed:)]];
+//    return @[[UIKeyCommand commandWithTitle:@"Tab" image:nil action:@selector(tabKeyPressed:) input:@"\t" modifierFlags:0 propertyList:nil]];
+//}
+
+//- (void)tabKeyPressed:(id)sender {
+//    NSLog(@"Tab Key Pressed");
+//}
 
 - (void)reloadTableViewFooterData {
     if (@available(iOS 11.0, *)) {
