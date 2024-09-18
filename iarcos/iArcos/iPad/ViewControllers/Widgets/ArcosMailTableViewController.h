@@ -24,7 +24,7 @@
 #import "ArcosAttachmentContainer.h"
 #import "ArcosMailFooterViewController.h"
 
-@interface ArcosMailTableViewController : UITableViewController <ArcosMailTableViewCellDelegate>{
+@interface ArcosMailTableViewController : UIViewController <ArcosMailTableViewCellDelegate>{
 //    id<CustomisePresentViewControllerDelegate> _myDelegate;
     id<ArcosMailTableViewControllerDelegate> _mailDelegate;
     ArcosMailDataManager* _arcosMailDataManager;
@@ -34,6 +34,9 @@
     MBProgressHUD* _HUD;
     ArcosStoreExcInfoDataManager* _arcosStoreExcInfoDataManager;
     ArcosMailFooterViewController* _arcosMailFooterViewController;
+    UITableView* _myTableView;
+    UIView* _signatureTemplateView;
+    UIImageView* _myImageView;
 }
 
 //@property(nonatomic, assign) id<CustomisePresentViewControllerDelegate> myDelegate;
@@ -45,5 +48,8 @@
 @property(nonatomic, retain) MBProgressHUD* HUD;
 @property(nonatomic, retain) ArcosStoreExcInfoDataManager* arcosStoreExcInfoDataManager;
 @property(nonatomic, retain) ArcosMailFooterViewController* arcosMailFooterViewController;
+@property(nonatomic, retain) IBOutlet UITableView* myTableView;
+@property(nonatomic, retain) IBOutlet UIView* signatureTemplateView;
+@property(nonatomic, retain) IBOutlet UIImageView* myImageView;
 
 @end

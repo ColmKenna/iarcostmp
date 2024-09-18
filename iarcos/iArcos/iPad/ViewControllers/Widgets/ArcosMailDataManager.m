@@ -28,6 +28,7 @@
 @synthesize endIndex = _endIndex;
 @synthesize fileChunkSize = _fileChunkSize;
 @synthesize showSignatureFlag = _showSignatureFlag;
+@synthesize viewHasBeenAppearedFlag = _viewHasBeenAppearedFlag;
 
 - (instancetype)init {
     if(self = [super init]) {
@@ -47,6 +48,7 @@
         self.endIndex = 0;
         self.fileChunkSize = 2 * 1024 * 1024;
         self.showSignatureFlag = NO;
+        self.viewHasBeenAppearedFlag = NO;
     }
     return self;
 }

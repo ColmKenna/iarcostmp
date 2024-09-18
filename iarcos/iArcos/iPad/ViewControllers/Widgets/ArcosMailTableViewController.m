@@ -23,6 +23,9 @@
 @synthesize HUD = _HUD;
 @synthesize arcosStoreExcInfoDataManager = _arcosStoreExcInfoDataManager;
 @synthesize arcosMailFooterViewController = _arcosMailFooterViewController;
+@synthesize myTableView = _myTableView;
+@synthesize signatureTemplateView = _signatureTemplateView;
+@synthesize myImageView = _myImageView;
 
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -74,6 +77,12 @@
     }
     
     [self.navigationController.navigationBar setTranslucent:NO];
+    if (self.arcosMailDataManager.showSignatureFlag) {
+        NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:[SettingManager employeeIUR]];
+        NSNumber* tmpImageIUR = [employeeDict objectForKey:@"ImageIUR"];
+        UIImage* tmpSignatureImage = [[ArcosCoreData sharedArcosCoreData] thumbWithIUR:tmpImageIUR];
+        self.myImageView.image = tmpSignatureImage;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,8 +93,8 @@
 - (void)dealloc {
     [self.HUD removeFromSuperview];
     self.HUD = nil;
-    for (UIGestureRecognizer* recognizer in self.tableView.gestureRecognizers) {
-        [self.tableView removeGestureRecognizer:recognizer];
+    for (UIGestureRecognizer* recognizer in self.myTableView.gestureRecognizers) {
+        [self.myTableView removeGestureRecognizer:recognizer];
     }
     self.arcosMailDataManager = nil;
     self.arcosMailCellFactory = nil;
@@ -93,8 +102,20 @@
     self.smtpSession = nil;
     self.arcosStoreExcInfoDataManager = nil;
     self.arcosMailFooterViewController = nil;
+    self.myTableView = nil;
+    self.signatureTemplateView = nil;
+    self.myImageView = nil;
     
     [super dealloc];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (!self.arcosMailDataManager.viewHasBeenAppearedFlag) {
+        [self.myTableView reloadData];
+    } else {
+        self.arcosMailDataManager.viewHasBeenAppearedFlag = YES;
+    }
 }
 
 - (void)closePressed:(id)sender {
@@ -104,7 +125,7 @@
 
 - (void)cleanMailData {
     NSIndexPath* bodyIndexPath = [self.arcosMailDataManager retrieveIndexPathWithTitle:self.arcosMailDataManager.bodyTitleText];
-    ArcosMailBodyTableViewCell* arcosMailBodyTableViewCell = (ArcosMailBodyTableViewCell*) [self.tableView cellForRowAtIndexPath:bodyIndexPath];
+    ArcosMailBodyTableViewCell* arcosMailBodyTableViewCell = (ArcosMailBodyTableViewCell*) [self.myTableView cellForRowAtIndexPath:bodyIndexPath];
     [arcosMailBodyTableViewCell cleanData];
 }
 
@@ -214,7 +235,7 @@
         [messageDict setObject:bodyDict forKey:@"body"];
         if (self.arcosMailDataManager.isHTML) {
             NSIndexPath* bodyIndexPath = [self.arcosMailDataManager retrieveIndexPathWithTitle:self.arcosMailDataManager.bodyTitleText];
-            ArcosMailBodyTableViewCell* arcosMailBodyTableViewCell = (ArcosMailBodyTableViewCell*) [self.tableView cellForRowAtIndexPath:bodyIndexPath];
+            ArcosMailBodyTableViewCell* arcosMailBodyTableViewCell = (ArcosMailBodyTableViewCell*) [self.myTableView cellForRowAtIndexPath:bodyIndexPath];
             [arcosMailBodyTableViewCell.myWebView stringByEvaluatingJavaScriptFromString:@"document.body.setAttribute('contentEditable','false')"];
             NSString* currentHTML = [arcosMailBodyTableViewCell.myWebView stringByEvaluatingJavaScriptFromString:@"document.documentElement.outerHTML"];
             [bodyDict setObject:@"html" forKey:@"contentType"];
@@ -397,7 +418,7 @@
     [[builder header] setSubject:subjectText];
     if (self.arcosMailDataManager.isHTML) {
         NSIndexPath* bodyIndexPath = [self.arcosMailDataManager retrieveIndexPathWithTitle:self.arcosMailDataManager.bodyTitleText];
-        ArcosMailBodyTableViewCell* arcosMailBodyTableViewCell = (ArcosMailBodyTableViewCell*) [self.tableView cellForRowAtIndexPath:bodyIndexPath];
+        ArcosMailBodyTableViewCell* arcosMailBodyTableViewCell = (ArcosMailBodyTableViewCell*) [self.myTableView cellForRowAtIndexPath:bodyIndexPath];
         [arcosMailBodyTableViewCell.myWebView stringByEvaluatingJavaScriptFromString:@"document.body.setAttribute('contentEditable','false')"];
         NSString* currentHTML = [arcosMailBodyTableViewCell.myWebView stringByEvaluatingJavaScriptFromString:@"document.documentElement.outerHTML"];
         [builder setHTMLBody:currentHTML];
@@ -447,19 +468,19 @@
 
 #pragma mark - Table view data source
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (self.arcosMailDataManager.showSignatureFlag) {
-        return self.arcosMailFooterViewController.view;
-    }
-    return nil;
-}
+//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+//    if (self.arcosMailDataManager.showSignatureFlag) {
+//        return self.arcosMailFooterViewController.view;
+//    }
+//    return nil;
+//}
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (self.arcosMailDataManager.showSignatureFlag) {
-        return 271;
-    }
-    return 0;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+//    if (self.arcosMailDataManager.showSignatureFlag) {
+//        return 271;
+//    }
+//    return 0;
+//}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -500,16 +521,16 @@
 #pragma mark ArcosMailTableViewCellDelegate
 - (void)updateMailBodyHeight:(NSIndexPath*)anIndexPath {
     if (@available(iOS 11.0, *)) {
-        [self.tableView performBatchUpdates:^{
-            [self.tableView.delegate tableView:self.tableView heightForRowAtIndexPath:anIndexPath];
+        [self.myTableView performBatchUpdates:^{
+            [self.myTableView.delegate tableView:self.myTableView heightForRowAtIndexPath:anIndexPath];
         } completion:^(BOOL finished) {
             
         }];
     } else {
         // Fallback on earlier versions
-        [self.tableView beginUpdates];
-        [self.tableView.delegate tableView:self.tableView heightForRowAtIndexPath:anIndexPath];
-        [self.tableView endUpdates];
+        [self.myTableView beginUpdates];
+        [self.myTableView.delegate tableView:self.myTableView heightForRowAtIndexPath:anIndexPath];
+        [self.myTableView endUpdates];
     }
 }
 

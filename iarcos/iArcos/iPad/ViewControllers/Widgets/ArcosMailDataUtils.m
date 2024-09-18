@@ -37,8 +37,8 @@
 }
 
 - (NSMutableDictionary*)calculateHeightWithWebViewHeight:(float)aHeight {
-    float originalTableCellHeight = 172;
-    float originalWebViewHeight = 100; 
+    float originalTableCellHeight = 472;//172
+    float originalWebViewHeight = 400; //100
     float deltaHeight = originalTableCellHeight - originalWebViewHeight;
     float nextHeight = (aHeight > originalWebViewHeight) ? aHeight : originalWebViewHeight;
     float diffHeight = nextHeight - originalWebViewHeight;

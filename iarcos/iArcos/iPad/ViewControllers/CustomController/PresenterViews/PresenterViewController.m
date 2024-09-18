@@ -835,22 +835,28 @@
     ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
 //    amwvc.myDelegate = self;
     amwvc.mailDelegate = self;
+    amwvc.isHTML = YES;
+    amwvc.showSignatureFlag = YES;
     NSString* emailAddress = [cellData objectForKey:@"Email"];
     if (emailAddress != nil && ![emailAddress isEqualToString:@""]) {
         amwvc.toRecipients = [NSMutableArray arrayWithObjects:emailAddress, nil];
     }
     NSMutableString* msgBodyString = [NSMutableString stringWithString:@""];
+    [msgBodyString appendString:@"<html><body><table width='100%' height='100%'>"];
     if ([resultList count] > 0) {
         NSMutableDictionary* presenterProduct = [resultList objectAtIndex:0];
         amwvc.subjectText = [presenterProduct objectForKey:@"fullTitle"];
-        msgBodyString = [NSMutableString stringWithString:@"Please find attached:\n"];
+//        msgBodyString = [NSMutableString stringWithString:@"Please find attached:\n"];
+        [msgBodyString appendString:@"<tr><td width='100%' height='40' align='left'>Please find attached:</td><tr>"];
+        [msgBodyString appendString:@"<tr><td height='30' width='100%'><table width='100%' height='100%'>"];
         for (int i = 0; i < [resultList count]; i++) {
+            [msgBodyString appendString:@"<tr><td width='100%' height='30' align='left'>"];
             NSMutableDictionary* tmpPresenterProduct = [resultList objectAtIndex:i];
             NSNumber* employeeIUR = [tmpPresenterProduct objectForKey:@"employeeIUR"];
             int customizedFileType = [PresenterFileTypeConverter retrieveCustomizedFileType:employeeIUR];
             switch (customizedFileType) {
                 case 1: {
-                    [msgBodyString appendString:@"\n"];
+//                    [msgBodyString appendString:@"\n"];
                     [msgBodyString appendString:[tmpPresenterProduct objectForKey:@"URL"]];                    
                 }
                     break;
@@ -860,7 +866,7 @@
                     if (auxNSData == nil) {
                         continue;
                     }
-                    [msgBodyString appendString:@"\n"];
+//                    [msgBodyString appendString:@"\n"];
                     [msgBodyString appendString:fileName];
                     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
                         [amwvc.attachmentList addObject:[ArcosAttachmentContainer attachmentWithData:auxNSData fileName:fileName]];
@@ -873,8 +879,22 @@
                 default:
                     break;
             }
+            [msgBodyString appendString:@"</td></tr>"];
         }
+        [msgBodyString appendString:@"</table></td></tr>"];
     }
+    
+    [msgBodyString appendString:@"<tr><td width='100%' height='40'><table width='100%' height='100%'>"];
+    [msgBodyString appendString:@"<tr>"];
+    [msgBodyString appendString:@"<td width='100%'><br /><br /><br />"];
+    [msgBodyString appendString:@"<img src='cid:SignatureId' alt='Signature' />"];
+    [msgBodyString appendString:@"</td></tr>"];
+    [msgBodyString appendString:@"</table></td></tr>"];
+    
+    [msgBodyString appendString:@"<tr><td width='100%' height='100%'><table width='100%' height='100%'>"];
+    [msgBodyString appendString:@"</table></td></tr>"];
+    
+    [msgBodyString appendString:@"</table></body></html>"];
     amwvc.bodyText = msgBodyString;
     amwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:amwvc] autorelease];

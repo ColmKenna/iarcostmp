@@ -68,7 +68,13 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
-    ArcosMailTableViewController* amtvc = [[ArcosMailTableViewController alloc] initWithNibName:@"ArcosMailTableViewController" bundle:nil];
+//    ArcosMailTableViewController* amtvc = [[ArcosMailTableViewController alloc] initWithNibName:@"ArcosMailTableViewController" bundle:nil];
+    ArcosMailTableViewController* amtvc = nil;
+    if (self.showSignatureFlag) {
+        amtvc = [[ArcosMailTableViewController alloc] initWithNibName:@"ArcosMailSignatureViewController" bundle:nil];
+    } else {
+        amtvc = [[ArcosMailTableViewController alloc] initWithNibName:@"ArcosMailViewController" bundle:nil];
+    }
 //    amtvc.myDelegate = self;
     amtvc.mailDelegate = self;
     amtvc.arcosMailDataManager.subjectText = self.subjectText;
