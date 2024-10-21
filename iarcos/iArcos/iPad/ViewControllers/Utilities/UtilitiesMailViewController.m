@@ -22,6 +22,7 @@
 @synthesize signOutButton = _signOutButton;
 //@synthesize myTextView = _myTextView;
 @synthesize myLabel = _myLabel;
+@synthesize renewButton = _renewButton;
 
 
 - (void)viewDidLoad {
@@ -73,6 +74,7 @@
     self.signOutButton = nil;
 //    self.myTextView = nil;
     self.myLabel = nil;
+    self.renewButton = nil;
     
     [super dealloc];
 }
@@ -110,7 +112,7 @@
 }
 
 - (void)useAnotherAccountPressed:(id)sender {
-    NSLog(@"abc");
+//    NSLog(@"abc");
     [self acquireTokenInteractively:YES];
 }
 
@@ -128,19 +130,28 @@
             [ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken = result.accessToken;
 //            NSLog(@"token: %@", result.accessToken);
 //            self.myTextView.text = [result.account username];
-            self.myLabel.text = [result.account username];
             [ArcosConstantsDataManager sharedArcosConstantsDataManager].currentAccountAddress = [result.account username];
+//            NSLog(@"expired at: %@", result.expiresOn);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.myLabel.text = [result.account username];
+            });
 //            [self retrieveContentWithToken];
 //                [self sendMailProcessor];
         } else {
-            [ArcosUtils showDialogBox:[error description] title:@"" delegate:nil target:self tag:0 handler:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [ArcosUtils showDialogBox:[error description] title:@"" delegate:nil target:self tag:0 handler:nil];
+            });
         }
     }];
 }
 
 - (MSALAccount*)currentAccount {
     NSArray* accountList = [[ArcosConstantsDataManager sharedArcosConstantsDataManager].applicationContext allAccounts:nil];
-    NSLog(@"account count: %d", [ArcosUtils convertNSUIntegerToUnsignedInt:[accountList count]]);
+//    NSLog(@"account count: %d", [ArcosUtils convertNSUIntegerToUnsignedInt:[accountList count]]);
+//    for (int i = 0; i < [accountList count]; i++) {
+//        MSALAccount* tmpMSALAccount = [accountList objectAtIndex:i];
+//        NSLog(@"index %d: %@", i, tmpMSALAccount.username);
+//    }
     if ([accountList count] > 0) {
         return accountList.firstObject;
     }
@@ -169,5 +180,30 @@
     [arcosSplitViewController rightMoveMasterViewController];
 }
 
+
+- (IBAction)renewPressed:(id)sender {
+    self.renewButton.enabled = NO;
+    MSALAccount* myMSALAccount = [self currentAccount];
+    MSALSilentTokenParameters* myMSALSilentTokenParameters = [[[MSALSilentTokenParameters alloc] initWithScopes:self.kScopes account:myMSALAccount] autorelease];
+    [[ArcosConstantsDataManager sharedArcosConstantsDataManager].applicationContext acquireTokenSilentWithParameters:myMSALSilentTokenParameters completionBlock:^(MSALResult * _Nullable result, NSError * _Nullable error) {
+        if (!error) {
+            [ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken = result.accessToken;
+//            NSLog(@"renew token: %@", result.accessToken);
+            [ArcosConstantsDataManager sharedArcosConstantsDataManager].currentAccountAddress = [result.account username];
+//            NSLog(@"renew expired at: %@", result.expiresOn);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.myLabel.text = [result.account username];
+                [ArcosUtils showDialogBox:@"Completed" title:@"" delegate:nil target:self tag:0 handler:nil];
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [ArcosUtils showDialogBox:[error description] title:@"" delegate:nil target:self tag:0 handler:nil];
+            });
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.renewButton.enabled = YES;
+        });
+    }];
+}
 
 @end

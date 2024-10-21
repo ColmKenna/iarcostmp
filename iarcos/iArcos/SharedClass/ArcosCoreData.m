@@ -554,7 +554,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 - (NSMutableArray*)descrDetailWithDescrCodeType:(NSString *)aDescrCodeType parentCode:(NSString*)aParentCode checkActive:(BOOL)aCheckFlag {
     NSPredicate* predicate = [self.arcosCoreDataManager descrDetailWithDescrCodeType:aDescrCodeType parentCode:aParentCode checkActive:aCheckFlag];
     NSArray* sortDescNames = [NSArray arrayWithObjects:@"Detail",nil];
-    NSArray* properties = [NSArray arrayWithObjects:@"DescrDetailIUR",@"ImageIUR", @"Detail", @"DescrDetailCode", nil];
+    NSArray* properties = [NSArray arrayWithObjects:@"DescrDetailIUR",@"ImageIUR", @"Detail", @"DescrDetailCode", @"Active", nil];
     NSMutableArray* descrList = [self fetchRecordsWithEntity:@"DescrDetail" withPropertiesToFetch:properties
                           withPredicate:predicate withSortDescNames:sortDescNames withResulType:NSDictionaryResultType
                            needDistinct:NO ascending:nil];

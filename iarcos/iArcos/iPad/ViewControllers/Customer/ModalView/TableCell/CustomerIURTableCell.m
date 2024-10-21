@@ -170,20 +170,23 @@
         NSString* rcDescrDetailCode = [self.delegate retrieveDescrDetailCodeWithDescrTypeCode:@"RC"];
 //        NSLog(@"tees %@", rcDescrDetailCode);
         if (rcDescrDetailCode != nil) {
-            dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode parentCode:rcDescrDetailCode checkActive:NO];
+            dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode parentCode:rcDescrDetailCode checkActive:YES];
         } else {
-            dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode];
+//            dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode];
+            dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode parentCode:nil checkActive:YES];
         }
     } else if ([descrTypeCode isEqualToString:@"TC"]) {
         NSString* ccDescrDetailCode = [self.delegate retrieveDescrDetailCodeWithDescrTypeCode:@"CC"];
 //        NSLog(@"test %@", ccDescrDetailCode);
         if (ccDescrDetailCode != nil) {
-            dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode parentCode:ccDescrDetailCode checkActive:NO];
+            dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode parentCode:ccDescrDetailCode checkActive:YES];
         } else {
-            dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode];
+//            dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode];
+            dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode parentCode:nil checkActive:YES];
         }
     } else {
-        dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode];
+//        dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode];
+        dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode parentCode:nil checkActive:YES];
     }
       
     navigationBarTitle = [[[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:descrTypeCode] objectForKey:@"Details"];

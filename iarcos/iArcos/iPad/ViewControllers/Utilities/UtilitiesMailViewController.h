@@ -23,6 +23,7 @@
     ArcosBorderUIButton* _signOutButton;
 //    UITextView* _myTextView;
     UILabel* _myLabel;
+    ArcosBorderUIButton* _renewButton;
 }
 
 @property(nonatomic, assign) id<CustomisePresentViewControllerDelegate> presentDelegate;
@@ -32,9 +33,11 @@
 @property(nonatomic, retain) IBOutlet ArcosBorderUIButton* signOutButton;
 //@property(nonatomic, retain) IBOutlet UITextView* myTextView;
 @property(nonatomic, retain) IBOutlet UILabel* myLabel;
+@property(nonatomic, retain) IBOutlet ArcosBorderUIButton* renewButton;
 
 - (IBAction)signOutPressed:(id)sender;
 - (IBAction)signInPressed:(id)sender;
+- (IBAction)renewPressed:(id)sender;
 
 @end
 
