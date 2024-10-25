@@ -12,7 +12,7 @@
 
 @interface UtilitiesMailDataManager : NSObject
 
-- (void)renewPressedProcessor:(BOOL)aShowErrorMsgFlag errorMsg:(NSString*)anErrorMsg target:(UIViewController*)aTarget failedHandler:(void (^)(void))failedHandler successfulHandler:(void (^)(void))successfulHandler;
+- (void)renewPressedProcessorWithFailureHandler:(void (^)(void))failureHandler successHandler:(void (^)(void))successHandler completionHandler:(void (^)(void))completionHandler;
 
 @end
 

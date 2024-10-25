@@ -191,16 +191,6 @@
                 [ArcosUtils showDialogBox:[error localizedDescription] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
                     
                 }];
-//                void (^myFailedHandler)(void) = ^ {
-//                    [weakSelf.HUD hide:YES];
-//                    [ArcosUtils showDialogBox:[error localizedDescription] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
-//                        
-//                    }];
-//                };
-//                void (^mySuccessfulHandler)(void) = ^ {
-//                    [weakSelf.HUD hide:YES];
-//                };
-//                [self.utilitiesMailDataManager renewPressedProcessor:YES errorMsg:[error localizedDescription] target:weakSelf failedHandler:myFailedHandler successfulHandler:mySuccessfulHandler];
             });
         } else {
             NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
@@ -217,16 +207,20 @@
 //                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
 //                        
 //                    }];
-                    void (^myFailedHandler)(void) = ^ {
+                    void (^myFailureHandler)(void) = ^ {
                         [weakSelf.HUD hide:YES];
                         [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
                             
                         }];
                     };
-                    void (^mySuccessfulHandler)(void) = ^ {
+                    void (^mySuccessHandler)(void) = ^ {
                         [weakSelf.HUD hide:YES];
                     };
-                    [self.utilitiesMailDataManager renewPressedProcessor:YES errorMsg:[error localizedDescription] target:weakSelf failedHandler:myFailedHandler successfulHandler:mySuccessfulHandler];
+                    void (^myCompletionHandler)(void) = ^ {
+                        weakSelf.HUD.labelText = @"";
+                    };
+                    weakSelf.HUD.labelText = @"Reconnecting";
+                    [self.utilitiesMailDataManager renewPressedProcessorWithFailureHandler:myFailureHandler successHandler:mySuccessHandler completionHandler:myCompletionHandler];
                 });
             } else {
                 self.customerCalendarListDataManager.displayList = [NSMutableArray array];
@@ -259,7 +253,7 @@
                     NSDictionary* tmpLocationDict = [objectArray objectAtIndex:i];
                     NSNumber* tmpLocationIUR = [ArcosUtils convertNilToZero:[tmpLocationDict objectForKey:@"LocationIUR"]];
                     if ([tmpLocationIUR intValue] != 0) {
-                        [self.customerCalendarListDataManager.locationIURHashMap setObject:tmpLocationIUR forKey:tmpLocationIUR];
+                        [self.customerCalendarListDataManager.locationIURHashMap setObject:tmpLocationDict forKey:tmpLocationIUR];
                     }
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -310,27 +304,65 @@
     // Configure the cell...
     NSDictionary* eventDict = [self.customerCalendarListDataManager.eventDictList objectAtIndex:indexPath.row];
     NSNumber* auxLocationIUR = [self.customerCalendarListDataManager.calendarUtilityDataManager retrieveLocationIURWithEventDict:eventDict];
-    if ([self.customerCalendarListDataManager.locationIURHashMap objectForKey:auxLocationIUR] != nil) {
-        cell.nameLabel.textColor = [UIColor blackColor];
-        cell.addressLabel.textColor = [UIColor blackColor];
-    } else {
-        cell.nameLabel.textColor = [UIColor lightGrayColor];
-        cell.addressLabel.textColor = [UIColor lightGrayColor];
-    }
+    NSDictionary* auxCoreDataLocationDict = [self.customerCalendarListDataManager.locationIURHashMap objectForKey:auxLocationIUR];
     //Location
     NSDictionary* locationDict = [eventDict objectForKey:@"location"];
-    cell.nameLabel.text = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"displayName"]]];
+    if (auxCoreDataLocationDict != nil) {
+        cell.nameLabel.textColor = [UIColor blackColor];
+        cell.addressLabel.textColor = [UIColor blackColor];
+        cell.locationCodeLabel.textColor = [UIColor blackColor];
+        cell.nameLabel.text = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"displayName"]]];
+        cell.addressLabel.text = [NSString stringWithFormat:@"%@ %@ %@ %@ %@",[ArcosUtils convertNilToEmpty:[auxCoreDataLocationDict objectForKey:@"Address1"]], [ArcosUtils convertNilToEmpty:[auxCoreDataLocationDict objectForKey:@"Address2"]], [ArcosUtils convertNilToEmpty:[auxCoreDataLocationDict objectForKey:@"Address3"]], [ArcosUtils convertNilToEmpty:[auxCoreDataLocationDict objectForKey:@"Address4"]], [ArcosUtils convertNilToEmpty:[auxCoreDataLocationDict objectForKey:@"Address5"]]];
+    } else {
+        cell.nameLabel.textColor = [UIColor colorWithRed:1.0 green:165.0/255.0 blue:0.0 alpha:1.0];
+        cell.addressLabel.textColor = [UIColor colorWithRed:1.0 green:165.0/255.0 blue:0.0 alpha:1.0];
+        cell.locationCodeLabel.textColor = [UIColor colorWithRed:1.0 green:165.0/255.0 blue:0.0 alpha:1.0];
+        //Title
+        cell.nameLabel.text = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[eventDict objectForKey:@"subject"]]];
+        //Location
+        cell.addressLabel.text = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"displayName"]]];
+    }
+    
+//    cell.nameLabel.text = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"displayName"]]];
     //Time
     NSDictionary* cellStartDict = [eventDict objectForKey:@"start"];
     NSString* tmpCellStartDateStr = [cellStartDict objectForKey:@"dateTime"];
     NSDate* tmpCellStartDate = [ArcosUtils dateFromString:tmpCellStartDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
     cell.locationCodeLabel.text = [ArcosUtils stringFromDate:tmpCellStartDate format:[GlobalSharedClass shared].datetimehmFormat];
     
-    //Title
-    cell.addressLabel.text = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[eventDict objectForKey:@"subject"]]];
+    
     
     [cell.locationStatusButton setImage:nil forState:UIControlStateNormal];
     [cell.creditStatusButton setImage:nil forState:UIControlStateNormal];
+    
+    if (auxCoreDataLocationDict != nil) {
+        NSNumber* locationStatusIUR = [auxCoreDataLocationDict objectForKey:@"lsiur"];
+        NSNumber* creditStatusIUR = [auxCoreDataLocationDict objectForKey:@"CSiur"];
+        NSMutableArray* descrDetailIURList = [NSMutableArray arrayWithObjects:locationStatusIUR, creditStatusIUR, nil];
+        NSMutableArray* descrDetailDictList = [[ArcosCoreData sharedArcosCoreData] descriptionWithIURList:descrDetailIURList];
+        NSMutableDictionary* descrDetailDictHashMap = [NSMutableDictionary dictionaryWithCapacity:[descrDetailDictList count]];
+        for (int i = 0; i < [descrDetailDictList count]; i++) {
+            NSDictionary* auxDescrDetailDict = [descrDetailDictList objectAtIndex:i];
+            NSNumber* auxDescrDetailIUR = [auxDescrDetailDict objectForKey:@"DescrDetailIUR"];
+            NSNumber* auxImageIUR = [auxDescrDetailDict objectForKey:@"ImageIUR"];
+            [descrDetailDictHashMap setObject:auxImageIUR forKey:auxDescrDetailIUR];
+        }
+        NSNumber* locationStatusImageIUR = [descrDetailDictHashMap objectForKey:locationStatusIUR];
+        if ([locationStatusImageIUR intValue] != 0) {
+            UIImage* locationStatusImage = [[ArcosCoreData sharedArcosCoreData] thumbWithIUR:locationStatusImageIUR];
+            if (locationStatusImage != nil) {
+                [cell.locationStatusButton setImage:locationStatusImage forState:UIControlStateNormal];
+            }
+        }
+        NSNumber* creditStatusImageIUR = [descrDetailDictHashMap objectForKey:creditStatusIUR];
+        if ([creditStatusImageIUR intValue] != 0) {
+            UIImage* creditStatusImage = [[ArcosCoreData sharedArcosCoreData] thumbWithIUR:creditStatusImageIUR];
+            if (creditStatusImage != nil) {
+                [cell.creditStatusButton setImage:creditStatusImage forState:UIControlStateNormal];
+            }
+        }
+    }
+    
     
     for (UIGestureRecognizer* recognizer in cell.contentView.gestureRecognizers) {
         [cell.contentView removeGestureRecognizer:recognizer];

@@ -10,7 +10,7 @@
 
 @implementation UtilitiesMailDataManager
 
-- (void)renewPressedProcessor:(BOOL)aShowErrorMsgFlag errorMsg:(NSString*)anErrorMsg target:(UIViewController*)aTarget failedHandler:(void (^)(void))failedHandler successfulHandler:(void (^)(void))successfulHandler {
+- (void)renewPressedProcessorWithFailureHandler:(void (^)(void))failureHandler successHandler:(void (^)(void))successHandler completionHandler:(void (^)(void))completionHandler {
     
     MSALAccount* myMSALAccount = [[ArcosConstantsDataManager sharedArcosConstantsDataManager] currentAccount];
     MSALSilentTokenParameters* myMSALSilentTokenParameters = [[[MSALSilentTokenParameters alloc] initWithScopes:[ArcosConstantsDataManager sharedArcosConstantsDataManager].kScopes account:myMSALAccount] autorelease];
@@ -21,14 +21,16 @@
             [ArcosConstantsDataManager sharedArcosConstantsDataManager].currentAccountAddress = [result.account username];
             NSLog(@"renew pc expired at: %@", result.expiresOn);
             dispatch_async(dispatch_get_main_queue(), ^{
-                successfulHandler();
-                [ArcosUtils showDialogBox:@"Renewed" title:@"" target:aTarget handler:nil];
+                successHandler();
             });
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                failedHandler();
+                failureHandler();
             });
         }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionHandler();
+        });        
     }];
 }
 
