@@ -25,6 +25,7 @@
 @synthesize calendarUtilityDataManager = _calendarUtilityDataManager;
 @synthesize arcosRootViewController = _arcosRootViewController;
 @synthesize globalNavigationController = _globalNavigationController;
+@synthesize utilitiesMailDataManager = _utilitiesMailDataManager;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -33,6 +34,7 @@
         self.detailingCalendarEventBoxViewDataManager = [[[DetailingCalendarEventBoxViewDataManager alloc] init] autorelease];
         self.customerJourneyDataManager = [[[CustomerJourneyDataManager alloc] init] autorelease];
         self.calendarUtilityDataManager = [[[CalendarUtilityDataManager alloc] init] autorelease];
+        self.utilitiesMailDataManager = [[[UtilitiesMailDataManager alloc] init] autorelease];
     }
     return self;
 }
@@ -92,6 +94,7 @@
     self.calendarUtilityDataManager = nil;
     self.arcosRootViewController = nil;
     self.globalNavigationController = nil;
+    self.utilitiesMailDataManager = nil;
     
     [super dealloc];
 }
@@ -188,6 +191,16 @@
                 [ArcosUtils showDialogBox:[error localizedDescription] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
                     
                 }];
+//                void (^myFailedHandler)(void) = ^ {
+//                    [weakSelf.HUD hide:YES];
+//                    [ArcosUtils showDialogBox:[error localizedDescription] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
+//                        
+//                    }];
+//                };
+//                void (^mySuccessfulHandler)(void) = ^ {
+//                    [weakSelf.HUD hide:YES];
+//                };
+//                [self.utilitiesMailDataManager renewPressedProcessor:YES errorMsg:[error localizedDescription] target:weakSelf failedHandler:myFailedHandler successfulHandler:mySuccessfulHandler];
             });
         } else {
             NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
@@ -200,10 +213,20 @@
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.HUD hide:YES];
-                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
-                        
-                    }];
+//                    [weakSelf.HUD hide:YES];
+//                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
+//                        
+//                    }];
+                    void (^myFailedHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
+                            
+                        }];
+                    };
+                    void (^mySuccessfulHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                    };
+                    [self.utilitiesMailDataManager renewPressedProcessor:YES errorMsg:[error localizedDescription] target:weakSelf failedHandler:myFailedHandler successfulHandler:mySuccessfulHandler];
                 });
             } else {
                 self.customerCalendarListDataManager.displayList = [NSMutableArray array];

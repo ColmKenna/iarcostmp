@@ -17,7 +17,7 @@
 
 @interface UtilitiesMailViewController : UIViewController <ModalPresentViewControllerDelegate>{
     id<CustomisePresentViewControllerDelegate> _presentDelegate;
-    NSArray* _kScopes;
+//    NSArray* _kScopes;
     MSALWebviewParameters* _webViewParameters;
     ArcosBorderUIButton* _signInButton;
     ArcosBorderUIButton* _signOutButton;
@@ -27,7 +27,7 @@
 }
 
 @property(nonatomic, assign) id<CustomisePresentViewControllerDelegate> presentDelegate;
-@property(nonatomic, retain) NSArray* kScopes;
+//@property(nonatomic, retain) NSArray* kScopes;
 @property(nonatomic, retain) MSALWebviewParameters* webViewParameters;
 @property(nonatomic, retain) IBOutlet ArcosBorderUIButton* signInButton;
 @property(nonatomic, retain) IBOutlet ArcosBorderUIButton* signOutButton;

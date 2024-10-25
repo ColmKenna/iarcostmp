@@ -42,7 +42,7 @@
 @property (nonatomic, retain) NSNumber * EmployeeIUR;
 @property (nonatomic, retain) NSNumber * MemoIUR;
 @property (nonatomic, retain) NSString * Nominal;
-@property (nonatomic, retain) NSNumber * Dec1;
+@property (nonatomic, retain) NSDecimalNumber * Dec1;
 @property (nonatomic, retain) NSNumber * Toggle1;
 @property (nonatomic, retain) NSString * PhoneNumber;
 @property (nonatomic, retain) NSString * DescrDetailCode;

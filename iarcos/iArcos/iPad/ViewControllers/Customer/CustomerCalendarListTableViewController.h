@@ -17,6 +17,7 @@
 #import "ArcosNoBgSegmentedControl.h"
 #import "DetailingCalendarEventBoxViewDataManager.h"
 @class ArcosRootViewController;
+#import "UtilitiesMailDataManager.h"
 
 @interface CustomerCalendarListTableViewController : CustomerBaseDetailViewController <CheckLocationIURTemplateDelegate, GenericRefreshParentContentDelegate, ModalPresentViewControllerDelegate, ArcosCalendarEventEntryDetailTemplateViewControllerDelegate>{
     MBProgressHUD* _HUD;
@@ -29,6 +30,7 @@
     CalendarUtilityDataManager* _calendarUtilityDataManager;
     ArcosRootViewController* _arcosRootViewController;
     UINavigationController* _globalNavigationController;
+    UtilitiesMailDataManager* _utilitiesMailDataManager;
 }
 
 @property(nonatomic,retain) MBProgressHUD* HUD;
@@ -41,6 +43,7 @@
 @property(nonatomic, retain) CalendarUtilityDataManager* calendarUtilityDataManager;
 @property (nonatomic, retain) ArcosRootViewController* arcosRootViewController;
 @property(nonatomic, retain) UINavigationController* globalNavigationController;
+@property(nonatomic, retain) UtilitiesMailDataManager* utilitiesMailDataManager;
 
 @end
 

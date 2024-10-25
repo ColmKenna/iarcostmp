@@ -16,7 +16,7 @@
 
 @implementation UtilitiesMailViewController
 @synthesize presentDelegate = _presentDelegate;
-@synthesize kScopes = _kScopes;
+//@synthesize kScopes = _kScopes;
 @synthesize webViewParameters = _webViewParameters;
 @synthesize signInButton = _signInButton;
 @synthesize signOutButton = _signOutButton;
@@ -48,7 +48,7 @@
 //    UIBarButtonItem* signInButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign In" style:UIBarButtonItemStylePlain target:self action:@selector(signInPressed:)];
 //    [self.navigationItem setRightBarButtonItem:signInButton];
 //    [signInButton release];
-    self.kScopes = [NSArray arrayWithObjects:@"https://graph.microsoft.com/user.read", @"https://graph.microsoft.com/Mail.Send", @"https://graph.microsoft.com/Mail.ReadWrite", @"https://graph.microsoft.com/Calendars.Read", @"https://graph.microsoft.com/Calendars.ReadWrite", nil];
+//    self.kScopes = [NSArray arrayWithObjects:@"https://graph.microsoft.com/user.read", @"https://graph.microsoft.com/Mail.Send", @"https://graph.microsoft.com/Mail.ReadWrite", @"https://graph.microsoft.com/Calendars.Read", @"https://graph.microsoft.com/Calendars.ReadWrite", nil];
 //    self.webViewParameters = [[[MSALWebviewParameters alloc] initWithParentViewController:self] autorelease];
     self.webViewParameters = [[[MSALWebviewParameters alloc] initWithAuthPresentationViewController:self] autorelease];
 //    self.webViewParameters.webviewType = MSALWebviewTypeWKWebView;
@@ -68,7 +68,7 @@
 }
 
 - (void)dealloc {
-    self.kScopes = nil;
+//    self.kScopes = nil;
     self.webViewParameters = nil;
     self.signInButton = nil;
     self.signOutButton = nil;
@@ -121,7 +121,7 @@
 }
 
 - (void)acquireTokenInteractively:(BOOL)aLoginFlag {
-    MSALInteractiveTokenParameters* parameters = [[[MSALInteractiveTokenParameters alloc] initWithScopes:self.kScopes webviewParameters:self.webViewParameters] autorelease];
+    MSALInteractiveTokenParameters* parameters = [[[MSALInteractiveTokenParameters alloc] initWithScopes:[ArcosConstantsDataManager sharedArcosConstantsDataManager].kScopes webviewParameters:self.webViewParameters] autorelease];
     if (aLoginFlag) {
         parameters.promptType = MSALPromptTypeLogin;
     }
@@ -184,7 +184,7 @@
 - (IBAction)renewPressed:(id)sender {
     self.renewButton.enabled = NO;
     MSALAccount* myMSALAccount = [self currentAccount];
-    MSALSilentTokenParameters* myMSALSilentTokenParameters = [[[MSALSilentTokenParameters alloc] initWithScopes:self.kScopes account:myMSALAccount] autorelease];
+    MSALSilentTokenParameters* myMSALSilentTokenParameters = [[[MSALSilentTokenParameters alloc] initWithScopes:[ArcosConstantsDataManager sharedArcosConstantsDataManager].kScopes account:myMSALAccount] autorelease];
     [[ArcosConstantsDataManager sharedArcosConstantsDataManager].applicationContext acquireTokenSilentWithParameters:myMSALSilentTokenParameters completionBlock:^(MSALResult * _Nullable result, NSError * _Nullable error) {
         if (!error) {
             [ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken = result.accessToken;
