@@ -209,7 +209,7 @@
 //                    }];
                     void (^myFailureHandler)(void) = ^ {
                         [weakSelf.HUD hide:YES];
-                        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
+                        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" target:weakSelf handler:^(UIAlertAction *action) {
                             
                         }];
                     };
@@ -219,7 +219,7 @@
                     void (^myCompletionHandler)(void) = ^ {
                         weakSelf.HUD.labelText = @"";
                     };
-                    weakSelf.HUD.labelText = @"Reconnecting";
+                    weakSelf.HUD.labelText = self.utilitiesMailDataManager.reconnectText;
                     [self.utilitiesMailDataManager renewPressedProcessorWithFailureHandler:myFailureHandler successHandler:mySuccessHandler completionHandler:myCompletionHandler];
                 });
             } else {

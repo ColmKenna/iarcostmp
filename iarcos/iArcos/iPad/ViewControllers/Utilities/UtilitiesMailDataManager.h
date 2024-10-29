@@ -10,7 +10,11 @@
 #import "ArcosConstantsDataManager.h"
 #import "ArcosUtils.h"
 
-@interface UtilitiesMailDataManager : NSObject
+@interface UtilitiesMailDataManager : NSObject {
+    NSString* _reconnectText;
+}
+
+@property (nonatomic,retain) NSString* reconnectText;
 
 - (void)renewPressedProcessorWithFailureHandler:(void (^)(void))failureHandler successHandler:(void (^)(void))successHandler completionHandler:(void (^)(void))completionHandler;
 

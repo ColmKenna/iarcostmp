@@ -25,6 +25,7 @@
     ArcosService* _arcosService;
     CustomerJourneyDataManager* _customerJourneyDataManager;
     UINavigationController* _globalNavigationController;
+    UtilitiesMailDataManager* _utilitiesMailDataManager;
 }
 
 @property(nonatomic, retain) ArcosCalendarTableDataManager* arcosCalendarTableDataManager;
@@ -34,6 +35,7 @@
 @property(nonatomic, retain) ArcosService* arcosService;
 @property(nonatomic, retain) CustomerJourneyDataManager* customerJourneyDataManager;
 @property(nonatomic, retain) UINavigationController* globalNavigationController;
+@property(nonatomic, retain) UtilitiesMailDataManager* utilitiesMailDataManager;
 
 @end
 

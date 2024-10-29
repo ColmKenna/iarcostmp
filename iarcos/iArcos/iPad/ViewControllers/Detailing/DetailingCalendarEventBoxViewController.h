@@ -54,6 +54,7 @@
     UIButton* _imageButton;
     CustomerJourneyDataManager* _customerJourneyDataManager;
     CalendarUtilityDataManager* _calendarUtilityDataManager;
+    UtilitiesMailDataManager* _utilitiesMailDataManager;
 }
 
 @property(nonatomic, assign) id<DetailingCalendarEventBoxViewControllerDelegate> actionDelegate;
@@ -89,6 +90,7 @@
 @property(nonatomic,retain) IBOutlet UIButton* imageButton;
 @property(nonatomic, retain) CustomerJourneyDataManager* customerJourneyDataManager;
 @property(nonatomic, retain) CalendarUtilityDataManager* calendarUtilityDataManager;
+@property(nonatomic, retain) UtilitiesMailDataManager* utilitiesMailDataManager;
 
 - (IBAction)saveToCalendarButtonPressed;
 - (IBAction)dateComponentPicked:(id)sender;

@@ -9,6 +9,21 @@
 #import "UtilitiesMailDataManager.h"
 
 @implementation UtilitiesMailDataManager
+@synthesize reconnectText = _reconnectText;
+
+- (instancetype)init {
+    self = [super init];
+    if (self != nil) {
+        self.reconnectText = @"Reconnecting";
+    }
+    
+    return self;
+}
+
+- (void)dealloc {
+    self.reconnectText = nil;
+    [super dealloc];
+}
 
 - (void)renewPressedProcessorWithFailureHandler:(void (^)(void))failureHandler successHandler:(void (^)(void))successHandler completionHandler:(void (^)(void))completionHandler {
     
@@ -17,9 +32,9 @@
     [[ArcosConstantsDataManager sharedArcosConstantsDataManager].applicationContext acquireTokenSilentWithParameters:myMSALSilentTokenParameters completionBlock:^(MSALResult * _Nullable result, NSError * _Nullable error) {
         if (!error) {
             [ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken = result.accessToken;
-            NSLog(@"renew pc token: %@", result.accessToken);
+//            NSLog(@"renew pc token: %@", result.accessToken);
             [ArcosConstantsDataManager sharedArcosConstantsDataManager].currentAccountAddress = [result.account username];
-            NSLog(@"renew pc expired at: %@", result.expiresOn);
+//            NSLog(@"renew pc expired at: %@", result.expiresOn);
             dispatch_async(dispatch_get_main_queue(), ^{
                 successHandler();
             });
