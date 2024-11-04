@@ -2795,6 +2795,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
         return nil;
     }
 }
+- (NSMutableArray*)retrieveOrderHeaderWithLocationIURList:(NSMutableArray*)aLocationIURList {
+    NSPredicate* predicateOrder = [NSPredicate predicateWithFormat:@"LocationIUR in %@ and NumberOflines <= 0", aLocationIURList];
+    NSArray* sortDescNames = [NSArray arrayWithObjects:@"EnteredDate",nil];
+    NSMutableArray* objectArray = [self fetchRecordsWithEntity:@"OrderHeader" withPropertiesToFetch:nil  withPredicate:predicateOrder withSortDescNames:sortDescNames withResulType:NSManagedObjectResultType needDistinct:NO ascending:[NSNumber numberWithBool:NO]];
+    if ([objectArray count] > 0) {
+        return objectArray;
+    } else {
+        return nil;
+    }
+}
 #pragma mark description data
 - (NSDictionary*)descriptionWithIUR:(NSNumber*)anIUR{
     

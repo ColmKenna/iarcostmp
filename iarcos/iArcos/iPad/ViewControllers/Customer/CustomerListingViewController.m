@@ -52,6 +52,7 @@
 @synthesize customerTypesDataManager = _customerTypesDataManager;
 @synthesize myArcosAdminEmail = _myArcosAdminEmail;
 @synthesize customerListingDataManager = _customerListingDataManager;
+@synthesize customerListingTableCellGeneratorDelegate = _customerListingTableCellGeneratorDelegate;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -59,6 +60,8 @@
     if (self) {
         // Custom initialization
         tableData = [[NSMutableArray alloc]init];
+        self.customerListingTableCellGeneratorDelegate = [[[CustomerListingTableCellGenerator alloc] init] autorelease];
+        self.customerListingDataManager = [[[CustomerListingDataManager alloc] init] autorelease];
     }
     return self;
 }
@@ -86,6 +89,7 @@
 //    self.customerGroupViewController = nil;
 //    self.customerGroupNavigationController = nil;
     self.customerListingDataManager = nil;
+    self.customerListingTableCellGeneratorDelegate = nil;
     
     [super dealloc];
 }
@@ -111,7 +115,6 @@
 //    mySearchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0,1024,44)];
 //    mySearchBar.autocorrectionType = UITextAutocorrectionTypeNo;
 //    mySearchBar.delegate = self;
-    self.customerListingDataManager = [[[CustomerListingDataManager alloc] init] autorelease];
     [ArcosUtils configEdgesForExtendedLayout:self];
     needIndexView=YES;
     
@@ -125,9 +128,11 @@
     
     
     UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addPressed:)];
-    NSMutableArray* buttonList = [NSMutableArray arrayWithObjects:addButton, nil];
+    UIBarButtonItem* toggleListButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"List2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleListButtonPressed:)];
+    NSMutableArray* buttonList = [NSMutableArray arrayWithObjects:addButton, toggleListButton, nil];
     [self.navigationItem setRightBarButtonItems:buttonList];
     [addButton release];
+    [toggleListButton release];
     connectivityCheck=[[ConnectivityCheck alloc]init];
     self.checkLocationIURTemplateProcessor = [[[CheckLocationIURTemplateProcessor alloc] initWithParentViewController:self] autorelease];
     self.checkLocationIURTemplateProcessor.delegate = self;
@@ -257,6 +262,20 @@
 }
 
 #pragma mark - Table view data source
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (!self.customerListingDataManager.useCallTableCellFlag) {
+        return 44.0;
+    }
+    NSString* aKey = [sortKeys objectAtIndex:indexPath.section+1];
+    NSMutableArray* aSectionArray = [self.customerSections objectForKey:aKey];
+    NSMutableDictionary* aCust = [aSectionArray objectAtIndex:indexPath.row];
+    NSNumber* tmpLocationIUR = [aCust objectForKey:@"LocationIUR"];
+    if ([self.customerListingDataManager.callHeaderHashMap objectForKey:tmpLocationIUR] == nil) {
+        return 44.0;
+    }
+    NSNumber* memoTextViewHeight = [self.customerListingDataManager.memoTextViewHeightHashMap objectForKey:tmpLocationIUR];
+    return 61.0 + 4.0 + [memoTextViewHeight floatValue];
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -281,6 +300,7 @@
 //    if (cell == nil) {
 //        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
 //    }
+    /*
     static NSString *CellIdentifier = @"IdCustomerListingTableCell";
     
     CustomerListingTableCell* cell = (CustomerListingTableCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -294,6 +314,8 @@
             }
         }
     }
+     */
+    CustomerListingTableCell* cell = [self.customerListingTableCellGeneratorDelegate generateTableCellWithTableView:tableView];
     
     // Configure the cell...
     NSString* aKey=[sortKeys objectAtIndex:indexPath.section+1];
@@ -362,6 +384,10 @@
             [cell.creditStatusButton setImage:creditStatusImage forState:UIControlStateNormal];
         }
     }
+    
+    [cell configCallInfoWithCallHeader:[self.customerListingDataManager.callHeaderHashMap objectForKey:[aCust objectForKey:@"LocationIUR"]]];
+    NSNumber* memoTextViewHeight = [self.customerListingDataManager.memoTextViewHeightHashMap objectForKey:[aCust objectForKey:@"LocationIUR"]];
+    cell.memoTextView.frame = CGRectMake(cell.memoTextView.frame.origin.x, cell.memoTextView.frame.origin.y, cell.memoTextView.frame.size.width, [memoTextViewHeight floatValue]);
     
     return cell;
 }
@@ -471,7 +497,10 @@
 
 #pragma mark - additional functions
 -(void)resetCustomer:(NSMutableArray*)customers{
-
+    [self.customerListingDataManager callHeaderProcessorWithDataList:customers];
+    if (self.customerListingDataManager.useCallTableCellFlag) {
+        [self.customerListingDataManager memoTextViewHeightProcessor];
+    }
     self.myCustomers=customers;
 //    if ([tableData count]>0) {
 //        
@@ -772,6 +801,27 @@
     } completion:^(BOOL finished){
         
     }];
+}
+
+- (void)toggleListButtonPressed:(id)sender {
+    NSArray* indexPathsVisibleRows = [self.tableView indexPathsForVisibleRows];
+    if ([indexPathsVisibleRows count] > 0) {
+        NSIndexPath* topIndexPath = [indexPathsVisibleRows firstObject];
+        CustomerListingTableCell* tmpCustomerListingTableCell = [self.tableView cellForRowAtIndexPath:topIndexPath];        
+        self.customerListingDataManager.textViewContentWidth = tmpCustomerListingTableCell.addressLabel.frame.size.width - 10;
+//        NSLog(@"testccdd %@ %.2f", NSStringFromCGRect(tmpCustomerListingTableCell.addressLabel.frame), self.customerListingDataManager.textViewContentWidth);
+    }
+    
+    
+    self.customerListingDataManager.useCallTableCellFlag = !self.customerListingDataManager.useCallTableCellFlag;
+    if (self.customerListingDataManager.useCallTableCellFlag) {
+        self.customerListingTableCellGeneratorDelegate = [[[CustomerListingCallTableCellGenerator alloc] init] autorelease];
+        [self.customerListingDataManager memoTextViewHeightProcessor];
+    } else {
+        self.customerListingTableCellGeneratorDelegate = [[[CustomerListingTableCellGenerator alloc] init] autorelease];
+    }
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark CustomisePresentViewControllerDelegate

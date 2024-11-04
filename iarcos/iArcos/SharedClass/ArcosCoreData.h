@@ -205,6 +205,7 @@ typedef enum {
 - (BOOL)deleteConLocLinkWithIUR:(NSNumber*)anIUR;
 - (NSMutableDictionary*)theLastOrderWithLocationIUR:(NSNumber*)anIUR;
 - (OrderHeader*)theLastOrderHeaderWithLocationIUR:(NSNumber*)anIUR;
+- (NSMutableArray*)retrieveOrderHeaderWithLocationIURList:(NSMutableArray*)aLocationIURList;
 //descrDetail data
 - (NSDictionary*)descriptionWithIUR:(NSNumber*)anIUR;
 - (NSDictionary*)descriptionWithIURActive:(NSNumber*)anIUR;

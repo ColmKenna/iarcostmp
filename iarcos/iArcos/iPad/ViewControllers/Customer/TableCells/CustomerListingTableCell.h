@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OrderHeader.h"
 
 @interface CustomerListingTableCell : UITableViewCell {
     UILabel* _nameLabel;
@@ -14,6 +15,9 @@
     UIButton* _locationStatusButton;
     UIButton* _creditStatusButton;
     UILabel* _locationCodeLabel;
+    UILabel* _dateLabel;
+    UILabel* _contactLabel;
+    UITextView* _memoTextView;
 }
 
 @property(nonatomic, retain) IBOutlet UILabel* nameLabel;
@@ -21,5 +25,10 @@
 @property(nonatomic, retain) IBOutlet UIButton* locationStatusButton;
 @property(nonatomic, retain) IBOutlet UIButton* creditStatusButton;
 @property(nonatomic, retain) IBOutlet UILabel* locationCodeLabel;
+@property(nonatomic, retain) IBOutlet UILabel* dateLabel;
+@property(nonatomic, retain) IBOutlet UILabel* contactLabel;
+@property(nonatomic, retain) IBOutlet UITextView* memoTextView;
+
+- (void)configCallInfoWithCallHeader:(OrderHeader*)anCallHeader;
 
 @end

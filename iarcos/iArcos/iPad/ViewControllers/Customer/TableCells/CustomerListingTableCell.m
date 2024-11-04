@@ -14,6 +14,9 @@
 @synthesize locationStatusButton = _locationStatusButton;
 @synthesize creditStatusButton = _creditStatusButton;
 @synthesize locationCodeLabel = _locationCodeLabel;
+@synthesize dateLabel = _dateLabel;
+@synthesize contactLabel = _contactLabel;
+@synthesize memoTextView = _memoTextView;
 
 - (void)dealloc {
     self.nameLabel = nil;
@@ -21,6 +24,9 @@
     self.locationStatusButton = nil;
     self.creditStatusButton = nil;
     self.locationCodeLabel = nil;
+    self.dateLabel = nil;
+    self.contactLabel = nil;
+    self.memoTextView = nil;
     
     [super dealloc];
 }
@@ -34,6 +40,10 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)configCallInfoWithCallHeader:(OrderHeader*)anCallHeader {
+    
 }
 
 @end
