@@ -58,20 +58,27 @@
 }
 
 - (void)memoTextViewHeightProcessor {
-    NSLog(@"textViewContentWidth %f", self.textViewContentWidth);
+//    NSLog(@"textViewContentWidth %f", self.textViewContentWidth);
     self.memoTextViewHeightHashMap = [NSMutableDictionary dictionaryWithCapacity:[self.callHeaderHashMap count]];
     NSArray* keyList = [self.callHeaderHashMap allKeys];
     for (int i = 0; i < [keyList count]; i++) {
         NSNumber* tmpLocationIUR = [keyList objectAtIndex:i];
         OrderHeader* tmpOrderHeader = [self.callHeaderHashMap objectForKey:tmpLocationIUR];
-        NSMutableAttributedString* attributedDetailsString = [[NSMutableAttributedString alloc] initWithString:[ArcosUtils convertNilToEmpty:tmpOrderHeader.memo.Details] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f]}];
-        CGRect rect = [attributedDetailsString boundingRectWithSize:CGSizeMake(self.textViewContentWidth, CGFLOAT_MAX) options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) context:nil];
-        [attributedDetailsString release];
-        float currentHeight = rect.size.height + 16.0;
-        float resultHeight = (currentHeight > 37.0) ? currentHeight : 37.0;
+        float currentHeight = 0.0;
+        float resultHeight = 0.0;
+        
+        if ([[ArcosUtils trim:[ArcosUtils convertNilToEmpty:tmpOrderHeader.memo.Details]] isEqualToString:@""]) {
+            resultHeight = 0.0;
+        } else {
+            NSMutableAttributedString* attributedDetailsString = [[NSMutableAttributedString alloc] initWithString:[ArcosUtils convertNilToEmpty:tmpOrderHeader.memo.Details] attributes:@{NSFontAttributeName:[UIFont italicSystemFontOfSize:14.0f],NSForegroundColorAttributeName:[UIColor systemOrangeColor]}];
+            CGRect rect = [attributedDetailsString boundingRectWithSize:CGSizeMake(self.textViewContentWidth, CGFLOAT_MAX) options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) context:nil];
+            [attributedDetailsString release];
+            currentHeight = rect.size.height + 16.0;
+            resultHeight = (currentHeight > 37.0) ? currentHeight : 37.0;
+        }
         [self.memoTextViewHeightHashMap setObject:[NSNumber numberWithFloat:resultHeight] forKey:tmpLocationIUR];
     }
-    NSLog(@"%@", self.memoTextViewHeightHashMap);
+//    NSLog(@"%@", self.memoTextViewHeightHashMap);
 }
 
 @end

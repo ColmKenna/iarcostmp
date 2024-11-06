@@ -47,9 +47,9 @@
             self.contactLabel.text = fullName;
         }
     }
-    self.memoTextView.attributedText = [[[NSMutableAttributedString alloc] initWithString:@"" attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f]}] autorelease];
+    self.memoTextView.attributedText = [[[NSMutableAttributedString alloc] initWithString:@"" attributes:@{NSFontAttributeName:[UIFont italicSystemFontOfSize:14.0f],NSForegroundColorAttributeName:[UIColor systemOrangeColor]}] autorelease];
     if (anCallHeader.memo != nil) {
-        NSMutableAttributedString* attributedDetailsString = [[NSMutableAttributedString alloc] initWithString:[ArcosUtils convertNilToEmpty:anCallHeader.memo.Details] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f]}];
+        NSMutableAttributedString* attributedDetailsString = [[NSMutableAttributedString alloc] initWithString:[ArcosUtils convertNilToEmpty:anCallHeader.memo.Details] attributes:@{NSFontAttributeName:[UIFont italicSystemFontOfSize:14.0f],NSForegroundColorAttributeName:[UIColor systemOrangeColor]}];
         self.memoTextView.attributedText = attributedDetailsString;
         [attributedDetailsString release];
     }

@@ -274,7 +274,7 @@
         return 44.0;
     }
     NSNumber* memoTextViewHeight = [self.customerListingDataManager.memoTextViewHeightHashMap objectForKey:tmpLocationIUR];
-    return 61.0 + 4.0 + [memoTextViewHeight floatValue];
+    return 65.0 + 4.0 + [memoTextViewHeight floatValue];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
