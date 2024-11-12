@@ -59,6 +59,9 @@
 @synthesize customerTypesDataManager = _customerTypesDataManager;
 @synthesize myArcosAdminEmail = _myArcosAdminEmail;
 @synthesize customerAccessTimesUtils = _customerAccessTimesUtils;
+@synthesize HUD = _HUD;
+@synthesize detailingCalendarEventBoxViewDataManager = _detailingCalendarEventBoxViewDataManager;
+@synthesize utilitiesMailDataManager = _utilitiesMailDataManager;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -83,6 +86,11 @@
 {
     [super viewDidLoad];
 //    self.tableView.backgroundColor=[UIColor whiteColor];
+    self.detailingCalendarEventBoxViewDataManager = [[[DetailingCalendarEventBoxViewDataManager alloc] init] autorelease];
+    self.utilitiesMailDataManager = [[[UtilitiesMailDataManager alloc] init] autorelease];
+    self.HUD = [[[MBProgressHUD alloc] initWithView:self.navigationController.view] autorelease];
+    self.HUD.dimBackground = YES;
+    [self.navigationController.view addSubview:self.HUD];
     self.customerAccessTimesUtils = [[[CustomerAccessTimesUtils alloc] init] autorelease];
     self.accountBalanceLabel = @"A/C Balance";
     self.tableView.allowsSelection=YES;
@@ -124,9 +132,9 @@
     //set the location iur to order header
     [self.orderHeader setObject:[aCustDict objectForKey:@"LocationIUR"] forKey:@"LocationIUR"];
     [self processLastCallOption];
+    [self processNextCallOption];
     
-    
-    [self.tableView reloadData];
+//    [self.tableView reloadData];// reloadData at processNextCallOption
 }
 - (void)viewDidUnload
 {
@@ -163,6 +171,7 @@
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self layoutMySubviews];
+    self.HUD.frame = self.navigationController.view.bounds;
 }
 
 #pragma mark - Table view data source
@@ -328,18 +337,24 @@
 
         }
         aCell.infoValue.text=[self.aCustDict objectForKey:[self.customerInfoTableDataManager.custKeyList objectAtIndex:indexPath.row]];
-        if (aCell.infoTitle.text != nil && [aCell.infoTitle.text isEqualToString:self.customerInfoTableDataManager.emailLabel] && indexPath.row <= [self.customerInfoTableDataManager.headerItemList count] && aCell.infoValue.text != nil && ![aCell.infoValue.text isEqualToString:@""]) {
+        aCell.infoValue.textColor = [UIColor blackColor];
+        aCell.accessoryType = UITableViewCellAccessoryNone;
+        if (aCell.infoTitle.text != nil && [auxCustKey isEqualToString:self.customerInfoTableDataManager.emailLabel] && aCell.infoValue.text != nil && ![aCell.infoValue.text isEqualToString:@""]) {
             NSDictionary* underlineAttribute = @{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)};
             aCell.infoValue.attributedText = [[[NSAttributedString alloc] initWithString:[self.aCustDict objectForKey:[self.customerInfoTableDataManager.custKeyList objectAtIndex:indexPath.row]] attributes:underlineAttribute] autorelease];
             aCell.infoValue.textColor = [UIColor blueColor];
-            aCell.accessoryType = UITableViewCellAccessoryNone;
+//            aCell.accessoryType = UITableViewCellAccessoryNone;
         } else if (aCell.infoTitle.text != nil && [aCell.infoTitle.text isEqualToString:self.customerInfoTableDataManager.lastCallLabel] && indexPath.row <= [self.customerInfoTableDataManager.headerItemList count] && aCell.infoValue.text != nil && ![aCell.infoValue.text isEqualToString:@""]) {
             aCell.infoValue.textColor = [UIColor blackColor];
             aCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        } else {
-            aCell.infoValue.textColor = [UIColor blackColor];
-            aCell.accessoryType = UITableViewCellAccessoryNone;
+        } else if ([auxCustKey isEqualToString:self.customerInfoTableDataManager.nextCallLabel]) {
+            aCell.infoTitle.text = [self.customerInfoTableDataManager.nextCallHashMap objectForKey:@"fieldDesc"];
+            aCell.infoValue.text = [self.customerInfoTableDataManager.nextCallHashMap objectForKey:@"fieldValue"];
         }
+//        else {
+//            aCell.infoValue.textColor = [UIColor blackColor];
+//            aCell.accessoryType = UITableViewCellAccessoryNone;
+//        }
         aCell.selectionStyle=UITableViewCellSelectionStyleNone;
 
         return aCell;
@@ -733,6 +748,8 @@
 }
 
 -(void)editPressed:(id)sender {
+    self.customerInfoTableDataManager.nextCallLabel = @"suggest call";
+    NSLog(@"custKeyList %@", self.customerInfoTableDataManager.custKeyList);
     if (self.customerInfoTableDataManager.popoverOpenFlag) {
         return;
     }
@@ -810,6 +827,10 @@
     self.customerTypesDataManager = nil;
     self.myArcosAdminEmail = nil;
     self.customerAccessTimesUtils = nil;
+    [self.HUD removeFromSuperview];
+    self.HUD = nil;
+    self.detailingCalendarEventBoxViewDataManager = nil;
+    self.utilitiesMailDataManager = nil;
     
     [super dealloc];
     
@@ -864,11 +885,128 @@
 }
 
 -(void)processLastCallOption {
+    self.customerInfoTableDataManager.lastOrderHeaderFoundFlag = NO;
     OrderHeader* lastOrderHeaderDict = [[ArcosCoreData sharedArcosCoreData] theLastOrderHeaderWithLocationIUR:[self.aCustDict objectForKey:@"LocationIUR"]];
     if (lastOrderHeaderDict != nil) {
         [self.aCustDict setObject:lastOrderHeaderDict.OrderNumber forKey:@"LastOrderNumber"];
         [self.aCustDict setObject:[NSString stringWithFormat:@"%@",[ArcosUtils stringFromDate:lastOrderHeaderDict.OrderDate format:@"dd/MM/yyyy"]] forKey:@"Last Call"];
+        [self.aCustDict setObject:lastOrderHeaderDict.OrderDate forKey:@"LastOrderDate"];
+        self.customerInfoTableDataManager.lastOrderHeaderFoundFlag = YES;
     }
+}
+
+- (void)processNextCallOption {
+    self.customerInfoTableDataManager.nextCallHashMap = [NSMutableDictionary dictionary];
+    [self.customerInfoTableDataManager.nextCallHashMap setObject:self.customerInfoTableDataManager.nextCallLabel forKey:@"fieldDesc"];
+    [self.customerInfoTableDataManager.nextCallHashMap setObject:@"" forKey:@"fieldValue"];
+    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+        [self.tableView reloadData];
+        return;
+    }
+    [self.HUD show:YES];
+    if ([[ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken isEqualToString:@""]) {
+        [self.tableView reloadData];
+        [self.HUD hide:YES];
+        [ArcosUtils showDialogBox:[ArcosConstantsDataManager sharedArcosConstantsDataManager].acctNotSignInMsg title:@"" target:self handler:nil];
+        return;
+    }
+    
+    __weak typeof(self) weakSelf = self;
+    
+    NSDate* startDate = [NSDate date];
+    NSDate* endDate = [ArcosUtils addDays:101 date:startDate];
+    NSString* startDateString = [NSString stringWithFormat:@"%@T00:00:00.000Z", [ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].utcDateFormat]];
+    NSString* endDateString = [NSString stringWithFormat:@"%@T00:00:00.000Z", [ArcosUtils stringFromDate:endDate format:[GlobalSharedClass shared].utcDateFormat]];
+    NSURL* url = [NSURL URLWithString:[self.detailingCalendarEventBoxViewDataManager retrieveCalendarURIWithStartDate:startDateString endDate:endDateString locationName:[self.aCustDict objectForKey:@"Name"]]];
+    NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json, text/plain, */*" forHTTPHeaderField:@"Accept"];
+    [request setValue:[NSString stringWithFormat:@"outlook.timezone=\"%@\"", [GlobalSharedClass shared].ieTimeZone] forHTTPHeaderField:@"Prefer"];
+    
+    [request setValue:[NSString stringWithFormat:@"Bearer %@", [ArcosConstantsDataManager sharedArcosConstantsDataManager].accessToken] forHTTPHeaderField:@"Authorization"];
+    
+    NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:config];
+    NSURLSessionDataTask* downloadTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.tableView reloadData];
+                [weakSelf.HUD hide:YES];
+                [ArcosUtils showDialogBox:[error localizedDescription] title:@"" target:weakSelf handler:nil];
+            });
+        } else {
+            NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+            int statusCode = [ArcosUtils convertNSIntegerToInt:[httpResponse statusCode]];
+            if (statusCode != 200) {
+                id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
+                NSDictionary* resultDict = (NSDictionary*)result;
+                NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
+                NSString* errorMsg = [errorResultDict objectForKey:@"message"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.tableView reloadData];
+                    void (^myFailureHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" target:weakSelf handler:^(UIAlertAction *action) {
+                            
+                        }];
+                    };
+                    void (^mySuccessHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                    };
+                    void (^myCompletionHandler)(void) = ^ {
+                        weakSelf.HUD.labelText = @"";
+                    };
+                    weakSelf.HUD.labelText = self.utilitiesMailDataManager.reconnectText;
+                    [self.utilitiesMailDataManager renewPressedProcessorWithFailureHandler:myFailureHandler successHandler:mySuccessHandler completionHandler:myCompletionHandler];
+                });
+            } else {
+                self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [NSMutableArray array];
+                id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
+                NSDictionary* resultDict = (NSDictionary*)result;
+                NSArray* eventList = [resultDict objectForKey:@"value"];
+                self.detailingCalendarEventBoxViewDataManager.eventForCurrentLocationFoundFlag = NO;
+                for (int i = 0; i < [eventList count]; i++) {
+                    NSDictionary* auxEventDict = [eventList objectAtIndex:i];
+                    NSNumber* locationIUR = [self.detailingCalendarEventBoxViewDataManager retrieveLocationIURWithEventDict:auxEventDict];
+                    if ([[self.aCustDict objectForKey:@"LocationIUR"] isEqualToNumber:locationIUR]) {
+                        NSDictionary* startDict = [auxEventDict objectForKey:@"start"];
+                        NSString* startDateStr = [startDict objectForKey:@"dateTime"];
+                        NSDate* startDate = [ArcosUtils dateFromString:startDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
+                        [self.customerInfoTableDataManager.nextCallHashMap setObject:self.customerInfoTableDataManager.nextAppointmentTitle forKey:@"fieldDesc"];
+                        [self.customerInfoTableDataManager.nextCallHashMap setObject:[ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].dateFormat] forKey:@"fieldValue"];
+                        self.detailingCalendarEventBoxViewDataManager.eventForCurrentLocationFoundFlag = YES;
+                        break;
+                    }
+                }
+                if (!self.detailingCalendarEventBoxViewDataManager.eventForCurrentLocationFoundFlag) {
+                    self.detailingCalendarEventBoxViewDataManager.journeyForCurrentLocationFoundFlag = NO;
+                    [self.detailingCalendarEventBoxViewDataManager calculateJourneyDateWithLocationIUR:[self.aCustDict objectForKey:@"LocationIUR"]];
+                    if (self.detailingCalendarEventBoxViewDataManager.journeyForCurrentLocationFoundFlag) {
+                        [self.customerInfoTableDataManager.nextCallHashMap setObject:self.customerInfoTableDataManager.nextJourneyTitle forKey:@"fieldDesc"];
+                        [self.customerInfoTableDataManager.nextCallHashMap setObject:[ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.journeyDateForCurrentLocation format:[GlobalSharedClass shared].dateFormat] forKey:@"fieldValue"];
+                    } else {
+                        if (self.customerInfoTableDataManager.lastOrderHeaderFoundFlag) {
+                            NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:[SettingManager employeeIUR]];
+                            int mergeIdValue = [[employeeDict objectForKey:@"MergeID"] intValue];
+                            NSDate* tmpLastOrderDate = [self.aCustDict objectForKey:@"LastOrderDate"];
+                            if (mergeIdValue > 0) {
+                                tmpLastOrderDate = [ArcosUtils addDays:mergeIdValue * 7 date:tmpLastOrderDate];
+                            }
+                            [self.customerInfoTableDataManager.nextCallHashMap setObject:self.customerInfoTableDataManager.suggestedCallTitle forKey:@"fieldDesc"];
+                            [self.customerInfoTableDataManager.nextCallHashMap setObject:[ArcosUtils stringFromDate:tmpLastOrderDate format:[GlobalSharedClass shared].dateFormat] forKey:@"fieldValue"];
+                        }
+                    }
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.tableView reloadData];
+                    [weakSelf.HUD hide:YES];
+                });
+                
+            }
+        }
+    }];
+    [downloadTask resume];
 }
 
 #pragma mark ArcosCustomiseAnimationDelegate

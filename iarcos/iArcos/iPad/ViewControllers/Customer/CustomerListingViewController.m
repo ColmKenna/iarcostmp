@@ -53,6 +53,7 @@
 @synthesize myArcosAdminEmail = _myArcosAdminEmail;
 @synthesize customerListingDataManager = _customerListingDataManager;
 @synthesize customerListingTableCellGeneratorDelegate = _customerListingTableCellGeneratorDelegate;
+@synthesize customerListingCallDataManager = _customerListingCallDataManager;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -62,6 +63,7 @@
         tableData = [[NSMutableArray alloc]init];
         self.customerListingTableCellGeneratorDelegate = [[[CustomerListingTableCellGenerator alloc] init] autorelease];
         self.customerListingDataManager = [[[CustomerListingDataManager alloc] init] autorelease];
+        self.customerListingCallDataManager = [[[CustomerListingCallDataManager alloc] init] autorelease];
     }
     return self;
 }
@@ -90,6 +92,7 @@
 //    self.customerGroupNavigationController = nil;
     self.customerListingDataManager = nil;
     self.customerListingTableCellGeneratorDelegate = nil;
+    self.customerListingCallDataManager = nil;
     
     [super dealloc];
 }
@@ -263,17 +266,17 @@
 
 #pragma mark - Table view data source
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (!self.customerListingDataManager.useCallTableCellFlag) {
+    if (!self.customerListingCallDataManager.useCallTableCellFlag) {
         return 44.0;
     }
     NSString* aKey = [sortKeys objectAtIndex:indexPath.section+1];
     NSMutableArray* aSectionArray = [self.customerSections objectForKey:aKey];
     NSMutableDictionary* aCust = [aSectionArray objectAtIndex:indexPath.row];
     NSNumber* tmpLocationIUR = [aCust objectForKey:@"LocationIUR"];
-    if ([self.customerListingDataManager.callHeaderHashMap objectForKey:tmpLocationIUR] == nil) {
+    if ([self.customerListingCallDataManager.callHeaderHashMap objectForKey:tmpLocationIUR] == nil) {
         return 44.0;
     }
-    NSNumber* memoTextViewHeight = [self.customerListingDataManager.memoTextViewHeightHashMap objectForKey:tmpLocationIUR];
+    NSNumber* memoTextViewHeight = [self.customerListingCallDataManager.memoTextViewHeightHashMap objectForKey:tmpLocationIUR];
     return 65.0 + 4.0 + [memoTextViewHeight floatValue];
 }
 
@@ -385,8 +388,8 @@
         }
     }
     
-    [cell configCallInfoWithCallHeader:[self.customerListingDataManager.callHeaderHashMap objectForKey:[aCust objectForKey:@"LocationIUR"]]];
-    NSNumber* memoTextViewHeight = [self.customerListingDataManager.memoTextViewHeightHashMap objectForKey:[aCust objectForKey:@"LocationIUR"]];
+    [cell configCallInfoWithCallHeader:[self.customerListingCallDataManager.callHeaderHashMap objectForKey:[aCust objectForKey:@"LocationIUR"]]];
+    NSNumber* memoTextViewHeight = [self.customerListingCallDataManager.memoTextViewHeightHashMap objectForKey:[aCust objectForKey:@"LocationIUR"]];
     cell.memoTextView.frame = CGRectMake(cell.memoTextView.frame.origin.x, cell.memoTextView.frame.origin.y, cell.memoTextView.frame.size.width, [memoTextViewHeight floatValue]);
     
     return cell;
@@ -497,9 +500,14 @@
 
 #pragma mark - additional functions
 -(void)resetCustomer:(NSMutableArray*)customers{
-    [self.customerListingDataManager callHeaderProcessorWithDataList:customers];
-    if (self.customerListingDataManager.useCallTableCellFlag) {
-        [self.customerListingDataManager memoTextViewHeightProcessor];
+    NSMutableArray* locationIURList = [NSMutableArray arrayWithCapacity:[customers count]];
+    for (int i = 0; i < [customers count]; i++) {
+        NSDictionary* tmpLocationDict = [customers objectAtIndex:i];
+        [locationIURList addObject:[tmpLocationDict objectForKey:@"LocationIUR"]];
+    }
+    [self.customerListingCallDataManager callHeaderProcessorWithLocationIURList:locationIURList];
+    if (self.customerListingCallDataManager.useCallTableCellFlag) {
+        [self.customerListingCallDataManager memoTextViewHeightProcessor];
     }
     self.myCustomers=customers;
 //    if ([tableData count]>0) {
@@ -808,15 +816,15 @@
     if ([indexPathsVisibleRows count] > 0) {
         NSIndexPath* topIndexPath = [indexPathsVisibleRows firstObject];
         CustomerListingTableCell* tmpCustomerListingTableCell = [self.tableView cellForRowAtIndexPath:topIndexPath];        
-        self.customerListingDataManager.textViewContentWidth = tmpCustomerListingTableCell.addressLabel.frame.size.width - 10;
-//        NSLog(@"testccdd %@ %.2f", NSStringFromCGRect(tmpCustomerListingTableCell.addressLabel.frame), self.customerListingDataManager.textViewContentWidth);
+        self.customerListingCallDataManager.textViewContentWidth = tmpCustomerListingTableCell.addressLabel.frame.size.width - 10;
+//        NSLog(@"testccdd %@ %.2f", NSStringFromCGRect(tmpCustomerListingTableCell.addressLabel.frame), self.customerListingCallDataManager.textViewContentWidth);
     }
     
     
-    self.customerListingDataManager.useCallTableCellFlag = !self.customerListingDataManager.useCallTableCellFlag;
-    if (self.customerListingDataManager.useCallTableCellFlag) {
+    self.customerListingCallDataManager.useCallTableCellFlag = !self.customerListingCallDataManager.useCallTableCellFlag;
+    if (self.customerListingCallDataManager.useCallTableCellFlag) {
         self.customerListingTableCellGeneratorDelegate = [[[CustomerListingCallTableCellGenerator alloc] init] autorelease];
-        [self.customerListingDataManager memoTextViewHeightProcessor];
+        [self.customerListingCallDataManager memoTextViewHeightProcessor];
     } else {
         self.customerListingTableCellGeneratorDelegate = [[[CustomerListingTableCellGenerator alloc] init] autorelease];
     }

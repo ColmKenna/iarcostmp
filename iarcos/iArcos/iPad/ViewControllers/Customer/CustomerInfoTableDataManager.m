@@ -37,6 +37,7 @@
 @synthesize accountOverviewLabel = _accountOverviewLabel;
 @synthesize accountOverviewImageLabel = _accountOverviewImageLabel;
 @synthesize lastCallLabel = _lastCallLabel;
+@synthesize nextCallLabel = _nextCallLabel;
 @synthesize linkedToLabel = _linkedToLabel;
 @synthesize linkedToIndex = _linkedToIndex;
 @synthesize faxNumberLabel = _faxNumberLabel;
@@ -44,7 +45,8 @@
 @synthesize locationTypeLabel = _locationTypeLabel;
 @synthesize locationStatusLabel = _locationStatusLabel;
 @synthesize accessTimesLabel = _accessTimesLabel;
-@synthesize lastCallIndex = _lastCallIndex;
+//@synthesize lastCallIndex = _lastCallIndex;
+@synthesize nextCallIndex = _nextCallIndex;
 @synthesize faxNumberIndex = _faxNumberIndex;
 @synthesize creditStatusIndex = _creditStatusIndex;
 @synthesize custKeyList = _custKeyList;
@@ -76,6 +78,11 @@
 @synthesize priceGroupsLabel = _priceGroupsLabel;
 @synthesize unassignedText = _unassignedText;
 @synthesize popoverOpenFlag = _popoverOpenFlag;
+@synthesize nextCallHashMap = _nextCallHashMap;
+@synthesize nextAppointmentTitle = _nextAppointmentTitle;
+@synthesize nextJourneyTitle = _nextJourneyTitle;
+@synthesize suggestedCallTitle = _suggestedCallTitle;
+@synthesize lastOrderHeaderFoundFlag = _lastOrderHeaderFoundFlag;
 
 - (id)initWithLocationIUR:(NSNumber*)aLocationIUR {
     self = [super init];
@@ -127,6 +134,7 @@
         self.accountOverviewLabel = @"Detailed Account";
         self.accountOverviewImageLabel = @"AccountOverview";
         self.lastCallLabel = @"Last Call";
+        self.nextCallLabel = @"Next Call";
         self.linkedToLabel = @"Linked To";
         self.faxNumberLabel = @"Fax Number";
         self.creditStatusLabel = @"Credit Status";
@@ -137,7 +145,7 @@
         self.faxNumberIndex = 0;
         self.creditStatusIndex = 0;
         
-        self.headerTailItemList = [NSMutableArray arrayWithObjects:self.phoneNumberLabel, self.emailLabel, self.lastCallLabel, nil];
+        self.headerTailItemList = [NSMutableArray arrayWithObjects:self.phoneNumberLabel, self.lastCallLabel, self.nextCallLabel, nil];
         self.headerItemList = [NSMutableArray arrayWithObjects:@"Address", @"Address2", @"Address3", @"Address4", @"Address5", nil];
         if ([[SettingManager databaseName] isEqualToString:[GlobalSharedClass shared].myDbName]) {
             NSDictionary* pgDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"PG"];
@@ -177,7 +185,7 @@
         }      
         
         
-        self.moreFooterItemList = [NSMutableArray arrayWithObjects:self.faxNumberLabel, self.creditStatusLabel, self.locationTypeLabel, self.locationStatusLabel, @"Location Code", @"Member Of", self.accessTimesLabel, self.buyingGroupLabel, nil];
+        self.moreFooterItemList = [NSMutableArray arrayWithObjects:self.faxNumberLabel, self.emailLabel, self.creditStatusLabel, self.locationTypeLabel, self.locationStatusLabel, @"Location Code", @"Member Of", self.accessTimesLabel, self.buyingGroupLabel, nil];
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showStartTimeAtHomePageFlag]) {
             int auxAccessTimesIndex = [self retrieveMoreFooterIndexByLabel:self.accessTimesLabel];
             if (auxAccessTimesIndex != -1) {
@@ -193,6 +201,11 @@
 //        [self.weekdayHashtable setObject:@"Friday" forKey:[NSNumber numberWithInt:5]];
 //        [self.weekdayHashtable setObject:@"Saturday" forKey:[NSNumber numberWithInt:6]];
         self.popoverOpenFlag = NO;
+        self.nextCallHashMap = [NSMutableDictionary dictionary];
+        self.nextAppointmentTitle = @"Next Appointment";
+        self.nextJourneyTitle = @"Next Journey";
+        self.suggestedCallTitle = @"Suggested Call";
+        self.lastOrderHeaderFoundFlag = NO;
     }
     return self;
 }
@@ -222,6 +235,7 @@
     self.accountOverviewLabel = nil;
     self.accountOverviewImageLabel = nil;
     self.lastCallLabel = nil;
+    self.nextCallLabel = nil;
     self.linkedToLabel = nil;
     self.faxNumberLabel = nil;
     self.creditStatusLabel = nil;
@@ -255,6 +269,10 @@
     self.headerTailItemList = nil;
     self.priceGroupsLabel = nil;
     self.unassignedText = nil;
+    self.nextCallHashMap = nil;
+    self.nextAppointmentTitle = nil;
+    self.nextJourneyTitle = nil;
+    self.suggestedCallTitle = nil;
     
     [super dealloc];
 }
@@ -358,10 +376,10 @@
 }
 
 - (void)createCustKeysOnProcessing:(NSMutableDictionary*)aCustomerDict {
-    self.lastCallIndex = [self retrieveIndexByLabel:self.lastCallLabel];
+    self.nextCallIndex = [self retrieveIndexByLabel:self.nextCallLabel];
     self.faxNumberIndex = [self retrieveIndexByLabel:self.faxNumberLabel];
 //    self.creditStatusIndex = [self retrieveIndexByLabel:self.creditStatusLabel];
-    for (int i = self.faxNumberIndex - 1; i > self.lastCallIndex; i--) {
+    for (int i = self.faxNumberIndex - 1; i > self.nextCallIndex; i--) {
         NSString* tmpCustKey = [self.custKeyList objectAtIndex:i];
         [aCustomerDict removeObjectForKey:tmpCustKey];
         [self.custKeyList removeObjectAtIndex:i];
@@ -370,17 +388,17 @@
     int cpItemDictCount = [ArcosUtils convertNSUIntegerToUnsignedInt:[self.cpItemDictList count]];
     for (int i = 0; i < linkedContactDictCount; i++) {
         NSMutableDictionary* tmpLinkedContactDict = [self.linkedContactDictList objectAtIndex:i];
-        [self.custKeyList insertObject:[tmpLinkedContactDict objectForKey:@"fieldDesc"] atIndex:(self.lastCallIndex + 1 + i)];
+        [self.custKeyList insertObject:[tmpLinkedContactDict objectForKey:@"fieldDesc"] atIndex:(self.nextCallIndex + 1 + i)];
         [aCustomerDict setObject:[tmpLinkedContactDict objectForKey:@"fieldValue"] forKey:[tmpLinkedContactDict objectForKey:@"fieldDesc"]];
     }
     for (int i = 0; i < cpItemDictCount; i++) {
         NSMutableDictionary* tmpCpItemDict = [self.cpItemDictList objectAtIndex:i];
-        [self.custKeyList insertObject:[tmpCpItemDict objectForKey:@"fieldDesc"] atIndex:(self.lastCallIndex + 1 + linkedContactDictCount + i)];
+        [self.custKeyList insertObject:[tmpCpItemDict objectForKey:@"fieldDesc"] atIndex:(self.nextCallIndex + 1 + linkedContactDictCount + i)];
         [aCustomerDict setObject:[tmpCpItemDict objectForKey:@"fieldValue"] forKey:[tmpCpItemDict objectForKey:@"fieldDesc"]];
     }
     for (int i = 0; i < [self.lpItemDictList count]; i++) {
         NSMutableDictionary* tmpLpItemDict = [self.lpItemDictList objectAtIndex:i];
-        [self.custKeyList insertObject:[tmpLpItemDict objectForKey:@"fieldDesc"] atIndex:(self.lastCallIndex + 1 + linkedContactDictCount + cpItemDictCount + i)];
+        [self.custKeyList insertObject:[tmpLpItemDict objectForKey:@"fieldDesc"] atIndex:(self.nextCallIndex + 1 + linkedContactDictCount + cpItemDictCount + i)];
         [aCustomerDict setObject:[tmpLpItemDict objectForKey:@"fieldValue"] forKey:[tmpLpItemDict objectForKey:@"fieldDesc"]];
     }
     self.buyingGroupIndex = [self retrieveIndexByLabel:self.buyingGroupLabel];

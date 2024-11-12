@@ -11,20 +11,20 @@
 
 @interface CustomerListingDataManager : NSObject {
     BOOL _popoverOpenFlag;
-    BOOL _useCallTableCellFlag;
-    NSMutableDictionary* _callHeaderHashMap;
-    float _textViewContentWidth;
-    NSMutableDictionary* _memoTextViewHeightHashMap;
+//    BOOL _useCallTableCellFlag;
+//    NSMutableDictionary* _callHeaderHashMap;
+//    float _textViewContentWidth;
+//    NSMutableDictionary* _memoTextViewHeightHashMap;
 }
 
 @property(nonatomic, assign) BOOL popoverOpenFlag;
-@property(nonatomic, assign) BOOL useCallTableCellFlag;
-@property(nonatomic, retain) NSMutableDictionary* callHeaderHashMap;
-@property(nonatomic, assign) float textViewContentWidth;
-@property(nonatomic, retain) NSMutableDictionary* memoTextViewHeightHashMap;
+//@property(nonatomic, assign) BOOL useCallTableCellFlag;
+//@property(nonatomic, retain) NSMutableDictionary* callHeaderHashMap;
+//@property(nonatomic, assign) float textViewContentWidth;
+//@property(nonatomic, retain) NSMutableDictionary* memoTextViewHeightHashMap;
 
-- (void)callHeaderProcessorWithDataList:(NSMutableArray*)aDataList;
-- (void)memoTextViewHeightProcessor;
+//- (void)callHeaderProcessorWithDataList:(NSMutableArray*)aDataList;
+//- (void)memoTextViewHeightProcessor;
 
 @end
 

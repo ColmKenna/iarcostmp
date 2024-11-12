@@ -1655,6 +1655,10 @@
 		795DC67A27E1D46E00756D2D /* ArcosCalendarTableDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 795DC67927E1D46E00756D2D /* ArcosCalendarTableDataManager.m */; };
 		795EF38F2534543400F8C5ED /* CustomerContactDetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 795EF38D2534543400F8C5ED /* CustomerContactDetailTableCell.m */; };
 		795EF3902534543400F8C5ED /* CustomerContactDetailTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */; };
+		79605F3C2CDCA225005E27C0 /* CustomerCalendarListTableCellGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 79605F3B2CDCA225005E27C0 /* CustomerCalendarListTableCellGenerator.m */; };
+		79605F3F2CDCA246005E27C0 /* CustomerCalendarListCallTableCellGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 79605F3E2CDCA246005E27C0 /* CustomerCalendarListCallTableCellGenerator.m */; };
+		79605F432CDCA489005E27C0 /* CustomerCalendarListCallTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79605F422CDCA489005E27C0 /* CustomerCalendarListCallTableViewCell.xib */; };
+		79605F442CDCA489005E27C0 /* CustomerCalendarListCallTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79605F412CDCA489005E27C0 /* CustomerCalendarListCallTableViewCell.m */; };
 		7961660F2BECFED100CE959E /* CustomerListingDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7961660E2BECFED100CE959E /* CustomerListingDataManager.m */; };
 		796185332AE27071008C7F20 /* FlagsContactFlagDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 796185322AE27071008C7F20 /* FlagsContactFlagDataManager.m */; };
 		7962653C282D170700FFBE4A /* ArcosCalendarEventEntryDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7962653A282D170700FFBE4A /* ArcosCalendarEventEntryDetailTableViewController.m */; };
@@ -1696,6 +1700,7 @@
 		79A0D81A2AD6987300D1D64A /* flags_banner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79A0D8192AD6987300D1D64A /* flags_banner@2x.png */; };
 		79A3F8B027F2BFD1001E0972 /* ArcosCalendarTableHeaderLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A3F8AF27F2BFD1001E0972 /* ArcosCalendarTableHeaderLabel.m */; };
 		79A3F8B327F2BFF8001E0972 /* ArcosCalendarTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A3F8B227F2BFF8001E0972 /* ArcosCalendarTableHeaderView.m */; };
+		79A47CF72CDDA997007E4CC5 /* CustomerCalendarListCallDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A47CF62CDDA997007E4CC5 /* CustomerCalendarListCallDataManager.m */; };
 		79A799A726A560BE006A49B8 /* ArcosMyResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A799A626A560BE006A49B8 /* ArcosMyResult.m */; };
 		79AD84462C6B44000068D6F9 /* FormRowsFooterMatTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79AD84442C6B44000068D6F9 /* FormRowsFooterMatTableViewCell.m */; };
 		79AD84472C6B44000068D6F9 /* FormRowsFooterMatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79AD84452C6B44000068D6F9 /* FormRowsFooterMatTableViewCell.xib */; };
@@ -1718,6 +1723,7 @@
 		79BE07652BC2A76400A28E17 /* JourneyCar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79BE07642BC2A76400A28E17 /* JourneyCar@2x.png */; };
 		79C1C3ED26254D5F0006A082 /* ProductSelectionListingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C1C3EB26254D5F0006A082 /* ProductSelectionListingTableViewController.m */; };
 		79C1C3EE26254D5F0006A082 /* ProductSelectionListingTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79C1C3EC26254D5F0006A082 /* ProductSelectionListingTableViewController.xib */; };
+		79C1C6062CDC8C100098A121 /* CustomerListingCallDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C1C6052CDC8C100098A121 /* CustomerListingCallDataManager.m */; };
 		79C2A59725B95DB8002AAC61 /* ReporterXmlSubTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C2A59525B95DB8002AAC61 /* ReporterXmlSubTableViewController.m */; };
 		79C2A59825B95DB8002AAC61 /* ReporterXmlSubTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79C2A59625B95DB8002AAC61 /* ReporterXmlSubTableViewController.xib */; };
 		79C2A59E25B95DF5002AAC61 /* ReporterXmlGraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C2A59C25B95DF5002AAC61 /* ReporterXmlGraphViewController.m */; };
@@ -5034,6 +5040,13 @@
 		795EF38C2534543400F8C5ED /* CustomerContactDetailTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerContactDetailTableCell.h; sourceTree = "<group>"; };
 		795EF38D2534543400F8C5ED /* CustomerContactDetailTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerContactDetailTableCell.m; sourceTree = "<group>"; };
 		795EF38E2534543400F8C5ED /* CustomerContactDetailTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomerContactDetailTableCell.xib; sourceTree = "<group>"; };
+		79605F3A2CDCA225005E27C0 /* CustomerCalendarListTableCellGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerCalendarListTableCellGenerator.h; sourceTree = "<group>"; };
+		79605F3B2CDCA225005E27C0 /* CustomerCalendarListTableCellGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerCalendarListTableCellGenerator.m; sourceTree = "<group>"; };
+		79605F3D2CDCA246005E27C0 /* CustomerCalendarListCallTableCellGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerCalendarListCallTableCellGenerator.h; sourceTree = "<group>"; };
+		79605F3E2CDCA246005E27C0 /* CustomerCalendarListCallTableCellGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerCalendarListCallTableCellGenerator.m; sourceTree = "<group>"; };
+		79605F402CDCA489005E27C0 /* CustomerCalendarListCallTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerCalendarListCallTableViewCell.h; sourceTree = "<group>"; };
+		79605F412CDCA489005E27C0 /* CustomerCalendarListCallTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerCalendarListCallTableViewCell.m; sourceTree = "<group>"; };
+		79605F422CDCA489005E27C0 /* CustomerCalendarListCallTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomerCalendarListCallTableViewCell.xib; sourceTree = "<group>"; };
 		7961660D2BECFED100CE959E /* CustomerListingDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerListingDataManager.h; sourceTree = "<group>"; };
 		7961660E2BECFED100CE959E /* CustomerListingDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerListingDataManager.m; sourceTree = "<group>"; };
 		796185302AE26D55008C7F20 /* FlagsContactFlagTableViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlagsContactFlagTableViewControllerDelegate.h; sourceTree = "<group>"; };
@@ -5106,6 +5119,8 @@
 		79A3F8AF27F2BFD1001E0972 /* ArcosCalendarTableHeaderLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosCalendarTableHeaderLabel.m; sourceTree = "<group>"; };
 		79A3F8B127F2BFF8001E0972 /* ArcosCalendarTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosCalendarTableHeaderView.h; sourceTree = "<group>"; };
 		79A3F8B227F2BFF8001E0972 /* ArcosCalendarTableHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosCalendarTableHeaderView.m; sourceTree = "<group>"; };
+		79A47CF52CDDA997007E4CC5 /* CustomerCalendarListCallDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerCalendarListCallDataManager.h; sourceTree = "<group>"; };
+		79A47CF62CDDA997007E4CC5 /* CustomerCalendarListCallDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerCalendarListCallDataManager.m; sourceTree = "<group>"; };
 		79A799A526A560BE006A49B8 /* ArcosMyResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosMyResult.h; sourceTree = "<group>"; };
 		79A799A626A560BE006A49B8 /* ArcosMyResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosMyResult.m; sourceTree = "<group>"; };
 		79AA6F502A9DF8750066EE05 /* CustomerInfoButtonCellDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerInfoButtonCellDelegate.h; sourceTree = "<group>"; };
@@ -5143,6 +5158,8 @@
 		79C1C3EA26254D5F0006A082 /* ProductSelectionListingTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProductSelectionListingTableViewController.h; sourceTree = "<group>"; };
 		79C1C3EB26254D5F0006A082 /* ProductSelectionListingTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProductSelectionListingTableViewController.m; sourceTree = "<group>"; };
 		79C1C3EC26254D5F0006A082 /* ProductSelectionListingTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductSelectionListingTableViewController.xib; sourceTree = "<group>"; };
+		79C1C6042CDC8C100098A121 /* CustomerListingCallDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerListingCallDataManager.h; sourceTree = "<group>"; };
+		79C1C6052CDC8C100098A121 /* CustomerListingCallDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerListingCallDataManager.m; sourceTree = "<group>"; };
 		79C2A59425B95DB8002AAC61 /* ReporterXmlSubTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReporterXmlSubTableViewController.h; sourceTree = "<group>"; };
 		79C2A59525B95DB8002AAC61 /* ReporterXmlSubTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReporterXmlSubTableViewController.m; sourceTree = "<group>"; };
 		79C2A59625B95DB8002AAC61 /* ReporterXmlSubTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReporterXmlSubTableViewController.xib; sourceTree = "<group>"; };
@@ -6411,6 +6428,14 @@
 				797E7C8C2CD2080B008332E4 /* CustomerListingTableCellGenerator.m */,
 				797E7C8E2CD20868008332E4 /* CustomerListingCallTableCellGenerator.h */,
 				797E7C8F2CD20868008332E4 /* CustomerListingCallTableCellGenerator.m */,
+				79C1C6042CDC8C100098A121 /* CustomerListingCallDataManager.h */,
+				79C1C6052CDC8C100098A121 /* CustomerListingCallDataManager.m */,
+				79605F3A2CDCA225005E27C0 /* CustomerCalendarListTableCellGenerator.h */,
+				79605F3B2CDCA225005E27C0 /* CustomerCalendarListTableCellGenerator.m */,
+				79605F3D2CDCA246005E27C0 /* CustomerCalendarListCallTableCellGenerator.h */,
+				79605F3E2CDCA246005E27C0 /* CustomerCalendarListCallTableCellGenerator.m */,
+				79A47CF52CDDA997007E4CC5 /* CustomerCalendarListCallDataManager.h */,
+				79A47CF62CDDA997007E4CC5 /* CustomerCalendarListCallDataManager.m */,
 			);
 			path = Customer;
 			sourceTree = "<group>";
@@ -6882,6 +6907,9 @@
 				797E7C912CD20A84008332E4 /* CustomerListingCallTableViewCell.h */,
 				797E7C922CD20A84008332E4 /* CustomerListingCallTableViewCell.m */,
 				797E7C932CD20A84008332E4 /* CustomerListingCallTableViewCell.xib */,
+				79605F402CDCA489005E27C0 /* CustomerCalendarListCallTableViewCell.h */,
+				79605F412CDCA489005E27C0 /* CustomerCalendarListCallTableViewCell.m */,
+				79605F422CDCA489005E27C0 /* CustomerCalendarListCallTableViewCell.xib */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -10069,6 +10097,7 @@
 				79D5EFBD2BC0E77D00E2D0A8 /* List3@2x.png in Resources */,
 				630B3B5919F01CB9007B2442 /* CustomerAnalyzeModalViewController.xib in Resources */,
 				630B3B4519F01CB9007B2442 /* CustomerJourneyStartDateViewController.xib in Resources */,
+				79605F432CDCA489005E27C0 /* CustomerCalendarListCallTableViewCell.xib in Resources */,
 				63A0B95D1D93CBDC00F6EAC7 /* Arcos-Icon-2a-spotlight@2x.png in Resources */,
 				63812C7F1A111BDD004BCFB3 /* OrderlinesIarcosTableViewCells.xib in Resources */,
 				63422C721A0784F800F1AE47 /* CustomerIarcosMemoTableCell.xib in Resources */,
@@ -10326,6 +10355,7 @@
 				630B3BCB19F01CB9007B2442 /* GenericTextViewInputTableCell.m in Sources */,
 				63A6D9311D70A22F00439CC5 /* NextCheckoutOrderInfoHeaderView.m in Sources */,
 				630B3DC319F01CB9007B2442 /* SoapHandler.m in Sources */,
+				79A47CF72CDDA997007E4CC5 /* CustomerCalendarListCallDataManager.m in Sources */,
 				630B343A19F0127C007B2442 /* DescrType.m in Sources */,
 				63174E4B1ECDAF9000BAB563 /* ArcosStockonHandUtils.m in Sources */,
 				630B3D2319F01CB9007B2442 /* SettingTableCellFactory.m in Sources */,
@@ -10409,6 +10439,7 @@
 				638F64651C18784200854E48 /* DashboardStockoutTableViewCell.m in Sources */,
 				630B3D9919F01CB9007B2442 /* ArcosConLocLinkBO.m in Sources */,
 				630B3BBD19F01CB9007B2442 /* CustomerOrderTableCell.m in Sources */,
+				79605F3C2CDCA225005E27C0 /* CustomerCalendarListTableCellGenerator.m in Sources */,
 				630B34CD19F014E9007B2442 /* ArcosSystemCodesUtils.m in Sources */,
 				630B3CE019F01CB9007B2442 /* ActivateTemplateViewController.m in Sources */,
 				630B342D19F0127C007B2442 /* iArcos.xcdatamodeld in Sources */,
@@ -10707,6 +10738,7 @@
 				630B3B8919F01CB9007B2442 /* CustomerWeeklyMainModalViewController.m in Sources */,
 				79FBBDC22B996F0F001F7ECC /* DetailingCalendarEventBoxListingBodyTableCell.m in Sources */,
 				632C5B021A0A4B8A002D3945 /* SavedIarcosOrderDetailBaseDataManager.m in Sources */,
+				79C1C6062CDC8C100098A121 /* CustomerListingCallDataManager.m in Sources */,
 				7913941A2C16D83D00F89DB8 /* ReporterCsvViewController.m in Sources */,
 				63A0F5591A321BAC00A58178 /* CustomerDetailsCreateDataManager.m in Sources */,
 				632474161AB0AC8900A329E7 /* SavedIarcosOrderDetailRemoteCallDataManager.m in Sources */,
@@ -11270,6 +11302,7 @@
 				630B3C9E19F01CB9007B2442 /* LargeSmallL3SearchFormRowSlideViewController.m in Sources */,
 				632C5B051A0A4BA1002D3945 /* SavedIarcosOrderDetailOrderDataManager.m in Sources */,
 				63C73F3F1CAACE2600165383 /* MainPresenterTableViewController.m in Sources */,
+				79605F442CDCA489005E27C0 /* CustomerCalendarListCallTableViewCell.m in Sources */,
 				6326030E1A710E710035E445 /* SavedOrderPresenterTranDataManager.m in Sources */,
 				630B3CD519F01CB9007B2442 /* ReportLocationCell.m in Sources */,
 				630B344119F0127C007B2442 /* Flag.m in Sources */,
@@ -11319,6 +11352,7 @@
 				630B3CD219F01CB9007B2442 /* ReportContactCell.m in Sources */,
 				636BAC3D1FEA81380034FAD1 /* CustomerSurveyPreviewDataManager.m in Sources */,
 				630B343919F0127C007B2442 /* DescrDetail.m in Sources */,
+				79605F3F2CDCA246005E27C0 /* CustomerCalendarListCallTableCellGenerator.m in Sources */,
 				630B3C7919F01CB9007B2442 /* MATFormRowsTableCell.m in Sources */,
 				79CE3EB82BB59F6900698BAF /* LeftLightBlueSeparatorUILabel.m in Sources */,
 				638076FB218CB0B500591B28 /* MeetingDetailsDataManager.m in Sources */,
@@ -11635,7 +11669,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.2.6;
+				MARKETING_VERSION = 13.2.8;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11696,7 +11730,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.2.6;
+				MARKETING_VERSION = 13.2.8;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -11845,7 +11879,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.2.6;
+				MARKETING_VERSION = 13.2.8;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

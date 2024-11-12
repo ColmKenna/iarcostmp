@@ -26,6 +26,8 @@
 @synthesize arcosRootViewController = _arcosRootViewController;
 @synthesize globalNavigationController = _globalNavigationController;
 @synthesize utilitiesMailDataManager = _utilitiesMailDataManager;
+@synthesize customerCalendarListCallDataManager = _customerCalendarListCallDataManager;
+@synthesize customerListingTableCellGeneratorDelegate = _customerListingTableCellGeneratorDelegate;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -35,6 +37,8 @@
         self.customerJourneyDataManager = [[[CustomerJourneyDataManager alloc] init] autorelease];
         self.calendarUtilityDataManager = [[[CalendarUtilityDataManager alloc] init] autorelease];
         self.utilitiesMailDataManager = [[[UtilitiesMailDataManager alloc] init] autorelease];
+        self.customerCalendarListCallDataManager = [[[CustomerCalendarListCallDataManager alloc] init] autorelease];
+        self.customerListingTableCellGeneratorDelegate = [[[CustomerCalendarListTableCellGenerator alloc] init] autorelease];
     }
     return self;
 }
@@ -52,6 +56,11 @@
     NSMutableArray* leftButtonList = [NSMutableArray arrayWithObjects:backButton, nil];
     [self.navigationItem setLeftBarButtonItems:leftButtonList];
     [backButton release];
+    
+    UIBarButtonItem* toggleListButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"List2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleListButtonPressed:)];
+    NSMutableArray* buttonList = [NSMutableArray arrayWithObjects:toggleListButton, nil];
+    [self.navigationItem setRightBarButtonItems:buttonList];
+    [toggleListButton release];
     self.mySegmentedControl = [[[ArcosNoBgSegmentedControl alloc] initWithItems:self.customerCalendarListDataManager.statusItems] autorelease];
     
     @try {
@@ -95,8 +104,31 @@
     self.arcosRootViewController = nil;
     self.globalNavigationController = nil;
     self.utilitiesMailDataManager = nil;
+    self.customerCalendarListCallDataManager = nil;
+    self.customerListingTableCellGeneratorDelegate = nil;
     
     [super dealloc];
+}
+
+- (void)toggleListButtonPressed:(id)sender {
+    NSArray* indexPathsVisibleRows = [self.tableView indexPathsForVisibleRows];
+    if ([indexPathsVisibleRows count] > 0) {
+        NSIndexPath* topIndexPath = [indexPathsVisibleRows firstObject];
+        CustomerListingTableCell* tmpCustomerListingTableCell = [self.tableView cellForRowAtIndexPath:topIndexPath];
+        self.customerCalendarListCallDataManager.textViewContentWidth = tmpCustomerListingTableCell.addressLabel.frame.size.width - 10;
+//        NSLog(@"testccdd %@ %.2f", NSStringFromCGRect(tmpCustomerListingTableCell.addressLabel.frame), self.customerCalendarListCallDataManager.textViewContentWidth);
+    }
+    
+    
+    self.customerCalendarListCallDataManager.useCallTableCellFlag = !self.customerCalendarListCallDataManager.useCallTableCellFlag;
+    if (self.customerCalendarListCallDataManager.useCallTableCellFlag) {
+        self.customerListingTableCellGeneratorDelegate = [[[CustomerCalendarListCallTableCellGenerator alloc] init] autorelease];
+        [self.customerCalendarListCallDataManager memoTextViewHeightProcessor];
+    } else {
+        self.customerListingTableCellGeneratorDelegate = [[[CustomerCalendarListTableCellGenerator alloc] init] autorelease];
+    }
+    
+    [self.tableView reloadData];
 }
 
 - (void)segmentedControlAction:(id)sender {
@@ -256,6 +288,10 @@
                         [self.customerCalendarListDataManager.locationIURHashMap setObject:tmpLocationDict forKey:tmpLocationIUR];
                     }
                 }
+                [self.customerCalendarListCallDataManager callHeaderProcessorWithLocationIURList:self.customerCalendarListDataManager.locationIURList];
+                if (self.customerCalendarListCallDataManager.useCallTableCellFlag) {
+                    [self.customerCalendarListCallDataManager memoTextViewHeightProcessor];
+                }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.tableView reloadData];
                     [weakSelf.HUD hide:YES];
@@ -268,6 +304,19 @@
 
 
 #pragma mark - Table view data source
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (!self.customerCalendarListCallDataManager.useCallTableCellFlag) {
+        return 44.0;
+    }
+    NSDictionary* eventDict = [self.customerCalendarListDataManager.eventDictList objectAtIndex:indexPath.row];
+    NSNumber* tmpLocationIUR = [self.customerCalendarListDataManager.calendarUtilityDataManager retrieveLocationIURWithEventDict:eventDict];
+    if ([self.customerCalendarListCallDataManager.callHeaderHashMap objectForKey:tmpLocationIUR] == nil) {
+        return 44.0;
+    }
+    NSNumber* memoTextViewHeight = [self.customerCalendarListCallDataManager.memoTextViewHeightHashMap objectForKey:tmpLocationIUR];
+    return 65.0 + 4.0 + [memoTextViewHeight floatValue];
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     self.customerCalendarListHeaderView.startdatePointerLabel.text = [ArcosUtils stringFromDate:self.customerCalendarListDataManager.startDatePointer format:@"EEEE dd MMMM yyyy"];
     return self.customerCalendarListHeaderView;
@@ -287,6 +336,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    /*
     static NSString *CellIdentifier = @"IdCustomerCalendarListTableViewCell";
     
     CustomerCalendarListTableViewCell* cell = (CustomerCalendarListTableViewCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -300,6 +350,8 @@
             }
         }
     }
+     */
+    CustomerListingTableCell* cell = [self.customerListingTableCellGeneratorDelegate generateTableCellWithTableView:tableView];
     
     // Configure the cell...
     NSDictionary* eventDict = [self.customerCalendarListDataManager.eventDictList objectAtIndex:indexPath.row];
@@ -377,6 +429,10 @@
     [cell.contentView addGestureRecognizer:doubleTap];
     [doubleTap release];
     [singleTap release];
+    
+    [cell configCallInfoWithCallHeader:[self.customerCalendarListCallDataManager.callHeaderHashMap objectForKey:auxLocationIUR]];
+    NSNumber* memoTextViewHeight = [self.customerCalendarListCallDataManager.memoTextViewHeightHashMap objectForKey:auxLocationIUR];
+    cell.memoTextView.frame = CGRectMake(cell.memoTextView.frame.origin.x, cell.memoTextView.frame.origin.y, cell.memoTextView.frame.size.width, [memoTextViewHeight floatValue]);
     
     return cell;
 }

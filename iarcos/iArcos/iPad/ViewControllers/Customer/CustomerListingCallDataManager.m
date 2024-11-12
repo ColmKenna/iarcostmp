@@ -1,52 +1,49 @@
 //
-//  CustomerListingDataManager.m
+//  CustomerListingCallDataManager.m
 //  iArcos
 //
-//  Created by Richard on 09/05/2024.
+//  Created by Richard on 07/11/2024.
 //  Copyright © 2024 Strata IT Limited. All rights reserved.
 //
 
-#import "CustomerListingDataManager.h"
+#import "CustomerListingCallDataManager.h"
 
-@implementation CustomerListingDataManager
-@synthesize popoverOpenFlag = _popoverOpenFlag;
-//@synthesize useCallTableCellFlag = _useCallTableCellFlag;
-//@synthesize callHeaderHashMap = _callHeaderHashMap;
-//@synthesize textViewContentWidth = _textViewContentWidth;
-//@synthesize memoTextViewHeightHashMap = _memoTextViewHeightHashMap;
+@implementation CustomerListingCallDataManager
+@synthesize useCallTableCellFlag = _useCallTableCellFlag;
+@synthesize callHeaderHashMap = _callHeaderHashMap;
+@synthesize textViewContentWidth = _textViewContentWidth;
+@synthesize memoTextViewHeightHashMap = _memoTextViewHeightHashMap;
 
 - (instancetype)init {
     self = [super init];
     if (self != nil) {
-        self.popoverOpenFlag = NO;
-//        self.useCallTableCellFlag = NO;
-//        UIViewController* arcosRootViewController = [ArcosUtils getRootView];
-//        float width = arcosRootViewController.view.frame.size.width > arcosRootViewController.view.frame.size.height ? arcosRootViewController.view.frame.size.width : arcosRootViewController.view.frame.size.height;
-//        self.textViewContentWidth = (width - [GlobalSharedClass shared].mainMasterWidth) / 2.0 - 1 - 19 - 10 - 30;
+        self.useCallTableCellFlag = NO;
+        UIViewController* arcosRootViewController = [ArcosUtils getRootView];
+        float width = arcosRootViewController.view.frame.size.width > arcosRootViewController.view.frame.size.height ? arcosRootViewController.view.frame.size.width : arcosRootViewController.view.frame.size.height;
+        self.textViewContentWidth = (width - [GlobalSharedClass shared].mainMasterWidth) / 2.0 - 1 - 19 - 10 - 30;
 //        NSLog(@"textViewContentWidth aa %f", self.textViewContentWidth);
     }
     return self;
 }
 
 - (void)dealloc {
-//    self.callHeaderHashMap = nil;
-//    self.memoTextViewHeightHashMap = nil;
+    self.callHeaderHashMap = nil;
+    self.memoTextViewHeightHashMap = nil;
     
     [super dealloc];
 }
 
-/*
-- (void)callHeaderProcessorWithDataList:(NSMutableArray*)aDataList {
+- (void)callHeaderProcessorWithLocationIURList:(NSMutableArray*)aLocationIURList {
     self.callHeaderHashMap = [NSMutableDictionary dictionary];
-    NSMutableArray* locationIURList = [NSMutableArray arrayWithCapacity:[aDataList count]];
-    for (int i = 0; i < [aDataList count]; i++) {
-        NSDictionary* tmpLocationDict = [aDataList objectAtIndex:i];
-        [locationIURList addObject:[tmpLocationDict objectForKey:@"LocationIUR"]];
-    }
-    if ([locationIURList count] == 0) {
+//    NSMutableArray* locationIURList = [NSMutableArray arrayWithCapacity:[aDataList count]];
+//    for (int i = 0; i < [aDataList count]; i++) {
+//        NSDictionary* tmpLocationDict = [aDataList objectAtIndex:i];
+//        [locationIURList addObject:[tmpLocationDict objectForKey:@"LocationIUR"]];
+//    }
+    if ([aLocationIURList count] == 0) {
         return;
     }
-    NSMutableArray* objectList = [[ArcosCoreData sharedArcosCoreData] retrieveOrderHeaderWithLocationIURList:locationIURList];
+    NSMutableArray* objectList = [[ArcosCoreData sharedArcosCoreData] retrieveOrderHeaderWithLocationIURList:aLocationIURList];
     if ([objectList count] == 0) {
         return;
     }
@@ -57,8 +54,7 @@
         }
     }
 }
-*/
-/*
+
 - (void)memoTextViewHeightProcessor {
 //    NSLog(@"textViewContentWidth %f", self.textViewContentWidth);
     self.memoTextViewHeightHashMap = [NSMutableDictionary dictionaryWithCapacity:[self.callHeaderHashMap count]];
@@ -82,5 +78,5 @@
     }
 //    NSLog(@"%@", self.memoTextViewHeightHashMap);
 }
-*/
+
 @end

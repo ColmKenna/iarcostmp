@@ -18,6 +18,9 @@
 #import "DetailingCalendarEventBoxViewDataManager.h"
 @class ArcosRootViewController;
 #import "UtilitiesMailDataManager.h"
+#import "CustomerCalendarListCallDataManager.h"
+#import "CustomerCalendarListTableCellGenerator.h"
+#import "CustomerCalendarListCallTableCellGenerator.h"
 
 @interface CustomerCalendarListTableViewController : CustomerBaseDetailViewController <CheckLocationIURTemplateDelegate, GenericRefreshParentContentDelegate, ModalPresentViewControllerDelegate, ArcosCalendarEventEntryDetailTemplateViewControllerDelegate>{
     MBProgressHUD* _HUD;
@@ -31,6 +34,8 @@
     ArcosRootViewController* _arcosRootViewController;
     UINavigationController* _globalNavigationController;
     UtilitiesMailDataManager* _utilitiesMailDataManager;
+    CustomerCalendarListCallDataManager* _customerCalendarListCallDataManager;
+    id<CustomerListingTableCellGeneratorDelegate> _customerListingTableCellGeneratorDelegate;
 }
 
 @property(nonatomic,retain) MBProgressHUD* HUD;
@@ -44,6 +49,8 @@
 @property (nonatomic, retain) ArcosRootViewController* arcosRootViewController;
 @property(nonatomic, retain) UINavigationController* globalNavigationController;
 @property(nonatomic, retain) UtilitiesMailDataManager* utilitiesMailDataManager;
+@property (nonatomic, retain) CustomerCalendarListCallDataManager* customerCalendarListCallDataManager;
+@property (nonatomic, retain) id<CustomerListingTableCellGeneratorDelegate> customerListingTableCellGeneratorDelegate;
 
 @end
 

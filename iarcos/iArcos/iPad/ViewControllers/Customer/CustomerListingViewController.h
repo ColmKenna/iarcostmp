@@ -21,6 +21,7 @@
 #import "CustomerListingTableCellGeneratorDelegate.h"
 #import "CustomerListingTableCellGenerator.h"
 #import "CustomerListingCallTableCellGenerator.h"
+#import "CustomerListingCallDataManager.h"
 
 @interface CustomerListingViewController : CustomerBaseDetailViewController<UIPopoverControllerDelegate, UISplitViewControllerDelegate,UISearchBarDelegate,UINavigationBarDelegate, ModelViewDelegate, GenericRefreshParentContentDelegate,CustomisePresentViewControllerDelegate,CheckLocationIURTemplateDelegate,GetDataGenericDelegate,MFMailComposeViewControllerDelegate,ArcosMailTableViewControllerDelegate> {
     NSMutableArray* myCustomers;
@@ -55,6 +56,7 @@
     NSString* _myArcosAdminEmail;
     CustomerListingDataManager* _customerListingDataManager;
     id<CustomerListingTableCellGeneratorDelegate> _customerListingTableCellGeneratorDelegate;
+    CustomerListingCallDataManager* _customerListingCallDataManager;
 }
 @property (nonatomic, retain) IBOutlet UISearchBar *mySearchBar;
 
@@ -76,6 +78,7 @@
 @property (nonatomic, retain) NSString* myArcosAdminEmail;
 @property (nonatomic, retain) CustomerListingDataManager* customerListingDataManager;
 @property (nonatomic, retain) id<CustomerListingTableCellGeneratorDelegate> customerListingTableCellGeneratorDelegate;
+@property (nonatomic, retain) CustomerListingCallDataManager* customerListingCallDataManager;
 
 
 //-(void)resetCustomer:(NSMutableArray*)customers;

@@ -36,6 +36,7 @@
     NSString* _accountOverviewLabel;
     NSString* _accountOverviewImageLabel;
     NSString* _lastCallLabel;
+    NSString* _nextCallLabel;
     NSString* _linkedToLabel;
     int _linkedToIndex;
     NSString* _faxNumberLabel;
@@ -43,7 +44,8 @@
     NSString* _locationTypeLabel;
     NSString* _locationStatusLabel;
     NSString* _accessTimesLabel;
-    int _lastCallIndex;
+//    int _lastCallIndex;
+    int _nextCallIndex;
     int _faxNumberIndex;
     int _creditStatusIndex;
     NSMutableArray* _custKeyList;
@@ -75,6 +77,11 @@
     NSString* _priceGroupsLabel;
     NSString* _unassignedText;
     BOOL _popoverOpenFlag;
+    NSMutableDictionary* _nextCallHashMap;
+    NSString* _nextAppointmentTitle;
+    NSString* _nextJourneyTitle;
+    NSString* _suggestedCallTitle;
+    BOOL _lastOrderHeaderFoundFlag;
 }
 
 @property(nonatomic, retain) NSNumber* locationIUR;
@@ -103,6 +110,7 @@
 @property(nonatomic, retain) NSString* accountOverviewLabel;
 @property(nonatomic, retain) NSString* accountOverviewImageLabel;
 @property(nonatomic, retain) NSString* lastCallLabel;
+@property(nonatomic, retain) NSString* nextCallLabel;
 @property(nonatomic, retain) NSString* linkedToLabel;
 @property(nonatomic, assign) int linkedToIndex;
 @property(nonatomic, retain) NSString* faxNumberLabel;
@@ -110,7 +118,8 @@
 @property(nonatomic, retain) NSString* locationTypeLabel;
 @property(nonatomic, retain) NSString* locationStatusLabel;
 @property(nonatomic, retain) NSString* accessTimesLabel;
-@property(nonatomic, assign) int lastCallIndex;
+//@property(nonatomic, assign) int lastCallIndex;
+@property(nonatomic, assign) int nextCallIndex;
 @property(nonatomic, assign) int faxNumberIndex;
 @property(nonatomic, assign) int creditStatusIndex;
 @property(nonatomic, retain) NSMutableArray* custKeyList;
@@ -142,6 +151,11 @@
 @property(nonatomic, retain) NSString* priceGroupsLabel;
 @property(nonatomic, retain) NSString* unassignedText;
 @property(nonatomic, assign) BOOL popoverOpenFlag;
+@property(nonatomic, retain) NSMutableDictionary* nextCallHashMap;
+@property(nonatomic, retain) NSString* nextAppointmentTitle;
+@property(nonatomic, retain) NSString* nextJourneyTitle;
+@property(nonatomic, retain) NSString* suggestedCallTitle;
+@property(nonatomic, assign) BOOL lastOrderHeaderFoundFlag;
 
 - (id)initWithLocationIUR:(NSNumber*)aLocationIUR;
 - (void)locationStatusProcessor:(NSNumber*)aLsiur;
