@@ -249,6 +249,9 @@
     NSString* auxCustKey = [self.customerInfoTableDataManager.custKeyList objectAtIndex:indexPath.row];
     if ([auxSectionTitle isEqualToString:self.customerInfoTableDataManager.infoSectionTitle]) {
         CellIdentifier=@"CustomerInfoCell";
+        if ([auxCustKey isEqualToString:self.customerInfoTableDataManager.nextCallLabel]) {
+            CellIdentifier = @"IdCustomerInfoNextCallTableViewCell";
+        }
         if (needShowDetail) {
             if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showAccountBalancesFlag] && indexPath.row == self.customerInfoTableDataManager.buyingGroupIndex-1) {
                 CellIdentifier=@"CustomerInfoButtonCell";
@@ -323,6 +326,18 @@
             [auxStartTimeCell configCellWithoutData];
             return auxStartTimeCell;
         }
+        if ([auxCustKey isEqualToString:self.customerInfoTableDataManager.nextCallLabel]) {
+            CustomerInfoNextCallTableViewCell* auxNextCallCell = (CustomerInfoNextCallTableViewCell*)cell;
+            auxNextCallCell.infoTitle.text = [self.customerInfoTableDataManager.nextCallHashMap objectForKey:@"fieldDesc"];
+            auxNextCallCell.infoValue.text = [self.customerInfoTableDataManager.nextCallHashMap objectForKey:@"fieldValue"];
+            UIImage* tmpFieldImage = nil;
+            NSString* tmpImageName = [self.customerInfoTableDataManager.nextCallHashMap objectForKey:@"imageName"];
+            if (![tmpImageName isEqualToString:@""]) {
+                tmpFieldImage = [UIImage imageNamed:tmpImageName];
+            }
+            [auxNextCallCell.actionBtn setImage:tmpFieldImage forState:UIControlStateNormal];
+            return auxNextCallCell;
+        }
         
         CustomerInfoCell* aCell=(CustomerInfoCell*)cell;
         if (indexPath.row<1||indexPath.row>4) {
@@ -337,24 +352,19 @@
 
         }
         aCell.infoValue.text=[self.aCustDict objectForKey:[self.customerInfoTableDataManager.custKeyList objectAtIndex:indexPath.row]];
-        aCell.infoValue.textColor = [UIColor blackColor];
-        aCell.accessoryType = UITableViewCellAccessoryNone;
+        
         if (aCell.infoTitle.text != nil && [auxCustKey isEqualToString:self.customerInfoTableDataManager.emailLabel] && aCell.infoValue.text != nil && ![aCell.infoValue.text isEqualToString:@""]) {
             NSDictionary* underlineAttribute = @{NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)};
             aCell.infoValue.attributedText = [[[NSAttributedString alloc] initWithString:[self.aCustDict objectForKey:[self.customerInfoTableDataManager.custKeyList objectAtIndex:indexPath.row]] attributes:underlineAttribute] autorelease];
             aCell.infoValue.textColor = [UIColor blueColor];
-//            aCell.accessoryType = UITableViewCellAccessoryNone;
+            aCell.accessoryType = UITableViewCellAccessoryNone;
         } else if (aCell.infoTitle.text != nil && [aCell.infoTitle.text isEqualToString:self.customerInfoTableDataManager.lastCallLabel] && indexPath.row <= [self.customerInfoTableDataManager.headerItemList count] && aCell.infoValue.text != nil && ![aCell.infoValue.text isEqualToString:@""]) {
             aCell.infoValue.textColor = [UIColor blackColor];
             aCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        } else if ([auxCustKey isEqualToString:self.customerInfoTableDataManager.nextCallLabel]) {
-            aCell.infoTitle.text = [self.customerInfoTableDataManager.nextCallHashMap objectForKey:@"fieldDesc"];
-            aCell.infoValue.text = [self.customerInfoTableDataManager.nextCallHashMap objectForKey:@"fieldValue"];
+        } else {
+            aCell.infoValue.textColor = [UIColor blackColor];
+            aCell.accessoryType = UITableViewCellAccessoryNone;
         }
-//        else {
-//            aCell.infoValue.textColor = [UIColor blackColor];
-//            aCell.accessoryType = UITableViewCellAccessoryNone;
-//        }
         aCell.selectionStyle=UITableViewCellSelectionStyleNone;
 
         return aCell;
@@ -899,7 +909,9 @@
     self.customerInfoTableDataManager.nextCallHashMap = [NSMutableDictionary dictionary];
     [self.customerInfoTableDataManager.nextCallHashMap setObject:self.customerInfoTableDataManager.nextCallLabel forKey:@"fieldDesc"];
     [self.customerInfoTableDataManager.nextCallHashMap setObject:@"" forKey:@"fieldValue"];
+    [self.customerInfoTableDataManager.nextCallHashMap setObject:@"" forKey:@"imageName"];
     if (![[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+        [self journeyOrderHeaderDateProcessor];
         [self.tableView reloadData];
         return;
     }
@@ -974,16 +986,20 @@
                         NSDate* startDate = [ArcosUtils dateFromString:startDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
                         [self.customerInfoTableDataManager.nextCallHashMap setObject:self.customerInfoTableDataManager.nextAppointmentTitle forKey:@"fieldDesc"];
                         [self.customerInfoTableDataManager.nextCallHashMap setObject:[ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].dateFormat] forKey:@"fieldValue"];
+                        [self.customerInfoTableDataManager.nextCallHashMap setObject:@"Calendar-Blue" forKey:@"imageName"];
                         self.detailingCalendarEventBoxViewDataManager.eventForCurrentLocationFoundFlag = YES;
                         break;
                     }
                 }
                 if (!self.detailingCalendarEventBoxViewDataManager.eventForCurrentLocationFoundFlag) {
+                    [self journeyOrderHeaderDateProcessor];
+                    /*
                     self.detailingCalendarEventBoxViewDataManager.journeyForCurrentLocationFoundFlag = NO;
                     [self.detailingCalendarEventBoxViewDataManager calculateJourneyDateWithLocationIUR:[self.aCustDict objectForKey:@"LocationIUR"]];
                     if (self.detailingCalendarEventBoxViewDataManager.journeyForCurrentLocationFoundFlag) {
                         [self.customerInfoTableDataManager.nextCallHashMap setObject:self.customerInfoTableDataManager.nextJourneyTitle forKey:@"fieldDesc"];
                         [self.customerInfoTableDataManager.nextCallHashMap setObject:[ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.journeyDateForCurrentLocation format:[GlobalSharedClass shared].dateFormat] forKey:@"fieldValue"];
+                        [self.customerInfoTableDataManager.nextCallHashMap setObject:@"JourneyCar" forKey:@"imageName"];
                     } else {
                         if (self.customerInfoTableDataManager.lastOrderHeaderFoundFlag) {
                             NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:[SettingManager employeeIUR]];
@@ -994,8 +1010,10 @@
                             }
                             [self.customerInfoTableDataManager.nextCallHashMap setObject:self.customerInfoTableDataManager.suggestedCallTitle forKey:@"fieldDesc"];
                             [self.customerInfoTableDataManager.nextCallHashMap setObject:[ArcosUtils stringFromDate:tmpLastOrderDate format:[GlobalSharedClass shared].dateFormat] forKey:@"fieldValue"];
+                            [self.customerInfoTableDataManager.nextCallHashMap setObject:@"CalendarApp-Blue" forKey:@"imageName"];
                         }
                     }
+                     */
                 }
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -1007,6 +1025,28 @@
         }
     }];
     [downloadTask resume];
+}
+
+- (void)journeyOrderHeaderDateProcessor {
+    self.detailingCalendarEventBoxViewDataManager.journeyForCurrentLocationFoundFlag = NO;
+    [self.detailingCalendarEventBoxViewDataManager calculateJourneyDateWithLocationIUR:[self.aCustDict objectForKey:@"LocationIUR"]];
+    if (self.detailingCalendarEventBoxViewDataManager.journeyForCurrentLocationFoundFlag) {
+        [self.customerInfoTableDataManager.nextCallHashMap setObject:self.customerInfoTableDataManager.nextJourneyTitle forKey:@"fieldDesc"];
+        [self.customerInfoTableDataManager.nextCallHashMap setObject:[ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.journeyDateForCurrentLocation format:[GlobalSharedClass shared].dateFormat] forKey:@"fieldValue"];
+        [self.customerInfoTableDataManager.nextCallHashMap setObject:@"JourneyCar" forKey:@"imageName"];
+    } else {
+        if (self.customerInfoTableDataManager.lastOrderHeaderFoundFlag) {
+            NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:[SettingManager employeeIUR]];
+            int mergeIdValue = [[employeeDict objectForKey:@"MergeID"] intValue];
+            NSDate* tmpLastOrderDate = [self.aCustDict objectForKey:@"LastOrderDate"];
+            if (mergeIdValue > 0) {
+                tmpLastOrderDate = [ArcosUtils addDays:mergeIdValue * 7 date:tmpLastOrderDate];
+            }
+            [self.customerInfoTableDataManager.nextCallHashMap setObject:self.customerInfoTableDataManager.suggestedCallTitle forKey:@"fieldDesc"];
+            [self.customerInfoTableDataManager.nextCallHashMap setObject:[ArcosUtils stringFromDate:tmpLastOrderDate format:[GlobalSharedClass shared].dateFormat] forKey:@"fieldValue"];
+            [self.customerInfoTableDataManager.nextCallHashMap setObject:@"CalendarApp-Blue" forKey:@"imageName"];
+        }
+    }
 }
 
 #pragma mark ArcosCustomiseAnimationDelegate

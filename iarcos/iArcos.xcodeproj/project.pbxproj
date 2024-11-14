@@ -1608,6 +1608,10 @@
 		79273B802ACEB7D700858D3A /* FlagsSelectedContactTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79273B7E2ACEB7D700858D3A /* FlagsSelectedContactTableViewController.m */; };
 		79273B812ACEB7D700858D3A /* FlagsSelectedContactTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79273B7F2ACEB7D700858D3A /* FlagsSelectedContactTableViewController.xib */; };
 		79273B842ACEB96C00858D3A /* FlagsMainTemplateDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 79273B832ACEB96C00858D3A /* FlagsMainTemplateDataManager.m */; };
+		792A56C92CE581EF00096ECE /* CalendarApp-Blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 792A56C82CE581EF00096ECE /* CalendarApp-Blue@2x.png */; };
+		792A56CA2CE581EF00096ECE /* Calendar-Blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 792A56C72CE581EF00096ECE /* Calendar-Blue@2x.png */; };
+		792A56CD2CE587B400096ECE /* CustomerInfoBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 792A56CC2CE587B400096ECE /* CustomerInfoBaseTableViewCell.m */; };
+		792A56D02CE5880E00096ECE /* CustomerInfoNextCallTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 792A56CF2CE5880E00096ECE /* CustomerInfoNextCallTableViewCell.m */; };
 		792B2626255E2155002326BA /* load@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 792B2625255E2155002326BA /* load@2x.png */; };
 		792BD4702862D7F200E4FF52 /* ArcosCalendarEventEntryDetailDeleteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 792BD46F2862D7F200E4FF52 /* ArcosCalendarEventEntryDetailDeleteTableViewCell.m */; };
 		792BEA352BCE7ED0002671EE /* DetailingCalendarEventBoxListingBodyJourneyForTemplateTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 792BEA342BCE7ED0002671EE /* DetailingCalendarEventBoxListingBodyJourneyForTemplateTableCell.m */; };
@@ -4954,6 +4958,12 @@
 		79273B7F2ACEB7D700858D3A /* FlagsSelectedContactTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlagsSelectedContactTableViewController.xib; sourceTree = "<group>"; };
 		79273B822ACEB96C00858D3A /* FlagsMainTemplateDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlagsMainTemplateDataManager.h; sourceTree = "<group>"; };
 		79273B832ACEB96C00858D3A /* FlagsMainTemplateDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlagsMainTemplateDataManager.m; sourceTree = "<group>"; };
+		792A56C72CE581EF00096ECE /* Calendar-Blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Calendar-Blue@2x.png"; sourceTree = "<group>"; };
+		792A56C82CE581EF00096ECE /* CalendarApp-Blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CalendarApp-Blue@2x.png"; sourceTree = "<group>"; };
+		792A56CB2CE587B400096ECE /* CustomerInfoBaseTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerInfoBaseTableViewCell.h; sourceTree = "<group>"; };
+		792A56CC2CE587B400096ECE /* CustomerInfoBaseTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerInfoBaseTableViewCell.m; sourceTree = "<group>"; };
+		792A56CE2CE5880E00096ECE /* CustomerInfoNextCallTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerInfoNextCallTableViewCell.h; sourceTree = "<group>"; };
+		792A56CF2CE5880E00096ECE /* CustomerInfoNextCallTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerInfoNextCallTableViewCell.m; sourceTree = "<group>"; };
 		792B2625255E2155002326BA /* load@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "load@2x.png"; sourceTree = "<group>"; };
 		792BD46E2862D7F200E4FF52 /* ArcosCalendarEventEntryDetailDeleteTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArcosCalendarEventEntryDetailDeleteTableViewCell.h; sourceTree = "<group>"; };
 		792BD46F2862D7F200E4FF52 /* ArcosCalendarEventEntryDetailDeleteTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArcosCalendarEventEntryDetailDeleteTableViewCell.m; sourceTree = "<group>"; };
@@ -6910,6 +6920,10 @@
 				79605F402CDCA489005E27C0 /* CustomerCalendarListCallTableViewCell.h */,
 				79605F412CDCA489005E27C0 /* CustomerCalendarListCallTableViewCell.m */,
 				79605F422CDCA489005E27C0 /* CustomerCalendarListCallTableViewCell.xib */,
+				792A56CB2CE587B400096ECE /* CustomerInfoBaseTableViewCell.h */,
+				792A56CC2CE587B400096ECE /* CustomerInfoBaseTableViewCell.m */,
+				792A56CE2CE5880E00096ECE /* CustomerInfoNextCallTableViewCell.h */,
+				792A56CF2CE5880E00096ECE /* CustomerInfoNextCallTableViewCell.m */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -8616,6 +8630,8 @@
 		630B3A5419F01CB8007B2442 /* ShareImage */ = {
 			isa = PBXGroup;
 			children = (
+				792A56C72CE581EF00096ECE /* Calendar-Blue@2x.png */,
+				792A56C82CE581EF00096ECE /* CalendarApp-Blue@2x.png */,
 				79D44C722C6A0860002764FD /* mat@2x.png */,
 				7984CAAD2BCA80D800F8A0B5 /* segmentedbg.png */,
 				7984CAAB2BCA80CD00F8A0B5 /* segmenteddividerbg.png */,
@@ -9781,6 +9797,8 @@
 				630B3D3819F01CB9007B2442 /* UtilitiesUpdateCenterDataTableCell.xib in Resources */,
 				6315566C223BB59D00DEF591 /* MeetingAttachmentsHeaderViewController.xib in Resources */,
 				638A34051C11FFFA00EE519D /* Header3.png in Resources */,
+				792A56C92CE581EF00096ECE /* CalendarApp-Blue@2x.png in Resources */,
+				792A56CA2CE581EF00096ECE /* Calendar-Blue@2x.png in Resources */,
 				630B3B6719F01CB9007B2442 /* CustomerContactModalViewController.xib in Resources */,
 				798B5D732AEB6E9F008B12D9 /* flags_contact@2x.png in Resources */,
 				630B3BE619F01CB9007B2442 /* CustomerNewsTaskTableCell.xib in Resources */,
@@ -11162,6 +11180,7 @@
 				63D2FB531D6724F000040C5A /* CustomerInfoAccessTimesCalendarTableViewController.m in Sources */,
 				632D40EE1A40802D002835DB /* CustomerIarcosInvoiceDetailsCellFactory.m in Sources */,
 				630B3CDB19F01CB9007B2442 /* ActivateEnterpriseViewController.m in Sources */,
+				792A56CD2CE587B400096ECE /* CustomerInfoBaseTableViewCell.m in Sources */,
 				630B3D2C19F01CB9007B2442 /* UtilitiesDescriptionDetailEditTextTableCell.m in Sources */,
 				630B3D9719F01CB9007B2442 /* ArcosCallTran.m in Sources */,
 				630B3D1F19F01CB9007B2442 /* SettingNumberInputCell.m in Sources */,
@@ -11324,6 +11343,7 @@
 				63787682218325770088BB36 /* CustomerMasterMainHeaderViewController.m in Sources */,
 				630B3CCC19F01CB9007B2442 /* ReportParser.m in Sources */,
 				630B3C8D19F01CB9007B2442 /* SavedOrderTableCell.m in Sources */,
+				792A56D02CE5880E00096ECE /* CustomerInfoNextCallTableViewCell.m in Sources */,
 				63A00B351D6F4C25000078A9 /* NextCheckoutAccountTableViewCell.m in Sources */,
 				630B3BCE19F01CB9007B2442 /* CustomerSurveySlideTableView.m in Sources */,
 				633498EB1A403D5000441515 /* CustomerInfoHeaderViewController.m in Sources */,
@@ -11669,7 +11689,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.2.8;
+				MARKETING_VERSION = 13.2.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11730,7 +11750,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.2.8;
+				MARKETING_VERSION = 13.2.9;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -11879,7 +11899,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.2.8;
+				MARKETING_VERSION = 13.2.9;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
