@@ -986,7 +986,7 @@
                         NSDate* startDate = [ArcosUtils dateFromString:startDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
                         [self.customerInfoTableDataManager.nextCallHashMap setObject:self.customerInfoTableDataManager.nextAppointmentTitle forKey:@"fieldDesc"];
                         [self.customerInfoTableDataManager.nextCallHashMap setObject:[ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].dateFormat] forKey:@"fieldValue"];
-                        [self.customerInfoTableDataManager.nextCallHashMap setObject:@"Calendar-Blue" forKey:@"imageName"];
+                        [self.customerInfoTableDataManager.nextCallHashMap setObject:@"Calendar-Blue.png" forKey:@"imageName"];
                         self.detailingCalendarEventBoxViewDataManager.eventForCurrentLocationFoundFlag = YES;
                         break;
                     }
@@ -1033,7 +1033,7 @@
     if (self.detailingCalendarEventBoxViewDataManager.journeyForCurrentLocationFoundFlag) {
         [self.customerInfoTableDataManager.nextCallHashMap setObject:self.customerInfoTableDataManager.nextJourneyTitle forKey:@"fieldDesc"];
         [self.customerInfoTableDataManager.nextCallHashMap setObject:[ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.journeyDateForCurrentLocation format:[GlobalSharedClass shared].dateFormat] forKey:@"fieldValue"];
-        [self.customerInfoTableDataManager.nextCallHashMap setObject:@"JourneyCar" forKey:@"imageName"];
+        [self.customerInfoTableDataManager.nextCallHashMap setObject:@"JourneyCar.png" forKey:@"imageName"];
     } else {
         if (self.customerInfoTableDataManager.lastOrderHeaderFoundFlag) {
             NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:[SettingManager employeeIUR]];
@@ -1044,7 +1044,7 @@
             }
             [self.customerInfoTableDataManager.nextCallHashMap setObject:self.customerInfoTableDataManager.suggestedCallTitle forKey:@"fieldDesc"];
             [self.customerInfoTableDataManager.nextCallHashMap setObject:[ArcosUtils stringFromDate:tmpLastOrderDate format:[GlobalSharedClass shared].dateFormat] forKey:@"fieldValue"];
-            [self.customerInfoTableDataManager.nextCallHashMap setObject:@"CalendarApp-Blue" forKey:@"imageName"];
+            [self.customerInfoTableDataManager.nextCallHashMap setObject:@"CalendarApp-Blue.png" forKey:@"imageName"];
         }
     }
 }

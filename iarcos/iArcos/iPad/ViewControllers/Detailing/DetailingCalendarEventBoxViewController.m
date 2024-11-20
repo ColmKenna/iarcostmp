@@ -463,7 +463,7 @@
                         dispatch_async(dispatch_get_main_queue(), ^{
 //                            self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
 //                            self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.nextAppointmentText;
-                            [self.imageButton setImage:[UIImage imageNamed:@"List2.png"] forState:UIControlStateNormal];
+                            [self.imageButton setImage:[UIImage imageNamed:@"Calendar-Blue.png"] forState:UIControlStateNormal];
                             self.nextAppointmentValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
 //                            self.calendarDateValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].datetimehmFormat];
                             self.calendarDatePicker.date = self.detailingCalendarEventBoxViewDataManager.calendarDateData;

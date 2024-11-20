@@ -22,6 +22,20 @@
 @synthesize customerJourneyDataManager = _customerJourneyDataManager;
 @synthesize globalNavigationController = _globalNavigationController;
 @synthesize utilitiesMailDataManager = _utilitiesMailDataManager;
+@synthesize myTableView = _myTableView;
+@synthesize listingTemplateView = _listingTemplateView;
+@synthesize listingTitleLabel = _listingTitleLabel;
+@synthesize listingTableView = _listingTableView;
+@synthesize arcosCalendarEventEntryDetailListingDataManager = _arcosCalendarEventEntryDetailListingDataManager;
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.arcosCalendarEventEntryDetailListingDataManager = [[[ArcosCalendarEventEntryDetailListingDataManager alloc] init] autorelease];
+        self.arcosCalendarEventEntryDetailListingDataManager.actionDelegate = self;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,6 +45,11 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.arcosCalendarTableDataManager = [[[ArcosCalendarTableDataManager alloc] init] autorelease];
+    self.listingTableView.dataSource = self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager;
+    self.listingTableView.delegate = self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager;
+    self.listingTitleLabel.text = @"";
+    [ArcosUtils configEdgesForExtendedLayout:self];
     self.arcosService = [ArcosService service];
     self.utilitiesMailDataManager = [[[UtilitiesMailDataManager alloc] init] autorelease];
     if (@available(iOS 15.0, *)) {
@@ -47,7 +66,7 @@
         [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
         [self.navigationController.navigationBar setTintColor:[UIColor blackColor]];
     }
-    self.arcosCalendarTableDataManager = [[[ArcosCalendarTableDataManager alloc] init] autorelease];
+    
     UIBarButtonItem* todayButton = [[UIBarButtonItem alloc] initWithTitle:@"Today" style:UIBarButtonItemStylePlain target:self action:@selector(todayPressed:)];
     NSMutableArray* leftButtonList = [NSMutableArray arrayWithCapacity:1];
     [leftButtonList addObject:todayButton];
@@ -59,6 +78,10 @@
     [leftButtonList addObject:nextButton];
     [nextButton release];
     [self.navigationItem setLeftBarButtonItems:leftButtonList];
+    UIBarButtonItem* toggleListButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"List2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleListButtonPressed:)];
+    NSMutableArray* buttonList = [NSMutableArray arrayWithObjects:toggleListButton, nil];
+    [self.navigationItem setRightBarButtonItems:buttonList];
+    [toggleListButton release];
     self.HUD = [[[MBProgressHUD alloc] initWithView:self.navigationController.view] autorelease];
     self.HUD.dimBackground = YES;
     [self.navigationController.view addSubview:self.HUD];
@@ -80,12 +103,55 @@
     self.customerJourneyDataManager = nil;
     self.globalNavigationController = nil;
     self.utilitiesMailDataManager = nil;
+    self.myTableView = nil;
+    self.listingTemplateView = nil;
+    self.listingTitleLabel = nil;
+    self.listingTableView = nil;
+    self.arcosCalendarEventEntryDetailListingDataManager = nil;
     
     [super dealloc];
 }
 
+- (void)toggleListButtonPressed:(id)sender {
+    self.arcosCalendarTableDataManager.listingTemplateViewVisibleFlag = !self.arcosCalendarTableDataManager.listingTemplateViewVisibleFlag;
+    int listingTemplateViewWidth = [self calculateListingTemplateViewWidth];
+    if (self.arcosCalendarTableDataManager.listingTemplateViewVisibleFlag) {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.listingTemplateView.frame = CGRectMake(self.view.frame.size.width - listingTemplateViewWidth, 0, listingTemplateViewWidth, self.view.frame.size.height);
+            [self configListingTemplateSubViews];
+        } completion:^(BOOL finished){
+            
+        }];
+    } else {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.listingTemplateView.frame = CGRectMake(self.view.frame.size.width, 0, listingTemplateViewWidth, self.view.frame.size.height);
+            [self configListingTemplateSubViews];
+        } completion:^(BOOL finished){
+            
+        }];
+    }
+}
+
+- (int)calculateListingTemplateViewWidth {
+    return (int)self.view.frame.size.width * 2 / 7;
+}
+
+- (void)configListingTemplateSubViews {
+    self.listingTitleLabel.frame = CGRectMake(3, 0, self.listingTemplateView.frame.size.width - 3, 50);
+    self.listingTableView.frame = CGRectMake(2, 50, self.listingTemplateView.frame.size.width - 2, self.listingTemplateView.frame.size.height - 50);
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    int listingTemplateViewWidth = [self calculateListingTemplateViewWidth];
+    if (self.arcosCalendarTableDataManager.listingTemplateViewVisibleFlag) {
+        self.listingTemplateView.frame = CGRectMake(self.view.frame.size.width - listingTemplateViewWidth, 0, listingTemplateViewWidth, self.view.frame.size.height);
+        [self configListingTemplateSubViews];
+    } else {
+        self.listingTemplateView.frame = CGRectMake(self.view.frame.size.width, 0, listingTemplateViewWidth, self.view.frame.size.height);
+        [self configListingTemplateSubViews];
+    }
+    
     if (@available(iOS 15.0, *)) {
         UINavigationBarAppearance* customNavigationBarAppearance = [[UINavigationBarAppearance alloc] init];
         [customNavigationBarAppearance configureWithOpaqueBackground];
@@ -126,7 +192,7 @@
     self.arcosCalendarTableDataManager.currentSelectedDate = self.arcosCalendarTableDataManager.todayDate;
     self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate = [self.arcosCalendarTableDataManager createThirdDayNoonDateWithDate:self.arcosCalendarTableDataManager.todayDate thirdDayFlag:YES];
     [self.arcosCalendarTableDataManager calculateCalendarData:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
-    [self.tableView reloadData];
+    [self.myTableView reloadData];
     [self showCurrentMonth];
 //    [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
     [self retrieveCalendarInfoWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
@@ -135,7 +201,7 @@
 - (void)prevPressed:(id)sender {
     self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate = [ArcosUtils addMonths:-1 date:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
     [self.arcosCalendarTableDataManager calculateCalendarData:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
-    [self.tableView reloadData];
+    [self.myTableView reloadData];
     [self showCurrentMonth];
 //    [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
     [self retrieveCalendarInfoWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
@@ -144,7 +210,7 @@
 - (void)nextPressed:(id)sender {
     self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate = [ArcosUtils addMonths:1 date:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
     [self.arcosCalendarTableDataManager calculateCalendarData:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
-    [self.tableView reloadData];
+    [self.myTableView reloadData];
     [self showCurrentMonth];
 //    [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
     [self retrieveCalendarInfoWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
@@ -196,12 +262,29 @@
     return YES;
 }
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-                                         duration:(NSTimeInterval)duration {
-    [super willAnimateRotationToInterfaceOrientation:interfaceOrientation duration:duration];
-    [self.tableView reloadData];
-}
+//- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+//                                         duration:(NSTimeInterval)duration {
+//    [super willAnimateRotationToInterfaceOrientation:interfaceOrientation duration:duration];
+//    NSLog(@"willAnimateRotationToInterfaceOrientation");
+//    [self.tableView reloadData];
+//}
 
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        self.HUD.frame = self.navigationController.view.bounds;
+        int listingTemplateViewWidth = [self calculateListingTemplateViewWidth];
+        if (self.arcosCalendarTableDataManager.listingTemplateViewVisibleFlag) {
+            self.listingTemplateView.frame = CGRectMake(self.view.frame.size.width - listingTemplateViewWidth, 0, listingTemplateViewWidth, self.view.frame.size.height);
+            [self configListingTemplateSubViews];
+        } else {
+            self.listingTemplateView.frame = CGRectMake(self.view.frame.size.width, 0, listingTemplateViewWidth, self.view.frame.size.height);
+            [self configListingTemplateSubViews];
+        }        
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        
+    }];
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString* CellIdentifier = @"IdArcosCalendarTableViewCell";
@@ -342,11 +425,30 @@
         if (dayDataDict == nil) return;
 //        NSLog(@"inputFinishedWithIndexPath");
         self.arcosCalendarTableDataManager.currentSelectedDate = [dayDataDict objectForKey:@"Date"];
-        [self.tableView reloadData];
+        [self.myTableView reloadData];
+        self.listingTitleLabel.text = [ArcosUtils stringFromDate:self.arcosCalendarTableDataManager.currentSelectedDate format:[GlobalSharedClass shared].weekdayDateFormat];
+        self.arcosCalendarEventEntryDetailListingDataManager.journeyDictList = nil;
+        self.arcosCalendarEventEntryDetailListingDataManager.eventDictList = nil;
+        NSString* auxDateFormatText = [ArcosUtils stringFromDate:[dayDataDict objectForKey:@"Date"] format:[GlobalSharedClass shared].dateFormat];
+        NSMutableDictionary* auxJourneyDict = [self.customerJourneyDataManager.journeyDictHashMap objectForKey:auxDateFormatText];
+        if (auxJourneyDict != nil) {
+            [self.customerJourneyDataManager getLocationsWithJourneyDict:auxJourneyDict];
+            self.arcosCalendarEventEntryDetailListingDataManager.journeyDictList = [self.customerJourneyDataManager.locationListDict objectForKey:auxDateFormatText];
+        }
+        NSMutableArray* eventDataList = [dayDataDict objectForKey:@"Event"];
+        if ([eventDataList count] > 1) {
+            NSSortDescriptor* startDateDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"StartDate" ascending:YES selector:@selector(compare:)] autorelease];
+            [eventDataList sortUsingDescriptors:[NSArray arrayWithObjects:startDateDescriptor, nil]];
+        }
+        self.arcosCalendarEventEntryDetailListingDataManager.eventDictList = eventDataList;
+        
+        [self.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:auxDateFormatText];
+        [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:self.arcosCalendarEventEntryDetailListingDataManager.displayList];
+        [self.listingTableView reloadData];
+        [self scrollToAppointmentPositionProcessor];
     } @catch (NSException *exception) {
         [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:self tag:0 handler:nil];
     }
-    
     
 }
 
@@ -409,6 +511,10 @@
         [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:self tag:0 handler:nil];
     }
 }
+#pragma mark - ArcosCalendarEventEntryDetailListingDataManagerDelegate
+- (NSNumber*)retrieveEventEntryDetailListingLocationIUR {
+    return [NSNumber numberWithInt:0];
+}
 
 #pragma mark - ModalPresentViewControllerDelegate
 - (void)didDismissModalPresentViewController {
@@ -443,7 +549,7 @@
         [ArcosUtils showDialogBox:[ArcosConstantsDataManager sharedArcosConstantsDataManager].acctNotSignInMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
             
         }];
-        [self.tableView reloadData];
+        [self.myTableView reloadData];
         [self.HUD hide:YES];
         return;
     }
@@ -463,7 +569,7 @@
         if (error != nil) {
 //            NSLog(@"sendMsg error %@", error);
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.tableView reloadData];
+                [self.myTableView reloadData];
                 [weakSelf.HUD hide:YES];
                 [ArcosUtils showDialogBox:[error localizedDescription] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
             });
@@ -478,7 +584,7 @@
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.tableView reloadData];
+                    [self.myTableView reloadData];
 //                    [weakSelf.HUD hide:YES];
 //                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
                     void (^myFailureHandler)(void) = ^ {
@@ -505,8 +611,8 @@
                     [self.arcosCalendarTableDataManager populateCalendarEntryWithData:eventDict];
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.tableView reloadData];
-                    [weakSelf.HUD hide:YES];                    
+                    [weakSelf.myTableView reloadData];
+                    [weakSelf.HUD hide:YES];
                 });
             }
         }
@@ -537,6 +643,23 @@
             [self.arcosCalendarTableDataManager populateJourneyEntryWithDataList:replyResult.ArrayOfData];
             [self retrieveCalendarEntriesWithDate:self.arcosCalendarTableDataManager.currentThirdDayOfMonthDate];
         }
+    }
+}
+
+- (void)scrollToAppointmentPositionProcessor {
+    @try {
+        int tmpRow = 16;
+        for (int i = 0; i < [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.displayList count]; i++) {
+            NSMutableDictionary* resDataDict = [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.displayList objectAtIndex:i];
+            NSNumber* cellType = [resDataDict objectForKey:@"CellType"];
+            if ([cellType intValue] == 4 || [cellType intValue] == 5) {
+                tmpRow = i - 1;
+                break;
+            }
+        }
+        [self.listingTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:tmpRow inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    } @catch (NSException *exception) {
+        NSLog(@"exception %@", [exception reason]);
     }
 }
 

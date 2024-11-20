@@ -17,7 +17,7 @@
 #import "ArcosCalendarEventEntryDetailTemplateViewController.h"
 #import "CustomerJourneyDataManager.h"
 
-@interface ArcosCalendarTableViewController : UITableViewController <ArcosCalendarTableViewCellDelegate, ModalPresentViewControllerDelegate, ArcosCalendarEventEntryDetailTemplateViewControllerDelegate, ArcosCalendarCellBaseTableViewDataManagerDelegate>{
+@interface ArcosCalendarTableViewController : UIViewController <ArcosCalendarTableViewCellDelegate, ModalPresentViewControllerDelegate, ArcosCalendarEventEntryDetailTemplateViewControllerDelegate, ArcosCalendarCellBaseTableViewDataManagerDelegate, UITableViewDelegate, UITableViewDataSource, ArcosCalendarEventEntryDetailListingDataManagerDelegate>{
     ArcosCalendarTableDataManager* _arcosCalendarTableDataManager;
     ArcosCalendarTableHeaderView* _arcosCalendarTableHeaderView;
     ArcosRootViewController* _arcosRootViewController;
@@ -26,6 +26,11 @@
     CustomerJourneyDataManager* _customerJourneyDataManager;
     UINavigationController* _globalNavigationController;
     UtilitiesMailDataManager* _utilitiesMailDataManager;
+    UITableView* _myTableView;
+    UIView* _listingTemplateView;
+    UILabel* _listingTitleLabel;
+    UITableView* _listingTableView;
+    ArcosCalendarEventEntryDetailListingDataManager* _arcosCalendarEventEntryDetailListingDataManager;
 }
 
 @property(nonatomic, retain) ArcosCalendarTableDataManager* arcosCalendarTableDataManager;
@@ -36,6 +41,11 @@
 @property(nonatomic, retain) CustomerJourneyDataManager* customerJourneyDataManager;
 @property(nonatomic, retain) UINavigationController* globalNavigationController;
 @property(nonatomic, retain) UtilitiesMailDataManager* utilitiesMailDataManager;
+@property(nonatomic, retain) IBOutlet UITableView* myTableView;
+@property(nonatomic, retain) IBOutlet UIView* listingTemplateView;
+@property(nonatomic, retain) IBOutlet UILabel* listingTitleLabel;
+@property(nonatomic, retain) IBOutlet UITableView* listingTableView;
+@property(nonatomic, retain) ArcosCalendarEventEntryDetailListingDataManager* arcosCalendarEventEntryDetailListingDataManager;
 
 @end
 
