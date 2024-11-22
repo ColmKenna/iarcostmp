@@ -97,6 +97,33 @@
     [self.groupedDataDict setObject:detailDataList forKey:self.detailText];
 }
 
+- (void)retrieveCreateDataForPopOutWithDate:(NSDate*)aDate title:(NSString*)aTitle location:(NSString*)aLocationStr {
+    self.sectionTitleList = [NSMutableArray arrayWithObjects:self.headlineText, self.dateText, self.detailText, nil];
+    self.groupedDataDict = [NSMutableDictionary dictionary];
+    NSMutableArray* headlineDataList = [NSMutableArray arrayWithCapacity:2];
+    [headlineDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:1] fieldDesc:@"Title" fieldName:self.subjectKey fieldData:[ArcosUtils convertNilToEmpty:aTitle]]];
+    [headlineDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:1] fieldDesc:@"Location" fieldName:self.locationKey fieldData:[ArcosUtils convertNilToEmpty:aLocationStr]]];
+    [self.groupedDataDict setObject:headlineDataList forKey:self.headlineText];
+    NSMutableArray* dateDataList = [NSMutableArray arrayWithCapacity:3];
+    [dateDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:3] fieldDesc:@"All-day" fieldName:self.allDayKey fieldData:@"0"]];
+    NSMutableDictionary* startFieldData = [NSMutableDictionary dictionaryWithCapacity:2];
+//    NSString* compositeDateString = [NSString stringWithFormat:@"%@ %@", [ArcosUtils stringFromDate:aDate format:[GlobalSharedClass shared].dateFormat], [ArcosUtils stringFromDate:[self retrieveNextFifteenMinutesWithDate:[NSDate date]] format:[GlobalSharedClass shared].hourMinuteFormat]];
+//    NSDate* compositeDate = [ArcosUtils dateFromString:compositeDateString format:[GlobalSharedClass shared].datetimehmFormat];//compositeDate
+//    NSDate* startFinalDate = [ArcosUtils addHours:0 date:compositeDate];
+    [startFieldData setObject:aDate forKey:@"Date"];
+    [startFieldData setObject:aDate forKey:@"Time"];
+    [dateDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:5] fieldDesc:@"Starts" fieldName:self.startKey fieldData:startFieldData]];
+    NSMutableDictionary* endFieldData = [NSMutableDictionary dictionaryWithCapacity:2];
+    NSDate* endFinalDate = [ArcosUtils addHours:0 date:aDate];
+    [endFieldData setObject:endFinalDate forKey:@"Date"];
+    [endFieldData setObject:endFinalDate forKey:@"Time"];
+    [dateDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:5] fieldDesc:@"Ends" fieldName:self.endKey fieldData:endFieldData]];
+    [self.groupedDataDict setObject:dateDataList forKey:self.dateText];
+    NSMutableArray* detailDataList = [NSMutableArray arrayWithCapacity:1];
+    [detailDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:2] fieldDesc:@"Notes" fieldName:self.bodyKey fieldData:@""]];
+    [self.groupedDataDict setObject:detailDataList forKey:self.detailText];
+}
+
 - (void)retrieveEditDataWithCellData:(NSMutableDictionary*)aCellData {
     self.originalEventDataDict = aCellData;
     self.sectionTitleList = [NSMutableArray arrayWithObjects:self.headlineText, self.dateText, self.detailText, self.deleteText, nil];

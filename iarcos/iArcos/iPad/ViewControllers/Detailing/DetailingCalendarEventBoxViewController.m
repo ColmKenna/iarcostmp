@@ -197,9 +197,9 @@
     }
     ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
     
-    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText];
+    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText bodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
     
-    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
+    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList headerCellType:self.detailingCalendarEventBoxViewDataManager.headerCellType];
     ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].weekdayDateFormat];
 
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:ACEEDTVC] autorelease];
@@ -582,7 +582,7 @@
                 self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:aDateFormatText journeyDictList:self.detailingCalendarEventBoxViewDataManager.journeyDictList eventDictList:self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList bodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
                 
 //                self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
-                [self.detailingCalendarEventBoxListingDataManager createBasicDataWithDataList:self.detailingCalendarEventBoxViewDataManager.listingDisplayList];
+                [self.detailingCalendarEventBoxListingDataManager createBasicDataWithDataList:self.detailingCalendarEventBoxViewDataManager.listingDisplayList headerCellType:self.detailingCalendarEventBoxListingDataManager.headerCellType];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.listingTableView reloadData];
                     [weakSelf.HUD hide:YES];
@@ -685,7 +685,7 @@
                 }
                 self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
                 self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:aDateFormatText journeyDictList:self.detailingCalendarEventBoxViewDataManager.journeyDictList eventDictList:self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList bodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
-                [self.detailingCalendarEventBoxListingDataManager createBasicDataWithDataList:self.detailingCalendarEventBoxViewDataManager.listingDisplayList];
+                [self.detailingCalendarEventBoxListingDataManager createBasicDataWithDataList:self.detailingCalendarEventBoxViewDataManager.listingDisplayList headerCellType:self.detailingCalendarEventBoxViewDataManager.headerCellType];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.listingTableView reloadData];
                     [weakSelf.HUD hide:YES];
@@ -1023,8 +1023,8 @@
     }
     ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
     
-    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText];
-    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];    
+    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText bodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
+    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList headerCellType:self.detailingCalendarEventBoxViewDataManager.headerCellType];
     
 //    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
     

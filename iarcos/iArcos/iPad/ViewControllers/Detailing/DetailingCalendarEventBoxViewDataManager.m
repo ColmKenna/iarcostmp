@@ -27,6 +27,7 @@
 @synthesize bodyCellType = _bodyCellType;
 @synthesize bodyTemplateCellType = _bodyTemplateCellType;
 @synthesize popoverOpenFlag = _popoverOpenFlag;
+@synthesize headerCellType = _headerCellType;
 
 - (instancetype)init {
     self = [super init];
@@ -41,6 +42,7 @@
         self.bodyCellType = [NSNumber numberWithInt:2];
         self.bodyTemplateCellType = [NSNumber numberWithInt:4];
         self.popoverOpenFlag = NO;
+        self.headerCellType = [NSNumber numberWithInt:1];
     }
     
     return self;
@@ -62,6 +64,7 @@
     self.eventDictList = nil;
     self.bodyCellType = nil;
     self.bodyTemplateCellType = nil;
+    self.headerCellType = nil;
     
     [super dealloc];
 }

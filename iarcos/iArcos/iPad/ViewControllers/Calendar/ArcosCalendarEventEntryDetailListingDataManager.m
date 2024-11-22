@@ -39,7 +39,7 @@
     [super dealloc];
 }
 
-- (void)processDataListWithDateFormatText:(NSString*)aDateFormatText {
+- (void)processDataListWithDateFormatText:(NSString*)aDateFormatText bodyCellType:(NSNumber*)aBodyCellType {
     self.displayList = [NSMutableArray arrayWithCapacity:([self.journeyDictList count] + [self.eventDictList count])];
     NSDate* beginDate = [ArcosUtils dateFromString:[NSString stringWithFormat:@"%@ 09:00:00", aDateFormatText] format:[GlobalSharedClass shared].datetimeFormat];
     int minutesInterval = 60;
@@ -59,13 +59,14 @@
     
     for (int i = 0; i < [self.eventDictList count]; i++) {
         NSMutableDictionary* eventDict = [self.eventDictList objectAtIndex:i];
-        NSMutableDictionary* dataDict = [NSMutableDictionary dictionaryWithCapacity:2];
+//        NSMutableDictionary* dataDict = [NSMutableDictionary dictionaryWithCapacity:2];
+        NSMutableDictionary* dataDict = [NSMutableDictionary dictionaryWithDictionary:eventDict];
         NSString* subjectStr = [ArcosUtils convertNilToEmpty:[eventDict objectForKey:@"Subject"]];
         NSString* locationStr = [ArcosUtils convertNilToEmpty:[eventDict objectForKey:@"Location"]];
         [dataDict setObject:locationStr forKey:@"Name"];
         [dataDict setObject:[eventDict objectForKey:@"StartDate"] forKey:@"Date"];
         [dataDict setObject:subjectStr forKey:@"Subject"];
-        [dataDict setObject:[NSNumber numberWithInt:4] forKey:@"CellType"];
+        [dataDict setObject:aBodyCellType forKey:@"CellType"];//[NSNumber numberWithInt:4]
         [dataDict setObject:[ArcosUtils convertNilToZero:[eventDict objectForKey:@"LocationIUR"]] forKey:@"LocationIUR"];
         [self.displayList addObject:dataDict];
     }
@@ -163,6 +164,14 @@
 
 - (void)doubleTapListingBodyLabelWithIndexPath:(NSIndexPath*)anIndexPath {
     
+}
+
+- (void)doubleTapListingBodyLabelForPopOutWithIndexPath:(NSIndexPath*)anIndexPath {
+    [self.actionDelegate doubleTapEventEntryDetailListingWithIndexPath:anIndexPath];
+}
+
+- (void)longInputListingForPopOutFinishedWithIndexPath:(NSIndexPath*)anIndexPath {
+    [self.actionDelegate longInputEventEntryDetailListingFinishedWithIndexPath:anIndexPath];
 }
 
 @end

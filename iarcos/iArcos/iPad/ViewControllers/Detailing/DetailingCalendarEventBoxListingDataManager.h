@@ -17,6 +17,11 @@
     NSMutableArray* _dateList;
     NSMutableDictionary* _hourHashMap;
     DetailingCalendarEventBoxListingTableCellFactory* _cellFactory;
+    NSNumber* _bodyCellType;
+    NSNumber* _bodyTemplateCellType;
+    NSNumber* _headerCellType;
+    NSNumber* _headerForPopOutType;
+    NSNumber* _bodyForPopOutCellType;
 }
 
 @property (nonatomic, assign) id<DetailingCalendarEventBoxListingDataManagerDelegate> actionDelegate;
@@ -24,9 +29,14 @@
 @property (nonatomic, retain) NSMutableArray* dateList;
 @property (nonatomic, retain) NSMutableDictionary* hourHashMap;
 @property (nonatomic, retain) DetailingCalendarEventBoxListingTableCellFactory* cellFactory;
+@property (nonatomic, retain) NSNumber* bodyCellType;
+@property (nonatomic, retain) NSNumber* bodyTemplateCellType;
+@property (nonatomic, retain) NSNumber* headerCellType;
+@property (nonatomic, retain) NSNumber* headerForPopOutType;
+@property (nonatomic, retain) NSNumber* bodyForPopOutCellType;
 
-- (void)createBasicDataWithDataList:(NSMutableArray*)aDataList;
-- (void)createBasicDataForTemplateWithDataList:(NSMutableArray*)aDataList;
+- (void)createBasicDataWithDataList:(NSMutableArray*)aDataList headerCellType:(NSNumber*)aHeaderCellType;
+- (void)createBasicDataForTemplateWithDataList:(NSMutableArray*)aDataList headerCellType:(NSNumber*)aHeaderCellType;
 
 @end
 

@@ -14,6 +14,11 @@
 @synthesize dateList = _dateList;
 @synthesize hourHashMap = _hourHashMap;
 @synthesize cellFactory = _cellFactory;
+@synthesize bodyCellType = _bodyCellType;
+@synthesize bodyTemplateCellType = _bodyTemplateCellType;
+@synthesize headerCellType = _headerCellType;
+@synthesize headerForPopOutType = _headerForPopOutType;
+@synthesize bodyForPopOutCellType = _bodyForPopOutCellType;
 
 - (instancetype)init {
     self = [super init];
@@ -44,6 +49,11 @@
         [hourFifteenEventList addObject:[self createBodyCellDataWithDate:hourFifteenDate data:@"contact name c"]];
         [self.hourHashMap setObject:hourFifteenEventList forKey:hourFifteenKey];
          */
+        self.bodyCellType = [NSNumber numberWithInt:2];
+        self.bodyTemplateCellType = [NSNumber numberWithInt:4];
+        self.headerCellType = [NSNumber numberWithInt:1];
+        self.headerForPopOutType = [NSNumber numberWithInt:6];
+        self.bodyForPopOutCellType = [NSNumber numberWithInt:7];
     }
     return self;
 }
@@ -53,11 +63,16 @@
     self.displayList = nil;
     self.dateList = nil;
     self.hourHashMap = nil;
+    self.bodyCellType = nil;
+    self.bodyTemplateCellType = nil;
+    self.headerCellType = nil;
+    self.headerForPopOutType = nil;
+    self.bodyForPopOutCellType = nil;
     
     [super dealloc];
 }
 
-- (void)createBasicDataWithDataList:(NSMutableArray*)aDataList {
+- (void)createBasicDataWithDataList:(NSMutableArray*)aDataList headerCellType:(NSNumber*)aHeaderCellType {
     [self buildHourHashMapWithDataList:aDataList];
     self.displayList = [NSMutableArray array];
     NSDate* startDate = [ArcosUtils beginOfDayWithZeroTime:[NSDate date]];
@@ -73,7 +88,7 @@
 //        NSLog(@"hour %d \n", [ArcosUtils convertNSIntegerToInt:[ArcosUtils hourWithDate:tmpDate]]);
         NSNumber* tmpHourKey = [NSNumber numberWithInt:[ArcosUtils convertNSIntegerToInt:[ArcosUtils hourWithDate:tmpDate]]];
         NSMutableArray* hourEventList = [self.hourHashMap objectForKey:tmpHourKey];
-        [self.displayList addObject:[self createHeaderCellDataWithDate:tmpDate]];
+        [self.displayList addObject:[self createHeaderCellDataWithDate:tmpDate headerCellType:aHeaderCellType]];
         if (hourEventList == nil) {
             [self.displayList addObject:[self createPlaceHolderCellData]];
         } else {
@@ -103,9 +118,9 @@
     }
 }
 
-- (NSMutableDictionary*)createHeaderCellDataWithDate:(NSDate*)aDate {
+- (NSMutableDictionary*)createHeaderCellDataWithDate:(NSDate*)aDate headerCellType:(NSNumber*)aHeaderCellType {
     NSMutableDictionary* resDataDict = [NSMutableDictionary dictionaryWithCapacity:2];
-    [resDataDict setObject:[NSNumber numberWithInt:1] forKey:@"CellType"];
+    [resDataDict setObject:aHeaderCellType forKey:@"CellType"];//[NSNumber numberWithInt:1]
     [resDataDict setObject:aDate forKey:@"FieldDesc"];
     return resDataDict;
 }
@@ -136,7 +151,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSMutableDictionary* cellData = [self.displayList objectAtIndex:indexPath.row];
     int cellTypeInt = [[cellData objectForKey:@"CellType"] intValue];
-    if (cellTypeInt == 1 || cellTypeInt == 3) {
+    if (cellTypeInt == 1 || cellTypeInt == 3 || cellTypeInt == 6) {
         return 30;
     }
     return 44;
@@ -181,7 +196,15 @@
     [self.actionDelegate doubleTapListingBodyLabelWithIndexPath:anIndexPath];
 }
 
-- (void)createBasicDataForTemplateWithDataList:(NSMutableArray*)aDataList {
+- (void)doubleTapBodyLabelForPopOutWithIndexPath:(NSIndexPath*)anIndexPath {
+    [self.actionDelegate doubleTapListingBodyLabelForPopOutWithIndexPath:anIndexPath];
+}
+
+- (void)longInputForPopOutFinishedWithIndexPath:(NSIndexPath*)anIndexPath {
+    [self.actionDelegate longInputListingForPopOutFinishedWithIndexPath:anIndexPath];
+}
+
+- (void)createBasicDataForTemplateWithDataList:(NSMutableArray*)aDataList headerCellType:(NSNumber*)aHeaderCellType {
     [self buildHourHashMapForTemplateWithDataList:aDataList];
     self.displayList = [NSMutableArray array];
     NSDate* startDate = [ArcosUtils beginOfDayWithZeroTime:[NSDate date]];
@@ -195,7 +218,7 @@
         NSDate* tmpDate = [self.dateList objectAtIndex:i];
         NSNumber* tmpHourKey = [NSNumber numberWithInt:[ArcosUtils convertNSIntegerToInt:[ArcosUtils hourWithDate:tmpDate]]];
         NSMutableArray* hourEventList = [self.hourHashMap objectForKey:tmpHourKey];
-        [self.displayList addObject:[self createHeaderCellDataWithDate:tmpDate]];
+        [self.displayList addObject:[self createHeaderCellDataWithDate:tmpDate headerCellType:aHeaderCellType]];
         if (hourEventList == nil) {
             [self.displayList addObject:[self createPlaceHolderCellData]];
         } else {

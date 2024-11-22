@@ -470,8 +470,8 @@
         }
         ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
         
-        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText];
-        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
+        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText bodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
+        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList headerCellType:self.detailingCalendarEventBoxViewDataManager.headerCellType];
         
         
         ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].weekdayDateFormat];

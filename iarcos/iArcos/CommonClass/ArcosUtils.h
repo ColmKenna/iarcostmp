@@ -83,6 +83,7 @@
 + (NSDate*)addMonths:(int)aMonthQty date:(NSDate*)aDate;
 + (NSDate*)addYears:(int)aYearQty date:(NSDate*)aDate;
 + (NSDate*)configDateWithMinute:(int)aMinuteQty date:(NSDate*)aDate;
++ (NSDate*)configDateWithHour:(int)anHourQty minute:(int)aMinuteQty second:(int)aSecondQty date:(NSDate*)aDate;
 + (BOOL)convertStringToBool:(NSString*)aField;
 + (NSString*)contactFullName:(NSDictionary*)aContactDict;
 + (NSString*)addRightSpace:(NSString*)aString;

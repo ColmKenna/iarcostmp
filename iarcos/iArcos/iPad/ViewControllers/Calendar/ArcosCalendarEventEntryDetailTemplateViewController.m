@@ -576,7 +576,7 @@
                 NSDictionary* resultDict = (NSDictionary*)result;
                 NSArray* eventList = [resultDict objectForKey:@"value"];
                 [self.arcosCalendarEventEntryDetailListingDataManager createTemplateListingDisplayListWithEventList:eventList];
-                [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:self.arcosCalendarEventEntryDetailListingDataManager.displayList];
+                [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:self.arcosCalendarEventEntryDetailListingDataManager.displayList headerCellType:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.headerCellType];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.listingTableView reloadData];
                     [weakSelf.HUD hide:YES];

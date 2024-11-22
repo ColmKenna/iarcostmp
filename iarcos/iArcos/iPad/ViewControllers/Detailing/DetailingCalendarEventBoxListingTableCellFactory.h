@@ -15,6 +15,8 @@
     NSString* _detailingCalendarEventBoxListingPlaceHolderTableCellId;
     NSString* _detailingCalendarEventBoxListingBodyForTemplateTableCellId;
     NSString* _detailingCalendarEventBoxListingBodyJourneyForTemplateTableCellId;
+    NSString* _detailingCalendarEventBoxListingHeaderForPopOutTableCellId;
+    NSString* _detailingCalendarEventBoxListingBodyForPopOutTableCellId;
 }
 
 @property (nonatomic, retain) NSString* detailingCalendarEventBoxListingHeaderTableCellId;
@@ -22,6 +24,8 @@
 @property (nonatomic, retain) NSString* detailingCalendarEventBoxListingPlaceHolderTableCellId;
 @property (nonatomic, retain) NSString* detailingCalendarEventBoxListingBodyForTemplateTableCellId;
 @property (nonatomic, retain) NSString* detailingCalendarEventBoxListingBodyJourneyForTemplateTableCellId;
+@property (nonatomic, retain) NSString* detailingCalendarEventBoxListingHeaderForPopOutTableCellId;
+@property (nonatomic, retain) NSString* detailingCalendarEventBoxListingBodyForPopOutTableCellId;
 
 - (NSString*)identifierWithData:(NSMutableDictionary*)aData;
 - (DetailingCalendarEventBoxListingBaseTableCell*)createDetailingCalendarEventBoxListingBaseTableCellWithData:(NSMutableDictionary*)aData;

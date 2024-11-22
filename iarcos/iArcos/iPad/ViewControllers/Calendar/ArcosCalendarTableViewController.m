@@ -137,7 +137,7 @@
 }
 
 - (void)configListingTemplateSubViews {
-    self.listingTitleLabel.frame = CGRectMake(3, 0, self.listingTemplateView.frame.size.width - 3, 50);
+    self.listingTitleLabel.frame = CGRectMake(1, 0, self.listingTemplateView.frame.size.width - 1, 50);
     self.listingTableView.frame = CGRectMake(2, 50, self.listingTemplateView.frame.size.width - 2, self.listingTemplateView.frame.size.height - 50);
 }
 
@@ -384,8 +384,8 @@
         }
         ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = aDataList;
         
-        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText];
-        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
+        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText bodyCellType:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.bodyTemplateCellType];
+        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList headerCellType:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.headerCellType];
         ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:[eventDataDict objectForKey:@"StartDate"] format:[GlobalSharedClass shared].weekdayDateFormat];
 //        [ACEEDTVC.arcosCalendarEventEntryDetailDataManager retrieveEditDataWithCellData:eventDataDict];
 //        UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
@@ -442,13 +442,17 @@
         }
         self.arcosCalendarEventEntryDetailListingDataManager.eventDictList = eventDataList;
         
-        [self.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:auxDateFormatText];
-        [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:self.arcosCalendarEventEntryDetailListingDataManager.displayList];
+        [self.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:auxDateFormatText bodyCellType:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.bodyForPopOutCellType];
+        [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:self.arcosCalendarEventEntryDetailListingDataManager.displayList headerCellType:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.headerForPopOutType];
         [self.listingTableView reloadData];
         [self scrollToAppointmentPositionProcessor];
     } @catch (NSException *exception) {
         [ArcosUtils showDialogBox:[exception reason] title:@"" delegate:nil target:self tag:0 handler:nil];
     }
+    
+}
+
+- (void)refreshPopOutViewProcessor {
     
 }
 
@@ -483,8 +487,8 @@
         }
         ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = eventDataList;
         
-        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:auxDateFormatText];
-        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
+        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:auxDateFormatText bodyCellType:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.bodyTemplateCellType];
+        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList headerCellType:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.headerCellType];
         ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:[dayDataDict objectForKey:@"Date"] format:[GlobalSharedClass shared].weekdayDateFormat];
 //        UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:ACEEDTVC];
 //        tmpNavigationController.preferredContentSize = CGSizeMake(700.0f, 700.0f);
@@ -514,6 +518,82 @@
 #pragma mark - ArcosCalendarEventEntryDetailListingDataManagerDelegate
 - (NSNumber*)retrieveEventEntryDetailListingLocationIUR {
     return [NSNumber numberWithInt:0];
+}
+
+- (void)doubleTapEventEntryDetailListingWithIndexPath:(NSIndexPath*)anIndexPath {
+    if (self.arcosCalendarTableDataManager.popoverOpenFlag) {
+        return;
+    }
+    self.arcosCalendarTableDataManager.popoverOpenFlag = YES;
+    NSMutableDictionary* cellData = [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.displayList objectAtIndex:anIndexPath.row];
+    NSMutableDictionary* cellFieldValueData = [cellData objectForKey:@"FieldValue"];
+//    NSLog(@"aaccc %@", cellFieldValueData);
+    NSDate* startDate = [cellFieldValueData objectForKey:@"Date"];
+    NSString* aDateFormatText = [ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].dateFormat];
+    ArcosCalendarEventEntryDetailTemplateViewController* ACEEDTVC = [[ArcosCalendarEventEntryDetailTemplateViewController alloc] initWithNibName:@"ArcosCalendarEventEntryDetailTemplateViewController" bundle:nil];
+    ACEEDTVC.actionDelegate = self;
+    ACEEDTVC.presentDelegate = self;
+    
+    [ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveEditDataWithCellData:cellFieldValueData];
+    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.journeyDictList = self.arcosCalendarEventEntryDetailListingDataManager.journeyDictList;
+    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = self.arcosCalendarEventEntryDetailListingDataManager.eventDictList;
+    
+    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText bodyCellType:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.bodyTemplateCellType];
+    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList headerCellType:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.headerCellType];
+    
+    
+    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].weekdayDateFormat];
+    ACEEDTVC.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:ACEEDTVC] autorelease];
+    [ACEEDTVC release];
+    CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.arcosRootViewController];
+    self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+    [self.arcosRootViewController addChildViewController:self.globalNavigationController];
+    [self.arcosRootViewController.view addSubview:self.globalNavigationController.view];
+    [self.globalNavigationController didMoveToParentViewController:self.arcosRootViewController];
+    [UIView animateWithDuration:0.3f animations:^{
+        self.globalNavigationController.view.frame = parentNavigationRect;
+    } completion:^(BOOL finished){
+        
+    }];
+}
+
+- (void)longInputEventEntryDetailListingFinishedWithIndexPath:(NSIndexPath*)anIndexPath {
+    if (self.arcosCalendarTableDataManager.popoverOpenFlag) {
+        return;
+    }
+    self.arcosCalendarTableDataManager.popoverOpenFlag = YES;
+    NSMutableDictionary* cellData = [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.displayList objectAtIndex:anIndexPath.row];
+    int selectedHourQty = [ArcosUtils convertNSIntegerToInt:[ArcosUtils hourWithDate:[cellData objectForKey:@"FieldDesc"]]];
+    NSDate* selectedStartDate = [ArcosUtils configDateWithHour:selectedHourQty minute:0 second:0 date:self.arcosCalendarTableDataManager.currentSelectedDate];
+//    NSLog(@"selectedStartDate %d - %@", selectedHourQty, selectedStartDate);
+    ArcosCalendarEventEntryDetailTemplateViewController* ACEEDTVC = [[ArcosCalendarEventEntryDetailTemplateViewController alloc] initWithNibName:@"ArcosCalendarEventEntryDetailTemplateViewController" bundle:nil];
+    ACEEDTVC.actionDelegate = self;
+    ACEEDTVC.presentDelegate = self;
+    ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.actionType = ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager.createText;
+    [ACEEDTVC.arcosCalendarEventEntryDetailTableViewController.arcosCalendarEventEntryDetailDataManager retrieveCreateDataForPopOutWithDate:selectedStartDate title:@"" location:@""];
+    //
+    NSString* auxDateFormatText = [ArcosUtils stringFromDate:selectedStartDate format:[GlobalSharedClass shared].dateFormat];
+    
+    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.journeyDictList = self.arcosCalendarEventEntryDetailListingDataManager.journeyDictList;
+    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = self.arcosCalendarEventEntryDetailListingDataManager.eventDictList;
+    
+    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:auxDateFormatText bodyCellType:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.bodyTemplateCellType];
+    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList headerCellType:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.headerCellType];
+    ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:selectedStartDate format:[GlobalSharedClass shared].weekdayDateFormat];
+    ACEEDTVC.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:ACEEDTVC] autorelease];
+    [ACEEDTVC release];
+    CGRect parentNavigationRect = [ArcosUtils getCorrelativeRootViewRect:self.arcosRootViewController];
+    self.globalNavigationController.view.frame = CGRectMake(0, parentNavigationRect.size.height, parentNavigationRect.size.width, parentNavigationRect.size.height);
+    [self.arcosRootViewController addChildViewController:self.globalNavigationController];
+    [self.arcosRootViewController.view addSubview:self.globalNavigationController.view];
+    [self.globalNavigationController didMoveToParentViewController:self.arcosRootViewController];
+    [UIView animateWithDuration:0.3f animations:^{
+        self.globalNavigationController.view.frame = parentNavigationRect;
+    } completion:^(BOOL finished){
+        
+    }];
 }
 
 #pragma mark - ModalPresentViewControllerDelegate

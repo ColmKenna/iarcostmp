@@ -14,6 +14,8 @@
 @synthesize detailingCalendarEventBoxListingPlaceHolderTableCellId = _detailingCalendarEventBoxListingPlaceHolderTableCellId;
 @synthesize detailingCalendarEventBoxListingBodyForTemplateTableCellId = _detailingCalendarEventBoxListingBodyForTemplateTableCellId;
 @synthesize detailingCalendarEventBoxListingBodyJourneyForTemplateTableCellId = _detailingCalendarEventBoxListingBodyJourneyForTemplateTableCellId;
+@synthesize detailingCalendarEventBoxListingHeaderForPopOutTableCellId = _detailingCalendarEventBoxListingHeaderForPopOutTableCellId;
+@synthesize detailingCalendarEventBoxListingBodyForPopOutTableCellId = _detailingCalendarEventBoxListingBodyForPopOutTableCellId;
 
 - (instancetype)init {
     self = [super init];
@@ -23,6 +25,8 @@
         self.detailingCalendarEventBoxListingPlaceHolderTableCellId = @"IdDetailingCalendarEventBoxListingPlaceHolderTableCell";
         self.detailingCalendarEventBoxListingBodyForTemplateTableCellId = @"IdDetailingCalendarEventBoxListingBodyForTemplateTableCell";
         self.detailingCalendarEventBoxListingBodyJourneyForTemplateTableCellId = @"IdDetailingCalendarEventBoxListingBodyJourneyForTemplateTableCell";
+        self.detailingCalendarEventBoxListingHeaderForPopOutTableCellId = @"IdDetailingCalendarEventBoxListingHeaderForPopOutTableCell";
+        self.detailingCalendarEventBoxListingBodyForPopOutTableCellId = @"IdDetailingCalendarEventBoxListingBodyForPopOutTableCell";
     }
     return self;
 }
@@ -33,6 +37,8 @@
     self.detailingCalendarEventBoxListingPlaceHolderTableCellId = nil;
     self.detailingCalendarEventBoxListingBodyForTemplateTableCellId = nil;
     self.detailingCalendarEventBoxListingBodyJourneyForTemplateTableCellId = nil;
+    self.detailingCalendarEventBoxListingHeaderForPopOutTableCellId = nil;
+    self.detailingCalendarEventBoxListingBodyForPopOutTableCellId = nil;
     
     [super dealloc];
 }
@@ -55,6 +61,12 @@
             break;
         case 5:
             auxIdentifier = self.detailingCalendarEventBoxListingBodyJourneyForTemplateTableCellId;
+            break;
+        case 6:
+            auxIdentifier = self.detailingCalendarEventBoxListingHeaderForPopOutTableCellId;
+            break;
+        case 7:
+            auxIdentifier = self.detailingCalendarEventBoxListingBodyForPopOutTableCellId;
             break;
             
         default:

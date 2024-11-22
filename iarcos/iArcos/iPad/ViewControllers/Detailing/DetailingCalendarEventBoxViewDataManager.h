@@ -30,6 +30,7 @@
     NSNumber* _bodyCellType;
     NSNumber* _bodyTemplateCellType;
     BOOL _popoverOpenFlag;
+    NSNumber* _headerCellType;
 }
 
 @property(nonatomic,retain) NSDate* journeyDateData;
@@ -50,6 +51,7 @@
 @property(nonatomic,retain) NSNumber* bodyCellType;
 @property(nonatomic,retain) NSNumber* bodyTemplateCellType;
 @property(nonatomic,assign) BOOL popoverOpenFlag;
+@property(nonatomic,retain) NSNumber* headerCellType;
 
 - (NSString*)retrieveCalendarURIWithStartDate:(NSString*)aStartDate endDate:(NSString*)anEndDate locationName:(NSString*)aLocationName;
 - (NSString*)retrieveCalendarURIWithStartDate:(NSString*)aStartDate endDate:(NSString*)anEndDate;

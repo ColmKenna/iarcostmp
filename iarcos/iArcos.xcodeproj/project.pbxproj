@@ -1757,6 +1757,8 @@
 		79D4FFDE29029E700069EF18 /* ArcosLocationWithReps.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D4FFD429029E700069EF18 /* ArcosLocationWithReps.m */; };
 		79D4FFDF29029E700069EF18 /* ArcosArrayOfLocationWithReps.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D4FFD529029E700069EF18 /* ArcosArrayOfLocationWithReps.m */; };
 		79D5EFBD2BC0E77D00E2D0A8 /* List3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79D5EFBC2BC0E77D00E2D0A8 /* List3@2x.png */; };
+		79D62D702CEEC9C30012F059 /* DetailingCalendarEventBoxListingBodyForPopOutTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D62D6F2CEEC9C30012F059 /* DetailingCalendarEventBoxListingBodyForPopOutTableCell.m */; };
+		79D62D732CEED39A0012F059 /* DetailingCalendarEventBoxListingHeaderForPopOutTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D62D722CEED39A0012F059 /* DetailingCalendarEventBoxListingHeaderForPopOutTableCell.m */; };
 		79D645A92B6215C7007C1073 /* DetailingCalendarEventBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D645A72B6215C7007C1073 /* DetailingCalendarEventBoxViewController.m */; };
 		79D645AA2B6215C7007C1073 /* DetailingCalendarEventBoxViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79D645A82B6215C7007C1073 /* DetailingCalendarEventBoxViewController.xib */; };
 		79D7AE5328855545005A3D34 /* SaveRecordPackageUpdateCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 79D7AE5228855545005A3D34 /* SaveRecordPackageUpdateCenter.m */; };
@@ -5225,6 +5227,10 @@
 		79D4FFD429029E700069EF18 /* ArcosLocationWithReps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArcosLocationWithReps.m; sourceTree = "<group>"; };
 		79D4FFD529029E700069EF18 /* ArcosArrayOfLocationWithReps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArcosArrayOfLocationWithReps.m; sourceTree = "<group>"; };
 		79D5EFBC2BC0E77D00E2D0A8 /* List3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "List3@2x.png"; sourceTree = "<group>"; };
+		79D62D6E2CEEC9C30012F059 /* DetailingCalendarEventBoxListingBodyForPopOutTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailingCalendarEventBoxListingBodyForPopOutTableCell.h; sourceTree = "<group>"; };
+		79D62D6F2CEEC9C30012F059 /* DetailingCalendarEventBoxListingBodyForPopOutTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailingCalendarEventBoxListingBodyForPopOutTableCell.m; sourceTree = "<group>"; };
+		79D62D712CEED39A0012F059 /* DetailingCalendarEventBoxListingHeaderForPopOutTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailingCalendarEventBoxListingHeaderForPopOutTableCell.h; sourceTree = "<group>"; };
+		79D62D722CEED39A0012F059 /* DetailingCalendarEventBoxListingHeaderForPopOutTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailingCalendarEventBoxListingHeaderForPopOutTableCell.m; sourceTree = "<group>"; };
 		79D645A62B6215C7007C1073 /* DetailingCalendarEventBoxViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailingCalendarEventBoxViewController.h; sourceTree = "<group>"; };
 		79D645A72B6215C7007C1073 /* DetailingCalendarEventBoxViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailingCalendarEventBoxViewController.m; sourceTree = "<group>"; };
 		79D645A82B6215C7007C1073 /* DetailingCalendarEventBoxViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailingCalendarEventBoxViewController.xib; sourceTree = "<group>"; };
@@ -9619,6 +9625,10 @@
 				7958DC202BB6629A0058CF0D /* DetailingCalendarEventBoxListingBodyForTemplateTableCell.m */,
 				792BEA332BCE7ED0002671EE /* DetailingCalendarEventBoxListingBodyJourneyForTemplateTableCell.h */,
 				792BEA342BCE7ED0002671EE /* DetailingCalendarEventBoxListingBodyJourneyForTemplateTableCell.m */,
+				79D62D6E2CEEC9C30012F059 /* DetailingCalendarEventBoxListingBodyForPopOutTableCell.h */,
+				79D62D6F2CEEC9C30012F059 /* DetailingCalendarEventBoxListingBodyForPopOutTableCell.m */,
+				79D62D712CEED39A0012F059 /* DetailingCalendarEventBoxListingHeaderForPopOutTableCell.h */,
+				79D62D722CEED39A0012F059 /* DetailingCalendarEventBoxListingHeaderForPopOutTableCell.m */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -10605,6 +10615,7 @@
 				63B827B31DA2ADC900E9C744 /* CustomerInfoAccessTimesCalendarLocationDataManager.m in Sources */,
 				630B346F19F0127C007B2442 /* LocationCommon.m in Sources */,
 				630B3D0819F01CB9007B2442 /* QueryOrderMemoIURTableCell.m in Sources */,
+				79D62D732CEED39A0012F059 /* DetailingCalendarEventBoxListingHeaderForPopOutTableCell.m in Sources */,
 				639F89011CECB42400151AF2 /* ReportMeetingTableViewController.m in Sources */,
 				633498E41A403A8600441515 /* CustomerIarcosInvoiceDetailsDataManager.m in Sources */,
 				630B3CBA19F01CB9007B2442 /* ReporterFileManager.m in Sources */,
@@ -11029,6 +11040,7 @@
 				630B3B8219F01CB9007B2442 /* CustomerPhotoSlideDataManager.m in Sources */,
 				799C440F2C003A4D0047D81E /* ReportTargetTableViewCell.m in Sources */,
 				630B34C319F014E9007B2442 /* OrderSharedClass.m in Sources */,
+				79D62D702CEEC9C30012F059 /* DetailingCalendarEventBoxListingBodyForPopOutTableCell.m in Sources */,
 				630B3BB219F01CB9007B2442 /* CustomerInvoiceDetailTableCell.m in Sources */,
 				630B3D7819F01CB9007B2442 /* ArcosArrayOfConLocLinkBO.m in Sources */,
 				630B343219F0127C007B2442 /* Collected.m in Sources */,
@@ -11699,7 +11711,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.2.10;
+				MARKETING_VERSION = 13.2.11;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11760,7 +11772,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.2.10;
+				MARKETING_VERSION = 13.2.11;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -11909,7 +11921,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.2.10;
+				MARKETING_VERSION = 13.2.11;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
