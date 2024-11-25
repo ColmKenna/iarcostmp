@@ -16,6 +16,8 @@
 #import "ArcosService.h"
 #import "ArcosCalendarEventEntryDetailTemplateViewController.h"
 #import "CustomerJourneyDataManager.h"
+#import "CalendarUtilityDataManager.h"
+#import "DetailingCalendarEventBoxViewDataManager.h"
 
 @interface ArcosCalendarTableViewController : UIViewController <ArcosCalendarTableViewCellDelegate, ModalPresentViewControllerDelegate, ArcosCalendarEventEntryDetailTemplateViewControllerDelegate, ArcosCalendarCellBaseTableViewDataManagerDelegate, UITableViewDelegate, UITableViewDataSource, ArcosCalendarEventEntryDetailListingDataManagerDelegate>{
     ArcosCalendarTableDataManager* _arcosCalendarTableDataManager;
@@ -31,6 +33,8 @@
     UILabel* _listingTitleLabel;
     UITableView* _listingTableView;
     ArcosCalendarEventEntryDetailListingDataManager* _arcosCalendarEventEntryDetailListingDataManager;
+    CalendarUtilityDataManager* _calendarUtilityDataManager;
+    DetailingCalendarEventBoxViewDataManager* _detailingCalendarEventBoxViewDataManager;
 }
 
 @property(nonatomic, retain) ArcosCalendarTableDataManager* arcosCalendarTableDataManager;
@@ -46,6 +50,8 @@
 @property(nonatomic, retain) IBOutlet UILabel* listingTitleLabel;
 @property(nonatomic, retain) IBOutlet UITableView* listingTableView;
 @property(nonatomic, retain) ArcosCalendarEventEntryDetailListingDataManager* arcosCalendarEventEntryDetailListingDataManager;
+@property(nonatomic, retain) CalendarUtilityDataManager* calendarUtilityDataManager;
+@property(nonatomic, retain) DetailingCalendarEventBoxViewDataManager* detailingCalendarEventBoxViewDataManager;
 
 @end
 

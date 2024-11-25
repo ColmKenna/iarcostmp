@@ -114,7 +114,7 @@
     [startFieldData setObject:aDate forKey:@"Time"];
     [dateDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:5] fieldDesc:@"Starts" fieldName:self.startKey fieldData:startFieldData]];
     NSMutableDictionary* endFieldData = [NSMutableDictionary dictionaryWithCapacity:2];
-    NSDate* endFinalDate = [ArcosUtils addHours:0 date:aDate];
+    NSDate* endFinalDate = [ArcosUtils addMinutes:30 date:aDate];
     [endFieldData setObject:endFinalDate forKey:@"Date"];
     [endFieldData setObject:endFinalDate forKey:@"Time"];
     [dateDataList addObject:[self createCellDataWithCellType:[NSNumber numberWithInt:5] fieldDesc:@"Ends" fieldName:self.endKey fieldData:endFieldData]];
