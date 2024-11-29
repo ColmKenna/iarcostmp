@@ -29,6 +29,7 @@
     self.locationNameLabel = nil;
     self.addressLabel = nil;
     
+    
     [super dealloc];
 }
 

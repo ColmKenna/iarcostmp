@@ -264,4 +264,23 @@
     return resIndexPath;
 }
 
+- (NSMutableArray*)retrieveLocationIURList {
+    NSMutableArray* tmpLocationIURList = [NSMutableArray array];
+    NSMutableDictionary* tmpLocationIURHashMap = [NSMutableDictionary dictionary];
+    for (int i = 0; i < [self.sectionTitleList count]; i++) {
+        NSString* tmpJourneyDate = [self.sectionTitleList objectAtIndex:i];
+        NSMutableArray* tmpLocationDictList = [self.locationListDict objectForKey:tmpJourneyDate];
+        for (int j = 0; j < [tmpLocationDictList count]; j++) {
+            NSMutableDictionary* tmpLocationDict = [tmpLocationDictList objectAtIndex:j];
+//            [tmpLocationIURList addObject:[tmpLocationDict objectForKey:@"LocationIUR"]];
+            [tmpLocationIURHashMap setObject:[tmpLocationDict objectForKey:@"LocationIUR"] forKey:[tmpLocationDict objectForKey:@"LocationIUR"]];
+        }
+    }
+    NSArray* allKeyList = [tmpLocationIURHashMap allKeys];
+    if ([allKeyList count] > 0) {
+        tmpLocationIURList = [NSMutableArray arrayWithArray:allKeyList];
+    }
+    return tmpLocationIURList;
+}
+
 @end

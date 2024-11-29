@@ -19,6 +19,7 @@
 @optional
 - (void)doubleTapBodyLabelForPopOutWithIndexPath:(NSIndexPath*)anIndexPath;
 - (void)longInputForPopOutFinishedWithIndexPath:(NSIndexPath*)anIndexPath;
+- (NSDictionary*)retrieveLocationDictWithLocationIUR:(NSNumber*)aLocationIUR;
 
 @end
 

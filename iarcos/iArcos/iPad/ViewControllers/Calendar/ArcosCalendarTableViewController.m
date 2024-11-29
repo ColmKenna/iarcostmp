@@ -646,8 +646,10 @@
         } else {
             NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
             int statusCode = [ArcosUtils convertNSIntegerToInt:[httpResponse statusCode]];
+            NSLog(@"sendMsg response status code: %d", statusCode);
             if (statusCode != 200) {
                 id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
+                NSLog(@"calendar entries oneday %@ -- %@", result, data);
                 NSDictionary* resultDict = (NSDictionary*)result;
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
@@ -669,14 +671,28 @@
                 });
             } else {
                 self.detailingCalendarEventBoxViewDataManager.eventDictList = [NSMutableArray array];
+                self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.locationCreditStatusDataManager.locationIURList = [NSMutableArray array];
+                self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.locationCreditStatusDataManager.locationIURHashMap = [NSMutableDictionary dictionary];
                 id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
                 NSDictionary* resultDict = (NSDictionary*)result;
                 NSArray* eventList = [resultDict objectForKey:@"value"];
                 for (int i = 0; i < [eventList count]; i++) {
                     NSDictionary* auxEventDict = [eventList objectAtIndex:i];
+                    NSNumber* locationIUR = [self.calendarUtilityDataManager retrieveLocationIURWithEventDict:auxEventDict];
+                    if ([locationIUR intValue] != 0) {
+                        [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.locationCreditStatusDataManager.locationIURList addObject:locationIUR];
+                    }
                     [self.detailingCalendarEventBoxViewDataManager.eventDictList addObject:[NSDictionary dictionaryWithDictionary:auxEventDict]];
                 }
-                self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.bodyForPopOutCellType];                
+                NSMutableArray* objectArray = [[ArcosCoreData sharedArcosCoreData] locationsWithIURList:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.locationCreditStatusDataManager.locationIURList];
+                for (int i = 0; i < [objectArray count]; i++) {
+                    NSDictionary* tmpLocationDict = [objectArray objectAtIndex:i];
+                    NSNumber* tmpLocationIUR = [ArcosUtils convertNilToZero:[tmpLocationDict objectForKey:@"LocationIUR"]];
+                    if ([tmpLocationIUR intValue] != 0) {
+                        [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.locationCreditStatusDataManager.locationIURHashMap setObject:tmpLocationDict forKey:tmpLocationIUR];
+                    }
+                }
+                self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.bodyForPopOutCellType];
                 
                 self.arcosCalendarEventEntryDetailListingDataManager.journeyDictList = nil;
                 self.arcosCalendarEventEntryDetailListingDataManager.eventDictList = nil;
@@ -688,13 +704,18 @@
                 }
                 self.arcosCalendarEventEntryDetailListingDataManager.eventDictList = self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList;
                 
-                [self.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:auxDateFormatText bodyCellType:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.bodyForPopOutCellType];
+//                [self.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:auxDateFormatText bodyCellType:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.bodyForPopOutCellType];
+                self.arcosCalendarEventEntryDetailListingDataManager.displayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:auxDateFormatText journeyDictList:self.arcosCalendarEventEntryDetailListingDataManager.journeyDictList eventDictList:self.arcosCalendarEventEntryDetailListingDataManager.eventDictList bodyCellType:self.calendarUtilityDataManager.bodyForPopOutCellType bodyJourneyCellType:self.calendarUtilityDataManager.bodyJourneyForPopOutCellType];
                 [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:self.arcosCalendarEventEntryDetailListingDataManager.displayList headerCellType:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.headerForPopOutType];
                 int auxRow = [self retrieveAppointmentPositionProcessor];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     weakSelf.listingTitleLabel.text = [ArcosUtils stringFromDate:aStartDate format:[GlobalSharedClass shared].weekdayDateFormat];
                     [weakSelf.listingTableView reloadData];
-                    [weakSelf.listingTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:auxRow inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                    @try {
+                        [weakSelf.listingTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:auxRow inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                    } @catch (NSException *exception) {
+                        NSLog(@"exception %@", [exception reason]);
+                    }
                     [weakSelf.HUD hide:YES];
                 });
             }
@@ -756,22 +777,22 @@
         if (error != nil) {
 //            NSLog(@"sendMsg error %@", error);
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.myTableView reloadData];
+                [weakSelf.myTableView reloadData];
                 [weakSelf.HUD hide:YES];
                 [ArcosUtils showDialogBox:[error localizedDescription] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
             });
         } else {
             NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
             int statusCode = [ArcosUtils convertNSIntegerToInt:[httpResponse statusCode]];
-//            NSLog(@"sendMsg response status code: %d", statusCode);
+            NSLog(@"sendMsg response status code: %d", statusCode);
             if (statusCode != 200) {
                 id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
-//                NSLog(@"calendar entries test %@ -- %@", result, data);
+                NSLog(@"calendar entries test %@ -- %@", result, data);
                 NSDictionary* resultDict = (NSDictionary*)result;
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.myTableView reloadData];
+                    [weakSelf.myTableView reloadData];
 //                    [weakSelf.HUD hide:YES];
 //                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
                     void (^myFailureHandler)(void) = ^ {

@@ -227,6 +227,9 @@
             
             [self.mailController setToRecipients:toRecipients];
             [self presentViewController:self.mailController animated:YES completion:nil];
+        } else if ([auxScheme isEqualToString:@"file"]) {
+//            NSLog(@"bookmark");
+            return YES;
         } else {
             [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Invalid scheme found.\n%@", [[request URL] absoluteString]] title:@"" delegate:nil target:self tag:0 handler:nil];
         }

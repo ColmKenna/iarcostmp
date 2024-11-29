@@ -38,7 +38,7 @@
     
     [super dealloc];
 }
-
+//deprecated
 - (void)processDataListWithDateFormatText:(NSString*)aDateFormatText bodyCellType:(NSNumber*)aBodyCellType {
     self.displayList = [NSMutableArray arrayWithCapacity:([self.journeyDictList count] + [self.eventDictList count])];
     NSDate* beginDate = [ArcosUtils dateFromString:[NSString stringWithFormat:@"%@ 09:00:00", aDateFormatText] format:[GlobalSharedClass shared].datetimeFormat];

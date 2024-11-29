@@ -579,7 +579,7 @@
                     self.detailingCalendarEventBoxViewDataManager.journeyDictList = [self.customerJourneyDataManager.locationListDict objectForKey:aDateFormatText];
                 }
                 self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
-                self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:aDateFormatText journeyDictList:self.detailingCalendarEventBoxViewDataManager.journeyDictList eventDictList:self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList bodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
+                self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:aDateFormatText journeyDictList:self.detailingCalendarEventBoxViewDataManager.journeyDictList eventDictList:self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList bodyCellType:self.calendarUtilityDataManager.bodyCellType bodyJourneyCellType:self.calendarUtilityDataManager.bodyJourneyCellType];
                 
 //                self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
                 [self.detailingCalendarEventBoxListingDataManager createBasicDataWithDataList:self.detailingCalendarEventBoxViewDataManager.listingDisplayList headerCellType:self.detailingCalendarEventBoxListingDataManager.headerCellType];
@@ -684,7 +684,7 @@
                     self.detailingCalendarEventBoxViewDataManager.journeyDictList = [self.customerJourneyDataManager.locationListDict objectForKey:aDateFormatText];
                 }
                 self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
-                self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:aDateFormatText journeyDictList:self.detailingCalendarEventBoxViewDataManager.journeyDictList eventDictList:self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList bodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
+                self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:aDateFormatText journeyDictList:self.detailingCalendarEventBoxViewDataManager.journeyDictList eventDictList:self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList bodyCellType:self.calendarUtilityDataManager.bodyCellType bodyJourneyCellType:self.calendarUtilityDataManager.bodyJourneyCellType];
                 [self.detailingCalendarEventBoxListingDataManager createBasicDataWithDataList:self.detailingCalendarEventBoxViewDataManager.listingDisplayList headerCellType:self.detailingCalendarEventBoxViewDataManager.headerCellType];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.listingTableView reloadData];

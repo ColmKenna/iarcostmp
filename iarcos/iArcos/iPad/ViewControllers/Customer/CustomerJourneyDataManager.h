@@ -44,5 +44,6 @@
 
 - (void)processCalendarJourneyData;
 - (NSIndexPath*)retrieveIndexPathWithJourneyIUR:(NSNumber*)aJourneyIUR;
+- (NSMutableArray*)retrieveLocationIURList;
 
 @end

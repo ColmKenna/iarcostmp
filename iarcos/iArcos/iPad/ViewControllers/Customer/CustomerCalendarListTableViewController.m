@@ -140,7 +140,7 @@
             self.customerCalendarListDataManager.startDatePointer = [ArcosUtils addHours:0 date:self.customerCalendarListDataManager.currentStartDate];
             self.customerCalendarListHeaderView.startdatePointerLabel.text = [ArcosUtils stringFromDate:self.customerCalendarListDataManager.startDatePointer format:@"EEEE dd MMMM yyyy"];
             [self retrieveCalendarEventEntriesWithStartDate:self.customerCalendarListDataManager.currentStartDate endDate:self.customerCalendarListDataManager.currentEndDate];
-            [self.tableView reloadData];
+//            [self.tableView reloadData];
         }
             break;
         case 1: {
@@ -270,7 +270,7 @@
                     self.customerCalendarListDataManager.eventDictList = [NSMutableArray arrayWithArray:eventList];
                     self.detailingCalendarEventBoxViewDataManager.eventDictList = [NSMutableArray arrayWithArray:eventList];
                     self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
-                    self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:aDateFormatText journeyDictList:self.detailingCalendarEventBoxViewDataManager.journeyDictList eventDictList:self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList bodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
+                    self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:aDateFormatText journeyDictList:self.detailingCalendarEventBoxViewDataManager.journeyDictList eventDictList:self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList bodyCellType:self.calendarUtilityDataManager.bodyTemplateCellType bodyJourneyCellType:self.calendarUtilityDataManager.bodyJourneyCellType];
                 }
                 for (int i = 0; i < [eventList count]; i++) {
                     NSDictionary* auxEventDict = [eventList objectAtIndex:i];
@@ -293,7 +293,7 @@
                     [self.customerCalendarListCallDataManager memoTextViewHeightProcessor];
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.tableView reloadData];
+                    [weakSelf.tableView reloadData];
                     [weakSelf.HUD hide:YES];
                 });
             }

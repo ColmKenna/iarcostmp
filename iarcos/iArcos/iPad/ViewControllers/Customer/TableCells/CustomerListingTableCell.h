@@ -18,6 +18,7 @@
     UILabel* _dateLabel;
     UILabel* _contactLabel;
     UITextView* _memoTextView;
+    UILabel* _weekDayCallNumberLabel;
 }
 
 @property(nonatomic, retain) IBOutlet UILabel* nameLabel;
@@ -28,6 +29,7 @@
 @property(nonatomic, retain) IBOutlet UILabel* dateLabel;
 @property(nonatomic, retain) IBOutlet UILabel* contactLabel;
 @property(nonatomic, retain) IBOutlet UITextView* memoTextView;
+@property(nonatomic, retain) IBOutlet UILabel* weekDayCallNumberLabel;
 
 - (void)configCallInfoWithCallHeader:(OrderHeader*)anCallHeader;
 

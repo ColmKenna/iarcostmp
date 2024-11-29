@@ -19,6 +19,7 @@
 @synthesize headerCellType = _headerCellType;
 @synthesize headerForPopOutType = _headerForPopOutType;
 @synthesize bodyForPopOutCellType = _bodyForPopOutCellType;
+@synthesize locationCreditStatusDataManager = _locationCreditStatusDataManager;
 
 - (instancetype)init {
     self = [super init];
@@ -54,6 +55,7 @@
         self.headerCellType = [NSNumber numberWithInt:1];
         self.headerForPopOutType = [NSNumber numberWithInt:6];
         self.bodyForPopOutCellType = [NSNumber numberWithInt:7];
+        self.locationCreditStatusDataManager = [[[LocationCreditStatusDataManager alloc] init] autorelease];
     }
     return self;
 }
@@ -68,6 +70,7 @@
     self.headerCellType = nil;
     self.headerForPopOutType = nil;
     self.bodyForPopOutCellType = nil;
+    self.locationCreditStatusDataManager = nil;
     
     [super dealloc];
 }
@@ -177,7 +180,7 @@
     cell.actionDelegate = self;
     cell.myIndexPath = indexPath;
     [cell configCellWithData:cellData];
-    
+    [cell configCellLocationCreditStatusButtonWithObject:self.locationCreditStatusDataManager];
     
     return cell;
 }
@@ -202,6 +205,10 @@
 
 - (void)longInputForPopOutFinishedWithIndexPath:(NSIndexPath*)anIndexPath {
     [self.actionDelegate longInputListingForPopOutFinishedWithIndexPath:anIndexPath];
+}
+
+- (NSDictionary*)retrieveLocationDictWithLocationIUR:(NSNumber *)aLocationIUR {
+    return [self.locationCreditStatusDataManager.locationIURHashMap objectForKey:aLocationIUR];
 }
 
 - (void)createBasicDataForTemplateWithDataList:(NSMutableArray*)aDataList headerCellType:(NSNumber*)aHeaderCellType {

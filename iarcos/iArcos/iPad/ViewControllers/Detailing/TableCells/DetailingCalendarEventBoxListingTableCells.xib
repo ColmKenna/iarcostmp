@@ -226,11 +226,11 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TAa-go-ydo" customClass="DetailingCalendarEventBoxListingBodyUIView">
-                        <rect key="frame" x="75" y="0.0" width="730" height="43"/>
+                        <rect key="frame" x="75" y="0.0" width="745" height="43"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gUQ-pz-hUu">
-                                <rect key="frame" x="5" y="4" width="720" height="21"/>
+                                <rect key="frame" x="5" y="4" width="698" height="21"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -238,13 +238,21 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y60-G5-ea5">
-                                <rect key="frame" x="5" y="25" width="720" height="15"/>
+                                <rect key="frame" x="5" y="25" width="735" height="15"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" red="0.2666666667" green="0.44705882349999998" blue="0.76862745099999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lAQ-fa-H89">
+                                <rect key="frame" x="707" y="7" width="15" height="15"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            </button>
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PaA-E3-kJO">
+                                <rect key="frame" x="726" y="7" width="15" height="15"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
@@ -253,11 +261,60 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="bgView" destination="TAa-go-ydo" id="Ro9-SG-8bX"/>
+                <outlet property="creditStatusButton" destination="PaA-E3-kJO" id="TU1-WV-XQh"/>
                 <outlet property="fieldDescLabel" destination="UEK-3f-Aaj" id="XMx-zg-6KK"/>
                 <outlet property="locationLabel" destination="Y60-G5-ea5" id="vem-bt-Gza"/>
+                <outlet property="locationStatusButton" destination="lAQ-fa-H89" id="wgB-gK-afY"/>
                 <outlet property="titleLabel" destination="gUQ-pz-hUu" id="Jwp-ev-XPU"/>
             </connections>
             <point key="canvasLocation" x="-2" y="436"/>
+        </tableViewCell>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="IdDetailingCalendarEventBoxListingBodyJourneyForPopOutTableCell" id="atG-tB-ZTV" customClass="DetailingCalendarEventBoxListingBodyJourneyForPopOutTableCell">
+            <rect key="frame" x="0.0" y="0.0" width="820" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="atG-tB-ZTV" id="4jO-aG-rWP">
+                <rect key="frame" x="0.0" y="0.0" width="820" height="44"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b0u-R7-wqf">
+                        <rect key="frame" x="15" y="0.0" width="43" height="43"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                        <state key="normal" image="JourneyCar.png"/>
+                    </button>
+                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C6I-It-4Ww">
+                        <rect key="frame" x="80" y="4" width="698" height="21"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.2666666667" green="0.44705882349999998" blue="0.76862745099999996" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xYD-gd-L90">
+                        <rect key="frame" x="80" y="25" width="720" height="15"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" red="0.2666666667" green="0.44705882349999998" blue="0.76862745099999996" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jTK-sa-XTJ">
+                        <rect key="frame" x="782" y="7" width="15" height="15"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    </button>
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kV3-6F-g8t">
+                        <rect key="frame" x="801" y="7" width="15" height="15"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    </button>
+                </subviews>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="addressLabel" destination="xYD-gd-L90" id="olQ-NO-3Gx"/>
+                <outlet property="creditStatusButton" destination="kV3-6F-g8t" id="UUa-Kc-Yta"/>
+                <outlet property="locationNameLabel" destination="C6I-It-4Ww" id="SOc-il-SBa"/>
+                <outlet property="locationStatusButton" destination="jTK-sa-XTJ" id="O8W-Pd-H2X"/>
+                <outlet property="myImageButton" destination="b0u-R7-wqf" id="esH-hL-84W"/>
+            </connections>
+            <point key="canvasLocation" x="-2" y="486"/>
         </tableViewCell>
     </objects>
     <resources>

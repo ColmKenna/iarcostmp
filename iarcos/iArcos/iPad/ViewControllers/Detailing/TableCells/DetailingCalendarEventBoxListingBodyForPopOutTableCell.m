@@ -70,4 +70,16 @@
     }
 }
 
+- (void)configCellLocationCreditStatusButtonWithObject:(LocationCreditStatusDataManager*)aLocationCreditStatusDataManager {
+    [super configCellLocationCreditStatusButtonWithObject:aLocationCreditStatusDataManager];
+    
+    NSMutableDictionary* cellData = [self.myCellData objectForKey:@"FieldValue"];
+//    NSLog(@"myCellData bodypopout %@", self.myCellData);
+    NSDictionary* auxCoreDataLocationDict = [self.actionDelegate retrieveLocationDictWithLocationIUR:[cellData objectForKey:@"LocationIUR"]];
+    if (auxCoreDataLocationDict != nil) {
+        [aLocationCreditStatusDataManager configImageWithLocationStatusButton:self.locationStatusButton creditStatusButton:self.creditStatusButton lsiur:[ArcosUtils convertNilToZero:[auxCoreDataLocationDict objectForKey:@"lsiur"]] csiur:[ArcosUtils convertNilToZero:[auxCoreDataLocationDict objectForKey:@"CSiur"]]];
+    }
+    
+}
+
 @end

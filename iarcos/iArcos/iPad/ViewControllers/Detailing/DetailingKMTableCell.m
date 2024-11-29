@@ -112,10 +112,12 @@
     
     
     NSString* titleString = @"";
-    NSDictionary* descrTypeDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"KM"];
-    if (descrTypeDict != nil) {
-        titleString = [descrTypeDict objectForKey:@"Details"];
-    }
+//    NSDictionary* descrTypeDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"KM"];
+//    if (descrTypeDict != nil) {
+//        titleString = [descrTypeDict objectForKey:@"Details"];
+//    }
+    titleString = [ArcosUtils convertNilToEmpty:[self.kmCellData objectForKey:@"Label"]];
+    
     NSString* tmpDescrDetailCode = [self.kmCellData objectForKey:@"DescrDetailCode"];
     if (![tmpDescrDetailCode containsString:@"*"]) {
         self.globalWidgetViewController = [self.factory CreateGenericCategoryWidgetWithPickerValue:self.answerObjectList title:titleString];

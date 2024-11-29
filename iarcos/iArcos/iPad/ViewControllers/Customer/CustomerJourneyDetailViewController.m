@@ -18,6 +18,17 @@
 @synthesize actionButton = _actionButton;
 @synthesize auxNavigationController = _auxNavigationController;
 @synthesize checkLocationIURTemplateProcessor = _checkLocationIURTemplateProcessor;
+@synthesize customerListingTableCellGeneratorDelegate = _customerListingTableCellGeneratorDelegate;
+@synthesize customerJourneyDetailCallDataManager = _customerJourneyDetailCallDataManager;
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self != nil) {
+        self.customerListingTableCellGeneratorDelegate = [[[CustomerJourneyDetailTableCellGenerator alloc] init] autorelease];
+        self.customerJourneyDetailCallDataManager = [[[CustomerJourneyDetailCallDataManager alloc] init] autorelease];
+    }
+    return self;
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -35,6 +46,8 @@
     if (self.actionButton != nil) { self.actionButton = nil; }
     if (self.auxNavigationController != nil) { self.auxNavigationController = nil; }
     self.checkLocationIURTemplateProcessor = nil;
+    self.customerListingTableCellGeneratorDelegate = nil;
+    self.customerJourneyDetailCallDataManager = nil;
     
     [super dealloc];
 }
@@ -63,8 +76,11 @@
     NSMutableArray* leftButtonList = [NSMutableArray arrayWithObjects:backButton, nil];
     [self.navigationItem setLeftBarButtonItems:leftButtonList];
     [backButton release];
+    UIBarButtonItem* toggleListButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"List2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleListButtonPressed:)];
     self.actionButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionButtonPressed:)] autorelease];
-    self.navigationItem.rightBarButtonItem = self.actionButton;
+    NSMutableArray* buttonList = [NSMutableArray arrayWithObjects:toggleListButton, self.actionButton, nil];
+    [self.navigationItem setRightBarButtonItems:buttonList];
+    [toggleListButton release];
     
     self.cjsdvc = [[[CustomerJourneyStartDateViewController alloc] initWithNibName:@"CustomerJourneyStartDateViewController" bundle:nil] autorelease];
     self.cjsdvc.delegate = self;
@@ -75,6 +91,34 @@
 //    self.actionPopoverController.popoverContentSize = CGSizeMake(700.0f, 360.0f);
     self.checkLocationIURTemplateProcessor = [[[CheckLocationIURTemplateProcessor alloc] initWithParentViewController:self] autorelease];
     self.checkLocationIURTemplateProcessor.delegate = self;
+}
+
+- (void)toggleListButtonPressed:(id)sender {
+    NSArray* indexPathsVisibleRows = [self.tableView indexPathsForVisibleRows];
+    if ([indexPathsVisibleRows count] > 0) {
+        NSIndexPath* topIndexPath = [indexPathsVisibleRows firstObject];
+        CustomerListingTableCell* tmpCustomerListingTableCell = [self.tableView cellForRowAtIndexPath:topIndexPath];
+        self.customerJourneyDetailCallDataManager.textViewContentWidth = tmpCustomerListingTableCell.addressLabel.frame.size.width + 50 - 10;
+//        NSLog(@"testccdd %@ %.2f", NSStringFromCGRect(tmpCustomerListingTableCell.addressLabel.frame), self.customerJourneyDetailCallDataManager.textViewContentWidth);
+    }
+    
+    
+    self.customerJourneyDetailCallDataManager.useCallTableCellFlag = !self.customerJourneyDetailCallDataManager.useCallTableCellFlag;
+    if (self.customerJourneyDetailCallDataManager.useCallTableCellFlag) {
+        self.customerListingTableCellGeneratorDelegate = [[[CustomerJourneyDetailCallTableCellGenerator alloc] init] autorelease];
+        [self.customerJourneyDetailCallDataManager memoTextViewHeightProcessor];
+    } else {
+        self.customerListingTableCellGeneratorDelegate = [[[CustomerJourneyDetailTableCellGenerator alloc] init] autorelease];
+    }
+    
+    [self.tableView reloadData];
+}
+
+- (void)callHeaderProcessor {
+    [self.customerJourneyDetailCallDataManager callHeaderProcessorWithLocationIURList:[self.customerJourneyDataManager retrieveLocationIURList]];
+    if (self.customerJourneyDetailCallDataManager.useCallTableCellFlag) {
+        [self.customerJourneyDetailCallDataManager memoTextViewHeightProcessor];
+    }
 }
 
 - (void)backButtonPressed:(id)sender {
@@ -117,6 +161,18 @@
 }
 
 #pragma mark - Table view data source
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (!self.customerJourneyDetailCallDataManager.useCallTableCellFlag) {
+        return 44.0;
+    }
+    NSMutableDictionary* aCust = [self getCustomerWithIndexPath:indexPath];
+    NSNumber* tmpLocationIUR = [aCust objectForKey:@"LocationIUR"];
+    if ([self.customerJourneyDetailCallDataManager.callHeaderHashMap objectForKey:tmpLocationIUR] == nil) {
+        return 44.0;
+    }
+    NSNumber* memoTextViewHeight = [self.customerJourneyDetailCallDataManager.memoTextViewHeightHashMap objectForKey:tmpLocationIUR];
+    return 65.0 + 4.0 + [memoTextViewHeight floatValue];
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -153,6 +209,7 @@
 //    if (cell == nil) {
 //        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
 //    }
+    /*
     static NSString *CellIdentifier = @"IdCustomerJourneyDetailTableViewCell";
     
     CustomerJourneyDetailTableViewCell* cell = (CustomerJourneyDetailTableViewCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -166,8 +223,10 @@
             }
         }
     }
+    */
+    CustomerListingTableCell* cell = [self.customerListingTableCellGeneratorDelegate generateTableCellWithTableView:tableView];
     
-    // Configure the cell...    
+    // Configure the cell...
     NSMutableDictionary* aCust = [self getCustomerWithIndexPath:indexPath];
     cell.weekDayCallNumberLabel.text = [NSString stringWithFormat:@"%@:%@:%@", [aCust objectForKey:@"WeekNumber"], [aCust objectForKey:@"DayNumber"], [aCust objectForKey:@"CallNumber"]];
     for (UIGestureRecognizer* recognizer in cell.weekDayCallNumberLabel.gestureRecognizers) {
@@ -235,6 +294,11 @@
             [cell.creditStatusButton setImage:creditStatusImage forState:UIControlStateNormal];
         }
     }
+    
+    NSNumber* auxLocationIUR = [aCust objectForKey:@"LocationIUR"];
+    [cell configCallInfoWithCallHeader:[self.customerJourneyDetailCallDataManager.callHeaderHashMap objectForKey:auxLocationIUR]];
+    NSNumber* memoTextViewHeight = [self.customerJourneyDetailCallDataManager.memoTextViewHeightHashMap objectForKey:auxLocationIUR];
+    cell.memoTextView.frame = CGRectMake(cell.memoTextView.frame.origin.x, cell.memoTextView.frame.origin.y, cell.memoTextView.frame.size.width, [memoTextViewHeight floatValue]);
 
     return cell;
 }

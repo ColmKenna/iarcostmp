@@ -13,6 +13,8 @@
 @synthesize myIndexPath = _myIndexPath;
 @synthesize myCellData = _myCellData;
 @synthesize fieldValueLabel = _fieldValueLabel;
+@synthesize locationStatusButton = _locationStatusButton;
+@synthesize creditStatusButton = _creditStatusButton;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -29,12 +31,19 @@
     self.myIndexPath = nil;
     self.myCellData = nil;
     self.fieldValueLabel = nil;
+    self.locationStatusButton = nil;
+    self.creditStatusButton = nil;
     
     [super dealloc];
 }
 
 - (void)configCellWithData:(NSMutableDictionary*)aCellData {
     self.myCellData = aCellData;
+}
+
+- (void)configCellLocationCreditStatusButtonWithObject:(LocationCreditStatusDataManager*)aLocationCreditStatusDataManager {
+    [self.locationStatusButton setImage:nil forState:UIControlStateNormal];
+    [self.creditStatusButton setImage:nil forState:UIControlStateNormal];
 }
 
 @end

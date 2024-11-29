@@ -10,10 +10,10 @@
 #import "CustomerListingTableCell.h"
 
 @interface CustomerJourneyDetailTableViewCell : CustomerListingTableCell {
-    UILabel* _weekDayCallNumberLabel;
+//    UILabel* _weekDayCallNumberLabel;
 }
 
-@property(nonatomic, retain) IBOutlet UILabel* weekDayCallNumberLabel;
+//@property(nonatomic, retain) IBOutlet UILabel* weekDayCallNumberLabel;
 
 @end
 

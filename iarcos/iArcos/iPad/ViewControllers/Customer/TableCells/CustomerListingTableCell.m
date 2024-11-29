@@ -17,6 +17,7 @@
 @synthesize dateLabel = _dateLabel;
 @synthesize contactLabel = _contactLabel;
 @synthesize memoTextView = _memoTextView;
+@synthesize weekDayCallNumberLabel = _weekDayCallNumberLabel;
 
 - (void)dealloc {
     self.nameLabel = nil;
@@ -27,6 +28,7 @@
     self.dateLabel = nil;
     self.contactLabel = nil;
     self.memoTextView = nil;
+    self.weekDayCallNumberLabel = nil;
     
     [super dealloc];
 }
