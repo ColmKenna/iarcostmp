@@ -65,11 +65,16 @@
     
     //get the pdf name
     NSString* fileName=@"";
-    for (NSMutableDictionary* dict in self.files) {
-        fileName=[dict objectForKey:@"Name"];
-        
-        //assaign current file
-        self.currentFile=dict;
+//    for (NSMutableDictionary* dict in self.files) {
+//        fileName=[dict objectForKey:@"Name"];
+//        
+//        //assaign current file
+//        self.currentFile=dict;
+//    }
+    if ([self.files count] > 0) {
+        NSMutableDictionary* dict = [self.files objectAtIndex:0];
+        fileName = [dict objectForKey:@"Name"];
+        self.currentFile = dict;
     }
     [self resetBarTitle:fileName];
 
@@ -296,10 +301,10 @@
             break;
     }
     if (result != MFMailComposeResultFailed) {
-        [self alertViewCallBack];
+        [self alertViewCallBack:result];
     } else {
         [ArcosUtils showDialogBox:message title:title target:controller handler:^(UIAlertAction *action) {
-            [self alertViewCallBack];
+            [self alertViewCallBack:result];
         }];
     }
 }
@@ -308,9 +313,13 @@
 //    [self alertViewCallBack];
 //}
 
-- (void)alertViewCallBack {
+- (void)alertViewCallBack:(MFMailComposeResult)result {
     [self dismissViewControllerAnimated:YES completion:^ {
         self.mailController = nil;
+        if (result == MFMailComposeResultSent) {
+            NSLog(@"extend presenter");
+            [self createFlagAfterEmailSent];
+        }
     }];
 }
 @end

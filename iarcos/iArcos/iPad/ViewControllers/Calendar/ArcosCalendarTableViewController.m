@@ -865,7 +865,7 @@
         for (int i = 0; i < [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.displayList count]; i++) {
             NSMutableDictionary* resDataDict = [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.displayList objectAtIndex:i];
             NSNumber* cellType = [resDataDict objectForKey:@"CellType"];
-            if ([cellType intValue] == 4 || [cellType intValue] == 5) {
+            if ([cellType intValue] == 4 || [cellType intValue] == 5 || [cellType intValue] == 7 || [cellType intValue] == 8) {
                 tmpRow = i - 1;
                 break;
             }

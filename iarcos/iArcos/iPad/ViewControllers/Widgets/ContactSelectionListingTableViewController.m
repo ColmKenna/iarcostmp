@@ -25,6 +25,17 @@
 @synthesize needIndexView = _needIndexView;
 @synthesize mySearchBar = _mySearchBar;
 @synthesize locationButton = _locationButton;
+@synthesize selectedLocationIUR = _selectedLocationIUR;
+@synthesize selectedLocationDict = _selectedLocationDict;
+@synthesize popoverOpenFlag = _popoverOpenFlag;
+@synthesize globalNavigationController = _globalNavigationController;
+@synthesize rootView = _rootView;
+@synthesize customerContactTypesDataManager = _customerContactTypesDataManager;
+@synthesize contactGenericReturnObject = _contactGenericReturnObject;
+@synthesize myArcosAdminEmail = _myArcosAdminEmail;
+@synthesize emailActionType = _emailActionType;
+@synthesize emailContactIUR = _emailContactIUR;
+@synthesize callGenericServices = _callGenericServices;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,6 +43,7 @@
         // Custom initialization
         self.needIndexView = YES;
         self.tableData = [[[NSMutableArray alloc] init] autorelease];
+        self.popoverOpenFlag = NO;
     }
     return self;
 }
@@ -44,15 +56,19 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.rootView = [ArcosUtils getRootView];
     self.title = @"Contact Selection";
     UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonPressed:)];
     [self.navigationItem setLeftBarButtonItem:cancelButton];
     [cancelButton release];
     
-    NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:2];
+    NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:3];
+    UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addPressed:)];
     UIBarButtonItem* saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonPressed:)];
+    [rightButtonList addObject:addButton];
     [rightButtonList addObject:saveButton];
     [saveButton release];
+    [addButton release];
     self.locationButton = [[[UIBarButtonItem alloc] initWithTitle:@"Location" style:UIBarButtonItemStylePlain target:self action:@selector(locationButtonPressed:)] autorelease];
     [rightButtonList addObject:self.locationButton];
     [self.navigationItem setRightBarButtonItems:rightButtonList];
@@ -73,8 +89,212 @@
     self.customerSections = nil;
     self.mySearchBar = nil;
     self.locationButton = nil;
+    self.selectedLocationIUR = nil;
+    self.selectedLocationDict = nil;
+    self.globalNavigationController = nil;
+    self.rootView = nil;
+    self.contactGenericReturnObject = nil;
+    self.customerContactTypesDataManager = nil;
+    self.myArcosAdminEmail = nil;
+    self.emailActionType = nil;
+    self.emailContactIUR = nil;
+    self.callGenericServices = nil;
     
     [super dealloc];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (self.callGenericServices == nil) {
+        self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.navigationController.view] autorelease];
+        self.callGenericServices.delegate = self;
+        self.callGenericServices.isNotRecursion = NO;
+    }
+}
+
+-(void)addPressed:(id)sender {
+    NSLog(@"addPressed");
+    if (self.popoverOpenFlag) {
+        return;
+    }
+    self.popoverOpenFlag = YES;
+    if ([self.selectedLocationIUR intValue] == 0) {
+        [ArcosUtils showDialogBox:@"Location not selected" title:@"" target:self handler:^(UIAlertAction *action) {
+            self.popoverOpenFlag = NO;
+        }];
+        return;
+    }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableCreateContactByEmailFlag]) {
+        self.myArcosAdminEmail = [ArcosUtils convertNilToEmpty:[SettingManager arcosAdminEmail]];
+        self.emailActionType = @"create";
+        self.emailContactIUR = [NSNumber numberWithInt:0];
+        [self.callGenericServices getRecord:@"Contact" iur:[self.emailContactIUR intValue] filter:@""];
+        return;
+    }
+    CustomerContactWrapperModalViewController* ccwmvc = [[CustomerContactWrapperModalViewController alloc] initWithNibName:@"CustomerContactWrapperModalViewController" bundle:nil];
+    ccwmvc.myDelegate = self;
+//    ccwmvc.delegate = self;
+    ccwmvc.refreshDelegate = self;
+    ccwmvc.navgationBarTitle = [NSString stringWithFormat:@"Create Contact for %@", [self.selectedLocationDict objectForKey:@"Name"]];
+    ccwmvc.locationIUR = self.selectedLocationIUR;
+    ccwmvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:ccwmvc] autorelease];
+    self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:self.globalNavigationController animated:YES completion:nil];
+}
+
+#pragma mark - CustomisePresentViewControllerDelegate
+- (void)didDismissCustomisePresentView {
+    [self didDismissViewControllerProcessor];
+}
+
+- (void)didDismissViewControllerProcessor {
+    [self dismissViewControllerAnimated:YES completion:^ {
+        self.globalNavigationController = nil;
+        self.popoverOpenFlag = NO;
+    }];
+}
+
+#pragma mark - ArcosMailTableViewControllerDelegate
+- (void)arcosMailDidFinishWithResult:(ArcosMailComposeResult)aResult error:(NSError *)anError {
+    [self didDismissViewControllerProcessor];
+}
+
+#pragma mark - MFMailComposeViewControllerDelegate
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+    NSString* message = @"";
+    NSString* title = @"";
+    switch (result) {
+        case MFMailComposeResultCancelled:
+            message = @"Result: canceled";
+            break;
+            
+        case MFMailComposeResultSaved:
+            message = @"Result: saved";
+            break;
+            
+        case MFMailComposeResultSent: {
+            message = @"Sent Email OK";
+            title = @"App Email";
+        }
+            break;
+            
+        case MFMailComposeResultFailed: {
+            message = @"Failed to Send Email";
+            title = [GlobalSharedClass shared].errorTitle;
+        }
+            break;
+            
+        default:
+            message = @"Result: not sent";
+            break;
+    }
+    if (result != MFMailComposeResultFailed) {
+        [self alertViewCallBack];
+    } else {
+        [ArcosUtils showDialogBox:message title:title target:controller handler:^(UIAlertAction *action) {
+            [self alertViewCallBack];
+        }];
+    }
+}
+
+- (void)alertViewCallBack {
+    [self dismissViewControllerAnimated:YES completion:^ {
+        self.popoverOpenFlag = NO;
+    }];
+}
+
+#pragma mark - GenericRefreshParentContentDelegate
+- (void)refreshParentContent {
+    [self resetContact:[self.actionDelegate retrieveContactLocationObjectList]];
+    self.needIndexView = YES;
+    [self.myContactList removeAllObjects];
+    [self.tableData removeAllObjects];
+    for(NSMutableDictionary* cust in self.originalContactList) {
+        NSNumber* locationIUR = [cust objectForKey:@"LocationIUR"];
+        if ([self.selectedLocationIUR isEqualToNumber:locationIUR]) {
+            [self.myContactList addObject:cust];
+            [self.tableData addObject:cust];
+        }
+    }
+    [self resetList:self.tableData];
+}
+
+#pragma mark - GetDataGenericDelegate
+-(void)setGetRecordResult:(ArcosGenericReturnObject*) result {
+    if (result == nil) {
+        [self.callGenericServices.HUD hide:YES];
+        self.popoverOpenFlag = NO;
+        return;
+    }
+    if (result.ErrorModel.Code >= 0 && [result.ArrayOfData count] > 0) {
+        self.contactGenericReturnObject = result;
+//        self.contactGenericClass = [result.ArrayOfData objectAtIndex:0];
+        self.customerContactTypesDataManager = [[[CustomerContactTypesDataManager alloc] init] autorelease];
+        self.customerContactTypesDataManager.myCustDict = self.selectedLocationDict;
+        [self.customerContactTypesDataManager createCustomerContactActionDataManager:self.emailActionType];
+        self.customerContactTypesDataManager.orderedFieldTypeList = self.customerContactTypesDataManager.customerContactActionBaseDataManager.orderedFieldTypeList;
+        if (![self.emailActionType isEqualToString:@"edit"]) {
+            [self.callGenericServices.HUD hide:YES];
+            [self.customerContactTypesDataManager processRawData:self.contactGenericReturnObject flagData:[NSMutableArray arrayWithCapacity:0]];
+            [self createEmailComposeViewControllerWithType:self.emailActionType];
+            return;
+        }
+//        NSString* flagSqlStatement = [NSString stringWithFormat:@"select IUR,DescrDetailIUR,ContactIUR,LocationIUR,TeamIUR,EmployeeIUR from Flag where ContactIUR = %@", self.emailContactIUR];
+//        [self.callGenericServices genericGetData:flagSqlStatement action:@selector(setFlagGenericGetDataResult:) target:self];
+    } else if(result.ErrorModel.Code < 0 || [result.ArrayOfData count] == 0) {
+        NSString* titleMsg = (result.ErrorModel.Code == 0) ? @"" : [GlobalSharedClass shared].errorTitle;
+        [ArcosUtils showDialogBox:result.ErrorModel.Message title:titleMsg delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
+            
+        }];
+        [self.callGenericServices.HUD hide:YES];
+        self.popoverOpenFlag = NO;
+    }
+}
+
+- (void)createEmailComposeViewControllerWithType:(NSString*)anEmailActionType {
+    NSNumber* employeeIUR = [SettingManager employeeIUR];
+    NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:employeeIUR];
+    NSString* employeeName = [NSString stringWithFormat:@"%@ %@", [ArcosUtils convertNilToEmpty:[employeeDict objectForKey:@"ForeName"]], [ArcosUtils convertNilToEmpty:[employeeDict objectForKey:@"Surname"]]];
+    NSMutableArray* toRecipients = [NSMutableArray arrayWithObjects:self.myArcosAdminEmail, nil];
+    NSString* subject = @"";
+    if ([anEmailActionType isEqualToString:@"edit"]) {
+        subject = [NSString stringWithFormat:@"Please Amend Contact Details from %@", employeeName];
+    } else {
+        subject = [NSString stringWithFormat:@"Please Create a new Contact for %@", employeeName];
+    }
+    NSString* body = [self.customerContactTypesDataManager buildEmailMessageBody];
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+        ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
+//        amwvc.myDelegate = self;
+        amwvc.mailDelegate = self;
+        amwvc.toRecipients = toRecipients;
+        amwvc.subjectText = subject;
+        amwvc.bodyText = body;
+        amwvc.isHTML = YES;
+        amwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
+        self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:amwvc] autorelease];
+        self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self presentViewController:self.globalNavigationController animated:YES completion:nil];
+        [amwvc release];
+        return;
+    }
+    
+    if (![ArcosEmailValidator checkCanSendMailStatus:self]) {
+        self.popoverOpenFlag = NO;
+        return;
+    }
+    MFMailComposeViewController* mailController = [[[MFMailComposeViewController alloc] init] autorelease];
+    mailController.mailComposeDelegate = self;
+    [mailController setToRecipients:toRecipients];
+    [mailController setSubject:subject];
+    [mailController setMessageBody:body isHTML:YES];
+    if (@available(iOS 13.0, *)) {
+        mailController.modalInPresentation = YES;
+    }
+    mailController.modalPresentationStyle = UIModalPresentationPageSheet;
+    mailController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentViewController:mailController animated:YES completion:nil];
 }
 
 - (void)cancelButtonPressed:(id)sender {
@@ -449,8 +669,10 @@
     self.needIndexView = YES;
     [self.myContactList removeAllObjects];
     [self.tableData removeAllObjects];
-    NSNumber* selectedLocationIUR = [aCustDict objectForKey:@"LocationIUR"];
-    if ([selectedLocationIUR intValue] == 0) {
+    self.selectedLocationIUR = [aCustDict objectForKey:@"LocationIUR"];
+    self.selectedLocationDict = aCustDict;
+//    NSLog(@"selectedLocationDict %@", self.selectedLocationDict);
+    if ([self.selectedLocationIUR intValue] == 0) {
         self.myContactList = [NSMutableArray arrayWithArray:self.originalContactList];
         self.tableData = [NSMutableArray arrayWithArray:self.originalContactList];
         [self resetList:self.tableData];
@@ -460,7 +682,7 @@
     for(NSMutableDictionary* cust in self.originalContactList)
     {
         NSNumber* locationIUR = [cust objectForKey:@"LocationIUR"];
-        if ([selectedLocationIUR isEqualToNumber:locationIUR]) {
+        if ([self.selectedLocationIUR isEqualToNumber:locationIUR]) {
             [self.myContactList addObject:cust];
             [self.tableData addObject:cust];
         }

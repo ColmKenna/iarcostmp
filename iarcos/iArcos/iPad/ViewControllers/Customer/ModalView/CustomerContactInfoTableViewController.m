@@ -46,6 +46,7 @@
     self.callGenericServices.delegate = nil;
     self.callGenericServices = nil;
     self.customerContactTypesDataManager = nil;
+    self.contactGenericReturnObject = nil;
     self.myArcosAdminEmail = nil;
     self.emailActionType = nil;
     self.emailContactIUR = nil;

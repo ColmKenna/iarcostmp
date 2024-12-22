@@ -4994,11 +4994,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosCoreData);
 
 -(void)executeTransaction {
     if (1==1) {
-        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"IUR = 1"];
-        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Employee" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"IUR = 157343"];
+        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Presenter" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
         if ([objectsArray count] > 0) {
-            for (Employee* anEmployee in objectsArray) {
-                anEmployee.JourneyStartDate = [ArcosUtils dateFromString:@"28/03/2024" format:[GlobalSharedClass shared].dateFormat];
+            for (Presenter* aPresenter in objectsArray) {
+                aPresenter.IUR = [NSNumber numberWithInt:179058];
+                [self saveContext:self.fetchManagedObjectContext];
+            }
+        }
+    }
+    if (1==1) {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"IUR = 177841"];
+        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Presenter" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
+        if ([objectsArray count] > 0) {
+            for (Presenter* aPresenter in objectsArray) {
+                aPresenter.IUR = [NSNumber numberWithInt:179055];
+                [self saveContext:self.fetchManagedObjectContext];
+            }
+        }
+    }
+    if (1==1) {
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"parentIUR = 177841"];
+        NSMutableArray* objectsArray = [self fetchRecordsWithEntity:@"Presenter" withPropertiesToFetch:nil withPredicate:predicate withSortDescNames:nil withResulType:NSManagedObjectResultType needDistinct:NO ascending:nil];
+        if ([objectsArray count] > 0) {
+            for (Presenter* aPresenter in objectsArray) {
+                aPresenter.parentIUR = [NSNumber numberWithInt:179055];
                 [self saveContext:self.fetchManagedObjectContext];
             }
         }

@@ -707,6 +707,7 @@
         PVC.fileType = fileType;
         PVC.presenterRequestSource = self.parentPresenterRequestSource;
         [resultDict setObject:PVC forKey:@"MyPresenterViewController"];
+        PVC.presenterMainDataManager.mainPresenterIUR = presenterIUR;
     }
     
     return resultDict;

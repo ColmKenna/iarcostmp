@@ -473,6 +473,7 @@
 //}
 
 - (void)emailAllDidSelectEmailRecipientRow:(NSDictionary*)cellData {
+    self.presenterMainDataManager.emailAllAtCombinedPresenterFlag = YES;
     [super didSelectEmailRecipientRow:cellData];
 }
 
@@ -482,6 +483,7 @@
 
 - (void)emailOneDidSelectEmailRecipientRow:(NSDictionary*)cellData {
 //    [self.emailPopover dismissPopoverAnimated:YES];
+    self.presenterMainDataManager.emailAllAtCombinedPresenterFlag = NO;
     [self dismissViewControllerAnimated:YES completion:nil];
     self.auxEmailCellData = cellData;
     self.rowPointer = 0;
