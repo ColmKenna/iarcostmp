@@ -477,7 +477,7 @@
         self.FOCField.backgroundColor = [UIColor whiteColor];
     }
     //check the detailing
-    if(self.isDetaillingType || ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![orderFormDetails containsString:@"[BD]"])){
+    if([[ArcosConfigDataManager sharedArcosConfigDataManager] showRRPInOrderPadFlag] && ![orderFormDetails containsString:@"[BD]"]){
         self.BonusField.hidden=YES;
         self.DiscountField.hidden=YES;
         self.BonusLabel.hidden=YES;
@@ -487,26 +487,7 @@
         self.instockRBTextField.hidden = YES;
         self.priceChangeButton.hidden = YES;
     }
-    if (self.isDetaillingType) {
-        self.sectionDivider.hidden = YES;
-        self.bonHeader.hidden = YES;
-        int bonNum = 26;
-        NSString* hiddenField = [NSString stringWithFormat:@"setHidden:"];
-        SEL hiddenSelector = NSSelectorFromString(hiddenField);
-        for (int i = 0; i < 13; i++) {
-            bonNum--;
-            NSString* bonusField = [NSString stringWithFormat:@"bonus%d", bonNum];
-            SEL bonusSelector = NSSelectorFromString(bonusField);
-//            [[self performSelector:bonusSelector] performSelector:hiddenSelector withObject:@YES];
-            BOOL myBoolValue = YES;
-            NSMethodSignature* signature = [[[self performSelector:bonusSelector] class] instanceMethodSignatureForSelector:hiddenSelector];
-            NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:signature];
-            [invocation setTarget:[self performSelector:bonusSelector]];
-            [invocation setSelector:hiddenSelector];
-            [invocation setArgument:&myBoolValue atIndex:2];
-            [invocation invoke];
-        }
-    }
+    
 //    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[self.relatedFormDetailDict objectForKey:@"Details"]];
     if ([orderFormDetails containsString:@"[NB]"]) {
         [self showBonusFocWithFlag:NO];
@@ -529,6 +510,42 @@
     }
     [self checkQtyByBonusDeal];
     [self resetTotalValue];
+    if (self.isDetaillingType) {
+        self.sectionDivider.hidden = YES;
+        self.bonHeader.hidden = YES;
+        int bonNum = 26;
+        NSString* hiddenField = [NSString stringWithFormat:@"setHidden:"];
+        SEL hiddenSelector = NSSelectorFromString(hiddenField);
+        for (int i = 0; i < 13; i++) {
+            bonNum--;
+            NSString* bonusField = [NSString stringWithFormat:@"bonus%d", bonNum];
+            SEL bonusSelector = NSSelectorFromString(bonusField);
+//            [[self performSelector:bonusSelector] performSelector:hiddenSelector withObject:@YES];
+            BOOL myBoolValue = YES;
+            NSMethodSignature* signature = [[[self performSelector:bonusSelector] class] instanceMethodSignatureForSelector:hiddenSelector];
+            NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:signature];
+            [invocation setTarget:[self performSelector:bonusSelector]];
+            [invocation setSelector:hiddenSelector];
+            [invocation setArgument:&myBoolValue atIndex:2];
+            [invocation invoke];
+        }
+        self.rebateLabel.hidden = YES;
+        self.rebateField.hidden = YES;
+        self.valueLabel.hidden = YES;
+        self.ValueField.hidden = YES;
+        self.unitPriceTitleLabel.hidden = YES;
+        self.unitPriceField.hidden = YES;
+        self.priceChangeButton.hidden = YES;
+        self.bonusDealContentInterpreter.hidden = YES;
+        
+        self.BonusField.hidden=YES;
+        self.DiscountField.hidden=YES;
+        self.BonusLabel.hidden=YES;
+        self.DiscountLabel.hidden=YES;
+        self.FOCField.hidden = YES;
+        self.instockRBLabel.hidden = YES;
+        self.instockRBTextField.hidden = YES;
+    }
 }
 
 - (ArcosErrorResult*)productCheckProcedure {

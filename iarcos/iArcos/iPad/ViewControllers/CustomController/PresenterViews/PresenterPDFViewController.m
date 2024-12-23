@@ -19,6 +19,7 @@
 @synthesize arcosRootViewController = _arcosRootViewController;
 @synthesize mailController = _mailController;
 @synthesize previewDocumentList = _previewDocumentList;
+@synthesize viewWasAppearedFlag = _viewWasAppearedFlag;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,7 +27,7 @@
     if (self) {
         // Custom initialization
         fileDownloadCenter.delegate=self;
-
+        self.viewWasAppearedFlag = NO;
     }
     return self;
 }
@@ -105,10 +106,20 @@
 
 - (void)previewButtonPressed {
     if ([self.previewDocumentList count] > 0) {
+        
         QLPreviewController* myPreviewController = [[QLPreviewController alloc] init];
         myPreviewController.dataSource = self;
         myPreviewController.delegate = self;
-        [self presentViewController:myPreviewController animated:YES completion:nil];
+        myPreviewController.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self presentViewController:myPreviewController animated:YES completion:^{
+            @try {
+                UINavigationBar* navBar = [[[[[myPreviewController view] subviews] firstObject] subviews] objectAtIndex:1];
+                [navBar setHidden:YES];
+                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+            } @catch (NSException *exception) {
+                
+            }
+        }];
         [myPreviewController release];
     } else {
         [ArcosUtils showDialogBox:@"No file to preview" title:@"" target:self handler:nil];
@@ -130,6 +141,10 @@
     return arcosQLPreviewItem;
 }
 
+- (void)previewControllerWillDismiss:(QLPreviewController *)controller {
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+}
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -145,6 +160,13 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self resetIndicatorViewPosition];
+    if (!self.viewWasAppearedFlag) {
+        self.viewWasAppearedFlag = YES;
+        NSString* fullTitle = [self.currentFile objectForKey:@"fullTitle"];
+        if ([fullTitle hasPrefix:@"["] && [fullTitle hasSuffix:@"]"]) {
+            [self previewButtonPressed];
+        }
+    }
 }
 
 
