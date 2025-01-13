@@ -127,7 +127,7 @@
     MKAnnotationView *annotationView = [aMapView dequeueReusableAnnotationViewWithIdentifier:@"myAnno"];
     if(!annotationView)
     {
-        annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"myAnno"];
+        annotationView = [[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"myAnno"] autorelease];
         annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         //[(UIButton *)annotationView.rightCalloutAccessoryView addTarget:self action:@selector(openSpot:) forControlEvents:UIControlEventTouchUpInside];
         

@@ -11,5 +11,6 @@
 @protocol CustomisePresentViewControllerDelegate <NSObject>
 @optional
 - (void)didDismissCustomisePresentView;
+- (void)didDismissBuiltInPresentView;
 
 @end

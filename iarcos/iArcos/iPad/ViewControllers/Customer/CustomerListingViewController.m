@@ -132,10 +132,12 @@
     
     UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addPressed:)];
     UIBarButtonItem* toggleListButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"List2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleListButtonPressed:)];
-    NSMutableArray* buttonList = [NSMutableArray arrayWithObjects:addButton, toggleListButton, nil];
+    UIBarButtonItem* locationMapButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"LocationMap.png"] style:UIBarButtonItemStylePlain target:self action:@selector(locationMapButtonPressed:)];
+    NSMutableArray* buttonList = [NSMutableArray arrayWithObjects:addButton, toggleListButton, locationMapButton, nil];//
     [self.navigationItem setRightBarButtonItems:buttonList];
     [addButton release];
     [toggleListButton release];
+    [locationMapButton release];
     connectivityCheck=[[ConnectivityCheck alloc]init];
     self.checkLocationIURTemplateProcessor = [[[CheckLocationIURTemplateProcessor alloc] initWithParentViewController:self] autorelease];
     self.checkLocationIURTemplateProcessor.delegate = self;
@@ -261,7 +263,7 @@
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 
 #pragma mark - Table view data source
@@ -832,9 +834,33 @@
     [self.tableView reloadData];
 }
 
+- (void)locationMapButtonPressed:(id)sender {
+    if (self.customerListingDataManager.popoverOpenFlag) {
+        return;
+    }
+    self.customerListingDataManager.popoverOpenFlag = YES;
+    CustomerListingMapViewController* clmvc = [[CustomerListingMapViewController alloc] initWithNibName:@"CustomerListingMapViewController" bundle:nil];
+    clmvc.presentDelegate = self;
+    clmvc.customerListingMapDataManager.displayList = [self retrieveCurrentDisplayList];
+    
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:clmvc] autorelease];
+    if (@available(iOS 13.0, *)) {
+        self.globalNavigationController.modalInPresentation = YES;
+    }
+    self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self.rootView presentViewController:self.globalNavigationController animated:YES completion:nil];
+    [clmvc release];
+}
+
 #pragma mark CustomisePresentViewControllerDelegate
 - (void)didDismissCustomisePresentView {
     [self didDismissViewControllerProcessor];
+}
+- (void)didDismissBuiltInPresentView {
+    [self.rootView dismissViewControllerAnimated:YES completion:^{
+        self.globalNavigationController = nil;
+        self.customerListingDataManager.popoverOpenFlag = NO;
+    }];
 }
 
 #pragma mark ArcosMailTableViewControllerDelegate
@@ -1113,6 +1139,16 @@
     [self.rootView dismissViewControllerAnimated:YES completion:^ {
         self.customerListingDataManager.popoverOpenFlag = NO;
     }];
+}
+
+- (NSMutableArray*)retrieveCurrentDisplayList {
+    NSMutableArray* tmpCurrentDisplayList = [NSMutableArray array];
+    for (int i = 0; i < [self.customerSections count]; i++) {
+        NSString* tmpKey = [sortKeys objectAtIndex:i + 1];
+        NSMutableArray* subsetLocationList = [self.customerSections objectForKey:tmpKey];
+        [tmpCurrentDisplayList addObjectsFromArray:subsetLocationList];
+    }
+    return tmpCurrentDisplayList;
 }
 
 @end

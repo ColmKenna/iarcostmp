@@ -37,7 +37,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConstantsDataManager);
         self.currentAccountAddress = nil;
         self.kGraphMessageURI = @"https://graph.microsoft.com/v1.0/me/messages";
         self.kGraphEventURI = @"https://graph.microsoft.com/v1.0/me/events";//calendar
-        self.acctNotSignInMsg = @"Please SIGN IN to OUTLOOK to save Next Appointment";
+//        self.acctNotSignInMsg = @"Please SIGN IN to OUTLOOK to save Next Appointment";
+        self.acctNotSignInMsg = @"Please SIGN IN to use OUTLOOK features";
         self.kScopes = [NSArray arrayWithObjects:@"https://graph.microsoft.com/user.read", @"https://graph.microsoft.com/Mail.Send", @"https://graph.microsoft.com/Mail.ReadWrite", @"https://graph.microsoft.com/Calendars.Read", @"https://graph.microsoft.com/Calendars.ReadWrite", nil];
     }
     

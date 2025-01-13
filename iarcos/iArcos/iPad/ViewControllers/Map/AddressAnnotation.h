@@ -30,14 +30,14 @@ typedef enum {
     NSObject* anObject;
 }
 @property(nonatomic,assign) CLLocationCoordinate2D coordinate;
-@property(nonatomic,assign) NSString *mTitle;
-@property(nonatomic,assign) NSString *mSubTitle;
+@property(nonatomic,retain) NSString *mTitle;
+@property(nonatomic,retain) NSString *mSubTitle;
 @property(nonatomic,retain) NSMutableDictionary* location;
 @property(nonatomic,assign) AddressAnnotationType type;
 @property(nonatomic,retain) NSObject* anObject;
 
 
--(id)initWithCoordinate:(CLLocationCoordinate2D)coord withLocation:(NSMutableDictionary*) aLocation withType:(AddressAnnotationType)annoType;
+-(instancetype)initWithCoordinate:(CLLocationCoordinate2D)coord withLocation:(NSMutableDictionary*) aLocation withType:(AddressAnnotationType)annoType;
 
 -(NSString*)fullAddressWith:(NSMutableDictionary*)aLocation;
 @end

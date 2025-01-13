@@ -22,6 +22,7 @@
 #import "CustomerListingTableCellGenerator.h"
 #import "CustomerListingCallTableCellGenerator.h"
 #import "CustomerListingCallDataManager.h"
+#import "CustomerListingMapViewController.h"
 
 @interface CustomerListingViewController : CustomerBaseDetailViewController<UIPopoverControllerDelegate, UISplitViewControllerDelegate,UISearchBarDelegate,UINavigationBarDelegate, ModelViewDelegate, GenericRefreshParentContentDelegate,CustomisePresentViewControllerDelegate,CheckLocationIURTemplateDelegate,GetDataGenericDelegate,MFMailComposeViewControllerDelegate,ArcosMailTableViewControllerDelegate> {
     NSMutableArray* myCustomers;

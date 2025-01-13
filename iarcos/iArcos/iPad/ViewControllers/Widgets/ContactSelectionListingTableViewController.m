@@ -61,7 +61,7 @@
     UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonPressed:)];
     [self.navigationItem setLeftBarButtonItem:cancelButton];
     [cancelButton release];
-    
+    /*
     NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:3];
     UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addPressed:)];
     UIBarButtonItem* saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonPressed:)];
@@ -72,7 +72,8 @@
     self.locationButton = [[[UIBarButtonItem alloc] initWithTitle:@"Location" style:UIBarButtonItemStylePlain target:self action:@selector(locationButtonPressed:)] autorelease];
     [rightButtonList addObject:self.locationButton];
     [self.navigationItem setRightBarButtonItems:rightButtonList];
-    
+    */
+    [self configRightBarButtonItems];
     self.tableView.tableHeaderView = self.mySearchBar;
     self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
     [self.tableView setContentOffset:CGPointMake(0, 44) animated:NO];
@@ -112,8 +113,24 @@
     }
 }
 
+- (void)configRightBarButtonItems {
+    NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:3];
+    UIBarButtonItem* saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonPressed:)];
+    if ([self.selectedLocationIUR intValue] != 0) {
+        UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addPressed:)];
+        [rightButtonList addObject:addButton];
+        [addButton release];
+    }
+    [rightButtonList addObject:saveButton];
+    [saveButton release];
+    
+    self.locationButton = [[[UIBarButtonItem alloc] initWithTitle:@"Location" style:UIBarButtonItemStylePlain target:self action:@selector(locationButtonPressed:)] autorelease];
+    [rightButtonList addObject:self.locationButton];
+    [self.navigationItem setRightBarButtonItems:rightButtonList];
+}
+
 -(void)addPressed:(id)sender {
-    NSLog(@"addPressed");
+//    NSLog(@"addPressed");
     if (self.popoverOpenFlag) {
         return;
     }
@@ -671,6 +688,7 @@
     [self.tableData removeAllObjects];
     self.selectedLocationIUR = [aCustDict objectForKey:@"LocationIUR"];
     self.selectedLocationDict = aCustDict;
+    [self configRightBarButtonItems];
 //    NSLog(@"selectedLocationDict %@", self.selectedLocationDict);
     if ([self.selectedLocationIUR intValue] == 0) {
         self.myContactList = [NSMutableArray arrayWithArray:self.originalContactList];

@@ -910,7 +910,7 @@
     [self.customerInfoTableDataManager.nextCallHashMap setObject:self.customerInfoTableDataManager.nextCallLabel forKey:@"fieldDesc"];
     [self.customerInfoTableDataManager.nextCallHashMap setObject:@"" forKey:@"fieldValue"];
     [self.customerInfoTableDataManager.nextCallHashMap setObject:@"" forKey:@"imageName"];
-    if (![[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+    if (!([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag] && [[ArcosConfigDataManager sharedArcosConfigDataManager] showCalendarEventBoxWhenCreatingCallFlag])) {
         [self journeyOrderHeaderDateProcessor];
         [self.tableView reloadData];
         return;
@@ -1033,7 +1033,7 @@
     if (self.detailingCalendarEventBoxViewDataManager.journeyForCurrentLocationFoundFlag) {
         [self.customerInfoTableDataManager.nextCallHashMap setObject:self.customerInfoTableDataManager.nextJourneyTitle forKey:@"fieldDesc"];
         [self.customerInfoTableDataManager.nextCallHashMap setObject:[ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.journeyDateForCurrentLocation format:[GlobalSharedClass shared].dateFormat] forKey:@"fieldValue"];
-        [self.customerInfoTableDataManager.nextCallHashMap setObject:@"JourneyCar.png" forKey:@"imageName"];
+        [self.customerInfoTableDataManager.nextCallHashMap setObject:@"CalendarApp-Blue.png" forKey:@"imageName"];
     } else {
         if (self.customerInfoTableDataManager.lastOrderHeaderFoundFlag) {
             NSDictionary* employeeDict = [[ArcosCoreData sharedArcosCoreData] employeeWithIUR:[SettingManager employeeIUR]];
@@ -1044,7 +1044,7 @@
             }
             [self.customerInfoTableDataManager.nextCallHashMap setObject:self.customerInfoTableDataManager.suggestedCallTitle forKey:@"fieldDesc"];
             [self.customerInfoTableDataManager.nextCallHashMap setObject:[ArcosUtils stringFromDate:tmpLastOrderDate format:[GlobalSharedClass shared].dateFormat] forKey:@"fieldValue"];
-            [self.customerInfoTableDataManager.nextCallHashMap setObject:@"CalendarApp-Blue.png" forKey:@"imageName"];
+            [self.customerInfoTableDataManager.nextCallHashMap setObject:@"JourneyCar.png" forKey:@"imageName"];
         }
     }
 }
