@@ -58,11 +58,11 @@
 #pragma mark WidgetFactoryDelegate
 -(void)operationDone:(id)data {
 //    [self.thePopover dismissPopoverAnimated:YES];
-    [[self.actionDelegate retrieveMeetingAttendeesEmployeesParentViewController] dismissViewControllerAnimated:YES completion:nil];
+//    [[self.actionDelegate retrieveMeetingAttendeesEmployeesParentViewController] dismissViewControllerAnimated:YES completion:nil];
     [self.actionDelegate meetingAttendeesEmployeesOperationDone:data];
 //    self.thePopover = nil;
 //    self.factory.popoverController = nil;
-    self.globalWidgetViewController = nil;
+//    self.globalWidgetViewController = nil;
 }
 
 -(void)dismissPopoverController {

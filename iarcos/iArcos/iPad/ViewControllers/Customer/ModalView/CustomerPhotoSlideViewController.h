@@ -17,8 +17,9 @@
 #import "SlideAcrossViewAnimationDelegate.h"
 #import "CustomisePresentViewControllerDelegate.h"
 #import "ArcosMailTableViewControllerDelegate.h"
+#import "CallGenericServices.h"
 
-@interface CustomerPhotoSlideViewController : UIViewController<UIScrollViewDelegate, EmailRecipientDelegate, MFMailComposeViewControllerDelegate, CustomerPhotoDeleteActionViewControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ArcosMailTableViewControllerDelegate> {
+@interface CustomerPhotoSlideViewController : UIViewController<UIScrollViewDelegate, EmailRecipientDelegate, MFMailComposeViewControllerDelegate, CustomerPhotoDeleteActionViewControllerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,ArcosMailTableViewControllerDelegate,GetDataGenericDelegate> {
     id<PresentViewControllerDelegate> _delegate;
     id<SlideAcrossViewAnimationDelegate> _animateDelegate;
     CustomerPhotoSlideDataManager* _customerPhotoSlideDataManager;
@@ -36,6 +37,7 @@
     UIImagePickerController* _imagePickerController;
     UINavigationController* _globalNavigationController;
     UIViewController* _rootView;
+    CallGenericServices* _callGenericServices;
 }
 
 @property(nonatomic, assign) id<PresentViewControllerDelegate> delegate;
@@ -55,5 +57,6 @@
 @property(nonatomic,retain) UIImagePickerController* imagePickerController;
 @property(nonatomic,retain) UINavigationController* globalNavigationController;
 @property(nonatomic,retain) UIViewController* rootView;
+@property (nonatomic, retain) CallGenericServices* callGenericServices;
 
 @end

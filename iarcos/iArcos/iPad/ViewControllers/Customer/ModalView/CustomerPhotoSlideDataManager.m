@@ -13,6 +13,8 @@
 @synthesize locationIUR = _locationIUR;
 @synthesize slideViewItemList = _slideViewItemList;
 @synthesize currentPage = _currentPage;
+@synthesize photoCoordinateType = _photoCoordinateType;
+@synthesize remotePhotoHashMap = _remotePhotoHashMap;
 
 - (id)initWithLocationIUR:(NSNumber*)aLocationIUR{
     self = [super init];
@@ -20,6 +22,7 @@
         self.displayList = [NSMutableArray array];
         self.locationIUR = aLocationIUR;
         self.currentPage = 0;
+        self.photoCoordinateType = PhotoLocalCoordinateType;
     }
     return self;
 }
@@ -28,6 +31,7 @@
     if (self.displayList != nil) { self.displayList = nil; }
     if (self.locationIUR != nil) { self.locationIUR = nil; }
     if (self.slideViewItemList != nil) { self.slideViewItemList = nil; }
+    self.remotePhotoHashMap = nil;
     
     [super dealloc];
 }

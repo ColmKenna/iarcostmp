@@ -34,6 +34,7 @@
 @synthesize imagePickerController = _imagePickerController;
 @synthesize globalNavigationController = _globalNavigationController;
 @synthesize rootView = _rootView;
+@synthesize callGenericServices = _callGenericServices;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -63,6 +64,7 @@
     self.imagePickerController = nil;
     self.globalNavigationController = nil;
     self.rootView = nil;
+    self.callGenericServices = nil;
     
     [super dealloc];
 }
@@ -86,6 +88,7 @@
     UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backPressed:)];
     [self.navigationItem setLeftBarButtonItem:backButton];
     [backButton release];
+    /*
     NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:2];
 //    self.emailButton = [[UIBarButtonItem alloc] initWithTitle:@"Email" style:UIBarButtonItemStyleBordered target:self action:@selector(emailButtonPressed:)];
     self.emailButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(emailButtonPressed:)] autorelease];
@@ -93,11 +96,15 @@
     self.trashButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(trashButtonPressed:)] autorelease];
     
     self.cameraRollButton = [[[UIBarButtonItem alloc] initWithTitle:@"Camera Roll" style:UIBarButtonItemStylePlain target:self action:@selector(cameraRollPressed:)] autorelease];
+    UIBarButtonItem* remoteBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Remote" style:UIBarButtonItemStylePlain target:self action:@selector(remotePressed:)];
     [rightButtonList addObject:self.trashButton];
     [rightButtonList addObject:self.emailButton];
     [rightButtonList addObject:self.cameraRollButton];
+    [rightButtonList addObject:remoteBarButton];
     [self.navigationItem setRightBarButtonItems:rightButtonList];
-    
+    [remoteBarButton release];
+    */
+    [self configRightBarButtonItems];
     self.customerPhotoSlideDataManager = [[[CustomerPhotoSlideDataManager alloc] initWithLocationIUR:self.locationIUR] autorelease];
     [self.customerPhotoSlideDataManager createPhotoSlideBasicData];
     if ([self.customerPhotoSlideDataManager.displayList count] > 0) {
@@ -124,6 +131,25 @@
     
 }
 
+- (void)configRightBarButtonItems {
+    NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:2];
+//    self.emailButton = [[UIBarButtonItem alloc] initWithTitle:@"Email" style:UIBarButtonItemStyleBordered target:self action:@selector(emailButtonPressed:)];
+    self.emailButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(emailButtonPressed:)] autorelease];
+    
+    self.trashButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(trashButtonPressed:)] autorelease];
+    
+    self.cameraRollButton = [[[UIBarButtonItem alloc] initWithTitle:@"Camera Roll" style:UIBarButtonItemStylePlain target:self action:@selector(cameraRollPressed:)] autorelease];
+    UIBarButtonItem* remoteBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Remote" style:UIBarButtonItemStylePlain target:self action:@selector(remotePressed:)];
+    [rightButtonList addObject:self.trashButton];
+    [rightButtonList addObject:self.emailButton];
+    if (self.customerPhotoSlideDataManager.photoCoordinateType == PhotoLocalCoordinateType) {
+        [rightButtonList addObject:self.cameraRollButton];
+    }
+    [rightButtonList addObject:remoteBarButton];
+    [self.navigationItem setRightBarButtonItems:rightButtonList];
+    [remoteBarButton release];
+}
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -145,10 +171,12 @@
         [ArcosUtils showDialogBox:@"No data found" title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {}];
         return;
     }
-    for (int i = 0; i < [self.customerPhotoSlideDataManager.slideViewItemList count]; i++) {
-        PresenterSlideViewItemController* aPSVIC = (PresenterSlideViewItemController*)[self.customerPhotoSlideDataManager.slideViewItemList objectAtIndex:i];
-        [self.myScrollView addSubview:aPSVIC.view];
-        [self.customerPhotoSlideDataManager fillPhotoSlideViewItem:aPSVIC index:i];
+    if (self.customerPhotoSlideDataManager.photoCoordinateType == PhotoLocalCoordinateType) {
+        for (int i = 0; i < [self.customerPhotoSlideDataManager.slideViewItemList count]; i++) {
+            PresenterSlideViewItemController* aPSVIC = (PresenterSlideViewItemController*)[self.customerPhotoSlideDataManager.slideViewItemList objectAtIndex:i];
+            [self.myScrollView addSubview:aPSVIC.view];
+            [self.customerPhotoSlideDataManager fillPhotoSlideViewItem:aPSVIC index:i];
+        }
     }
     
     [self alignSubviews];
@@ -157,8 +185,23 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    /*
     NSUInteger length = [[self.myScrollView subviews] count];
 //    NSLog(@"self.myScrollView length: %d", length);
+    for (int i = 0; i < length; i++) {
+        UIView* tmpView = [[self.myScrollView subviews] lastObject];
+        [tmpView removeFromSuperview];
+    }
+    for (int i = 0; i < [self.customerPhotoSlideDataManager.slideViewItemList count]; i++) {
+        [self.customerPhotoSlideDataManager emptyPhotoSlideViewItemWithIndex:i];
+    }
+     */
+    [self cleanDesktop];
+}
+
+- (void)cleanDesktop {
+    NSUInteger length = [[self.myScrollView subviews] count];
+    NSLog(@"self.myScrollView length: %ld", length);
     for (int i = 0; i < length; i++) {
         UIView* tmpView = [[self.myScrollView subviews] lastObject];
         [tmpView removeFromSuperview];
@@ -170,7 +213,11 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];    
+    [super viewDidAppear:animated];
+    if (self.callGenericServices == nil) {
+        self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.navigationController.view] autorelease];
+        self.callGenericServices.delegate = self;
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -191,6 +238,7 @@
     [super willAnimateRotationToInterfaceOrientation:interfaceOrientation duration:duration];
     [self alignSubviews];
 	self.myScrollView.contentOffset = CGPointMake(self.customerPhotoSlideDataManager.currentPage * self.myScrollView.bounds.size.width, 0);
+    [self.callGenericServices refreshHUDViewFrame:self.navigationController.view];
 }
 
 -(void)backPressed:(id)sender {
@@ -255,6 +303,11 @@
     
 //    NSLog(@"current page is %d",self.customerPhotoSlideDataManager.currentPage);
 //    NSLog(@"scrollViewDidEndDecelerating: %d",self.customerPhotoSlideDataManager.currentPage);
+    if (self.customerPhotoSlideDataManager.photoCoordinateType == PhotoLocalCoordinateType) return;
+    ArcosGenericClass* tmpArcosGenericClass = [self.customerPhotoSlideDataManager.displayList objectAtIndex:self.customerPhotoSlideDataManager.currentPage];
+    int tmpAttachmentIUR = [[ArcosUtils convertStringToNumber:tmpArcosGenericClass.Field1] intValue];
+    if ([self.customerPhotoSlideDataManager.remotePhotoHashMap objectForKey:[NSNumber numberWithInt:tmpAttachmentIUR]] != nil) return;
+    [self.callGenericServices genericGetAttachmentWithIUR:tmpAttachmentIUR action:@selector(resultBackFromGenericGetAttachment:) target:self];
 }
 
 -(void)emailButtonPressed:(id)sender {
@@ -285,6 +338,7 @@
 //        [self.trashPopover dismissPopoverAnimated:YES];
 //        return;
 //    }
+    if (self.customerPhotoSlideDataManager.photoCoordinateType == PhotoRemoteCoordinateType) return;
     if (![self validateHiddenPopovers]) return;
 //    [self.trashPopover presentPopoverFromBarButtonItem:self.trashButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
     self.cpdavc.modalPresentationStyle = UIModalPresentationPopover;
@@ -315,6 +369,72 @@
 //    [imagePickerController release];
 //    [self.cameraRollPopover presentPopoverFromBarButtonItem:self.cameraRollButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
+
+- (void)remotePressed:(id)sender {
+    NSLog(@"remotePressed");
+    self.customerPhotoSlideDataManager.currentPage = 0;
+    self.customerPhotoSlideDataManager.remotePhotoHashMap = [NSMutableDictionary dictionary];
+    self.customerPhotoSlideDataManager.photoCoordinateType = PhotoRemoteCoordinateType;
+    [self configRightBarButtonItems];
+    NSString* sqlStatement = [NSString stringWithFormat:@"Select IUR from attachments where LocationIUR = %@", self.locationIUR];
+    self.callGenericServices.isNotRecursion = NO;
+    [self.callGenericServices getData:sqlStatement];
+    [self cleanDesktop];
+    self.myScrollView.contentOffset = CGPointZero;
+}
+#pragma mark - GetDataGenericDelegate
+-(void)setGetDataResult:(ArcosGenericReturnObject*)result {
+    result = [self.callGenericServices handleResultErrorProcess:result];
+    if (result == nil) {
+        [self.callGenericServices.HUD hide:YES];
+        return;
+    }
+    if (result.ErrorModel.Code > 0) {
+        @try {
+            self.customerPhotoSlideDataManager.displayList = [NSMutableArray arrayWithCapacity:[result.ArrayOfData count]];
+            for (int i = 0; i < [result.ArrayOfData count]; i++) {
+                ArcosGenericClass* tmpArcosGenericClass = [result.ArrayOfData objectAtIndex:i];
+                [self.customerPhotoSlideDataManager.displayList addObject:tmpArcosGenericClass];
+            }
+            
+            [self.customerPhotoSlideDataManager createPhotoSlideViewItemData];
+            for (int i = 0; i < [self.customerPhotoSlideDataManager.slideViewItemList count]; i++) {
+                PresenterSlideViewItemController* aPSVIC = (PresenterSlideViewItemController*)[self.customerPhotoSlideDataManager.slideViewItemList objectAtIndex:i];
+                [self.myScrollView addSubview:aPSVIC.view];
+            }
+            [self alignSubviews];
+            
+            ArcosGenericClass* tmpArcosGenericClass = [result.ArrayOfData objectAtIndex:0];
+            [self.callGenericServices genericGetAttachmentWithIUR:[[ArcosUtils convertStringToNumber:tmpArcosGenericClass.Field1] intValue] action:@selector(resultBackFromGenericGetAttachment:) target:self];
+        } @catch (NSException *exception) {
+            [self.callGenericServices.HUD hide:YES];
+            [ArcosUtils showDialogBox:[exception reason] title:@"" target:self handler:nil];
+        }
+    } else if(result.ErrorModel.Code <= 0) {
+        [self.callGenericServices.HUD hide:YES];
+        if (result.ErrorModel.Code == 0) {
+            [ArcosUtils showDialogBox:@"There are no Photos available Inhouse" title:@"" target:self handler:nil];
+        }
+        if (result.ErrorModel.Code < 0) {
+            [ArcosUtils showDialogBox:result.ErrorModel.Message title:[GlobalSharedClass shared].errorTitle target:self handler:nil];
+        }
+    }
+}
+
+- (void)resultBackFromGenericGetAttachment:(id)result {
+    result = [self.callGenericServices handleResultErrorProcess:result];
+    if (result == nil) {
+        [self.callGenericServices.HUD hide:YES];
+        return;
+    }
+    [self.callGenericServices.HUD hide:YES];
+    ArcosAttachmentWithFileContents* arcosAttachmentWithFileContents = (ArcosAttachmentWithFileContents*)result;
+    PresenterSlideViewItemController* aPSVIC = (PresenterSlideViewItemController*)[self.customerPhotoSlideDataManager.slideViewItemList objectAtIndex:self.customerPhotoSlideDataManager.currentPage];
+    aPSVIC.myImage.image = [UIImage imageWithData:arcosAttachmentWithFileContents.FileContents];
+    NSNumber* attachmentIUR = [ArcosUtils convertNilToZero:[NSNumber numberWithInt:arcosAttachmentWithFileContents.IUR]];
+    [self.customerPhotoSlideDataManager.remotePhotoHashMap setObject:arcosAttachmentWithFileContents forKey:attachmentIUR];
+}
+
 #pragma mark UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
@@ -397,19 +517,30 @@
     }
     NSMutableArray* dataList = [NSMutableArray array];
     if ([self.customerPhotoSlideDataManager.displayList count] > 0) {
-        NSDictionary* collectedDict = [self.customerPhotoSlideDataManager.displayList objectAtIndex:self.customerPhotoSlideDataManager.currentPage];
-        NSString* fileName = [collectedDict objectForKey:@"Comments"];
-        NSString* filePath = [self.customerPhotoSlideDataManager getFilePathWithFileName:fileName];
-        if ([FileCommon fileExistAtPath:filePath]) {
-            NSData* data = [NSData dataWithContentsOfFile:filePath];
-            if (data != nil) {
-                if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
-                    [dataList addObject:[ArcosAttachmentContainer attachmentWithData:data fileName:fileName]];
-                } else {
-                    [dataList addObject:[MCOAttachment attachmentWithData:data filename:fileName]];
+        if (self.customerPhotoSlideDataManager.photoCoordinateType == PhotoLocalCoordinateType) {
+            NSDictionary* collectedDict = [self.customerPhotoSlideDataManager.displayList objectAtIndex:self.customerPhotoSlideDataManager.currentPage];
+            NSString* fileName = [collectedDict objectForKey:@"Comments"];
+            NSString* filePath = [self.customerPhotoSlideDataManager getFilePathWithFileName:fileName];
+            if ([FileCommon fileExistAtPath:filePath]) {
+                NSData* data = [NSData dataWithContentsOfFile:filePath];
+                if (data != nil) {
+                    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+                        [dataList addObject:[ArcosAttachmentContainer attachmentWithData:data fileName:fileName]];
+                    } else {
+                        [dataList addObject:[MCOAttachment attachmentWithData:data filename:fileName]];
+                    }
+                    
                 }
-                
-            }            
+            }
+        } else {
+            ArcosGenericClass* tmpArcosGenericClass = [self.customerPhotoSlideDataManager.displayList objectAtIndex:self.customerPhotoSlideDataManager.currentPage];
+            int tmpAttachmentIUR = [[ArcosUtils convertStringToNumber:tmpArcosGenericClass.Field1] intValue];
+            ArcosAttachmentWithFileContents* arcosAttachmentWithFileContents = [self.customerPhotoSlideDataManager.remotePhotoHashMap objectForKey:[NSNumber numberWithInt:tmpAttachmentIUR]];
+            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+                [dataList addObject:[ArcosAttachmentContainer attachmentWithData:arcosAttachmentWithFileContents.FileContents fileName:arcosAttachmentWithFileContents.FileName]];
+            } else {
+                [dataList addObject:[MCOAttachment attachmentWithData:arcosAttachmentWithFileContents.FileContents filename:arcosAttachmentWithFileContents.FileName]];
+            }
         }
     }
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
