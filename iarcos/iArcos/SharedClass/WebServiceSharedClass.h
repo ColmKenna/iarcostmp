@@ -34,6 +34,37 @@
 - (void)GotFailWithErrorResourcesFileDelegate:(NSError *)anError;
 - (void)GotErrorWithResourcesFile:(NSError *)anError;
 - (UIViewController*)retrieveWebServiceParentViewController;
+
+@optional
+- (void)ProgressViewWithValueForProducts:(float)aProgressValue;
+- (void)ProgressViewWithValueForPrice:(float)aProgressValue;
+- (void)ProgressViewWithValueForPaginatedLocations:(float)aProgressValue;
+- (void)ProgressViewWithValueForPackage:(float)aProgressValue;
+- (void)ProgressViewWithValueForLocations:(float)aProgressValue;
+- (void)ProgressViewWithValueForPaginatedLocLocLink:(float)aProgressValue;
+- (void)ProgressViewWithValueForLocLocLink:(float)aProgressValue;
+- (void)ProgressViewWithValueForLocationProductMAT:(float)aProgressValue;
+- (void)ProgressViewWithValueForPaginatedDescrDetails:(float)aProgressValue;
+- (void)ProgressViewWithValueForDescrDetails:(float)aProgressValue;
+- (void)ProgressViewWithValueForFormDetails:(float)aProgressValue;
+- (void)ProgressViewWithValueForPaginatedFormRows:(float)aProgressValue;
+- (void)ProgressViewWithValueForFormRows:(float)aProgressValue;
+- (void)ProgressViewWithValueForWholeSalers:(float)aProgressValue;
+- (void)ProgressViewWithValueForDescriptionType:(float)aProgressValue;
+- (void)ProgressViewWithValueForPaginatedContacts:(float)aProgressValue;
+- (void)ProgressViewWithValueForContact:(float)aProgressValue;
+- (void)ProgressViewWithValueForPaginatedConLocLink:(float)aProgressValue;
+- (void)ProgressViewWithValueForConLocLink:(float)aProgressValue;
+- (void)ProgressViewWithValueForPresenter:(float)aProgressValue;
+- (void)ProgressViewWithValueForPaginatedImage:(float)aProgressValue;
+- (void)ProgressViewWithValueForImage:(float)aProgressValue;
+- (void)ProgressViewWithValueForEmployee:(float)aProgressValue;
+- (void)ProgressViewWithValueForConfig:(float)aProgressValue;
+- (void)ProgressViewWithValueForOrder:(float)aProgressValue;
+- (void)ProgressViewWithValueForCall:(float)aProgressValue;
+- (void)ProgressViewWithValueForResponse:(float)aProgressValue;
+- (void)ProgressViewWithValueForSurvey:(float)aProgressValue;
+- (void)ProgressViewWithValueForJourney:(float)aProgressValue;
 @end
 
 @interface WebServiceSharedClass : NSObject <PaginatedUpdateCenterDelegate,ResourcesUpdateCenterDelegate,SaveRecordUpdateCenterDelegate,BatchedUpdateCenterDelegate, RemoveRecordProcessorDelegate> {

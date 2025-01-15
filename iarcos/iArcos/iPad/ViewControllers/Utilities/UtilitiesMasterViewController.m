@@ -57,6 +57,10 @@
     self.newsTitle = nil;
     self.emailTitle = nil;
     
+    [BackHolder release];
+    [ResizeHolder release];
+    [utilitiesHolder release];
+    [ResizeImage release];
     [super dealloc];
 }
 
@@ -67,6 +71,7 @@
     
     // Release any cached data, images, etc that aren't in use.
 }
+
 
 #pragma mark - View lifecycle
 
@@ -81,6 +86,12 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+    
+        [self setDefaultBackgroundColor];
+//    self.view.backgroundColor = [UIColor colorWithRed:0.82 green:0.88 blue:0.98 alpha:1.0];
+ 
+    
     self.updateCenterTitle = @"UpdateCenter";
     self.settingTitle = @"Setting";
     self.tablesTitle = @"Tables";
@@ -89,13 +100,70 @@
     self.configurationTitle = @"Configuration";
     self.newsTitle = @"News";
     self.emailTitle = @"Email";
+    
+    ResizeHolder.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleTableViewVisibility)];
+    [ResizeHolder addGestureRecognizer:tapGesture];
+  
+    UIButton *toggleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    toggleButton.frame = ResizeImage.bounds;
+    [toggleButton addTarget:self action:@selector(toggleTableViewVisibility) forControlEvents:UIControlEventTouchUpInside];
+    toggleButton.backgroundColor = [UIColor clearColor];
+    [ResizeHolder addSubview:toggleButton];
+    self.edgesForExtendedLayout = UIRectEdgeAll;
+    
 }
+
+
+
+- (void)setDefaultBackgroundColor {
+    UIColor *defaultBackgroundColor = [UIColor colorWithRed:0.82 green:0.88 blue:0.98 alpha:1.0];
+    self.theTableView.backgroundColor = defaultBackgroundColor;
+    ResizeHolder.backgroundColor = defaultBackgroundColor;
+    BackHolder.backgroundColor = defaultBackgroundColor;
+    tableHolder.backgroundColor = defaultBackgroundColor;
+    
+}
+
+- (void)setWhiteBackgroundColor {
+    UIColor *whiteColor = [UIColor whiteColor];
+    
+    self.theTableView.backgroundColor = whiteColor;
+    ResizeHolder.backgroundColor = whiteColor;
+    BackHolder.backgroundColor = whiteColor;
+    tableHolder.backgroundColor = whiteColor;
+}
+
+
+- (void)toggleTableViewVisibility {
+    // Toggle the visibility of the table view
+    self.theTableView.hidden = !self.theTableView.hidden;
+    if(self.theTableView.hidden){
+        [self.arcosSplitViewController shrinkUtilitiesOptions];
+        
+        [self setWhiteBackgroundColor];
+    }
+    else{
+        [self setDefaultBackgroundColor];
+     
+        [self.arcosSplitViewController growUtilitiesOptions];
+    }
+}
+
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleDefault; // Use default style, or UIStatusBarStyleLightContent for a light status bar
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -106,6 +174,18 @@
      *Title
      *SubTitle
      */
+    
+    // Get the window of this view controller
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    
+    //self.view.backgroundColor=    self.navigationController.navigationBar.backgroundColor;
+    
+
+    
+
+    
+
     
     ActivateAppStatusManager* activateAppStatusManager = [ActivateAppStatusManager appStatusInstance];
     NSNumber* appStatusNumber = [activateAppStatusManager getAppStatus];
@@ -120,10 +200,12 @@
     if ([self.utilities count] > 1) {
         [self.theTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:currentSelectIndex inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
     }
+    
+
 }
 
 - (void)createTableList {
-    NSMutableDictionary* updateCenterDict = [self createMasterCellDataWithFilename:@"UpdateCenter.png" title:self.updateCenterTitle subTitle:@""];
+    /*NSMutableDictionary* updateCenterDict = [self createMasterCellDataWithFilename:@"UpdateCenter.png" title:self.updateCenterTitle subTitle:@""];
     NSMutableDictionary* settingDict = [self createMasterCellDataWithFilename:@"Configuration.png" title:self.settingTitle subTitle:@""];
     NSMutableDictionary* tableDict = [self createMasterCellDataWithFilename:@"Table.png" title:self.tablesTitle subTitle:@""];
     NSMutableDictionary* resourcesDict = [self createMasterCellDataWithFilename:@"Resources.png" title:self.resourcesTitle subTitle:@""];
@@ -138,12 +220,31 @@
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
         NSMutableDictionary* myEmailDict = [self createMasterCellDataWithFilename:@"office_365.png" title:self.emailTitle subTitle:@""];
         [self.utilities addObject:myEmailDict];
+    }*/
+
+    NSMutableDictionary* updateCenterDict = [self createMasterCellDataWithFilename:@"one.png" title:self.updateCenterTitle subTitle:@""];
+    NSMutableDictionary* settingDict = [self createMasterCellDataWithFilename:@"two.png" title:self.settingTitle subTitle:@""];
+    NSMutableDictionary* tableDict = [self createMasterCellDataWithFilename:@"three.png" title:self.tablesTitle subTitle:@""];
+    NSMutableDictionary* resourcesDict = [self createMasterCellDataWithFilename:@"four.png" title:self.resourcesTitle subTitle:@""];
+    NSMutableDictionary* descDict = [self createMasterCellDataWithFilename:@"five.png" title:self.descriptionTitle subTitle:@""];
+//        NSMutableDictionary* memoryDict = [self createMasterCellDataWithFilename:@"Analysis.png" title:@"Memory" subTitle:@""];
+    NSMutableDictionary* configurationDict = [self createMasterCellDataWithFilename:@"six.png" title:self.configurationTitle subTitle:@""];
+    self.utilities=[NSMutableArray arrayWithObjects:updateCenterDict,settingDict,tableDict,resourcesDict,descDict,configurationDict, nil];//,memoryDict
+    if ([ArcosSystemCodesUtils myNewsOptionExistence]) {
+        NSMutableDictionary* myNewsDict = [self createMasterCellDataWithFilename:@"News.png" title:self.newsTitle subTitle:@""];
+        [self.utilities addObject:myNewsDict];
     }
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+        NSMutableDictionary* myEmailDict = [self createMasterCellDataWithFilename:@"seven.png" title:self.emailTitle subTitle:@""];
+        [self.utilities addObject:myEmailDict];
+    }
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -176,6 +277,7 @@
     return [self.utilities count];
 }
 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 //     NSString *CellIdentifier = @"Cell";
@@ -202,8 +304,11 @@
     [cell configCellWithData:cellData];
 //    cell.textLabel.text=[self.utilities objectAtIndex:indexPath.row];
     
+//    cell.backgroundColor = [UIColor colorWithRed:0.82 green:0.88 blue:0.98 alpha:1.0];
+
     return cell;
 }
+
 
 /*
 // Override to support conditional editing of the table view.
@@ -368,6 +473,7 @@
     //[navDetailController release];
     currentSelectIndex=indexPath.row;
 }
+
 
 #pragma mark UtilitiesConfigurationTableViewControllerDelegate
 - (void)didSaveButtonPressed {

@@ -157,7 +157,9 @@
     if ([ArcosUtils systemMajorVersion] >= 11) {
         positionDiff = 1.0f;
     }
-    masterRect = CGRectMake(0, 0, self.masterWidth - self.dividerWidth + 1.0f + diff, self.view.bounds.size.height);
+    
+    
+    masterRect = CGRectMake(0,0 , self.masterWidth - self.dividerWidth + 1.0f + diff, self.view.bounds.size.height);
     dividerRect = CGRectMake(self.masterWidth - self.dividerWidth + 1.0 + diff, 0, self.dividerWidth, self.view.bounds.size.height);
     detailRect = CGRectMake(self.masterWidth + positionDiff, 0, self.view.bounds.size.width - self.masterWidth - positionDiff, self.view.bounds.size.height);
     self.masterNavigationController.view.frame = masterRect;
@@ -165,6 +167,7 @@
     self.selectedRightViewController.view.frame = detailRect;
 //    self.rightSelectedNavigationViewController.view.frame = detailRect;
 }
+
 
 #pragma mark CustomerMasterViewControllerDelegate
 - (void)didSelectTableRow:(NSIndexPath*)anIndexPath myCustomController:(UIViewController *)aViewController{

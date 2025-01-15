@@ -7,6 +7,7 @@
 //
 
 #import "UploadFunctionTableViewCell.h"
+#import "UIColor+Hex.h"
 
 @implementation UploadFunctionTableViewCell
 @synthesize uploadButton = _uploadButton;
@@ -14,6 +15,17 @@
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
+    UIColor *borderUIColor = [UIColor colorFromHexString:@"#7D9DD6"];
+    _uploadButton.layer.borderColor = borderUIColor.CGColor;
+    
+    _uploadButton.layer.borderWidth = 1.0f;
+
+    // Optional: Set the corner radius for rounded corners
+    _uploadButton.layer.cornerRadius = 5.0f;
+    _uploadButton.layer.masksToBounds = YES;
+    
+    
+
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

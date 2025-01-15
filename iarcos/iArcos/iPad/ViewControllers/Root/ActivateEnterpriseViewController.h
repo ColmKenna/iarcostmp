@@ -70,12 +70,14 @@ typedef enum {
 @property(nonatomic, retain) IBOutlet UILabel* statusLabel;
 @property(nonatomic, retain) CallGenericServices* callGenericServices;
 @property(nonatomic, retain) ActivateEnterpriseDataManager* activateEnterpriseDataManager;
+@property (retain, nonatomic) IBOutlet UIView *registerViewHolder;
 
 @property(nonatomic, retain) IBOutlet UILabel* regCodeTitleLabel;
 @property(nonatomic, retain) IBOutlet UILabel* accessCodeTitleLabel;
 @property(nonatomic, retain) IBOutlet UILabel* statusTitleLabel;
 //@property(nonatomic, retain) IBOutlet UILabel* firstHyphenLabel;
 //@property(nonatomic, retain) IBOutlet UILabel* secondHyphenLabel;
+@property (retain, nonatomic) IBOutlet UILabel *CopyRightLabel;
 @property(nonatomic, retain) IBOutlet UILabel* thirdHyphenLabel;
 
 @property(nonatomic, retain) IBOutlet UIScrollView* templateScrollView;
@@ -87,6 +89,8 @@ typedef enum {
 @property(nonatomic, retain) IBOutlet UIActivityIndicatorView* activateActivityIndicatorView;
 @property(nonatomic, retain) ActivateConfigurationDataManager* activateConfigurationDataManager;
 @property(nonatomic, retain) ArcosService* myArcosService;
+@property (retain, nonatomic) IBOutlet UIStackView *addressHolder;
+@property (retain, nonatomic) IBOutlet UIStackView *codeHolder;
 
 - (IBAction)validateRegCode:(id)sender;
 - (IBAction)validateAccessCode:(id)sender;

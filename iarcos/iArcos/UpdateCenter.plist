@@ -34,7 +34,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Location.png</string>
+			<string>Location-Blue-40.png</string>
 		</dict>
 		<dict>
 			<key>IUR</key>
@@ -50,7 +50,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Analysis.png</string>
+			<string>icons8-bar-chart-40.png</string>
 		</dict>
 		<dict>
 			<key>IUR</key>
@@ -66,7 +66,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Product.png</string>
+			<string>Product-Blue-40.png</string>
 		</dict>
 		<dict>
 			<key>IUR</key>
@@ -82,7 +82,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Price.png</string>
+			<string>Price-Blue-40.png</string>
 		</dict>
 		<dict>
 			<key>IUR</key>
@@ -98,7 +98,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Description.png</string>
+			<string>Descriptions-Blue-40.png</string>
 		</dict>
 		<dict>
 			<key>IUR</key>
@@ -114,7 +114,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Resources.png</string>
+			<string>Resources-Blue-40.png</string>
 		</dict>
 		<dict>
 			<key>IUR</key>
@@ -130,7 +130,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Presenter.png</string>
+			<string>Presenter-Blue-40.png</string>
 		</dict>
 		<dict>
 			<key>IUR</key>
@@ -146,7 +146,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Photo.png</string>
+			<string>Camera-Blue-40.png</string>
 		</dict>
 		<dict>
 			<key>IUR</key>
@@ -162,7 +162,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Contact.png</string>
+			<string>Contact-Blue-40.png</string>
 		</dict>
 		<dict>
 			<key>IUR</key>
@@ -178,7 +178,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Form.png</string>
+			<string>Form-Blue-40.png</string>
 		</dict>
 		<dict>
 			<key>IUR</key>
@@ -194,7 +194,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Employee.png</string>
+			<string>Employee-Blue-40.png</string>
 		</dict>
 		<dict>
 			<key>IUR</key>
@@ -210,7 +210,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Configuration.png</string>
+			<string>Configuration-Blue-40.png</string>
 		</dict>
 		<dict>
 			<key>IUR</key>
@@ -226,7 +226,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Order.png</string>
+			<string>Cart-Blue-40.png</string>
 		</dict>
 		<dict>
 			<key>IUR</key>
@@ -242,7 +242,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Call.png</string>
+			<string>Call-Blue-40.png</string>
 		</dict>
 		<dict>
 			<key>IUR</key>
@@ -258,7 +258,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Survey.png</string>
+			<string>Survey-blue-40.png</string>
 		</dict>
 		<dict>
 			<key>IUR</key>
@@ -274,7 +274,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Response.png</string>
+			<string>response-40.png</string>
 		</dict>
 		<dict>
 			<key>IUR</key>
@@ -290,7 +290,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Journey.png</string>
+			<string>Journey-Blue-40.png</string>
 		</dict>
 	</array>
 	<key>UploadItems</key>
@@ -309,7 +309,7 @@
 			<key>IsDownloaded</key>
 			<false/>
 			<key>ImageFileName</key>
-			<string>Photo.png</string>
+			<string>Camera-Blue-40.png</string>
 		</dict>
 	</array>
 	<key>Version</key>

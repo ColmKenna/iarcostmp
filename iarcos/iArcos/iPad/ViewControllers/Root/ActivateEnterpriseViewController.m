@@ -89,8 +89,32 @@
         [self.firstRegCode removeGestureRecognizer:recognizer];
     }
     
+    [_registerViewHolder release];
+    [_addressHolder release];
+    [_codeHolder release];
+    [_CopyRightLabel release];
     [super dealloc];
 }
+
+- (void)updateCopyRightLabelVisibility {
+    // Get the current date
+    NSDate *currentDate = [NSDate date];
+    
+    // Get the current calendar
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    // Extract the year component from the current date
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear fromDate:currentDate];
+    NSInteger currentYear = [components year];
+    
+    // Hide the label if the year is 2025 or greater
+    if (currentYear >= 2025) {
+        self.CopyRightLabel.hidden = YES;
+    } else {
+        self.CopyRightLabel.hidden = NO;
+    }
+}
+
 
 - (void)viewDidLoad
 {
@@ -103,11 +127,42 @@
     self.accessCode.enabled = NO;
     self.activationBtn.enabled = NO;
     self.activateConfigurationDataManager = [ActivateConfigurationDataManager configInstance];
+    
+    // Add a border to the registerViewHolder
+    self.registerViewHolder.layer.borderColor = [UIColor blackColor].CGColor; // Set the border color
+    self.registerViewHolder.layer.borderWidth = 1.0f; // Set the border width (in points)
+    
+    
+/*    [self addBottomBorderToTextField:self.firstRegCode];
+    [self addBottomBorderToTextField:self.accessCode];
+    [self addBottomBorderToTextField:self.fourthRegCode];
+ */
+    
+    self.fourthRegCode.text = @"";
+    self.accessCode.text = @"";
+    
+    // Optional: Clip the subviews to the rounded border
+    self.registerViewHolder.layer.masksToBounds = YES;
+    
     UITapGestureRecognizer* doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapGesture:)];
     doubleTap.numberOfTapsRequired = 2;
     [self.firstRegCode addGestureRecognizer:doubleTap];
     [doubleTap release];
+    
+    [self updateCopyRightLabelVisibility];
+
 }
+
+- (void)addBottomBorderToTextField:(UITextField *)textField {
+    CALayer *bottomBorder = [CALayer layer];
+    CGFloat borderWidth = 1.0;
+    bottomBorder.frame = CGRectMake(0.0f, textField.frame.size.height - borderWidth, textField.frame.size.width, borderWidth);
+    bottomBorder.backgroundColor = [UIColor grayColor].CGColor;
+    
+    textField.borderStyle = UITextBorderStyleNone; // Remove the default border
+    [textField.layer addSublayer:bottomBorder];
+}
+
 
 - (void)handleDoubleTapGesture:(id)aSender {
     UITapGestureRecognizer* recognizer = (UITapGestureRecognizer*)aSender;
@@ -156,6 +211,11 @@
         self.backgroundImageView.image = [UIImage imageNamed:@"ArcosPortrait.png"];
     }
 }
+- (IBAction)backToAddress:(id)sender {
+    self.codeHolder.hidden = true;
+    self.addressHolder.hidden = false;
+    self.validationBtn.enabled = true;
+}
 
 - (IBAction)validateRegCode:(id)sender {
 //    self.statusLabel.text = @"Start the validation process...";
@@ -166,7 +226,7 @@
 //    NSString* secondRegCodeText = self.secondRegCode.text;
 //    NSString* thirdRegCodeText = self.thirdRegCode.text;
     NSString* fourthRegCodeText = self.fourthRegCode.text;
-//    if (firstRegCodeText.length <= 0) {
+//    if (firstRegCodeText.length <= 0) 
 //        NSString* errorMsg = @"The first part of the registration code should not be blank";
 //        [ArcosUtils showDialogBox:errorMsg title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
 //            
@@ -180,6 +240,7 @@
             
         }];
         self.validationBtn.enabled = YES;
+
         return;
     }
     self.myActivityIndicatorView.hidden = NO;
@@ -193,6 +254,7 @@
     NSString* serviceAddress = [NSString stringWithFormat:@"%@:%@/service.asmx", firstRegCodeText, fourthRegCodeText];
     self.activateEnterpriseDataManager.serviceAddress = serviceAddress;
     [self.activateEnterpriseDataManager validateRegCode:serviceAddress];
+
 }
 
 - (IBAction)validateAccessCode:(id)sender {
@@ -208,6 +270,8 @@
             
         }];
 //        self.statusLabel.text = errorMsg;
+        self.codeHolder.hidden = false;
+        self.addressHolder.hidden = true;
         self.activationBtn.enabled = YES;
         return;
     }
@@ -219,6 +283,8 @@
             
         }];
 //        self.statusLabel.text = errorMsg;
+        self.codeHolder.hidden = false;
+        self.addressHolder.hidden = true;
         self.activationBtn.enabled = YES;
         return;
     }
@@ -277,6 +343,8 @@
             
         }];
 //        self.statusLabel.text = errorString;
+        self.codeHolder.hidden = false;
+        self.addressHolder.hidden = true;
         self.activationBtn.enabled = YES;
     } else {
 //        self.statusLabel.text = @"Activation has completed.";
@@ -388,6 +456,8 @@
     if (callAvailable) {
 //        self.statusLabel.text = @"Validation has completed.";
         self.tickImageView.hidden = NO;
+        self.codeHolder.hidden = false;
+        self.addressHolder.hidden = true;
         self.activationBtn.enabled = YES;
         self.accessCode.enabled = YES;
         self.validationBtn.enabled = NO;
@@ -430,6 +500,8 @@
         [ArcosUtils showDialogBox:errorString title:@"" delegate:nil target:self tag:0 handler:^(UIAlertAction *action) {
             
         }];
+        self.codeHolder.hidden = false;
+        self.addressHolder.hidden = true;
         self.activationBtn.enabled = YES;
     } else {
         ActivateAppStatusManager* activateAppStatusManager = [ActivateAppStatusManager appStatusInstance];

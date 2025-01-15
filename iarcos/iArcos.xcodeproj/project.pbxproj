@@ -1571,6 +1571,78 @@
 		63FF1A99215BAA2700C64C41 /* FormRowTableCellRrpGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF1A98215BAA2700C64C41 /* FormRowTableCellRrpGenerator.m */; };
 		63FF1A9C215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF1A9B215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m */; };
 		63FF7FFC1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF7FFB1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m */; };
+		6A34B6F82CDD2B62003BBCF2 /* Upload-Blue-20.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A34B6F72CDD2B62003BBCF2 /* Upload-Blue-20.png */; };
+		6A34B6F92CDD2B62003BBCF2 /* Download-Blue-20.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A34B6F62CDD2B62003BBCF2 /* Download-Blue-20.png */; };
+		6A34B6FB2CDD784B003BBCF2 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A34B6FA2CDD784B003BBCF2 /* folder.png */; };
+		6A5D85F02CE3CA1800031EA1 /* eight.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D85E82CE3CA1800031EA1 /* eight.png */; };
+		6A5D85F12CE3CA1800031EA1 /* four.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D85EA2CE3CA1800031EA1 /* four.png */; };
+		6A5D85F22CE3CA1800031EA1 /* one.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D85EB2CE3CA1800031EA1 /* one.png */; };
+		6A5D85F32CE3CA1800031EA1 /* seven.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D85EC2CE3CA1800031EA1 /* seven.png */; };
+		6A5D85F42CE3CA1800031EA1 /* six.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D85ED2CE3CA1800031EA1 /* six.png */; };
+		6A5D85F52CE3CA1800031EA1 /* three.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D85EE2CE3CA1800031EA1 /* three.png */; };
+		6A5D85F62CE3CA1800031EA1 /* two.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D85EF2CE3CA1800031EA1 /* two.png */; };
+		6A5D85F72CE3CA1800031EA1 /* five.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D85E92CE3CA1800031EA1 /* five.png */; };
+		6A5D85FA2CE6489A00031EA1 /* UIButtonStyleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D85F92CE6489A00031EA1 /* UIButtonStyleHelper.m */; };
+		6A5E2B232CC2B0B900DAD920 /* Amazon Ember Display Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B122CC2B0B900DAD920 /* Amazon Ember Display Medium.ttf */; };
+		6A5E2B242CC2B0B900DAD920 /* Amazon Ember Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B1B2CC2B0B900DAD920 /* Amazon Ember Medium.ttf */; };
+		6A5E2B252CC2B0B900DAD920 /* Amazon Ember Cd RC Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B0A2CC2B0B900DAD920 /* Amazon Ember Cd RC Thin.ttf */; };
+		6A5E2B262CC2B0B900DAD920 /* Amazon Ember Cd RC Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B082CC2B0B900DAD920 /* Amazon Ember Cd RC Light.ttf */; };
+		6A5E2B272CC2B0B900DAD920 /* Amazon Ember Display Bold Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B0D2CC2B0B900DAD920 /* Amazon Ember Display Bold Italic.ttf */; };
+		6A5E2B282CC2B0B900DAD920 /* Amazon Ember Display Heavy Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B0F2CC2B0B900DAD920 /* Amazon Ember Display Heavy Italic.ttf */; };
+		6A5E2B292CC2B0B900DAD920 /* Amazon Ember Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B192CC2B0B900DAD920 /* Amazon Ember Light.ttf */; };
+		6A5E2B2A2CC2B0B900DAD920 /* Amazon Ember Thin Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B202CC2B0B900DAD920 /* Amazon Ember Thin Italic.ttf */; };
+		6A5E2B2B2CC2B0B900DAD920 /* Amazon Ember V2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B212CC2B0B900DAD920 /* Amazon Ember V2.ttf */; };
+		6A5E2B2C2CC2B0B900DAD920 /* Amazon Ember Medium Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B1C2CC2B0B900DAD920 /* Amazon Ember Medium Italic.ttf */; };
+		6A5E2B2D2CC2B0B900DAD920 /* Amazon Ember Display.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B0C2CC2B0B900DAD920 /* Amazon Ember Display.otf */; };
+		6A5E2B2E2CC2B0B900DAD920 /* Amazon Ember Display Medium Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B132CC2B0B900DAD920 /* Amazon Ember Display Medium Italic.ttf */; };
+		6A5E2B2F2CC2B0B900DAD920 /* Amazon Ember Light Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B1A2CC2B0B900DAD920 /* Amazon Ember Light Italic.ttf */; };
+		6A5E2B302CC2B0B900DAD920 /* Amazon Ember Duospace.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B142CC2B0B900DAD920 /* Amazon Ember Duospace.ttf */; };
+		6A5E2B312CC2B0B900DAD920 /* Amazon Ember Cd RC Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B072CC2B0B900DAD920 /* Amazon Ember Cd RC Italic.ttf */; };
+		6A5E2B322CC2B0B900DAD920 /* Amazon Ember Display Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B0E2CC2B0B900DAD920 /* Amazon Ember Display Heavy.otf */; };
+		6A5E2B332CC2B0B900DAD920 /* Amazon Ember Duospace Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B152CC2B0B900DAD920 /* Amazon Ember Duospace Bold.ttf */; };
+		6A5E2B342CC2B0B900DAD920 /* Amazon Ember Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B1F2CC2B0B900DAD920 /* Amazon Ember Thin.ttf */; };
+		6A5E2B352CC2B0B900DAD920 /* Amazon Ember V2 Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B222CC2B0B900DAD920 /* Amazon Ember V2 Bold.ttf */; };
+		6A5E2B362CC2B0B900DAD920 /* Amazon Ember Mono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B1D2CC2B0B900DAD920 /* Amazon Ember Mono.ttf */; };
+		6A5E2B372CC2B0B900DAD920 /* Amazon Ember Bold Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B032CC2B0B900DAD920 /* Amazon Ember Bold Italic.ttf */; };
+		6A5E2B382CC2B0B900DAD920 /* Amazon Ember.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B012CC2B0B900DAD920 /* Amazon Ember.ttf */; };
+		6A5E2B392CC2B0B900DAD920 /* Amazon Ember Cd RC Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B052CC2B0B900DAD920 /* Amazon Ember Cd RC Bold.otf */; };
+		6A5E2B3A2CC2B0B900DAD920 /* Amazon Ember Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B162CC2B0B900DAD920 /* Amazon Ember Heavy.ttf */; };
+		6A5E2B3B2CC2B0B900DAD920 /* Amazon Ember Cd RC.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B042CC2B0B900DAD920 /* Amazon Ember Cd RC.otf */; };
+		6A5E2B3C2CC2B0B900DAD920 /* Amazon Ember Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B022CC2B0B900DAD920 /* Amazon Ember Bold.ttf */; };
+		6A5E2B3D2CC2B0B900DAD920 /* Amazon Ember Cd RC Bold Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B062CC2B0B900DAD920 /* Amazon Ember Cd RC Bold Italic.ttf */; };
+		6A5E2B3E2CC2B0B900DAD920 /* Amazon Ember Heavy Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B172CC2B0B900DAD920 /* Amazon Ember Heavy Italic.ttf */; };
+		6A5E2B3F2CC2B0B900DAD920 /* Amazon Ember Display Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B112CC2B0B900DAD920 /* Amazon Ember Display Light.ttf */; };
+		6A5E2B402CC2B0B900DAD920 /* Amazon Ember Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B182CC2B0B900DAD920 /* Amazon Ember Italic.ttf */; };
+		6A5E2B412CC2B0B900DAD920 /* Amazon Ember Cd RC Thin Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B0B2CC2B0B900DAD920 /* Amazon Ember Cd RC Thin Italic.ttf */; };
+		6A5E2B422CC2B0B900DAD920 /* Amazon Ember Mono Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B1E2CC2B0B900DAD920 /* Amazon Ember Mono Bold.ttf */; };
+		6A5E2B432CC2B0B900DAD920 /* Amazon Ember Display Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B102CC2B0B900DAD920 /* Amazon Ember Display Italic.ttf */; };
+		6A5E2B442CC2B0B900DAD920 /* Amazon Ember Cd RC Light Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B092CC2B0B900DAD920 /* Amazon Ember Cd RC Light Italic.ttf */; };
+		6AA48CBC2CDA61BA00A5AA06 /* response-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AA48CBB2CDA61BA00A5AA06 /* response-40.png */; };
+		6AA48CBD2CDA61BA00A5AA06 /* Download-Blue-30.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AA48CBA2CDA61BA00A5AA06 /* Download-Blue-30.png */; };
+		6AA48CBF2CDA75C700A5AA06 /* Upload-Blue-30.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AA48CBE2CDA75C700A5AA06 /* Upload-Blue-30.png */; };
+		6AA48CC22CDA7D0500A5AA06 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA48CC12CDA7D0500A5AA06 /* UIColor+Hex.m */; };
+		6AC31D672CD5097100648BE7 /* Location-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D662CD5097100648BE7 /* Location-Blue-40.png */; };
+		6AC31D692CD51A4700648BE7 /* icons8-bar-chart-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D682CD51A4700648BE7 /* icons8-bar-chart-40.png */; };
+		6AC31D6B2CD51B3900648BE7 /* Product-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D6A2CD51B3900648BE7 /* Product-Blue-40.png */; };
+		6AC31D6D2CD51C1D00648BE7 /* Price-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D6C2CD51C1D00648BE7 /* Price-Blue-40.png */; };
+		6AC31D6F2CD51C4E00648BE7 /* Descriptions-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D6E2CD51C4E00648BE7 /* Descriptions-Blue-40.png */; };
+		6AC31D712CD5242200648BE7 /* Resources-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D702CD5242200648BE7 /* Resources-Blue-40.png */; };
+		6AC31D802CD5247E00648BE7 /* Configuration-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D772CD5247E00648BE7 /* Configuration-Blue-40.png */; };
+		6AC31D812CD5247E00648BE7 /* Employee-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D7A2CD5247E00648BE7 /* Employee-Blue-40.png */; };
+		6AC31D822CD5247E00648BE7 /* Form-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D7B2CD5247E00648BE7 /* Form-Blue-40.png */; };
+		6AC31D832CD5247E00648BE7 /* Journey-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D7C2CD5247E00648BE7 /* Journey-Blue-40.png */; };
+		6AC31D842CD5247E00648BE7 /* Contact-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D782CD5247E00648BE7 /* Contact-Blue-40.png */; };
+		6AC31D852CD5247E00648BE7 /* Upload-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D7F2CD5247E00648BE7 /* Upload-Blue-40.png */; };
+		6AC31D862CD5247E00648BE7 /* Call-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D722CD5247E00648BE7 /* Call-Blue-40.png */; };
+		6AC31D872CD5247E00648BE7 /* Survey-blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D7E2CD5247E00648BE7 /* Survey-blue-40.png */; };
+		6AC31D882CD5247E00648BE7 /* Camera-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D752CD5247E00648BE7 /* Camera-Blue-40.png */; };
+		6AC31D892CD5247E00648BE7 /* CallEdit-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D732CD5247E00648BE7 /* CallEdit-Blue-40.png */; };
+		6AC31D8A2CD5247E00648BE7 /* CallPen-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D742CD5247E00648BE7 /* CallPen-Blue-40.png */; };
+		6AC31D8B2CD5247E00648BE7 /* Download-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D792CD5247E00648BE7 /* Download-Blue-40.png */; };
+		6AC31D8C2CD5247E00648BE7 /* Presenter-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D7D2CD5247E00648BE7 /* Presenter-Blue-40.png */; };
+		6AC31D8D2CD5247E00648BE7 /* Cart-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D762CD5247E00648BE7 /* Cart-Blue-40.png */; };
+		6ACF0C3E2CBEBFCA00171332 /* Icon-App-60x60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ACF0C3C2CBEBFCA00171332 /* Icon-App-60x60@2x.png */; };
+		6ACF0C3F2CBEBFCA00171332 /* Icon-App-60x60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ACF0C3D2CBEBFCA00171332 /* Icon-App-60x60@3x.png */; };
 		790089AB2A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 790089AA2A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.m */; };
 		79017C2B2ADE3FDD00193B15 /* FlagsContactFlagTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79017C292ADE3FDD00193B15 /* FlagsContactFlagTableViewCell.m */; };
 		79017C2C2ADE3FDD00193B15 /* FlagsContactFlagTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79017C2A2ADE3FDD00193B15 /* FlagsContactFlagTableViewCell.xib */; };
@@ -4880,6 +4952,80 @@
 		63FF1A9B215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormRowTableCellNormalGenerator.m; sourceTree = "<group>"; };
 		63FF7FFA1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NextCheckoutDeliveryInstructions1TableViewCell.h; sourceTree = "<group>"; };
 		63FF7FFB1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NextCheckoutDeliveryInstructions1TableViewCell.m; sourceTree = "<group>"; };
+		6A34B6F62CDD2B62003BBCF2 /* Download-Blue-20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Download-Blue-20.png"; sourceTree = "<group>"; };
+		6A34B6F72CDD2B62003BBCF2 /* Upload-Blue-20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Upload-Blue-20.png"; sourceTree = "<group>"; };
+		6A34B6FA2CDD784B003BBCF2 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
+		6A5D85E82CE3CA1800031EA1 /* eight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eight.png; sourceTree = "<group>"; };
+		6A5D85E92CE3CA1800031EA1 /* five.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = five.png; sourceTree = "<group>"; };
+		6A5D85EA2CE3CA1800031EA1 /* four.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = four.png; sourceTree = "<group>"; };
+		6A5D85EB2CE3CA1800031EA1 /* one.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = one.png; sourceTree = "<group>"; };
+		6A5D85EC2CE3CA1800031EA1 /* seven.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = seven.png; sourceTree = "<group>"; };
+		6A5D85ED2CE3CA1800031EA1 /* six.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = six.png; sourceTree = "<group>"; };
+		6A5D85EE2CE3CA1800031EA1 /* three.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = three.png; sourceTree = "<group>"; };
+		6A5D85EF2CE3CA1800031EA1 /* two.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = two.png; sourceTree = "<group>"; };
+		6A5D85F82CE6487800031EA1 /* UIButtonStyleHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIButtonStyleHelper.h; sourceTree = "<group>"; };
+		6A5D85F92CE6489A00031EA1 /* UIButtonStyleHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIButtonStyleHelper.m; sourceTree = "<group>"; };
+		6A5E2B012CC2B0B900DAD920 /* Amazon Ember.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember.ttf"; sourceTree = "<group>"; };
+		6A5E2B022CC2B0B900DAD920 /* Amazon Ember Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Bold.ttf"; sourceTree = "<group>"; };
+		6A5E2B032CC2B0B900DAD920 /* Amazon Ember Bold Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Bold Italic.ttf"; sourceTree = "<group>"; };
+		6A5E2B042CC2B0B900DAD920 /* Amazon Ember Cd RC.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Cd RC.otf"; sourceTree = "<group>"; };
+		6A5E2B052CC2B0B900DAD920 /* Amazon Ember Cd RC Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Cd RC Bold.otf"; sourceTree = "<group>"; };
+		6A5E2B062CC2B0B900DAD920 /* Amazon Ember Cd RC Bold Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Cd RC Bold Italic.ttf"; sourceTree = "<group>"; };
+		6A5E2B072CC2B0B900DAD920 /* Amazon Ember Cd RC Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Cd RC Italic.ttf"; sourceTree = "<group>"; };
+		6A5E2B082CC2B0B900DAD920 /* Amazon Ember Cd RC Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Cd RC Light.ttf"; sourceTree = "<group>"; };
+		6A5E2B092CC2B0B900DAD920 /* Amazon Ember Cd RC Light Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Cd RC Light Italic.ttf"; sourceTree = "<group>"; };
+		6A5E2B0A2CC2B0B900DAD920 /* Amazon Ember Cd RC Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Cd RC Thin.ttf"; sourceTree = "<group>"; };
+		6A5E2B0B2CC2B0B900DAD920 /* Amazon Ember Cd RC Thin Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Cd RC Thin Italic.ttf"; sourceTree = "<group>"; };
+		6A5E2B0C2CC2B0B900DAD920 /* Amazon Ember Display.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Display.otf"; sourceTree = "<group>"; };
+		6A5E2B0D2CC2B0B900DAD920 /* Amazon Ember Display Bold Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Display Bold Italic.ttf"; sourceTree = "<group>"; };
+		6A5E2B0E2CC2B0B900DAD920 /* Amazon Ember Display Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Display Heavy.otf"; sourceTree = "<group>"; };
+		6A5E2B0F2CC2B0B900DAD920 /* Amazon Ember Display Heavy Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Display Heavy Italic.ttf"; sourceTree = "<group>"; };
+		6A5E2B102CC2B0B900DAD920 /* Amazon Ember Display Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Display Italic.ttf"; sourceTree = "<group>"; };
+		6A5E2B112CC2B0B900DAD920 /* Amazon Ember Display Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Display Light.ttf"; sourceTree = "<group>"; };
+		6A5E2B122CC2B0B900DAD920 /* Amazon Ember Display Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Display Medium.ttf"; sourceTree = "<group>"; };
+		6A5E2B132CC2B0B900DAD920 /* Amazon Ember Display Medium Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Display Medium Italic.ttf"; sourceTree = "<group>"; };
+		6A5E2B142CC2B0B900DAD920 /* Amazon Ember Duospace.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Duospace.ttf"; sourceTree = "<group>"; };
+		6A5E2B152CC2B0B900DAD920 /* Amazon Ember Duospace Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Duospace Bold.ttf"; sourceTree = "<group>"; };
+		6A5E2B162CC2B0B900DAD920 /* Amazon Ember Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Heavy.ttf"; sourceTree = "<group>"; };
+		6A5E2B172CC2B0B900DAD920 /* Amazon Ember Heavy Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Heavy Italic.ttf"; sourceTree = "<group>"; };
+		6A5E2B182CC2B0B900DAD920 /* Amazon Ember Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Italic.ttf"; sourceTree = "<group>"; };
+		6A5E2B192CC2B0B900DAD920 /* Amazon Ember Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Light.ttf"; sourceTree = "<group>"; };
+		6A5E2B1A2CC2B0B900DAD920 /* Amazon Ember Light Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Light Italic.ttf"; sourceTree = "<group>"; };
+		6A5E2B1B2CC2B0B900DAD920 /* Amazon Ember Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Medium.ttf"; sourceTree = "<group>"; };
+		6A5E2B1C2CC2B0B900DAD920 /* Amazon Ember Medium Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Medium Italic.ttf"; sourceTree = "<group>"; };
+		6A5E2B1D2CC2B0B900DAD920 /* Amazon Ember Mono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Mono.ttf"; sourceTree = "<group>"; };
+		6A5E2B1E2CC2B0B900DAD920 /* Amazon Ember Mono Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Mono Bold.ttf"; sourceTree = "<group>"; };
+		6A5E2B1F2CC2B0B900DAD920 /* Amazon Ember Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Thin.ttf"; sourceTree = "<group>"; };
+		6A5E2B202CC2B0B900DAD920 /* Amazon Ember Thin Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Thin Italic.ttf"; sourceTree = "<group>"; };
+		6A5E2B212CC2B0B900DAD920 /* Amazon Ember V2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember V2.ttf"; sourceTree = "<group>"; };
+		6A5E2B222CC2B0B900DAD920 /* Amazon Ember V2 Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember V2 Bold.ttf"; sourceTree = "<group>"; };
+		6AA48CBA2CDA61BA00A5AA06 /* Download-Blue-30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Download-Blue-30.png"; sourceTree = "<group>"; };
+		6AA48CBB2CDA61BA00A5AA06 /* response-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "response-40.png"; sourceTree = "<group>"; };
+		6AA48CBE2CDA75C700A5AA06 /* Upload-Blue-30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Upload-Blue-30.png"; sourceTree = "<group>"; };
+		6AA48CC12CDA7D0500A5AA06 /* UIColor+Hex.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
+		6AA48CC32CDA7D2400A5AA06 /* UIColor+Hex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
+		6AC31D662CD5097100648BE7 /* Location-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Location-Blue-40.png"; sourceTree = "<group>"; };
+		6AC31D682CD51A4700648BE7 /* icons8-bar-chart-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-bar-chart-40.png"; sourceTree = "<group>"; };
+		6AC31D6A2CD51B3900648BE7 /* Product-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Product-Blue-40.png"; sourceTree = "<group>"; };
+		6AC31D6C2CD51C1D00648BE7 /* Price-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Price-Blue-40.png"; sourceTree = "<group>"; };
+		6AC31D6E2CD51C4E00648BE7 /* Descriptions-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Descriptions-Blue-40.png"; sourceTree = "<group>"; };
+		6AC31D702CD5242200648BE7 /* Resources-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Resources-Blue-40.png"; sourceTree = "<group>"; };
+		6AC31D722CD5247E00648BE7 /* Call-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Call-Blue-40.png"; sourceTree = "<group>"; };
+		6AC31D732CD5247E00648BE7 /* CallEdit-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CallEdit-Blue-40.png"; sourceTree = "<group>"; };
+		6AC31D742CD5247E00648BE7 /* CallPen-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CallPen-Blue-40.png"; sourceTree = "<group>"; };
+		6AC31D752CD5247E00648BE7 /* Camera-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Camera-Blue-40.png"; sourceTree = "<group>"; };
+		6AC31D762CD5247E00648BE7 /* Cart-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Cart-Blue-40.png"; sourceTree = "<group>"; };
+		6AC31D772CD5247E00648BE7 /* Configuration-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Configuration-Blue-40.png"; sourceTree = "<group>"; };
+		6AC31D782CD5247E00648BE7 /* Contact-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Contact-Blue-40.png"; sourceTree = "<group>"; };
+		6AC31D792CD5247E00648BE7 /* Download-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Download-Blue-40.png"; sourceTree = "<group>"; };
+		6AC31D7A2CD5247E00648BE7 /* Employee-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Employee-Blue-40.png"; sourceTree = "<group>"; };
+		6AC31D7B2CD5247E00648BE7 /* Form-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Form-Blue-40.png"; sourceTree = "<group>"; };
+		6AC31D7C2CD5247E00648BE7 /* Journey-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Journey-Blue-40.png"; sourceTree = "<group>"; };
+		6AC31D7D2CD5247E00648BE7 /* Presenter-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Presenter-Blue-40.png"; sourceTree = "<group>"; };
+		6AC31D7E2CD5247E00648BE7 /* Survey-blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Survey-blue-40.png"; sourceTree = "<group>"; };
+		6AC31D7F2CD5247E00648BE7 /* Upload-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Upload-Blue-40.png"; sourceTree = "<group>"; };
+		6ACF0C3C2CBEBFCA00171332 /* Icon-App-60x60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-App-60x60@2x.png"; sourceTree = "<group>"; };
+		6ACF0C3D2CBEBFCA00171332 /* Icon-App-60x60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-App-60x60@3x.png"; sourceTree = "<group>"; };
 		790089A92A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerInvoiceDetailsTableHeaderView.h; sourceTree = "<group>"; };
 		790089AA2A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerInvoiceDetailsTableHeaderView.m; sourceTree = "<group>"; };
 		79017C282ADE3FDD00193B15 /* FlagsContactFlagTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlagsContactFlagTableViewCell.h; sourceTree = "<group>"; };
@@ -5633,6 +5779,7 @@
 		6304522A19EFC79D00CDE68A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6ACF0C402CC27CB800171332 /* Fonts */,
 				632DC84919F10AFF00E9C50C /* iArcos-Prefix.pch */,
 				630B351719F01C81007B2442 /* StoreNewsDate.plist */,
 				630B351819F01C81007B2442 /* UpdateCenter.plist */,
@@ -5873,6 +6020,8 @@
 				18D296CE23B741CE00047B5C /* ArcosConstantsDataManager.h */,
 				18D296CF23B741CE00047B5C /* ArcosConstantsDataManager.m */,
 				7984A8E72ADE8110009B4F09 /* GenericTextInputTableViewCellDelegate.h */,
+				6AA48CC12CDA7D0500A5AA06 /* UIColor+Hex.m */,
+				6AA48CC32CDA7D2400A5AA06 /* UIColor+Hex.h */,
 			);
 			path = SharedClass;
 			sourceTree = "<group>";
@@ -7975,6 +8124,8 @@
 				18C2CE4A243496B900BCDDF8 /* UtilitiesConfigurationTableViewControllerDelegate.h */,
 				790AAE7E29028F9200C2F2BC /* UtilitiesAnimatedMonthTableHeaderView.h */,
 				790AAE7F29028F9200C2F2BC /* UtilitiesAnimatedMonthTableHeaderView.m */,
+				6A5D85F82CE6487800031EA1 /* UIButtonStyleHelper.h */,
+				6A5D85F92CE6489A00031EA1 /* UIButtonStyleHelper.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -8563,6 +8714,42 @@
 		630B3A5419F01CB8007B2442 /* ShareImage */ = {
 			isa = PBXGroup;
 			children = (
+				6A5D85E82CE3CA1800031EA1 /* eight.png */,
+				6A5D85E92CE3CA1800031EA1 /* five.png */,
+				6A5D85EA2CE3CA1800031EA1 /* four.png */,
+				6A5D85EB2CE3CA1800031EA1 /* one.png */,
+				6A5D85EC2CE3CA1800031EA1 /* seven.png */,
+				6A5D85ED2CE3CA1800031EA1 /* six.png */,
+				6A5D85EE2CE3CA1800031EA1 /* three.png */,
+				6A5D85EF2CE3CA1800031EA1 /* two.png */,
+				6A34B6FA2CDD784B003BBCF2 /* folder.png */,
+				6A34B6F62CDD2B62003BBCF2 /* Download-Blue-20.png */,
+				6A34B6F72CDD2B62003BBCF2 /* Upload-Blue-20.png */,
+				6AA48CBE2CDA75C700A5AA06 /* Upload-Blue-30.png */,
+				6AA48CBA2CDA61BA00A5AA06 /* Download-Blue-30.png */,
+				6AA48CBB2CDA61BA00A5AA06 /* response-40.png */,
+				6AC31D722CD5247E00648BE7 /* Call-Blue-40.png */,
+				6AC31D732CD5247E00648BE7 /* CallEdit-Blue-40.png */,
+				6AC31D742CD5247E00648BE7 /* CallPen-Blue-40.png */,
+				6AC31D752CD5247E00648BE7 /* Camera-Blue-40.png */,
+				6AC31D762CD5247E00648BE7 /* Cart-Blue-40.png */,
+				6AC31D772CD5247E00648BE7 /* Configuration-Blue-40.png */,
+				6AC31D782CD5247E00648BE7 /* Contact-Blue-40.png */,
+				6AC31D792CD5247E00648BE7 /* Download-Blue-40.png */,
+				6AC31D7A2CD5247E00648BE7 /* Employee-Blue-40.png */,
+				6AC31D7B2CD5247E00648BE7 /* Form-Blue-40.png */,
+				6AC31D7C2CD5247E00648BE7 /* Journey-Blue-40.png */,
+				6AC31D7D2CD5247E00648BE7 /* Presenter-Blue-40.png */,
+				6AC31D7E2CD5247E00648BE7 /* Survey-blue-40.png */,
+				6AC31D7F2CD5247E00648BE7 /* Upload-Blue-40.png */,
+				6AC31D702CD5242200648BE7 /* Resources-Blue-40.png */,
+				6AC31D6E2CD51C4E00648BE7 /* Descriptions-Blue-40.png */,
+				6AC31D6C2CD51C1D00648BE7 /* Price-Blue-40.png */,
+				6AC31D6A2CD51B3900648BE7 /* Product-Blue-40.png */,
+				6AC31D682CD51A4700648BE7 /* icons8-bar-chart-40.png */,
+				6AC31D662CD5097100648BE7 /* Location-Blue-40.png */,
+				6ACF0C3C2CBEBFCA00171332 /* Icon-App-60x60@2x.png */,
+				6ACF0C3D2CBEBFCA00171332 /* Icon-App-60x60@3x.png */,
 				79D44C722C6A0860002764FD /* mat@2x.png */,
 				7984CAAD2BCA80D800F8A0B5 /* segmentedbg.png */,
 				7984CAAB2BCA80CD00F8A0B5 /* segmenteddividerbg.png */,
@@ -9398,6 +9585,55 @@
 			path = Target;
 			sourceTree = "<group>";
 		};
+		6ACF0C402CC27CB800171332 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				6ACF0C632CC27CF000171332 /* amazon-ember */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		6ACF0C632CC27CF000171332 /* amazon-ember */ = {
+			isa = PBXGroup;
+			children = (
+				6A5E2B012CC2B0B900DAD920 /* Amazon Ember.ttf */,
+				6A5E2B022CC2B0B900DAD920 /* Amazon Ember Bold.ttf */,
+				6A5E2B032CC2B0B900DAD920 /* Amazon Ember Bold Italic.ttf */,
+				6A5E2B042CC2B0B900DAD920 /* Amazon Ember Cd RC.otf */,
+				6A5E2B052CC2B0B900DAD920 /* Amazon Ember Cd RC Bold.otf */,
+				6A5E2B062CC2B0B900DAD920 /* Amazon Ember Cd RC Bold Italic.ttf */,
+				6A5E2B072CC2B0B900DAD920 /* Amazon Ember Cd RC Italic.ttf */,
+				6A5E2B082CC2B0B900DAD920 /* Amazon Ember Cd RC Light.ttf */,
+				6A5E2B092CC2B0B900DAD920 /* Amazon Ember Cd RC Light Italic.ttf */,
+				6A5E2B0A2CC2B0B900DAD920 /* Amazon Ember Cd RC Thin.ttf */,
+				6A5E2B0B2CC2B0B900DAD920 /* Amazon Ember Cd RC Thin Italic.ttf */,
+				6A5E2B0C2CC2B0B900DAD920 /* Amazon Ember Display.otf */,
+				6A5E2B0D2CC2B0B900DAD920 /* Amazon Ember Display Bold Italic.ttf */,
+				6A5E2B0E2CC2B0B900DAD920 /* Amazon Ember Display Heavy.otf */,
+				6A5E2B0F2CC2B0B900DAD920 /* Amazon Ember Display Heavy Italic.ttf */,
+				6A5E2B102CC2B0B900DAD920 /* Amazon Ember Display Italic.ttf */,
+				6A5E2B112CC2B0B900DAD920 /* Amazon Ember Display Light.ttf */,
+				6A5E2B122CC2B0B900DAD920 /* Amazon Ember Display Medium.ttf */,
+				6A5E2B132CC2B0B900DAD920 /* Amazon Ember Display Medium Italic.ttf */,
+				6A5E2B142CC2B0B900DAD920 /* Amazon Ember Duospace.ttf */,
+				6A5E2B152CC2B0B900DAD920 /* Amazon Ember Duospace Bold.ttf */,
+				6A5E2B162CC2B0B900DAD920 /* Amazon Ember Heavy.ttf */,
+				6A5E2B172CC2B0B900DAD920 /* Amazon Ember Heavy Italic.ttf */,
+				6A5E2B182CC2B0B900DAD920 /* Amazon Ember Italic.ttf */,
+				6A5E2B192CC2B0B900DAD920 /* Amazon Ember Light.ttf */,
+				6A5E2B1A2CC2B0B900DAD920 /* Amazon Ember Light Italic.ttf */,
+				6A5E2B1B2CC2B0B900DAD920 /* Amazon Ember Medium.ttf */,
+				6A5E2B1C2CC2B0B900DAD920 /* Amazon Ember Medium Italic.ttf */,
+				6A5E2B1D2CC2B0B900DAD920 /* Amazon Ember Mono.ttf */,
+				6A5E2B1E2CC2B0B900DAD920 /* Amazon Ember Mono Bold.ttf */,
+				6A5E2B1F2CC2B0B900DAD920 /* Amazon Ember Thin.ttf */,
+				6A5E2B202CC2B0B900DAD920 /* Amazon Ember Thin Italic.ttf */,
+				6A5E2B212CC2B0B900DAD920 /* Amazon Ember V2.ttf */,
+				6A5E2B222CC2B0B900DAD920 /* Amazon Ember V2 Bold.ttf */,
+			);
+			path = "amazon-ember";
+			sourceTree = "<group>";
+		};
 		79017C272ADE3FBC00193B15 /* TableCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -9597,7 +9833,6 @@
 				TargetAttributes = {
 					6304522619EFC79D00CDE68A = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = Z39Z4X9J9E;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
@@ -9678,6 +9913,8 @@
 				633DC4821A1B765B00CE8502 /* Split-Orange.png in Resources */,
 				633498E11A40339E00441515 /* CustomerIarcosInvoiceDetailsTableViewController.xib in Resources */,
 				63AE3D871D14013E0097793D /* Arcos-Icon-2a-iPadPro@2x.png in Resources */,
+				6AA48CBC2CDA61BA00A5AA06 /* response-40.png in Resources */,
+				6AA48CBD2CDA61BA00A5AA06 /* Download-Blue-30.png in Resources */,
 				638F64621C18781C00854E48 /* DashboardStockoutTableViewController.xib in Resources */,
 				630B3CFD19F01CB9007B2442 /* SavedOrderDetailViewController.xib in Resources */,
 				630B3E2119F01CB9007B2442 /* Table.png in Resources */,
@@ -9725,6 +9962,8 @@
 				630B3CF919F01CB9007B2442 /* QueryOrderTaskWrapperViewController.xib in Resources */,
 				630B3DF019F01CB9007B2442 /* Contact.png in Resources */,
 				630B3BFF19F01CB9007B2442 /* StockistChildTableViewController.xib in Resources */,
+				6ACF0C3E2CBEBFCA00171332 /* Icon-App-60x60@2x.png in Resources */,
+				6ACF0C3F2CBEBFCA00171332 /* Icon-App-60x60@3x.png in Resources */,
 				630B3D3819F01CB9007B2442 /* UtilitiesUpdateCenterDataTableCell.xib in Resources */,
 				6315566C223BB59D00DEF591 /* MeetingAttachmentsHeaderViewController.xib in Resources */,
 				638A34051C11FFFA00EE519D /* Header3.png in Resources */,
@@ -9774,6 +10013,14 @@
 				630B3BAB19F01CB9007B2442 /* CustomerContactTypeTableCells.xib in Resources */,
 				630B3B4219F01CB9007B2442 /* CustomerJourneyDetailViewController.xib in Resources */,
 				63B29AC82236CAEC0037A3F7 /* MeetingPresentersTableViewController.xib in Resources */,
+				6A5D85F02CE3CA1800031EA1 /* eight.png in Resources */,
+				6A5D85F12CE3CA1800031EA1 /* four.png in Resources */,
+				6A5D85F22CE3CA1800031EA1 /* one.png in Resources */,
+				6A5D85F32CE3CA1800031EA1 /* seven.png in Resources */,
+				6A5D85F42CE3CA1800031EA1 /* six.png in Resources */,
+				6A5D85F52CE3CA1800031EA1 /* three.png in Resources */,
+				6A5D85F62CE3CA1800031EA1 /* two.png in Resources */,
+				6A5D85F72CE3CA1800031EA1 /* five.png in Resources */,
 				63AF0F471D9EBEE500BBD20C /* CustomerDetailsContactAccessTimesTableViewCell.xib in Resources */,
 				630B3E0A19F01CB9007B2442 /* Photo.png in Resources */,
 				630B3B3619F01CB9007B2442 /* CustomerContactDetailViewController.xib in Resources */,
@@ -9796,6 +10043,7 @@
 				630B351319F01910007B2442 /* ArcosSplitMasterViewController.xib in Resources */,
 				630B3CE819F01CB9007B2442 /* QueryOrderDetailTableViewController.xib in Resources */,
 				63C73F401CAACE2600165383 /* MainPresenterTableViewController.xib in Resources */,
+				6AC31D672CD5097100648BE7 /* Location-Blue-40.png in Resources */,
 				630B3DDD19F01CB9007B2442 /* ArcosPortrait.png in Resources */,
 				630B3C6F19F01CB9007B2442 /* SmallImageSlideViewItemController.xib in Resources */,
 				63C19BB321A2D83B0064726E /* MeetingExpenseDetailsTableViewCells.xib in Resources */,
@@ -9868,6 +10116,41 @@
 				630B3BC819F01CB9007B2442 /* CustomerWeeklyMainTableCell.xib in Resources */,
 				630B3C2719F01CB9007B2442 /* OrderMasterViewController.xib in Resources */,
 				630B3DF419F01CB9007B2442 /* CustomerIcon.png in Resources */,
+				6A5E2B232CC2B0B900DAD920 /* Amazon Ember Display Medium.ttf in Resources */,
+				6A5E2B242CC2B0B900DAD920 /* Amazon Ember Medium.ttf in Resources */,
+				6A5E2B252CC2B0B900DAD920 /* Amazon Ember Cd RC Thin.ttf in Resources */,
+				6AC31D712CD5242200648BE7 /* Resources-Blue-40.png in Resources */,
+				6A5E2B262CC2B0B900DAD920 /* Amazon Ember Cd RC Light.ttf in Resources */,
+				6A5E2B272CC2B0B900DAD920 /* Amazon Ember Display Bold Italic.ttf in Resources */,
+				6A5E2B282CC2B0B900DAD920 /* Amazon Ember Display Heavy Italic.ttf in Resources */,
+				6A5E2B292CC2B0B900DAD920 /* Amazon Ember Light.ttf in Resources */,
+				6A5E2B2A2CC2B0B900DAD920 /* Amazon Ember Thin Italic.ttf in Resources */,
+				6A5E2B2B2CC2B0B900DAD920 /* Amazon Ember V2.ttf in Resources */,
+				6A5E2B2C2CC2B0B900DAD920 /* Amazon Ember Medium Italic.ttf in Resources */,
+				6A5E2B2D2CC2B0B900DAD920 /* Amazon Ember Display.otf in Resources */,
+				6A5E2B2E2CC2B0B900DAD920 /* Amazon Ember Display Medium Italic.ttf in Resources */,
+				6A5E2B2F2CC2B0B900DAD920 /* Amazon Ember Light Italic.ttf in Resources */,
+				6A5E2B302CC2B0B900DAD920 /* Amazon Ember Duospace.ttf in Resources */,
+				6A5E2B312CC2B0B900DAD920 /* Amazon Ember Cd RC Italic.ttf in Resources */,
+				6A5E2B322CC2B0B900DAD920 /* Amazon Ember Display Heavy.otf in Resources */,
+				6A5E2B332CC2B0B900DAD920 /* Amazon Ember Duospace Bold.ttf in Resources */,
+				6A5E2B342CC2B0B900DAD920 /* Amazon Ember Thin.ttf in Resources */,
+				6A5E2B352CC2B0B900DAD920 /* Amazon Ember V2 Bold.ttf in Resources */,
+				6A5E2B362CC2B0B900DAD920 /* Amazon Ember Mono.ttf in Resources */,
+				6A5E2B372CC2B0B900DAD920 /* Amazon Ember Bold Italic.ttf in Resources */,
+				6A5E2B382CC2B0B900DAD920 /* Amazon Ember.ttf in Resources */,
+				6A5E2B392CC2B0B900DAD920 /* Amazon Ember Cd RC Bold.otf in Resources */,
+				6A5E2B3A2CC2B0B900DAD920 /* Amazon Ember Heavy.ttf in Resources */,
+				6A5E2B3B2CC2B0B900DAD920 /* Amazon Ember Cd RC.otf in Resources */,
+				6A5E2B3C2CC2B0B900DAD920 /* Amazon Ember Bold.ttf in Resources */,
+				6A5E2B3D2CC2B0B900DAD920 /* Amazon Ember Cd RC Bold Italic.ttf in Resources */,
+				6A5E2B3E2CC2B0B900DAD920 /* Amazon Ember Heavy Italic.ttf in Resources */,
+				6A5E2B3F2CC2B0B900DAD920 /* Amazon Ember Display Light.ttf in Resources */,
+				6A5E2B402CC2B0B900DAD920 /* Amazon Ember Italic.ttf in Resources */,
+				6A5E2B412CC2B0B900DAD920 /* Amazon Ember Cd RC Thin Italic.ttf in Resources */,
+				6A5E2B422CC2B0B900DAD920 /* Amazon Ember Mono Bold.ttf in Resources */,
+				6A5E2B432CC2B0B900DAD920 /* Amazon Ember Display Italic.ttf in Resources */,
+				6A5E2B442CC2B0B900DAD920 /* Amazon Ember Cd RC Light Italic.ttf in Resources */,
 				636307231EB9E8960044FB91 /* CheckoutPrinterWrapperViewController.xib in Resources */,
 				630B3E0B19F01CB9007B2442 /* pinGray.png in Resources */,
 				63BC79902237CC9A0004E481 /* MeetingPresentersTableViewCell.xib in Resources */,
@@ -9911,6 +10194,7 @@
 				63A00B231D6F4B5F000078A9 /* NextCheckoutTableViewCells.xib in Resources */,
 				6304523919EFC79D00CDE68A /* Main.storyboard in Resources */,
 				63D8CC4E1A0BA145008AFE49 /* Orderlines.png in Resources */,
+				6AA48CBF2CDA75C700A5AA06 /* Upload-Blue-30.png in Resources */,
 				792B2626255E2155002326BA /* load@2x.png in Resources */,
 				79F225ED298B9AD2000B0FC1 /* ArcosCalendarEventEntryDetailListingTableViewCell.xib in Resources */,
 				630B3C5719F01CB9007B2442 /* LargeImageSlideViewItemController.xib in Resources */,
@@ -9939,6 +10223,7 @@
 				79FD8B9227F45B990026FEDB /* next@2x.png in Resources */,
 				630B3E1819F01CB9007B2442 /* Reporter.png in Resources */,
 				630B3DE319F01CB9007B2442 /* iArcos_72.png in Resources */,
+				6AC31D6D2CD51C1D00648BE7 /* Price-Blue-40.png in Resources */,
 				799E60922BBE5CFA009D55FB /* CustomerCalendarListTableViewController.xib in Resources */,
 				630B3D5E19F01CB9007B2442 /* DatePickerWidgetViewController.xib in Resources */,
 				630B3E2619F01CB9007B2442 /* UpdateCenter.png in Resources */,
@@ -9954,6 +10239,7 @@
 				632FD68C1EFAB1970037701D /* CustomerSurveyDetailsTableViewController.xib in Resources */,
 				630B3C3519F01CB9007B2442 /* LargeSmallFormDetailSlideViewController.xib in Resources */,
 				7984CAAC2BCA80CD00F8A0B5 /* segmenteddividerbg.png in Resources */,
+				6AC31D6F2CD51C4E00648BE7 /* Descriptions-Blue-40.png in Resources */,
 				630B3D7319F01CB9007B2442 /* Product Profile Box (Arcos).png in Resources */,
 				630B3C0919F01CB9007B2442 /* OrderDetailModelViewController.xib in Resources */,
 				79FD8B9427F45B990026FEDB /* previous@2x.png in Resources */,
@@ -9968,6 +10254,7 @@
 				630B3B4719F01CB9007B2442 /* CustomerListingViewController.xib in Resources */,
 				7914EF772803D53000FD2DC2 /* ArcosCalendarEventEntryTableViewCell.xib in Resources */,
 				630B3BAF19F01CB9007B2442 /* CustomerDetailsTableCell.xib in Resources */,
+				6A34B6FB2CDD784B003BBCF2 /* folder.png in Resources */,
 				63077EC620D1715200AFE366 /* FormRowsWrapperPercentageViewController.xib in Resources */,
 				630B3B6919F01CB9007B2442 /* CustomerContactWrapperModalViewController.xib in Resources */,
 				63FE6DBA1EF93ACB00360F68 /* CustomerSurveySummaryTableViewController.xib in Resources */,
@@ -10098,6 +10385,8 @@
 				630B3BF919F01CB9007B2442 /* MapPopoverViewController.xib in Resources */,
 				630B3D0219F01CB9007B2442 /* SavedOrderSplitViewController.xib in Resources */,
 				630B3C4419F01CB9007B2442 /* OrderProductViewController.xib in Resources */,
+				6A34B6F82CDD2B62003BBCF2 /* Upload-Blue-20.png in Resources */,
+				6A34B6F92CDD2B62003BBCF2 /* Download-Blue-20.png in Resources */,
 				63DA5DB21FBAFD67004E9F92 /* Arcos-Icon-2a-appstore.png in Resources */,
 				630B3C2319F01CB9007B2442 /* SelectionPopoverViewController.xib in Resources */,
 				639F88FD1CECB3C200151AF2 /* ReportMeetingWrapperViewController.xib in Resources */,
@@ -10176,6 +10465,7 @@
 				630B3E1019F01CB9007B2442 /* pinYellow.png in Resources */,
 				630B3D0019F01CB9007B2442 /* SavedOrderMasterViewController.xib in Resources */,
 				630B3D3619F01CB9007B2442 /* UtilitiesTablesDetailTableCell.xib in Resources */,
+				6AC31D6B2CD51B3900648BE7 /* Product-Blue-40.png in Resources */,
 				630B3C5519F01CB9007B2442 /* LargeImageL5FormRowsSlideViewController.xib in Resources */,
 				630FD33F2089E3F200334EE9 /* TwoBarViewController.xib in Resources */,
 				630B3BB319F01CB9007B2442 /* CustomerInvoiceDetailTableCell.xib in Resources */,
@@ -10197,7 +10487,22 @@
 				630B3CA319F01CB9007B2442 /* OrderBaseTableViewController.xib in Resources */,
 				630B3B1E19F01CB9007B2442 /* GridFullImageViewController.xib in Resources */,
 				630B3CC319F01CB9007B2442 /* ReporterTrackDetailViewController.xib in Resources */,
+				6AC31D692CD51A4700648BE7 /* icons8-bar-chart-40.png in Resources */,
 				630B3C4019F01CB9007B2442 /* SmallFormDetailDividerSlideViewController.xib in Resources */,
+				6AC31D802CD5247E00648BE7 /* Configuration-Blue-40.png in Resources */,
+				6AC31D812CD5247E00648BE7 /* Employee-Blue-40.png in Resources */,
+				6AC31D822CD5247E00648BE7 /* Form-Blue-40.png in Resources */,
+				6AC31D832CD5247E00648BE7 /* Journey-Blue-40.png in Resources */,
+				6AC31D842CD5247E00648BE7 /* Contact-Blue-40.png in Resources */,
+				6AC31D852CD5247E00648BE7 /* Upload-Blue-40.png in Resources */,
+				6AC31D862CD5247E00648BE7 /* Call-Blue-40.png in Resources */,
+				6AC31D872CD5247E00648BE7 /* Survey-blue-40.png in Resources */,
+				6AC31D882CD5247E00648BE7 /* Camera-Blue-40.png in Resources */,
+				6AC31D892CD5247E00648BE7 /* CallEdit-Blue-40.png in Resources */,
+				6AC31D8A2CD5247E00648BE7 /* CallPen-Blue-40.png in Resources */,
+				6AC31D8B2CD5247E00648BE7 /* Download-Blue-40.png in Resources */,
+				6AC31D8C2CD5247E00648BE7 /* Presenter-Blue-40.png in Resources */,
+				6AC31D8D2CD5247E00648BE7 /* Cart-Blue-40.png in Resources */,
 				630B3D6819F01CB9007B2442 /* TableWidgetViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -10712,6 +11017,7 @@
 				630B3D5319F01CB9007B2442 /* UtilitiesSplitViewController.m in Sources */,
 				63F797622073BEC10045F1F0 /* CustomerNotBuyHeaderView.m in Sources */,
 				63A0F55A1A321BAC00A58178 /* CustomerDetailsEditDataManager.m in Sources */,
+				6A5D85FA2CE6489A00031EA1 /* UIButtonStyleHelper.m in Sources */,
 				630B3CE419F01CB9007B2442 /* RootViewContorller.m in Sources */,
 				630B346719F0127C007B2442 /* StockTransaction.m in Sources */,
 				630B3B6619F01CB9007B2442 /* CustomerContactModalViewController.m in Sources */,
@@ -11301,6 +11607,7 @@
 				63C3E6F91BB049BC0067213D /* Location.m in Sources */,
 				637D2149219B3E400008B7CB /* EmailButtonAddressSelectBaseDataManager.m in Sources */,
 				630FEA7E1E5EF243008B2110 /* PresenterEbookViewController.m in Sources */,
+				6AA48CC22CDA7D0500A5AA06 /* UIColor+Hex.m in Sources */,
 				630B3DB419F01CB9007B2442 /* ArcosRequestBO.m in Sources */,
 				630B3E2C19F01CB9007B2442 /* NSObject+SBJSON.m in Sources */,
 				630B3BD119F01CB9007B2442 /* CustomerSurveyViewController.m in Sources */,
@@ -11571,12 +11878,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = iArcos/iArcos.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development: David Kilmartin (MMJ2297WA6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: David Kilmartin (MMJ2297WA6)";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = Z39Z4X9J9E;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = Z39Z4X9J9E;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -11593,7 +11899,7 @@
 					"$(PROJECT_DIR)/iArcos/MailAPI/include/**",
 				);
 				INFOPLIST_FILE = iArcos/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -11605,7 +11911,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.2;
+				MARKETING_VERSION = 1.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11618,11 +11924,10 @@
 					"-ObjC",
 					"-ld_classic",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
+				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos.v02;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "6bf186ca-3030-49b7-b78a-3246afaeb9fc";
-				PROVISIONING_PROFILE_SPECIFIER = iArcosDevCenter03072024;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = iArcosDevCenter03072024;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -11633,11 +11938,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = iArcos/iArcos.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Distribution: David Kilmartin (Z39Z4X9J9E)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: David Kilmartin (Z39Z4X9J9E)";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = Z39Z4X9J9E;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = Z39Z4X9J9E;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -11654,7 +11958,7 @@
 					"$(PROJECT_DIR)/iArcos/MailAPI/include/**",
 				);
 				INFOPLIST_FILE = iArcos/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -11666,7 +11970,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.2;
+				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-liconv",
@@ -11678,11 +11982,10 @@
 					"-ObjC",
 					"-ld_classic",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
+				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos.v02;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "b8e1e57a-016f-4a71-9609-ef2a4483e535";
-				PROVISIONING_PROFILE_SPECIFIER = iArcosReleaseCenter030724;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = iArcosReleaseCenter030724;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -11782,10 +12085,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = iArcos/iArcos.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Distribution: David Kilmartin (Z39Z4X9J9E)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: David Kilmartin (Z39Z4X9J9E)";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1.0;
-				DEVELOPMENT_TEAM = Z39Z4X9J9E;
+				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = Z39Z4X9J9E;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -11803,7 +12107,7 @@
 					"$(PROJECT_DIR)/iArcos/MailAPI/include/**",
 				);
 				INFOPLIST_FILE = iArcos/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -11815,7 +12119,7 @@
 					"$(PROJECT_DIR)/iArcos/PrintAPI",
 					"$(PROJECT_DIR)/iArcos/MailAPI/lib",
 				);
-				MARKETING_VERSION = 13.2;
+				MARKETING_VERSION = 1.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -11828,11 +12132,11 @@
 					"-ObjC",
 					"-ld_classic",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
+				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos.v02;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4a2d26cb-4c25-4fc4-a9fe-d2be993ec50d";
-				PROVISIONING_PROFILE_SPECIFIER = iArcosDistCenter030724;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = iArcosDistCenter030724;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = AdHocArcosV2;
 			};
 			name = AdHoc;
 		};

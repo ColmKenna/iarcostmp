@@ -103,4 +103,5 @@
     self.splitDividerUILabel.frame = CGRectMake(masterWidth-diff, 0, self.dividerWidth, viewBounds.size.height);
 }
 
+
 @end

@@ -282,4 +282,124 @@
     return [self.delegate retrieveUpdateCenterParentViewController];
 }
 
+
+-(void)ProgressViewWithValueForPaginatedProducts:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForPaginatedProducts:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForProducts:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForProducts:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForPrice:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForPrice:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForPaginatedLocations:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForPaginatedLocations:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForPackage:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForPackage:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForLocations:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForLocations:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForPaginatedLocLocLink:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForPaginatedLocLocLink:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForLocLocLink:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForLocLocLink:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForLocationProductMAT:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForLocationProductMAT:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForPaginatedDescrDetails:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForPaginatedDescrDetails:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForDescrDetails:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForDescrDetails:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForFormDetails:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForFormDetails:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForPaginatedFormRows:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForPaginatedFormRows:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForFormRows:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForFormRows:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForWholeSalers:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForWholeSalers:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForDescriptionType:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForDescriptionType:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForPaginatedContacts:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForPaginatedContacts:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForContact:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForContact:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForPaginatedConLocLink:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForPaginatedConLocLink:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForConLocLink:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForConLocLink:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForPresenter:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForPresenter:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForPaginatedImage:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForPaginatedImage:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForImage:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForImage:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForEmployee:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForEmployee:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForConfig:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForConfig:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForOrder:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForOrder:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForCall:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForCall:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForResponse:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForResponse:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForSurvey:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForSurvey:aProgressValue];
+}
+
+-(void)ProgressViewWithValueForJourney:(float)aProgressValue {
+    [self.delegate ProgressViewWithValueForJourney:aProgressValue];
+}
 @end

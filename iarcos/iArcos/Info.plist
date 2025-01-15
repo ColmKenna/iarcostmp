@@ -2,6 +2,43 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Amazon Ember Bold Italic.ttf</string>
+		<string>Amazon Ember Bold.ttf</string>
+		<string>Amazon Ember Cd RC Bold Italic.ttf</string>
+		<string>Amazon Ember Cd RC Bold.otf</string>
+		<string>Amazon Ember Cd RC Italic.ttf</string>
+		<string>Amazon Ember Cd RC Light Italic.ttf</string>
+		<string>Amazon Ember Cd RC Light.ttf</string>
+		<string>Amazon Ember Cd RC Thin Italic.ttf</string>
+		<string>Amazon Ember Cd RC Thin.ttf</string>
+		<string>Amazon Ember Cd RC.otf</string>
+		<string>Amazon Ember Display Bold Italic.ttf</string>
+		<string>Amazon Ember Display Heavy Italic.ttf</string>
+		<string>Amazon Ember Display Heavy.otf</string>
+		<string>Amazon Ember Display Italic.ttf</string>
+		<string>Amazon Ember Display Light.ttf</string>
+		<string>Amazon Ember Display Medium Italic.ttf</string>
+		<string>Amazon Ember Display Medium.ttf</string>
+		<string>Amazon Ember Display.otf</string>
+		<string>Amazon Ember Duospace Bold.ttf</string>
+		<string>Amazon Ember Duospace.ttf</string>
+		<string>Amazon Ember Heavy Italic.ttf</string>
+		<string>Amazon Ember Heavy.ttf</string>
+		<string>Amazon Ember Italic.ttf</string>
+		<string>Amazon Ember Light Italic.ttf</string>
+		<string>Amazon Ember Light.ttf</string>
+		<string>Amazon Ember Medium Italic.ttf</string>
+		<string>Amazon Ember Medium.ttf</string>
+		<string>Amazon Ember Mono Bold.ttf</string>
+		<string>Amazon Ember Mono.ttf</string>
+		<string>Amazon Ember Thin Italic.ttf</string>
+		<string>Amazon Ember Thin.ttf</string>
+		<string>Amazon Ember V2 Bold.ttf</string>
+		<string>Amazon Ember V2.ttf</string>
+		<string>Amazon Ember.ttf</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>

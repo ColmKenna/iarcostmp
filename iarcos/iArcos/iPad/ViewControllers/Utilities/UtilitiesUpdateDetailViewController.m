@@ -9,6 +9,7 @@
 #import "UtilitiesUpdateDetailViewController.h"
 #include <arpa/inet.h>
 
+
 @interface UtilitiesUpdateDetailViewController(Private)
 //-(void)loadAllUpdateSelectors;
 -(void)startUIUpdateTimer;
@@ -106,7 +107,8 @@
     [super viewDidLoad];
     needVPNCheck=NO;
     
-    self.title=[NSString stringWithFormat:@"Update Center V%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+    
+//    self.title=[NSString stringWithFormat:@"Update Center V%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
     
     self.tableView.allowsSelection=NO;
     // Uncomment the following line to preserve selection between presentations.
@@ -115,9 +117,13 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     self.utilitiesUpdateDetailDataManager = [[[UtilitiesUpdateDetailDataManager alloc] init] autorelease];
     self.updateCenterTableCellFactory = [UpdateCenterTableCellFactory factory];
-    UIBarButtonItem* saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(savePressed)];    
-    [self.navigationItem setRightBarButtonItem:saveButton];         
-    [saveButton release];
+    
+    // Check if there are no items (no title, no bar button items)
+
+    
+//    UIBarButtonItem* saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(savePressed)];
+//    [self.navigationItem setRightBarButtonItem:saveButton];
+//    [saveButton release];
     
 //    self.tableCells=[NSMutableArray array];
 //    self.downloadTableCells = [NSMutableArray array];
@@ -162,8 +168,18 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+
+    
+//    self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
     updateCenter.serviceClass.service = [ArcosService serviceWithUsername:@"u1103395_Support" andPassword:@"Strata411325"];
 }
+
+
+- (BOOL)prefersStatusBarHidden {
+    return NO; // Keep the status bar visible
+}
+
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -200,20 +216,45 @@
     if (section == 0 || section == 1) {
         NSString* mySectionTitle = [self.utilitiesUpdateDetailDataManager.sectionTitleList objectAtIndex:section];
         NSMutableArray* tmpDisplayList = [self.utilitiesUpdateDetailDataManager.groupedDataDict objectForKey:mySectionTitle];
-        return [tmpDisplayList count] + 1;
+    //    if (section == 0){
+            return [tmpDisplayList count] ;
+  //      }
+//        return [tmpDisplayList count] +1;
+
     } else{
         return 1;
     }
    
 }
+
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0 || indexPath.section == 1) {
-        return 44;
+        return 40;
     } else {
         return 100;
     }
     
 }
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 50)];
+    headerView.backgroundColor = [UIColor whiteColor];
+    
+    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 0, tableView.frame.size.width - 50, 50)];
+    headerLabel.text = [self.utilitiesUpdateDetailDataManager.sectionTitleList objectAtIndex:section];
+    
+    // Set font to Amazon Ember, color to black, and size to 24
+    headerLabel.font = [UIFont fontWithName:@"AmazonEmber-Regular" size:24]; // Make sure the font name matches exactly
+    headerLabel.textColor = [UIColor blackColor]; // Set text color to black
+    
+    // Set other label properties as needed
+    headerLabel.textAlignment = NSTextAlignmentLeft;
+    headerLabel.numberOfLines = 1;
+    
+    [headerView addSubview:headerLabel];
+    return headerView;
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     return [self.utilitiesUpdateDetailDataManager.sectionTitleList objectAtIndex:section];
 }
@@ -221,12 +262,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0 || indexPath.section == 1) {
-        if (indexPath.section == 0 && indexPath.row == [self.utilitiesUpdateDetailDataManager.dataTablesDisplayList count]) {
-            return self.downloadTableCell;
-        }
-        if (indexPath.section == 1 && indexPath.row == [self.utilitiesUpdateDetailDataManager.uploadItemsDisplayList count]) {
-            return self.uploadTableCell;
-        }
         NSString* mySectionTitle = [self.utilitiesUpdateDetailDataManager.sectionTitleList objectAtIndex:indexPath.section];
         NSMutableArray* tmpDisplayList = [self.utilitiesUpdateDetailDataManager.groupedDataDict objectForKey:mySectionTitle];
         NSMutableDictionary* cellData = [tmpDisplayList objectAtIndex:indexPath.row];
@@ -234,6 +269,17 @@
         dataTableCell.delegate = self;
         dataTableCell.indexPath = indexPath;
         [dataTableCell configCellWithData:cellData sectionTitle:mySectionTitle];
+        
+        if (indexPath.section == 0 && indexPath.row == ([self.utilitiesUpdateDetailDataManager.dataTablesDisplayList count] - 1)) {
+            [dataTableCell showDownloadButton];
+            dataTableCell.downloadFunctionDelegate = self;
+        }
+
+        if (indexPath.section == 1 && indexPath.row == [self.utilitiesUpdateDetailDataManager.uploadItemsDisplayList count] - 1) {
+            [dataTableCell showUploadButton];
+            dataTableCell.uploadFunctionDelegate = self;
+        }
+
         return dataTableCell;
     } else {
         return updateStatusCell;
@@ -417,7 +463,7 @@
 //    }
     progressTotalSegements=[ArcosUtils convertNSUIntegerToUnsignedInt:dataCount];
     
-    [self.updateStatusTableCell.progressBar setProgress:0.3f];
+    [self ProgressViewWithValue:0.3f];
 }
 -(void)UpdateData:(NSString*)selectorName {
     self.updateStatusTableCell.updateStatus.text = [NSString stringWithFormat:@"Updating %@",selectorName];
@@ -426,7 +472,8 @@
     self.updateStatusTableCell.updateStatus.text = [NSString stringWithFormat:@"Committing %@",selectorName];
 }
 -(void)LoadingData:(int)currentDataCount{
-    [self.updateStatusTableCell.progressBar setProgress:0.5f];
+    [self ProgressViewWithValue:0.5f];
+
     
     //updateStatus.text=[NSString stringWithFormat:@"Loading data for %@",updateCenter.currentSelectorName];
     [self.updateStatusTableCell.updateStatus performSelector:@selector(setText:) withObject:[NSString stringWithFormat:@"Loading data for %@",updateCenter.currentSelectorName]];
@@ -474,7 +521,8 @@
             
         }
     }
-    [self.updateStatusTableCell.progressBar setProgress:1];
+    [self ProgressViewWithValue:1.0f];
+//    [self.updateStatusTableCell.progressBar setProgress:1];
 
 }
 -(void)ErrorOccured:(NSString*)errorDesc{
@@ -592,10 +640,75 @@
 
 -(void)ProgressViewWithValue:(float)aProgressValue {
     [self.updateStatusTableCell.progressBar setProgress:aProgressValue animated:YES];
+    [self updateProgressBasedOnLastWord:aProgressValue];
+    
+    
+}
+
+- (void)updateProgressBasedOnLastWord:(float)aProgressValue {
+    // Get the last word from the updateStatus text
+    NSString *statusText = self.updateStatusTableCell.updateStatus.text;
+    NSArray *words = [statusText componentsSeparatedByString:@" "];
+    NSString *lastWord = [words lastObject];
+    
+    // Use if-else to call the corresponding function based on the last word
+    if ([lastWord isEqualToString:@"Package"]) {
+        [self ProgressViewWithValueForPackage:aProgressValue];
+    } else if ([lastWord isEqualToString:@"Location"] || [lastWord isEqualToString:@"Locations"]) {
+        [self ProgressViewWithValueForLocations:aProgressValue];
+    } else if ([lastWord isEqualToString:@"LocLocLink"]) {
+        [self ProgressViewWithValueForLocLocLink:aProgressValue];
+    } else if ([lastWord isEqualToString:@"LocationProductMAT"]) {
+        [self ProgressViewWithValueForLocationProductMAT:aProgressValue];
+    } else if ([lastWord isEqualToString:@"Product"] || [lastWord isEqualToString:@"Products"]) {
+        [self ProgressViewWithValueForProducts:aProgressValue];
+    } else if ([lastWord isEqualToString:@"Price"]) {
+        [self ProgressViewWithValueForPrice:aProgressValue];
+    } else if ([lastWord isEqualToString:@"DescrDetails"]) {
+        [self ProgressViewWithValueForDescrDetails:aProgressValue];
+    } else if ([lastWord isEqualToString:@"DescriptionType"]) {
+        [self ProgressViewWithValueForDescriptionType:aProgressValue];
+    } else if ([lastWord isEqualToString:@"Presenter"]) {
+        [self ProgressViewWithValueForPresenter:aProgressValue];
+    } else if ([lastWord isEqualToString:@"Image"]) {
+        [self ProgressViewWithValueForImage:aProgressValue];
+    } else if ([lastWord isEqualToString:@"Contact"]) {
+        [self ProgressViewWithValueForContact:aProgressValue];
+    } else if ([lastWord isEqualToString:@"ConLocLink"]) {
+        [self ProgressViewWithValueForConLocLink:aProgressValue];
+    } else if ([lastWord isEqualToString:@"FormDetails"]) {
+        [self ProgressViewWithValueForFormDetails:aProgressValue];
+    } else if ([lastWord isEqualToString:@"FormRows"]) {
+        [self ProgressViewWithValueForFormRows:aProgressValue];
+    } else if ([lastWord isEqualToString:@"Employee"]) {
+        [self ProgressViewWithValueForEmployee:aProgressValue];
+    } else if ([lastWord isEqualToString:@"Config"]) {
+        [self ProgressViewWithValueForConfig:aProgressValue];
+    } else if ([lastWord isEqualToString:@"Order"]) {
+        [self ProgressViewWithValueForOrder:aProgressValue];
+    } else if ([lastWord isEqualToString:@"Call"]) {
+        [self ProgressViewWithValueForCall:aProgressValue];
+    } else if ([lastWord isEqualToString:@"Survey"]) {
+        [self ProgressViewWithValueForSurvey:aProgressValue];
+    } else if ([lastWord isEqualToString:@"Response"]) {
+        [self ProgressViewWithValueForResponse:aProgressValue];
+    } else if ([lastWord isEqualToString:@"Journey"]) {
+        [self ProgressViewWithValueForJourney:aProgressValue];
+    } else if ([lastWord isEqualToString:@"Product"]) {
+        [self ProgressViewWithValueForProducts:aProgressValue];
+    } else if ([lastWord isEqualToString:@"Resources"]) {
+        [self ProgressViewWithValueForResources:aProgressValue];
+    } else if ([lastWord isEqualToString:@"Upload"]) {
+        [self ProgressViewWithValueForUpload:aProgressValue];
+    }
+    else {
+        NSLog(@"No function found for %@", lastWord);
+    }
 }
 
 -(void)ProgressViewWithValueWithoutAnimation:(float)aProgressValue {
     [self.updateStatusTableCell.progressBar setProgress:aProgressValue animated:NO];
+    [self updateProgressBasedOnLastWord:aProgressValue];
 }
 
 -(void)ResourceStatusTextWithValue:(NSString*)aValue {
@@ -890,9 +1003,9 @@
 - (void)uploadBranchProcessInitiation {
     self.updateStatusTableCell.indicator.hidden = NO;
     [self.updateStatusTableCell.indicator startAnimating];
-    self.updateStatusTableCell.updateStatus.text = @"";
+    self.updateStatusTableCell.updateStatus.text = @"Starting Upload";
     [self.updateStatusTableCell.branchProgressBar setProgress:0];
-    [self.updateStatusTableCell.progressBar setProgress:0];
+    [self ProgressViewWithValue:0];
 }
 - (void)uploadBranchProcessCompleted {
     [self.updateStatusTableCell.indicator stopAnimating];
@@ -904,18 +1017,20 @@
     [self nomaliseUploadButton];
 }
 - (void)uploadProcessStarted {
-    [self.updateStatusTableCell.progressBar setProgress:0];
+    [self ProgressViewWithValue:0];
 }
 - (void)uploadProcessWithText:(NSString *)aText {
     self.updateStatusTableCell.updateStatus.text = aText;
 }
 - (void)uploadProgressViewWithValue:(float)aProgressValue {
-    [self.updateStatusTableCell.progressBar setProgress:aProgressValue animated:YES];
+    [self ProgressViewWithValue:aProgressValue];
+
 }
 - (void)uploadProcessFinished:(NSString *)aSelectorName sectionTitle:(NSString *)aSectionTitle overallNumber:(int)anOverallNumber {
     if (self.uploadProcessCenter.selectorListCount != 0) {
         int currentIndex = self.uploadProcessCenter.selectorListCount - [ArcosUtils convertNSUIntegerToUnsignedInt:[self.uploadProcessCenter.selectorList count]];
-        [self.updateStatusTableCell.branchProgressBar setProgress:currentIndex * 1.0 / self.uploadProcessCenter.selectorListCount animated:YES];
+        [self ProgressViewWithValue:currentIndex * 1.0 / self.uploadProcessCenter.selectorListCount];
+
     }
     
     CompositeIndexResult* tmpCompositeIndexResult = [self.utilitiesUpdateDetailDataManager retrieveCompositeIndexResultWithSelectorName:aSelectorName sectionTitle:aSectionTitle];
@@ -925,7 +1040,8 @@
     NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:tmpCompositeIndexResult.indexPath.section inSection:tmpSectionIndex];
     NSArray* rowsToReload = [NSArray arrayWithObject:rowToReload];
     [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
-    [self.updateStatusTableCell.progressBar setProgress:1];
+    [self ProgressViewWithValue:1];
+    
 }
 - (void)uploadProcessWithErrorMsg:(NSString *)anErrorMsg {
     [self.updateStatusTableCell.indicator stopAnimating];
@@ -937,5 +1053,173 @@
     }];
 }
 
+- (NSIndexPath *)indexPathForCellWithIURValue:(NSNumber *)targetIUR inTableView:(UITableView *)tableView {
+    for (NSInteger section = 0; section < [tableView numberOfSections]; section++) {
+        if (section >= self.utilitiesUpdateDetailDataManager.sectionTitleList.count) {
+            continue; // Skip if section is out of bounds for sectionTitleList
+        }
+
+        NSString *sectionTitle = [self.utilitiesUpdateDetailDataManager.sectionTitleList objectAtIndex:section];
+        NSMutableArray *sectionData = [self.utilitiesUpdateDetailDataManager.groupedDataDict objectForKey:sectionTitle];
+
+        if (!sectionData) {
+            continue; // Skip if sectionData does not exist for sectionTitle
+        }
+
+        for (NSInteger row = 0; row < [tableView numberOfRowsInSection:section]; row++) {
+            if (row >= sectionData.count) {
+                continue; // Skip if row is out of bounds for sectionData
+            }
+
+            NSDictionary *cellData = [sectionData objectAtIndex:row];
+
+            // Check if the cell's IUR matches the target IUR
+            if ([cellData[@"IUR"] isEqualToNumber:targetIUR]) {
+                return [NSIndexPath indexPathForRow:row inSection:section];
+            }
+        }
+    }
+    return nil; // Return nil if no matching cell is found
+}
+
+
+- (void)updateProgressBarForCellWithIURValue:(NSNumber *)targetIUR progress:(float)progress inTableView:(UITableView *)tableView {
+    NSIndexPath *indexPath = [self indexPathForCellWithIURValue:targetIUR inTableView:tableView];
+    if (indexPath) {
+        // Update the data source with the new progress value
+        NSString *sectionTitle = [self.utilitiesUpdateDetailDataManager.sectionTitleList objectAtIndex:indexPath.section];
+        NSMutableArray *sectionData = [self.utilitiesUpdateDetailDataManager.groupedDataDict objectForKey:sectionTitle];
+        NSMutableDictionary *cellData = [sectionData objectAtIndex:indexPath.row];
+        cellData[@"DownloadProgress"] = @(progress); // Update the progress in the data model
+        
+        // Reload the specific row to update the UI
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    } else {
+        NSLog(@"No cell found with the specified IUR value.");
+    }
+}
+
+
+#pragma mark - UpdateCenterDelegate Specific Progress View Methods
+
+- (void)ProgressViewWithValueForPackage:(float)aProgressValue {
+    NSNumber *targetIUR = @90;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForLocations:(float)aProgressValue {
+    NSNumber *targetIUR = @100;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForLocLocLink:(float)aProgressValue {
+    NSNumber *targetIUR = @100;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForLocationProductMAT:(float)aProgressValue {
+    NSNumber *targetIUR = @105;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForProducts:(float)aProgressValue {
+    NSNumber *targetIUR = @110;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForPrice:(float)aProgressValue {
+    NSNumber *targetIUR = @115;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForDescrDetails:(float)aProgressValue {
+    NSNumber *targetIUR = @120;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForResources:(float)aProgressValue {
+    NSNumber *targetIUR = @125;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+
+
+- (void)ProgressViewWithValueForDescriptionType:(float)aProgressValue {
+    NSNumber *targetIUR = @120;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForPresenter:(float)aProgressValue {
+    NSNumber *targetIUR = @130;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForImage:(float)aProgressValue {
+    NSNumber *targetIUR = @140;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForContact:(float)aProgressValue {
+    NSNumber *targetIUR = @150;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForConLocLink:(float)aProgressValue {
+    NSNumber *targetIUR = @150;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForFormDetails:(float)aProgressValue {
+    NSNumber *targetIUR = @160;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForFormRows:(float)aProgressValue {
+    NSNumber *targetIUR = @160;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForEmployee:(float)aProgressValue {
+    NSNumber *targetIUR = @170;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForConfig:(float)aProgressValue {
+    NSNumber *targetIUR = @180;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForOrder:(float)aProgressValue {
+    NSNumber *targetIUR = @190;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForCall:(float)aProgressValue {
+    NSNumber *targetIUR = @195;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForSurvey:(float)aProgressValue {
+    NSNumber *targetIUR = @200;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForResponse:(float)aProgressValue {
+    NSNumber *targetIUR = @205;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForJourney:(float)aProgressValue {
+    NSNumber *targetIUR = @210;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
+
+- (void)ProgressViewWithValueForUpload:(float)aProgressValue {
+    NSNumber *targetIUR = @500;
+    [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
+}
 
 @end
+
+
+

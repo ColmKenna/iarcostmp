@@ -73,6 +73,10 @@
     self.viewControllers = [NSArray arrayWithObjects:navigationController_master, navigationController_detail, nil];
     [navigationController_master release];
     [navigationController_detail release];
+
+    self.preferredPrimaryColumnWidthFraction = 0.1; // 30% of the screen width
+    self.maximumPrimaryColumnWidth = 20; // Maximum width of 320 points
+
 }
 
 - (void)viewDidUnload

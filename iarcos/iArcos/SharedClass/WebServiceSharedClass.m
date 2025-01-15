@@ -657,7 +657,11 @@
                 for (ArcosGenericReturnObjectWithImage* anObject in objects) {
                     [[ArcosCoreData sharedArcosCoreData]LoadProductWithSoapOB:anObject];                  
                 }
+                float progressValue = [self.paginatedUpdateCenter progressValue];
+                              
                 [self.delegate ProgressViewWithValue:[self.paginatedUpdateCenter progressValue]];
+                [self.delegate ProgressViewWithValueForProducts:progressValue];
+           
             } else if (xmlResult.ErrorModel.Code <= 0) {
                 [self.paginatedUpdateCenter stopTask];
                 [self.delegate ErrorOccured:xmlResult.ErrorModel.Message];
@@ -706,11 +710,14 @@
                     self.paginatedUpdateCenter = [[[PaginatedUpdateCenter alloc] initWithTarget:self action:@selector(loadPaginatedProductsToDB:) loadingAction:@selector(paginatedLoadingActionFlag) overallNumber:xmlResult.OverallNumber pageSize:[GlobalSharedClass shared].pageSize] autorelease];
                     self.paginatedUpdateCenter.paginatedDelegate = self;
                     [self.delegate ProgressViewWithValue:1.0f / [self.paginatedUpdateCenter totalPage]];
+                    [self.delegate ProgressViewWithValueForProducts:1.0f / [self.paginatedUpdateCenter totalPage]];
                     [self.paginatedUpdateCenter runTask];
                 } else {
                     self.isLoadingFinished=YES;
                     [self.delegate FinishLoadingData:xmlResult.OverallNumber];
-                }                
+                    [self.delegate ProgressViewWithValueForProducts:1.0f];
+                    [self.paginatedUpdateCenter runTask];
+                }
                 //finish load objects
             } else if (xmlResult.ErrorModel.Code < 0) {
                 [self.delegate ErrorOccured:xmlResult.ErrorModel.Message];
@@ -745,6 +752,8 @@
                     [[ArcosCoreData sharedArcosCoreData]LoadLocationWithSoapOB:anObject];                  
                 }
                 [self.delegate ProgressViewWithValue:[self.paginatedUpdateCenter progressValue]];
+                [self.delegate ProgressViewWithValueForPaginatedLocations:[self.paginatedUpdateCenter progressValue]];
+          
             } else if (xmlResult.ErrorModel.Code <= 0) {
                 [self.paginatedUpdateCenter stopTask];
                 [self.delegate ErrorOccured:xmlResult.ErrorModel.Message];
@@ -777,6 +786,8 @@
                     self.paginatedUpdateCenter = [[[PaginatedUpdateCenter alloc] initWithTarget:self action:@selector(loadPaginatedLocationsToDB:) loadingAction:@selector(paginatedLoadingActionFlag) overallNumber:xmlResult.OverallNumber pageSize:[GlobalSharedClass shared].pageSize] autorelease];
                     self.paginatedUpdateCenter.paginatedDelegate = self;
                     [self.delegate ProgressViewWithValue:1.0f / [self.paginatedUpdateCenter totalPage]];
+                    [self.delegate ProgressViewWithValueForLocations:1.0f / [self.paginatedUpdateCenter totalPage]];
+                   
                     [self.paginatedUpdateCenter runTask];
                 } else {
                     NSMutableDictionary* locationDataDict = [self.paginatedRequestObjectProvider getUpdateCenterDataDict:[GlobalSharedClass shared].locationSelectorName];
@@ -795,6 +806,7 @@
                     
                     self.isLoadingFinished=YES;
                     [self.delegate FinishLoadingData:xmlResult.OverallNumber];
+                    [self.delegate ProgressViewWithValueForLocations:1.0f];
                 }
             } else if(xmlResult.ErrorModel.Code < 0) {
                 [self.delegate ErrorOccured:xmlResult.ErrorModel.Message];
@@ -823,6 +835,8 @@
                     [[ArcosCoreData sharedArcosCoreData]loadLocLocLinkWithSoapOB:anObject];
                 }
                 [self.delegate ProgressViewWithValue:[self.paginatedUpdateCenter progressValue]];
+                [self.delegate ProgressViewWithValueForPaginatedLocLocLink:[self.paginatedUpdateCenter progressValue]];
+                
             } else if (xmlResult.ErrorModel.Code <= 0) {
                 [self.paginatedUpdateCenter stopTask];
                 [self.delegate ErrorOccured:xmlResult.ErrorModel.Message];
@@ -856,10 +870,13 @@
                     self.paginatedUpdateCenter = [[[PaginatedUpdateCenter alloc] initWithTarget:self action:@selector(loadPaginatedLocLocLinkToDB:) loadingAction:@selector(paginatedLoadingActionFlag) overallNumber:xmlResult.OverallNumber pageSize:[GlobalSharedClass shared].pageSize] autorelease];
                     self.paginatedUpdateCenter.paginatedDelegate = self;
                     [self.delegate ProgressViewWithValue:1.0f / [self.paginatedUpdateCenter totalPage]];
+                    [self.delegate ProgressViewWithValueForLocLocLink:1.0f / [self.paginatedUpdateCenter totalPage]];
+                     
                     [self.paginatedUpdateCenter runTask];
                 } else {
                     self.isLoadingFinished=YES;
                     [self.delegate FinishLoadingData:xmlResult.OverallNumber];
+                    [self.delegate ProgressViewWithValueForLocLocLink:1.0f];
                 }
             } else if(xmlResult.ErrorModel.Code < 0) {
                 [self.delegate ErrorOccured:xmlResult.ErrorModel.Message];
@@ -880,9 +897,11 @@
                 if (xmlResult.ErrorModel.Code > 0) {
                     ArcosArrayOfGenericReturnObjectWithImage* objects = (ArcosArrayOfGenericReturnObjectWithImage*)xmlResult.ArrayOfData;
                     for (ArcosGenericReturnObjectWithImage* anObject in objects) {
-                        [[ArcosCoreData sharedArcosCoreData]LoadDescriptionWithSoapOB:anObject];                  
+                        [[ArcosCoreData sharedArcosCoreData]LoadDescriptionWithSoapOB:anObject];
                     }
                     [self.delegate ProgressViewWithValue:[self.paginatedUpdateCenter progressValue]];
+                    [self.delegate ProgressViewWithValueForPaginatedDescrDetails:[self.paginatedUpdateCenter progressValue]];
+                    
                 } else if (xmlResult.ErrorModel.Code <= 0) {
                     [self.paginatedUpdateCenter stopTask];
                     [self.delegate ErrorOccured:xmlResult.ErrorModel.Message];
@@ -920,10 +939,13 @@
                         self.paginatedUpdateCenter = [[[PaginatedUpdateCenter alloc] initWithTarget:self action:@selector(loadPaginatedDescrDetailsToDB:) loadingAction:@selector(paginatedLoadingActionFlag) overallNumber:xmlResult.OverallNumber pageSize:[GlobalSharedClass shared].pageSize] autorelease];
                         self.paginatedUpdateCenter.paginatedDelegate = self;
                         [self.delegate ProgressViewWithValue:1.0f / [self.paginatedUpdateCenter totalPage]];
+                        [self.delegate ProgressViewWithValueForDescrDetails:1.0f / [self.paginatedUpdateCenter totalPage]];
+                                  
                         [self.paginatedUpdateCenter runTask];
                     } else {
                         self.isLoadingFinished=YES;
                         [self.delegate FinishLoadingData:xmlResult.OverallNumber];
+                        [self.delegate ProgressViewWithValueForDescrDetails:1.0f];
                     }
                 } else if (xmlResult.ErrorModel.Code < 0) {
                     [self.delegate ErrorOccured:xmlResult.ErrorModel.Message];
@@ -949,7 +971,7 @@
             [self.delegate GotData:[objects count]];
 //            if ([objects count]>0) {
 //                // Remove current Contents first
-//                //NSLog(@"remove old data");
+//                //NSLog(@"remove old data");		
 //                
 //            }
             [[ArcosCoreData sharedArcosCoreData] clearTableWithName:@"FormDetail"];
@@ -961,10 +983,14 @@
                 
                 currentObjectIndex++;
                 [self.delegate LoadingData:currentObjectIndex];
+                
+                [self.delegate ProgressViewWithValueForFormDetails:currentObjectIndex / (float)[objects count]];
+                
                 //NSLog(@"loading data---%d",currentObjectIndex);
             }          
             self.isLoadingFinished=YES;
             [self.delegate FinishLoadingData:[objects count]];
+            [self.delegate ProgressViewWithValueForFormDetails:1.0f];
         }else{
             /**
             NSError* anError=(NSError*)result;
@@ -994,6 +1020,8 @@
                     [[ArcosCoreData sharedArcosCoreData]loadFormRowWithSoapOB:anObject];                  
                 }
                 [self.delegate ProgressViewWithValue:[self.paginatedUpdateCenter progressValue]];
+                [self.delegate ProgressViewWithValueForFormRows:[self.paginatedUpdateCenter progressValue]];
+                
             } else if (xmlResult.ErrorModel.Code <= 0) {
                 [self.paginatedUpdateCenter stopTask];
                 [self.delegate ErrorOccured:xmlResult.ErrorModel.Message];
@@ -1026,10 +1054,13 @@
                     self.paginatedUpdateCenter = [[[PaginatedUpdateCenter alloc] initWithTarget:self action:@selector(loadPaginatedFormRowsToDB:) loadingAction:@selector(paginatedLoadingActionFlag) overallNumber:xmlResult.OverallNumber pageSize:[GlobalSharedClass shared].pageSize] autorelease];
                     self.paginatedUpdateCenter.paginatedDelegate = self;
                     [self.delegate ProgressViewWithValue:1.0f / [self.paginatedUpdateCenter totalPage]];
+                    [self.delegate ProgressViewWithValueForFormRows:1.0f / [self.paginatedUpdateCenter totalPage]];
+                    
                     [self.paginatedUpdateCenter runTask];
                 } else {
                     self.isLoadingFinished=YES;
                     [self.delegate FinishLoadingData:xmlResult.OverallNumber];
+                    [self.delegate ProgressViewWithValueForFormRows:1.0f];
                 }
             } else if(xmlResult.ErrorModel.Code < 0) {
                 [self.delegate ErrorOccured:xmlResult.ErrorModel.Message];
@@ -1091,10 +1122,13 @@
                     self.paginatedUpdateCenter = [[[PaginatedUpdateCenter alloc] initWithTarget:self action:@selector(loadPaginatedContactsToDB:) loadingAction:@selector(paginatedLoadingActionFlag) overallNumber:xmlResult.OverallNumber pageSize:[GlobalSharedClass shared].pageSize] autorelease];
                     self.paginatedUpdateCenter.paginatedDelegate = self;
                     [self.delegate ProgressViewWithValue:1.0f / [self.paginatedUpdateCenter totalPage]];
+                    [self.delegate ProgressViewWithValueForContact:1.0f / [self.paginatedUpdateCenter totalPage]];
+                      
                     [self.paginatedUpdateCenter runTask];
                 } else {
                     self.isLoadingFinished=YES;
                     [self.delegate FinishLoadingData:xmlResult.OverallNumber];
+                    [self.delegate ProgressViewWithValueForContact:1.0f];
                 }
             } else if(xmlResult.ErrorModel.Code < 0) {
                 [self.delegate ErrorOccured:xmlResult.ErrorModel.Message];
@@ -1148,6 +1182,8 @@
                     [[ArcosCoreData sharedArcosCoreData]loadContactWithSoapOB:anObject];                  
                 }
                 [self.delegate ProgressViewWithValue:[self.paginatedUpdateCenter progressValue]];
+                [self.delegate ProgressViewWithValueForPaginatedContacts:[self.paginatedUpdateCenter progressValue]];
+            
             } else if (xmlResult.ErrorModel.Code <= 0) {
                 [self.paginatedUpdateCenter stopTask];
                 [self.delegate ErrorOccured:xmlResult.ErrorModel.Message];
@@ -1185,10 +1221,14 @@
                 
                 currentObjectIndex++;
                 [self.delegate LoadingData:currentObjectIndex];
+                float progress = (float)currentObjectIndex / [objects count];
+                [self.delegate ProgressViewWithValueForDescriptionType:progress];
+
                 //NSLog(@"loading data---%d",currentObjectIndex);
             }          
             self.isLoadingFinished=YES;
             [self.delegate FinishLoadingData:[objects count]];
+            [self.delegate ProgressViewWithValueForDescriptionType:1.0f];
         }else{
             /**
             NSError* anError=(NSError*)result;
@@ -1217,7 +1257,8 @@
                     [[ArcosCoreData sharedArcosCoreData]loadConLocLinkWithSoapOB:anObject];                  
                 }
                 [self.delegate ProgressViewWithValue:[self.paginatedUpdateCenter progressValue]];
-            } else if (xmlResult.ErrorModel.Code <= 0) {
+                [self.delegate ProgressViewWithValueForPaginatedConLocLink:[self.paginatedUpdateCenter progressValue]];
+          } else if (xmlResult.ErrorModel.Code <= 0) {
                 [self.paginatedUpdateCenter stopTask];
                 [self.delegate ErrorOccured:xmlResult.ErrorModel.Message];
             }            
@@ -1253,9 +1294,11 @@
                     self.paginatedUpdateCenter = [[[PaginatedUpdateCenter alloc] initWithTarget:self action:@selector(loadPaginatedConLocLinkToDB:) loadingAction:@selector(paginatedLoadingActionFlag) overallNumber:xmlResult.OverallNumber pageSize:[GlobalSharedClass shared].pageSize] autorelease];
                     self.paginatedUpdateCenter.paginatedDelegate = self;
                     [self.delegate ProgressViewWithValue:1.0f / [self.paginatedUpdateCenter totalPage]];
-                    [self.paginatedUpdateCenter runTask];
+                    [self.delegate ProgressViewWithValueForConLocLink:1.0f / [self.paginatedUpdateCenter totalPage]];
+                               [self.paginatedUpdateCenter runTask];
                 } else {
                     self.isLoadingFinished=YES;
+                    [self.delegate ProgressViewWithValueForConLocLink:1.0f];
                     [self.delegate FinishLoadingData:xmlResult.OverallNumber];
                 }
             } else if(xmlResult.ErrorModel.Code < 0) {
@@ -1320,10 +1363,14 @@
                 
                 currentObjectIndex++;
                 [self.delegate LoadingData:currentObjectIndex];
+                float progress = (float)currentObjectIndex / [objects count];
+                        [self.delegate ProgressViewWithValueForPresenter:progress];
+              
                 //NSLog(@"loading data---%d",currentObjectIndex);
             }          
             self.isLoadingFinished=YES;
             [self.delegate FinishLoadingData:[objects count]];
+            [self.delegate ProgressViewWithValueForPresenter:1.0f];
         }else{
             /**
             NSError* anError=(NSError*)result;
@@ -1352,6 +1399,8 @@
                     [[ArcosCoreData sharedArcosCoreData]loadImageWithSoapOB:anObject];                  
                 }
                 [self.delegate ProgressViewWithValue:[self.paginatedUpdateCenter progressValue]];
+                [self.delegate ProgressViewWithValueForImage:[self.paginatedUpdateCenter progressValue]];
+
             } else if (xmlResult.ErrorModel.Code <= 0) {
                 [self.paginatedUpdateCenter stopTask];
                 [self.delegate ErrorOccured:xmlResult.ErrorModel.Message];
@@ -1381,10 +1430,16 @@
                     self.paginatedUpdateCenter = [[[PaginatedUpdateCenter alloc] initWithTarget:self action:@selector(loadPaginatedImageToDB:) loadingAction:@selector(paginatedLoadingActionFlag) overallNumber:xmlResult.OverallNumber pageSize:[GlobalSharedClass shared].imagePageSize] autorelease];
                     self.paginatedUpdateCenter.paginatedDelegate = self;
                     [self.delegate ProgressViewWithValue:1.0f / [self.paginatedUpdateCenter totalPage]];
+                    
+                    [self.delegate ProgressViewWithValueForImage:1.0f / [self.paginatedUpdateCenter totalPage]];
+                      
+                    
                     [self.paginatedUpdateCenter runTask];
                 } else {
                     self.isLoadingFinished=YES;
                     [self.delegate FinishLoadingData:xmlResult.OverallNumber];
+                    [self.delegate ProgressViewWithValueForImage:1.0f];
+                      
                 }
             } else if(xmlResult.ErrorModel.Code < 0) {
                 [self.delegate ErrorOccured:xmlResult.ErrorModel.Message];
@@ -1448,10 +1503,13 @@
                 
                 currentObjectIndex++;
                 [self.delegate LoadingData:currentObjectIndex];
-                //NSLog(@"loading data---%d",currentObjectIndex);
-            }          
+                float progress = (float)currentObjectIndex / [objects count];
+                [self.delegate ProgressViewWithValueForEmployee:progress];
+
+            }
             self.isLoadingFinished=YES;
             [self.delegate FinishLoadingData:[objects count]];
+            [self.delegate ProgressViewWithValueForEmployee:1.0f];
         }else{
             /**
             NSError* anError=(NSError*)result;
@@ -1712,6 +1770,7 @@
             }
             self.isLoadingFinished=YES;
             [self.delegate FinishLoadingData:1];
+            [self.delegate ProgressViewWithValueForConfig:1.0f];
         }else{
             /**
             NSError* anError=(NSError*)result;
@@ -1757,10 +1816,13 @@
                 [[ArcosCoreData sharedArcosCoreData]loadOrderWithSoapOB:anObject];
                 currentObjectIndex++;
                 [self.delegate LoadingData:currentObjectIndex];
+                float progress = (float)currentObjectIndex / [objects count];
+                [self.delegate ProgressViewWithValueForOrder:progress];
                 //NSLog(@"loading data---%d",currentObjectIndex);
             }
             self.isLoadingFinished=YES;
             [self.delegate FinishLoadingData:[objects count]];
+            [self.delegate ProgressViewWithValueForOrder:1.0f];
         }else{
             /**
             NSError* anError=(NSError*)result;
@@ -1813,9 +1875,12 @@
                 
                 currentObjectIndex++;
                 [self.delegate LoadingData:currentObjectIndex];
+                float progress = (float)currentObjectIndex / [objects count];
+                [self.delegate ProgressViewWithValueForCall:progress];
             }
             self.isLoadingFinished=YES;
             [self.delegate FinishLoadingData:[objects count]];
+            [self.delegate ProgressViewWithValueForCall:1.0f];
         }else{
             [self handleResultErrorProcessWithoutReturn:result];
         }        
@@ -1835,9 +1900,12 @@
                 
                 currentObjectIndex++;
                 [self.delegate LoadingData:currentObjectIndex];
+                float progress = (float)currentObjectIndex / [objects count];
+                [self.delegate ProgressViewWithValueForResponse:progress];
             }
             self.isLoadingFinished=YES;
             [self.delegate FinishLoadingData:[objects count]];
+            [self.delegate ProgressViewWithValueForResponse:1.0f];
         }else{
             [self handleResultErrorProcessWithoutReturn:result];
         }
@@ -1862,9 +1930,12 @@
                 [[ArcosCoreData sharedArcosCoreData] loadSurveyWithSoapOB:arcosSurveyBO];
                 currentObjectIndex++;
                 [self.delegate LoadingData:currentObjectIndex];
+                float progress = (float)currentObjectIndex / [arcosArrayOfSurveyBO count];
+                [self.delegate ProgressViewWithValueForSurvey:progress];
             }
             self.isLoadingFinished = YES;
             [self.delegate FinishLoadingData:[arcosArrayOfSurveyBO count]];
+            [self.delegate ProgressViewWithValueForSurvey:1.0f];
         }
     } else {
         [self.delegate ErrorOccured:self.serverFaultMsg];
@@ -1888,10 +1959,13 @@
                 [[ArcosCoreData sharedArcosCoreData] loadJourneyWithSoapOB:arcosJourneyBO];
                 currentObjectIndex++;
                 [self.delegate LoadingData:currentObjectIndex];
+                float progress = (float)currentObjectIndex / [arcosArrayOfJourneyBO count];
+                [self.delegate ProgressViewWithValueForJourney:progress];
             }
             self.isLoadingFinished = YES;
             [self.delegate FinishLoadingData:[arcosArrayOfJourneyBO count]];
-        }
+            [self.delegate ProgressViewWithValueForJourney:1.0f];
+      }
     } else {
         [self.delegate ErrorOccured:self.serverFaultMsg];
     }

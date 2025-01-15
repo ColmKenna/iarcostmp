@@ -7,6 +7,8 @@
 //
 
 #import "UtilitiesUpdateCenterDataTableCell.h"
+#import "UIButtonStyleHelper.h"
+#import "UIColor+Hex.h"
 
 @implementation UtilitiesUpdateCenterDataTableCell
 @synthesize icon = _icon;
@@ -21,6 +23,8 @@
 @synthesize globalWidgetViewController = _globalWidgetViewController;
 @synthesize delegate = _delegate;
 @synthesize sectionTitle = _sectionTitle;
+@synthesize iur = _iur;
+@synthesize downloadFunctionDelegate  = _downloadFunctionDelegate;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -28,6 +32,9 @@
     if (self) {
         // Initialization code
     }
+    
+    
+
     return self;
 }
 
@@ -52,6 +59,9 @@
 //    if (self.delegate != nil) { self.delegate = nil; }
     self.sectionTitle = nil;
     
+    [_downloadProgress release];
+    [_downloadButton release];
+    [_uploadButton release];
     [super dealloc];
 }
 
@@ -62,10 +72,36 @@
 //    NSLog(@"IsDownloaded is: %@", [aCellData objectForKey:@"IsDownloaded"]);
     if ([[aCellData objectForKey:@"IsDownloaded"] boolValue]) {
         self.downloadDate.text = [NSString stringWithFormat:@"Last %@ %@", aSectionTitle, [ArcosUtils stringFromDate:[aCellData objectForKey:@"DownloadDate"] format:@"dd/MM/yyyy"]];
-    }    
+    }
+    
+    id iurValue = [aCellData objectForKey:@"IUR"];
+
+    if ([iurValue isKindOfClass:[NSNumber class]]) {
+        self.iur = iurValue;
+    } else if ([iurValue isKindOfClass:[NSString class]]) {
+        // Try to parse the string to a number
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        self.iur = [formatter numberFromString:iurValue];
+        [formatter release];
+    } else {
+        self.iur = @(0); // Default to 0 if the value is invalid
+        NSLog(@"'Iur' value is invalid, defaulting to 0");
+    }
+    
+     
+    
     self.downloadModeName.text = [aCellData objectForKey:@"DownloadModeName"];
     self.tableRecordQty.text = [[aCellData objectForKey:@"TableRecordQty"] stringValue];
     self.downloadRecordQty.text = [[aCellData objectForKey:@"DownloadRecordQty"] stringValue];
+    
+    NSNumber *progressValue = aCellData[@"DownloadProgress"];
+    [self.downloadProgress setProgress:progressValue.floatValue animated:NO];
+    if(progressValue.floatValue > 0.0)
+    {
+        [self showProgressBar];
+    }
+
+    
     UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
     [self.contentView addGestureRecognizer:singleTap];
     [singleTap release];
@@ -123,6 +159,75 @@
         self.globalWidgetViewController = nil;
     }];
 }
+
+- (IBAction)downloadTapped:(id)sender {
+    [self.downloadFunctionDelegate downloadFunctionButtonPressedDelegate];
+    [        self showProgressBar    ];
+}
+- (IBAction)uploadTapped:(id)sender {
+    [self.uploadFunctionDelegate uploadFunctionButtonPressedDelegate];
+}
+
+// Show/Hide the download button
+- (void)showDownloadButton {
+    if(self.downloadProgress.progress > 0.0){
+        return;
+    }
+    [UIButtonStyleHelper setBlueBorderedButton:self.downloadButton];
+
+    self.downloadButton.hidden = NO;
+    self.uploadButton.hidden = YES;
+    self.downloadProgress.hidden = YES;
+    self.downloadDate.hidden = YES;
+}
+
+- (void)hideDownloadButton {
+    self.downloadButton.hidden = YES;
+    
+}
+
+// Show/Hide the upload button
+- (void)showUploadButton {
+    if(self.downloadProgress.progress > 0.0){
+        return;
+    }
+    [UIButtonStyleHelper setBlueBorderedButton:self.uploadButton];
+    
+    self.uploadButton.hidden = NO;
+    self.downloadButton.hidden = YES;
+    self.downloadProgress.hidden = YES;
+    self.downloadDate.hidden = YES;
+}
+
+- (void)hideUploadButton {
+    self.uploadButton.hidden = YES;
+}
+
+// Show/Hide the progress bar
+- (void)showProgressBar {
+    self.downloadButton.hidden = YES;
+    self.uploadButton.hidden = YES;
+    self.downloadProgress.hidden = NO;
+    self.downloadDate.hidden = YES;
+}
+
+- (void)hideProgressBar {
+    self.downloadProgress.hidden = YES;
+}
+
+// Show/Hide the download date label
+- (void)showDownloadDateLabel {
+    self.downloadButton.hidden = YES;
+    self.uploadButton.hidden = YES;
+    self.downloadProgress.hidden = YES;
+    self.downloadDate.hidden = NO;
+}
+
+- (void)hideDownloadDateLabel {
+    self.downloadDate.hidden = YES;
+}
+
+
 #pragma mark UIPopoverControllerDelegate
 //- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
 //    self.thePopover = nil;

@@ -23,9 +23,7 @@
 @property(nonatomic, assign) BOOL isNotFinishedAnimation;
 @property(nonatomic, retain) ArcosSplitMasterViewController* arcosSplitMasterViewController;
 
-- (void)layoutMySubviews;
-- (void)layoutLandscapeSubviews;
-- (void)layoutPortraitSubviews;
+
 @end
 
 @implementation ArcosSplitViewController
@@ -112,6 +110,43 @@
     }
 }
 
+- (void) growUtilitiesOptions {
+    
+    [self     resizeMasterViewToWidth:250];
+}
+- (void) shrinkUtilitiesOptions {
+    
+    [self	 resizeMasterViewToWidth:100];
+    
+/*    CGRect viewBounds = self.view.bounds;
+    CGFloat masterWidth = 350.0 - [[GlobalSharedClass shared] mainMasterWidth];
+    
+    // Update master view controller frame
+    self.arcosSplitMasterViewController.view.frame = CGRectMake(0, 0, masterWidth, viewBounds.size.height);
+
+    // Update detail view controller frame
+    if (self.rcsViewControllers.count > 1) {
+        UIViewController *detailViewController = [self.rcsViewControllers objectAtIndex:1];
+        detailViewController.view.frame = CGRectMake(masterWidth, 0, viewBounds.size.width - masterWidth, viewBounds.size.height);
+    }
+
+    // Update utils view controller frame
+    if (self.rcsViewControllers.count > 0) {
+        UIViewController *utilsViewController = [self.rcsViewControllers objectAtIndex:0];
+        utilsViewController.view.clipsToBounds = NO;
+        utilsViewController.view.frame = CGRectMake(120, 0, 200, viewBounds.size.height);
+        
+       // [self.view bringSubviewToFront:utilsViewController];
+    }
+
+    // Update hidden master view controller frame
+    CGFloat hiddenMasterWidth = 50; // Consider using shared configuration if needed
+    self.arcosSplitMasterViewController.view.frame = CGRectMake(-hiddenMasterWidth - self.dividerWidth, 0, 200, viewBounds.size.height);
+ */
+    
+//self.arcosSplitMasterViewController.
+}
+
 - (void)layoutLandscapeSubviews {
     CGRect viewBounds = self.view.bounds;
 //    float diff = 0.0f;
@@ -195,5 +230,42 @@
         
     }
 }
+
+// Method to resize the master view to a specific width
+- (void)resizeMasterViewToWidth:(CGFloat)desiredWidth {
+    CGFloat screenWidth = self.view.bounds.size.width;
+    CGFloat minWidth = 50.0;   // Minimum width for the master view
+    CGFloat maxWidth = screenWidth * 0.9;  // Maximum width (90% of screen width)
+    CGFloat currentMasterWidth = self.arcosSplitMasterViewController.view.frame.size.width;
+       NSLog(@"Current Master Width: %f", currentMasterWidth);
+
+    // Clamp the desired width to be within the min and max bounds
+    CGFloat newMasterWidth = MIN(MAX(desiredWidth, minWidth), maxWidth);
+
+    // Update the frame of the master view
+    self.arcosSplitMasterViewController.view.frame = CGRectMake(0, 0, newMasterWidth, self.view.bounds.size.height);
+
+    // Update the frame of the detail view
+    UIViewController *detailViewController = [self.rcsViewControllers objectAtIndex:1];
+    detailViewController.view.frame = CGRectMake(newMasterWidth, 0, screenWidth - newMasterWidth, self.view.bounds.size.height);
+
+    // Update the split divider label (if used)
+    self.arcosSplitMasterViewController.splitDividerUILabel.frame = CGRectMake(newMasterWidth, 0, self.dividerWidth, self.view.bounds.size.height);
+
+    // Ensure the layout is updated
+    //[self.arcosSplitMasterViewController layoutMySubviews];
+}
+
+// Method to resize the master view based on a percentage of the screen width
+- (void)resizeMasterViewToPercentage	:(CGFloat)percentage {
+    CGFloat clampedPercentage = MIN(MAX(percentage, 0.0), 1.0);
+    CGFloat screenWidth = self.view.bounds.size.width;
+    CGFloat desiredWidth = screenWidth * clampedPercentage;
+
+    // Use the existing method to resize with the calculated width
+    [self resizeMasterViewToWidth:desiredWidth];
+}
+
+
 
 @end

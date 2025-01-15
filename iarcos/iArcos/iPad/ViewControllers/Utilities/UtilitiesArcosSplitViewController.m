@@ -27,10 +27,13 @@
     } else {
         UtilitiesUpdateDetailViewController *myDetailView = [[UtilitiesUpdateDetailViewController alloc] initWithNibName:@"UtilitiesUpdateDetailViewController" bundle:nil];
         navigationController_detail = [[UINavigationController alloc] initWithRootViewController:myDetailView];
+
         [myDetailView release];
     }
     
     UtilitiesMasterViewController *myMasterView = [[UtilitiesMasterViewController alloc] initWithNibName:@"UtilitiesMasterViewController" bundle:nil];
+    
+    myMasterView.arcosSplitViewController = self;
     
     UINavigationController *navigationController_master = [[UINavigationController alloc] initWithRootViewController:myMasterView];
     [myMasterView release];
@@ -40,6 +43,9 @@
     
     
 //    self.delegate = myMasterView;
+    
+    
+
     self.rcsViewControllers = [NSArray arrayWithObjects:navigationController_master, navigationController_detail, nil];
     [navigationController_master release];
     [navigationController_detail release];

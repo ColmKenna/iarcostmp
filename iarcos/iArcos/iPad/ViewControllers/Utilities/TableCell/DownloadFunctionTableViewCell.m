@@ -7,6 +7,8 @@
 //
 
 #import "DownloadFunctionTableViewCell.h"
+#import "UIColor+Hex.h"
+
 
 @implementation DownloadFunctionTableViewCell
 @synthesize myDelegate = _myDelegate;
@@ -15,6 +17,17 @@
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
+    // Set the border color
+    UIColor *borderUIColor = [UIColor colorFromHexString:@"#7D9DD6"];
+    _downloadButton.layer.borderColor = borderUIColor.CGColor;
+
+    // Set the border width
+    _downloadButton.layer.borderWidth = 1.0f;
+
+    // Optional: Set the corner radius for rounded corners
+    _downloadButton.layer.cornerRadius = 5.0f;
+    _downloadButton.layer.masksToBounds = YES;
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

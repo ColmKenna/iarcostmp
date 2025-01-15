@@ -22,11 +22,18 @@
 #import "UtilitiesMemoryTableViewController.h"
 #import "UtilitiesConfigurationTableViewController.h"
 #import "UtilitiesMailViewController.h"
+#import "ArcosSplitViewController.h"
+
 
 @interface UtilitiesMasterViewController : SplitViewCommonMasterViewController<UISplitViewControllerDelegate,UITableViewDataSource,UITableViewDelegate, ControllNavigationBarDelegate,PresentViewControllerDelegate,CustomisePresentViewControllerDelegate,UtilitiesConfigurationTableViewControllerDelegate> {
     id<ControllNavigationBarDelegate> _navigationDelegate;
+    IBOutlet UIView *tableHolder;
     IBOutlet UITableView* theTableView;
+    IBOutlet UIView *ResizeHolder;
+    IBOutlet UIImageView *ResizeImage;
+    IBOutlet UIStackView *utilitiesHolder;
     
+    IBOutlet UIView *BackHolder;
     //utilities array
     NSMutableArray* utilities;
     NSInteger currentSelectIndex;
@@ -79,6 +86,7 @@
 @property(nonatomic,retain) NSString* configurationTitle;
 @property(nonatomic,retain) NSString* newsTitle;
 @property(nonatomic,retain) NSString* emailTitle;
+@property (nonatomic, weak) ArcosSplitViewController *arcosSplitViewController;
 
 - (NSMutableDictionary*)createMasterCellDataWithFilename:(NSString*) fileName title:(NSString*)title subTitle:(NSString*)subTitle;
 - (void)createTableList;

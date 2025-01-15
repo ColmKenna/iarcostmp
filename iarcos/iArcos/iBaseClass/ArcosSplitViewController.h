@@ -22,4 +22,12 @@
 - (void)leftMoveMasterViewController;
 - (void)processMoveMasterViewController:(CGPoint)velocity;
 
+- (void)shrinkUtilitiesOptions;
+- (void)growUtilitiesOptions;
+- (void)layoutMySubviews;
+- (void)layoutLandscapeSubviews;
+- (void)layoutPortraitSubviews;
+- (void)resizeMasterViewToWidth:(CGFloat)desiredWidth;
+- (void)resizeMasterViewToPercentage:(CGFloat)percentage;
+
 @end
