@@ -21,12 +21,14 @@
     ArcosRootViewController* _arcosRootViewController;
     MFMailComposeViewController* _mailController;
     NSMutableArray* _previewDocumentList;
+    BOOL _viewWasAppearedFlag;
 }
 @property(nonatomic,retain)    IBOutlet UIWebView* pdfView;
 @property(nonatomic, retain) IBOutlet UIActivityIndicatorView* indicatorView;
 @property(nonatomic, retain) ArcosRootViewController* arcosRootViewController;
 @property(nonatomic, retain) MFMailComposeViewController* mailController;
 @property(nonatomic, retain) NSMutableArray* previewDocumentList;
+@property(nonatomic, assign) BOOL viewWasAppearedFlag;
 
 -(void)loadContentWithURL:(NSURL*)aUrl;
 -(void)setResourceName:(NSString*)aName type:(NSString*)type;

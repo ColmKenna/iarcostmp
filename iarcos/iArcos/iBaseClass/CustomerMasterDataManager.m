@@ -147,7 +147,7 @@
         self.meetingMainTemplateViewController.actionType = self.meetingMainTemplateViewController.createActionType;
 //        self.meetingMainTemplateViewController.actionType = @"";
         self.meetingNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.meetingMainTemplateViewController] autorelease];
-        self.arcosCalendarTableViewController = [[[ArcosCalendarTableViewController alloc] initWithNibName:@"ArcosCalendarTableViewController" bundle:nil] autorelease];
+        self.arcosCalendarTableViewController = [[[ArcosCalendarTableViewController alloc] initWithNibName:@"ArcosCalendarViewController" bundle:nil] autorelease];
         self.calendarNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.arcosCalendarTableViewController] autorelease];
         self.flagsMainTemplateViewController = [[[FlagsMainTemplateViewController alloc] initWithNibName:@"FlagsMainTemplateViewController" bundle:nil] autorelease];
         

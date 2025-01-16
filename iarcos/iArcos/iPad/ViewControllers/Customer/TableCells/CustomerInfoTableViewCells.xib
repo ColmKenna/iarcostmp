@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -238,6 +238,60 @@
                 <outlet property="infoValue" destination="b3C-A0-KbL" id="mx6-LY-Irk"/>
             </connections>
             <point key="canvasLocation" x="239.84375" y="280.078125"/>
+        </tableViewCell>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="IdCustomerInfoNextCallTableViewCell" id="olN-Ic-zeC" customClass="CustomerInfoNextCallTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="olN-Ic-zeC" id="goI-US-kJj">
+                <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Account Number" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="KUr-rP-cBA">
+                        <rect key="frame" x="15" y="11" width="150" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="aBV-N3-eYd"/>
+                            <constraint firstAttribute="width" constant="150" id="aQo-sO-OIx"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="4we5454" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="cd1-fD-vTt">
+                        <rect key="frame" x="190" y="11" width="114" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="aLu-nz-3rZ"/>
+                            <constraint firstAttribute="width" constant="114" id="fLI-hr-NyS"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9gd-BY-m3T">
+                        <rect key="frame" x="732" y="6" width="32" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="32" id="2kP-rk-ooO"/>
+                            <constraint firstAttribute="height" constant="32" id="cfk-Kn-tpe"/>
+                        </constraints>
+                        <state key="normal">
+                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="KUr-rP-cBA" firstAttribute="leading" secondItem="goI-US-kJj" secondAttribute="leading" constant="15" id="GK1-4q-vGL"/>
+                    <constraint firstAttribute="trailing" secondItem="9gd-BY-m3T" secondAttribute="trailing" constant="4" id="Sam-Tj-pvX"/>
+                    <constraint firstItem="KUr-rP-cBA" firstAttribute="top" secondItem="goI-US-kJj" secondAttribute="top" constant="11" id="nWD-GK-ukT"/>
+                    <constraint firstItem="9gd-BY-m3T" firstAttribute="top" secondItem="goI-US-kJj" secondAttribute="top" constant="6" id="rHI-Ow-N6g"/>
+                    <constraint firstItem="cd1-fD-vTt" firstAttribute="top" secondItem="goI-US-kJj" secondAttribute="top" constant="11" id="smw-K0-r8G"/>
+                    <constraint firstItem="cd1-fD-vTt" firstAttribute="leading" secondItem="goI-US-kJj" secondAttribute="leading" constant="190" id="zAk-XN-7lU"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="actionBtn" destination="9gd-BY-m3T" id="WSW-JS-o8C"/>
+                <outlet property="infoTitle" destination="KUr-rP-cBA" id="0gc-Yp-VRa"/>
+                <outlet property="infoValue" destination="cd1-fD-vTt" id="Yq9-Ab-TJj"/>
+            </connections>
+            <point key="canvasLocation" x="240" y="356"/>
         </tableViewCell>
     </objects>
 </document>

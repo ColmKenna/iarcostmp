@@ -273,8 +273,11 @@
     DescrDetail.Tooltip = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field12]];
     DescrDetail.Toggle1 = [NSNumber numberWithBool: [ArcosUtils convertStringToBool:anObject.Field13]];
     float dec1FloatValue = [[ArcosUtils convertStringToFloatNumber:anObject.Field14] floatValue];
-    int dec1IntValue = (int)(dec1FloatValue * 100);
-    DescrDetail.Dec1 = [NSNumber numberWithInt:dec1IntValue];
+//    int dec1IntValue = (int)(dec1FloatValue * 100);
+//    DescrDetail.Dec1 = [NSNumber numberWithInt:dec1IntValue];
+    float resultDec1FloatValue = dec1FloatValue * 100;
+    NSString* dec1StringValue = [NSString stringWithFormat:@"%.2f", resultDec1FloatValue];
+    DescrDetail.Dec1 = [NSDecimalNumber decimalNumberWithString:dec1StringValue];
     DescrDetail.Nominal = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:anObject.Field15]];
     return DescrDetail;
 }
@@ -294,8 +297,11 @@
     DescrDetail.Tooltip = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[aFieldList objectAtIndex:11]]];
     DescrDetail.Toggle1 = [NSNumber numberWithBool: [ArcosUtils convertStringToBool:[aFieldList objectAtIndex:12]]];
     float dec1FloatValue = [[ArcosUtils convertStringToFloatNumber:[aFieldList objectAtIndex:13]] floatValue];
-    int dec1IntValue = (int)(dec1FloatValue * 100);
-    DescrDetail.Dec1 = [NSNumber numberWithInt:dec1IntValue];
+//    int dec1IntValue = (int)(dec1FloatValue * 100);
+//    DescrDetail.Dec1 = [NSNumber numberWithInt:dec1IntValue];
+    float resultDec1FloatValue = dec1FloatValue * 100;
+    NSString* dec1StringValue = [NSString stringWithFormat:@"%.2f", resultDec1FloatValue];
+    DescrDetail.Dec1 = [NSDecimalNumber decimalNumberWithString:dec1StringValue];
     DescrDetail.Nominal = [ArcosUtils convertToString:[ArcosUtils convertNilToEmpty:[aFieldList objectAtIndex:14]]];
     return DescrDetail;
 }

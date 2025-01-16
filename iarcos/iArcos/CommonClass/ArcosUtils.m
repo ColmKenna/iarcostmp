@@ -680,6 +680,19 @@
     return [gregorian dateFromComponents:dateComponents];
 }
 
++ (NSDate*)configDateWithHour:(int)anHourQty minute:(int)aMinuteQty second:(int)aSecondQty date:(NSDate*)aDate {
+    NSCalendar* gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] autorelease];
+    NSLocale* ieLocale = [[NSLocale alloc] initWithLocaleIdentifier:[GlobalSharedClass shared].ieLocale];
+    gregorian.locale = ieLocale;
+    [ieLocale release];
+    NSDateComponents* dateComponents = [gregorian components:kCFCalendarUnitYear | kCFCalendarUnitMonth | kCFCalendarUnitDay | kCFCalendarUnitHour fromDate:aDate];
+    [dateComponents setHour:anHourQty];
+    [dateComponents setMinute:aMinuteQty];
+    [dateComponents setSecond:aSecondQty];
+    [dateComponents setNanosecond:0];
+    return [gregorian dateFromComponents:dateComponents];
+}
+
 + (BOOL)convertStringToBool:(NSString*)aField {
     if ([[self trim:aField].lowercaseString isEqualToString:@"true"]) {
         return YES;

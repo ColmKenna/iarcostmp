@@ -25,6 +25,9 @@
 @synthesize calendarUtilityDataManager = _calendarUtilityDataManager;
 @synthesize arcosRootViewController = _arcosRootViewController;
 @synthesize globalNavigationController = _globalNavigationController;
+@synthesize utilitiesMailDataManager = _utilitiesMailDataManager;
+@synthesize customerCalendarListCallDataManager = _customerCalendarListCallDataManager;
+@synthesize customerListingTableCellGeneratorDelegate = _customerListingTableCellGeneratorDelegate;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -33,6 +36,9 @@
         self.detailingCalendarEventBoxViewDataManager = [[[DetailingCalendarEventBoxViewDataManager alloc] init] autorelease];
         self.customerJourneyDataManager = [[[CustomerJourneyDataManager alloc] init] autorelease];
         self.calendarUtilityDataManager = [[[CalendarUtilityDataManager alloc] init] autorelease];
+        self.utilitiesMailDataManager = [[[UtilitiesMailDataManager alloc] init] autorelease];
+        self.customerCalendarListCallDataManager = [[[CustomerCalendarListCallDataManager alloc] init] autorelease];
+        self.customerListingTableCellGeneratorDelegate = [[[CustomerCalendarListTableCellGenerator alloc] init] autorelease];
     }
     return self;
 }
@@ -50,6 +56,11 @@
     NSMutableArray* leftButtonList = [NSMutableArray arrayWithObjects:backButton, nil];
     [self.navigationItem setLeftBarButtonItems:leftButtonList];
     [backButton release];
+    
+    UIBarButtonItem* toggleListButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"List2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleListButtonPressed:)];
+    NSMutableArray* buttonList = [NSMutableArray arrayWithObjects:toggleListButton, nil];
+    [self.navigationItem setRightBarButtonItems:buttonList];
+    [toggleListButton release];
     self.mySegmentedControl = [[[ArcosNoBgSegmentedControl alloc] initWithItems:self.customerCalendarListDataManager.statusItems] autorelease];
     
     @try {
@@ -92,8 +103,32 @@
     self.calendarUtilityDataManager = nil;
     self.arcosRootViewController = nil;
     self.globalNavigationController = nil;
+    self.utilitiesMailDataManager = nil;
+    self.customerCalendarListCallDataManager = nil;
+    self.customerListingTableCellGeneratorDelegate = nil;
     
     [super dealloc];
+}
+
+- (void)toggleListButtonPressed:(id)sender {
+    NSArray* indexPathsVisibleRows = [self.tableView indexPathsForVisibleRows];
+    if ([indexPathsVisibleRows count] > 0) {
+        NSIndexPath* topIndexPath = [indexPathsVisibleRows firstObject];
+        CustomerListingTableCell* tmpCustomerListingTableCell = [self.tableView cellForRowAtIndexPath:topIndexPath];
+        self.customerCalendarListCallDataManager.textViewContentWidth = tmpCustomerListingTableCell.addressLabel.frame.size.width - 10;
+//        NSLog(@"testccdd %@ %.2f", NSStringFromCGRect(tmpCustomerListingTableCell.addressLabel.frame), self.customerCalendarListCallDataManager.textViewContentWidth);
+    }
+    
+    
+    self.customerCalendarListCallDataManager.useCallTableCellFlag = !self.customerCalendarListCallDataManager.useCallTableCellFlag;
+    if (self.customerCalendarListCallDataManager.useCallTableCellFlag) {
+        self.customerListingTableCellGeneratorDelegate = [[[CustomerCalendarListCallTableCellGenerator alloc] init] autorelease];
+        [self.customerCalendarListCallDataManager memoTextViewHeightProcessor];
+    } else {
+        self.customerListingTableCellGeneratorDelegate = [[[CustomerCalendarListTableCellGenerator alloc] init] autorelease];
+    }
+    
+    [self.tableView reloadData];
 }
 
 - (void)segmentedControlAction:(id)sender {
@@ -105,7 +140,7 @@
             self.customerCalendarListDataManager.startDatePointer = [ArcosUtils addHours:0 date:self.customerCalendarListDataManager.currentStartDate];
             self.customerCalendarListHeaderView.startdatePointerLabel.text = [ArcosUtils stringFromDate:self.customerCalendarListDataManager.startDatePointer format:@"EEEE dd MMMM yyyy"];
             [self retrieveCalendarEventEntriesWithStartDate:self.customerCalendarListDataManager.currentStartDate endDate:self.customerCalendarListDataManager.currentEndDate];
-            [self.tableView reloadData];
+//            [self.tableView reloadData];
         }
             break;
         case 1: {
@@ -200,10 +235,24 @@
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.HUD hide:YES];
-                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
-                        
-                    }];
+//                    [weakSelf.HUD hide:YES];
+//                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
+//                        
+//                    }];
+                    void (^myFailureHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" target:weakSelf handler:^(UIAlertAction *action) {
+                            
+                        }];
+                    };
+                    void (^mySuccessHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                    };
+                    void (^myCompletionHandler)(void) = ^ {
+                        weakSelf.HUD.labelText = @"";
+                    };
+                    weakSelf.HUD.labelText = self.utilitiesMailDataManager.reconnectText;
+                    [self.utilitiesMailDataManager renewPressedProcessorWithFailureHandler:myFailureHandler successHandler:mySuccessHandler completionHandler:myCompletionHandler];
                 });
             } else {
                 self.customerCalendarListDataManager.displayList = [NSMutableArray array];
@@ -221,7 +270,7 @@
                     self.customerCalendarListDataManager.eventDictList = [NSMutableArray arrayWithArray:eventList];
                     self.detailingCalendarEventBoxViewDataManager.eventDictList = [NSMutableArray arrayWithArray:eventList];
                     self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
-                    self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:aDateFormatText journeyDictList:self.detailingCalendarEventBoxViewDataManager.journeyDictList eventDictList:self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList bodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
+                    self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:aDateFormatText journeyDictList:self.detailingCalendarEventBoxViewDataManager.journeyDictList eventDictList:self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList bodyCellType:self.calendarUtilityDataManager.bodyTemplateCellType bodyJourneyCellType:self.calendarUtilityDataManager.bodyJourneyCellType];
                 }
                 for (int i = 0; i < [eventList count]; i++) {
                     NSDictionary* auxEventDict = [eventList objectAtIndex:i];
@@ -236,11 +285,15 @@
                     NSDictionary* tmpLocationDict = [objectArray objectAtIndex:i];
                     NSNumber* tmpLocationIUR = [ArcosUtils convertNilToZero:[tmpLocationDict objectForKey:@"LocationIUR"]];
                     if ([tmpLocationIUR intValue] != 0) {
-                        [self.customerCalendarListDataManager.locationIURHashMap setObject:tmpLocationIUR forKey:tmpLocationIUR];
+                        [self.customerCalendarListDataManager.locationIURHashMap setObject:tmpLocationDict forKey:tmpLocationIUR];
                     }
                 }
+                [self.customerCalendarListCallDataManager callHeaderProcessorWithLocationIURList:self.customerCalendarListDataManager.locationIURList];
+                if (self.customerCalendarListCallDataManager.useCallTableCellFlag) {
+                    [self.customerCalendarListCallDataManager memoTextViewHeightProcessor];
+                }
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.tableView reloadData];
+                    [weakSelf.tableView reloadData];
                     [weakSelf.HUD hide:YES];
                 });
             }
@@ -251,6 +304,19 @@
 
 
 #pragma mark - Table view data source
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (!self.customerCalendarListCallDataManager.useCallTableCellFlag) {
+        return 44.0;
+    }
+    NSDictionary* eventDict = [self.customerCalendarListDataManager.eventDictList objectAtIndex:indexPath.row];
+    NSNumber* tmpLocationIUR = [self.customerCalendarListDataManager.calendarUtilityDataManager retrieveLocationIURWithEventDict:eventDict];
+    if ([self.customerCalendarListCallDataManager.callHeaderHashMap objectForKey:tmpLocationIUR] == nil) {
+        return 44.0;
+    }
+    NSNumber* memoTextViewHeight = [self.customerCalendarListCallDataManager.memoTextViewHeightHashMap objectForKey:tmpLocationIUR];
+    return 65.0 + 4.0 + [memoTextViewHeight floatValue];
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     self.customerCalendarListHeaderView.startdatePointerLabel.text = [ArcosUtils stringFromDate:self.customerCalendarListDataManager.startDatePointer format:@"EEEE dd MMMM yyyy"];
     return self.customerCalendarListHeaderView;
@@ -270,6 +336,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    /*
     static NSString *CellIdentifier = @"IdCustomerCalendarListTableViewCell";
     
     CustomerCalendarListTableViewCell* cell = (CustomerCalendarListTableViewCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -283,31 +350,71 @@
             }
         }
     }
+     */
+    CustomerListingTableCell* cell = [self.customerListingTableCellGeneratorDelegate generateTableCellWithTableView:tableView];
     
     // Configure the cell...
     NSDictionary* eventDict = [self.customerCalendarListDataManager.eventDictList objectAtIndex:indexPath.row];
     NSNumber* auxLocationIUR = [self.customerCalendarListDataManager.calendarUtilityDataManager retrieveLocationIURWithEventDict:eventDict];
-    if ([self.customerCalendarListDataManager.locationIURHashMap objectForKey:auxLocationIUR] != nil) {
-        cell.nameLabel.textColor = [UIColor blackColor];
-        cell.addressLabel.textColor = [UIColor blackColor];
-    } else {
-        cell.nameLabel.textColor = [UIColor lightGrayColor];
-        cell.addressLabel.textColor = [UIColor lightGrayColor];
-    }
+    NSDictionary* auxCoreDataLocationDict = [self.customerCalendarListDataManager.locationIURHashMap objectForKey:auxLocationIUR];
     //Location
     NSDictionary* locationDict = [eventDict objectForKey:@"location"];
-    cell.nameLabel.text = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"displayName"]]];
+    if (auxCoreDataLocationDict != nil) {
+        cell.nameLabel.textColor = [UIColor blackColor];
+        cell.addressLabel.textColor = [UIColor blackColor];
+        cell.locationCodeLabel.textColor = [UIColor blackColor];
+        cell.nameLabel.text = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"displayName"]]];
+        cell.addressLabel.text = [NSString stringWithFormat:@"%@ %@ %@ %@ %@",[ArcosUtils convertNilToEmpty:[auxCoreDataLocationDict objectForKey:@"Address1"]], [ArcosUtils convertNilToEmpty:[auxCoreDataLocationDict objectForKey:@"Address2"]], [ArcosUtils convertNilToEmpty:[auxCoreDataLocationDict objectForKey:@"Address3"]], [ArcosUtils convertNilToEmpty:[auxCoreDataLocationDict objectForKey:@"Address4"]], [ArcosUtils convertNilToEmpty:[auxCoreDataLocationDict objectForKey:@"Address5"]]];
+    } else {
+        cell.nameLabel.textColor = [UIColor colorWithRed:1.0 green:165.0/255.0 blue:0.0 alpha:1.0];
+        cell.addressLabel.textColor = [UIColor colorWithRed:1.0 green:165.0/255.0 blue:0.0 alpha:1.0];
+        cell.locationCodeLabel.textColor = [UIColor colorWithRed:1.0 green:165.0/255.0 blue:0.0 alpha:1.0];
+        //Title
+        cell.nameLabel.text = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[eventDict objectForKey:@"subject"]]];
+        //Location
+        cell.addressLabel.text = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"displayName"]]];
+    }
+    
+//    cell.nameLabel.text = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"displayName"]]];
     //Time
     NSDictionary* cellStartDict = [eventDict objectForKey:@"start"];
     NSString* tmpCellStartDateStr = [cellStartDict objectForKey:@"dateTime"];
     NSDate* tmpCellStartDate = [ArcosUtils dateFromString:tmpCellStartDateStr format:[GlobalSharedClass shared].datetimeCalendarFormat];
     cell.locationCodeLabel.text = [ArcosUtils stringFromDate:tmpCellStartDate format:[GlobalSharedClass shared].datetimehmFormat];
     
-    //Title
-    cell.addressLabel.text = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[eventDict objectForKey:@"subject"]]];
+    
     
     [cell.locationStatusButton setImage:nil forState:UIControlStateNormal];
     [cell.creditStatusButton setImage:nil forState:UIControlStateNormal];
+    
+    if (auxCoreDataLocationDict != nil) {
+        NSNumber* locationStatusIUR = [auxCoreDataLocationDict objectForKey:@"lsiur"];
+        NSNumber* creditStatusIUR = [auxCoreDataLocationDict objectForKey:@"CSiur"];
+        NSMutableArray* descrDetailIURList = [NSMutableArray arrayWithObjects:locationStatusIUR, creditStatusIUR, nil];
+        NSMutableArray* descrDetailDictList = [[ArcosCoreData sharedArcosCoreData] descriptionWithIURList:descrDetailIURList];
+        NSMutableDictionary* descrDetailDictHashMap = [NSMutableDictionary dictionaryWithCapacity:[descrDetailDictList count]];
+        for (int i = 0; i < [descrDetailDictList count]; i++) {
+            NSDictionary* auxDescrDetailDict = [descrDetailDictList objectAtIndex:i];
+            NSNumber* auxDescrDetailIUR = [auxDescrDetailDict objectForKey:@"DescrDetailIUR"];
+            NSNumber* auxImageIUR = [auxDescrDetailDict objectForKey:@"ImageIUR"];
+            [descrDetailDictHashMap setObject:auxImageIUR forKey:auxDescrDetailIUR];
+        }
+        NSNumber* locationStatusImageIUR = [descrDetailDictHashMap objectForKey:locationStatusIUR];
+        if ([locationStatusImageIUR intValue] != 0) {
+            UIImage* locationStatusImage = [[ArcosCoreData sharedArcosCoreData] thumbWithIUR:locationStatusImageIUR];
+            if (locationStatusImage != nil) {
+                [cell.locationStatusButton setImage:locationStatusImage forState:UIControlStateNormal];
+            }
+        }
+        NSNumber* creditStatusImageIUR = [descrDetailDictHashMap objectForKey:creditStatusIUR];
+        if ([creditStatusImageIUR intValue] != 0) {
+            UIImage* creditStatusImage = [[ArcosCoreData sharedArcosCoreData] thumbWithIUR:creditStatusImageIUR];
+            if (creditStatusImage != nil) {
+                [cell.creditStatusButton setImage:creditStatusImage forState:UIControlStateNormal];
+            }
+        }
+    }
+    
     
     for (UIGestureRecognizer* recognizer in cell.contentView.gestureRecognizers) {
         [cell.contentView removeGestureRecognizer:recognizer];
@@ -322,6 +429,10 @@
     [cell.contentView addGestureRecognizer:doubleTap];
     [doubleTap release];
     [singleTap release];
+    
+    [cell configCallInfoWithCallHeader:[self.customerCalendarListCallDataManager.callHeaderHashMap objectForKey:auxLocationIUR]];
+    NSNumber* memoTextViewHeight = [self.customerCalendarListCallDataManager.memoTextViewHeightHashMap objectForKey:auxLocationIUR];
+    cell.memoTextView.frame = CGRectMake(cell.memoTextView.frame.origin.x, cell.memoTextView.frame.origin.y, cell.memoTextView.frame.size.width, [memoTextViewHeight floatValue]);
     
     return cell;
 }
@@ -359,8 +470,8 @@
         }
         ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
         
-        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText];
-        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
+        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText bodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
+        [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList headerCellType:self.detailingCalendarEventBoxViewDataManager.headerCellType];
         
         
         ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:startDate format:[GlobalSharedClass shared].weekdayDateFormat];

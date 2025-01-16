@@ -611,6 +611,7 @@
         amwvc.subjectText = [mailDict objectForKey:@"Subject"];
         amwvc.bodyText = [mailDict objectForKey:@"Body"];
         amwvc.isHTML = YES;
+        amwvc.showSignatureFlag = YES;
         if (![fileName isEqualToString:@""]) {
             NSString* pdfFilePath = [[FileCommon documentsPath] stringByAppendingPathComponent:fileName];
             NSData* data = [NSData dataWithContentsOfFile:pdfFilePath];            

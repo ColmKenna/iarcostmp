@@ -29,6 +29,7 @@
 @synthesize listingTitleLabel = _listingTitleLabel;
 @synthesize auxFooterBackgroundView = _auxFooterBackgroundView;
 @synthesize auxFooterRightHandSideView = _auxFooterRightHandSideView;
+@synthesize utilitiesMailDataManager = _utilitiesMailDataManager;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -37,6 +38,7 @@
         self.arcosCalendarEventEntryDetailTableViewController.actionDelegate = self;
         self.arcosCalendarEventEntryDetailListingDataManager = [[[ArcosCalendarEventEntryDetailListingDataManager alloc] init] autorelease];
         self.arcosCalendarEventEntryDetailListingDataManager.actionDelegate = self;
+        self.utilitiesMailDataManager = [[[UtilitiesMailDataManager alloc] init] autorelease];
     }
     return self;
 }
@@ -130,6 +132,7 @@
     self.listingTitleLabel = nil;
     self.auxFooterBackgroundView = nil;
     self.auxFooterRightHandSideView = nil;
+    self.utilitiesMailDataManager = nil;
     
     [super dealloc];
 }
@@ -282,8 +285,20 @@
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.HUD hide:YES];
-                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+//                    [weakSelf.HUD hide:YES];
+//                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+                    void (^myFailureHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" target:weakSelf handler:nil];
+                    };
+                    void (^mySuccessHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                    };
+                    void (^myCompletionHandler)(void) = ^ {
+                        weakSelf.HUD.labelText = @"";
+                    };
+                    weakSelf.HUD.labelText = self.utilitiesMailDataManager.reconnectText;
+                    [self.utilitiesMailDataManager renewPressedProcessorWithFailureHandler:myFailureHandler successHandler:mySuccessHandler completionHandler:myCompletionHandler];
                 });
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -372,8 +387,22 @@
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.HUD hide:YES];
-                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+//                    [weakSelf.HUD hide:YES];
+//                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+                    void (^myFailureHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" target:weakSelf handler:^(UIAlertAction *action) {
+                            
+                        }];
+                    };
+                    void (^mySuccessHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                    };
+                    void (^myCompletionHandler)(void) = ^ {
+                        weakSelf.HUD.labelText = @"";
+                    };
+                    weakSelf.HUD.labelText = self.utilitiesMailDataManager.reconnectText;
+                    [self.utilitiesMailDataManager renewPressedProcessorWithFailureHandler:myFailureHandler successHandler:mySuccessHandler completionHandler:myCompletionHandler];
                 });
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -437,8 +466,22 @@
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.HUD hide:YES];
-                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+//                    [weakSelf.HUD hide:YES];
+//                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:nil];
+                    void (^myFailureHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" target:weakSelf handler:^(UIAlertAction *action) {
+                            
+                        }];
+                    };
+                    void (^mySuccessHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                    };
+                    void (^myCompletionHandler)(void) = ^ {
+                        weakSelf.HUD.labelText = @"";
+                    };
+                    weakSelf.HUD.labelText = self.utilitiesMailDataManager.reconnectText;
+                    [self.utilitiesMailDataManager renewPressedProcessorWithFailureHandler:myFailureHandler successHandler:mySuccessHandler completionHandler:myCompletionHandler];
                 });
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -510,16 +553,30 @@
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
-                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
+//                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
+//                        [weakSelf.HUD hide:YES];
+//                    }];
+                    void (^myFailureHandler)(void) = ^ {
                         [weakSelf.HUD hide:YES];
-                    }];
+                        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" target:weakSelf handler:^(UIAlertAction *action) {
+                            
+                        }];
+                    };
+                    void (^mySuccessHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                    };
+                    void (^myCompletionHandler)(void) = ^ {
+                        weakSelf.HUD.labelText = @"";
+                    };
+                    weakSelf.HUD.labelText = self.utilitiesMailDataManager.reconnectText;
+                    [self.utilitiesMailDataManager renewPressedProcessorWithFailureHandler:myFailureHandler successHandler:mySuccessHandler completionHandler:myCompletionHandler];
                 });
             } else {
                 id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingFragmentsAllowed error:nil];
                 NSDictionary* resultDict = (NSDictionary*)result;
                 NSArray* eventList = [resultDict objectForKey:@"value"];
                 [self.arcosCalendarEventEntryDetailListingDataManager createTemplateListingDisplayListWithEventList:eventList];
-                [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:self.arcosCalendarEventEntryDetailListingDataManager.displayList];
+                [self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:self.arcosCalendarEventEntryDetailListingDataManager.displayList headerCellType:self.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager.headerCellType];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.listingTableView reloadData];
                     [weakSelf.HUD hide:YES];

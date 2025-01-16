@@ -42,6 +42,8 @@
 @synthesize frwvc = _frwvc;
 @synthesize formRowsNavigationController = _formRowsNavigationController;
 @synthesize emailButtonAddressSelectDelegate = _emailButtonAddressSelectDelegate;
+@synthesize presenterMainDataManager = _presenterMainDataManager;
+@synthesize callGenericServices = _callGenericServices;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,6 +54,7 @@
         self.files=[NSMutableArray array];
         self.currentFile=nil;
         self.presenterRequestSource = PresenterRequestSourceSubMenu;
+        self.presenterMainDataManager = [[[PresenterMainDataManager alloc] init] autorelease];
     }
     return self;
 }
@@ -78,7 +81,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self createPresenterTransactionToolInstance];
     UIBarButtonItem *typeButton = [[UIBarButtonItem alloc] 
                                    initWithTitle: @"Order"
@@ -102,6 +104,8 @@
 //    self.inputPopover.delegate = self;
     [ArcosUtils configEdgesForExtendedLayout:self];
     self.rootView = (ArcosRootViewController*)[ArcosUtils getRootView];
+    self.callGenericServices = [[[CallGenericServices alloc] initWithView:self.navigationController.view] autorelease];
+    self.callGenericServices.delegate = self;
 }
 
 
@@ -154,6 +158,7 @@
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [self.navigationController.view setNeedsLayout];
 }
 
@@ -342,6 +347,8 @@
     [self.formRowsNavigationController.view removeFromSuperview];
     self.formRowsNavigationController = nil;
     self.emailButtonAddressSelectDelegate = nil;
+    self.presenterMainDataManager = nil;
+    self.callGenericServices = nil;
     
     [super dealloc];
 }
@@ -724,7 +731,13 @@
             break;
     }
     if (!alertShowedFlag) {
-        [self dismissViewControllerAnimated:YES completion:nil];
+//        [self dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:^{
+            if (result == MFMailComposeResultSent) {
+                NSLog(@"base presenter");
+                [self createFlagAfterEmailSent];
+            }
+        }];
     }
 }
 
@@ -776,7 +789,8 @@
 }
 
 - (void)processSelectEmailRecipientRow:(NSDictionary*)cellData dataList:(NSMutableArray*)aDataList{
-    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {        
+//    NSLog(@"aDataList %@", aDataList);
+    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
         [self smtpMailView:cellData dataList:aDataList];
         return;
     }
@@ -926,6 +940,36 @@
         [self.globalNavigationController.view removeFromSuperview];
         [self.globalNavigationController removeFromParentViewController];
         self.globalNavigationController = nil;
+        if (aResult == ArcosMailComposeResultCancelled) {
+            return;
+        }
+        [self createFlagAfterEmailSent];
+    }];
+}
+
+- (void)createFlagAfterEmailSent {
+    if ([GlobalSharedClass shared].currentSelectedLocationIUR == nil) {
+        return;
+    }
+    if ([self.fileType intValue] == 11 && self.presenterMainDataManager.emailAllAtCombinedPresenterFlag) {
+        self.presenterMainDataManager.presenterIURForFlag = self.presenterMainDataManager.mainPresenterIUR;
+    } else {
+        self.presenterMainDataManager.presenterIURForFlag = [self.currentFile objectForKey:@"IUR"];
+    }
+    NSLog(@"presenterIURForFlag- %@", self.presenterMainDataManager.presenterIURForFlag);
+    [self.presenterMainDataManager retrieveFlagChangedDataListWithDescrDetailDictList:[self.presenterMainDataManager retrieveDescrDetailForFlagWithPresenterIUR:self.presenterMainDataManager.presenterIURForFlag]];
+    if ([self.presenterMainDataManager.flagChangedDataList count] == 0) {
+        return;
+    }
+    [self.callGenericServices createMultipleRecords:@"Flag" records:self.presenterMainDataManager.flagChangedDataList];
+}
+
+-(void)setCreateMultipleRecordsResult:(NSMutableArray*) result {
+    if (result == nil) {
+        return;
+    }
+    [ArcosUtils showDialogBox:@"Completed" title:@"" target:self handler:^(UIAlertAction *action) {
+
     }];
 }
 

@@ -47,6 +47,7 @@
 @synthesize imageButton = _imageButton;
 @synthesize customerJourneyDataManager = _customerJourneyDataManager;
 @synthesize calendarUtilityDataManager = _calendarUtilityDataManager;
+@synthesize utilitiesMailDataManager = _utilitiesMailDataManager;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -55,6 +56,7 @@
         self.customerJourneyDataManager = [[[CustomerJourneyDataManager alloc] init] autorelease];
         [self.customerJourneyDataManager processCalendarJourneyData];
         self.calendarUtilityDataManager = [[[CalendarUtilityDataManager alloc] init] autorelease];
+        self.utilitiesMailDataManager = [[[UtilitiesMailDataManager alloc] init] autorelease];
     }
     return self;
 }
@@ -195,9 +197,9 @@
     }
     ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
     
-    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText];
+    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText bodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
     
-    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
+    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList headerCellType:self.detailingCalendarEventBoxViewDataManager.headerCellType];
     ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.barTitleContent = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].weekdayDateFormat];
 
     self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:ACEEDTVC] autorelease];
@@ -317,6 +319,7 @@
     self.imageButton = nil;
     self.customerJourneyDataManager = nil;
     self.calendarUtilityDataManager = nil;
+    self.utilitiesMailDataManager = nil;
     
     [super dealloc];
 }
@@ -417,10 +420,24 @@
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.HUD hide:YES];
-                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
-                        
-                    }];
+//                    [weakSelf.HUD hide:YES];
+//                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
+//                        
+//                    }];
+                    void (^myFailureHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" target:weakSelf handler:^(UIAlertAction *action) {
+                            
+                        }];
+                    };
+                    void (^mySuccessHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                    };
+                    void (^myCompletionHandler)(void) = ^ {
+                        weakSelf.HUD.labelText = @"";
+                    };
+                    weakSelf.HUD.labelText = self.utilitiesMailDataManager.reconnectText;
+                    [self.utilitiesMailDataManager renewPressedProcessorWithFailureHandler:myFailureHandler successHandler:mySuccessHandler completionHandler:myCompletionHandler];
                 });
             } else {
                 self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [NSMutableArray array];
@@ -446,7 +463,7 @@
                         dispatch_async(dispatch_get_main_queue(), ^{
 //                            self.listingNavigationBar.topItem.title = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
 //                            self.calendarDateDesc.text = self.detailingCalendarEventBoxViewDataManager.nextAppointmentText;
-                            [self.imageButton setImage:[UIImage imageNamed:@"List2.png"] forState:UIControlStateNormal];
+                            [self.imageButton setImage:[UIImage imageNamed:@"Calendar-Blue.png"] forState:UIControlStateNormal];
                             self.nextAppointmentValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].dateFormat];
 //                            self.calendarDateValue.text = [ArcosUtils stringFromDate:self.detailingCalendarEventBoxViewDataManager.calendarDateData format:[GlobalSharedClass shared].datetimehmFormat];
                             self.calendarDatePicker.date = self.detailingCalendarEventBoxViewDataManager.calendarDateData;
@@ -518,10 +535,24 @@
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.HUD hide:YES];
-                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
-                        
-                    }];
+//                    [weakSelf.HUD hide:YES];
+//                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
+//                        
+//                    }];
+                    void (^myFailureHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" target:weakSelf handler:^(UIAlertAction *action) {
+                            
+                        }];
+                    };
+                    void (^mySuccessHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                    };
+                    void (^myCompletionHandler)(void) = ^ {
+                        weakSelf.HUD.labelText = @"";
+                    };
+                    weakSelf.HUD.labelText = self.utilitiesMailDataManager.reconnectText;
+                    [self.utilitiesMailDataManager renewPressedProcessorWithFailureHandler:myFailureHandler successHandler:mySuccessHandler completionHandler:myCompletionHandler];
                 });
             } else {
                 self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [NSMutableArray array];
@@ -548,10 +579,10 @@
                     self.detailingCalendarEventBoxViewDataManager.journeyDictList = [self.customerJourneyDataManager.locationListDict objectForKey:aDateFormatText];
                 }
                 self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
-                self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:aDateFormatText journeyDictList:self.detailingCalendarEventBoxViewDataManager.journeyDictList eventDictList:self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList bodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
+                self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:aDateFormatText journeyDictList:self.detailingCalendarEventBoxViewDataManager.journeyDictList eventDictList:self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList bodyCellType:self.calendarUtilityDataManager.bodyCellType bodyJourneyCellType:self.calendarUtilityDataManager.bodyJourneyCellType];
                 
 //                self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
-                [self.detailingCalendarEventBoxListingDataManager createBasicDataWithDataList:self.detailingCalendarEventBoxViewDataManager.listingDisplayList];
+                [self.detailingCalendarEventBoxListingDataManager createBasicDataWithDataList:self.detailingCalendarEventBoxViewDataManager.listingDisplayList headerCellType:self.detailingCalendarEventBoxListingDataManager.headerCellType];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.listingTableView reloadData];
                     [weakSelf.HUD hide:YES];
@@ -610,10 +641,24 @@
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.HUD hide:YES];
-                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
-                        
-                    }];
+//                    [weakSelf.HUD hide:YES];
+//                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
+//                        
+//                    }];
+                    void (^myFailureHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" target:weakSelf handler:^(UIAlertAction *action) {
+                            
+                        }];
+                    };
+                    void (^mySuccessHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                    };
+                    void (^myCompletionHandler)(void) = ^ {
+                        weakSelf.HUD.labelText = @"";
+                    };
+                    weakSelf.HUD.labelText = self.utilitiesMailDataManager.reconnectText;
+                    [self.utilitiesMailDataManager renewPressedProcessorWithFailureHandler:myFailureHandler successHandler:mySuccessHandler completionHandler:myCompletionHandler];
                 });
             } else {
                 self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [NSMutableArray array];
@@ -639,8 +684,8 @@
                     self.detailingCalendarEventBoxViewDataManager.journeyDictList = [self.customerJourneyDataManager.locationListDict objectForKey:aDateFormatText];
                 }
                 self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
-                self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:aDateFormatText journeyDictList:self.detailingCalendarEventBoxViewDataManager.journeyDictList eventDictList:self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList bodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyCellType];
-                [self.detailingCalendarEventBoxListingDataManager createBasicDataWithDataList:self.detailingCalendarEventBoxViewDataManager.listingDisplayList];
+                self.detailingCalendarEventBoxViewDataManager.listingDisplayList = [self.calendarUtilityDataManager processDataListWithDateFormatText:aDateFormatText journeyDictList:self.detailingCalendarEventBoxViewDataManager.journeyDictList eventDictList:self.detailingCalendarEventBoxViewDataManager.templateListingDisplayList bodyCellType:self.calendarUtilityDataManager.bodyCellType bodyJourneyCellType:self.calendarUtilityDataManager.bodyJourneyCellType];
+                [self.detailingCalendarEventBoxListingDataManager createBasicDataWithDataList:self.detailingCalendarEventBoxViewDataManager.listingDisplayList headerCellType:self.detailingCalendarEventBoxViewDataManager.headerCellType];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.listingTableView reloadData];
                     [weakSelf.HUD hide:YES];
@@ -703,11 +748,25 @@
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.HUD hide:YES];
-                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
+//                    [weakSelf.HUD hide:YES];
+//                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
                         
 //                        [weakSelf.actionDelegate didDismissViewProcessor];
-                    }];
+//                    }];
+                    void (^myFailureHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" target:weakSelf handler:^(UIAlertAction *action) {
+                            
+                        }];
+                    };
+                    void (^mySuccessHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                    };
+                    void (^myCompletionHandler)(void) = ^ {
+                        weakSelf.HUD.labelText = @"";
+                    };
+                    weakSelf.HUD.labelText = self.utilitiesMailDataManager.reconnectText;
+                    [self.utilitiesMailDataManager renewPressedProcessorWithFailureHandler:myFailureHandler successHandler:mySuccessHandler completionHandler:myCompletionHandler];
                 });
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -772,11 +831,25 @@
                 NSDictionary* errorResultDict = [resultDict objectForKey:@"error"];
                 NSString* errorMsg = [errorResultDict objectForKey:@"message"];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.HUD hide:YES];
-                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
-                        
-//                        [weakSelf.actionDelegate didDismissViewProcessor];
-                    }];
+//                    [weakSelf.HUD hide:YES];
+//                    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" delegate:nil target:weakSelf tag:0 handler:^(UIAlertAction *action) {
+//                        
+////                        [weakSelf.actionDelegate didDismissViewProcessor];
+//                    }];
+                    void (^myFailureHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                        [ArcosUtils showDialogBox:[NSString stringWithFormat:@"HTTP status %d %@", statusCode, [ArcosUtils convertNilToEmpty:errorMsg]] title:@"" target:weakSelf handler:^(UIAlertAction *action) {
+                            
+                        }];
+                    };
+                    void (^mySuccessHandler)(void) = ^ {
+                        [weakSelf.HUD hide:YES];
+                    };
+                    void (^myCompletionHandler)(void) = ^ {
+                        weakSelf.HUD.labelText = @"";
+                    };
+                    weakSelf.HUD.labelText = self.utilitiesMailDataManager.reconnectText;
+                    [self.utilitiesMailDataManager renewPressedProcessorWithFailureHandler:myFailureHandler successHandler:mySuccessHandler completionHandler:myCompletionHandler];
                 });
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -950,8 +1023,8 @@
     }
     ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.eventDictList = [self.detailingCalendarEventBoxViewDataManager retrieveTemplateListingDisplayListWithBodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
     
-    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText];
-    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];    
+    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager processDataListWithDateFormatText:aDateFormatText bodyCellType:self.detailingCalendarEventBoxViewDataManager.bodyTemplateCellType];
+    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList headerCellType:self.detailingCalendarEventBoxViewDataManager.headerCellType];
     
 //    [ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.detailingCalendarEventBoxListingDataManager createBasicDataForTemplateWithDataList:ACEEDTVC.arcosCalendarEventEntryDetailListingDataManager.displayList];
     

@@ -99,7 +99,8 @@
     NSMutableArray* dataList = nil;
     NSString* navigationBarTitle = nil;
     
-    dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode];  
+//    dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode];
+    dataList = [[ArcosCoreData sharedArcosCoreData] descrDetailWithDescrCodeType:descrTypeCode parentCode:nil checkActive:YES];
     navigationBarTitle = [[[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:descrTypeCode] objectForKey:@"Details"];
     [self processDescrSelectionCenter:navigationBarTitle dataList:dataList];    
 }

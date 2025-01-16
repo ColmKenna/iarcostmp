@@ -9,7 +9,7 @@
 #import "CustomerJourneyDetailTableViewCell.h"
 
 @implementation CustomerJourneyDetailTableViewCell
-@synthesize weekDayCallNumberLabel = _weekDayCallNumberLabel;
+//@synthesize weekDayCallNumberLabel = _weekDayCallNumberLabel;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -23,7 +23,7 @@
 }
 
 - (void)dealloc {
-    self.weekDayCallNumberLabel = nil;
+//    self.weekDayCallNumberLabel = nil;
     
     [super dealloc];
 }

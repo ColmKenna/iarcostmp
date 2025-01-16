@@ -9,6 +9,39 @@
 #import "CalendarUtilityDataManager.h"
 
 @implementation CalendarUtilityDataManager
+@synthesize bodyCellType = _bodyCellType;
+@synthesize bodyTemplateCellType = _bodyTemplateCellType;
+@synthesize headerCellType = _headerCellType;
+@synthesize headerForPopOutType = _headerForPopOutType;
+@synthesize bodyForPopOutCellType = _bodyForPopOutCellType;
+@synthesize bodyJourneyCellType = _bodyJourneyCellType;
+@synthesize bodyJourneyForPopOutCellType = _bodyJourneyForPopOutCellType;
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.bodyCellType = [NSNumber numberWithInt:2];
+        self.bodyTemplateCellType = [NSNumber numberWithInt:4];
+        self.headerCellType = [NSNumber numberWithInt:1];
+        self.headerForPopOutType = [NSNumber numberWithInt:6];
+        self.bodyForPopOutCellType = [NSNumber numberWithInt:7];
+        self.bodyJourneyCellType = [NSNumber numberWithInt:5];
+        self.bodyJourneyForPopOutCellType = [NSNumber numberWithInt:8];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    self.bodyCellType = nil;
+    self.bodyTemplateCellType = nil;
+    self.headerCellType = nil;
+    self.headerForPopOutType = nil;
+    self.bodyForPopOutCellType = nil;
+    self.bodyJourneyCellType = nil;
+    self.bodyJourneyForPopOutCellType = nil;
+    
+    [super dealloc];
+}
 
 - (NSString*)retrieveCalendarURIWithStartDate:(NSString*)aStartDate endDate:(NSString*)anEndDate {
     return [NSString stringWithFormat:@"https://graph.microsoft.com/v1.0/me/calendarview?$select=id,subject,bodyPreview,start,end,location,isAllDay&$top=1000&startdatetime=%@&enddatetime=%@&$orderby=start/dateTime asc", aStartDate, anEndDate];
@@ -26,7 +59,7 @@
     return locationIUR;
 }
 
-- (NSMutableArray*)processDataListWithDateFormatText:(NSString*)aDateFormatText journeyDictList:(NSMutableArray*)aJourneyDictList eventDictList:(NSMutableArray*)anEventDictList bodyCellType:(NSNumber*)aBodyCellType {
+- (NSMutableArray*)processDataListWithDateFormatText:(NSString*)aDateFormatText journeyDictList:(NSMutableArray*)aJourneyDictList eventDictList:(NSMutableArray*)anEventDictList bodyCellType:(NSNumber*)aBodyCellType bodyJourneyCellType:(NSNumber*)aBodyJourneyCellType {
     NSMutableArray* displayList = [NSMutableArray arrayWithCapacity:([aJourneyDictList count] + [anEventDictList count])];
     NSDate* beginDate = [ArcosUtils dateFromString:[NSString stringWithFormat:@"%@ 09:00:00", aDateFormatText] format:[GlobalSharedClass shared].datetimeFormat];
     int minutesInterval = 60;
@@ -40,7 +73,9 @@
         [dataDict setObject:[ArcosUtils addMinutes:i * minutesInterval date:beginDate] forKey:@"Date"];
         NSString* tmpAddress = [NSString stringWithFormat:@"%@ %@ %@ %@ %@",[ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address1"]], [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address2"]], [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address3"]], [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address4"]], [ArcosUtils convertNilToEmpty:[locationDict objectForKey:@"Address5"]]];
         [dataDict setObject:tmpAddress forKey:@"Address"];
-        [dataDict setObject:[NSNumber numberWithInt:5] forKey:@"CellType"];
+        [dataDict setObject:aBodyJourneyCellType forKey:@"CellType"];//[NSNumber numberWithInt:5]
+        [dataDict setObject:[NSNumber numberWithInt:[[locationDict objectForKey:@"lsiur"] intValue]] forKey:@"lsiur"];
+        [dataDict setObject:[NSNumber numberWithInt:[[locationDict objectForKey:@"CSiur"] intValue]] forKey:@"CSiur"];
         [displayList addObject:dataDict];
     }
     

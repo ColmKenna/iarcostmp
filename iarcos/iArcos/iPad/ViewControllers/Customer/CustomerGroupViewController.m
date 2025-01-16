@@ -619,6 +619,7 @@
     NSMutableDictionary* aJourneyDict = [self.customerJourneyDataManager.displayList objectAtIndex:anIndexPath.row];
     self.myJourneyDetailViewController.title = [aJourneyDict objectForKey:@"JourneyDateText"];
     [self.customerJourneyDataManager getLocationsWithJourneyDict:aJourneyDict];
+    [self.myJourneyDetailViewController callHeaderProcessor];
     [self.myJourneyDetailViewController resetTableList:[aJourneyDict objectForKey:@"JourneyDate"]];
 }
 
@@ -626,6 +627,7 @@
     NSMutableDictionary* aJourneyDict = [self.customerJourneyDataManager.displayList objectAtIndex:anIndexPath.row];
     self.myJourneyDetailViewController.title = [aJourneyDict objectForKey:@"JourneyDateText"];
     [self.customerJourneyDataManager getLocationsWithJourneyDict:aJourneyDict];
+    [self.myJourneyDetailViewController callHeaderProcessor];
     [self.myJourneyDetailViewController resetTableListFromDateWheels:[aJourneyDict objectForKey:@"JourneyDate"] journeyIUR:aJourneyIUR];
 }
 
@@ -633,6 +635,7 @@
     NSMutableDictionary* aJourneyDict = [self.customerJourneyDataManager.displayList objectAtIndex:anIndexPath.row];
     self.myJourneyDetailViewController.title = [aJourneyDict objectForKey:@"JourneyDateText"];
     [self.customerJourneyDataManager getLocationsWithJourneyDict:aJourneyDict];
+    [self.myJourneyDetailViewController callHeaderProcessor];
     [self.myJourneyDetailViewController resetTableListFromDateWheelsRemoveButton:[aJourneyDict objectForKey:@"JourneyDate"]];
 }
 

@@ -32,8 +32,9 @@
 }
 
 - (IBAction)addButtonPressed:(id)sender {
-    NSMutableArray* contactLocationObjectList = [[ArcosCoreData sharedArcosCoreData] contactLocationWithCOIUR:[NSNumber numberWithInt:-1]];
-    [self.customerGroupDataManager sortContactLocationResultList:contactLocationObjectList];
+//    NSMutableArray* contactLocationObjectList = [[ArcosCoreData sharedArcosCoreData] contactLocationWithCOIUR:[NSNumber numberWithInt:-1]];
+//    [self.customerGroupDataManager sortContactLocationResultList:contactLocationObjectList];
+    NSMutableArray* contactLocationObjectList = [self retrieveContactLocationObjectListProcessor];
     ContactSelectionListingTableViewController* contactSelectionListingTableViewController = [[ContactSelectionListingTableViewController alloc] initWithNibName:@"ContactSelectionListingTableViewController" bundle:nil];
     contactSelectionListingTableViewController.actionDelegate = self;
     [contactSelectionListingTableViewController resetContact:contactLocationObjectList];
@@ -54,6 +55,16 @@
 
 - (void)didSelectContactSelectionListing:(NSMutableArray*)aContactList {
     [self.actionDelegate meetingAttendeesDidSelectContactSelectionListing:aContactList];
+}
+
+- (NSMutableArray*)retrieveContactLocationObjectList {
+    return [self retrieveContactLocationObjectListProcessor];
+}
+
+- (NSMutableArray*)retrieveContactLocationObjectListProcessor {
+    NSMutableArray* tmpContactLocationObjectList = [[ArcosCoreData sharedArcosCoreData] contactLocationWithCOIUR:[NSNumber numberWithInt:-1]];
+    [self.customerGroupDataManager sortContactLocationResultList:tmpContactLocationObjectList];
+    return tmpContactLocationObjectList;
 }
 
 @end

@@ -10,18 +10,26 @@
 #import "ArcosCoreData.h"
 #import "PresenterSlideViewItemController.h"
 #import "ArcosConfigDataManager.h"
+typedef enum {
+    PhotoLocalCoordinateType = 0,
+    PhotoRemoteCoordinateType
+} PhotoCoordinateType;
 
 @interface CustomerPhotoSlideDataManager : NSObject {
     NSMutableArray* _displayList;
     NSNumber* _locationIUR;
     NSMutableArray* _slideViewItemList;
     int _currentPage;
+    PhotoCoordinateType _photoCoordinateType;
+    NSMutableDictionary* _remotePhotoHashMap;
 }
 
 @property(nonatomic, retain) NSMutableArray* displayList;
 @property(nonatomic, retain) NSNumber* locationIUR;
 @property(nonatomic, retain) NSMutableArray* slideViewItemList;
 @property(nonatomic, assign) int currentPage;
+@property(nonatomic, assign) PhotoCoordinateType photoCoordinateType;
+@property(nonatomic, retain) NSMutableDictionary* remotePhotoHashMap;
 
 - (id)initWithLocationIUR:(NSNumber*)aLocationIUR;
 - (void)createPhotoSlideBasicData;

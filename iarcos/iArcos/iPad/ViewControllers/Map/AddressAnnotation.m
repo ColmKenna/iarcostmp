@@ -28,19 +28,27 @@
     return self.mTitle;
 }
 
--(id)initWithCoordinate:(CLLocationCoordinate2D)coord withLocation:(NSMutableDictionary*) aLocation withType:(AddressAnnotationType)annoType{
-    self.coordinate=coord;
-    self.location=aLocation;
-    self.mTitle=[aLocation objectForKey:@"Name"];
-    self.mSubTitle=[[self fullAddressWith:aLocation]retain];
-    self.type=annoType;
+-(instancetype)initWithCoordinate:(CLLocationCoordinate2D)coord withLocation:(NSMutableDictionary*) aLocation withType:(AddressAnnotationType)annoType{
+    self = [super init];
+    if (self) {
+        self.coordinate=coord;
+        self.location=aLocation;
+        self.mTitle=[aLocation objectForKey:@"Name"];
+        self.mSubTitle=[self fullAddressWith:aLocation];
+//        self.mSubTitle=[[self fullAddressWith:aLocation]retain];
+        self.type=annoType;
+    }
     //NSLog(@"%f,%f",c.latitude,c.longitude);
 //    NSLog(@"new annotation name %@  title %@",self.mTitle,self.mSubTitle);
     return self;
 }
 
 -(void)dealloc{
-    [location release];
+    self.mTitle = nil;
+    self.mSubTitle = nil;
+    self.location = nil;
+    self.anObject = nil;
+//    [location release];
     [super dealloc];    
 }
 

@@ -43,6 +43,9 @@
 #import "ArcosMailWrapperViewController.h"
 #import "CustomerGDPRViewController.h"
 #import "CustomerInfoStartTimeTableViewCell.h"
+#import "DetailingCalendarEventBoxViewDataManager.h"
+#import "CustomerInfoNextCallTableViewCell.h"
+
 
 @interface CustomerInfoTableViewController : UITableViewController<CustomerOptionCellDelegate,ModelViewDelegate,UITableViewDelegate,UITableViewDataSource,UIGestureRecognizerDelegate,GenericRefreshParentContentDelegate,MFMailComposeViewControllerDelegate,PresentViewControllerDelegate,SlideAcrossViewAnimationDelegate, ArcosCustomiseAnimationDelegate,CustomisePresentViewControllerDelegate,WidgetFactoryDelegate,UIPopoverPresentationControllerDelegate,GetDataGenericDelegate, CustomerInfoLinkedToTableViewCellDelegate, CustomerInfoAccessTimesCalendarTableViewControllerDelegate, ArcosMailTableViewControllerDelegate, CustomerInfoButtonCellDelegate>{
     id<GenericRefreshParentContentDelegate> _refreshDelegate;
@@ -80,6 +83,9 @@
     CustomerTypesDataManager* _customerTypesDataManager;
     NSString* _myArcosAdminEmail;
     CustomerAccessTimesUtils* _customerAccessTimesUtils;
+    MBProgressHUD* _HUD;
+    DetailingCalendarEventBoxViewDataManager* _detailingCalendarEventBoxViewDataManager;
+    UtilitiesMailDataManager* _utilitiesMailDataManager;
 }
 @property(nonatomic,assign) id<GenericRefreshParentContentDelegate> refreshDelegate;
 @property(nonatomic,retain)NSMutableDictionary* aCustDict;
@@ -111,6 +117,9 @@
 @property (nonatomic, retain) CustomerTypesDataManager* customerTypesDataManager;
 @property (nonatomic, retain) NSString* myArcosAdminEmail;
 @property (nonatomic, retain) CustomerAccessTimesUtils* customerAccessTimesUtils;
+@property(nonatomic, retain) MBProgressHUD* HUD;
+@property(nonatomic, retain) DetailingCalendarEventBoxViewDataManager* detailingCalendarEventBoxViewDataManager;
+@property(nonatomic, retain) UtilitiesMailDataManager* utilitiesMailDataManager;
 
 - (void)addCoverHomePageImageView;
 - (void)processAccountBalanceRecord;

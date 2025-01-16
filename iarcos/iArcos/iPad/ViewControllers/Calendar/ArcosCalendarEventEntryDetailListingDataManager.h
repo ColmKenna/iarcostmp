@@ -33,7 +33,7 @@
 @property(nonatomic, retain) DetailingCalendarEventBoxListingDataManager* detailingCalendarEventBoxListingDataManager;
 @property(nonatomic, assign) BOOL showBorderFlag;
 
-- (void)processDataListWithDateFormatText:(NSString*)aDateFormatText;
+- (void)processDataListWithDateFormatText:(NSString*)aDateFormatText bodyCellType:(NSNumber*)aBodyCellType;
 - (NSString*)retrieveCalendarURIWithStartDate:(NSString*)aStartDate endDate:(NSString*)anEndDate;
 - (void)createTemplateListingDisplayListWithEventList:(NSArray*)anEventList;
 

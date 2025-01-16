@@ -52,6 +52,8 @@
 @synthesize customerTypesDataManager = _customerTypesDataManager;
 @synthesize myArcosAdminEmail = _myArcosAdminEmail;
 @synthesize customerListingDataManager = _customerListingDataManager;
+@synthesize customerListingTableCellGeneratorDelegate = _customerListingTableCellGeneratorDelegate;
+@synthesize customerListingCallDataManager = _customerListingCallDataManager;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -59,6 +61,9 @@
     if (self) {
         // Custom initialization
         tableData = [[NSMutableArray alloc]init];
+        self.customerListingTableCellGeneratorDelegate = [[[CustomerListingTableCellGenerator alloc] init] autorelease];
+        self.customerListingDataManager = [[[CustomerListingDataManager alloc] init] autorelease];
+        self.customerListingCallDataManager = [[[CustomerListingCallDataManager alloc] init] autorelease];
     }
     return self;
 }
@@ -86,6 +91,8 @@
 //    self.customerGroupViewController = nil;
 //    self.customerGroupNavigationController = nil;
     self.customerListingDataManager = nil;
+    self.customerListingTableCellGeneratorDelegate = nil;
+    self.customerListingCallDataManager = nil;
     
     [super dealloc];
 }
@@ -111,7 +118,6 @@
 //    mySearchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0,1024,44)];
 //    mySearchBar.autocorrectionType = UITextAutocorrectionTypeNo;
 //    mySearchBar.delegate = self;
-    self.customerListingDataManager = [[[CustomerListingDataManager alloc] init] autorelease];
     [ArcosUtils configEdgesForExtendedLayout:self];
     needIndexView=YES;
     
@@ -125,9 +131,13 @@
     
     
     UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addPressed:)];
-    NSMutableArray* buttonList = [NSMutableArray arrayWithObjects:addButton, nil];
+    UIBarButtonItem* toggleListButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"List2.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleListButtonPressed:)];
+    UIBarButtonItem* locationMapButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"LocationMap.png"] style:UIBarButtonItemStylePlain target:self action:@selector(locationMapButtonPressed:)];
+    NSMutableArray* buttonList = [NSMutableArray arrayWithObjects:addButton, toggleListButton, locationMapButton, nil];//
     [self.navigationItem setRightBarButtonItems:buttonList];
     [addButton release];
+    [toggleListButton release];
+    [locationMapButton release];
     connectivityCheck=[[ConnectivityCheck alloc]init];
     self.checkLocationIURTemplateProcessor = [[[CheckLocationIURTemplateProcessor alloc] initWithParentViewController:self] autorelease];
     self.checkLocationIURTemplateProcessor.delegate = self;
@@ -253,10 +263,24 @@
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 
 #pragma mark - Table view data source
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (!self.customerListingCallDataManager.useCallTableCellFlag) {
+        return 44.0;
+    }
+    NSString* aKey = [sortKeys objectAtIndex:indexPath.section+1];
+    NSMutableArray* aSectionArray = [self.customerSections objectForKey:aKey];
+    NSMutableDictionary* aCust = [aSectionArray objectAtIndex:indexPath.row];
+    NSNumber* tmpLocationIUR = [aCust objectForKey:@"LocationIUR"];
+    if ([self.customerListingCallDataManager.callHeaderHashMap objectForKey:tmpLocationIUR] == nil) {
+        return 44.0;
+    }
+    NSNumber* memoTextViewHeight = [self.customerListingCallDataManager.memoTextViewHeightHashMap objectForKey:tmpLocationIUR];
+    return 65.0 + 4.0 + [memoTextViewHeight floatValue];
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -281,6 +305,7 @@
 //    if (cell == nil) {
 //        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
 //    }
+    /*
     static NSString *CellIdentifier = @"IdCustomerListingTableCell";
     
     CustomerListingTableCell* cell = (CustomerListingTableCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -294,6 +319,8 @@
             }
         }
     }
+     */
+    CustomerListingTableCell* cell = [self.customerListingTableCellGeneratorDelegate generateTableCellWithTableView:tableView];
     
     // Configure the cell...
     NSString* aKey=[sortKeys objectAtIndex:indexPath.section+1];
@@ -362,6 +389,10 @@
             [cell.creditStatusButton setImage:creditStatusImage forState:UIControlStateNormal];
         }
     }
+    
+    [cell configCallInfoWithCallHeader:[self.customerListingCallDataManager.callHeaderHashMap objectForKey:[aCust objectForKey:@"LocationIUR"]]];
+    NSNumber* memoTextViewHeight = [self.customerListingCallDataManager.memoTextViewHeightHashMap objectForKey:[aCust objectForKey:@"LocationIUR"]];
+    cell.memoTextView.frame = CGRectMake(cell.memoTextView.frame.origin.x, cell.memoTextView.frame.origin.y, cell.memoTextView.frame.size.width, [memoTextViewHeight floatValue]);
     
     return cell;
 }
@@ -471,7 +502,15 @@
 
 #pragma mark - additional functions
 -(void)resetCustomer:(NSMutableArray*)customers{
-
+    NSMutableArray* locationIURList = [NSMutableArray arrayWithCapacity:[customers count]];
+    for (int i = 0; i < [customers count]; i++) {
+        NSDictionary* tmpLocationDict = [customers objectAtIndex:i];
+        [locationIURList addObject:[tmpLocationDict objectForKey:@"LocationIUR"]];
+    }
+    [self.customerListingCallDataManager callHeaderProcessorWithLocationIURList:locationIURList];
+    if (self.customerListingCallDataManager.useCallTableCellFlag) {
+        [self.customerListingCallDataManager memoTextViewHeightProcessor];
+    }
     self.myCustomers=customers;
 //    if ([tableData count]>0) {
 //        
@@ -774,9 +813,54 @@
     }];
 }
 
+- (void)toggleListButtonPressed:(id)sender {
+    NSArray* indexPathsVisibleRows = [self.tableView indexPathsForVisibleRows];
+    if ([indexPathsVisibleRows count] > 0) {
+        NSIndexPath* topIndexPath = [indexPathsVisibleRows firstObject];
+        CustomerListingTableCell* tmpCustomerListingTableCell = [self.tableView cellForRowAtIndexPath:topIndexPath];        
+        self.customerListingCallDataManager.textViewContentWidth = tmpCustomerListingTableCell.addressLabel.frame.size.width - 10;
+//        NSLog(@"testccdd %@ %.2f", NSStringFromCGRect(tmpCustomerListingTableCell.addressLabel.frame), self.customerListingCallDataManager.textViewContentWidth);
+    }
+    
+    
+    self.customerListingCallDataManager.useCallTableCellFlag = !self.customerListingCallDataManager.useCallTableCellFlag;
+    if (self.customerListingCallDataManager.useCallTableCellFlag) {
+        self.customerListingTableCellGeneratorDelegate = [[[CustomerListingCallTableCellGenerator alloc] init] autorelease];
+        [self.customerListingCallDataManager memoTextViewHeightProcessor];
+    } else {
+        self.customerListingTableCellGeneratorDelegate = [[[CustomerListingTableCellGenerator alloc] init] autorelease];
+    }
+    
+    [self.tableView reloadData];
+}
+
+- (void)locationMapButtonPressed:(id)sender {
+    if (self.customerListingDataManager.popoverOpenFlag) {
+        return;
+    }
+    self.customerListingDataManager.popoverOpenFlag = YES;
+    CustomerListingMapViewController* clmvc = [[CustomerListingMapViewController alloc] initWithNibName:@"CustomerListingMapViewController" bundle:nil];
+    clmvc.presentDelegate = self;
+    clmvc.customerListingMapDataManager.displayList = [self retrieveCurrentDisplayList];
+    
+    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:clmvc] autorelease];
+    if (@available(iOS 13.0, *)) {
+        self.globalNavigationController.modalInPresentation = YES;
+    }
+    self.globalNavigationController.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self.rootView presentViewController:self.globalNavigationController animated:YES completion:nil];
+    [clmvc release];
+}
+
 #pragma mark CustomisePresentViewControllerDelegate
 - (void)didDismissCustomisePresentView {
     [self didDismissViewControllerProcessor];
+}
+- (void)didDismissBuiltInPresentView {
+    [self.rootView dismissViewControllerAnimated:YES completion:^{
+        self.globalNavigationController = nil;
+        self.customerListingDataManager.popoverOpenFlag = NO;
+    }];
 }
 
 #pragma mark ArcosMailTableViewControllerDelegate
@@ -1055,6 +1139,16 @@
     [self.rootView dismissViewControllerAnimated:YES completion:^ {
         self.customerListingDataManager.popoverOpenFlag = NO;
     }];
+}
+
+- (NSMutableArray*)retrieveCurrentDisplayList {
+    NSMutableArray* tmpCurrentDisplayList = [NSMutableArray array];
+    for (int i = 0; i < [self.customerSections count]; i++) {
+        NSString* tmpKey = [sortKeys objectAtIndex:i + 1];
+        NSMutableArray* subsetLocationList = [self.customerSections objectForKey:tmpKey];
+        [tmpCurrentDisplayList addObjectsFromArray:subsetLocationList];
+    }
+    return tmpCurrentDisplayList;
 }
 
 @end

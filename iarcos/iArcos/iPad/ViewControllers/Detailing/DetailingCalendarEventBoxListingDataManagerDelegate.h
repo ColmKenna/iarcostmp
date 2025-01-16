@@ -15,5 +15,9 @@
 - (NSNumber*)retrieveDetailingCalendarEventBoxListingLocationIURWithEventDict:(NSDictionary*)anEventDict;
 - (void)doubleTapListingBodyLabelWithIndexPath:(NSIndexPath*)anIndexPath;
 
+@optional
+- (void)doubleTapListingBodyLabelForPopOutWithIndexPath:(NSIndexPath*)anIndexPath;
+- (void)longInputListingForPopOutFinishedWithIndexPath:(NSIndexPath*)anIndexPath;
+
 @end
 

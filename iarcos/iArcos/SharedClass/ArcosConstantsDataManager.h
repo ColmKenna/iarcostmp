@@ -20,6 +20,7 @@
     NSString* _kGraphMessageURI;
     NSString* _kGraphEventURI;
     NSString* _acctNotSignInMsg;
+    NSArray* _kScopes;
 }
 
 + (ArcosConstantsDataManager*)sharedArcosConstantsDataManager;
@@ -32,6 +33,9 @@
 @property(nonatomic, retain) NSString* kGraphMessageURI;
 @property(nonatomic, retain) NSString* kGraphEventURI;
 @property(nonatomic, retain) NSString* acctNotSignInMsg;
+@property(nonatomic, retain) NSArray* kScopes;
+
+- (MSALAccount*)currentAccount;
 
 @end
 

@@ -14,6 +14,7 @@
 #import "MBProgressHUD.h"
 #import "ArcosCalendarEventEntryDetailTemplateViewControllerDelegate.h"
 #import "ArcosCalendarEventEntryDetailListingDataManager.h"
+#import "UtilitiesMailDataManager.h"
 
 @interface ArcosCalendarEventEntryDetailTemplateViewController : UIViewController <ArcosCalendarEventEntryDetailTableViewControllerDelegate, ArcosCalendarEventEntryDetailListingDataManagerDelegate>{
     UIView* _mainTemplateView;
@@ -32,6 +33,7 @@
     UILabel* _listingTitleLabel;
     UIView* _auxFooterBackgroundView;
     UIView* _auxFooterRightHandSideView;
+    UtilitiesMailDataManager* _utilitiesMailDataManager;
 }
 
 @property(nonatomic, retain) IBOutlet UIView* mainTemplateView;
@@ -50,6 +52,7 @@
 @property(nonatomic, retain) IBOutlet UILabel* listingTitleLabel;
 @property(nonatomic, retain) IBOutlet UIView* auxFooterBackgroundView;
 @property(nonatomic, retain) IBOutlet UIView* auxFooterRightHandSideView;
+@property(nonatomic, retain) UtilitiesMailDataManager* utilitiesMailDataManager;
 
 @end
 

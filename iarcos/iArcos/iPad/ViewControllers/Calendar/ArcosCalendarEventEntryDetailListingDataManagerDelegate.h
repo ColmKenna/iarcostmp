@@ -14,6 +14,10 @@
 
 - (NSNumber*)retrieveEventEntryDetailListingLocationIUR;
 
+@optional
+- (void)doubleTapEventEntryDetailListingWithIndexPath:(NSIndexPath*)anIndexPath;
+- (void)longInputEventEntryDetailListingFinishedWithIndexPath:(NSIndexPath*)anIndexPath;
+
 @end
 
 

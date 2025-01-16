@@ -19,6 +19,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConstantsDataManager);
 @synthesize kGraphMessageURI = _kGraphMessageURI;
 @synthesize kGraphEventURI = _kGraphEventURI;
 @synthesize acctNotSignInMsg = _acctNotSignInMsg;
+@synthesize kScopes = _kScopes;
 
 - (instancetype)init {
     self = [super init];
@@ -36,7 +37,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConstantsDataManager);
         self.currentAccountAddress = nil;
         self.kGraphMessageURI = @"https://graph.microsoft.com/v1.0/me/messages";
         self.kGraphEventURI = @"https://graph.microsoft.com/v1.0/me/events";//calendar
-        self.acctNotSignInMsg = @"Please SIGN IN to OUTLOOK to save Next Appointment";
+//        self.acctNotSignInMsg = @"Please SIGN IN to OUTLOOK to save Next Appointment";
+        self.acctNotSignInMsg = @"Please SIGN IN to use OUTLOOK features";
+        self.kScopes = [NSArray arrayWithObjects:@"https://graph.microsoft.com/user.read", @"https://graph.microsoft.com/Mail.Send", @"https://graph.microsoft.com/Mail.ReadWrite", @"https://graph.microsoft.com/Calendars.Read", @"https://graph.microsoft.com/Calendars.ReadWrite", nil];
     }
     
     return self;
@@ -52,8 +55,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ArcosConstantsDataManager);
     self.kGraphMessageURI = nil;
     self.kGraphEventURI = nil;
     self.acctNotSignInMsg = nil;
+    self.kScopes = nil;
     
     [super dealloc];
+}
+
+- (MSALAccount*)currentAccount {
+    NSArray* accountList = [self.applicationContext allAccounts:nil];
+//    NSLog(@"account count: %d", [ArcosUtils convertNSUIntegerToUnsignedInt:[accountList count]]);
+//    for (int i = 0; i < [accountList count]; i++) {
+//        MSALAccount* tmpMSALAccount = [accountList objectAtIndex:i];
+//        NSLog(@"index %d: %@", i, tmpMSALAccount.username);
+//    }
+    if ([accountList count] > 0) {
+        return accountList.firstObject;
+    }
+    return nil;
 }
 
 @end

@@ -28,6 +28,8 @@
     NSMutableDictionary* _dayWeekDayIndexHashMap;
     int _dayCountInMonth;
     BOOL _popoverOpenFlag;
+    BOOL _listingTemplateViewVisibleFlag;
+    BOOL _useRightHandSideListingTemplateViewFlag;
 }
 
 @property(nonatomic, retain) NSNumber* sunWeekday;
@@ -46,6 +48,8 @@
 @property(nonatomic, retain) NSMutableDictionary* dayWeekDayIndexHashMap;
 @property(nonatomic, assign) int dayCountInMonth;
 @property(nonatomic,assign) BOOL popoverOpenFlag;
+@property(nonatomic, assign) BOOL listingTemplateViewVisibleFlag;
+@property(nonatomic, assign) BOOL useRightHandSideListingTemplateViewFlag;
 
 - (void)calculateCalendarData:(NSDate*)aCurrentCalculatedDate;
 - (NSDate*)createThirdDayNoonDateWithDate:(NSDate*)aDate thirdDayFlag:(BOOL)aFlag;

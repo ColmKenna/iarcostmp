@@ -19,6 +19,7 @@
 @synthesize arcosRootViewController = _arcosRootViewController;
 @synthesize mailController = _mailController;
 @synthesize previewDocumentList = _previewDocumentList;
+@synthesize viewWasAppearedFlag = _viewWasAppearedFlag;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,7 +27,7 @@
     if (self) {
         // Custom initialization
         fileDownloadCenter.delegate=self;
-
+        self.viewWasAppearedFlag = NO;
     }
     return self;
 }
@@ -65,11 +66,16 @@
     
     //get the pdf name
     NSString* fileName=@"";
-    for (NSMutableDictionary* dict in self.files) {
-        fileName=[dict objectForKey:@"Name"];
-        
-        //assaign current file
-        self.currentFile=dict;
+//    for (NSMutableDictionary* dict in self.files) {
+//        fileName=[dict objectForKey:@"Name"];
+//        
+//        //assaign current file
+//        self.currentFile=dict;
+//    }
+    if ([self.files count] > 0) {
+        NSMutableDictionary* dict = [self.files objectAtIndex:0];
+        fileName = [dict objectForKey:@"Name"];
+        self.currentFile = dict;
     }
     [self resetBarTitle:fileName];
 
@@ -100,10 +106,20 @@
 
 - (void)previewButtonPressed {
     if ([self.previewDocumentList count] > 0) {
+        
         QLPreviewController* myPreviewController = [[QLPreviewController alloc] init];
         myPreviewController.dataSource = self;
         myPreviewController.delegate = self;
-        [self presentViewController:myPreviewController animated:YES completion:nil];
+        myPreviewController.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self presentViewController:myPreviewController animated:YES completion:^{
+            @try {
+                UINavigationBar* navBar = [[[[[myPreviewController view] subviews] firstObject] subviews] objectAtIndex:1];
+                [navBar setHidden:YES];
+                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+            } @catch (NSException *exception) {
+                
+            }
+        }];
         [myPreviewController release];
     } else {
         [ArcosUtils showDialogBox:@"No file to preview" title:@"" target:self handler:nil];
@@ -125,6 +141,10 @@
     return arcosQLPreviewItem;
 }
 
+- (void)previewControllerWillDismiss:(QLPreviewController *)controller {
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+}
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -140,6 +160,13 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self resetIndicatorViewPosition];
+    if (!self.viewWasAppearedFlag) {
+        self.viewWasAppearedFlag = YES;
+        NSString* fullTitle = [self.currentFile objectForKey:@"fullTitle"];
+        if ([fullTitle hasPrefix:@"["] && [fullTitle hasSuffix:@"]"]) {
+            [self previewButtonPressed];
+        }
+    }
 }
 
 
@@ -227,6 +254,9 @@
             
             [self.mailController setToRecipients:toRecipients];
             [self presentViewController:self.mailController animated:YES completion:nil];
+        } else if ([auxScheme isEqualToString:@"file"]) {
+//            NSLog(@"bookmark");
+            return YES;
         } else {
             [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Invalid scheme found.\n%@", [[request URL] absoluteString]] title:@"" delegate:nil target:self tag:0 handler:nil];
         }
@@ -293,10 +323,10 @@
             break;
     }
     if (result != MFMailComposeResultFailed) {
-        [self alertViewCallBack];
+        [self alertViewCallBack:result];
     } else {
         [ArcosUtils showDialogBox:message title:title target:controller handler:^(UIAlertAction *action) {
-            [self alertViewCallBack];
+            [self alertViewCallBack:result];
         }];
     }
 }
@@ -305,9 +335,13 @@
 //    [self alertViewCallBack];
 //}
 
-- (void)alertViewCallBack {
+- (void)alertViewCallBack:(MFMailComposeResult)result {
     [self dismissViewControllerAnimated:YES completion:^ {
         self.mailController = nil;
+        if (result == MFMailComposeResultSent) {
+            NSLog(@"extend presenter");
+            [self createFlagAfterEmailSent];
+        }
     }];
 }
 @end

@@ -13,6 +13,9 @@
 #import "CustomerJourneyStartDateViewController.h"
 #import "CustomerJourneyDetailTableViewCell.h"
 #import "CustomerJourneyDetailDateViewController.h"
+#import "CustomerJourneyDetailTableCellGenerator.h"
+#import "CustomerJourneyDetailCallTableCellGenerator.h"
+#import "CustomerJourneyDetailCallDataManager.h"
 
 @interface CustomerJourneyDetailViewController : CustomerBaseDetailViewController <ModelViewDelegate, GenericRefreshParentContentDelegate, CustomerJourneyStartDateDelegate,CheckLocationIURTemplateDelegate, CustomerJourneyDetailDateViewControllerDelegate>{
     CustomerJourneyDataManager* _customerJourneyDataManager;
@@ -21,6 +24,8 @@
     UIBarButtonItem* _actionButton;
     UINavigationController* _auxNavigationController;
     CheckLocationIURTemplateProcessor* _checkLocationIURTemplateProcessor;
+    id<CustomerListingTableCellGeneratorDelegate> _customerListingTableCellGeneratorDelegate;
+    CustomerJourneyDetailCallDataManager* _customerJourneyDetailCallDataManager;
 }
 
 @property (nonatomic, retain) CustomerJourneyDataManager* customerJourneyDataManager;
@@ -29,10 +34,13 @@
 @property (nonatomic, retain) UIBarButtonItem* actionButton;
 @property (nonatomic, retain) UINavigationController* auxNavigationController;
 @property (nonatomic, retain) CheckLocationIURTemplateProcessor* checkLocationIURTemplateProcessor;
+@property (nonatomic, retain) id<CustomerListingTableCellGeneratorDelegate> customerListingTableCellGeneratorDelegate;
+@property (nonatomic, retain) CustomerJourneyDetailCallDataManager* customerJourneyDetailCallDataManager;
 
 -(void)resetTableList:(NSString*)aJourneyDate;
 //-(NSMutableDictionary*)getCustomerWithIndexPath:(NSIndexPath*)anIndexPath;
 - (void)resetTableListFromDateWheels:(NSString*)aJourneyDate journeyIUR:(NSNumber*)aJourneyIUR;
 - (void)resetTableListFromDateWheelsRemoveButton:(NSString*)aJourneyDate;
+- (void)callHeaderProcessor;
 
 @end

@@ -142,10 +142,11 @@
     //scores modification
     
     NSString* titleString = @"";
-    NSDictionary* descrTypeDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"SC"];
-    if (descrTypeDict != nil) {
-        titleString = [descrTypeDict objectForKey:@"Details"];
-    }
+//    NSDictionary* descrTypeDict = [[ArcosCoreData sharedArcosCoreData] descrTypeAllRecordsWithTypeCode:@"SC"];
+//    if (descrTypeDict != nil) {
+//        titleString = [descrTypeDict objectForKey:@"Details"];
+//    }    
+    titleString = [ArcosUtils convertNilToEmpty:[self.qaCellData objectForKey:@"Label"]];
     NSString* tmpDescrDetailCode = [self.qaCellData objectForKey:@"DescrDetailCode"];
     if (![tmpDescrDetailCode containsString:@"*"]) {
         self.globalWidgetViewController = [self.factory CreateGenericCategoryWidgetWithPickerValue:self.answerObjectList title:titleString];
