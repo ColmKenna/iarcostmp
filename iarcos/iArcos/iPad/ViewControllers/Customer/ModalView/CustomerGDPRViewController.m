@@ -205,7 +205,7 @@
     }
     if (![self.customerGDPRDataManager contactSelectedCondition]) {
         void (^yesActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
-            
+            [self tapToSelectContactNameButtonPressed:nil];
         };
         void (^noActionHandler)(UIAlertAction *) = ^(UIAlertAction *action){
             [self gdprSaveProcessor];

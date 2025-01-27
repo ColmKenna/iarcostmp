@@ -316,6 +316,7 @@
                 [tmpTextField becomeFirstResponder];
             }
         }
+        
     } @catch (NSException *exception) {
         NSLog(@"configTextFieldListWithKbFlag %@", [exception reason]);
     }
@@ -373,16 +374,67 @@
             }
             return (decimalFlag || [assembledString isEqualToString:@""]);
         }
+        
         BOOL integerFlag = [ArcosValidator isInteger:assembledString];
+        BOOL enteredKey2Flag = NO;
         if ((integerFlag && [self.cellDelegate retrieveCurrentTextFieldHighlightedFlag] && ![string isEqualToString:@""])) {
             NSLog(@"entered key 2 %@", string);
-            textField.text = @"";
+            enteredKey2Flag = YES;
             [self.cellDelegate configCurrentTextFieldHighlightedFlag:NO];
             textField.textColor = [UIColor blackColor];
+            if (textField.tag == 1 && [self bonusGivenAndBonusRequiredExistentFlag]) {
+                NSMutableDictionary* currentData = (NSMutableDictionary*)self.data;
+                int bonusMax = [self.qtyTextField.text intValue] / [[currentData objectForKey:@"BonusRequired"] intValue] * [[currentData objectForKey:@"BonusGiven"] intValue];
+                int potentialBonus = [[ArcosUtils convertStringToNumber:string] intValue];
+                int sellBy = [[currentData objectForKey:@"SellBy"] intValue];
+                if (sellBy == 1) {
+                    if (potentialBonus > bonusMax) {
+                        textField.text = [NSString stringWithFormat:@"%d", bonusMax];
+                        return NO;
+                    }
+                }
+                if (sellBy == 3) {
+                    textField.text = @"";
+                    return NO;
+                }
+            }
+            textField.text = @"";
         } else if ([textField.text isEqualToString:@"0"] && [ArcosValidator isInteger:string]) {
             NSLog(@"entered key 3 %@", string);
+            if (textField.tag == 1 && [self bonusGivenAndBonusRequiredExistentFlag]) {
+                NSMutableDictionary* currentData = (NSMutableDictionary*)self.data;
+                int bonusMax = [self.qtyTextField.text intValue] / [[currentData objectForKey:@"BonusRequired"] intValue] * [[currentData objectForKey:@"BonusGiven"] intValue];
+                int potentialBonus = [[ArcosUtils convertStringToNumber:string] intValue];
+                int sellBy = [[currentData objectForKey:@"SellBy"] intValue];
+                if (sellBy == 1) {
+                    if (potentialBonus > bonusMax) {
+                        textField.text = [NSString stringWithFormat:@"%d", bonusMax];
+                        return NO;
+                    }
+                }
+                if (sellBy == 3) {
+                    textField.text = @"";
+                    return NO;
+                }
+            }
             textField.text = @"";
             return YES;
+        }
+        if (integerFlag && textField.tag == 1 && [self bonusGivenAndBonusRequiredExistentFlag] && !enteredKey2Flag) {
+            NSMutableDictionary* currentData = (NSMutableDictionary*)self.data;
+            int bonusMax = [self.qtyTextField.text intValue] / [[currentData objectForKey:@"BonusRequired"] intValue] * [[currentData objectForKey:@"BonusGiven"] intValue];
+            int potentialBonus = [[ArcosUtils convertStringToNumber:assembledString] intValue];
+            int sellBy = [[currentData objectForKey:@"SellBy"] intValue];
+            if (sellBy == 1) {
+                if (potentialBonus > bonusMax) {
+                    textField.text = [NSString stringWithFormat:@"%d", bonusMax];
+                    return NO;
+                }
+            }
+            if (sellBy == 3) {
+                textField.text = @"";
+                return NO;
+            }
         }
         return (integerFlag || [assembledString isEqualToString:@""]);
     } @catch (NSException *exception) {
@@ -397,6 +449,9 @@
         NSNumber* qtyValue = [NSNumber numberWithInt:[self.qtyTextField.text intValue]];
         NSNumber* bonusValue = [NSNumber numberWithInt:[self.bonusTextField.text intValue]];
         NSNumber* discountValue = [NSNumber numberWithFloat:[self.discTextField.text floatValue]];
+        
+        
+        
         if ([qtyValue intValue] <= 0 && [bonusValue intValue] <= 0) {
             [currentData setObject:[NSNumber numberWithInt:0] forKey:@"Qty"];
             [currentData setObject:[NSNumber numberWithInt:0] forKey:@"Bonus"];
@@ -417,7 +472,10 @@
     }
 }
 
-
+- (BOOL)bonusGivenAndBonusRequiredExistentFlag {
+    NSMutableDictionary* tmpData = (NSMutableDictionary*)self.data;
+    return [[tmpData objectForKey:@"BonusGiven"] intValue] != 0 && [[tmpData objectForKey:@"BonusRequired"] intValue] != 0;
+}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     return YES;
