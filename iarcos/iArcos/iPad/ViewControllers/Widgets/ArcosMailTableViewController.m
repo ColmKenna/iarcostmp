@@ -8,6 +8,7 @@
 
 #import "ArcosMailTableViewController.h"
 #import "NSData+Base64.h"
+#import <MobileCoreServices/MobileCoreServices.h>
 
 @interface ArcosMailTableViewController ()
 
@@ -26,7 +27,8 @@
 @synthesize myTableView = _myTableView;
 @synthesize signatureTemplateView = _signatureTemplateView;
 @synthesize myImageView = _myImageView;
-
+@synthesize cameraRollButton = _cameraRollButton;
+@synthesize imagePickerController = _imagePickerController;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -60,9 +62,16 @@
     UIBarButtonItem* closeButton = [[UIBarButtonItem alloc] initWithTitle:[GlobalSharedClass shared].cancelButtonText style:UIBarButtonItemStylePlain target:self action:@selector(closePressed:)];
     [self.navigationItem setLeftBarButtonItem:closeButton];
     [closeButton release];
+    
+    NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:2];
     self.sendButton = [[[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStylePlain target:self action:@selector(sendPressed:)] autorelease];
     [self.sendButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:[UIFont labelFontSize]], NSFontAttributeName, nil] forState:UIControlStateNormal];
-    [self.navigationItem setRightBarButtonItem:self.sendButton];
+//    [self.navigationItem setRightBarButtonItem:self.sendButton];
+    self.cameraRollButton = [[[UIBarButtonItem alloc] initWithTitle:@"Camera Roll" style:UIBarButtonItemStylePlain target:self action:@selector(cameraRollPressed:)] autorelease];
+    [self.cameraRollButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:[UIFont labelFontSize]], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    [rightButtonList addObject:self.sendButton];
+    [rightButtonList addObject:self.cameraRollButton];
+    [self.navigationItem setRightBarButtonItems:rightButtonList];
     
     if (@available(iOS 15.0, *)) {
         UINavigationBarAppearance* customNavigationBarAppearance = [[UINavigationBarAppearance alloc] init];
@@ -105,6 +114,8 @@
     self.myTableView = nil;
     self.signatureTemplateView = nil;
     self.myImageView = nil;
+    self.cameraRollButton = nil;
+    self.imagePickerController = nil;
     
     [super dealloc];
 }
@@ -127,6 +138,69 @@
     NSIndexPath* bodyIndexPath = [self.arcosMailDataManager retrieveIndexPathWithTitle:self.arcosMailDataManager.bodyTitleText];
     ArcosMailBodyTableViewCell* arcosMailBodyTableViewCell = (ArcosMailBodyTableViewCell*) [self.myTableView cellForRowAtIndexPath:bodyIndexPath];
     [arcosMailBodyTableViewCell cleanData];
+}
+
+- (void)cameraRollPressed:(id)sender {
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+        [ArcosUtils showDialogBox:@"No photo album available" title:@"" target:self handler:^(UIAlertAction *action) {
+            
+        }];
+        return;
+    }
+    self.imagePickerController = [[[UIImagePickerController alloc] init] autorelease];
+    if (![ArcosUtils systemVersionGreaterThanSeven]) {
+        self.imagePickerController.navigationBar.barStyle = UIBarStyleBlack;
+    }
+    self.imagePickerController.delegate = self;
+    self.imagePickerController.modalPresentationStyle = UIModalPresentationPopover;
+    self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    self.imagePickerController.mediaTypes = @[(NSString*)kUTTypeImage];
+    self.imagePickerController.popoverPresentationController.barButtonItem = self.cameraRollButton;
+    self.imagePickerController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    [self presentViewController:self.imagePickerController animated:YES completion:nil];
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey, id> *)info {
+    NSLog(@"didFinishPickingMediaWithInfo");
+    if (self.arcosMailDataManager.photoCount == 0) {
+        self.arcosMailDataManager.originalSubjectText = self.arcosMailDataManager.subjectText;
+    }
+    UIImage* image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    @try {
+        NSString* imageFileName = [NSString stringWithFormat:@"%@.jpg", [GlobalSharedClass shared].currentTimeStamp];
+        NSData* imageData = UIImageJPEGRepresentation(image, 1.0);
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+            [self.arcosMailDataManager.attachmentList addObject:[ArcosAttachmentContainer attachmentWithData:imageData fileName:imageFileName]];
+        } else {
+            [self.arcosMailDataManager.attachmentList addObject:[MCOAttachment attachmentWithData:imageData filename:imageFileName]];
+        }
+        self.arcosMailDataManager.photoCount++;
+        NSString* photoSuffix = @"";
+        if (self.arcosMailDataManager.photoCount > 1) {
+            photoSuffix = @"s";
+        }
+        self.arcosMailDataManager.subjectText = [NSString stringWithFormat:@"%@ with %d photo%@", self.arcosMailDataManager.originalSubjectText, self.arcosMailDataManager.photoCount, photoSuffix];
+        NSMutableDictionary* subjectCellDataDict = [self.arcosMailDataManager.displayList objectAtIndex:2];
+        [subjectCellDataDict setObject:self.arcosMailDataManager.subjectText forKey:@"FieldData"];
+        ArcosMailSubjectTableViewCell* subjectTableViewCell = (ArcosMailSubjectTableViewCell*)[self.myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+        subjectTableViewCell.fieldContent.text = self.arcosMailDataManager.subjectText;
+        [ArcosUtils showDialogBox:@"The photo has been attached." title:@"" target:self.imagePickerController handler:^(UIAlertAction *action) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }];
+    } @catch (NSException *exception) {
+        [ArcosUtils showDialogBox:[exception reason] title:[GlobalSharedClass shared].errorTitle target:self.imagePickerController handler:^(UIAlertAction *action) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }];
+    }
+}
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+//    NSLog(@"imagePickerControllerDidCancel");
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+#pragma mark - UINavigationControllerDelegate
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+//    NSLog(@"willShowViewController");
 }
 
 - (void)sendPressed:(id)sender {

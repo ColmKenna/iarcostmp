@@ -69,10 +69,52 @@
     [mailDict setObject:[NSString stringWithFormat:@"Order taken by %@", [self.orderHeader objectForKey:@"Employee"]] forKey:@"Subject"];
     [mailDict setObject:[self.orderEmailProcessCenter buildEmailMessageWithController] forKey:@"Body"];
     [self generatePdfFile];
+    [self generateCsvFile];
     return mailDict;
 }
 - (NSString*)retrieveFileName {
     return self.fileName;
+}
+- (NSString*)retrieveCsvFileName {
+    return @"Lines.csv";
+}
+
+- (void)generateCsvFile {
+    BOOL exclusiveValueFlag = [[ArcosConfigDataManager sharedArcosConfigDataManager] excludeValueFromOrderEmailFlag];
+    NSString* csvFilePath = [[FileCommon documentsPath] stringByAppendingPathComponent:[self retrieveCsvFileName]];
+    NSMutableString* csvContent = [NSMutableString string];
+    if (exclusiveValueFlag) {
+        [csvContent appendString:@"Code,EAN,Description,Qty,Bonus"];
+    } else {
+        [csvContent appendString:@"Code,EAN,Description,Qty,Bonus,Value"];
+    }
+    [csvContent appendString:[GlobalSharedClass shared].rowDelimiter];
+    int length = [ArcosUtils convertNSUIntegerToUnsignedInt:self.orderEmailProcessCenter.orderLines.count];
+    for (int i = 0; i < length; i++) {
+        NSMutableDictionary* orderLineDict = [self.orderEmailProcessCenter.orderLines objectAtIndex:i];
+        NSString* resProductCode = [ArcosUtils convertNilToEmpty:[orderLineDict objectForKey:@"ProductCode"]];
+        NSString* resEAN = [ArcosUtils convertNilToEmpty:[orderLineDict objectForKey:@"EAN"]];
+        NSString* auxDetails = [ArcosUtils convertNilToEmpty:[orderLineDict objectForKey:@"Description"]];
+        NSString* resDetails = [auxDetails stringByReplacingOccurrencesOfString:@"," withString:@""];
+        NSString* resQtyString = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%@", [orderLineDict objectForKey:@"Qty"]]];
+        NSString* resBonusString = [ArcosUtils convertZeroToBlank:[NSString stringWithFormat:@"%@", [orderLineDict objectForKey:@"Bonus"]]];
+        [csvContent appendString:resProductCode];
+        [csvContent appendString:[GlobalSharedClass shared].commaDelimiter];
+        [csvContent appendString:resEAN];
+        [csvContent appendString:[GlobalSharedClass shared].commaDelimiter];
+        [csvContent appendString:resDetails];
+        [csvContent appendString:[GlobalSharedClass shared].commaDelimiter];
+        [csvContent appendString:resQtyString];
+        [csvContent appendString:[GlobalSharedClass shared].commaDelimiter];
+        [csvContent appendString:resBonusString];
+        if (!exclusiveValueFlag) {
+            NSString* resLineValueStr = [NSString stringWithFormat:@"%1.2f",[[orderLineDict objectForKey:@"LineValue"] floatValue]];
+            [csvContent appendString:[GlobalSharedClass shared].commaDelimiter];
+            [csvContent appendString:resLineValueStr];
+        }
+        [csvContent appendString:[GlobalSharedClass shared].rowDelimiter];
+    }
+    [csvContent writeToFile:csvFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
 
 - (void)generatePdfFile {

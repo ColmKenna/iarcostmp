@@ -38,6 +38,9 @@
 - (NSString*)retrieveFileName {
     return @"";
 }
+- (NSString*)retrieveCsvFileName {
+    return @"";
+}
 /*
 - (void)didSelectEmailRecipientRow:(MFMailComposeViewController*)aMailController cellData:(NSDictionary*)aCellData {
     [aMailController setToRecipients:[NSArray arrayWithObjects:[aCellData objectForKey:@"Email"] , nil]];

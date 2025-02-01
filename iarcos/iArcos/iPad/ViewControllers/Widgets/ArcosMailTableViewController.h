@@ -23,8 +23,9 @@
 #import "ArcosConstantsDataManager.h"
 #import "ArcosAttachmentContainer.h"
 #import "ArcosMailFooterViewController.h"
+#import "ArcosMailSubjectTableViewCell.h"
 
-@interface ArcosMailTableViewController : UIViewController <ArcosMailTableViewCellDelegate>{
+@interface ArcosMailTableViewController : UIViewController <ArcosMailTableViewCellDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>{
 //    id<CustomisePresentViewControllerDelegate> _myDelegate;
     id<ArcosMailTableViewControllerDelegate> _mailDelegate;
     ArcosMailDataManager* _arcosMailDataManager;
@@ -37,6 +38,8 @@
     UITableView* _myTableView;
     UIView* _signatureTemplateView;
     UIImageView* _myImageView;
+    UIBarButtonItem* _cameraRollButton;
+    UIImagePickerController* _imagePickerController;
 }
 
 //@property(nonatomic, assign) id<CustomisePresentViewControllerDelegate> myDelegate;
@@ -51,5 +54,7 @@
 @property(nonatomic, retain) IBOutlet UITableView* myTableView;
 @property(nonatomic, retain) IBOutlet UIView* signatureTemplateView;
 @property(nonatomic, retain) IBOutlet UIImageView* myImageView;
+@property(nonatomic, retain) UIBarButtonItem* cameraRollButton;
+@property(nonatomic, retain) UIImagePickerController* imagePickerController;
 
 @end

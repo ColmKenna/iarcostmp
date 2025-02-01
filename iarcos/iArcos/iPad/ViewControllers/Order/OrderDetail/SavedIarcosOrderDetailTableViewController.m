@@ -603,6 +603,7 @@
     NSMutableDictionary* mailDict = [self.emailActionDelegate didSelectEmailRecipientRowWithCellData:cellData taskData:aTaskObjectList];
     NSMutableArray* toRecipients = [NSMutableArray arrayWithObjects:[cellData objectForKey:@"Email"] , nil];
     NSString* fileName = [self.emailActionDelegate retrieveFileName];
+    NSString* csvFileName = [self.emailActionDelegate retrieveCsvFileName];
     self.emailRecipientTableViewController.emailRecipientDataManager.currentRecipientDict = [NSMutableDictionary dictionaryWithDictionary:cellData];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useMailLibFlag] || [[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
         ArcosMailWrapperViewController* amwvc = [[ArcosMailWrapperViewController alloc] initWithNibName:@"ArcosMailWrapperViewController" bundle:nil];
@@ -622,6 +623,16 @@
             }
             
             [FileCommon removeFileAtPath:pdfFilePath];
+        }
+        if (![csvFileName isEqualToString:@""]) {
+            NSString* csvFilePath = [[FileCommon documentsPath] stringByAppendingPathComponent:csvFileName];
+            NSData* csvData = [NSData dataWithContentsOfFile:csvFilePath];
+            if ([[ArcosConfigDataManager sharedArcosConfigDataManager] useOutlookFlag]) {
+                [amwvc.attachmentList addObject:[ArcosAttachmentContainer attachmentWithData:csvData fileName:csvFileName]];
+            } else {
+                [amwvc.attachmentList addObject:[MCOAttachment attachmentWithData:csvData filename:csvFileName]];
+            }
+            [FileCommon removeFileAtPath:csvFilePath];
         }
         amwvc.view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:.5f];
         self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:amwvc] autorelease];
@@ -662,6 +673,12 @@
         NSData* data = [NSData dataWithContentsOfFile:pdfFilePath];
         [mailComposeViewController addAttachmentData:data mimeType:@"application/pdf" fileName:fileName];
         [FileCommon removeFileAtPath:pdfFilePath];
+    }
+    if (![csvFileName isEqualToString:@""]) {
+        NSString* csvFilePath = [[FileCommon documentsPath] stringByAppendingPathComponent:csvFileName];
+        NSData* csvData = [NSData dataWithContentsOfFile:csvFilePath];
+        [mailComposeViewController addAttachmentData:csvData mimeType:@"text/csv" fileName:csvFileName];
+        [FileCommon removeFileAtPath:csvFilePath];
     }
     
     [self presentViewController:mailComposeViewController animated:YES completion:nil];

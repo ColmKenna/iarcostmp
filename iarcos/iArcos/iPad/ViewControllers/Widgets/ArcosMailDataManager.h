@@ -33,6 +33,8 @@
     int _fileChunkSize;
     BOOL _showSignatureFlag;
     BOOL _viewHasBeenAppearedFlag;
+    NSString* _originalSubjectText;
+    int _photoCount;
 }
 
 @property(nonatomic, retain) NSMutableArray* displayList;
@@ -55,6 +57,8 @@
 @property(nonatomic,assign) int fileChunkSize;
 @property(nonatomic,assign) BOOL showSignatureFlag;
 @property(nonatomic,assign) BOOL viewHasBeenAppearedFlag;
+@property(nonatomic,retain) NSString* originalSubjectText;
+@property(nonatomic,assign) int photoCount;
 
 - (void)createBasicData;
 - (NSDictionary*)retrieveDescrDetailWithDescrTypeCode:(NSString*)aDescrTypeCode descrDetailCode:(NSString*)aDescrDetailCode;
