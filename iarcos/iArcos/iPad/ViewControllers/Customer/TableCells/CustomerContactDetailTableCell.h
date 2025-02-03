@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "OrderHeader.h"
 
 @interface CustomerContactDetailTableCell : UITableViewCell {
     UILabel* _nameLabel;
@@ -25,6 +25,7 @@
 @property(nonatomic, retain) IBOutlet UILabel* dateLabel;
 @property(nonatomic, retain) IBOutlet UITextView* memoTextView;
 
+- (void)configCallInfoWithCallHeader:(OrderHeader*)aCallHeader;
 
 @end
 

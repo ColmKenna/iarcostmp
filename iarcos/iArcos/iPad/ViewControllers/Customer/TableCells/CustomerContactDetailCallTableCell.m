@@ -29,4 +29,15 @@
     return NO;
 }
 
+- (void)configCallInfoWithCallHeader:(OrderHeader*)aCallHeader {
+    self.dateLabel.text = [ArcosUtils stringFromDate:aCallHeader.OrderDate format:[GlobalSharedClass shared].dateFormat];
+    
+    self.memoTextView.attributedText = [[[NSMutableAttributedString alloc] initWithString:@"" attributes:@{NSFontAttributeName:[UIFont italicSystemFontOfSize:14.0f],NSForegroundColorAttributeName:[UIColor systemOrangeColor]}] autorelease];
+    if (aCallHeader.memo != nil) {
+        NSMutableAttributedString* attributedDetailsString = [[NSMutableAttributedString alloc] initWithString:[ArcosUtils convertNilToEmpty:aCallHeader.memo.Details] attributes:@{NSFontAttributeName:[UIFont italicSystemFontOfSize:14.0f],NSForegroundColorAttributeName:[UIColor systemOrangeColor]}];
+        self.memoTextView.attributedText = attributedDetailsString;
+        [attributedDetailsString release];
+    }
+}
+
 @end

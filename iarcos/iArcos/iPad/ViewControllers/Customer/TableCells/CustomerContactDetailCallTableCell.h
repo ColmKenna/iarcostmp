@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "CustomerContactDetailTableCell.h"
+#import "ArcosUtils.h"
+#import "GlobalSharedClass.h"
+#import "Memo.h"
 
 @interface CustomerContactDetailCallTableCell : CustomerContactDetailTableCell
 

@@ -38,4 +38,8 @@
     [super dealloc];
 }
 
+- (void)configCallInfoWithCallHeader:(OrderHeader*)aCallHeader {
+    
+}
+
 @end

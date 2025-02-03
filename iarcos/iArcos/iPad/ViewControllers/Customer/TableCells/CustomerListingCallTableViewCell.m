@@ -24,11 +24,11 @@
     // Configure the view for the selected state
 }
 
-- (void)configCallInfoWithCallHeader:(OrderHeader*)anCallHeader {
-    self.dateLabel.text = [ArcosUtils stringFromDate:anCallHeader.OrderDate format:[GlobalSharedClass shared].dateFormat];
+- (void)configCallInfoWithCallHeader:(OrderHeader*)aCallHeader {
+    self.dateLabel.text = [ArcosUtils stringFromDate:aCallHeader.OrderDate format:[GlobalSharedClass shared].dateFormat];
     self.contactLabel.text = @"";
-    if (anCallHeader.ContactIUR > 0) {
-        NSMutableArray* contactList = [[ArcosCoreData sharedArcosCoreData] contactWithIUR:anCallHeader.ContactIUR];
+    if (aCallHeader.ContactIUR > 0) {
+        NSMutableArray* contactList = [[ArcosCoreData sharedArcosCoreData] contactWithIUR:aCallHeader.ContactIUR];
         if ([contactList count] > 0) {
             NSString* fullName = @"";
             NSMutableDictionary* tmpContactDict = [contactList objectAtIndex:0];
@@ -48,8 +48,8 @@
         }
     }
     self.memoTextView.attributedText = [[[NSMutableAttributedString alloc] initWithString:@"" attributes:@{NSFontAttributeName:[UIFont italicSystemFontOfSize:14.0f],NSForegroundColorAttributeName:[UIColor systemOrangeColor]}] autorelease];
-    if (anCallHeader.memo != nil) {
-        NSMutableAttributedString* attributedDetailsString = [[NSMutableAttributedString alloc] initWithString:[ArcosUtils convertNilToEmpty:anCallHeader.memo.Details] attributes:@{NSFontAttributeName:[UIFont italicSystemFontOfSize:14.0f],NSForegroundColorAttributeName:[UIColor systemOrangeColor]}];
+    if (aCallHeader.memo != nil) {
+        NSMutableAttributedString* attributedDetailsString = [[NSMutableAttributedString alloc] initWithString:[ArcosUtils convertNilToEmpty:aCallHeader.memo.Details] attributes:@{NSFontAttributeName:[UIFont italicSystemFontOfSize:14.0f],NSForegroundColorAttributeName:[UIColor systemOrangeColor]}];
         self.memoTextView.attributedText = attributedDetailsString;
         [attributedDetailsString release];
     }

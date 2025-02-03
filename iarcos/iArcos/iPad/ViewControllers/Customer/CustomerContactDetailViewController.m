@@ -25,6 +25,8 @@
 @synthesize tableData = _tableData;
 @synthesize searchedData;
 @synthesize checkLocationIURTemplateProcessor = _checkLocationIURTemplateProcessor;
+@synthesize customerContactDetailTableCellGeneratorDelegate = _customerContactDetailTableCellGeneratorDelegate;
+@synthesize customerContactDetailCallDataManager = _customerContactDetailCallDataManager;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -41,6 +43,8 @@
         // Custom initialization
         needIndexView = YES;
         self.tableData = [[[NSMutableArray alloc]init] autorelease];
+        self.customerContactDetailTableCellGeneratorDelegate = [[[CustomerContactDetailTableCellGenerator alloc] init] autorelease];
+        self.customerContactDetailCallDataManager = [[[CustomerContactDetailCallDataManager alloc] init] autorelease];
     }
     return self;
 }
@@ -56,6 +60,8 @@
     self.tableData = nil;
     self.searchedData=nil;
     self.checkLocationIURTemplateProcessor = nil;
+    self.customerContactDetailTableCellGeneratorDelegate = nil;
+    self.customerContactDetailCallDataManager = nil;
     
     [super dealloc];
 }
@@ -97,7 +103,23 @@
 }
 
 - (void)toggleListButtonPressed:(id)sender {
-    NSLog(@"toggleListButtonPressed");
+    NSArray* indexPathsVisibleRows = [self.tableView indexPathsForVisibleRows];
+    if ([indexPathsVisibleRows count] > 0) {
+        NSIndexPath* topIndexPath = [indexPathsVisibleRows firstObject];
+        CustomerContactDetailTableCell* tmpCustomerContactDetailTableCell = [self.tableView cellForRowAtIndexPath:topIndexPath];
+        self.customerContactDetailCallDataManager.textViewContentWidth = tmpCustomerContactDetailTableCell.addressLabel.frame.size.width - 10;
+//        NSLog(@"testccdd %@ %.2f", NSStringFromCGRect(tmpCustomerContactDetailTableCell.addressLabel.frame), self.customerContactDetailCallDataManager.textViewContentWidth);
+    }
+    
+    self.customerContactDetailCallDataManager.useCallTableCellFlag = !self.customerContactDetailCallDataManager.useCallTableCellFlag;
+    if (self.customerContactDetailCallDataManager.useCallTableCellFlag) {
+        self.customerContactDetailTableCellGeneratorDelegate = [[[CustomerContactDetailCallTableCellGenerator alloc] init] autorelease];
+        [self.customerContactDetailCallDataManager memoTextViewHeightProcessor];
+    } else {
+        self.customerContactDetailTableCellGeneratorDelegate = [[[CustomerContactDetailTableCellGenerator alloc] init] autorelease];
+    }
+    
+    [self.tableView reloadData];
 }
 
 - (void)viewDidUnload
@@ -134,6 +156,20 @@
 }
 
 #pragma mark - Table view data source
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (!self.customerContactDetailCallDataManager.useCallTableCellFlag) {
+        return 44.0;
+    }
+    NSString* aKey = [sortKeys objectAtIndex:indexPath.section+1];
+    NSMutableArray* aSectionArray = [self.customerSections objectForKey:aKey];
+    NSMutableDictionary* aCust = [aSectionArray objectAtIndex:indexPath.row];
+    NSNumber* tmpContactIUR = [aCust objectForKey:@"ContactIUR"];
+    if ([self.customerContactDetailCallDataManager.callHeaderHashMap objectForKey:tmpContactIUR] == nil) {
+        return 44.0;
+    }
+    NSNumber* memoTextViewHeight = [self.customerContactDetailCallDataManager.memoTextViewHeightHashMap objectForKey:tmpContactIUR];
+    return 65.0 + 4.0 + [memoTextViewHeight floatValue];
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -158,6 +194,7 @@
 //    if (cell == nil) {
 //        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
 //    }
+    /*
     static NSString *CellIdentifier = @"IdCustomerContactDetailTableCell";
     
     CustomerContactDetailTableCell* cell = (CustomerContactDetailTableCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -171,6 +208,8 @@
             }
         }
     }
+    */
+    CustomerContactDetailTableCell* cell = [self.customerContactDetailTableCellGeneratorDelegate generateTableCellWithTableView:tableView];
     
     // Configure the cell...
     NSString* aKey=[sortKeys objectAtIndex:indexPath.section+1];
@@ -231,7 +270,9 @@
             [cell.cP10Button setImage:cP10Image forState:UIControlStateNormal];
         }
     }
-    
+    [cell configCallInfoWithCallHeader:[self.customerContactDetailCallDataManager.callHeaderHashMap objectForKey:[aCust objectForKey:@"ContactIUR"]]];
+    NSNumber* memoTextViewHeight = [self.customerContactDetailCallDataManager.memoTextViewHeightHashMap objectForKey:[aCust objectForKey:@"ContactIUR"]];
+    cell.memoTextView.frame = CGRectMake(cell.memoTextView.frame.origin.x, cell.memoTextView.frame.origin.y, cell.memoTextView.frame.size.width, [memoTextViewHeight floatValue]);
     
     return cell;
 }
@@ -355,6 +396,15 @@
 #pragma mark - additional functions
 -(void)resetCustomer:(NSMutableArray*)customers{
 //    NSLog(@"resetCustomer:%@", customers);
+    NSMutableArray* contactIURList = [NSMutableArray arrayWithCapacity:[customers count]];
+    for (int i = 0; i < [customers count]; i++) {
+        NSDictionary* tmpContactLocationDict = [customers objectAtIndex:i];
+        [contactIURList addObject:[tmpContactLocationDict objectForKey:@"ContactIUR"]];
+    }
+    [self.customerContactDetailCallDataManager callHeaderProcessorWithContactIURList:contactIURList];
+    if (self.customerContactDetailCallDataManager.useCallTableCellFlag) {
+        [self.customerContactDetailCallDataManager memoTextViewHeightProcessor];
+    }
     self.myCustomers=customers;
     //    if ([tableData count]>0) {
     //        
