@@ -24,6 +24,7 @@
 @synthesize monthLabel9 = _monthLabel9;
 @synthesize monthLabel10 = _monthLabel10;
 @synthesize monthLabel11 = _monthLabel11;
+@synthesize topSeparatorLabel = _topSeparatorLabel;
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -48,6 +49,7 @@
     self.monthLabel10 = nil;
     self.monthLabel11 = nil;
     self.separatorLabel = nil;
+    self.topSeparatorLabel = nil;
     
     [super dealloc];
 }

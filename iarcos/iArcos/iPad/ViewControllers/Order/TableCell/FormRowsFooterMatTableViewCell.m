@@ -112,7 +112,11 @@
             
             NSString* bonMethodNameString = [NSString stringWithFormat:@"bonLabel%d", i];
             SEL bonMethodSelector = NSSelectorFromString(bonMethodNameString);
-            [[self performSelector:bonMethodSelector] performSelector:valueSelector withObject:[ArcosUtils convertZeroToBlank:[[mainDataDict objectForKey:bonKey] stringValue]]];
+            NSString* resBonusValue = [ArcosUtils convertZeroToBlank:[[mainDataDict objectForKey:bonKey] stringValue]];
+            if (![resBonusValue isEqualToString:@""]) {
+                resBonusValue = [NSString stringWithFormat:@"/%@", resBonusValue];
+            }
+            [[self performSelector:bonMethodSelector] performSelector:valueSelector withObject:resBonusValue];
         }
     } else {
         for (int i = 0; i < 12; i++) {
