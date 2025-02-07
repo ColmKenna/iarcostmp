@@ -1574,6 +1574,7 @@
 		6A34B6F82CDD2B62003BBCF2 /* Upload-Blue-20.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A34B6F72CDD2B62003BBCF2 /* Upload-Blue-20.png */; };
 		6A34B6F92CDD2B62003BBCF2 /* Download-Blue-20.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A34B6F62CDD2B62003BBCF2 /* Download-Blue-20.png */; };
 		6A34B6FB2CDD784B003BBCF2 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A34B6FA2CDD784B003BBCF2 /* folder.png */; };
+		6A4A7F282D54F99A002842C2 /* UINavigationControllerStyleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A4A7F272D54F99A002842C2 /* UINavigationControllerStyleHelper.m */; };
 		6A5D85F02CE3CA1800031EA1 /* eight.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D85E82CE3CA1800031EA1 /* eight.png */; };
 		6A5D85F12CE3CA1800031EA1 /* four.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D85EA2CE3CA1800031EA1 /* four.png */; };
 		6A5D85F22CE3CA1800031EA1 /* one.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D85EB2CE3CA1800031EA1 /* one.png */; };
@@ -1582,7 +1583,6 @@
 		6A5D85F52CE3CA1800031EA1 /* three.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D85EE2CE3CA1800031EA1 /* three.png */; };
 		6A5D85F62CE3CA1800031EA1 /* two.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D85EF2CE3CA1800031EA1 /* two.png */; };
 		6A5D85F72CE3CA1800031EA1 /* five.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D85E92CE3CA1800031EA1 /* five.png */; };
-		6A5D85FA2CE6489A00031EA1 /* UIButtonStyleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D85F92CE6489A00031EA1 /* UIButtonStyleHelper.m */; };
 		6A5E2B232CC2B0B900DAD920 /* Amazon Ember Display Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B122CC2B0B900DAD920 /* Amazon Ember Display Medium.ttf */; };
 		6A5E2B242CC2B0B900DAD920 /* Amazon Ember Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B1B2CC2B0B900DAD920 /* Amazon Ember Medium.ttf */; };
 		6A5E2B252CC2B0B900DAD920 /* Amazon Ember Cd RC Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B0A2CC2B0B900DAD920 /* Amazon Ember Cd RC Thin.ttf */; };
@@ -1641,6 +1641,7 @@
 		6AC31D8B2CD5247E00648BE7 /* Download-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D792CD5247E00648BE7 /* Download-Blue-40.png */; };
 		6AC31D8C2CD5247E00648BE7 /* Presenter-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D7D2CD5247E00648BE7 /* Presenter-Blue-40.png */; };
 		6AC31D8D2CD5247E00648BE7 /* Cart-Blue-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC31D762CD5247E00648BE7 /* Cart-Blue-40.png */; };
+		6AC502732D39575900B9ECED /* UIButtonStyleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC502722D39575900B9ECED /* UIButtonStyleHelper.m */; };
 		6ACF0C3E2CBEBFCA00171332 /* Icon-App-60x60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ACF0C3C2CBEBFCA00171332 /* Icon-App-60x60@2x.png */; };
 		6ACF0C3F2CBEBFCA00171332 /* Icon-App-60x60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ACF0C3D2CBEBFCA00171332 /* Icon-App-60x60@3x.png */; };
 		790089AB2A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 790089AA2A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.m */; };
@@ -4986,6 +4987,8 @@
 		6A34B6F62CDD2B62003BBCF2 /* Download-Blue-20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Download-Blue-20.png"; sourceTree = "<group>"; };
 		6A34B6F72CDD2B62003BBCF2 /* Upload-Blue-20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Upload-Blue-20.png"; sourceTree = "<group>"; };
 		6A34B6FA2CDD784B003BBCF2 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
+		6A4A7F262D54F970002842C2 /* UINavigationControllerStyleHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UINavigationControllerStyleHelper.h; sourceTree = "<group>"; };
+		6A4A7F272D54F99A002842C2 /* UINavigationControllerStyleHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UINavigationControllerStyleHelper.m; sourceTree = "<group>"; };
 		6A5D85E82CE3CA1800031EA1 /* eight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eight.png; sourceTree = "<group>"; };
 		6A5D85E92CE3CA1800031EA1 /* five.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = five.png; sourceTree = "<group>"; };
 		6A5D85EA2CE3CA1800031EA1 /* four.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = four.png; sourceTree = "<group>"; };
@@ -4994,7 +4997,6 @@
 		6A5D85ED2CE3CA1800031EA1 /* six.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = six.png; sourceTree = "<group>"; };
 		6A5D85EE2CE3CA1800031EA1 /* three.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = three.png; sourceTree = "<group>"; };
 		6A5D85EF2CE3CA1800031EA1 /* two.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = two.png; sourceTree = "<group>"; };
-		6A5D85F82CE6487800031EA1 /* UIButtonStyleHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIButtonStyleHelper.h; sourceTree = "<group>"; };
 		6A5D85F92CE6489A00031EA1 /* UIButtonStyleHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIButtonStyleHelper.m; sourceTree = "<group>"; };
 		6A5E2B012CC2B0B900DAD920 /* Amazon Ember.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember.ttf"; sourceTree = "<group>"; };
 		6A5E2B022CC2B0B900DAD920 /* Amazon Ember Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Bold.ttf"; sourceTree = "<group>"; };
@@ -5055,6 +5057,8 @@
 		6AC31D7D2CD5247E00648BE7 /* Presenter-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Presenter-Blue-40.png"; sourceTree = "<group>"; };
 		6AC31D7E2CD5247E00648BE7 /* Survey-blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Survey-blue-40.png"; sourceTree = "<group>"; };
 		6AC31D7F2CD5247E00648BE7 /* Upload-Blue-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Upload-Blue-40.png"; sourceTree = "<group>"; };
+		6AC502712D39575900B9ECED /* UIButtonStyleHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIButtonStyleHelper.h; sourceTree = "<group>"; };
+		6AC502722D39575900B9ECED /* UIButtonStyleHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIButtonStyleHelper.m; sourceTree = "<group>"; };
 		6ACF0C3C2CBEBFCA00171332 /* Icon-App-60x60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-App-60x60@2x.png"; sourceTree = "<group>"; };
 		6ACF0C3D2CBEBFCA00171332 /* Icon-App-60x60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-App-60x60@3x.png"; sourceTree = "<group>"; };
 		790089A92A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerInvoiceDetailsTableHeaderView.h; sourceTree = "<group>"; };
@@ -5814,6 +5818,7 @@
 				6304524619EFC79D00CDE68A /* iArcosTests */,
 				6304522819EFC79D00CDE68A /* Products */,
 				63F03FD31FE14AC000D9655A /* Frameworks */,
+				6AC502702D3956E100B9ECED /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -8156,6 +8161,8 @@
 		630B38D619F01CB7007B2442 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				6AC502712D39575900B9ECED /* UIButtonStyleHelper.h */,
+				6AC502722D39575900B9ECED /* UIButtonStyleHelper.m */,
 				63939FDC1AC1690C000BB0FB /* UtilitiesMemoryTableViewController.m */,
 				63939FDD1AC1690C000BB0FB /* UtilitiesMemoryTableViewController.h */,
 				63939FDE1AC1690C000BB0FB /* UtilitiesMemoryTableViewController.xib */,
@@ -8253,6 +8260,8 @@
 				790AAE7F29028F9200C2F2BC /* UtilitiesAnimatedMonthTableHeaderView.m */,
 				799E1D692CC9FEBC007BCBDC /* UtilitiesMailDataManager.h */,
 				799E1D6A2CC9FEBC007BCBDC /* UtilitiesMailDataManager.m */,
+				6A4A7F262D54F970002842C2 /* UINavigationControllerStyleHelper.h */,
+				6A4A7F272D54F99A002842C2 /* UINavigationControllerStyleHelper.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -9715,6 +9724,14 @@
 			path = Target;
 			sourceTree = "<group>";
 		};
+		6AC502702D3956E100B9ECED /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				6A5D85F92CE6489A00031EA1 /* UIButtonStyleHelper.m */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		6ACF0C402CC27CB800171332 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -10756,6 +10773,7 @@
 				630B343A19F0127C007B2442 /* DescrType.m in Sources */,
 				63174E4B1ECDAF9000BAB563 /* ArcosStockonHandUtils.m in Sources */,
 				630B3D2319F01CB9007B2442 /* SettingTableCellFactory.m in Sources */,
+				6AC502732D39575900B9ECED /* UIButtonStyleHelper.m in Sources */,
 				633FFE3E1CBBB98B009B00FC /* PhotoTransferProcessMachine.m in Sources */,
 				63BC798E2237CC800004E481 /* MeetingPresentersTableViewCell.m in Sources */,
 				630B3CCF19F01CB9007B2442 /* ReportCallCell.m in Sources */,
@@ -11173,7 +11191,6 @@
 				630B3D5319F01CB9007B2442 /* UtilitiesSplitViewController.m in Sources */,
 				63F797622073BEC10045F1F0 /* CustomerNotBuyHeaderView.m in Sources */,
 				63A0F55A1A321BAC00A58178 /* CustomerDetailsEditDataManager.m in Sources */,
-				6A5D85FA2CE6489A00031EA1 /* UIButtonStyleHelper.m in Sources */,
 				630B3CE419F01CB9007B2442 /* RootViewContorller.m in Sources */,
 				630B346719F0127C007B2442 /* StockTransaction.m in Sources */,
 				630B3B6619F01CB9007B2442 /* CustomerContactModalViewController.m in Sources */,
@@ -11714,6 +11731,7 @@
 				63C73F3F1CAACE2600165383 /* MainPresenterTableViewController.m in Sources */,
 				79605F442CDCA489005E27C0 /* CustomerCalendarListCallTableViewCell.m in Sources */,
 				6326030E1A710E710035E445 /* SavedOrderPresenterTranDataManager.m in Sources */,
+				6A4A7F282D54F99A002842C2 /* UINavigationControllerStyleHelper.m in Sources */,
 				630B3CD519F01CB9007B2442 /* ReportLocationCell.m in Sources */,
 				630B344119F0127C007B2442 /* Flag.m in Sources */,
 				639CAE6E1CFC7EA900D7246C /* GetRecordTypeGenericDateObject.m in Sources */,

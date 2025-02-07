@@ -41,4 +41,17 @@
     return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
 }
 
+
++ (UIColor *)backgroundColor {
+    return [self colorFromHexString:@"#D1E0FA"];
+}
+
++ (UIColor *)borderColor {
+    return [self colorFromHexString:@"#4472C4"];
+}
+
++ (UIColor *)headerLabelColor {
+    return [self colorFromHexString:@"#4472C4"];
+}
+
 @end

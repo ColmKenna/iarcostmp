@@ -18,7 +18,7 @@
     // Initialization code
     [super awakeFromNib];
     // Set the border color
-    UIColor *borderUIColor = [UIColor colorFromHexString:@"#7D9DD6"];
+    UIColor *borderUIColor = [UIColor backgroundColor];
     _downloadButton.layer.borderColor = borderUIColor.CGColor;
 
     // Set the border width

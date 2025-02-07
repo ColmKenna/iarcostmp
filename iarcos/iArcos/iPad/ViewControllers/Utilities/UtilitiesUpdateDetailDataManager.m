@@ -41,7 +41,7 @@
     if (self!=nil) {
         self.packageTableName = @"Package";
         self.downloadModeConstantDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"FULL",@"PARTIAL",@"EXCLUDE", nil] forKeys:[NSArray arrayWithObjects:[NSNumber numberWithInt:0], [NSNumber numberWithInt:1], [NSNumber numberWithInt:2], nil]];
-        self.downloadSectionTitle = @"Download";
+        self.downloadSectionTitle = @"Download V2";
         self.uploadSectionTitle = @"Upload";
         self.dataTablesPlistTitle = @"DataTables";
         self.uploadItemsPlistTitle = @"UploadItems";

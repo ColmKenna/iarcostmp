@@ -1164,6 +1164,10 @@
     [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];
 }
 
+- (void)ProgressViewWithValueForPaginatedContacts:(float)aProgressValue {
+    [self ProgressViewWithValueForContact:aProgressValue];
+}
+
 - (void)ProgressViewWithValueForConLocLink:(float)aProgressValue {
     NSNumber *targetIUR = @150;
     [self updateProgressBarForCellWithIURValue:targetIUR progress:aProgressValue inTableView:self.tableView];

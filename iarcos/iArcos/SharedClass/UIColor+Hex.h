@@ -11,5 +11,8 @@
 @interface UIColor (Hex)
 
 + (UIColor *)colorFromHexString:(NSString *)hexString;
++ (UIColor *)backgroundColor;
++ (UIColor *)borderColor;
++ (UIColor *)headerLabelColor; 
 
 @end

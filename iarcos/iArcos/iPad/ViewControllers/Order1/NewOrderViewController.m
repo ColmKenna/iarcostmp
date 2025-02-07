@@ -9,6 +9,9 @@
 #import "NewOrderViewController.h"
 #import "ArcosAppDelegate_iPad.h"
 #import "ArcosRootViewController.h"
+#import "UIColor+Hex.h"
+#import "UINavigationControllerStyleHelper.h"
+
 @interface NewOrderViewController ()
 - (void)layoutMySubviews;
 - (void)hideHeaderLabelWithFlag:(BOOL)aFlag;
@@ -107,6 +110,7 @@
     //    [self.productSearchDataManager createSearchFormDetailData];
     self.fdtvc = [[[FormDetailTableViewController alloc]initWithNibName:@"FormDetailTableViewController" bundle:nil] autorelease];
     self.orderPadsNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.fdtvc] autorelease];
+    self.orderPadsNavigationController.navigationBar.barTintColor = [UIColor backgroundColor];
     self.fdtvc.delegate = self;
     self.fdtvc.dividerDelegate = self;
     self.orderPadsNavigationController.preferredContentSize = [[GlobalSharedClass shared] orderPadsSize];
@@ -115,6 +119,7 @@
     //    self.orderPadsPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
     self.myRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
     self.myNewOrderDataManager = [[[NewOrderDataManager alloc] init] autorelease];
+    
 }
 
 - (void)viewDidUnload
@@ -503,44 +508,56 @@
 }
 
 -(void)orderPadsPressed:(id)sender {
-//    NSLog(@"orderPadsPressed");
-//    FormRowsTableViewController* formrtvc = [[[FormRowsTableViewController alloc] initWithNibName:@"FormRowsTableViewController" bundle:nil] autorelease];
-//    [self.navigationController pushViewController:formrtvc animated:YES];
-//    return;
-    /*
-    MATFormRowsTableViewController* matfrtvc = [[[MATFormRowsTableViewController alloc] initWithNibName:@"MATFormRowsTableViewController" bundle:nil] autorelease];
-    matfrtvc.locationIUR = [NSNumber numberWithInt:9735];
-    UINavigationController* tmpNavigationController = [[UINavigationController alloc] initWithRootViewController:matfrtvc];
-    tmpNavigationController.view.frame = self.orderBaseTableContentView.frame;
-    [self.orderBaseTableContentView addSubview:tmpNavigationController.view];
     
-    return;
-     */
-//    if (self.orderPadsPopover != nil && [self.orderPadsPopover isPopoverVisible]) {
-//        [self.orderPadsPopover dismissPopoverAnimated:NO];
-//        return;
-//    }
-    /*
-    if (self.orderPadsPopover == nil) {        
-        self.fdtvc = [[FormDetailTableViewController alloc]initWithNibName:@"FormDetailTableViewController" bundle:nil];
-        self.orderPadsNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.fdtvc] autorelease];
-        self.fdtvc.delegate = self;
-        self.fdtvc.dividerDelegate = self;
-        
-        self.orderPadsPopover = [[UIPopoverController alloc]initWithContentViewController:self.orderPadsNavigationController];
-        self.orderPadsPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
-        
-    }
-    */
-//    [self.fdtvc.formDetailTableView reloadData];
+    [UINavigationControllerStyleHelper setBorderForNavigationController:self.orderPadsNavigationController
+                                                        withBorderWidth:1.0f cornerRadius:12.5f];
+
+    
     if (self.fdtvc.frdtvc != nil) {
         [self.fdtvc.frdtvc.formRowDividerTableView reloadData];
     }
-//    [self.orderPadsPopover presentPopoverFromBarButtonItem:self.orderPadsBarButton permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+
+    // Configure navigation bar appearance
+    UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+    [appearance configureWithOpaqueBackground];
+    appearance.backgroundColor = [UIColor backgroundColor];
+    appearance.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor headerLabelColor]};
+    appearance.largeTitleTextAttributes = @{NSForegroundColorAttributeName : [UIColor headerLabelColor]};
+
+    // Apply appearance settings
+    UINavigationBar *navBar = self.orderPadsNavigationController.navigationBar;
+    navBar.standardAppearance = appearance;
+    navBar.scrollEdgeAppearance = appearance;
+    navBar.compactAppearance = appearance;
+    navBar.tintColor = [UIColor backgroundColor];
+
+    // Present popover as a modal below the button
     self.orderPadsNavigationController.modalPresentationStyle = UIModalPresentationPopover;
-    self.orderPadsNavigationController.popoverPresentationController.barButtonItem = self.orderPadsBarButton;
-    self.orderPadsNavigationController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
-    [self presentViewController:self.orderPadsNavigationController animated:YES completion:nil];
+    UIPopoverPresentationController *popover = self.orderPadsNavigationController.popoverPresentationController;
+
+    if (popover) {
+        // Get the UIView associated with the UIBarButtonItem
+        UIView *barButtonView = [self.orderPadsBarButton valueForKey:@"view"];
+        if (barButtonView) {
+            popover.sourceView = barButtonView.superview; // Attach to bar button’s parent view
+            CGRect barButtonFrame = barButtonView.frame;
+            popover.sourceRect = CGRectMake(CGRectGetMidX(barButtonFrame), CGRectGetMaxY(barButtonFrame) + 20, 150, 1);
+    
+        } else {
+            popover.sourceView = self.view;
+            popover.sourceRect = CGRectMake(self.view.bounds.size.width / 2, 100, 1, 1);
+        }
+
+        popover.permittedArrowDirections = 0; // Remove arrow
+        popover.backgroundColor = [UIColor whiteColor]; // Ensure proper popover look
+    }
+
+    // Present the popover without the arrow
+   
+    [self presentViewController:self.orderPadsNavigationController animated:YES completion:^{
+        self.orderPadsNavigationController.view.superview.layer.cornerRadius = 10.0;
+        self.orderPadsNavigationController.view.superview.layer.masksToBounds = YES;
+    }];
 }
 
 #pragma mark - FormDetailDelegate

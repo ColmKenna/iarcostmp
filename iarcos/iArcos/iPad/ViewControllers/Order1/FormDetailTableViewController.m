@@ -10,6 +10,8 @@
 #import "ArcosAppDelegate_iPad.h"
 #import "MATFormRowsTableViewController.h"
 #import "StandardOrderPadMatTableViewController.h"
+#import "UIColor+Hex.h"
+
 @interface FormDetailTableViewController ()
 - (NSString*)retrieveLocationCode;
 - (NSString*)retrieveEmailAddress;
@@ -91,6 +93,15 @@
     }
     self.emailButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(emailButtonPressed:)] autorelease];
     self.standardOrderFormEmailButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(standardOrderFormEmailButtonPressed:)] autorelease];
+    
+    self.formDetailTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine; // or UITableViewCellSeparatorStyleNone
+    self.formDetailTableView.separatorColor = [UIColor borderColor]; // Change color as needed
+       self.formDetailTableView.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15); // Adjust insets
+
+       if (@available(iOS 15.0, *)) {
+           self.formDetailTableView.separatorInsetReference = UITableViewSeparatorInsetFromCellEdges;
+       }
+ 
 }
 
 - (void)viewDidUnload
@@ -112,8 +123,10 @@
     NSString* details = [formDetailDict objectForKey:@"Details"];
     NSRange aMATRange = [details rangeOfString:@"[MAT]"];
     if ([formType isEqualToString:@"101"]) {
+        self.emailButton.tintColor = [UIColor blueColor];
         [self.navigationItem setRightBarButtonItem:self.emailButton];
     } else if (aMATRange.location != NSNotFound) {
+        self.standardOrderFormEmailButton.tintColor = [UIColor blueColor];
         [self.navigationItem setRightBarButtonItem:self.standardOrderFormEmailButton];
     } else {
         [self.navigationItem setRightBarButtonItem:nil];
@@ -148,6 +161,11 @@
     // Return the number of sections.
     return 1;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 60.0;
+}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -210,6 +228,9 @@
     if (formTypeNumber == 0) {
         NSNumber* formRowRecordQty = [self formRowDividerRecordQty:cellData];
         if ([formRowRecordQty intValue] > 0) {
+            UIImageView *disclosureImageView = [[UIImageView alloc] initWithImage:[UIImage systemImageNamed:@"chevron.right"]];
+            disclosureImageView.tintColor = [UIColor headerLabelColor]; // Change to desired color
+            cell.accessoryView = disclosureImageView;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else {
             cell.accessoryType = UITableViewCellAccessoryNone;

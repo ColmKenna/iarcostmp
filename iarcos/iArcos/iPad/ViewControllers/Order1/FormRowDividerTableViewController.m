@@ -7,6 +7,7 @@
 //
 
 #import "FormRowDividerTableViewController.h"
+#import "UIColor+Hex.h"
 
 @implementation FormRowDividerTableViewController
 @synthesize delegate = _delegate;
@@ -74,6 +75,18 @@
     
     self.formRowDividerDataManager = [[[FormRowDividerDataManager alloc] init] autorelease];
     [self.formRowDividerDataManager createBasicData:self.formIUR];
+    
+    self.formRowDividerTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine; // or UITableViewCellSeparatorStyleNone
+    self.formRowDividerTableView.separatorColor = [UIColor borderColor]; // Change color as needed
+    self.formRowDividerTableView.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15); // Adjust insets
+
+    if (@available(iOS 15.0, *)) {
+       self.formRowDividerTableView.separatorInsetReference = UITableViewSeparatorInsetFromCellEdges;
+    }
+
+    
+    self.navigationController.navigationBar.tintColor = [UIColor headerLabelColor];
+
 }
 
 - (void)viewDidUnload
@@ -118,6 +131,11 @@
     // Return the number of sections.
     return 1;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 60.0;
+}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

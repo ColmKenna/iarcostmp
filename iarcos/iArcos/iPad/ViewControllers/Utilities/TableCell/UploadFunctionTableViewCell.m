@@ -15,7 +15,7 @@
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
-    UIColor *borderUIColor = [UIColor colorFromHexString:@"#7D9DD6"];
+    UIColor *borderUIColor = [UIColor backgroundColor];
     _uploadButton.layer.borderColor = borderUIColor.CGColor;
     
     _uploadButton.layer.borderWidth = 1.0f;

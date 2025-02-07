@@ -1256,8 +1256,21 @@
                 for (ArcosGenericReturnObjectWithImage* anObject in objects) {
                     [[ArcosCoreData sharedArcosCoreData]loadConLocLinkWithSoapOB:anObject];                  
                 }
-                [self.delegate ProgressViewWithValue:[self.paginatedUpdateCenter progressValue]];
-                [self.delegate ProgressViewWithValueForPaginatedConLocLink:[self.paginatedUpdateCenter progressValue]];
+                @try {
+                    if ([self.delegate respondsToSelector:@selector(ProgressViewWithValue:)]) {
+                        [self.delegate ProgressViewWithValue:[self.paginatedUpdateCenter progressValue]];
+                    }
+                    
+                   /* if ([self.delegate respondsToSelector:@selector(ProgressViewWithValueForPaginatedConLocLink:)]) {
+                        [self.delegate ProgressViewWithValueForPaginatedConLocLink:[self.paginatedUpdateCenter progressValue]];
+                    
+                    }*/
+                } @catch (NSException *exception) {
+                    NSLog(@"Exception caught: %@, reason: %@", exception.name, exception.reason);
+                } @finally {
+                    // Optional: Code that should always execute, regardless of whether an exception was thrown
+                }
+
           } else if (xmlResult.ErrorModel.Code <= 0) {
                 [self.paginatedUpdateCenter stopTask];
                 [self.delegate ErrorOccured:xmlResult.ErrorModel.Message];
