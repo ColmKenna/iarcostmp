@@ -10,6 +10,9 @@
 #import "CustomerBaseDetailViewController.h"
 #import "CustomerInfoTableViewController.h"
 #import "CustomerContactDetailTableCell.h"
+#import "CustomerContactDetailTableCellGenerator.h"
+#import "CustomerContactDetailCallTableCellGenerator.h"
+#import "CustomerContactDetailCallDataManager.h"
 
 @interface CustomerContactDetailViewController : CustomerBaseDetailViewController <UISearchBarDelegate, GenericRefreshParentContentDelegate, CheckLocationIURTemplateDelegate>{
     NSMutableArray* myCustomers;
@@ -30,6 +33,8 @@
     //hold the bar button
     //    UIBarButtonItem* myBarButtonItem;        
     CheckLocationIURTemplateProcessor* _checkLocationIURTemplateProcessor;
+    id<CustomerContactDetailTableCellGeneratorDelegate> _customerContactDetailTableCellGeneratorDelegate;
+    CustomerContactDetailCallDataManager* _customerContactDetailCallDataManager;
 }
 @property (nonatomic, retain) IBOutlet UISearchBar *mySearchBar;
 
@@ -40,6 +45,8 @@
 @property(nonatomic,retain) NSMutableArray* tableData;
 @property(nonatomic,retain) NSMutableArray *searchedData;
 @property (nonatomic, retain) CheckLocationIURTemplateProcessor* checkLocationIURTemplateProcessor;
+@property (nonatomic, retain) id<CustomerContactDetailTableCellGeneratorDelegate> customerContactDetailTableCellGeneratorDelegate;
+@property (nonatomic, retain) CustomerContactDetailCallDataManager* customerContactDetailCallDataManager;
 
 
 //-(void)resetCustomer:(NSMutableArray*)customers;

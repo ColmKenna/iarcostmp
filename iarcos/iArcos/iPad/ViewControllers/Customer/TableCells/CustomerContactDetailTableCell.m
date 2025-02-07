@@ -13,6 +13,8 @@
 @synthesize addressLabel = _addressLabel;
 @synthesize cP09Button = _cP09Button;
 @synthesize cP10Button = _cP10Button;
+@synthesize dateLabel = _dateLabel;
+@synthesize memoTextView = _memoTextView;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -30,8 +32,14 @@
     self.addressLabel = nil;
     self.cP09Button = nil;
     self.cP10Button = nil;
+    self.dateLabel = nil;
+    self.memoTextView = nil;
     
     [super dealloc];
+}
+
+- (void)configCallInfoWithCallHeader:(OrderHeader*)aCallHeader {
+    
 }
 
 @end

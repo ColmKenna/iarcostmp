@@ -31,6 +31,6 @@
 @property(nonatomic, retain) IBOutlet UITextView* memoTextView;
 @property(nonatomic, retain) IBOutlet UILabel* weekDayCallNumberLabel;
 
-- (void)configCallInfoWithCallHeader:(OrderHeader*)anCallHeader;
+- (void)configCallInfoWithCallHeader:(OrderHeader*)aCallHeader;
 
 @end

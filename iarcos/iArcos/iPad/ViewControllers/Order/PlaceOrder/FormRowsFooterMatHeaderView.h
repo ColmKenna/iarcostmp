@@ -25,7 +25,7 @@
     UILabel* _monthLabel10;
     UILabel* _monthLabel11;
     UILabel* _separatorLabel;
-    
+    UILabel* _topSeparatorLabel;
 }
 
 @property(nonatomic, retain) IBOutlet UILabel* titleLabel;
@@ -43,6 +43,7 @@
 @property(nonatomic, retain) IBOutlet UILabel* monthLabel10;
 @property(nonatomic, retain) IBOutlet UILabel* monthLabel11;
 @property(nonatomic, retain) IBOutlet UILabel* separatorLabel;
+@property(nonatomic, retain) IBOutlet UILabel* topSeparatorLabel;
 
 @end
 

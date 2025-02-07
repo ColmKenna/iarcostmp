@@ -62,7 +62,7 @@
             tmpTextField.textColor = [UIColor redColor];
             NSLog(@"textfield highlighted");
         }
-    }
+    }    
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {

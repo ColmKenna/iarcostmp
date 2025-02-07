@@ -29,6 +29,8 @@
 @synthesize fileChunkSize = _fileChunkSize;
 @synthesize showSignatureFlag = _showSignatureFlag;
 @synthesize viewHasBeenAppearedFlag = _viewHasBeenAppearedFlag;
+@synthesize originalSubjectText = _originalSubjectText;
+@synthesize photoCount = _photoCount;
 
 - (instancetype)init {
     if(self = [super init]) {
@@ -49,6 +51,7 @@
         self.fileChunkSize = 2 * 1024 * 1024;
         self.showSignatureFlag = NO;
         self.viewHasBeenAppearedFlag = NO;
+        self.photoCount = 0;
     }
     return self;
 }
@@ -66,6 +69,7 @@
     self.messageId = nil;
     self.largeFileSize = nil;
     self.uploadURL = nil;
+    self.originalSubjectText = nil;
     
     [super dealloc];
 }
