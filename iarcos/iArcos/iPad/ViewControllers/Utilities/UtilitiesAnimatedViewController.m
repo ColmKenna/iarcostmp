@@ -1187,7 +1187,9 @@ static const CGFloat constantColorLookupTable[20][3] =
     UIColor* orangeColour = [UIColor colorWithRed:1.0 green:165.0/255.0 blue:0.0 alpha:1.0];
     UIColor* darkTextColour = [UIColor darkTextColor];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] retrieveLocationProductMATDataLocallyFlag]) {
-        NSMutableDictionary* rawDataCellDataDict = [self.animatedDataManager.monthTableRawDataDisplayList objectAtIndex:indexPath.row];
+        NSNumber* tmpProductIUR = [ArcosUtils convertStringToNumber:[cellData Field1]];
+        NSMutableDictionary* rawDataCellDataDict = [self.animatedDataManager.monthTableRawDataDisplayHashMap objectForKey:tmpProductIUR];
+//        NSMutableDictionary* rawDataCellDataDict = [self.animatedDataManager.monthTableRawDataDisplayList objectAtIndex:indexPath.row];
         int lastFourMonthsTotal = [self.animatedDataManager calculateLastFourMonthsTotalWithDataDict:rawDataCellDataDict];
         int firstNineMonthsTotal = [self.animatedDataManager calculateFirstNineMonthsTotalWithDataDict:rawDataCellDataDict];
         int lastThirteenMonthsTotal = [self.animatedDataManager calculateLastThirteenMonthsTotalWithDataDict:rawDataCellDataDict];

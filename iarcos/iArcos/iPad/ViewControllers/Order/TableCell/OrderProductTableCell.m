@@ -258,6 +258,9 @@
         if ([allowDiscount boolValue]) {
             self.discTextField.hidden = NO;
             self.bonusTextField.hidden = YES;
+        } else {
+            self.discTextField.hidden = YES;
+            self.bonusTextField.hidden = NO;
         }
         SettingManager* sm = [SettingManager setting];
         NSMutableDictionary* presenterPwdDict = [sm getSettingForKeypath:@"CompanySetting.Connection" atIndex:8];
@@ -282,9 +285,18 @@
         if ([orderFormDetails containsString:@"[ND]"]) {
             self.discTextField.hidden = YES;
         }
-//        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
-//            self.discTextField.enabled = NO;
-//        }
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
+            self.discTextField.enabled = NO;
+        } else {
+            self.discTextField.enabled = YES;
+        }
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] disableBonusBoxWithPriceRecordFlag] && ([[aDataDict objectForKey:@"PriceFlag"] intValue] == 1 || [[aDataDict objectForKey:@"PriceFlag"] intValue] == 2)) {
+            self.bonusTextField.backgroundColor = [UIColor blackColor];
+            self.bonusTextField.text = @"0";
+        } else {
+            self.bonusTextField.backgroundColor = [UIColor whiteColor];
+        }
+        [self configBonusStateWithData:aDataDict];
         
         self.textFieldList = [NSMutableArray arrayWithObjects:self.qtyTextField, nil];
         if (!self.bonusTextField.hidden) {
@@ -322,12 +334,51 @@
     }
 }
 
+- (void)configBonusStateWithData:(NSMutableDictionary*)aDataDict {
+    switch ([[aDataDict objectForKey:@"SellBy"] intValue]) {
+        case 0: {
+            [self enableBonusFocWithFlag:YES];
+        }
+            break;
+        case 1: {
+            [self enableBonusFocWithFlag:NO];
+        }
+            break;
+        case 2: {
+            [self enableBonusFocWithFlag:YES];
+        }
+            break;
+        case 3: {
+            [self enableBonusFocWithFlag:NO];
+        }
+            break;
+        case 4: {
+            [self enableBonusFocWithFlag:YES];
+        }
+            break;
+        default: {
+            [self enableBonusFocWithFlag:YES];
+        }
+            break;
+    }
+}
+
 - (void)enableBonusFocWithFlag:(BOOL)aFlag {
     self.bonusTextField.enabled = aFlag;
 }
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    NSMutableDictionary* currentData = (NSMutableDictionary*)self.data;
+    if (textField.tag == 1 && !self.bonusTextField.hidden && self.bonusTextField.enabled && [[ArcosConfigDataManager sharedArcosConfigDataManager] disableBonusBoxWithPriceRecordFlag] && ([[currentData objectForKey:@"PriceFlag"] intValue] == 1 || [[currentData objectForKey:@"PriceFlag"] intValue] == 2)) {
+        [ArcosUtils showDialogBox:@"Bonus Disabled on Discounted Prices" title:@"" target:[self.cellDelegate retrieveOrderProductParentViewController] handler:nil];
+        return NO;
+    }
+    return YES;
+}
+
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     @try {
+//        NSLog(@"currentData 0 %@",self.data);
         NSLog(@"textFieldDidBeginEditing %d - %@ - %ld", [ArcosUtils convertNSIntegerToInt:textField.tag], textField.text, self.theIndexPath.row);
     //    self.currentTextFieldIndex = [ArcosUtils convertNSIntegerToInt:textField.tag];
         NSNumber* tmpIndex = [self.textFieldTagIndexDict objectForKey:[NSNumber numberWithInt:[ArcosUtils convertNSIntegerToInt:textField.tag]]];
@@ -376,12 +427,14 @@
         }
         
         BOOL integerFlag = [ArcosValidator isInteger:assembledString];
+        
         BOOL enteredKey2Flag = NO;
         if ((integerFlag && [self.cellDelegate retrieveCurrentTextFieldHighlightedFlag] && ![string isEqualToString:@""])) {
             NSLog(@"entered key 2 %@", string);
             enteredKey2Flag = YES;
             [self.cellDelegate configCurrentTextFieldHighlightedFlag:NO];
             textField.textColor = [UIColor blackColor];
+            /*
             if (textField.tag == 1 && [self bonusGivenAndBonusRequiredExistentFlag]) {
                 NSMutableDictionary* currentData = (NSMutableDictionary*)self.data;
                 int bonusMax = [self.qtyTextField.text intValue] / [[currentData objectForKey:@"BonusRequired"] intValue] * [[currentData objectForKey:@"BonusGiven"] intValue];
@@ -397,10 +450,22 @@
                     textField.text = @"";
                     return NO;
                 }
+            }
+             */
+            if (textField.tag == 1 && [self bonusGivenAndBonusRequiredExistentFlag]) {
+                int potentialBonus = [[ArcosUtils convertStringToNumber:string] intValue];
+                if (![self checkFocusBonusWithGivenRequiredSellByMinimum:textField bonus:potentialBonus]) {
+                    return NO;
+                }
+            }            
+            if (textField.tag == 0) {//qty
+                int potentialQty = [[ArcosUtils convertStringToNumber:string] intValue];
+                [self checkBonusWithGivenRequiredSellBy:textField qty:potentialQty];
             }
             textField.text = @"";
         } else if ([textField.text isEqualToString:@"0"] && [ArcosValidator isInteger:string]) {
             NSLog(@"entered key 3 %@", string);
+            /*
             if (textField.tag == 1 && [self bonusGivenAndBonusRequiredExistentFlag]) {
                 NSMutableDictionary* currentData = (NSMutableDictionary*)self.data;
                 int bonusMax = [self.qtyTextField.text intValue] / [[currentData objectForKey:@"BonusRequired"] intValue] * [[currentData objectForKey:@"BonusGiven"] intValue];
@@ -417,9 +482,21 @@
                     return NO;
                 }
             }
+             */
+            if (textField.tag == 1 && [self bonusGivenAndBonusRequiredExistentFlag]) {
+                int potentialBonus = [[ArcosUtils convertStringToNumber:string] intValue];
+                if (![self checkFocusBonusWithGivenRequiredSellByMinimum:textField bonus:potentialBonus]) {
+                    return NO;
+                }
+            }
+            if (textField.tag == 0) {//qty
+                int potentialQty = [[ArcosUtils convertStringToNumber:string] intValue];
+                [self checkBonusWithGivenRequiredSellBy:textField qty:potentialQty];
+            }
             textField.text = @"";
             return YES;
         }
+        /*
         if (integerFlag && textField.tag == 1 && [self bonusGivenAndBonusRequiredExistentFlag] && !enteredKey2Flag) {
             NSMutableDictionary* currentData = (NSMutableDictionary*)self.data;
             int bonusMax = [self.qtyTextField.text intValue] / [[currentData objectForKey:@"BonusRequired"] intValue] * [[currentData objectForKey:@"BonusGiven"] intValue];
@@ -436,6 +513,17 @@
                 return NO;
             }
         }
+         */
+        if (integerFlag && textField.tag == 1 && [self bonusGivenAndBonusRequiredExistentFlag] && !enteredKey2Flag) {
+            int potentialBonus = [[ArcosUtils convertStringToNumber:assembledString] intValue];
+            if (![self checkFocusBonusWithGivenRequiredSellByMinimum:textField bonus:potentialBonus]) {
+                return NO;
+            }
+        }
+        if (integerFlag && textField.tag == 0 && !enteredKey2Flag) {
+            int potentialQty = [[ArcosUtils convertStringToNumber:assembledString] intValue];
+            [self checkBonusWithGivenRequiredSellBy:textField qty:potentialQty];
+        }
         return (integerFlag || [assembledString isEqualToString:@""]);
     } @catch (NSException *exception) {
         NSLog(@"shouldChangeCharactersInRange %@", [exception reason]);
@@ -449,7 +537,7 @@
         NSNumber* qtyValue = [NSNumber numberWithInt:[self.qtyTextField.text intValue]];
         NSNumber* bonusValue = [NSNumber numberWithInt:[self.bonusTextField.text intValue]];
         NSNumber* discountValue = [NSNumber numberWithFloat:[self.discTextField.text floatValue]];
-        
+//        NSLog(@"currentData x %@ -- %d -- %@" , self.bonusTextField.text, [bonusValue intValue], textField.text);
         
         
         if ([qtyValue intValue] <= 0 && [bonusValue intValue] <= 0) {
@@ -467,9 +555,71 @@
         [self.cellDelegate inputFinishedWithData:currentData forIndexPath:self.theIndexPath];
         [self.cellDelegate configCurrentTextFieldHighlightedFlag:NO];
         textField.textColor = [UIColor blackColor];
+//        NSLog(@"currentData 1 %@",currentData);
     } @catch (NSException *exception) {
         NSLog(@"textFieldDidEndEditing %@", [exception reason]);
     }
+}
+
+- (void)checkBonusWithGivenRequiredSellBy:(UITextField*)aTextField qty:(int)aQtyValue {
+    NSMutableDictionary* currentData = (NSMutableDictionary*)self.data;
+//    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] disableBonusBoxWithPriceRecordFlag] && ([[currentData objectForKey:@"PriceFlag"] intValue] == 1 || [[currentData objectForKey:@"PriceFlag"] intValue] == 2)) {
+//        return;
+//    }
+    if (![self bonusGivenAndBonusRequiredExistentFlag] || aTextField.tag != 0) return;
+    
+    switch ([[currentData objectForKey:@"SellBy"] intValue]) {
+        case 1:
+        case 2: {
+            self.bonusTextField.text = [NSString stringWithFormat:@"%d", aQtyValue / [[currentData objectForKey:@"BonusRequired"] intValue] * [[currentData objectForKey:@"BonusGiven"] intValue]];
+        }
+            break;
+        case 4: {
+            if (aQtyValue < [[currentData objectForKey:@"BonusMinimum"] intValue]) {
+                self.bonusTextField.text = @"0";
+                return;
+            }
+            int bonusValue = aQtyValue / [[currentData objectForKey:@"BonusRequired"] intValue] * [[currentData objectForKey:@"BonusGiven"] intValue];
+            if ([self.bonusTextField.text intValue] > bonusValue) {
+                self.bonusTextField.text = @"0";
+            }
+        }
+            break;
+        default:
+            break;
+    }
+}
+- (BOOL)checkFocusBonusWithGivenRequiredSellByMinimum:(UITextField*)aTextField bonus:(int)aBonusValue {
+    NSMutableDictionary* currentData = (NSMutableDictionary*)self.data;
+//    if ([[ArcosConfigDataManager sharedArcosConfigDataManager] disableBonusBoxWithPriceRecordFlag] && ([[currentData objectForKey:@"PriceFlag"] intValue] == 1 || [[currentData objectForKey:@"PriceFlag"] intValue] == 2)) {
+//        return NO;
+//    }
+//    if (![self bonusGivenAndBonusRequiredExistentFlag] || aTextField.tag != 1) return NO;
+    switch ([[currentData objectForKey:@"SellBy"] intValue]) {
+        case 4: {
+            if ([self.qtyTextField.text intValue] < [[currentData objectForKey:@"BonusMinimum"] intValue]) {
+                [self showBonusFocusCheckMinimumMsg:0];
+                self.bonusTextField.text = @"0";
+                return NO;
+            }
+            int bonusValue = [self.qtyTextField.text intValue] / [[currentData objectForKey:@"BonusRequired"] intValue] * [[currentData objectForKey:@"BonusGiven"] intValue];
+            if (aBonusValue > bonusValue) {
+                [self showBonusFocusCheckMinimumMsg:bonusValue];
+                self.bonusTextField.text = @"0";
+                return NO;
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+    return YES;
+}
+
+- (void)showBonusFocusCheckMinimumMsg:(int)aBonusValue {
+    NSMutableDictionary* tmpData = (NSMutableDictionary*)self.data;
+    [ArcosUtils showDialogBox:[NSString stringWithFormat:@"Bonus is restricted to %d for %d\n Minimum order qty of %d\nBonus allowed %d", [[tmpData objectForKey:@"BonusGiven"] intValue], [[tmpData objectForKey:@"BonusRequired"] intValue], [[tmpData objectForKey:@"BonusMinimum"] intValue], aBonusValue] title:@"" target:[self.cellDelegate retrieveOrderProductParentViewController] handler:nil];
 }
 
 - (BOOL)bonusGivenAndBonusRequiredExistentFlag {

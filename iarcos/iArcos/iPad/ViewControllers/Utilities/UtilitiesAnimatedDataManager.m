@@ -41,6 +41,7 @@
 @synthesize totalClickTime = _totalClickTime;
 @synthesize detailClickTime = _detailClickTime;
 @synthesize monthTableRawDataDisplayList = _monthTableRawDataDisplayList;
+@synthesize monthTableRawDataDisplayHashMap = _monthTableRawDataDisplayHashMap;
 
 - (id)init{
     self = [super init];
@@ -104,6 +105,7 @@
     self.pnfDetail = nil;
 //    self.monthPieCompositeResultList = nil;
     self.monthTableRawDataDisplayList = nil;
+    self.monthTableRawDataDisplayHashMap = nil;
                 
     [super dealloc];
 }
@@ -243,8 +245,12 @@
     NSSortDescriptor* detailsDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"Details" ascending:YES selector:@selector(caseInsensitiveCompare:)] autorelease];
     [auxObjectsArray sortUsingDescriptors:[NSArray arrayWithObjects:brandDescriptor, detailsDescriptor, nil]];
     self.monthTableRawDataDisplayList = [NSMutableArray arrayWithArray:auxObjectsArray];
+    self.monthTableRawDataDisplayHashMap = [NSMutableDictionary dictionaryWithCapacity:[auxObjectsArray count]];
     for (int i = 0; i < [auxObjectsArray count]; i++) {
         NSMutableDictionary* tmpAuxDataDict = [auxObjectsArray objectAtIndex:i];
+        NSNumber* myProductIUR = [NSNumber numberWithInt:[[tmpAuxDataDict objectForKey:@"productIUR"] intValue]];
+        NSMutableDictionary* myAuxDataDict = [NSMutableDictionary dictionaryWithDictionary:tmpAuxDataDict];
+        [self.monthTableRawDataDisplayHashMap setObject:myAuxDataDict forKey:myProductIUR];
         ArcosGenericClass* arcosGenericClass = [[ArcosGenericClass alloc] init];
         arcosGenericClass.Field1 = [NSString stringWithFormat:@"%@", [tmpAuxDataDict objectForKey:@"productIUR"]];
         arcosGenericClass.Field2 = [tmpAuxDataDict objectForKey:@"Details"];

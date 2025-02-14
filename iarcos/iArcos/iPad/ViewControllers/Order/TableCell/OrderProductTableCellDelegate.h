@@ -27,5 +27,6 @@
 - (BOOL)retrieveFirstProductRowHasBeenShowedFlag;
 - (void)configFirstProductRowHasBeenShowedFlag:(BOOL)aFlag;
 - (void)showFooterMatDataWithIndexPath:(NSIndexPath*)anIndexPath;
+- (UIViewController*)retrieveOrderProductParentViewController;
 
 @end

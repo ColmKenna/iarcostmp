@@ -45,6 +45,7 @@
     int _totalClickTime;
     int _detailClickTime;
     NSMutableArray* _monthTableRawDataDisplayList;
+    NSMutableDictionary* _monthTableRawDataDisplayHashMap;
 }
 
 @property(nonatomic, retain) NSMutableArray* tylyBarDisplayList;
@@ -79,6 +80,7 @@
 @property(nonatomic, assign) int totalClickTime;
 @property(nonatomic, assign) int detailClickTime;
 @property(nonatomic, retain) NSMutableArray* monthTableRawDataDisplayList;
+@property(nonatomic, retain) NSMutableDictionary* monthTableRawDataDisplayHashMap;
 
 - (void)processRawData:(ArcosGenericReturnObject*)result;
 - (void)processMonthPieRawData:(ArcosGenericReturnObject*)result;

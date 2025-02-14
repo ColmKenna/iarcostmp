@@ -1463,6 +1463,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [self.formRowsFooterMatTableViewController.formRowsFooterMatDataManager retrieveFooterMatDataWithProductIUR:aProductIUR locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
     [self.formRowsFooterMatTableViewController.tableView reloadData];
 }
+- (UIViewController*)retrieveOrderProductParentViewController {
+    return self;
+}
 
 -(void)showNumberPadPopoverWithIndexPath:(NSIndexPath*)anIndexPath {
     OrderProductTableCell* aCell = nil;
@@ -1804,6 +1807,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)reloadTableViewFooterData {
     if (@available(iOS 11.0, *)) {
         [self.tableView performBatchUpdates:^{
+            if (self.formRowsTableDataManager.showFooterMatViewFlag) {
+                self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
+            } else {
+                self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+            }
             [self reloadTableViewData];
         } completion:^(BOOL finished) {
             [self focusCurrentIndexPathTextField];
