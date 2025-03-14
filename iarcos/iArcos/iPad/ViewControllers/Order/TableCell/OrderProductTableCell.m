@@ -328,6 +328,9 @@
                 [tmpTextField becomeFirstResponder];
             }
         }
+        if ([self.cellDelegate retrieveCurrentIndexPath] != nil && self.theIndexPath.row == [self.cellDelegate retrieveCurrentIndexPath].row) {
+            self.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:0.2];
+        }
         
     } @catch (NSException *exception) {
         NSLog(@"configTextFieldListWithKbFlag %@", [exception reason]);
@@ -399,6 +402,7 @@
             textField.textColor = [UIColor blackColor];
         }
         NSLog(@"highlighted flag %d", [self.cellDelegate retrieveCurrentTextFieldHighlightedFlag]);
+        self.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:0.2];
     } @catch (NSException *exception) {
         NSLog(@"textFieldDidBeginEditing %@", [exception reason]);
     }
@@ -555,6 +559,11 @@
         [self.cellDelegate inputFinishedWithData:currentData forIndexPath:self.theIndexPath];
         [self.cellDelegate configCurrentTextFieldHighlightedFlag:NO];
         textField.textColor = [UIColor blackColor];
+        if ([[currentData objectForKey:@"IsSelected"] boolValue]) {
+            self.backgroundColor = [UIColor colorWithRed:144.0/255.0 green:238.0/255.0 blue:144.0/255.0 alpha:.2];
+        } else {
+            self.backgroundColor = [UIColor whiteColor];
+        }
 //        NSLog(@"currentData 1 %@",currentData);
     } @catch (NSException *exception) {
         NSLog(@"textFieldDidEndEditing %@", [exception reason]);

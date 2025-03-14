@@ -378,6 +378,7 @@
     Location.Competitor3 = [ArcosUtils convertStringToNumber:anObject.Field45];
     Location.lP20                =    [ArcosUtils convertStringToNumber:anObject.Field46];
     Location.lP19                =    [ArcosUtils convertStringToNumber:anObject.Field47];
+    Location.Headoffice = [NSNumber numberWithBool: [ArcosUtils convertStringToBool:anObject.Field48]];
     
     return Location;
 }
@@ -438,6 +439,7 @@
     Location.Competitor3         =    [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:44]];
     Location.lP20 = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:45]];
     Location.lP19 = [ArcosUtils convertStringToNumber:[aFieldList objectAtIndex:46]];
+    Location.Headoffice = [NSNumber numberWithBool:[ArcosUtils convertStringToBool:[aFieldList objectAtIndex:47]]];
     
     return Location;
 }

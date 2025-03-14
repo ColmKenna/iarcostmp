@@ -334,6 +334,14 @@
 //        cell.nameLabel.text =[aCust objectForKey:@"Name"];
 //    }
     cell.nameLabel.text =[aCust objectForKey:@"Name"];
+    NSNumber* headOffice = [aCust objectForKey:@"Headoffice"];
+    if ([headOffice boolValue]) {
+        cell.nameLabel.textColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0];
+        cell.nameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    } else {
+        cell.nameLabel.textColor = [UIColor blackColor];
+        cell.nameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    }
     if ([self.showLocationCode boolValue]) {
         cell.locationCodeLabel.text = [ArcosUtils trim:[ArcosUtils convertNilToEmpty:[aCust objectForKey:@"LocationCode"]]];
     } else {

@@ -18,7 +18,7 @@
     if (self != nil) {
         self.recordList = aRecordList;
         
-        self.expectedFieldCount = 48;
+        self.expectedFieldCount = 49;
         [self retrieveExistingLocationDict:aRecordList];
     }
     return self;
