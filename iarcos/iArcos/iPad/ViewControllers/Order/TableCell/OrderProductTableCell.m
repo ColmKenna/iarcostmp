@@ -316,6 +316,7 @@
             tmpTextField.textColor = [UIColor blackColor];
         }
 //        NSLog(@"acc %@ %ld %ld %d", [self.cellDelegate retrieveCurrentIndexPath], [self.cellDelegate retrieveCurrentIndexPath].row, self.theIndexPath.row, [self.cellDelegate retrieveFirstProductRowIndex]);
+//        NSLog(@"dd %ld", self.theIndexPath.row);
         if ([self.cellDelegate retrieveCurrentIndexPath] != nil && self.theIndexPath.row == [self.cellDelegate retrieveCurrentIndexPath].row && self.theIndexPath.row == [self.cellDelegate retrieveFirstProductRowIndex]) {
             NSLog(@"same myIndexPath first row");
             UITextField* tmpTextField = [self.textFieldList objectAtIndex:[self.cellDelegate retrieveCurrentTextFieldIndex]];

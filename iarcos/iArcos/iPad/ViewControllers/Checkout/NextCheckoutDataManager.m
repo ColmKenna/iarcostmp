@@ -14,11 +14,12 @@
 //@synthesize orderLines = _orderLines;
 //@synthesize orderHeader = _orderHeader;
 @synthesize enablePhysKeyboardFlag = _enablePhysKeyboardFlag;
+@synthesize previousOrderLineCount = _previousOrderLineCount;
 
 - (instancetype)init {
     self = [super init];
     if (self != nil) {
-        
+        self.previousOrderLineCount = 0;
     }
     return self;
 }
