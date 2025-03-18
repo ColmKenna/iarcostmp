@@ -17,7 +17,7 @@
 - (void)configCurrentTextFieldIndex:(int)anIndex;
 - (void)configCurrentIndexPath:(NSIndexPath*)anIndexPath;
 - (void)inputFinishedWithData:(NSMutableDictionary*)aData forIndexPath:(NSIndexPath*)anIndexPath;
-- (NSNumber*)retrieveCurrentTextFieldValueWithTag:(int)aTag forIndexPath:(NSIndexPath*)anIndexPath;
+- (NSNumber*)retrieveCurrentTextFieldValueWithTag:(int)aTag forIndexPath:(NSIndexPath*)anIndexPath forCartKey:(NSString*)aCartKey;
 - (int)retrieveCurrentTextFieldIndex;
 - (void)configCurrentTextFieldHighlightedFlag:(BOOL)aFlag;
 - (BOOL)retrieveCurrentTextFieldHighlightedFlag;
@@ -28,5 +28,7 @@
 - (void)configFirstProductRowHasBeenShowedFlag:(BOOL)aFlag;
 - (void)showFooterMatDataWithIndexPath:(NSIndexPath*)anIndexPath;
 - (UIViewController*)retrieveOrderProductParentViewController;
+- (NSIndexPath*)recalculateIndexPathWithCurrentIndexPath:(NSIndexPath*)anIndexPath cartKey:(NSString*)aCartKey;
+- (UIColor*)retrieveCellBackgroundColourWithSelectedFlag:(NSNumber*)aSelectedFlag;
 
 @end

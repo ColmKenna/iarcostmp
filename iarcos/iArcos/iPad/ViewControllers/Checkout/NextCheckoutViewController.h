@@ -20,8 +20,11 @@
 #import <AVFoundation/AVFoundation.h>
 #import "ModalPresentViewControllerDelegate.h"
 #import "ArcosAlertBoxViewController.h"
+#import "FormRowsTableDataManager.h"
+#import "OrderProductTableCellDelegate.h"
+#import "NextCheckoutOrderLineKbFooterView.h"
 
-@interface NextCheckoutViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, NextCheckoutOrderInfoDelegate, CoreLocationControllerDelegate, WidgetFactoryDelegate, AVAudioPlayerDelegate, CustomisePresentViewControllerDelegate,ModalPresentViewControllerDelegate,UIPopoverPresentationControllerDelegate,ArcosAlertBoxViewControllerDelegate>{
+@interface NextCheckoutViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, NextCheckoutOrderInfoDelegate, CoreLocationControllerDelegate, WidgetFactoryDelegate, AVAudioPlayerDelegate, CustomisePresentViewControllerDelegate,ModalPresentViewControllerDelegate,UIPopoverPresentationControllerDelegate,ArcosAlertBoxViewControllerDelegate, OrderProductTableCellDelegate>{
     UITableView* _orderInfoTableView;
     LeftBorderUILabel* _tableDivider;
     UITableView* _orderlinesTableView;
@@ -42,6 +45,8 @@
     AVAudioPlayer* _myAVAudioPlayer;
     BOOL _isCheckoutSuccessful;
     UIBarButtonItem* _discountButton;
+    FormRowsTableDataManager* _formRowsTableDataManager;
+    NextCheckoutOrderLineKbFooterView* _nextCheckoutOrderLineKbFooterView;
 }
 
 @property(nonatomic, retain) IBOutlet UITableView* orderInfoTableView;
@@ -64,6 +69,7 @@
 @property(nonatomic,retain) AVAudioPlayer* myAVAudioPlayer;
 @property(nonatomic, assign) BOOL isCheckoutSuccessful;
 @property(nonatomic,retain) UIBarButtonItem* discountButton;
-
+@property(nonatomic, retain) FormRowsTableDataManager* formRowsTableDataManager;
+@property(nonatomic, retain) IBOutlet NextCheckoutOrderLineKbFooterView* nextCheckoutOrderLineKbFooterView;
 
 @end

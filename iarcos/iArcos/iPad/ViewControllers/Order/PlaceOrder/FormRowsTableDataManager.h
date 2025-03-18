@@ -26,6 +26,7 @@
     BOOL _firstProductRowHasBeenShowedFlag;
     BOOL _searchBarFocusedByShortCutFlag;
     BOOL _showFooterMatViewFlag;
+    BOOL _viewDidAppearedFlag;
 }
 
 @property(nonatomic, retain) NSDictionary* currentFormDetailDict;
@@ -43,6 +44,7 @@
 @property(nonatomic, assign) BOOL firstProductRowHasBeenShowedFlag;
 @property(nonatomic, assign) BOOL searchBarFocusedByShortCutFlag;
 @property(nonatomic, assign) BOOL showFooterMatViewFlag;
+@property(nonatomic, assign) BOOL viewDidAppearedFlag;
 
 - (NSMutableArray*)retrieveTableViewDataSourceWithSearchText:(NSString*)aSearchText orderFormDetails:(NSString*)anOrderFormDetails;
 - (NSMutableArray*)retrievePredicativeTableViewDataSourceWithOrderFormDetails:(NSString*)anOrderFormDetails;

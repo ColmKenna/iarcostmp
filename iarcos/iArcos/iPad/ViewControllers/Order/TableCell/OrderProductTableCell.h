@@ -95,4 +95,5 @@
 - (void)configPreviousWithLocationIUR:(NSNumber*)aLocationIUR productIUR:(NSNumber*)aProductIUR previousNumber:(NSNumber*)aPreviousNumber prevFlag:(BOOL)aPrevFlag prevLabel:(UILabel*)aPrevLable;
 - (void)configTextFieldListWithKbFlag:(BOOL)aKbFlag data:(NSMutableDictionary*)aDataDict relatedFormDetailDict:(NSDictionary*)aRelatedFormDetailDict;
 
+
 @end

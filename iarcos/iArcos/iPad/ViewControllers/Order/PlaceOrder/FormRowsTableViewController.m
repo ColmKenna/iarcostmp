@@ -1395,7 +1395,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         }
         NSLog(@"currentIndexPath row %ld", anIndexPath.row);
         OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:anIndexPath];
-        [tmpOrderProductTableCell configBackgroundColour:[[aData objectForKey:@"IsSelected"]boolValue]];
+//        [tmpOrderProductTableCell configBackgroundColour:[[aData objectForKey:@"IsSelected"]boolValue]];
         NSNumber* qty = [aData objectForKey:@"Qty"];
         NSNumber* bonus = [aData objectForKey:@"Bonus"];
         if ([qty intValue] <= 0 && [bonus intValue] <= 0) {
@@ -1427,7 +1427,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 //        [self reloadTableViewData];
 //    }
 }
-- (NSNumber*)retrieveCurrentTextFieldValueWithTag:(int)aTag forIndexPath:(NSIndexPath*)anIndexPath {
+- (NSNumber*)retrieveCurrentTextFieldValueWithTag:(int)aTag forIndexPath:(NSIndexPath*)anIndexPath forCartKey:(NSString *)aCartKey {
     NSMutableDictionary* tmpDataDict = [self.unsortedFormrows objectAtIndex:anIndexPath.row];
     NSString* textFieldKey = [self.formRowsTableDataManager.textFieldTagKeyDict objectForKey:[NSNumber numberWithInt:aTag]];
     return [tmpDataDict objectForKey:textFieldKey];
@@ -1465,6 +1465,16 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 }
 - (UIViewController*)retrieveOrderProductParentViewController {
     return self;
+}
+- (NSIndexPath*)recalculateIndexPathWithCurrentIndexPath:(NSIndexPath*)anIndexPath cartKey:(NSString*)aCartKey {
+    return anIndexPath;
+}
+- (UIColor*)retrieveCellBackgroundColourWithSelectedFlag:(NSNumber*)aSelectedFlag {
+    if ([aSelectedFlag boolValue]) {
+        return [UIColor colorWithRed:144.0/255.0 green:238.0/255.0 blue:144.0/255.0 alpha:.2];
+    } else {
+        return [UIColor whiteColor];
+    }
 }
 
 -(void)showNumberPadPopoverWithIndexPath:(NSIndexPath*)anIndexPath {

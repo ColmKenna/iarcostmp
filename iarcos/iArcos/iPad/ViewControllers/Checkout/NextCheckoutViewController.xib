@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="ipad10_9rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NextCheckoutViewController">
@@ -10,6 +12,7 @@
                 <outlet property="commentsHeaderView" destination="Rhq-0R-Fif" id="pMS-bG-TlP"/>
                 <outlet property="contactDetailsHeaderView" destination="Okl-4y-AsN" id="KNd-Z5-UOY"/>
                 <outlet property="followUpHeaderView" destination="bt0-cb-q3u" id="53X-MS-4fV"/>
+                <outlet property="nextCheckoutOrderLineKbFooterView" destination="k1v-B0-8F6" id="hL6-MW-juW"/>
                 <outlet property="orderDetailsHeaderView" destination="T44-MQ-bg5" id="KsL-Xr-n5L"/>
                 <outlet property="orderInfoTableView" destination="fh9-Tl-wvh" id="RJt-5l-1qX"/>
                 <outlet property="orderlinesTableView" destination="eHr-80-3O7" id="aN7-RD-O3g"/>
@@ -19,33 +22,33 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" tag="7" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+            <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="fh9-Tl-wvh">
-                    <rect key="frame" x="0.0" y="0.0" width="384" height="1024"/>
-                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                    <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <rect key="frame" x="0.0" y="0.0" width="410" height="1180"/>
+                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="sectionIndexBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </tableView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="olq-lS-c61" customClass="LeftBorderUILabel">
-                    <rect key="frame" x="383" y="0.0" width="1" height="1024"/>
+                    <rect key="frame" x="409" y="0.0" width="1" height="1180"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="1" id="h8G-eY-NqL"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" systemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eHr-80-3O7">
-                    <rect key="frame" x="384" y="0.0" width="384" height="1024"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <rect key="frame" x="410" y="0.0" width="410" height="1180"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="vrv-8j-BSe"/>
                         <outlet property="delegate" destination="-1" id="gBq-bz-iPp"/>
                     </connections>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="eHr-80-3O7" firstAttribute="leading" secondItem="olq-lS-c61" secondAttribute="trailing" id="93s-5T-sBp"/>
                 <constraint firstItem="eHr-80-3O7" firstAttribute="leading" secondItem="fh9-Tl-wvh" secondAttribute="trailing" id="Dmd-Xt-z6q"/>
@@ -59,7 +62,7 @@
                 <constraint firstItem="olq-lS-c61" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="wGn-Op-VyT"/>
                 <constraint firstAttribute="bottom" secondItem="eHr-80-3O7" secondAttribute="bottom" id="ymZ-oO-GUf"/>
             </constraints>
-            <point key="canvasLocation" x="362" y="211"/>
+            <point key="canvasLocation" x="264.8780487804878" y="107.28813559322035"/>
         </view>
         <view contentMode="scaleToFill" id="T44-MQ-bg5" customClass="NextCheckoutOrderInfoHeaderView">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -72,11 +75,11 @@
                         <constraint firstAttribute="width" constant="200" id="94b-II-m39"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" systemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="yQi-eW-2Dx" firstAttribute="leading" secondItem="T44-MQ-bg5" secondAttribute="leading" constant="15" id="A8M-Y1-dEs"/>
                 <constraint firstItem="yQi-eW-2Dx" firstAttribute="top" secondItem="T44-MQ-bg5" secondAttribute="top" constant="11" id="mTj-ys-Cvy"/>
@@ -85,7 +88,7 @@
             <connections>
                 <outlet property="myLabel" destination="yQi-eW-2Dx" id="pmD-Ff-5pI"/>
             </connections>
-            <point key="canvasLocation" x="362" y="785"/>
+            <point key="canvasLocation" x="264.8780487804878" y="399.15254237288138"/>
         </view>
         <view tag="1" contentMode="scaleToFill" id="Okl-4y-AsN" customClass="NextCheckoutOrderInfoHeaderView">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -98,11 +101,11 @@
                         <constraint firstAttribute="height" constant="21" id="HX4-0h-sd7"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" systemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="4z9-WU-0CA" firstAttribute="leading" secondItem="Okl-4y-AsN" secondAttribute="leading" constant="15" id="CHz-b5-RKI"/>
                 <constraint firstItem="4z9-WU-0CA" firstAttribute="top" secondItem="Okl-4y-AsN" secondAttribute="top" constant="11" id="G7Y-d2-lT3"/>
@@ -111,7 +114,7 @@
             <connections>
                 <outlet property="myLabel" destination="4z9-WU-0CA" id="Q62-fM-aox"/>
             </connections>
-            <point key="canvasLocation" x="362" y="874"/>
+            <point key="canvasLocation" x="264.8780487804878" y="444.40677966101697"/>
         </view>
         <view tag="2" contentMode="scaleToFill" id="Rhq-0R-Fif" customClass="NextCheckoutOrderInfoHeaderView">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -124,11 +127,11 @@
                         <constraint firstAttribute="width" constant="200" id="euC-kZ-eJv"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" systemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="HZ4-R7-uRK" firstAttribute="top" secondItem="Rhq-0R-Fif" secondAttribute="top" constant="11" id="S0o-hG-aKV"/>
                 <constraint firstItem="HZ4-R7-uRK" firstAttribute="leading" secondItem="Rhq-0R-Fif" secondAttribute="leading" constant="15" id="a8g-2e-e8h"/>
@@ -137,7 +140,7 @@
             <connections>
                 <outlet property="myLabel" destination="HZ4-R7-uRK" id="lsf-a5-Y5b"/>
             </connections>
-            <point key="canvasLocation" x="362" y="971"/>
+            <point key="canvasLocation" x="264.8780487804878" y="493.72881355932208"/>
         </view>
         <view tag="3" contentMode="scaleToFill" id="bt0-cb-q3u" customClass="NextCheckoutOrderInfoHeaderView">
             <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
@@ -150,11 +153,11 @@
                         <constraint firstAttribute="height" constant="21" id="zjf-OQ-0Kd"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" systemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="JJQ-MA-hTF" firstAttribute="leading" secondItem="bt0-cb-q3u" secondAttribute="leading" constant="15" id="GF1-tQ-fgZ"/>
                 <constraint firstItem="JJQ-MA-hTF" firstAttribute="top" secondItem="bt0-cb-q3u" secondAttribute="top" constant="11" id="erP-vi-ZMK"/>
@@ -163,7 +166,72 @@
             <connections>
                 <outlet property="myLabel" destination="JJQ-MA-hTF" id="9FV-kc-Dh9"/>
             </connections>
-            <point key="canvasLocation" x="362" y="1074"/>
+            <point key="canvasLocation" x="264.8780487804878" y="546.10169491525426"/>
+        </view>
+        <view alpha="0.80000001192092896" contentMode="scaleToFill" id="k1v-B0-8F6" customClass="NextCheckoutOrderLineKbFooterView">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+            <subviews>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Total" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="OI8-bC-I23">
+                    <rect key="frame" x="15" y="11" width="55" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Futura-CondensedMedium" family="Futura" pointSize="18"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="0" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="a4u-TM-xG5" customClass="LeftRightInsetUILabel">
+                    <rect key="frame" x="70" y="11" width="57" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Futura-CondensedMedium" family="Futura" pointSize="18"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Line(s)" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="SWT-h1-VJW">
+                    <rect key="frame" x="129" y="11" width="40" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Futura-CondensedMedium" family="Futura" pointSize="18"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="0" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="3Yd-HZ-dQ8" customClass="LeftRightInsetUILabel">
+                    <rect key="frame" x="578" y="11" width="59" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Futura-CondensedMedium" family="Futura" pointSize="18"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="0" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Lzd-YM-fTW" customClass="LeftRightInsetUILabel">
+                    <rect key="frame" x="641" y="11" width="59" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Futura-CondensedMedium" family="Futura" pointSize="18"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="0" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="S65-VH-uba">
+                    <rect key="frame" x="704" y="11" width="62" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Futura-CondensedMedium" family="Futura" pointSize="18"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="totalBonusLabel" destination="Lzd-YM-fTW" id="YE4-Ja-PjL"/>
+                <outlet property="totalLineLabel" destination="a4u-TM-xG5" id="Qt3-ae-po6"/>
+                <outlet property="totalQtyLabel" destination="3Yd-HZ-dQ8" id="uNF-Uf-ByX"/>
+                <outlet property="totalSuffixLabel" destination="SWT-h1-VJW" id="3Qn-gA-pYf"/>
+                <outlet property="totalTitleLabel" destination="OI8-bC-I23" id="BXX-xr-Lk2"/>
+                <outlet property="totalValueLabel" destination="S65-VH-uba" id="iw0-AM-atI"/>
+            </connections>
+            <point key="canvasLocation" x="245" y="-305"/>
         </view>
     </objects>
+    <resources>
+        <systemColor name="darkTextColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

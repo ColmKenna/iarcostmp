@@ -302,7 +302,7 @@
         if (!self.bonusTextField.hidden) {
             [self.textFieldList addObject:self.bonusTextField];
         }
-        if (!self.discTextField.hidden) {
+        if (self.discTextField != nil && !self.discTextField.hidden) {
             [self.textFieldList addObject:self.discTextField];
         }
         self.textFieldTagIndexDict = [NSMutableDictionary dictionary];
@@ -315,6 +315,7 @@
     //        NSLog(@"innter tag %d", [ArcosUtils convertNSIntegerToInt:tmpTextField.tag]);
             tmpTextField.textColor = [UIColor blackColor];
         }
+//        NSLog(@"acc %@ %ld %ld %d", [self.cellDelegate retrieveCurrentIndexPath], [self.cellDelegate retrieveCurrentIndexPath].row, self.theIndexPath.row, [self.cellDelegate retrieveFirstProductRowIndex]);
         if ([self.cellDelegate retrieveCurrentIndexPath] != nil && self.theIndexPath.row == [self.cellDelegate retrieveCurrentIndexPath].row && self.theIndexPath.row == [self.cellDelegate retrieveFirstProductRowIndex]) {
             NSLog(@"same myIndexPath first row");
             UITextField* tmpTextField = [self.textFieldList objectAtIndex:[self.cellDelegate retrieveCurrentTextFieldIndex]];
@@ -382,18 +383,20 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     @try {
 //        NSLog(@"currentData 0 %@",self.data);
+        self.theIndexPath = [self.cellDelegate recalculateIndexPathWithCurrentIndexPath:self.theIndexPath cartKey:[self.cellData objectForKey:@"CombinationKey"]];
         NSLog(@"textFieldDidBeginEditing %d - %@ - %ld", [ArcosUtils convertNSIntegerToInt:textField.tag], textField.text, self.theIndexPath.row);
     //    self.currentTextFieldIndex = [ArcosUtils convertNSIntegerToInt:textField.tag];
         NSNumber* tmpIndex = [self.textFieldTagIndexDict objectForKey:[NSNumber numberWithInt:[ArcosUtils convertNSIntegerToInt:textField.tag]]];
+        
         [self.cellDelegate configCurrentTextFieldIndex:[tmpIndex intValue]];
         [self.cellDelegate configCurrentIndexPath:self.theIndexPath];
         [self.cellDelegate showFooterMatDataWithIndexPath:self.theIndexPath];
-        NSLog(@"cc %d", [[self.cellDelegate retrieveCurrentTextFieldValueWithTag:[ArcosUtils convertNSIntegerToInt:textField.tag] forIndexPath:self.theIndexPath] intValue]);
-        if (textField.tag != 2 && [[self.cellDelegate retrieveCurrentTextFieldValueWithTag:[ArcosUtils convertNSIntegerToInt:textField.tag] forIndexPath:self.theIndexPath] intValue] > 0) {
+        NSLog(@"cc %d", [[self.cellDelegate retrieveCurrentTextFieldValueWithTag:[ArcosUtils convertNSIntegerToInt:textField.tag] forIndexPath:self.theIndexPath forCartKey:[self.cellData objectForKey:@"CombinationKey"]] intValue]);
+        if (textField.tag != 2 && [[self.cellDelegate retrieveCurrentTextFieldValueWithTag:[ArcosUtils convertNSIntegerToInt:textField.tag] forIndexPath:self.theIndexPath forCartKey:[self.cellData objectForKey:@"CombinationKey"]] intValue] > 0) {
     //        self.currentTextFieldHighlightedFlag = YES;
             [self.cellDelegate configCurrentTextFieldHighlightedFlag:YES];
             textField.textColor = [UIColor redColor];
-        } else if (textField.tag == 2 && [[self.cellDelegate retrieveCurrentTextFieldValueWithTag:[ArcosUtils convertNSIntegerToInt:textField.tag] forIndexPath:self.theIndexPath] floatValue] > 0) {
+        } else if (textField.tag == 2 && [[self.cellDelegate retrieveCurrentTextFieldValueWithTag:[ArcosUtils convertNSIntegerToInt:textField.tag] forIndexPath:self.theIndexPath forCartKey:[self.cellData objectForKey:@"CombinationKey"]] floatValue] > 0) {
             [self.cellDelegate configCurrentTextFieldHighlightedFlag:YES];
             textField.textColor = [UIColor redColor];
         } else {
@@ -559,11 +562,12 @@
         [self.cellDelegate inputFinishedWithData:currentData forIndexPath:self.theIndexPath];
         [self.cellDelegate configCurrentTextFieldHighlightedFlag:NO];
         textField.textColor = [UIColor blackColor];
-        if ([[currentData objectForKey:@"IsSelected"] boolValue]) {
-            self.backgroundColor = [UIColor colorWithRed:144.0/255.0 green:238.0/255.0 blue:144.0/255.0 alpha:.2];
-        } else {
-            self.backgroundColor = [UIColor whiteColor];
-        }
+//        if ([[currentData objectForKey:@"IsSelected"] boolValue]) {
+//            self.backgroundColor = [UIColor colorWithRed:144.0/255.0 green:238.0/255.0 blue:144.0/255.0 alpha:.2];
+//        } else {
+//            self.backgroundColor = [UIColor whiteColor];
+//        }
+        self.backgroundColor = [self.cellDelegate retrieveCellBackgroundColourWithSelectedFlag:[currentData objectForKey:@"IsSelected"]];
 //        NSLog(@"currentData 1 %@",currentData);
     } @catch (NSException *exception) {
         NSLog(@"textFieldDidEndEditing %@", [exception reason]);
@@ -658,5 +662,6 @@
     total = [NSNumber numberWithFloat:[ArcosUtils roundFloatThreeDecimal:[total floatValue] * (1.0 - ([self.discTextField.text floatValue] / 100))]];
     return total;
 }
+
 
 @end

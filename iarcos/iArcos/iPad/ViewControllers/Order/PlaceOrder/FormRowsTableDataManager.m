@@ -24,6 +24,7 @@
 @synthesize firstProductRowHasBeenShowedFlag = _firstProductRowHasBeenShowedFlag;
 @synthesize searchBarFocusedByShortCutFlag = _searchBarFocusedByShortCutFlag;
 @synthesize showFooterMatViewFlag = _showFooterMatViewFlag;
+@synthesize viewDidAppearedFlag = _viewDidAppearedFlag;
 
 - (instancetype)init {
     self = [super init];
@@ -36,6 +37,7 @@
         self.firstProductRowHasBeenShowedFlag = NO;
         self.searchBarFocusedByShortCutFlag = NO;
         self.textFieldTagKeyDict = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Qty", @"Bonus", @"DiscountPercent", nil] forKeys:[NSArray arrayWithObjects:[NSNumber numberWithInt:0], [NSNumber numberWithInt:1], [NSNumber numberWithInt:2], nil]];
+        self.viewDidAppearedFlag = NO;
     }
     return self;
 }
