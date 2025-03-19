@@ -1587,6 +1587,19 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 
+- (void)processCurrentTextFieldIndexIfNotReachable:(OrderProductTableCell*)anOrderProductTableCell {
+    if (self.formRowsTableDataManager.currentTextFieldIndex == 1) {
+        if (!anOrderProductTableCell.bonusTextField.enabled) {
+            self.formRowsTableDataManager.currentTextFieldIndex = 0;
+        } else {
+            NSMutableDictionary* tmpCellData = [self.unsortedFormrows objectAtIndex:self.formRowsTableDataManager.currentIndexPath.row];;
+            if (!anOrderProductTableCell.bonusTextField.hidden && anOrderProductTableCell.bonusTextField.enabled && [[ArcosConfigDataManager sharedArcosConfigDataManager] disableBonusBoxWithPriceRecordFlag] && ([[tmpCellData objectForKey:@"PriceFlag"] intValue] == 1 || [[tmpCellData objectForKey:@"PriceFlag"] intValue] == 2)) {
+                self.formRowsTableDataManager.currentTextFieldIndex = 0;
+            }
+        }
+    }
+}
+
 - (void)moveDownOneRow:(id)sender {
     NSLog(@"moveDownOneRow key %ld", self.formRowsTableDataManager.currentIndexPath.row);
     if (self.formRowsTableDataManager.currentIndexPath == nil) {
@@ -1617,6 +1630,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     }
     NSLog(@"move down %ld", self.formRowsTableDataManager.currentIndexPath.row);
     OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath];
+    [self processCurrentTextFieldIndexIfNotReachable:tmpOrderProductTableCell];
     [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
 }
 
@@ -1649,6 +1663,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         }
     }
     OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath];
+    [self processCurrentTextFieldIndexIfNotReachable:tmpOrderProductTableCell];
     [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
 }
 

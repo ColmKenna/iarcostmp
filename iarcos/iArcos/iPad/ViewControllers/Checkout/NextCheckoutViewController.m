@@ -1102,6 +1102,20 @@
     }
 }
 
+- (void)processCurrentTextFieldIndexIfNotReachable:(OrderProductTableCell*)anOrderProductTableCell {
+    if (self.formRowsTableDataManager.currentTextFieldIndex == 1) {
+        if (!anOrderProductTableCell.bonusTextField.enabled) {
+            self.formRowsTableDataManager.currentTextFieldIndex = 0;
+        } else {
+            NSString* tmpName = [self.nextCheckoutDataManager.sortedOrderKeys objectAtIndex:self.checkoutDataManager.currentIndexPath.row];
+            NSMutableDictionary* tmpCellData = [[OrderSharedClass sharedOrderSharedClass].currentOrderCart objectForKey:tmpName];
+            if (!anOrderProductTableCell.bonusTextField.hidden && anOrderProductTableCell.bonusTextField.enabled && [[ArcosConfigDataManager sharedArcosConfigDataManager] disableBonusBoxWithPriceRecordFlag] && ([[tmpCellData objectForKey:@"PriceFlag"] intValue] == 1 || [[tmpCellData objectForKey:@"PriceFlag"] intValue] == 2)) {
+                self.formRowsTableDataManager.currentTextFieldIndex = 0;
+            }
+        }
+    }
+}
+
 - (void)moveDownOneRow:(id)sender {
     NSLog(@"checkout moveDownOneRow key %ld", self.checkoutDataManager.currentIndexPath.row);
     if (self.checkoutDataManager.currentIndexPath == nil) {
@@ -1124,6 +1138,18 @@
     }
     NSLog(@"move down %ld", self.checkoutDataManager.currentIndexPath.row);
     OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.orderlinesTableView cellForRowAtIndexPath:self.checkoutDataManager.currentIndexPath];
+//    if (self.formRowsTableDataManager.currentTextFieldIndex == 1) {
+//        if (!tmpOrderProductTableCell.bonusTextField.enabled) {
+//            self.formRowsTableDataManager.currentTextFieldIndex = 0;
+//        } else {
+//            NSString* tmpName = [self.nextCheckoutDataManager.sortedOrderKeys objectAtIndex:self.checkoutDataManager.currentIndexPath.row];
+//            NSMutableDictionary* tmpCellData = [[OrderSharedClass sharedOrderSharedClass].currentOrderCart objectForKey:tmpName];
+//            if (!tmpOrderProductTableCell.bonusTextField.hidden && tmpOrderProductTableCell.bonusTextField.enabled && [[ArcosConfigDataManager sharedArcosConfigDataManager] disableBonusBoxWithPriceRecordFlag] && ([[tmpCellData objectForKey:@"PriceFlag"] intValue] == 1 || [[tmpCellData objectForKey:@"PriceFlag"] intValue] == 2)) {
+//                self.formRowsTableDataManager.currentTextFieldIndex = 0;
+//            }
+//        }
+//    }
+    [self processCurrentTextFieldIndexIfNotReachable:tmpOrderProductTableCell];
     [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
 }
 
@@ -1148,6 +1174,7 @@
         }
     }
     OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.orderlinesTableView cellForRowAtIndexPath:self.checkoutDataManager.currentIndexPath];
+    [self processCurrentTextFieldIndexIfNotReachable:tmpOrderProductTableCell];
     [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
 }
 
@@ -1358,7 +1385,7 @@
 }
 
 - (void)focusCurrentIndexPathTextField {
-    NSLog(@"currentIndexPatha %@ aa1 %ld", self.checkoutDataManager.currentIndexPath, self.checkoutDataManager.currentIndexPath.row);
+//    NSLog(@"currentIndexPatha %@ aa1 %ld", self.checkoutDataManager.currentIndexPath, self.checkoutDataManager.currentIndexPath.row);
     if (self.nextCheckoutDataManager.enablePhysKeyboardFlag && self.checkoutDataManager.currentIndexPath != nil) {
         NSLog(@"performBatchUpdates completed");
         NSArray* indexPathsVisibleRows = [self.orderlinesTableView indexPathsForVisibleRows];
@@ -1376,12 +1403,13 @@
             if (self.formRowsTableDataManager.currentTextFieldIndex > [tmpOrderProductTableCell.textFieldList count] - 1) {
                 self.formRowsTableDataManager.currentTextFieldIndex = 0;
             }
+            [self processCurrentTextFieldIndexIfNotReachable:tmpOrderProductTableCell];
             [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
         } else {
             if ([indexPathsVisibleRows count] > 0) {
                 NSIndexPath* firstIndexPath = [indexPathsVisibleRows firstObject];
                 NSIndexPath* lastIndexPath = [indexPathsVisibleRows lastObject];
-                NSLog(@"currentIndexPathc %@ aac %ld xx %ld", lastIndexPath, self.checkoutDataManager.currentIndexPath.row, lastIndexPath.row);
+//                NSLog(@"currentIndexPathc %@ aac %ld xx %ld", lastIndexPath, self.checkoutDataManager.currentIndexPath.row, lastIndexPath.row);
 //                if (self.checkoutDataManager.currentIndexPath.row > lastIndexPath.row) {
 //                    NSLog(@"currentIndexPathx %@ aax %ld", lastIndexPath, lastIndexPath.row);
 //                }
@@ -1392,9 +1420,10 @@
                     if (self.formRowsTableDataManager.currentTextFieldIndex > [tmpOrderProductTableCell.textFieldList count] - 1) {
                         self.formRowsTableDataManager.currentTextFieldIndex = 0;
                     }
+                    [self processCurrentTextFieldIndexIfNotReachable:tmpOrderProductTableCell];
                     [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
                 } else if (self.checkoutDataManager.currentIndexPath.row > lastIndexPath.row) {
-                    NSLog(@"currentIndexPathd %@ aad %ld", lastIndexPath, lastIndexPath.row);
+//                    NSLog(@"currentIndexPathd %@ aad %ld", lastIndexPath, lastIndexPath.row);
 //                    if (self.checkoutDataManager.currentIndexPath.row > [self.nextCheckoutDataManager.sortedOrderKeys count] - 1) {
 //                        self.checkoutDataManager.currentIndexPath = lastIndexPath;
 //                    }
@@ -1403,6 +1432,7 @@
                     if (self.formRowsTableDataManager.currentTextFieldIndex > [tmpOrderProductTableCell.textFieldList count] - 1) {
                         self.formRowsTableDataManager.currentTextFieldIndex = 0;
                     }
+                    [self processCurrentTextFieldIndexIfNotReachable:tmpOrderProductTableCell];
                     [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
                 }
             }
