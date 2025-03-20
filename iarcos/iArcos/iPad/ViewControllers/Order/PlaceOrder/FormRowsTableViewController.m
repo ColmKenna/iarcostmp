@@ -70,6 +70,7 @@
 @synthesize orderPadFooterViewDataManager = _orderPadFooterViewDataManager;
 @synthesize orderPopoverGeneratorProcessorDelegate = _orderPopoverGeneratorProcessorDelegate;
 @synthesize formRowsFooterMatTableViewController = _formRowsFooterMatTableViewController;
+@synthesize orderPadFooterViewCell = _orderPadFooterViewCell;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -135,6 +136,7 @@
     self.orderPadFooterViewDataManager = nil;
     self.orderPopoverGeneratorProcessorDelegate = nil;
     self.formRowsFooterMatTableViewController = nil;
+    self.orderPadFooterViewCell = nil;
     
     [super dealloc];
 }
@@ -325,6 +327,19 @@
 {
     [super viewDidAppear:animated];
 //    NSLog(@"viewDidAppear %ld", self.formRowsTableDataManager.currentIndexPath.row);
+    if (!self.isNotFirstLoaded && self.formRowsTableDataManager.enablePhysKeyboardFlag && self.formRowsTableDataManager.currentIndexPath != nil) {
+        if (@available(iOS 11.0, *)) {
+            [self.tableView performBatchUpdates:^{
+                NSLog(@"viewDidAppear enter");
+                [self.tableView scrollToRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            } completion:^(BOOL finished) {
+                NSLog(@"viewDidAppear enter process");
+                OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath];
+                self.formRowsTableDataManager.currentTextFieldIndex = 0;
+                [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
+            }];
+        }
+    }
     if (self.isRequestSourceFromPresenter) {
         
     } else {
@@ -480,9 +495,11 @@
         return self.formRowsFooterMatTableViewController.view;
     }
     if (![[ArcosConfigDataManager sharedArcosConfigDataManager] showRunningTotalFlag]) return nil;
-    OrderPadFooterViewCell* orderPadFooterViewCell = [self.orderPadFooterViewDataManager generateTableFooterView];
-    [self.orderPadFooterViewDataManager configDataWithTableFooterView:orderPadFooterViewCell];
-    return orderPadFooterViewCell;
+    [self.orderPadFooterViewDataManager configDataWithTableFooterView:self.orderPadFooterViewCell];
+    return self.orderPadFooterViewCell;
+//    OrderPadFooterViewCell* orderPadFooterViewCell = [self.orderPadFooterViewDataManager generateTableFooterView];
+//    [self.orderPadFooterViewDataManager configDataWithTableFooterView:orderPadFooterViewCell];
+//    return orderPadFooterViewCell;
 }
 
 -(void)handleHeaderDoubleTapGesture:(id)sender{    
@@ -1413,6 +1430,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         } else {
             tmpOrderProductTableCell.discTextField.text = @"";
         }
+        if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showRunningTotalFlag]) {
+            [self.orderPadFooterViewDataManager configDataWithTableFooterView:self.orderPadFooterViewCell];
+        }        
     } @catch (NSException *exception) {
         NSLog(@"inputFinishedWithData %@", [exception reason]);
     }

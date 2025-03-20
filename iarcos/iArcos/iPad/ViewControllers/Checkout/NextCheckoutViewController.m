@@ -274,6 +274,19 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    if (!self.formRowsTableDataManager.viewDidAppearedFlag && self.nextCheckoutDataManager.enablePhysKeyboardFlag && self.checkoutDataManager.currentIndexPath != nil) {
+        if (@available(iOS 11.0, *)) {
+            [self.orderlinesTableView performBatchUpdates:^{
+                NSLog(@"cc viewDidAppear enter");
+                [self.orderlinesTableView scrollToRowAtIndexPath:self.checkoutDataManager.currentIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            } completion:^(BOOL finished) {
+                NSLog(@"cc viewDidAppear enter process");
+                OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.orderlinesTableView cellForRowAtIndexPath:self.checkoutDataManager.currentIndexPath];
+                self.formRowsTableDataManager.currentTextFieldIndex = 0;
+                [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
+            }];
+        }
+    }
     if (self.formRowsTableDataManager.viewDidAppearedFlag && self.nextCheckoutDataManager.enablePhysKeyboardFlag) {
         self.nextCheckoutDataManager.sortedOrderKeys = [[OrderSharedClass sharedOrderSharedClass] getSortedCartKeys:[[OrderSharedClass sharedOrderSharedClass].currentOrderCart allValues]];
 //        [self orderLinesTotal];

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FormRowsTableViewController">
             <connections>
                 <outlet property="mySearchBar" destination="20" id="21"/>
+                <outlet property="orderPadFooterViewCell" destination="LXO-Dr-Ohy" id="HWk-ua-R92"/>
                 <outlet property="view" destination="2" id="4"/>
             </connections>
         </placeholder>
@@ -34,5 +35,57 @@
             </connections>
             <point key="canvasLocation" x="132" y="-32"/>
         </tableView>
+        <view tag="1" contentMode="scaleToFill" id="LXO-Dr-Ohy" customClass="OrderPadFooterViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Bonus Value" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QFX-H9-iTY">
+                    <rect key="frame" x="15" y="11" width="320" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="hvg-Tn-zbG"/>
+                        <constraint firstAttribute="width" constant="320" id="oT3-Oo-uHZ"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Trade" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ala-On-Tb7">
+                    <rect key="frame" x="588" y="11" width="88" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="D77-3s-0Yl"/>
+                        <constraint firstAttribute="width" constant="88" id="Mf3-JB-th4"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99999.99" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RPF-iO-OyI">
+                    <rect key="frame" x="345" y="11" width="413" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="SqY-mR-Tvh"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Ala-On-Tb7" secondAttribute="trailing" constant="92" id="2Le-7u-tn2"/>
+                <constraint firstItem="QFX-H9-iTY" firstAttribute="top" secondItem="LXO-Dr-Ohy" secondAttribute="top" constant="11" id="82x-Eb-ZN6"/>
+                <constraint firstItem="RPF-iO-OyI" firstAttribute="leading" secondItem="QFX-H9-iTY" secondAttribute="trailing" constant="10" id="Ddx-EI-TSM"/>
+                <constraint firstItem="Ala-On-Tb7" firstAttribute="top" secondItem="LXO-Dr-Ohy" secondAttribute="top" constant="11" id="FPh-1d-mn3"/>
+                <constraint firstItem="QFX-H9-iTY" firstAttribute="leading" secondItem="LXO-Dr-Ohy" secondAttribute="leading" constant="15" id="PhZ-Ul-hWt"/>
+                <constraint firstAttribute="trailing" secondItem="RPF-iO-OyI" secondAttribute="trailing" constant="10" id="Qps-EX-O2C"/>
+                <constraint firstItem="RPF-iO-OyI" firstAttribute="top" secondItem="LXO-Dr-Ohy" secondAttribute="top" constant="11" id="mCI-vL-cIK"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="totalBonusValue" destination="QFX-H9-iTY" id="z2q-SC-AxD"/>
+                <outlet property="totalTradeTitle" destination="Ala-On-Tb7" id="MBG-zb-Sfx"/>
+                <outlet property="totalTradeValue" destination="RPF-iO-OyI" id="gdy-Bf-QNl"/>
+            </connections>
+            <point key="canvasLocation" x="131" y="-374"/>
+        </view>
     </objects>
 </document>

@@ -316,22 +316,20 @@
             tmpTextField.textColor = [UIColor blackColor];
         }
 //        NSLog(@"acc %@ %ld %ld %d", [self.cellDelegate retrieveCurrentIndexPath], [self.cellDelegate retrieveCurrentIndexPath].row, self.theIndexPath.row, [self.cellDelegate retrieveFirstProductRowIndex]);
-//        NSLog(@"dd %ld", self.theIndexPath.row);
-        if ([self.cellDelegate retrieveCurrentIndexPath] != nil && self.theIndexPath.row == [self.cellDelegate retrieveCurrentIndexPath].row && self.theIndexPath.row == [self.cellDelegate retrieveFirstProductRowIndex]) {
-            NSLog(@"same myIndexPath first row");
-            UITextField* tmpTextField = [self.textFieldList objectAtIndex:[self.cellDelegate retrieveCurrentTextFieldIndex]];
-//            if ([self.cellDelegate retrieveCurrentTextFieldHighlightedFlag]) {
-//                tmpTextField.textColor = [UIColor redColor];
-//                NSLog(@"textfield highlighted");
+//        NSLog(@"dd %d", [ArcosUtils convertNSIntegerToInt:self.theIndexPath.row]);
+        
+//        if ([self.cellDelegate retrieveCurrentIndexPath] != nil && self.theIndexPath.row == [self.cellDelegate retrieveCurrentIndexPath].row && self.theIndexPath.row == [self.cellDelegate retrieveFirstProductRowIndex]) {
+//            NSLog(@"same myIndexPath first row");
+//            UITextField* tmpTextField = [self.textFieldList objectAtIndex:[self.cellDelegate retrieveCurrentTextFieldIndex]];
+//            if (![self.cellDelegate retrieveFirstProductRowHasBeenShowedFlag]) {
+//                NSLog(@"tmpTextField becomeFirstResponder");
+//                [self.cellDelegate configFirstProductRowHasBeenShowedFlag:YES];
+//                [tmpTextField becomeFirstResponder];
 //            }
-            if (![self.cellDelegate retrieveFirstProductRowHasBeenShowedFlag]) {
-                NSLog(@"tmpTextField becomeFirstResponder");
-                [self.cellDelegate configFirstProductRowHasBeenShowedFlag:YES];
-                [tmpTextField becomeFirstResponder];
-            }
-        }
+//        }
+         
         if ([self.cellDelegate retrieveCurrentIndexPath] != nil && self.theIndexPath.row == [self.cellDelegate retrieveCurrentIndexPath].row) {
-            self.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:0.2];
+            self.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:0.4];
         }
         
     } @catch (NSException *exception) {
@@ -406,7 +404,7 @@
             textField.textColor = [UIColor blackColor];
         }
         NSLog(@"highlighted flag %d", [self.cellDelegate retrieveCurrentTextFieldHighlightedFlag]);
-        self.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:0.2];
+        self.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:0.0 alpha:0.4];
     } @catch (NSException *exception) {
         NSLog(@"textFieldDidBeginEditing %@", [exception reason]);
     }

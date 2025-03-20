@@ -273,7 +273,39 @@
     
     self.currentTextField = self.qtyTextField;
     [self highlightSelectTextField];
-    
+    switch ([[self.Data objectForKey:@"SellBy"] intValue]) {
+        case 3: {
+            [self bonusTextFieldProcessor];
+        }
+            break;
+        case 5: {
+            [self testerTextFieldProcessor];
+        }
+            break;
+        case 6: {
+            [self bonusTextFieldProcessor];
+            [self testerTextFieldProcessor];
+        }
+            break;
+        default: {
+            
+        }
+            break;
+    }
+}
+
+- (void)bonusTextFieldProcessor {
+    if (!self.bonusTextField.hidden) {
+        self.bonusTextField.enabled = NO;
+        self.bonusTextField.backgroundColor = [UIColor blackColor];
+    }
+}
+
+- (void)testerTextFieldProcessor {
+    if (!self.testersTextField.hidden) {
+        self.testersTextField.enabled = NO;
+        self.testersTextField.backgroundColor = [UIColor blackColor];
+    }
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {

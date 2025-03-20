@@ -100,6 +100,7 @@
     OrderPadFooterViewDataManager* _orderPadFooterViewDataManager;
     id<OrderPopoverGeneratorProcessorDelegate> _orderPopoverGeneratorProcessorDelegate;
     FormRowsFooterMatTableViewController* _formRowsFooterMatTableViewController;
+    OrderPadFooterViewCell* _orderPadFooterViewCell;
 }
 @property(nonatomic,assign) id<FormRowsTableViewControllerDelegate> actionDelegate;
 @property(nonatomic,retain) NSNumber* dividerIUR;
@@ -147,6 +148,7 @@
 @property (nonatomic, retain) OrderPadFooterViewDataManager* orderPadFooterViewDataManager;
 @property (nonatomic, retain) id<OrderPopoverGeneratorProcessorDelegate> orderPopoverGeneratorProcessorDelegate;
 @property (nonatomic, retain) FormRowsFooterMatTableViewController* formRowsFooterMatTableViewController;
+@property (nonatomic, retain) IBOutlet OrderPadFooterViewCell* orderPadFooterViewCell;
 
 -(void)sortGroups:(NSMutableDictionary*)aList;
 - (IBAction) EditTable:(id)sender;
