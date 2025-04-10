@@ -1254,6 +1254,7 @@
                     
                     [self.orderlinesTableView scrollToRowAtIndexPath:self.checkoutDataManager.currentIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
                     OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.orderlinesTableView cellForRowAtIndexPath:self.checkoutDataManager.currentIndexPath];
+                    [self processCurrentTextFieldIndexIfNotReachable:tmpOrderProductTableCell];
                     [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
                     NSLog(@"page up %ld", self.checkoutDataManager.currentIndexPath.row);
                 } else if (aPress.key.keyCode == UIKeyboardHIDUsageKeyboardDownArrow) {
@@ -1270,6 +1271,7 @@
                     
                     [self.orderlinesTableView scrollToRowAtIndexPath:self.checkoutDataManager.currentIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
                     OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.orderlinesTableView cellForRowAtIndexPath:self.checkoutDataManager.currentIndexPath];
+                    [self processCurrentTextFieldIndexIfNotReachable:tmpOrderProductTableCell];
                     [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
                     NSLog(@"page down %ld", self.checkoutDataManager.currentIndexPath.row);
                 }

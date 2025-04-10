@@ -1777,6 +1777,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                     }
                     [self.tableView scrollToRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
                     OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath];
+                    [self processCurrentTextFieldIndexIfNotReachable:tmpOrderProductTableCell];
                     [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
                     NSLog(@"page up %ld", self.formRowsTableDataManager.currentIndexPath.row);
                 } else if (aPress.key.keyCode == UIKeyboardHIDUsageKeyboardDownArrow) {
@@ -1800,6 +1801,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                     }
                     [self.tableView scrollToRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
                     OrderProductTableCell* tmpOrderProductTableCell = (OrderProductTableCell*)[self.tableView cellForRowAtIndexPath:self.formRowsTableDataManager.currentIndexPath];
+                    [self processCurrentTextFieldIndexIfNotReachable:tmpOrderProductTableCell];
                     [[tmpOrderProductTableCell.textFieldList objectAtIndex:self.formRowsTableDataManager.currentTextFieldIndex] becomeFirstResponder];
                     NSLog(@"page down %ld", self.formRowsTableDataManager.currentIndexPath.row);
                 }
