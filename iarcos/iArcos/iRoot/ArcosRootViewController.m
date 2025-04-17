@@ -209,4 +209,8 @@
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 
+
+- (void)GoBack {
+    [_customerMasterViewController GoBack ];
+}
 @end

@@ -35,5 +35,5 @@
 @property(nonatomic, retain) IBOutlet UILabel* maxLabel;
 @property(nonatomic, retain) IBOutlet UILabel* prevLabel;
 @property(nonatomic, retain) IBOutlet UILabel* prevNormalLabel;
-
+@property(nonatomic, retain) IBOutlet UIView* holder;
 @end

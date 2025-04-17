@@ -54,4 +54,11 @@
     return [self colorFromHexString:@"#4472C4"];
 }
 
+
++ (UIColor *)statusBarColor {
+    return [self colorFromHexString:@"#199DD5"];
+}
+
+//
+
 @end

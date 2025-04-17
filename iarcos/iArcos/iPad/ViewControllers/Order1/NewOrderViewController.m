@@ -11,6 +11,8 @@
 #import "ArcosRootViewController.h"
 #import "UIColor+Hex.h"
 #import "UINavigationControllerStyleHelper.h"
+#import "MasterViewController.h"
+#import "ImageUtils.h"
 
 @interface NewOrderViewController ()
 - (void)layoutMySubviews;
@@ -18,6 +20,8 @@
 - (void)configTitleToWhite;
 - (void)configTitleToBlue;
 - (void)configRightBarButtons;
+
+@property (nonatomic, strong) UISplitViewController *globalSplitViewController;
 @end
 
 @implementation NewOrderViewController
@@ -46,6 +50,8 @@
 @synthesize custNameHeaderLabel = _custNameHeaderLabel;
 @synthesize custAddrHeaderLabel = _custAddrHeaderLabel;
 @synthesize myNewOrderDataManager = _myNewOrderDataManager;
+
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -100,27 +106,38 @@
 
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad
-{
+
+- (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    //    self.navigationController.navigationBar.tintColor = [UIColor brownColor];
+
+    // Prevent navigation bar from extending under system UI elements
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+
+    if (@available(iOS 11.0, *)) {
+        // Ensure safe area is respected to prevent overlap
+        self.additionalSafeAreaInsets = UIEdgeInsetsMake(0, 0, self.view.safeAreaInsets.bottom, 0);
+    }
+
     self.productSearchDataManager = [[[ProductSearchDataManager alloc] init] autorelease];
-    
-    //    [self.productSearchDataManager createSearchFormDetailData];
-    self.fdtvc = [[[FormDetailTableViewController alloc]initWithNibName:@"FormDetailTableViewController" bundle:nil] autorelease];
+
+    self.fdtvc = [[[FormDetailTableViewController alloc] initWithNibName:@"FormDetailTableViewController" bundle:nil] autorelease];
     self.orderPadsNavigationController = [[[UINavigationController alloc] initWithRootViewController:self.fdtvc] autorelease];
+
     self.orderPadsNavigationController.navigationBar.barTintColor = [UIColor backgroundColor];
     self.fdtvc.delegate = self;
     self.fdtvc.dividerDelegate = self;
     self.orderPadsNavigationController.preferredContentSize = [[GlobalSharedClass shared] orderPadsSize];
-    
-    //    self.orderPadsPopover = [[[UIPopoverController alloc]initWithContentViewController:self.orderPadsNavigationController] autorelease];
-    //    self.orderPadsPopover.popoverContentSize = [[GlobalSharedClass shared] orderPadsSize];
+
     self.myRootViewController = (ArcosRootViewController*)[ArcosUtils getRootView];
     self.myNewOrderDataManager = [[[NewOrderDataManager alloc] init] autorelease];
-    
+
+    // Force layout update
+    [self.view setNeedsLayout];
+    [self.view layoutIfNeeded];
 }
+
+
+
 
 - (void)viewDidUnload
 {
@@ -154,20 +171,30 @@
     //    NSLog(@"new order view controller:%@", NSStringFromSelector(_cmd));
     
     //    self.navigationItem.title = [ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass] currentCustomerName]];
+    
+    // Create a blue strip view
+    UIView *blueStrip = [[UIView alloc] initWithFrame:CGRectMake(0, -20, self.navigationController.navigationBar.frame.size.width, 20)];
+    blueStrip.backgroundColor = [UIColor borderColor];
+
+    // Add the blue strip to the navigation bar
+    [self.navigationController.navigationBar addSubview:blueStrip];
+    [blueStrip release];  // Release the view to avoid memory leaks
+/*
     if (self.custNameHeaderLabel == nil) {
-        self.custNameHeaderLabel = [[[UILabel alloc] initWithFrame:CGRectMake(2.0, 1, 550.0, 26.0)] autorelease];
+        self.custNameHeaderLabel = [[[UILabel alloc] initWithFrame:CGRectMake(50.0, 1, 550.0, 26.0)] autorelease];
         self.custNameHeaderLabel.textColor = [UIColor whiteColor];
         self.custNameHeaderLabel.font = [UIFont boldSystemFontOfSize:17.0];
     }
     self.custNameHeaderLabel.text = [ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass] currentCustomerName]];
     [self.navigationController.navigationBar addSubview:self.custNameHeaderLabel];
     if (self.custAddrHeaderLabel == nil) {
-        self.custAddrHeaderLabel = [[[UILabel alloc] initWithFrame:CGRectMake(2.0, 28, 550.0, 14.0)] autorelease];
+        self.custAddrHeaderLabel = [[[UILabel alloc] initWithFrame:CGRectMake(50.0, 28, 550.0, 14.0)] autorelease];
         self.custAddrHeaderLabel.font = [UIFont systemFontOfSize:12.0];
         self.custAddrHeaderLabel.textColor = [UIColor whiteColor];
     }
     self.custAddrHeaderLabel.text = [ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass] currentCustomerAddress]];
-    [self.navigationController.navigationBar addSubview:self.custAddrHeaderLabel];
+    [self.navigationController.navigationBar addSubview:self.custAddrHeaderLabel];*/
+    
     if ([self.navigationItem.leftBarButtonItems count] == 0) {
         [self configTitleToBlue];
         //        self.navigationItem.title = @"";
@@ -176,53 +203,128 @@
         [self configTitleToWhite];
         [self hideHeaderLabelWithFlag:YES];
     }
-    self.navigationItem.title = [ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass] currentCustomerName]];
+    
+    
+    [self updateNavigationTitle];
+    
+ 
+   
+    
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
+
+- (void)updateNavigationTitle {
+    UILabel *labelView = [[UILabel alloc] initWithFrame:CGRectZero];
+    labelView.text = [NSString stringWithFormat:@"%@\n%@",
+                      [ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass] currentCustomerName]],
+                      [ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass] currentCustomerAddress]]];
+    
+    labelView.textAlignment = NSTextAlignmentCenter;
+    labelView.font = [UIFont boldSystemFontOfSize:14];
+    labelView.textColor = [UIColor whiteColor];
+    labelView.numberOfLines = 2;
+    [labelView sizeToFit];
+    
+    self.navigationItem.titleView = labelView;
+}
+
+- (void)updateNavigationTitleWithDetail:(NSString *)aDetail {
+    UILabel *labelView = [[UILabel alloc] initWithFrame:CGRectZero];
+    labelView.text = [NSString stringWithFormat:@"%@ / %@",
+                      [ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass] currentCustomerName]],
+                      aDetail];
+    labelView.textAlignment = NSTextAlignmentCenter;
+    labelView.font = [UIFont boldSystemFontOfSize:14];
+    labelView.textColor = [UIColor whiteColor];
+    [labelView sizeToFit];
+
+    self.navigationItem.titleView = labelView;
 }
 
 - (void)configRightBarButtons {
     NSMutableArray* rightButtonList = [NSMutableArray arrayWithCapacity:4];
     NSDictionary* currentFormDetailDict = nil;
+
     if ([OrderSharedClass sharedOrderSharedClass].currentFormIUR != nil) {
         currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR];
     }
-    UIBarButtonItem* checkoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Check Out" style:UIBarButtonItemStylePlain target:self action:@selector(checkout:)];
-    
-    self.orderPadsBarButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(orderPadsPressed:)] autorelease];
+
+    CGSize imageSize = CGSizeMake(30, 30);
+
+    UIImage *originalImage = [UIImage imageNamed:@"Cart-Blue-40.png"];
+    UIImage *resizedImage = [ImageUtils resizeImage:originalImage toSize:imageSize];
+    resizedImage = [resizedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+
+    UIBarButtonItem *checkoutButton = [[[UIBarButtonItem alloc] initWithImage:resizedImage
+                                                                        style:UIBarButtonItemStylePlain
+                                                                       target:self
+                                                                       action:@selector(checkout:)] autorelease];
     [rightButtonList addObject:checkoutButton];
-    NSString* orderFormDetails = [ArcosUtils convertNilToEmpty:[currentFormDetailDict objectForKey:@"Details"]];
+
+    UIImage *orderPadsImage = [ImageUtils resizeImage:[UIImage imageNamed:@"Form-Blue-40.png"] toSize:imageSize];
+    orderPadsImage = [orderPadsImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    self.orderPadsBarButton = [[[UIBarButtonItem alloc] initWithImage:orderPadsImage
+                                                                style:UIBarButtonItemStylePlain
+                                                               target:self
+                                                               action:@selector(orderPadsPressed:)] autorelease];
+
+    // Check for [KB] and add mat button
+    NSString *orderFormDetails = [ArcosUtils convertNilToEmpty:[currentFormDetailDict objectForKey:@"Details"]];
     if ([orderFormDetails containsString:@"[KB]"]) {
-        UIBarButtonItem* matButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mat.png"] style:UIBarButtonItemStylePlain target:self action:@selector(matButtonPressed)];
+        UIImage *matImage = [ImageUtils resizeImage:[UIImage imageNamed:@"mat.png"] toSize:imageSize];
+        matImage = [matImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIBarButtonItem *matButton = [[[UIBarButtonItem alloc] initWithImage:matImage
+                                                                       style:UIBarButtonItemStylePlain
+                                                                      target:self
+                                                                      action:@selector(matButtonPressed)] autorelease];
         [rightButtonList addObject:matButton];
-        [matButton release];
     }
+
+    // Add printer button if enabled
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enablePrinterFlag]) {
-        UIBarButtonItem* printButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"printer.png"] style:UIBarButtonItemStylePlain target:self action:@selector(printButtonPressed:)];
+        UIImage *printerImage = [ImageUtils resizeImage:[UIImage imageNamed:@"Printer-Blue-50.png"] toSize:imageSize];
+        printerImage = [printerImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIBarButtonItem *printButton = [[[UIBarButtonItem alloc] initWithImage:printerImage
+                                                                         style:UIBarButtonItemStylePlain
+                                                                        target:self
+                                                                        action:@selector(printButtonPressed:)] autorelease];
         [rightButtonList addObject:printButton];
-        [printButton release];
-    }
-    if (currentFormDetailDict != nil) {
-        //        NSDictionary* currentFormDetailDict = [[ArcosCoreData sharedArcosCoreData] formDetailWithFormIUR:[OrderSharedClass sharedOrderSharedClass].currentFormIUR];
+    }    if (currentFormDetailDict != nil) {
         NSNumber* presenterIUR = [currentFormDetailDict objectForKey:@"FontSize"];
         if ([presenterIUR intValue] != 0 && [presenterIUR intValue] != 8) {
-            self.planogramButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"planogram.png"] style:UIBarButtonItemStylePlain target:self action:@selector(planogramButtonPressed)] autorelease];
+            self.planogramButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"planogram.png"]
+                                                                     style:UIBarButtonItemStylePlain
+                                                                    target:self
+                                                                    action:@selector(planogramButtonPressed)] autorelease];
             [rightButtonList addObject:self.planogramButton];
         }
     }
+
     [rightButtonList addObject:self.orderPadsBarButton];
+
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] enableAlternateOrderEntryPopoverFlag]) {
-        UIBarButtonItem* loadButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"load.png"] style:UIBarButtonItemStylePlain target:self action:@selector(loadButtonPressed)];
+        UIBarButtonItem* loadButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"load.png"]
+                                                                        style:UIBarButtonItemStylePlain
+                                                                       target:self
+                                                                       action:@selector(loadButtonPressed)] autorelease];
         [rightButtonList addObject:loadButton];
-        [loadButton release];
     }
+
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
-        UIBarButtonItem* packageButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"discount.png"] style:UIBarButtonItemStylePlain target:self action:@selector(packageButtonPressed)];
+        UIBarButtonItem* packageButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"discount.png"]
+                                                                           style:UIBarButtonItemStylePlain
+                                                                          target:self
+                                                                          action:@selector(packageButtonPressed)] autorelease];
         [rightButtonList addObject:packageButton];
-        [packageButton release];
     }
-    self.navigationItem.rightBarButtonItems = rightButtonList;
+
     
-    [checkoutButton release];
+    self.navigationItem.rightBarButtonItems = rightButtonList;
 }
+
 
 - (void)matButtonPressed {
     if ([self.globalNavigationController.viewControllers count] > 0) {
@@ -379,9 +481,12 @@
             [self alertViewButtonProcessor];
         }];
         return;
-    } 
+    }
+    
+    
+    [self configRightBarButtons];
     if (self.isNotFirstLoaded) {
-        [self configRightBarButtons];
+       
         if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
             if ([GlobalSharedClass shared].packageViewCount == 0) {
                 [self packageButtonPressed];
@@ -422,6 +527,32 @@
     [super viewWillDisappear:animated];
     [self.custNameHeaderLabel removeFromSuperview];
     [self.custAddrHeaderLabel removeFromSuperview];
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+
+    CGFloat customNavBarHeight = 80.0; // set your desired height here
+
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    CGRect frame = navBar.frame;
+
+    if (@available(iOS 11.0, *)) {
+        CGFloat safeAreaTopInset = self.view.safeAreaInsets.top;
+        frame.size.height = customNavBarHeight;
+        frame.origin.y = safeAreaTopInset;
+    } else {
+        frame.size.height = customNavBarHeight;
+        frame.origin.y = [UIApplication sharedApplication].statusBarFrame.size.height;
+    }
+
+    navBar.frame = frame;
+
+    [self layoutMySubviews]; // Ensure subviews layout correctly after adjustment
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleDarkContent; // or UIStatusBarStyleDarkContent
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -743,41 +874,142 @@
 //    NSLog(@"didSelectFormRowDividerRow is: %@", cellData);
 }
 
+- (void)toggleMasterView {
+    [UIView animateWithDuration:0.3 animations:^{
+        if (@available(iOS 14.0, *)) {
+            if (self.globalSplitViewController.displayMode == UISplitViewControllerDisplayModePrimaryHidden) {
+                [self.globalSplitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModeTwoBesideSecondary];
+            } else {
+                [self.globalSplitViewController setPreferredDisplayMode:UISplitViewControllerDisplayModePrimaryHidden];
+            }
+        } else {
+            if (self.globalSplitViewController.preferredDisplayMode == UISplitViewControllerDisplayModePrimaryHidden) {
+                self.globalSplitViewController.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
+            } else {
+                self.globalSplitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+            }
+        }
+    }];
+}
+
+
+
 - (void)didSelectFormRowDividerRowProcessor:(NSDictionary *)cellData formIUR:(NSNumber *)aFormIUR {
     NSDictionary* currentFormDetailRecordDict = [self.fdtvc.formDetailDataManager formDetailRecordDictWithIUR:aFormIUR];
     NSNumber* sequenceDivider = [cellData objectForKey:@"SequenceDivider"];
     NSString* details = [cellData objectForKey:@"Details"];
-    [OrderSharedClass sharedOrderSharedClass].currentSelectionIUR =sequenceDivider;
+    [OrderSharedClass sharedOrderSharedClass].currentSelectionIUR = sequenceDivider;
     NSString* formDetailDetails = [currentFormDetailRecordDict objectForKey:@"Details"];
     NSRange aMATRange = [formDetailDetails rangeOfString:@"[MAT]"];
+    
     if (aMATRange.location != NSNotFound) {
         [self showStandardOrderPadMat:sequenceDivider dividerName:details orderFormDetails:formDetailDetails];
         [self controlBackButtonAndNavigationTitle];
         return;
-    }
+    }	
+
+    MasterViewController* masterVC = [[MasterViewController alloc] initWithStyle:UITableViewStylePlain];
+    //masterVC.title = @"Master List";
     
-//    NSLog(@"seletction name %@ with data %@",sequenceDivider,details);
-    FormRowsTableViewController* tmpfrtvc = [[FormRowsTableViewController alloc] initWithNibName:@"FormRowsTableViewController" bundle:nil];
-//    self.frtvc.view.frame = self.orderBaseTableContentView.frame;
-    tmpfrtvc.isShowingSearchBar = YES;
-    tmpfrtvc.isStandardOrderPadFlag = YES;
-    tmpfrtvc.dividerIUR = sequenceDivider;
+    UINavigationController* masterNav = [[UINavigationController alloc] initWithRootViewController:masterVC];
+
+    [masterNav setNavigationBarHidden:YES animated:NO];
+
+    
+    
+    // Create Detail View Controller
+    FormRowsTableViewController* detailVC = [[FormRowsTableViewController alloc] initWithStyle:UITableViewStylePlain];
+    detailVC.isShowingSearchBar = YES;
+    detailVC.isStandardOrderPadFlag = YES;
+    detailVC.dividerIUR = sequenceDivider;
+    detailVC.backButtonDelegate = self;
+
     NSNumber* resPackageIUR = [NSNumber numberWithInt:0];
     if ([[ArcosConfigDataManager sharedArcosConfigDataManager] showPackageFlag]) {
         resPackageIUR = [[GlobalSharedClass shared] retrieveCurrentSelectedPackageIURWithRequestSource:ProductRequestSourceDefault];
     }
-    [tmpfrtvc resetDividerFormRowsWithDividerIUR:sequenceDivider withDividerName:details locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR packageIUR:resPackageIUR];
-//    [tmpfrtvc resetDataWithDividerIUR:sequenceDivider withDividerName:details locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR];
-    tmpfrtvc.backButtonDelegate = self;
-    self.globalNavigationController = [[[UINavigationController alloc] initWithRootViewController:tmpfrtvc] autorelease];
-    [tmpfrtvc release];
-    self.globalNavigationController.view.frame = self.orderBaseTableContentView.frame;
-    [self.orderBaseTableContentView addSubview:self.globalNavigationController.view];
-//    [self.orderBaseTableContentView addSubview:self.frtvc.view];
-//    if ([self.globalNavigationController.viewControllers count] == 1) {
-//        self.navigationItem.leftBarButtonItem = nil;
-//    }
+    
+    [detailVC resetDividerFormRowsWithDividerIUR:sequenceDivider
+                                 withDividerName:details
+                                     locationIUR:[GlobalSharedClass shared].currentSelectedLocationIUR
+                                      packageIUR:resPackageIUR];
+
+    // Pass section list to master
+    [detailVC buildSectionIndexList]; // Make sure this is called after data is loaded
+    masterVC.sectionIndexList = detailVC.sectionIndexList;
+    masterVC.detailTableView = detailVC.tableView;
+    
+
+    UINavigationController* detailNav = [[UINavigationController alloc] initWithRootViewController:detailVC];
+
+    UISplitViewController* splitVC = [[UISplitViewController alloc] initWithStyle:UISplitViewControllerStyleDoubleColumn];
+    splitVC.viewControllers = @[masterNav, detailNav];
+
+    if (@available(iOS 14.0, *)) {
+        splitVC.preferredSplitBehavior = UISplitViewControllerSplitBehaviorTile;
+        splitVC.presentsWithGesture = YES;
+        [splitVC setPreferredDisplayMode:UISplitViewControllerDisplayModeTwoBesideSecondary];
+    } else {
+        splitVC.preferredDisplayMode =  UISplitViewControllerDisplayModeAllVisible;
+    }
+
+    // Create a UIButton
+    // Create the toggle button
+    UIButton *toggleButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    CGSize imageSize = CGSizeMake(40, 40);
+    UIImage *burgerIcon = [ImageUtils resizeImage:[UIImage imageNamed:@"SplitScreen-Blue-50"] toSize:imageSize];
+    burgerIcon = [burgerIcon imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [toggleButton setImage:burgerIcon forState:UIControlStateNormal];
+    [toggleButton addTarget:self action:@selector(toggleMasterView) forControlEvents:UIControlEventTouchUpInside];
+    toggleButton.frame = CGRectMake(0, 0, 44, 44);
+    toggleButton.accessibilityLabel = @"Toggle Menu";
+
+    // Create the back button
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    UIImage *backIcon = [ImageUtils resizeImage:[UIImage imageNamed:@"Arrow-Back"] toSize:imageSize];
+    backIcon = [backIcon imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [backButton setImage:backIcon forState:UIControlStateNormal];
+    [backButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+    backButton.frame = CGRectMake(44, 0, 44, 44);
+    backButton.accessibilityLabel = @"Go Back";
+
+    // Create a container view to hold both buttons side by side
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 132, 44)];
+    [containerView addSubview:toggleButton];
+    [containerView addSubview:backButton];
+
+    // Wrap in UIBarButtonItem
+    UIBarButtonItem *combinedButtons = [[UIBarButtonItem alloc] initWithCustomView:containerView];
+
+    // Set it to the left side of the navigation bar
+    self.navigationItem.leftBarButtonItem = combinedButtons;
+    
+//    self.navigationItem.leftBarButtonItem = toggleMasterButton;
+    //detailVC.navigationItem.leftBarButtonItem = toggleMasterButton;
+    
+    self.globalSplitViewController = splitVC;
+
+    // Remove old views and add new split view
+    for (UIView *subview in self.orderBaseTableContentView.subviews) {
+        [subview removeFromSuperview];
+    }
+
+    [self addChildViewController:splitVC];
+    splitVC.view.frame = self.orderBaseTableContentView.bounds;
+    [self.orderBaseTableContentView addSubview:splitVC.view];
+    [splitVC didMoveToParentViewController:self];
+
+    [masterVC release];
+    [masterNav release];
+    [detailVC release];
+    [detailNav release];
+    [splitVC release];
+
     [self controlBackButtonAndNavigationTitle];
+}
+
+- (void)goBack {
+    [_myRootViewController GoBack];
 }
 
 - (void)checkout:(id)sender {
@@ -845,13 +1077,13 @@
         [tmpBackButton release];
         [self hideHeaderLabelWithFlag:YES];
         [self configTitleToWhite];
-        self.navigationItem.title = [ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass] currentCustomerName]];
+        [self updateNavigationTitle];
     }
 }
 
 #pragma marks BranchLeafProductNavigationTitleDelegate
 - (void)resetTopBranchLeafProductNavigationTitle:(NSString*)aDetail {
-    self.navigationItem.title = [NSString stringWithFormat:@"%@ / %@", [ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass] currentCustomerName]], aDetail];
+    [self updateNavigationTitleWithDetail:aDetail];
 }
 
 -(void)traditionalOrderPadSelection:(int)aFormTypeNumber cellData:(NSDictionary*)aCellDataDict {
@@ -967,7 +1199,7 @@
 
 -(void)resetNavigationTitleToBeginStatus {
     [self configTitleToBlue];
-    self.navigationItem.title = [ArcosUtils trim:[[OrderSharedClass sharedOrderSharedClass] currentCustomerName]];
+    [self updateNavigationTitle];
 //    self.navigationItem.title = @"";
     [self hideHeaderLabelWithFlag:NO];
 }
@@ -1008,7 +1240,7 @@
     if (@available(iOS 15.0, *)) {
         UINavigationBarAppearance* customNavigationBarAppearance = [[UINavigationBarAppearance alloc] init];
         [customNavigationBarAppearance configureWithOpaqueBackground];
-        [customNavigationBarAppearance setBackgroundColor:[GlobalSharedClass shared].myAppBlueColor];
+        [customNavigationBarAppearance setBackgroundColor:[UIColor whiteColor]];
         [customNavigationBarAppearance setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor clearColor], NSForegroundColorAttributeName, nil]];
         self.navigationController.navigationBar.standardAppearance = customNavigationBarAppearance;
         self.navigationController.navigationBar.scrollEdgeAppearance = customNavigationBarAppearance;

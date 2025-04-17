@@ -1575,6 +1575,7 @@
 		6A34B6F92CDD2B62003BBCF2 /* Download-Blue-20.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A34B6F62CDD2B62003BBCF2 /* Download-Blue-20.png */; };
 		6A34B6FB2CDD784B003BBCF2 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A34B6FA2CDD784B003BBCF2 /* folder.png */; };
 		6A4A7F282D54F99A002842C2 /* UINavigationControllerStyleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A4A7F272D54F99A002842C2 /* UINavigationControllerStyleHelper.m */; };
+		6A4B7EFD2D956768008310FC /* ImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A4B7EFC2D956766008310FC /* ImageUtils.m */; };
 		6A5D85F02CE3CA1800031EA1 /* eight.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D85E82CE3CA1800031EA1 /* eight.png */; };
 		6A5D85F12CE3CA1800031EA1 /* four.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D85EA2CE3CA1800031EA1 /* four.png */; };
 		6A5D85F22CE3CA1800031EA1 /* one.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A5D85EB2CE3CA1800031EA1 /* one.png */; };
@@ -1617,6 +1618,11 @@
 		6A5E2B422CC2B0B900DAD920 /* Amazon Ember Mono Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B1E2CC2B0B900DAD920 /* Amazon Ember Mono Bold.ttf */; };
 		6A5E2B432CC2B0B900DAD920 /* Amazon Ember Display Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B102CC2B0B900DAD920 /* Amazon Ember Display Italic.ttf */; };
 		6A5E2B442CC2B0B900DAD920 /* Amazon Ember Cd RC Light Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5E2B092CC2B0B900DAD920 /* Amazon Ember Cd RC Light Italic.ttf */; };
+		6A8D845F2D79D67900DC4182 /* Printer-Blue-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A8D845E2D79D67900DC4182 /* Printer-Blue-50.png */; };
+		6A8D84612D79D69100DC4182 /* SplitScreen-Blue-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A8D84602D79D69100DC4182 /* SplitScreen-Blue-50.png */; };
+		6A8D84632D842E0700DC4182 /* SplitScreen-Blue-50 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A8D84622D842E0700DC4182 /* SplitScreen-Blue-50 2.png */; };
+		6A8D84652D842E1400DC4182 /* Printer-Blue-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A8D84642D842E1400DC4182 /* Printer-Blue-50.png */; };
+		6A8D84672D842E6500DC4182 /* CalendarMAT-Blue-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A8D84662D842E6500DC4182 /* CalendarMAT-Blue-50.png */; };
 		6AA48CBC2CDA61BA00A5AA06 /* response-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AA48CBB2CDA61BA00A5AA06 /* response-40.png */; };
 		6AA48CBD2CDA61BA00A5AA06 /* Download-Blue-30.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AA48CBA2CDA61BA00A5AA06 /* Download-Blue-30.png */; };
 		6AA48CBF2CDA75C700A5AA06 /* Upload-Blue-30.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AA48CBE2CDA75C700A5AA06 /* Upload-Blue-30.png */; };
@@ -1644,6 +1650,7 @@
 		6AC502732D39575900B9ECED /* UIButtonStyleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC502722D39575900B9ECED /* UIButtonStyleHelper.m */; };
 		6ACF0C3E2CBEBFCA00171332 /* Icon-App-60x60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ACF0C3C2CBEBFCA00171332 /* Icon-App-60x60@2x.png */; };
 		6ACF0C3F2CBEBFCA00171332 /* Icon-App-60x60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ACF0C3D2CBEBFCA00171332 /* Icon-App-60x60@3x.png */; };
+		6ADD1CC82D8DC32C00A46306 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ADD1CC72D8DC32C00A46306 /* MasterViewController.m */; };
 		790089AB2A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 790089AA2A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.m */; };
 		79014EF52D50668E00655688 /* CustomerContactDetailTableCellGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 79014EF42D50668E00655688 /* CustomerContactDetailTableCellGenerator.m */; };
 		79014EF82D5066B200655688 /* CustomerContactDetailCallTableCellGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 79014EF72D5066B200655688 /* CustomerContactDetailCallTableCellGenerator.m */; };
@@ -4994,6 +5001,8 @@
 		6A34B6FA2CDD784B003BBCF2 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
 		6A4A7F262D54F970002842C2 /* UINavigationControllerStyleHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UINavigationControllerStyleHelper.h; sourceTree = "<group>"; };
 		6A4A7F272D54F99A002842C2 /* UINavigationControllerStyleHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UINavigationControllerStyleHelper.m; sourceTree = "<group>"; };
+		6A4B7EFB2D956756008310FC /* ImageUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageUtils.h; sourceTree = "<group>"; };
+		6A4B7EFC2D956766008310FC /* ImageUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageUtils.m; sourceTree = "<group>"; };
 		6A5D85E82CE3CA1800031EA1 /* eight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eight.png; sourceTree = "<group>"; };
 		6A5D85E92CE3CA1800031EA1 /* five.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = five.png; sourceTree = "<group>"; };
 		6A5D85EA2CE3CA1800031EA1 /* four.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = four.png; sourceTree = "<group>"; };
@@ -5037,6 +5046,11 @@
 		6A5E2B202CC2B0B900DAD920 /* Amazon Ember Thin Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember Thin Italic.ttf"; sourceTree = "<group>"; };
 		6A5E2B212CC2B0B900DAD920 /* Amazon Ember V2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember V2.ttf"; sourceTree = "<group>"; };
 		6A5E2B222CC2B0B900DAD920 /* Amazon Ember V2 Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amazon Ember V2 Bold.ttf"; sourceTree = "<group>"; };
+		6A8D845E2D79D67900DC4182 /* Printer-Blue-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Printer-Blue-50.png"; sourceTree = "<group>"; };
+		6A8D84602D79D69100DC4182 /* SplitScreen-Blue-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SplitScreen-Blue-50.png"; sourceTree = "<group>"; };
+		6A8D84622D842E0700DC4182 /* SplitScreen-Blue-50 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SplitScreen-Blue-50 2.png"; sourceTree = "<group>"; };
+		6A8D84642D842E1400DC4182 /* Printer-Blue-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Printer-Blue-50.png"; sourceTree = "<group>"; };
+		6A8D84662D842E6500DC4182 /* CalendarMAT-Blue-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CalendarMAT-Blue-50.png"; sourceTree = "<group>"; };
 		6AA48CBA2CDA61BA00A5AA06 /* Download-Blue-30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Download-Blue-30.png"; sourceTree = "<group>"; };
 		6AA48CBB2CDA61BA00A5AA06 /* response-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "response-40.png"; sourceTree = "<group>"; };
 		6AA48CBE2CDA75C700A5AA06 /* Upload-Blue-30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Upload-Blue-30.png"; sourceTree = "<group>"; };
@@ -5066,6 +5080,8 @@
 		6AC502722D39575900B9ECED /* UIButtonStyleHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIButtonStyleHelper.m; sourceTree = "<group>"; };
 		6ACF0C3C2CBEBFCA00171332 /* Icon-App-60x60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-App-60x60@2x.png"; sourceTree = "<group>"; };
 		6ACF0C3D2CBEBFCA00171332 /* Icon-App-60x60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-App-60x60@3x.png"; sourceTree = "<group>"; };
+		6ADD1CC62D8DBC7000A46306 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
+		6ADD1CC72D8DC32C00A46306 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		790089A92A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerInvoiceDetailsTableHeaderView.h; sourceTree = "<group>"; };
 		790089AA2A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerInvoiceDetailsTableHeaderView.m; sourceTree = "<group>"; };
 		79014EF22D50660400655688 /* CustomerContactDetailTableCellGeneratorDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerContactDetailTableCellGeneratorDelegate.h; sourceTree = "<group>"; };
@@ -6094,6 +6110,8 @@
 		630B347619F014E9007B2442 /* SharedClass */ = {
 			isa = PBXGroup;
 			children = (
+				6A4B7EFC2D956766008310FC /* ImageUtils.m */,
+				6A4B7EFB2D956756008310FC /* ImageUtils.h */,
 				630B347719F014E9007B2442 /* ArcosCoreData.h */,
 				630B347819F014E9007B2442 /* ArcosCoreData.m */,
 				630B347919F014E9007B2442 /* ArcosCoreDataManager.h */,
@@ -7785,6 +7803,8 @@
 				79514A2F2888F9DB00DA0F3D /* PackageDataManager.h */,
 				79514A302888F9DB00DA0F3D /* PackageDataManager.m */,
 				79D4471828A4FFAE00767E68 /* PackageTableViewControllerDelegate.h */,
+				6ADD1CC62D8DBC7000A46306 /* MasterViewController.h */,
+				6ADD1CC72D8DC32C00A46306 /* MasterViewController.m */,
 			);
 			path = Order1;
 			sourceTree = "<group>";
@@ -8875,6 +8895,8 @@
 		630B3A5419F01CB8007B2442 /* ShareImage */ = {
 			isa = PBXGroup;
 			children = (
+				6A8D845E2D79D67900DC4182 /* Printer-Blue-50.png */,
+				6A8D84602D79D69100DC4182 /* SplitScreen-Blue-50.png */,
 				795BA6872D2BB8B80023C55B /* LocationMap@2x.png */,
 				792A56C72CE581EF00096ECE /* Calendar-Blue@2x.png */,
 				792A56C82CE581EF00096ECE /* CalendarApp-Blue@2x.png */,
@@ -9026,6 +9048,9 @@
 				630B3A9419F01CB8007B2442 /* UpdateCenter.png */,
 				630B3A9519F01CB8007B2442 /* Utilities.png */,
 				630B3A9619F01CB8007B2442 /* Weekly.png */,
+				6A8D84642D842E1400DC4182 /* Printer-Blue-50.png */,
+				6A8D84622D842E0700DC4182 /* SplitScreen-Blue-50 2.png */,
+				6A8D84662D842E6500DC4182 /* CalendarMAT-Blue-50.png */,
 			);
 			path = ShareImage;
 			sourceTree = "<group>";
@@ -10117,6 +10142,7 @@
 				630B3D4E19F01CB9007B2442 /* UtilitiesOrderDateRangePicker.xib in Resources */,
 				799F6CE72BC2CF18003E2B84 /* Arrow-Back@2x.png in Resources */,
 				630B3B6F19F01CB9007B2442 /* CustomerDetailsWrapperModalViewController.xib in Resources */,
+				6A8D84612D79D69100DC4182 /* SplitScreen-Blue-50.png in Resources */,
 				185BDC36243F0D240086FFA5 /* OrderEntryInputRightHandSideGridViewController.xib in Resources */,
 				630B3C6A19F01CB9007B2442 /* ProductDetailViewController.xib in Resources */,
 				630B3D5019F01CB9007B2442 /* UtilitiesPresenterDetailViewController.xib in Resources */,
@@ -10232,6 +10258,7 @@
 				630B3DDD19F01CB9007B2442 /* ArcosPortrait.png in Resources */,
 				630B3C6F19F01CB9007B2442 /* SmallImageSlideViewItemController.xib in Resources */,
 				63C19BB321A2D83B0064726E /* MeetingExpenseDetailsTableViewCells.xib in Resources */,
+				6A8D845F2D79D67900DC4182 /* Printer-Blue-50.png in Resources */,
 				630B3CE319F01CB9007B2442 /* MainTabbarViewController.xib in Resources */,
 				795811062C33F2990014C3BD /* FormRowsKeyboardTableViewCell.xib in Resources */,
 				639FBA2C218A197B001A5490 /* MeetingMainTemplateViewController.xib in Resources */,
@@ -10346,6 +10373,7 @@
 				630B34FF19F0171A007B2442 /* SubMenuPlaceHolderTableViewController.xib in Resources */,
 				18D0DD062446A64E0004BC45 /* OrderEntryInputRightHandSideTableViewCell.xib in Resources */,
 				630B3E2719F01CB9007B2442 /* Utilities.png in Resources */,
+				6A8D84632D842E0700DC4182 /* SplitScreen-Blue-50 2.png in Resources */,
 				630B3E1219F01CB9007B2442 /* PresenterIcon.png in Resources */,
 				630B3C9C19F01CB9007B2442 /* L5L3SearchFormRowsTableViewController.xib in Resources */,
 				791724CB2B5914F200BDBE98 /* DatePickerCalendarStyleWidgetViewController.xib in Resources */,
@@ -10550,6 +10578,7 @@
 				632327011EEA9CB300E1236A /* DashboardVanStocksDetailTableViewController.xib in Resources */,
 				795BA6882D2BB8B80023C55B /* LocationMap@2x.png in Resources */,
 				630B3B0C19F01CB8007B2442 /* AccountNumberTableCell.xib in Resources */,
+				6A8D84672D842E6500DC4182 /* CalendarMAT-Blue-50.png in Resources */,
 				7962653D282D170700FFBE4A /* ArcosCalendarEventEntryDetailTableViewController.xib in Resources */,
 				630B3D3D19F01CB9007B2442 /* UtilitiesAnimatedViewController.xib in Resources */,
 				630B351419F01910007B2442 /* ArcosSplitViewController.xib in Resources */,
@@ -10610,6 +10639,7 @@
 				630B3D5919F01CB9007B2442 /* UtilitiesUpdateDetailViewController.xib in Resources */,
 				630B3E2019F01CB9007B2442 /* Switch.png in Resources */,
 				63BF56A11EC07D1400FA50DA /* InvoiceTemplateViewController.xib in Resources */,
+				6A8D84652D842E1400DC4182 /* Printer-Blue-50.png in Resources */,
 				7903627029371CA2001425F4 /* ReporterXmlExcelViewController.xib in Resources */,
 				632C5AF91A0A4AC0002D3945 /* SavedIarcosOrderDetailTableViewController.xib in Resources */,
 				630B351E19F01C81007B2442 /* StoreNewsDate.plist in Resources */,
@@ -11515,6 +11545,7 @@
 				630B3C1319F01CB9007B2442 /* OrderHeaderTotalGraphViewController.m in Sources */,
 				63EFE3311D630B2700C93F6E /* CustomerSurveyInnerBaseDataManager.m in Sources */,
 				630B3C0819F01CB9007B2442 /* OrderDetailModelViewController.m in Sources */,
+				6A4B7EFD2D956768008310FC /* ImageUtils.m in Sources */,
 				63AAEED61CEB33AA00C64272 /* ReportMeetingTableViewCell.m in Sources */,
 				630B343819F0127C007B2442 /* DateRange.m in Sources */,
 				63F23DE51EE1BADC00B5C2FD /* CustomerSurveySubHeaderTableCell.m in Sources */,
@@ -11617,6 +11648,7 @@
 				630B3CDB19F01CB9007B2442 /* ActivateEnterpriseViewController.m in Sources */,
 				792A56CD2CE587B400096ECE /* CustomerInfoBaseTableViewCell.m in Sources */,
 				630B3D2C19F01CB9007B2442 /* UtilitiesDescriptionDetailEditTextTableCell.m in Sources */,
+				6ADD1CC82D8DC32C00A46306 /* MasterViewController.m in Sources */,
 				630B3D9719F01CB9007B2442 /* ArcosCallTran.m in Sources */,
 				630B3D1F19F01CB9007B2442 /* SettingNumberInputCell.m in Sources */,
 				630B3BA019F01CB9007B2442 /* CustomerContactBooleanTableCell.m in Sources */,

@@ -30,4 +30,5 @@
 @property(nonatomic, assign) UIViewController* selectedRightViewController;
 @property(nonatomic, assign) BOOL isNotFirstLoaded;
 
+- (void)GoBack;
 @end

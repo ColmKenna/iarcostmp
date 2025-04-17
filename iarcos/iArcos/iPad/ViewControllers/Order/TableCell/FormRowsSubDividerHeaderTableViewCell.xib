@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,20 +16,41 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="91z-dL-ALK">
-                        <rect key="frame" x="15" y="11" width="345" height="21"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z5L-8Z-40y">
+                        <rect key="frame" x="0.0" y="5" width="375" height="39"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="91z-dL-ALK">
+                                <rect key="frame" x="166" y="9" width="44" height="21"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.7725490196" green="0.7725490196" blue="0.7725490196" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="91z-dL-ALK" firstAttribute="centerY" secondItem="Z5L-8Z-40y" secondAttribute="centerY" id="Sco-Pt-6uN"/>
+                            <constraint firstItem="91z-dL-ALK" firstAttribute="centerX" secondItem="Z5L-8Z-40y" secondAttribute="centerX" id="ZWM-48-wqm"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </view>
                 </subviews>
-                <color key="backgroundColor" red="0.59607843137254901" green="0.98431372549019602" blue="0.59607843137254901" alpha="1" colorSpace="calibratedRGB"/>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="Z5L-8Z-40y" firstAttribute="leading" secondItem="2Qi-gU-mfL" secondAttribute="leading" id="5NU-F1-GoS"/>
+                    <constraint firstItem="Z5L-8Z-40y" firstAttribute="top" secondItem="2Qi-gU-mfL" secondAttribute="top" constant="5" id="9gj-x8-Pmt"/>
+                    <constraint firstAttribute="trailing" secondItem="Z5L-8Z-40y" secondAttribute="trailing" id="Arb-sm-dgX"/>
+                    <constraint firstAttribute="bottom" secondItem="Z5L-8Z-40y" secondAttribute="bottom" id="kKK-HR-b34"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="descLabel" destination="91z-dL-ALK" id="zW5-Nh-mkV"/>
             </connections>
-            <point key="canvasLocation" x="19.53125" y="-63.281249999999993"/>
+            <point key="canvasLocation" x="19.140625" y="-63.281249999999993"/>
         </tableViewCell>
     </objects>
 </document>

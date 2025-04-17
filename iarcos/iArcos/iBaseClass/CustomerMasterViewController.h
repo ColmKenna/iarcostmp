@@ -58,6 +58,7 @@
 @property (nonatomic,assign) NSTimer* scanApiTimer;
 @property(nonatomic, retain) CustomerMasterMainHeaderViewController* customerMasterMainHeaderViewController;
 @property(nonatomic, retain) IBOutlet UITableView* bottomTableView;
+@property (nonatomic, retain) NSMutableArray *selectionStack;
 
 
 - (void)showSubMenuByCustomerListing;
@@ -65,5 +66,6 @@
 - (void)processSubMenuBySelf;
 - (void)selectCustomerMasterTopViewWithIndexPath:(NSIndexPath*)anIndexPath;
 - (void)createScanApiRelevantObject;
+- (void)GoBack;
 
 @end

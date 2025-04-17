@@ -209,6 +209,12 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    [self buildSectionIndexList];
+    
+    self.tableView.contentInset = UIEdgeInsetsZero;
+    
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 - (void)viewDidUnload
@@ -360,6 +366,32 @@
     
     self.isNotFirstLoaded = YES;
 }
+
+
+- (void)buildSectionIndexList {
+    self.sectionIndexList = [NSMutableArray array];
+
+    for (NSInteger i = 0; i < self.unsortedFormrows.count; i++) {
+        NSDictionary *row = self.unsortedFormrows[i];
+        NSNumber *productIUR = row[@"ProductIUR"];
+        NSString *details = row[@"Details"];
+
+        if ([productIUR intValue] == 0) {
+            [self.sectionIndexList addObject:@{
+                @"title": details ?: @"(Divider)",
+                @"indexPath": [NSIndexPath indexPathForRow:i inSection:0],
+                @"type": @"divider"
+            }];
+        } else if ([productIUR intValue] == -1) {
+            [self.sectionIndexList addObject:@{
+                @"title": details ?: @"(Subdivider)",
+                @"indexPath": [NSIndexPath indexPathForRow:i inSection:0],
+                @"type": @"subdivider"
+            }];
+        }
+    }
+}
+
 
 - (void)focusCurrentIndexPathTextField {
     if (self.formRowsTableDataManager.enablePhysKeyboardFlag && self.formRowsTableDataManager.currentIndexPath != nil) {

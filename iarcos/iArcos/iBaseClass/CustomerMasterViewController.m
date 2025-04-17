@@ -79,13 +79,13 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-//    self.navigationController.navigationBar.hidden = YES;
+    //    self.navigationController.navigationBar.hidden = YES;
     
     self.title = @"";
     self.subMenuPlaceHolderTableViewController = [[[SubMenuPlaceHolderTableViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
-//    [self addChildViewController:self.subMenuPlaceHolderTableViewController];
-//    [self.view addSubview:self.subMenuPlaceHolderTableViewController.view];
-//    [self.subMenuPlaceHolderTableViewController didMoveToParentViewController:self];
+    //    [self addChildViewController:self.subMenuPlaceHolderTableViewController];
+    //    [self.view addSubview:self.subMenuPlaceHolderTableViewController.view];
+    //    [self.subMenuPlaceHolderTableViewController didMoveToParentViewController:self];
     self.selectedSubMenuTableViewController = self.subMenuPlaceHolderTableViewController;
     int customerIndex = [self.customerMasterDataManager retrieveIndexByTitle:[GlobalSharedClass shared].customerText];
     self.currentIndexPath = [NSIndexPath indexPathForRow:customerIndex inSection:0];
@@ -94,13 +94,14 @@
         companyImage = [UIImage imageNamed:[GlobalSharedClass shared].appImageName];
     }
     
-//    [self.myHeaderButton setBackgroundImage:companyImage forState:UIControlStateNormal];
-//    [self.myHeaderView setTranslatesAutoresizingMaskIntoConstraints:NO];
-//    [self.navigationController.navigationBar addSubview:self.myHeaderView];
+    //    [self.myHeaderButton setBackgroundImage:companyImage forState:UIControlStateNormal];
+    //    [self.myHeaderView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    //    [self.navigationController.navigationBar addSubview:self.myHeaderView];
     [self.navigationController.navigationBar addSubview:self.customerMasterMainHeaderViewController.view];
     [self.customerMasterMainHeaderViewController.myHeaderButton setBackgroundImage:companyImage forState:UIControlStateNormal];
     self.customerMasterMainHeaderViewController.view.frame = CGRectMake(0, 0, 64, self.navigationController.navigationBar.frame.size.height);
     [self createScanApiRelevantObject];
+    self.selectionStack = [NSMutableArray array];
 }
 
 - (void)createScanApiRelevantObject {
@@ -216,6 +217,46 @@
     
 }
 
+- (void)pushSelectionToStack:(NSIndexPath *)indexPath controller:(UIViewController *)controller {
+    // Skip if same as last
+    NSDictionary *last = [self.selectionStack lastObject];
+    if (last && [last[@"indexPath"] isEqual:indexPath]) return;
+
+    NSDictionary *entry = @{ @"indexPath": indexPath, @"controller": controller };
+    [self.selectionStack addObject:entry];
+
+    if (self.selectionStack.count > 10) {
+        [self.selectionStack removeObjectAtIndex:0]; // keep max 10
+    }
+}
+
+- (void)popAndRestorePreviousSelection {
+    if (self.selectionStack.count == 0) return;
+
+    NSDictionary *entry = [self.selectionStack lastObject];
+
+    NSIndexPath *indexPath = entry[@"indexPath"];
+    UIViewController *controller = entry[@"controller"];
+
+    [self.selectionStack removeLastObject];
+
+//    [self didSelectTableRow:indexPath myCustomController:controller];
+    [self simulateTapOnTopTabAtIndexPath:indexPath];
+    
+}
+
+- (void)simulateTapOnTopTabAtIndexPath:(NSIndexPath *)indexPath {
+    CustomerMasterTopTabBarItemTableCell *cell = (CustomerMasterTopTabBarItemTableCell *)[self.topTableView cellForRowAtIndexPath:indexPath];
+    if ([cell isKindOfClass:[CustomerMasterTopTabBarItemTableCell class]]) {
+        [cell handleSingleTapGesture];
+    }
+}
+
+
+- (void)GoBack {
+    [self popAndRestorePreviousSelection];
+}
+
 #pragma mark CustomerMasterViewControllerDelegate
 - (void)didSelectTableRow:(NSIndexPath*)anIndexPath myCustomController:(UIViewController *)aViewController {
     NSString* tabTitle = [self.customerMasterDataManager retrieveTitleByIndex:[ArcosUtils convertNSIntegerToInt:anIndexPath.row]];
@@ -243,6 +284,7 @@
             [self processSubMenuBySelf];
         }
     }
+    [self pushSelectionToStack:self.currentIndexPath controller:self.selectedSubMenuTableViewController];
 }
 
 - (void)myLayoutSubviews {

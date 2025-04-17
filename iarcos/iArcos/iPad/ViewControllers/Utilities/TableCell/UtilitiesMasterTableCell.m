@@ -37,6 +37,7 @@
 -(void)configCellWithData:(NSMutableDictionary*)theData {
     self.myImageView.layer.masksToBounds = YES;
     [self.myImageView.layer setCornerRadius:5.0f];
+    
     self.myImageView.image = [UIImage imageNamed:[theData objectForKey:@"FileName"]];
     self.titleLabel.text = [theData objectForKey:@"Title"];
     self.subTitleLabel.text = [theData objectForKey:@"SubTitle"];

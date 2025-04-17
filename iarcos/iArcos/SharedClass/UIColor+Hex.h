@@ -13,6 +13,8 @@
 + (UIColor *)colorFromHexString:(NSString *)hexString;
 + (UIColor *)backgroundColor;
 + (UIColor *)borderColor;
-+ (UIColor *)headerLabelColor; 
++ (UIColor *)headerLabelColor;
++ (UIColor *)statusBarColor ;
+
 
 @end

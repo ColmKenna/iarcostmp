@@ -67,6 +67,7 @@
 
 -(void)configCellWithData:(NSMutableDictionary*)aCellData sectionTitle:(NSString*)aSectionTitle {
     self.sectionTitle = aSectionTitle;
+    
     self.icon.image = [UIImage imageNamed:[aCellData objectForKey:@"ImageFileName"]];
     self.tableName.text = [aCellData objectForKey:@"TableName"];
 //    NSLog(@"IsDownloaded is: %@", [aCellData objectForKey:@"IsDownloaded"]);

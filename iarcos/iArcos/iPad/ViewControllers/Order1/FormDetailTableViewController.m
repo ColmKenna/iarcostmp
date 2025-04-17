@@ -101,7 +101,7 @@
        if (@available(iOS 15.0, *)) {
            self.formDetailTableView.separatorInsetReference = UITableViewSeparatorInsetFromCellEdges;
        }
- 
+    self.formDetailTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 - (void)viewDidUnload
@@ -158,14 +158,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 60.0;
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -176,75 +174,73 @@
     return 0;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    /*
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
-    */
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *CellIdentifier = @"IdFormDetailTableCell";
-    
-    FormDetailTableCell *cell=(FormDetailTableCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-	if(cell == nil) {
-        
-        NSArray* nibContents = [[NSBundle mainBundle] loadNibNamed:@"FormDetailTableCell" owner:self options:nil];
-        
+
+    FormDetailTableCell *cell = (FormDetailTableCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"FormDetailTableCell" owner:self options:nil];
         for (id nibItem in nibContents) {
-            if ([nibItem isKindOfClass:[FormDetailTableCell class]] && [[(FormDetailTableCell *)nibItem reuseIdentifier] isEqualToString: CellIdentifier]) {
-                cell= (FormDetailTableCell *) nibItem;                
+            if ([nibItem isKindOfClass:[FormDetailTableCell class]] && [[(FormDetailTableCell *)nibItem reuseIdentifier] isEqualToString:CellIdentifier]) {
+                cell = (FormDetailTableCell *)nibItem;
+                break; // Exit the loop once the correct cell is found.
             }
         }
-	}
-    
+    }
+
     // Configure the cell...
-    
-    NSDictionary* cellData = [self.formDetailDataManager.displayList objectAtIndex:indexPath.row];
-    NSString* details = [cellData objectForKey:@"Details"];
+    NSDictionary *cellData = [self.formDetailDataManager.displayList objectAtIndex:indexPath.row];
+    NSString *details = [cellData objectForKey:@"Details"];
     cell.myTextLabel.text = details;
-    NSNumber* imageIur = [cellData objectForKey:@"ImageIUR"];
-    UIImage* anImage = nil;
+
+    NSNumber *imageIur = [cellData objectForKey:@"ImageIUR"];
+    UIImage *anImage = nil;
     if ([imageIur intValue] > 0) {
-        anImage = [[ArcosCoreData sharedArcosCoreData]thumbWithIUR:imageIur];        
+        anImage = [[ArcosCoreData sharedArcosCoreData] thumbWithIUR:imageIur];
     }
     if (anImage == nil) {
         anImage = [UIImage imageNamed:[GlobalSharedClass shared].defaultCellImageName];
     }
     cell.myImageView.image = anImage;
     [cell configImageView];
-    NSString* formType = [cellData objectForKey:@"FormType"];
+
+    NSString *formType = [cellData objectForKey:@"FormType"];
     int formTypeNumber = [[ArcosUtils convertStringToNumber:[ArcosUtils convertBlankToZero:[ArcosUtils convertNilToEmpty:formType]]] intValue];
-    
-    /*
-    if ([self isKeywordExistedInFormName:details keyword:@"Dynamic"] || [self isKeywordExistedInFormName:details keyword:@"Image"] || [self isKeywordExistedInFormName:details keyword:@"Search"] || [self isKeywordExistedInFormName:details keyword:@"L3Search"]) {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    } else {
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
-    */
+
     if (formTypeNumber == 0) {
-        NSNumber* formRowRecordQty = [self formRowDividerRecordQty:cellData];
+        NSNumber *formRowRecordQty = [self formRowDividerRecordQty:cellData];
         if ([formRowRecordQty intValue] > 0) {
             UIImageView *disclosureImageView = [[UIImageView alloc] initWithImage:[UIImage systemImageNamed:@"chevron.right"]];
-            disclosureImageView.tintColor = [UIColor headerLabelColor]; // Change to desired color
+            disclosureImageView.tintColor = [UIColor headerLabelColor];
             cell.accessoryView = disclosureImageView;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else {
             cell.accessoryType = UITableViewCellAccessoryNone;
-        }        
+        }
     } else {
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
+
     if ([[OrderSharedClass sharedOrderSharedClass].currentFormIUR isEqualToNumber:[cellData objectForKey:@"IUR"]]) {
-        cell.myTextLabel.textColor=[UIColor redColor];
-    }else{
-        cell.myTextLabel.textColor=[UIColor blackColor];
+        cell.myTextLabel.textColor = [UIColor redColor];
+    } else {
+        cell.myTextLabel.textColor = [UIColor blackColor];
     }
+
+    // Add white gap using cell background and content view insets.
+    UIView *backgroundView = [[UIView alloc] initWithFrame:cell.bounds];
+    backgroundView.backgroundColor = [UIColor whiteColor];
+    backgroundView.layer.cornerRadius = 8.0; // Optional: Add rounded corners.
+    backgroundView.layer.masksToBounds = YES;
+    cell.backgroundView = backgroundView;
+
+    CGFloat margin = 10.0; // Adjust the margin value to your preference.
+    cell.contentView.frame = CGRectInset(cell.bounds, margin, margin);
+    cell.contentView.clipsToBounds = YES;
+
     return cell;
 }
+
 
 
 #pragma mark - Table view delegate

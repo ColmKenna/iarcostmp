@@ -86,6 +86,7 @@
 
     
     self.navigationController.navigationBar.tintColor = [UIColor headerLabelColor];
+    self.formRowDividerTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
 }
 

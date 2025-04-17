@@ -148,6 +148,10 @@
 @property (nonatomic, retain) id<OrderPopoverGeneratorProcessorDelegate> orderPopoverGeneratorProcessorDelegate;
 @property (nonatomic, retain) FormRowsFooterMatTableViewController* formRowsFooterMatTableViewController;
 
+
+@property (nonatomic, strong) NSMutableArray<NSDictionary *> *sectionIndexList;
+
+
 -(void)sortGroups:(NSMutableDictionary*)aList;
 - (IBAction) EditTable:(id)sender;
 - (IBAction)DeleteButtonAction:(id)sender;
