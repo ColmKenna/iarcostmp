@@ -10,6 +10,8 @@
 #import "ArcosAppDelegate_iPad.h"
 #import "MATFormRowsTableViewController.h"
 #import "StandardOrderPadMatTableViewController.h"
+#import "DownloadedOrderPadViewController.h"
+
 @interface FormDetailTableViewController ()
 - (NSString*)retrieveLocationCode;
 - (NSString*)retrieveEmailAddress;
@@ -230,7 +232,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
+// Navigation logic may go here. Create and push another view controller.
     /*
      <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
      // ...
@@ -240,6 +242,35 @@
      */
     self.currentIndexPath = indexPath;
     NSDictionary* cellData = [self.formDetailDataManager.displayList objectAtIndex:indexPath.row];
+
+    // Check if details contains "sample" (case-insensitive)
+    NSString *details = [cellData objectForKey:@"Details"];
+    if ([[details lowercaseString] containsString:@"sample"]) {
+        NSLog(@"Cell details contains 'sample'");
+        // Present DownloadedOrderPadViewController as a popover centered on the iPad screen
+        DownloadedOrderPadViewController *vc = [[DownloadedOrderPadViewController alloc] initWithNibName:@"DownloadedOrderPadViewController" bundle:nil];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        nav.modalPresentationStyle = UIModalPresentationPopover;
+        UIPopoverPresentationController *popover = nav.popoverPresentationController;
+        if (popover) {
+            // Center the popover on the iPad screen, not just the FormDetailTableViewController's view
+            UIView *rootView = [UIApplication sharedApplication].keyWindow.rootViewController.view;
+            popover.sourceView = rootView;
+            CGRect bounds = rootView.bounds;
+            popover.sourceRect = CGRectMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds), 1, 1);
+            popover.permittedArrowDirections = 0;
+            popover.delegate = (id<UIPopoverPresentationControllerDelegate>)self;
+            // Set popover width to 80% of the screen width
+            CGFloat width = bounds.size.width * 0.8;
+            CGFloat height = nav.preferredContentSize.height > 0 ? nav.preferredContentSize.height : 400;
+            nav.preferredContentSize = CGSizeMake(width, height);
+        }
+        [self presentViewController:nav animated:YES completion:nil];
+        [vc release];
+        [nav release];
+        return;
+    }
+
     if (![self isFormDetailRowAllowToSelect:cellData]) return;
     [self selectFormDetailRowAction:cellData];
 }

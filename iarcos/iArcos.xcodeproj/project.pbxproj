@@ -1571,6 +1571,8 @@
 		63FF1A99215BAA2700C64C41 /* FormRowTableCellRrpGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF1A98215BAA2700C64C41 /* FormRowTableCellRrpGenerator.m */; };
 		63FF1A9C215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF1A9B215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m */; };
 		63FF7FFC1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FF7FFB1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m */; };
+		6A7B728D2DB24DC300552555 /* DownloadedOrderPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7B728B2DB24DC300552555 /* DownloadedOrderPadViewController.m */; };
+		6A7B728E2DB24DC300552555 /* DownloadedOrderPadViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A7B728C2DB24DC300552555 /* DownloadedOrderPadViewController.xib */; };
 		790089AB2A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 790089AA2A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.m */; };
 		79014EF52D50668E00655688 /* CustomerContactDetailTableCellGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 79014EF42D50668E00655688 /* CustomerContactDetailTableCellGenerator.m */; };
 		79014EF82D5066B200655688 /* CustomerContactDetailCallTableCellGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 79014EF72D5066B200655688 /* CustomerContactDetailCallTableCellGenerator.m */; };
@@ -4919,6 +4921,9 @@
 		63FF1A9B215BAA4700C64C41 /* FormRowTableCellNormalGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormRowTableCellNormalGenerator.m; sourceTree = "<group>"; };
 		63FF7FFA1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NextCheckoutDeliveryInstructions1TableViewCell.h; sourceTree = "<group>"; };
 		63FF7FFB1FBB582400EAC17E /* NextCheckoutDeliveryInstructions1TableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NextCheckoutDeliveryInstructions1TableViewCell.m; sourceTree = "<group>"; };
+		6A7B728A2DB24DC300552555 /* DownloadedOrderPadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownloadedOrderPadViewController.h; sourceTree = "<group>"; };
+		6A7B728B2DB24DC300552555 /* DownloadedOrderPadViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownloadedOrderPadViewController.m; sourceTree = "<group>"; };
+		6A7B728C2DB24DC300552555 /* DownloadedOrderPadViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DownloadedOrderPadViewController.xib; sourceTree = "<group>"; };
 		790089A92A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerInvoiceDetailsTableHeaderView.h; sourceTree = "<group>"; };
 		790089AA2A6FD45000A25D69 /* CustomerInvoiceDetailsTableHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerInvoiceDetailsTableHeaderView.m; sourceTree = "<group>"; };
 		79014EF22D50660400655688 /* CustomerContactDetailTableCellGeneratorDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerContactDetailTableCellGeneratorDelegate.h; sourceTree = "<group>"; };
@@ -7644,6 +7649,9 @@
 				79514A2F2888F9DB00DA0F3D /* PackageDataManager.h */,
 				79514A302888F9DB00DA0F3D /* PackageDataManager.m */,
 				79D4471828A4FFAE00767E68 /* PackageTableViewControllerDelegate.h */,
+				6A7B728A2DB24DC300552555 /* DownloadedOrderPadViewController.h */,
+				6A7B728B2DB24DC300552555 /* DownloadedOrderPadViewController.m */,
+				6A7B728C2DB24DC300552555 /* DownloadedOrderPadViewController.xib */,
 			);
 			path = Order1;
 			sourceTree = "<group>";
@@ -9776,7 +9784,6 @@
 				TargetAttributes = {
 					6304522619EFC79D00CDE68A = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = Z39Z4X9J9E;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
@@ -9965,6 +9972,7 @@
 				632327031EEAB6E800E1236A /* DashboardVanStocksDetailTableCells.xib in Resources */,
 				630B3BBE19F01CB9007B2442 /* CustomerOrderTableCell.xib in Resources */,
 				6313E1231D11A083003A2204 /* DatePickerHourMinuteWidgetViewController.xib in Resources */,
+				6A7B728E2DB24DC300552555 /* DownloadedOrderPadViewController.xib in Resources */,
 				630B3E0419F01CB9007B2442 /* Memo_sent.png in Resources */,
 				638A42AF2191ED7C006F993B /* MeetingMainHeaderFooterViews.xib in Resources */,
 				630B3E0F19F01CB9007B2442 /* pinRed.png in Resources */,
@@ -10452,6 +10460,7 @@
 				630B344719F0127C007B2442 /* InvoiceLine.m in Sources */,
 				63A00B2C1D6F4BC5000078A9 /* NextCheckoutReadOnlyTableViewCell.m in Sources */,
 				63EE6F332138100C008869F9 /* TargetDataManager.m in Sources */,
+				6A7B728D2DB24DC300552555 /* DownloadedOrderPadViewController.m in Sources */,
 				63C19BB621A2D9E20064726E /* MeetingExpenseDetailsDataManager.m in Sources */,
 				630B3B8519F01CB9007B2442 /* CustomerTyvLyModalViewController.m in Sources */,
 				18E8400D23BC74DB0083C0F4 /* ArcosAttachmentContainer.m in Sources */,
@@ -11789,12 +11798,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = iArcos/iArcos.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development: David Kilmartin (MMJ2297WA6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: David Kilmartin (MMJ2297WA6)";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = Z39Z4X9J9E;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = Z39Z4X9J9E;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -11811,7 +11819,7 @@
 					"$(PROJECT_DIR)/iArcos/MailAPI/include/**",
 				);
 				INFOPLIST_FILE = iArcos/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -11839,8 +11847,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "6bf186ca-3030-49b7-b78a-3246afaeb9fc";
-				PROVISIONING_PROFILE_SPECIFIER = iArcosDevCenter03072024;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = iArcosDevCenter03072024;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -11851,11 +11858,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = iArcos/iArcos.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Distribution: David Kilmartin (Z39Z4X9J9E)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: David Kilmartin (Z39Z4X9J9E)";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = Z39Z4X9J9E;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = Z39Z4X9J9E;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -11872,7 +11878,7 @@
 					"$(PROJECT_DIR)/iArcos/MailAPI/include/**",
 				);
 				INFOPLIST_FILE = iArcos/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -11899,8 +11905,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "b8e1e57a-016f-4a71-9609-ef2a4483e535";
-				PROVISIONING_PROFILE_SPECIFIER = iArcosReleaseCenter030724;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = iArcosReleaseCenter030724;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -12000,10 +12005,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = iArcos/iArcos.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Distribution: David Kilmartin (Z39Z4X9J9E)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: David Kilmartin (Z39Z4X9J9E)";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1.0;
-				DEVELOPMENT_TEAM = Z39Z4X9J9E;
+				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = Z39Z4X9J9E;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -12021,7 +12027,7 @@
 					"$(PROJECT_DIR)/iArcos/MailAPI/include/**",
 				);
 				INFOPLIST_FILE = iArcos/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -12049,8 +12055,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.strataiarcos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4a2d26cb-4c25-4fc4-a9fe-d2be993ec50d";
-				PROVISIONING_PROFILE_SPECIFIER = iArcosDistCenter030724;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = iArcosDistCenter030724;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = iArcosDevCenter03072024;
 			};
 			name = AdHoc;
 		};
